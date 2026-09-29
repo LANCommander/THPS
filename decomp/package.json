@@ -1,0 +1,11 @@
+{
+  "name": "thps1-decomp",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Matching decompilation harness for THPS1 (PS1) using psyq-wasm cc1psx",
+  "dependencies": {
+    "psyq-asm": "^0.2.0",
+    "psyq-wasm": "*"
+  }
+}

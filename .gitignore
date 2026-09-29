@@ -1,0 +1,47 @@
+# Extracted game binaries and disc images — never committed (copyrighted).
+/extern/
+*.bin
+*.cue
+*.chd
+*.iso
+*.exe
+*.sym
+*.SYM
+*.EXE
+
+# Analysis artifacts / intermediates
+/build/
+
+# Ghidra project (machine-local, regenerable via scripts\build_project.ps1)
+/ghidra/*.gpr
+/ghidra/*.rep/
+/ghidra/*.lock
+/ghidra/*.lock~
+/ghidra/*.ghpr
+
+# Third-party clones (RecompOne etc.) — fetched, not vendored into git
+/tools/vendor/
+
+# decomp harness: deps + build artifacts (keep src/, tools/, expected/, README, package*.json)
+/decomp/node_modules/
+/decomp/build/
+/decomp/*.s
+/decomp/*.obj
+/decomp/*.i
+/decomp/*.matched.c
+/decomp/perm_*.c
+/decomp/gte_test.c
+/decomp/t.c
+/decomp/t_sym.*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini
