@@ -1,0 +1,8 @@
+/* Utils_XZDist__FRC7CVectorT0 (0x80047c70) */
+typedef struct { int x, y, z; } V;
+int FUN_8008b5dc(int);
+int Utils_XZDist(V *a, V *b){
+  int dx = (a->x - b->x) >> 12;
+  int dz = (a->z - b->z) >> 12;
+  return FUN_8008b5dc(dx * dx + dz * dz);
+}

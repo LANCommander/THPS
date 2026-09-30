@@ -1,0 +1,21 @@
+/* M3dColij_LineToItem__FP4ItemP9SLineInfo (0x8007ee84) */
+#include <sys/types.h>
+#include <libgte.h>
+#include <inline_c.h>
+typedef struct Item{short _0;unsigned short inq;char _4[0x18];struct Item*next;}Item;
+typedef struct{char _0[0x44];int flag;char mat[0x20];char _68[0x8a-0x68];unsigned short inq;}SLineInfo;
+extern void FUN_8008a658(Item*,int,SLineInfo*,unsigned short);
+extern void FUN_80080964(Item*,SLineInfo*);
+void M3dColij_LineToItem(Item* it, SLineInfo* li){
+  if (it && li->flag) {
+    gte_SetRotMatrix(li->mat);
+    FUN_8008a658(it, 0, li, li->inq);
+    do {
+      if (it->inq != li->inq) {
+        it->inq = li->inq;
+        FUN_80080964(it, li);
+      }
+      it = it->next;
+    } while (it);
+  }
+}
