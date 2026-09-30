@@ -11,7 +11,7 @@ functions**, the rest unnamed (Psy-Q library or unmatched game code).
 ## Viability classes
 - **✅ viable, easy** — small game utility/math/setter, no division/GTE. Do first.
 - **🟡 viable, medium** — larger or touches allocators/state; still game code.
-- **🔴 harder** — big/complex (text layout, collision) or uses the unsolved **division** idiom / GTE.
+- **🔴 harder** — big/complex (text layout, collision).
 - **⛔ skip** — Psy-Q **library** (the runtime/HLE provides these; never decompile).
 
 ## Top targets (ranked by calls)
@@ -47,8 +47,7 @@ functions**, the rest unnamed (Psy-Q library or unmatched game code).
 The high-use functions are overwhelmingly **viable game code**: small utilities (`Rnd`, the MESS/PAD
 setters, the 1-line setters), pure math (the dot product, and the VECTOR ops already matched), and
 game allocators. The only categories to avoid are **Psy-Q library** functions (e.g. `sprintf` —
-provided by the runtime, never decompiled) and, for now, functions that use the unsolved **integer
-division** idiom or GTE.
+provided by the runtime, never decompiled).
 
 ## Viability nuances (discovered while matching)
 - **Pure register / pointer / stack functions match now** with `matchcc.mjs` (all 14 VECTOR ops
@@ -62,7 +61,9 @@ division** idiom or GTE.
 - **Complex fixed-point (64-bit MAC, e.g. the dot product) is viable but needs C-structure
   iteration** — the register allocation/scheduling of `mult`/`mflo`/`mfhi` accumulation is
   sensitive to how the C is written (temps, accumulation order). Reached 6/30 on a first attempt.
-- **Division & GTE** remain blocked (see `decomp/README.md`).
+- **Division & GTE are unblocked:** `match_div.py` handles bare div, GTE (SDK headers + DMPSX)
+  and relocations together (see `decomp/README.md`). `Length`, `Normalize` and
+  `M3dUtils_NormaliseVector` all matched on the first draft.
 
 ## Recommended order
 1. **Trivial/high-call setters & utilities:** `FUN_8001d250`, `Pad_ClearTriggers`, `Mess_SetRGB`,
@@ -72,5 +73,5 @@ division** idiom or GTE.
 4. **CItem pool allocator** cluster (`operator new`, `FUN_8004d068`, `FUN_8004d5d0`) — unlocks a lot
    of object code; medium effort.
 5. **Menu/UI** (`ChoiceIs`, `AddEntry`, `Sprite::draw`) and **TRIG** helpers.
-6. Defer: the big text-layout (`FUN_8001e114`), collision (`M3dColij_*`), and all division/GTE
-   functions until the division idiom (maspsx) is wired.
+6. Defer: the big text-layout (`FUN_8001e114`) and collision (`M3dColij_*`). Division/GTE functions
+   are no longer blocked.

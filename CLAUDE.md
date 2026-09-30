@@ -29,6 +29,7 @@ addresses all fall inside `PROSKATE.EXE`.
 | `ghidra_psx_ldr` 12.0.3 | `D:\Tools\ghidra\Ghidra\Extensions\ghidra_psx_ldr` | PSX-EXE loader (class `PsxLoader`), Psy-Q `.SYM`/types, GTE, `.LIB` signatures |
 | GhidraMCP 5.3.1 (xebyte) | `D:\Tools\ghidra\bridge_mcp_ghidra.py`; per-user plugin in `%APPDATA%\ghidra\…\Extensions\GhidraMCP` | MCP bridge; **port 8090** here (Hydro is 8089) |
 | dumpsxiso / mkpsxiso 2.30 | `D:\Tools\mkpsxiso` | extract files from PS1 discs |
+| Psy-Q 4.5 SDK headers | `D:\Tools\psyq4.5\include` | `LIBGTE.H`/`INLINE_C.H` etc. for GTE matching (copyrighted; see `decomp/README.md`) |
 | chdman 0.251 | `D:\Tools\chdman\chdman.exe` | CHD → BIN/CUE |
 | Python 3.13 | `…\Python313\python` | parsers/analysis |
 

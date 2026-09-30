@@ -6,10 +6,9 @@
 // Usage: node tools/match_sym.mjs <src.c> <retailAddrHex> <size> <syms.json> [-O2]
 //   syms.json: { "gp": "0x800d1080", "<name>": "0x........", ... }
 import { readFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import { assemble, decodeWords } from 'psyq-asm';
+import { cc1, dmpsx } from './psyq.mjs';
 
-const CC1 = process.env.CC1 || 'D:/Tools/psyq4.5/CC1PSX.EXE';
 const RETAIL = "G:/Decompilation/Tony Hawk's Pro Skater/extern/thps1_retail/SLUS_008.60";
 const TEXT_ADDR = 0x80010000, HDR = 0x800, G = 8;
 
@@ -21,10 +20,11 @@ const syms = JSON.parse(readFileSync(symPath, 'utf8'));
 const gp = parseInt(syms.gp, 16);
 const symAddr = n => { const v = syms[n]; if (v === undefined) throw new Error('unknown symbol ' + n); return parseInt(v, 16); };
 
-execFileSync(CC1, [src, '-quiet', ...opt.split(' '), `-G${G}`, '-o', 't_sym.s'], { stdio: 'ignore' });
-const a = assemble(readFileSync('t_sym.s', 'utf8'), { gpSize: G });
+const sfile = `build/sym_${process.pid}.s`;
+cc1(src, sfile, opt, G);
+const a = assemble(readFileSync(sfile, 'utf8'), { gpSize: G });
 const sec = a.object.sections.find(s => s.name === '.text');
-const words = Array.from(sec.words);
+const words = dmpsx(Array.from(sec.words));
 
 // apply relocations
 for (const r of sec.relocations) {

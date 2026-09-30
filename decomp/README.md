@@ -27,6 +27,20 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
   **compiler-version** artifacts: `psyq-wasm` is GCC 2.8.1 (PsyQ 4.4); the target schedules like
   **GCC 2.7.2 (PsyQ 4.0)**, standard for Aug-1999 titles.
 
+## Workflow tools
+
+- **`node tools/dis.mjs <addrHex> [size]`** disassembles a retail function for writing C. Call
+  targets get their ported demo names, branches get `L<n>` labels, and gp-relative and `lui`-pair
+  accesses are resolved to `DAT_xxxxxxxx` (the names to put in `syms.json`).
+- **`matched.tsv`** is the manifest of every byte-exact function: source, address, size, which
+  matcher to use, and the mangled name. **`node tools/check_all.mjs [filter]`** re-verifies them all
+  in parallel and exits non-zero on any regression. Run it after any tooling change.
+- All matchers use per-process temp files under `build/`, so they can run concurrently.
+- **`python tools/salvage.py [--all|--dry-run|paths]`** verifies candidate sources (by default the
+  untracked/modified ones under `src/`). Each needs a first-line header `/* <mangledName> (0x<addr>) */`.
+  It tries div → sym → cc, appends EXACT rows to `matched.tsv`, and regenerates **`nearmiss.tsv`**
+  (≥85%, with scores). Grinding agents write sources, and this merges them.
+
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
 **THPS1 is `-G8`** (not -G0): small globals are addressed **gp-relative**, `gp = 0x800d1080`
@@ -44,13 +58,16 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## 29 functions byte-exact (running total)
+## Byte-exact functions: `matched.tsv` is the source of truth (318 as of 2026-09-29)
 
-- **VECTOR / CVector (17):** all 14 operators above + `operator/=`, `operator/(V,int)` (via
-  `match_div.py`), and `KillSmall`.
+The first 32, by hand:
+
+- **VECTOR / CVector (19):** all 14 operators above + `operator/=`, `operator/(V,int)` (via
+  `match_div.py`), `KillSmall`, `Length` (GTE, see below), and `Normalize` (div + call).
 - **CSVector (4):** `operator+=`, `operator/=` (div), `Mask`, `KillSmall`.
 - **PAD (4):** `Pad_ClearTriggers`, `Pad_LockAnalog`, `Pad_ClearAll`, `Pad_Clear`.
-- **M3DUTILS (1):** `M3dUtils_AnglesFromMatrix` (172B, 4 calls incl. `ratan2` — 43/43 first try).
+- **M3DUTILS (2):** `M3dUtils_AnglesFromMatrix` (172B, 4 calls incl. `ratan2` — 43/43 first try),
+  `M3dUtils_NormaliseVector` (304B: GTE + 3 divs + 2 calls + loop, 76/76 first draft).
 - **MESS/SFX/UTILS (3):** `FUN_8001d250` setter, `Mess_SetRGB`, `SFX_Stop`.
 
 Observation: **structured functions with calls/control-flow tend to match on the first try** (call
@@ -58,11 +75,36 @@ sequence constrains ordering) — `AnglesFromMatrix` did. The fiddly cases are s
 functions (regalloc freedom) and struct-array field offsets (`ReadHooksPacket` needs
 `struct S array[]; array[i].field`).
 
-## Next infrastructure — GTE (`libgte.h`)
-GTE functions (`Length`, `Normalize`, `NormaliseVector`, much of M3D/physics) use `gte_*` **inline
-macros** that expand to `cop2`/`lwc2`/`swc2`. The compiler tarball ships no headers, so as `extern`s
-they become `jal` calls (wrong). Need the Psy-Q **`libgte.h`** (or reconstruct the macros) to unblock
-this large category.
+## GTE — UNLOCKED (Psy-Q SDK headers + DMPSX fixup)
+GTE code uses Psy-Q's `gte_*` **inline macros** (`INLINE_C.H`). Write the C exactly as Neversoft did:
+
+    #include <sys/types.h>
+    #include <libgte.h>
+    #include <inline_c.h>
+    ... gte_ldlvl(&t); gte_sqr0(); gte_stlvnl(&t); ...
+
+- **Headers** (copyrighted, outside the repo): `D:\Tools\psyq4.5\include\` — the `INCLUDE\` tree from
+  the full 4.5 SDK, `archive.org/download/ps1_sdks/PSYQ.SDevTC.Developers.Toolkit.For.PSX.v4.5-MFD.zip`
+  (a zip of 7 zips holding a multi-volume RAR; `7z x mfdpsx.rar "INCLUDE\*" -r`). Override the path
+  with `PSYQ_INC`.
+- **Preprocessing:** cc1 has no cpp (it can't even strip a `/* comment */`), so every matcher
+  (`tools/psyq.mjs` → `matchcc`/`match_sym`/`permute`; `match_div.py`) runs **`CPPPSX.EXE`** first,
+  as CCPSX does. Comments are fine in sources now.
+- **DMPSX:** `INLINE_C.H` emits loads/stores (`lwc2`/`swc2`) directly, but each GTE *command* is a
+  placeholder `.word (n<<6)|0x3f` that Sony's **`DMPSX.EXE`** patches into the real `cop2` word
+  post-assembly (and it insists on the macro's 2 leading nops). `match_div.py` runs the real
+  DMPSX on its ASPSX object; the psyq-asm matchers apply `tools/dmpsx_table.json` (all 65 commands),
+  which `tools/gen_dmpsx_table.py` derives by running DMPSX. E.g. `gte_sqr0` `0x00000f3f` → `0x4aa00428`.
+- Retail uses the **`INLINE_C.H`** form (the base register is the argument register), not
+  `INLINE_O.H` (which routes through `$12`).
+
+Verified: **`CVector::Length` (0x8004d900) 32/32** (`src/vector/length.c`, `match_sym.mjs`) and
+**`M3dUtils_NormaliseVector` (0x80081f24) 76/76** (`src/m3dutils/normalisevector.c`, `match_div.py`
+since it also divides). Both matched on the first draft. Next: the M3D/physics GTE users.
+
+`Normalize` (0x8004d980) is **not** a GTE function: it's `jal Length` + bare `div`s, 24/24 via
+`match_div.py`. Retail never reloads `z`; it stores `(y/len)/len` there, which looks like a bug in the
+original source (`v->z = v->y / l`). It's kept as-is for byte-exactness.
 
 PAD-module tip: trailing globals (e.g. `DAT_800c0b90..93`) are addressed as offsets into the array
 base `DAT_800c0a48` (`lui 0x800c; addiu 0xa48; sb 0x148(v0)`), so reference them as
@@ -70,7 +112,7 @@ base `DAT_800c0a48` (`lui 0x800c; addiu 0xa48; sb 0x148(v0)`), so reference them
 
 Close (near-miss, permuter/scheduling): `Rnd` 20/23, `AddEntry` 30/34 (one commutative operand-order
 pattern), `ChoiceIs`, `Mess_TextHeight`. Deferred (hard): CSVector free operators (unaligned
-small-struct returns), `Length`/`Normalize` (GTE macros + calls).
+small-struct returns).
 
 Detail of the non-VECTOR exact matches:
 
@@ -150,6 +192,39 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **Independent loads:** load fields into locals first (`int x=-a->x,y=-a->y,z=-a->z;`) so the
   scheduler hoists them like retail (avoids store-vs-load aliasing conservatism).
 
+### Patterns from the grind (agent-discovered, each verified on a real match)
+- **`v0` vs `v1`/`a2` only:** declare the callee with a non-void return type and ignore the result
+  (`int f(void);`, `V* __apl__…`). That reserves `v0` around the call. Try this first.
+- **Branch layout:** swap `if (x) return A; return B;` ↔ `if (!x) return B; return A;`. Retail
+  often puts the error block first and success last. Use per-branch `return expr>>12;` to stop
+  cross-jumping. `if(c)f(a);else f(b);` gives a shared call tail; `?:` doesn't.
+- **Rotated list walks** (retail preloads `next`, loops back with `j`):
+  `if(!m)return; n=m->next; for(;;){ …; m=n; if(n) n=n->next; else break; }`
+- **Switch with a shared tail:** `case 0: …; goto tail; case 1: …; tail: …`.
+- **Statement order drives both register assignment and store order.** For about 7 independent
+  statements, brute-forcing the permutations works where `permute.mjs` stalls.
+- **Arrays:** repeat `DAT[idx].x, DAT[idx].y` instead of taking a `&DAT[idx]` local. Use a
+  `short* row = tab[t];` temp for 2-D lookups. Explicit array fields (`h->title[i]`) stop gcc
+  strength-reducing loops the way retail didn't. `data[i*w+j].a` matches where
+  `data+(idx<<2)` swaps `addu` operands.
+- **Arithmetic:** `mult` operand order follows source order. `short s; s = s + (p[i]+1);` gives
+  the `andi/sll/sra` sequence, and an explicit `& 0xffff` does not. `/320` by constant is a
+  reciprocal `mult`, so `match_sym` handles it with no div.
+- **Globals:** use `char X[8];` for gp-relative globals whose *address* is taken (`addiu a0,gp,N`).
+  Use `__attribute__((section(".data")))` to force `lui` addressing of a small global. Six-byte
+  struct globals copy with `lwl/lwr`. Separate `DAT->field` statements reproduce retail's
+  aliasing reloads after `char` stores.
+- **Misc:** a never-returning function ends with `for(;;);` (`jal` + self-jump). cc1 is **C89**:
+  a declaration after a statement fails with a bare exit 33. If only a `jal` word differs, the
+  `syms.json` address is wrong (`target = (w&0x3ffffff)*4 | 0x80000000`).
+- **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
+  `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
+
+**Open tooling gaps:** (1) **Switch jump tables:** a function's own `.rodata` jump table isn't
+placed, so `lui/addiu` of the table address mismatches (`Panel_GetViewportMessOffset` 34/36).
+(2) Some div functions (`PingPong`, `Utils_CalcUnit`, `CalcScreenNormal`) have a retail `nop` after
+`mflo/mfhi` that the `match_div` path doesn't produce, so the sizes differ.
+
 ### Integer division — SOLVED (`tools/match_div.py`)
 Retail uses **bare `div`+`mflo`** (no divide-by-zero/overflow check). cc1 emits the `div $d,$s,$t`
 macro; `psyq-asm` can't produce the bare form (it drops `div $zero`/2-op forms), so division functions
@@ -160,12 +235,15 @@ go through the **real ASPSX** instead:
    inserts the `lw;nop;div` load-delay nops correctly; 4. extract `.text` from the LNK object (length-
    prefixed code record) and byte-diff.
 
-    python tools/match_div.py <src.c> <retailAddrHex> <size> -O2 -G0
+    python tools/match_div.py <src.c> <retailAddrHex> <size> [syms.json] -O2 -G0|-G8
 
 Verified EXACT: `CVector::operator/=` (0x8004db04) 20/20, `operator/(CVector,int)` (0x8004de24) 26/26.
-(Currently handles pure functions — no reloc resolution in the ASPSX path yet; that's the next add for
-division functions that also touch globals/calls.) Unblocks division and the GTE fixed-point fns.
+**Relocations are resolved too:** it parses the LNK object (code, patch, XDEF/XREF/XBSS records) and
+applies MIPS26/HI16/LO16/GPREL16 patches from the same `syms.json` `match_sym.mjs` takes (the
+function's `.text` goes at the target address, so local jumps resolve). All `match_sym` matches
+reproduce through it, so it's the one tool that covers **div + GTE + globals/calls** together.
+Limitation: the target must be the first function in the file.
 
-### Remaining VECTOR (12): `Length`/`Normalize` (GTE), `KillSmall`×2, `Mask`, `operator/=`,
-`operator%=`(CFriction)×2, and the CSVector (16-bit) variants — matchable with the patterns above
-once GTE/CFriction types and the div idiom are handled.
+### Remaining VECTOR: `operator%=`(CFriction)×2, and the rest of the
+CSVector (16-bit) variants. They're matchable with the patterns above once the CFriction types are
+handled.

@@ -4,10 +4,9 @@
 //
 // Usage: node tools/permute.mjs <src.c> <addrHex> <size> <syms.json> [-O2] [--iters N]
 import { readFileSync, writeFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import { assemble } from 'psyq-asm';
+import { cc1, dmpsx } from './psyq.mjs';
 
-const CC1 = process.env.CC1 || 'D:/Tools/psyq4.5/CC1PSX.EXE';
 const RETAIL = "G:/Decompilation/Tony Hawk's Pro Skater/extern/thps1_retail/SLUS_008.60";
 const TEXT_ADDR = 0x80010000, HDR = 0x800, G = 8;
 
@@ -29,12 +28,12 @@ let tmp = 0;
 function score(csrc) {
   const cf = `perm_${process.pid}_${tmp}.c`, sf = `perm_${process.pid}_${tmp}.s`; tmp = (tmp + 1) & 7;
   writeFileSync(cf, csrc);
-  try { execFileSync(CC1, [cf, '-quiet', ...opt.split(' '), `-G${G}`, '-o', sf], { stdio: 'ignore' }); }
+  try { cc1(cf, sf, opt, G); }
   catch { return -1; }
   let a; try { a = assemble(readFileSync(sf, 'utf8'), { gpSize: G }); } catch { return -1; }
   if (!a.success) return -1;
   const sec = a.object.sections.find(s => s.name === '.text');
-  const words = Array.from(sec.words);
+  const words = dmpsx(Array.from(sec.words));
   for (const r of sec.relocations) {
     const i = r.offset >> 2;
     const s = r.target.kind === 'section' ? addr + (r.target.offset | 0) : symAddr(r.target.name) + (r.target.addend | 0);
