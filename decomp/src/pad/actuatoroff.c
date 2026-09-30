@@ -5,5 +5,5 @@ void Pad_ActuatorOff(unsigned char a, unsigned char b){
   char* p = DAT_800c0b9c;
   char* q = p + 4;
   *(p + o + b) = 0;
-  ((short*)(q + o))[b] = 0;
+  {short* s = (short*)(q + o); short* t = s + b; *t = 0;}
 }

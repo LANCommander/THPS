@@ -8,7 +8,7 @@ extern void Pad_ActuatorOn__FUcUsUcUc(unsigned char,unsigned short,unsigned char
 void Vibrate(CBruce*b,int a,int c,int d){
   int p=b->pad;
   if(DAT_800d16a4==7) p^=DAT_800d179c;
-  { int* q = DAT_800a6844; q += p; if (q[0x252]==0) return; }
+  { int* q = DAT_800a6844; int* r = q + 0x252; r = r + p; if (*r==0) return; }
   if(DAT_800bf318[0]==2) return;
   if(DAT_800bf3d8[0]==2) return;
   Pad_ActuatorOn__FUcUsUcUc(p,a,c,d);

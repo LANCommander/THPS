@@ -9,8 +9,8 @@ void Font_String__FUsUsPcUcUcUcUc(unsigned short x,unsigned short y,char*s,unsig
   p->x=x;
   p->y=y;
   DAT_800d1aec->w=c3;
-  DAT_800d1aec->s=s;
   DAT_800d1aec->col=DAT_800d1ae0|(c2<<16)|(c1<<8)|c0;
+  DAT_800d1aec->s=s;
   DAT_800d1aec++;
   DAT_800d1aec->a=1;
 }

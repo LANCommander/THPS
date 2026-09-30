@@ -4,7 +4,7 @@ extern SComp DAT_800c0fdc;
 void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
 void Mess_SetScale__Fi(int);
 void FUN_8001d250(int);
-void FUN_8001e114(int, int, const char*, int, int, int, int);
+int FUN_8001e114(int, int, const char*, int, int, int, int);
 void Competition_MarqueeDisplay(void){
   if (DAT_800c0fdc.text) {
     Mess_SetRGB__FUcUcUci(122, 122, 122, 0);

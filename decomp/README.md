@@ -35,6 +35,14 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
 - **`matched.tsv`** is the manifest of every byte-exact function: source, address, size, which
   matcher to use, and the mangled name. **`node tools/check_all.mjs [filter]`** re-verifies them all
   in parallel and exits non-zero on any regression. Run it after any tooling change.
+- **`functions.tsv`** lists every retail *game* function (1,189 of them, 0x80010000–0x800858ac; the
+  Psy-Q libraries follow, starting after `M3d_PreprocessPulsingColours`) with its size and its demo
+  name or `FUN_xxxxxxxx`. Boundaries come from the static recompiler's control-flow analysis and
+  agree with the demo SYM sizes for 472 of 474 named functions. `dis.mjs` and `salvage.py` take
+  sizes from it, so unnamed functions work like named ones. `check_all.mjs` reports **coverage in
+  game-code bytes** (481,452 total).
+- `src/unnamed/<addr>.c` holds unnamed functions. The trivial ones (empty bodies, `return K`,
+  one-store setters) were generated mechanically from their bytes.
 - All matchers use per-process temp files under `build/`, so they can run concurrently.
 - **`python tools/salvage.py [--all|--dry-run|paths]`** verifies candidate sources (by default the
   untracked/modified ones under `src/`). Each needs a first-line header `/* <mangledName> (0x<addr>) */`.
@@ -58,7 +66,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (320 as of 2026-09-29)
+## Byte-exact functions: `matched.tsv` is the source of truth (386 as of 2026-09-29)
 
 The first 32, by hand:
 
@@ -217,6 +225,22 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **Misc:** a never-returning function ends with `for(;;);` (`jal` + self-jump). cc1 is **C89**:
   a declaration after a statement fails with a bare exit 33. If only a `jal` word differs, the
   `syms.json` address is wrong (`target = (w&0x3ffffff)*4 | 0x80000000`).
+- **Flip a commutative `addu`'s operand order:** put the intermediate pointer in a named temp:
+  `short *s=(short*)(q+o); short *t=s+b; *t=0;`. `s[b]`, `*(s+b)` and `s+=b` all failed.
+- **Table base before an index shift** (`lui/addiu` ahead of `sll`): declare it uninitialised and
+  assign it after the masking: `SC *b; a&=4095; b=DAT; t=b+a;`.
+- **`(size<<4)|flags` words:** declare bitfields (`unsigned flags:4; unsigned len:28;`) and write
+  `p->len += …`. The bitfield read-modify-write gives retail's shape directly.
+- **Aligned advance:** `len=(sz+3)&~3; buf+=len;` with a temp changes the scheduler tie-break.
+- **C++ front end experiment:** `CC1=D:/Tools/psyq4.5/CC1PLPSX.EXE` with the opt string
+  `"-O2 -fno-exceptions"` runs through `match_sym.mjs` unchanged. Constructors returning `this` may
+  need it (their `move v0,s0` placement differs from C).
+- **Same-register `lui rX; addiu rX,rX` (or `lw rX,%lo(rX)`) for a table or global** means the
+  declaration was `extern` with a size of **8 bytes or less** (`extern short SinTab[4];`, `extern int G;`).
+  cc1 then can't rule out small data, so it emits the `la`/`lw sym` macro and ASPSX expands it
+  with one register. Unsized `extern T X[]`, or a real definition, gives cc1's split `lui v0; addiu rX,v0`.
+  This fixed `Move__11CWobblyGlow`. The address range doesn't decide it (that sine table is inside
+  the gp window); how retail addresses it does. If retail uses `N(gp)`, *define* the global instead.
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 

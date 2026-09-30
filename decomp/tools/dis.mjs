@@ -2,7 +2,7 @@
 // call/jump targets get their ported demo names, branches get local labels, gp-relative and
 // lui/addiu|lw|sw pairs are resolved to absolute DAT_ addresses (the names to use in syms.json).
 //
-// Usage: node tools/dis.mjs <addrHex> [sizeBytes]     (size defaults to the retail_names.tsv entry)
+// Usage: node tools/dis.mjs <addrHex> [sizeBytes]     (size defaults to the functions.tsv entry)
 import { readFileSync, existsSync } from 'node:fs';
 import { decodeWords } from 'psyq-asm';
 
@@ -14,6 +14,13 @@ const names = new Map(), sizes = new Map();
 if (existsSync(NAMES)) for (const l of readFileSync(NAMES, 'utf8').split('\n')) {
   const [a, s, k, n] = l.trim().split('\t');
   if (k === 'F' && !names.has(parseInt(a, 16))) { names.set(parseInt(a, 16), n); sizes.set(parseInt(a, 16), +s); }
+}
+// every game function, named or FUN_ (functions.tsv): sizes for the unnamed ones
+for (const l of readFileSync(new URL('../functions.tsv', import.meta.url), 'utf8').split('\n')) {
+  if (!l.trim() || l.startsWith('#')) continue;
+  const [a, s, n] = l.trim().split('\t'), k = parseInt(a, 16);
+  if (!sizes.has(k)) sizes.set(k, +s);
+  if (!names.has(k)) names.set(k, n);
 }
 const addr = parseInt(process.argv[2], 16);
 const size = process.argv[3] ? parseInt(process.argv[3], 10) : sizes.get(addr);

@@ -3,7 +3,7 @@ extern int DAT_800a4118[];
 extern char DAT_800d10dc[];
 extern char DAT_800d10e4[];
 extern int DAT_800d13cc,DAT_800d13d0;
-void FUN_8008b900(char*,char*);
+int FUN_8008b900(char*,char*);
 void Options_Init__Fv(void){
   int i;
   DAT_800a4118[0]=12;

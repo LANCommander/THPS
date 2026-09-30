@@ -1,5 +1,5 @@
 /* AddToFreeList__FP12SBlockHeaderi (0x8004ce54) */
-typedef struct SBlockHeader{struct SBlockHeader*next;unsigned size;}SBlockHeader;
+typedef struct SBlockHeader{struct SBlockHeader*next;unsigned flags:4;unsigned len:28;}SBlockHeader;
 SBlockHeader*DAT_800d1b64[2];
 void AddToFreeList__FP12SBlockHeaderi(SBlockHeader*b,int idx){
   SBlockHeader*cur=DAT_800d1b64[idx];
@@ -9,18 +9,12 @@ void AddToFreeList__FP12SBlockHeaderi(SBlockHeader*b,int idx){
     cur=cur->next;
   }
   if(prev){
-    unsigned psz=prev->size;
-    unsigned pu=psz>>4;
-    unsigned pu8=pu+8;
-    if((SBlockHeader*)((char*)prev+pu8)==b){
-      unsigned bu=b->size>>4;
-      if((SBlockHeader*)((char*)b+(bu+8))==cur){
-        unsigned t=pu+16;
+    if((SBlockHeader*)((char*)prev+(prev->len+8))==b){
+      if((SBlockHeader*)((char*)b+(b->len+8))==cur){
         prev->next=cur->next;
-        t+=(b->size>>4)+(cur->size>>4);
-        prev->size=(psz&15)|(t<<4);
+        prev->len+=16+(b->len+cur->len);
       }else{
-        prev->size=(psz&15)|((pu8+bu)<<4);
+        prev->len+=8+b->len;
       }
       return;
     }
@@ -28,14 +22,10 @@ void AddToFreeList__FP12SBlockHeaderi(SBlockHeader*b,int idx){
   }else{
     DAT_800d1b64[idx]=b;
   }
-  {
-    unsigned bsz=b->size;
-    unsigned bu8=(bsz>>4)+8;
-    if((SBlockHeader*)((char*)b+bu8)==cur){
-      b->next=cur->next;
-      b->size=(bsz&15)|((bu8+(cur->size>>4))<<4);
-    }else{
-      b->next=cur;
-    }
+  if((SBlockHeader*)((char*)b+(b->len+8))==cur){
+    b->next=cur->next;
+    b->len+=8+cur->len;
+  }else{
+    b->next=cur;
   }
 }

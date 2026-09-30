@@ -21,7 +21,7 @@ async function check([src, addr, size, tool, name]) {
   let out;
   try { out = (await run(...cmd)).stdout; } catch (e) { out = (e.stdout || '') + (e.stderr || e.message); }
   const last = out.trim().split('\n').pop();
-  return { name, src, ok: last.includes('EXACT'), last };
+  return { name, src, size: +size, ok: last.includes('EXACT'), last };
 }
 
 const results = [];
@@ -32,5 +32,8 @@ await Promise.all(Array.from({ length: Math.max(1, cpus().length - 1) }, async (
 results.sort((a, b) => a.src.localeCompare(b.src));
 for (const r of results) console.log(`${r.ok ? 'ok  ' : 'FAIL'} ${r.src.padEnd(34)} ${r.last}`);
 const bad = results.filter(r => !r.ok).length;
-console.log(`\n${results.length - bad}/${results.length} exact`);
+// game code = .text up to the end of M3d_PreprocessPulsingColours; the Psy-Q libraries follow it
+const GAME_BYTES = 0x800858ac - 0x80010000;
+const bytes = results.reduce((n, r) => n + (r.ok ? r.size : 0), 0);
+console.log(`\n${results.length - bad}/${results.length} exact, ${bytes} of ${GAME_BYTES} game-code bytes (${(100 * bytes / GAME_BYTES).toFixed(1)}%)`);
 process.exit(bad ? 1 : 0);

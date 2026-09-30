@@ -9,12 +9,14 @@ char *parsePRE__10PREManagerPcT1Pi(void *m, char *buf, char *name, int *size){
     char *nm;
     int sz,len;
     len = FUN_8008f6ec(buf);
+    len = (len + 4) & ~3;
     nm = buf;
-    buf += (len + 4) & ~3;
+    buf += len;
     sz = *(int*)buf;
     buf += 4;
     if (!FUN_8008f6fc(nm, name)) { *size = sz; return buf; }
-    buf += (sz + 3) & ~3;
+    len = (sz + 3) & ~3;
+    buf += len;
   }
   return 0;
 }
