@@ -32,6 +32,14 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
 - **`node tools/dis.mjs <addrHex> [size]`** disassembles a retail function for writing C. Call
   targets get their ported demo names, branches get `L<n>` labels, and gp-relative and `lui`-pair
   accesses are resolved to `DAT_xxxxxxxx` (the names to put in `syms.json`).
+- **`node tools/m2c.mjs <addrHex> [size] [--asm]`** gives a **first-draft C decompilation** of a retail
+  function via [m2c](https://github.com/matt-kempster/m2c). Clone it once with
+  `git clone --depth 1 https://github.com/matt-kempster/m2c ../tools/vendor/m2c`; it's gitignored and
+  vendors its own pycparser. The bridge emits GNU-as with labels, call names, `%hi/%lo`/`%gp_rel`
+  symbol references and bare `div $zero,…`. GTE command words are labelled with their `INLINE_C.H`
+  macro (`cop2: gte_sqr0`), and GTE register moves appear as `M2C_ERROR(ctc2 …)` markers. Use it for
+  big functions: it gets control flow, switches and arithmetic right, then the README patterns fix
+  the codegen details.
 - **`matched.tsv`** is the manifest of every byte-exact function: source, address, size, which
   matcher to use, and the mangled name. **`node tools/check_all.mjs [filter]`** re-verifies them all
   in parallel and exits non-zero on any regression. Run it after any tooling change.
