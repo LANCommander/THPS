@@ -319,3 +319,5 @@ src/utils/crapdist.c	0x80047cc4	280	sym	Utils_CrapDist__FRC7CVectorT0
 src/utils/getgroundheight.c	0x800481e8	144	sym	Utils_GetGroundHeight__FRC7CVectorii
 src/utils/myvsync.c	0x80047870	132	sym	MyVSync__Fv
 src/utils/turntowards.c	0x80047f40	260	sym	Utils_TurnTowards__FG8CSVectorR8CSVectorT1T0i
+src/panel/getviewportmessoffset.c	0x8006d67c	136	sym	Panel_GetViewportMessOffset__FiPsT1
+src/physics/pingpong.c	0x8002eed8	76	div	PingPong__Fiii

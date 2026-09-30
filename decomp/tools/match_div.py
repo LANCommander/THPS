@@ -44,10 +44,35 @@ csrc = base + ".i"
 subprocess.run([CPP, *CPP_DEFS, "-I", INC, src, csrc], check=True, capture_output=True)
 subprocess.run([CC1, csrc, "-quiet", *opt.split(), f"-G{g}", "-o", sfile], check=True)
 s = open(sfile).read()
-# div/divu/rem/remu macro -> bare op + mflo/mfhi
-s = re.sub(r'^\t(div|divu|rem|remu)\t(\$\w+),(\$\w+),(\$\w+)\s*$',
-           lambda m: f'\t{"div" if m.group(1)=="rem" else "divu" if m.group(1)=="remu" else m.group(1)}\t{m.group(3)},{m.group(4)}\n\t{"mfhi" if m.group(1).startswith("rem") else "mflo"}\t{m.group(2)}',
-           s, flags=re.M)
+# div/divu/rem/remu macro -> bare op + mflo/mfhi, i.e. ASPSX's macro expansion minus the
+# divide-by-zero/overflow checks. ASPSX treats a macro-expanded mflo/mfhi like a load: when the next
+# instruction reads the result it inserts a nop, which it doesn't for a bare mflo, so emit it here.
+DIV = re.compile(r'^\t(div|divu|rem|remu)\t(\$\w+),(\$\w+),(\$\w+)\s*$')
+INSN = re.compile(r'^\t([a-z][\w.]*)\t?(.*)$')
+
+
+def reads(line, reg):
+    m = INSN.match(line)
+    if not m: return False
+    ops = [o.strip() for o in m.group(2).split("#")[0].split(",") if o.strip()]
+    regs = lambda o: re.findall(r"\$\w+", o)
+    # stores/branches read every operand; otherwise operand 0 is the destination (but a memory
+    # operand's base register is still read)
+    if m.group(1) in ("sw", "sh", "sb", "swl", "swr", "jr", "jalr") or m.group(1).startswith("b"):
+        return any(reg in regs(o) for o in ops)
+    return any(reg in regs(o) for o in ops[1:]) or bool(ops and "(" in ops[0] and reg in regs(ops[0]))
+
+
+lines, out = s.split("\n"), []
+for k, line in enumerate(lines):
+    m = DIV.match(line)
+    if not m: out.append(line); continue
+    op, d, x, y = m.groups()
+    out += [f"\t{'div' if op == 'rem' else 'divu' if op == 'remu' else op}\t{x},{y}",
+            f"\t{'mfhi' if op.startswith('rem') else 'mflo'}\t{d}"]
+    nxt = next((l for l in lines[k + 1:] if l.strip() and not l.lstrip().startswith("#")), "")
+    if reads(nxt, d): out.append("\tnop")
+s = "\n".join(out)
 open(rfile, "w").write(s)
 subprocess.run([ASPSX, rfile, "-o", ofile], check=True, capture_output=True)
 # INLINE_C.H GTE commands are `.word (n<<6)|0x3f` placeholders; DMPSX patches them into cop2 in place
@@ -66,6 +91,7 @@ def read_lnk(path):
     u8 = lambda: b[i]
     code, sect_names, names, local, patches = {}, {}, {}, {}, []
     cur = None
+    rec_start = {}   # patch offsets are relative to the section's most recent code record
 
     def take(fmt):
         nonlocal i
@@ -87,11 +113,12 @@ def read_lnk(path):
         (rec,) = take("B")
         if rec == 0x00: break
         elif rec == 0x02:
-            (n,) = take("H"); code.setdefault(cur, bytearray()).extend(b[i:i + n]); i += n
+            (n,) = take("H"); c = code.setdefault(cur, bytearray()); rec_start[cur] = len(c)
+            c.extend(b[i:i + n]); i += n
         elif rec == 0x06: (cur,) = take("H")
         elif rec == 0x08: take("I")                                          # uninitialised space
         elif rec == 0x0A:
-            t, off = take("BH"); patches.append((cur, t, off, expr()))
+            t, off = take("BH"); patches.append((cur, t, rec_start.get(cur, 0) + off, expr()))
         elif rec == 0x0C:
             sid, sec, off = take("HHI"); names[sid] = pstr(); local[sid] = (sec, off)
         elif rec == 0x0E: (sid,) = take("H"); names[sid] = pstr()
@@ -124,29 +151,69 @@ def sym_addr(sid):
     raise KeyError(f"unknown symbol {n!r} (add it to syms.json)")
 
 
+# Other sections (a switch's .rdata jump table) sit at their retail address: from syms.json
+# (".rdata": "0x…") or inferred from retail's own HI16/LO16 pair that addresses the section.
+retail_img = open(RETAIL, "rb").read()
+rword = lambda a: struct.unpack_from("<I", retail_img, a - TEXT_ADDR + HDR)[0]
+base = {text: addr}
+for sid, nm in sect_names.items():
+    if nm in syms: base[sid] = int(syms[nm], 16)
+
+
+def sect_ref(e):
+    """(section id, offset) if e is `sect` or `sect + const`, else None."""
+    if e[0] == "sect": return e[1], 0
+    if e[0] == "+" and e[1][0] == "sect" and e[2][0] == "const": return e[1][1], e[2][1]
+    return None
+
+
+for sec, t, off, e in patches:
+    ref = sect_ref(e)
+    if sec != text or t != 82 or not ref or ref[0] in base: continue
+    lo = next((o for s2, t2, o, e2 in patches if s2 == text and t2 == 84 and e2 == e), None)
+    if lo is None: continue
+    hi, l = rword(addr + off) & 0xFFFF, rword(addr + lo) & 0xFFFF
+    base[ref[0]] = ((hi << 16) + (l - 0x10000 if l & 0x8000 else l) - ref[1]) & 0xFFFFFFFF
+
+
 def ev(e):
     if e[0] == "const": return e[1]
     if e[0] == "sym": return sym_addr(e[1])
     if e[0] == "sect":
-        if e[1] == text: return addr
-        raise KeyError(f"reference into section {sect_names.get(e[1])} (define it via syms.json)")
+        if e[1] in base: return base[e[1]]
+        raise KeyError(f"no address for section {sect_names.get(e[1])} (add it to syms.json)")
     return ev(e[1]) + ev(e[2]) if e[0] == "+" else ev(e[1]) - ev(e[2])
 
 
-for sec, t, off, e in patches:
-    if sec != text or off >= size: continue
-    v, (w,) = ev(e) & 0xFFFFFFFF, struct.unpack_from("<I", buf, off)
-    if t == 74:    w = (w & 0xFC000000) | ((v >> 2) & 0x03FFFFFF)             # j/jal target
-    elif t == 82:  w = (w & 0xFFFF0000) | (((v + 0x8000) >> 16) & 0xFFFF)      # HI16 (paired carry)
-    elif t == 84:  w = (w & 0xFFFF0000) | (v & 0xFFFF)                         # LO16
-    elif t == 100: w = (w & 0xFFFF0000) | ((v - gp) & 0xFFFF)                  # GPREL16
-    else: raise ValueError(f"unhandled LNK patch type {t} at .text+{off:#x}")
-    struct.pack_into("<I", buf, off, w)
+def patch(sec, data, limit):
+    for s2, t, off, e in patches:
+        if s2 != sec or off >= limit: continue
+        v, (w,) = ev(e) & 0xFFFFFFFF, struct.unpack_from("<I", data, off)
+        if t == 16:    w = v                                                       # WORD32 (jump-table entry)
+        elif t == 74:  w = (w & 0xFC000000) | ((v >> 2) & 0x03FFFFFF)             # j/jal target
+        elif t == 82:  w = (w & 0xFFFF0000) | (((v + 0x8000) >> 16) & 0xFFFF)      # HI16 (paired carry)
+        elif t == 84:  w = (w & 0xFFFF0000) | (v & 0xFFFF)                         # LO16
+        elif t == 100: w = (w & 0xFFFF0000) | ((v - gp) & 0xFFFF)                  # GPREL16
+        else: raise ValueError(f"unhandled LNK patch type {t} at {sect_names.get(sec)}+{off:#x}")
+        struct.pack_into("<I", data, off, w)
+
+
+patch(text, buf, size)
 got = list(struct.unpack_from(f"<{size//4}I", buf, 0))
+
+# byte-check placed data sections (jump tables) against retail too
+data_ok = True
+for sid, b in base.items():
+    if sid == text or not code.get(sid): continue
+    d = code[sid]; patch(sid, d, len(d))
+    n = len(d) // 4
+    ok = sum(struct.unpack_from("<I", d, 4 * i)[0] == rword(b + 4 * i) for i in range(n))
+    print(f"{sect_names[sid]} @{b:#x}: {ok}/{n} words match retail")
+    data_ok &= ok == n
 
 same = sum(1 for a, b in zip(got, want) if a == b)
 if same != len(want) or "-v" in sys.argv:
     for i in range(len(want)):
         mark = "" if got[i] == want[i] else " X"
         print(f"{i:2} {got[i]:08x} | {want[i]:08x}{mark}")
-print(f"{same}/{len(want)}" + ("  >>> EXACT <<<" if same == len(want) else ""))
+print(f"{same}/{len(want)}" + ("  >>> EXACT <<<" if same == len(want) and data_ok else ""))

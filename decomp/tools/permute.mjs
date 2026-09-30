@@ -5,7 +5,7 @@
 // Usage: node tools/permute.mjs <src.c> <addrHex> <size> <syms.json> [-O2] [--iters N]
 import { readFileSync, writeFileSync } from 'node:fs';
 import { assemble } from 'psyq-asm';
-import { cc1, dmpsx } from './psyq.mjs';
+import { cc1, link } from './psyq.mjs';
 
 const RETAIL = "G:/Decompilation/Tony Hawk's Pro Skater/extern/thps1_retail/SLUS_008.60";
 const TEXT_ADDR = 0x80010000, HDR = 0x800, G = 8;
@@ -17,8 +17,6 @@ let opt = '-O2';
 const iters = args.includes('--iters') ? parseInt(args[args.indexOf('--iters') + 1]) : 3000;
 for (const f of args) if (f.startsWith('-O')) opt = f;
 const syms = JSON.parse(readFileSync(symPath, 'utf8'));
-const gp = parseInt(syms.gp, 16);
-const symAddr = n => parseInt(syms[n], 16);
 
 const off = addr - TEXT_ADDR + HDR;
 const wbuf = readFileSync(RETAIL).subarray(off, off + size);
@@ -26,25 +24,15 @@ const want = []; for (let k = 0; k < size; k += 4) want.push(wbuf.readUInt32LE(k
 
 let tmp = 0;
 function score(csrc) {
-  const cf = `perm_${process.pid}_${tmp}.c`, sf = `perm_${process.pid}_${tmp}.s`; tmp = (tmp + 1) & 7;
+  const cf = `build/perm_${process.pid}_${tmp}.c`, sf = `build/perm_${process.pid}_${tmp}.s`; tmp = (tmp + 1) & 7;
   writeFileSync(cf, csrc);
   try { cc1(cf, sf, opt, G); }
   catch { return -1; }
   let a; try { a = assemble(readFileSync(sf, 'utf8'), { gpSize: G }); } catch { return -1; }
   if (!a.success) return -1;
-  const sec = a.object.sections.find(s => s.name === '.text');
-  const words = dmpsx(Array.from(sec.words));
-  for (const r of sec.relocations) {
-    const i = r.offset >> 2;
-    const s = r.target.kind === 'section' ? addr + (r.target.offset | 0) : symAddr(r.target.name) + (r.target.addend | 0);
-    let field;
-    if (r.kind === 'GPREL16') field = (s - gp) & 0xFFFF;
-    else if (r.kind === 'LO16') field = s & 0xFFFF;
-    else if (r.kind === 'HI16') field = ((s + 0x8000) >>> 16) & 0xFFFF;
-    else if (r.kind === 'MIPS26') field = (s >>> 2) & 0x03FFFFFF;
-    else return -1;
-    words[i] = ((words[i] & ~(r.fieldMask >>> 0)) | (field & r.fieldMask)) >>> 0;
-  }
+  let words, data;
+  try { ({ words, data } = link(a.object, addr, syms)); } catch { return -1; }
+  if (data.some(d => d.same !== d.total)) return -50;                     // wrong jump table
   if (words.length !== want.length) return Math.min(words.length, want.length) - 100; // penalise size mismatch
   let same = 0; for (let i = 0; i < want.length; i++) if (words[i] === want[i]) same++;
   return same;

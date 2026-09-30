@@ -23,3 +23,71 @@ export function cc1(cfile, sfile, opt = '-O2', g = 0) {
 const DMPSX = new Map(Object.entries(JSON.parse(readFileSync(new URL('./dmpsx_table.json', import.meta.url), 'utf8')))
   .map(([k, v]) => [parseInt(k, 16), parseInt(v, 16) >>> 0]));
 export const dmpsx = words => words.map(w => DMPSX.get(w) ?? w);
+
+// Retail image access: the PSX-EXE loads contiguously from TEXT_ADDR, so any code/data address maps
+// straight to a file offset.
+export const RETAIL = "G:/Decompilation/Tony Hawk's Pro Skater/extern/thps1_retail/SLUS_008.60";
+const TEXT_ADDR = 0x80010000, HDR = 0x800;
+let retailBuf;
+export function retailWords(address, n) {
+  retailBuf ??= readFileSync(RETAIL);
+  const off = address - TEXT_ADDR + HDR, out = [];
+  for (let i = 0; i < n; i++) out.push(retailBuf.readUInt32LE(off + 4 * i));
+  return out;
+}
+
+// "Linker-lite": place .text at the target address, resolve relocations against syms.json, and
+// place other sections (a switch's .rdata jump table) at their retail address. That comes from
+// syms.json (".rdata": "0x…") or is inferred from retail's own HI16/LO16 pair that addresses it.
+// The placed data sections are then byte-checked against retail too (jump-table entries are
+// .text labels, so this verifies the table, not just the code that indexes it).
+// Returns { words, data: [{ section, base, same, total }] }; throws on an unresolvable reloc.
+export function link(object, addr, syms) {
+  const gp = parseInt(syms.gp ?? '0', 16);
+  const text = object.sections.find(s => s.name === '.text');
+  const want = retailWords(addr, text.words.length);
+  const base = { '.text': addr };
+  for (const [k, v] of Object.entries(syms)) if (k.startsWith('.')) base[k] = parseInt(v, 16);
+  const rel = text.relocations;
+  for (const r of rel) {
+    const t = r.target;
+    if (r.kind !== 'HI16' || t.kind !== 'section' || base[t.section] !== undefined) continue;
+    const lo = rel.find(q => q.kind === 'LO16' && q.target.kind === 'section' && q.target.section === t.section && q.target.offset === t.offset);
+    if (!lo) continue;
+    const hi = want[r.offset >> 2] & 0xFFFF, l = (want[lo.offset >> 2] << 16) >> 16;
+    base[t.section] = (((hi << 16) + l - t.offset) >>> 0);
+  }
+  const target = t => {
+    if (t.kind === 'section') {
+      if (base[t.section] === undefined) throw new Error(`no address for section ${t.section} (add "${t.section}" to syms.json)`);
+      return base[t.section] + (t.offset | 0);
+    }
+    const v = syms[t.name];
+    if (v === undefined) throw new Error('unknown symbol ' + t.name);
+    return parseInt(v, 16) + (t.addend | 0);
+  };
+  const apply = (words, relocs) => {
+    for (const r of relocs) {
+      const i = r.offset >> 2, s = target(r.target);
+      let field;
+      if (r.kind === 'GPREL16') field = (s - gp) & 0xFFFF;
+      else if (r.kind === 'LO16') field = s & 0xFFFF;
+      else if (r.kind === 'HI16') field = ((s + 0x8000) >>> 16) & 0xFFFF;
+      else if (r.kind === 'MIPS26') field = (s >>> 2) & 0x03FFFFFF;
+      else if (r.kind === 'WORD32') field = s >>> 0;
+      else throw new Error('unhandled reloc ' + r.kind);
+      words[i] = ((words[i] & ~(r.fieldMask >>> 0)) | (field & r.fieldMask)) >>> 0;
+    }
+    return words;
+  };
+  const words = apply(dmpsx(Array.from(text.words)), rel);
+  const data = [];
+  for (const s of object.sections) {
+    if (s.name === '.text' || !s.bytes?.length || base[s.name] === undefined) continue;
+    const dv = new DataView(s.bytes.buffer, s.bytes.byteOffset, s.bytes.byteLength);
+    const raw = Array.from({ length: s.bytes.length >> 2 }, (_, i) => dv.getUint32(4 * i, true));
+    const got = apply(raw, s.relocations || []), exp = retailWords(base[s.name], got.length);
+    data.push({ section: s.name, base: base[s.name], same: got.filter((w, i) => w === exp[i]).length, total: got.length });
+  }
+  return { words, data };
+}

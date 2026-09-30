@@ -58,7 +58,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (318 as of 2026-09-29)
+## Byte-exact functions: `matched.tsv` is the source of truth (320 as of 2026-09-29)
 
 The first 32, by hand:
 
@@ -220,10 +220,19 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 
-**Open tooling gaps:** (1) **Switch jump tables:** a function's own `.rodata` jump table isn't
-placed, so `lui/addiu` of the table address mismatches (`Panel_GetViewportMessOffset` 34/36).
-(2) Some div functions (`PingPong`, `Utils_CalcUnit`, `CalcScreenNormal`) have a retail `nop` after
-`mflo/mfhi` that the `match_div` path doesn't produce, so the sizes differ.
+**Formerly open tooling gaps, now fixed:**
+- **Switch jump tables:** both matchers place a function's own `.rdata` at its retail address.
+  The address comes from `syms.json` (`".rdata": "0x…"`) or is inferred from retail's own `lui/addiu`
+  pair. The table's contents (entries are `.text` labels) are then **byte-checked against retail**
+  too (`.rdata @0x800a23dc: 8/8 words match retail`). The LNK reader also fixes a bug: patch
+  offsets are relative to the section's *latest code record*, and a switch splits `.text` in two.
+- **`nop` after `mflo`/`mfhi`:** ASPSX treats a *macro-expanded* `mflo/mfhi` like a load and adds a
+  `nop` when the next instruction reads the result. A bare `mflo` gets none. The `match_div.py`
+  rewrite now emits it. No ASPSX version (2.56–2.86) inserts it for bare `mflo`.
+- **`lui` vs gp for a small global:** retail's `lui v1; lw v1,%lo(X)(v1)` (the same register for both)
+  comes from **`extern int X;`**, i.e. declared, small and not defined in this file. cc1 then emits the
+  `lw $3,X` macro and ASPSX picks `lui`. Defining it gives gp-relative access, and `extern int X[]`
+  gives cc1's split `lui $7` + `lw $3`.
 
 ### Integer division — SOLVED (`tools/match_div.py`)
 Retail uses **bare `div`+`mflo`** (no divide-by-zero/overflow check). cc1 emits the `div $d,$s,$t`

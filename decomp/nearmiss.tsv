@@ -9,7 +9,6 @@ src/competition/marqueedisplay.c	0x800764d8	164	sym	38/41
 src/exp/hitenvitem.c	0x8004e968	236	sym	57/59
 src/m3dcolij/getlineinfo.c	0x800808b0	180	sym	41/45
 src/pack/remove.c	0x80049710	112	sym	25/28
-src/panel/getviewportmessoffset.c	0x8006d67c	136	sym	32/34
 src/panel/setstretchedscreencoords.c	0x8006c594	124	sym	30/31
 src/physics/vibrate.c	0x8002f8f0	144	sym	35/36
 src/pre/unloadpre.c	0x80066338	160	sym	36/40
