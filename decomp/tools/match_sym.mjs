@@ -8,7 +8,7 @@
 //   syms.json: { "gp": "0x800d1080", "<name>": "0x........", [".rdata": "0x........"], ... }
 import { readFileSync } from 'node:fs';
 import { assemble, decodeWords } from 'psyq-asm';
-import { cc1, link, retailWords } from './psyq.mjs';
+import { cc1, link, retailWords, alignedScore } from './psyq.mjs';
 
 const G = 8;
 
@@ -34,4 +34,5 @@ for (let i = 0; i < Math.max(words.length, want.length); i++) {
   if (!ok || process.env.V) console.log(`${String(i).padStart(2)} ${(gA[i]||'').padEnd(20)} | ${(wA[i]||'').padEnd(20)} ${ok?'':'X'}`);
 }
 const dataOk = data.every(d => d.same === d.total);
+if (same !== want.length || words.length !== want.length) console.log(`aligned ${alignedScore(words, want)}/${want.length} (${words.length} words compiled)`);
 console.log(`${same}/${want.length}${same===want.length&&words.length===want.length&&dataOk?'  >>> EXACT <<<':''}`);

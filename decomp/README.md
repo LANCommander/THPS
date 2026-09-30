@@ -66,7 +66,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (685 as of 2026-09-30)
+## Byte-exact functions: `matched.tsv` is the source of truth (715 as of 2026-09-30)
 
 The first 32, by hand:
 
@@ -272,6 +272,20 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **`<libgpu.h>`** needs `<sys/types.h>` and `<libgte.h>` included first (otherwise cc1 fails with a bare exit 33).
 - **Hard for now:** the 64-bit fixed-point MAC helpers (0x80072038–0x800720ec, likely hand-written)
   and Psy-Q packet builders (`addPrim`/`setPolyF4`: logic is right, register naming differs).
+- **A load hoisted into a branch delay slot where retail has `nop`:** make the global `volatile`.
+  `extern const int G;` does the opposite and lets gcc hoist the load out of a loop that stores.
+- **Inline struct "constructors"** (`static inline void VI(V*p,int x,int y,int z){…}`) reproduce retail's
+  "x through an sp offset, y/z through a pointer register" store pattern.
+- **Many parallel induction pointers** (13 in `ReadControllers`-style loops): index a flat byte array,
+  `B[i*364+0x11] || B[i*364+0x21] …`. Struct-array syntax shares one pointer.
+- **`addu` tied to the destination:** `dv<<=1; dv+=t;` gives `addu dv,dv,t`. Writing a fresh variable,
+  `dw=(unsigned)t+dv;`, gives retail's operand order.
+- **Delay-slot ops computed inside the guarded block** (`if(a){u=t&255;…}`), not before it.
+- **Loop-back delay slot `move`:** reset `q=p;` at the top of the loop body, not before the loop.
+- **Jump-table case base:** `addiu v1,a1,-8448` means the cases start at 8448. Several jump tables in
+  one function are fine: each is placed from its own `lui/addiu` pair.
+- **Compare-tree switches** (no table): gcc picks the root by cost (ranges count double), so the
+  case set, including empty cases, must match exactly to get the same tree.
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 

@@ -5,7 +5,7 @@ void FUN_8001d250(int);
 void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
 void Mess_SetScale__Fi(int);
 int Mess_GetScale__Fv(void);
-void Mess_DrawPanelText__FiiPCciUii(int, int, const char*, int, unsigned, int);
+int Mess_DrawPanelText__FiiPCciUii(int, int, const char*, int, unsigned, int);
 void TrickTips_Display__Fv(void){
   unsigned short y = 20;
   unsigned short t;

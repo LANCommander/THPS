@@ -14,7 +14,7 @@ void FUN_80023cb8(void);
 int strNextVlc__Fi(int);
 void GameFMV_StartFMV__Fi(int a){
   int i, j;
-  int t;
+  unsigned t, u;
   if (DAT_800d1634 == 0 && DAT_800a63e8[DAT_800d167d].p != 0) {
     DAT_800d1684 = DAT_800d1658;
     DAT_800d1686 = DAT_800d166e;
@@ -29,10 +29,12 @@ void GameFMV_StartFMV__Fi(int a){
       for (i = 0; i < 2; i++) DAT_800d168c[i] = FUN_8004d068(DAT_800d1664, 1, 1);
     }
     DAT_800d222c = FUN_8004d068(DAT_800d1668 << 11, 1, 1);
-    t = DAT_800d1672 >> 4;
+    t = DAT_800d1672;
+    t >>= 4;
     DAT_800d166c = t;
     if (a) {
-      if ((unsigned char)t) {
+      u = t & 255;
+      if (u) {
         j = 0;
         do { DAT_800a6748[j] = FUN_8004d068(DAT_800d1674 << 5, 1, 1); j++; } while (j < DAT_800d166c);
       }

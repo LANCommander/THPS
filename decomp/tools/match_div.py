@@ -214,6 +214,16 @@ for sid, b in base.items():
     data_ok &= ok == n
 
 same = sum(1 for a, b in zip(got, want) if a == b)
+if same != len(want) or not size_ok:
+    # alignment-aware score (LCS of words): robust to one inserted/missing word shifting the rest
+    patch(text, code[text], len(code[text]))   # the untruncated object (idempotent if already patched)
+    full =list(struct.unpack_from(f"<{len(code[text]) // 4}I", code[text], 0))
+    prev = [0] * (len(want) + 1)
+    for x in full:
+        cur = [0]
+        for j, y in enumerate(want): cur.append(prev[j] + 1 if x == y else max(prev[j + 1], cur[j]))
+        prev = cur
+    print(f"aligned {prev[-1]}/{len(want)} ({len(full)} words compiled)")
 if same != len(want) or "-v" in sys.argv:
     for i in range(len(want)):
         mark = "" if got[i] == want[i] else " X"

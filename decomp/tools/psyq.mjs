@@ -91,3 +91,16 @@ export function link(object, addr, syms) {
   }
   return { words, data };
 }
+
+// Alignment-aware score: longest common subsequence of instruction words. The positional N/M score
+// collapses when one extra/missing word shifts everything after it; this one doesn't.
+export function alignedScore(got, want) {
+  const n = got.length, m = want.length;
+  let prev = new Uint16Array(m + 1), cur = new Uint16Array(m + 1);
+  for (let i = 1; i <= n; i++) {
+    for (let j = 1; j <= m; j++)
+      cur[j] = got[i - 1] === want[j - 1] ? prev[j - 1] + 1 : Math.max(prev[j], cur[j - 1]);
+    [prev, cur] = [cur, prev];
+  }
+  return prev[m];
+}

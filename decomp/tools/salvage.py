@@ -62,7 +62,11 @@ def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
     last = (r.stdout.strip().splitlines() or [""])[-1]
     m = re.match(r"(\d+)/(\d+)", last)
-    return (int(m.group(1)), int(m.group(2)), "EXACT" in last) if m else (0, 1, False)
+    if not m: return (0, 1, False)
+    # rank by the better of the positional score and the matchers' alignment-aware (LCS) score
+    al = re.search(r"^aligned (\d+)/\d+", r.stdout, re.M)
+    got = max(int(m.group(1)), int(al.group(1)) if al else 0)
+    return (got, int(m.group(2)), "EXACT" in last)
 
 
 def attempt(src):
