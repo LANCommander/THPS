@@ -1,0 +1,3 @@
+/* FUN_8005c678 (0x8005c678) */
+int DAT_800d1cb8;int DAT_800d2348;
+void FUN_8005c678(void){DAT_800d1cb8=0;DAT_800d2348=110;}

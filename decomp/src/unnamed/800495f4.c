@@ -1,0 +1,4 @@
+/* FUN_800495f4 (0x800495f4) */
+int DAT_800d1a68;
+void FUN_8004d5d0(void);
+void FUN_800495f4(void){FUN_8004d5d0();DAT_800d1a68=DAT_800d1a68-1;}

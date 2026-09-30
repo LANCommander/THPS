@@ -1,10 +1,10 @@
 /* Card_CheckStatus__Fii (0x80015278) */
 int DAT_800d1394, DAT_800d1384, DAT_800d1390, DAT_800d1380, DAT_800d13bc;
 extern int DAT_800d10f4;
-void FUN_8008e914(int);
+int FUN_8008e914(int);
 int _card_event__Fv(void);
 void _clear_event__Fv(void);
-void FUN_8008f0cc(int);
+int FUN_8008f0cc(int);
 void FUN_80015044(void);
 void FUN_8008ea68(int);
 void _card_event_x__Fv(void);

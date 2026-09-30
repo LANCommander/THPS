@@ -137,8 +137,10 @@ def read_lnk(path):
 code, sect_names, names, local, patches = read_lnk(ofile)
 text = next(k for k, v in sect_names.items() if v == ".text")
 buf = code.get(text, bytearray())
-if len(buf) < size:
-    print(f"object .text is {len(buf)} bytes, target is {size}"); sys.exit(1)
+size_ok = len(buf) == size
+if not size_ok:   # still diff it (zero-padded/truncated) so the misalignment is visible
+    print(f"note: object .text is {len(buf)} bytes, target is {size}")
+    buf = buf[:size] + bytearray(max(0, size - len(buf)))
 
 # Linker-lite, as in match_sym.mjs: .text sits at the target address, externs come from syms.json.
 gp = int(syms.get("gp", "0"), 16)
@@ -216,4 +218,4 @@ if same != len(want) or "-v" in sys.argv:
     for i in range(len(want)):
         mark = "" if got[i] == want[i] else " X"
         print(f"{i:2} {got[i]:08x} | {want[i]:08x}{mark}")
-print(f"{same}/{len(want)}" + ("  >>> EXACT <<<" if same == len(want) and data_ok else ""))
+print(f"{same}/{len(want)}" + ("  >>> EXACT <<<" if same == len(want) and data_ok and size_ok else ""))

@@ -1,0 +1,3 @@
+/* FUN_80068f2c (0x80068f2c) */
+int DAT_800d1e08;int DAT_800d1e04;
+void FUN_80068f2c(void){DAT_800d1e08=-1;DAT_800d1e04=-1;}

@@ -1,0 +1,6 @@
+/* FUN_8002e1e0 (0x8002e1e0) */
+extern char DAT_8009f6e8[];
+struct E{char pad[16];short a,b;char pad2[16];};
+struct D{char pad[68];char*vt;char c;char pad1[19];int q;int pad3;int n;struct E*e;};
+void CTOR(struct D*p);struct E* FUN_8004d068(int a,int b,int c);
+struct D* FUN_8002e1e0(struct D*p,int n,int c){int i;CTOR(p);p->vt=DAT_8009f6e8;p->n=n;p->e=FUN_8004d068(n*36,0,1);for(i=0;i<p->n;i++){struct E*x=(struct E*)(i*36+(int)p->e);x->b=0;x->a=0;}((char*)p)[72]=c;p->q=8;return p;}

@@ -1,0 +1,37 @@
+/* FileIO_Init__Fv (0x8004c74c) */
+extern char DAT_800a1294[], DAT_800a12a4[], DAT_800a12b0[], DAT_800ba09c[];
+int DAT_800d1afc, DAT_800d2258, DAT_800d1b0c;
+void FUN_8008f208(int);
+void FUN_8008c190(char*);
+void FUN_8008eebc(int);
+int FUN_80095b60(void);
+int FUN_8009085c(unsigned*, char*);
+void FUN_8008f264(int, unsigned*, int);
+void FUN_800958c0(int, char*, int);
+int FUN_80095a5c(int, int);
+int FUN_800913c0(unsigned*);
+void FileIO_Init__Fv(void){
+  unsigned buf[6];
+  int s0; unsigned u;
+  DAT_800d1afc = 0;
+  FUN_8008f208(0);
+  while (!FUN_80095b60()) {
+    FUN_8008c190(DAT_800a1294);
+    for (s0 = 0; s0 < 100; s0++) FUN_8008eebc(0);
+  }
+  while (!FUN_8009085c(buf, DAT_800a12a4)) {
+    while (!FUN_80095b60()) {
+      for (s0 = 0; s0 < 100; s0++) FUN_8008eebc(0);
+    }
+    for (s0 = 0; s0 < 100; s0++) FUN_8008eebc(0);
+  }
+  u = (buf[1] + 2047) >> 11;
+  FUN_8008f264(2, buf, 0);
+  FUN_800958c0(u, DAT_800ba09c, 128);
+  while (FUN_80095a5c(1, 0) > 0) FUN_8008eebc(0);
+  while (!FUN_8009085c(buf, DAT_800a12b0)) {
+    for (s0 = 0; s0 < 100; s0++) FUN_8008eebc(0);
+  }
+  DAT_800d2258 = FUN_800913c0(buf);
+  DAT_800d1b0c = 0;
+}

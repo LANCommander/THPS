@@ -66,7 +66,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (386 as of 2026-09-29)
+## Byte-exact functions: `matched.tsv` is the source of truth (685 as of 2026-09-30)
 
 The first 32, by hand:
 
@@ -241,6 +241,37 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   with one register. Unsized `extern T X[]`, or a real definition, gives cc1's split `lui v0; addiu rX,v0`.
   This fixed `Move__11CWobblyGlow`. The address range doesn't decide it (that sine table is inside
   the gp window); how retail addresses it does. If retail uses `N(gp)`, *define* the global instead.
+- **Local pointer to a global struct** (`SComp *c = &DAT_x; c->f…`) stops gcc strength-reducing
+  and hoisting in loops (LadderLogic went from 3/95 to exact).
+- **Stack locals are laid out in declaration order** (ascending offsets). One temp reused across two
+  blocks must be declared once at function scope, or gcc gives it two slots.
+- **Stack-passed parameter used several times:** gcc copies it to an s-reg at entry. Reading it
+  once late (`short sa = a;` after the calls) reproduces retail's late `lw`.
+- **Loops:** `while (!f(x)) {…}` gives jump-to-test-at-bottom (retail's `j L_test`).
+  `x/2` on a signed int is `srl/addu/sra`, with no div. For branch polarity, try
+  `dx > 0 ? -K : K` vs `dx <= 0 ? K : -K`.
+- **Magic divisors** (`mult` + `mfhi` + shift): 0x10624dd3 with `sra 7` = /2000 (`sra 6` = /1000),
+  0x2aaaaaab = /6, 0x2e8ba2e9 = /11, 0xfc0fc0fd with `srl 7` = /130.
+- **Neversoft's own GTE code** (Medal_Create, Tape_Create) isn't INLINE_C. It's
+  `lw; nop; ctc2`/`mtc2` per word, a bare `cop2 0x406012` (rtv0, sf=0) and `swc2 $25..27`. Use inline asm:
+  `__asm__ volatile("ctc2 %0, $" #n : : "r"(*(int*)(cam+off)))`, then
+  `__asm__ volatile("nop; nop; cop2 0x406012")`, then the `swc2` block with a `"memory"` clobber.
+- **Permuter:** `SHOW=1` writes the best variant even when it isn't exact (it took CGlassBit
+  from 107 to 136 of 140). It prepends `_tNNN` temps and rewrites the header, so restore line 1 when
+  adopting a variant.
+- **Split `lui v1; lw v0,off(v1)` (different registers) for a small global:** use `extern int X[];` and
+  `X[0]`. (`extern int X;` gives same-register `lui v0; lw v0`.) For an address argument,
+  `f(p,&DAT)` with `extern int DAT;` gives retail's `lui a1; addiu a1; jal; move a0` ordering.
+- **Destructors:** `*(char**)(p+68)=vtbl; Base(p,0); if(f&1) operator_delete(p);`. Declare the base
+  dtor `int` or `void` depending on whether `andi` lands in v0 or v1. A virtual delete is
+  `if(o) o->vt->fn((char*)o+o->vt->off,3)`.
+- **Frame padding:** a 16-byte frame with no locals or saves needs `volatile int pad[4];`. If the frame
+  is 8 bytes short, add `volatile int pad[2];`.
+- **Struct copies:** 6-byte → `struct S6 G[1]; G[0]=*p;` (`lwl/lwr`). 12/20-byte `S t=*src;` → loads, then stores.
+- **Index arithmetic:** `(struct E*)(i*36+(int)p->e)` gives `addu a0,base` order where `&p->e[i]` doesn't.
+- **`<libgpu.h>`** needs `<sys/types.h>` and `<libgte.h>` included first (otherwise cc1 fails with a bare exit 33).
+- **Hard for now:** the 64-bit fixed-point MAC helpers (0x80072038–0x800720ec, likely hand-written)
+  and Psy-Q packet builders (`addPrim`/`setPolyF4`: logic is right, register naming differs).
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 
