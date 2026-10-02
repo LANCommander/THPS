@@ -74,7 +74,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (750 as of 2026-10-02)
+## Byte-exact functions: `matched.tsv` is the source of truth (777 as of 2026-10-02)
 
 The first 32, by hand:
 
@@ -313,6 +313,20 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **m2c drafts:** extra call args are often stale registers (check the callee's real signature),
   array strides can be misread, and `SYM + 0xNNNN` artifacts are just the base symbol. Jump tables
   are supported (the bridge emits them as `jtbl_` `.rodata`).
+- **Reuse a parameter as the working variable** (`if(a3<0) a3=-a3; else a3=F(p,a1,a3);`) rather than a new local.
+- **An argument register passed through unchanged** means the callee takes fewer args than m2c says.
+  Declare it `int F(void)` and so on.
+- **`nop` in the delay slot before an epilogue jump:** declare the function `int` with no `return`, so gcc
+  won't move a `v0` write into the slot.
+- **Shared call tails (`goto`/cross-jumps in m2c):** write each call separately (`if(x) F(a,0); else F(b,0);`)
+  and gcc merges the tails itself. Store-then-reload of a global: store in each branch and let gcc merge.
+- **One hoisted constant reused** (a1 for two stores): a named local assigned once (`one=1;`).
+- **Loop guards:** `while(s0&&s0->f!=v){…}` gives the `beq` guard plus a bottom `bne`. A `for` loop gets
+  invariant `lui`s hoisted into s-regs and a `goto` loop doesn't.
+- **Two shorts 4 bytes apart on the stack:** `short ab[4]`, used as `&ab[0]` and `&ab[2]`. Unused locals vanish
+  and shift the layout.
+- **`addu` order via staged pointers:** `q=(int*)(a+K); q=(int*)((char*)q+o);` gives `addiu s0,s3,K; addu s0,s0,s1`.
+- **A permuter result that reorders calls is wrong**, even when it scores higher. Review before adopting.
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 
