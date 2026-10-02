@@ -1,0 +1,97 @@
+/* FUN_80060e98 (0x80060e98) */
+struct VT{char pad[8];short off;short pad2;void(*fn)(char*,int);};
+struct O{struct VT*vt;};
+struct C30{char c[30];};
+struct C28{char c[28];};
+struct X{char pad[0x38];char*s;};
+extern char DAT_800a1fb8[];
+extern char DAT_800a1fc4[];
+extern struct C30 DAT_800a1fd0;
+extern struct C28 DAT_800a1ff0;
+extern struct X DAT_800a5d5c;
+extern char DAT_800c0a48[];
+extern int DAT_800d1cb0;
+extern int DAT_800d1cb4;
+extern int DAT_800d1cb8;
+extern int DAT_800d1d80;
+struct O* DAT_800d1d88;
+short DAT_800d1d8c;short DAT_800d1d8e;short DAT_800d1d90;short DAT_800d1d92;
+void Pack_DefragmentFully__Fv(void);
+void Mess_LoadFont__FPciii(char*,int,int,int);
+void Mess_SetFontScale__FUi(unsigned);
+int FUN_8004c8a4(char*);
+void FUN_8004cb10(int);
+void FUN_8004cdd0(void);
+int FUN_8004d068(int,int,int);
+void FUN_80061714(int);
+void Pad_ClearTriggers__FP8SControl(char*);
+char* __nw__5CItemUi(unsigned);
+char* FUN_80063928(char*,int,int,int,int,int,int,int);
+void FUN_8008c468(int);
+int FUN_800154f4(int);
+void FUN_8005c8dc(int);
+void FUN_8005c780(void);
+void FUN_8006b240(void);
+void FUN_80061ea0(void);
+void FUN_8005c934(void);
+void Mess_SetRGB__FUcUcUci(int,int,int,int);
+void FUN_8001d250(int);
+void draw__6Spriteiiiiii(struct O*,int,int,int,int,int,int);
+void FUN_8001f1b4(int);
+void FUN_8001e114(int,int,char*,int,int,int,int);
+void FUN_80070ff4(void);
+void FUN_8005c68c(void);
+void Mess_Update__Fv(void);
+void Mess_Display__Fv(void);
+void FUN_8006b26c(void);
+void FUN_8004b250(int,int,int);
+void FUN_80060e98(void){
+  int v,w;
+  int s0;
+  char*p;
+  Pack_DefragmentFully__Fv();
+  Mess_LoadFont__FPciii(DAT_800a1fb8,-1,-1,-1);
+  Mess_SetFontScale__FUi(256);
+  v=FUN_8004d068(FUN_8004c8a4(DAT_800a1fc4),1,1);
+  if(v){FUN_8004cb10(v);FUN_8004cdd0();}
+  FUN_80061714(v);
+  Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
+  Pad_ClearTriggers__FP8SControl(DAT_800c0a48+364);
+  DAT_800d1d8c=0;DAT_800d1d8e=293;DAT_800d1d90=640;DAT_800d1d92=128;
+  p=__nw__5CItemUi(24);
+  if(p)p=FUN_80063928(p,DAT_800d1d8c,DAT_800d1d8e,DAT_800d1d90,DAT_800d1d92,1,32,128);
+  DAT_800d1d88=(struct O*)p;
+  FUN_8008c468(0);
+  {struct C30 a=DAT_800a1fd0;
+  struct C28 b=DAT_800a1ff0;
+  s0=32;
+  w=DAT_800d1cb4;
+  if(w){DAT_800d1cb4=0;DAT_800d1d80=FUN_800154f4(w);}
+  FUN_8005c8dc(0);
+  DAT_800d1cb0=1600;
+  while(1){
+    FUN_8005c780();
+    if(!DAT_800d1cb0)break;
+    DAT_800d1cb0--;
+    s0--;
+    FUN_8006b240();
+    FUN_80061ea0();
+    FUN_8005c934();
+    Mess_SetRGB__FUcUcUci(128,128,128,0);
+    FUN_8001d250(0);
+    if(s0<32)draw__6Spriteiiiiii(DAT_800d1d88,DAT_800d1d8c,DAT_800d1d8e,0,-1,-1,-1);
+    else if(s0<128){FUN_8001f1b4(4);FUN_8001e114(320,357,DAT_800a5d5c.s,1,0,256,0);}
+    if(!s0)s0=128;
+    FUN_80070ff4();
+    FUN_8005c68c();
+    if(DAT_800d1cb8)break;
+    Mess_Update__Fv();
+    Mess_Display__Fv();
+    FUN_8006b26c();
+    if(s0>128||!(DAT_800c0a48[0xe1]||DAT_800c0a48[0x24d]))continue;
+    DAT_800c0a48[0xe1]=0;DAT_800c0a48[0x24d]=0;
+    FUN_8004b250(145,8192,0);
+    break;
+  }
+  if(DAT_800d1d88)DAT_800d1d88->vt->fn((char*)DAT_800d1d88+DAT_800d1d88->vt->off,3);
+}}

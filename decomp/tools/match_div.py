@@ -70,7 +70,8 @@ for k, line in enumerate(lines):
     op, d, x, y = m.groups()
     out += [f"\t{'div' if op == 'rem' else 'divu' if op == 'remu' else op}\t{x},{y}",
             f"\t{'mfhi' if op.startswith('rem') else 'mflo'}\t{d}"]
-    nxt = next((l for l in lines[k + 1:] if l.strip() and not l.lstrip().startswith("#")), "")
+    # look past `.set noreorder` etc.: ASPSX still adds the nop when a directive sits in between
+    nxt = next((l for l in lines[k + 1:] if l.strip() and not l.lstrip().startswith(("#", ".set"))), "")
     if reads(nxt, d): out.append("\tnop")
 s = "\n".join(out)
 open(rfile, "w").write(s)

@@ -74,7 +74,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (737 as of 2026-10-02)
+## Byte-exact functions: `matched.tsv` is the source of truth (750 as of 2026-10-02)
 
 The first 32, by hand:
 
@@ -294,6 +294,25 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   one function are fine: each is placed from its own `lui/addiu` pair.
 - **Compare-tree switches** (no table): gcc picks the root by cost (ranges count double), so the
   case set, including empty cases, must match exactly to get the same tree.
+- **Aggregate locals are emitted where they're declared:** put a 6-byte `lwl/lwr` struct copy in a nested
+  `{}` after the earlier calls when retail does it late. Disjoint scopes share a stack slot.
+- **Loop keyword matters:** `while(1)`+`break`, `for(;;)` and `do/while` rotate differently. `for(;;)`
+  can add a `j` into the middle of the loop.
+- **Stack `V` (12-byte) locals sit 16 bytes apart:** add an `int pad;` or use an `aligned(8)` typedef.
+- **Struct-returning operators in C:** `V r=__mi__FRC7CVectorT0(&a,&b);`. For a 6-byte CSVector
+  result, declare the callee as returning the 12-byte V and copy `*(S6*)&t`. Reusing one V temp
+  for both kinds of result fixes the frame size.
+- **By-value struct params** (`V a` in a1..a3) need field-wise stores (`d.x=a.x;…`), not `d=a`. A param
+  reloaded from its stack home after calls means it was a by-value struct.
+- **Aliasing decides re-reads:** a global is re-read after raw `*(short*)(p+o)=` stores, but stays cached
+  across typed struct-member stores.
+- **`x*340` indexing:** `(char*)D+x*340` gives retail's `sll/addu` chain. `D[x]` with a 340-byte struct
+  gives a different multiply.
+- **Short/char params retail doesn't sign-extend:** declare them `int` and cast at the point of use.
+- **A counter held as both `i` and `i+1`:** two variables, with `j=i+1;` first in the loop body.
+- **m2c drafts:** extra call args are often stale registers (check the callee's real signature),
+  array strides can be misread, and `SYM + 0xNNNN` artifacts are just the base symbol. Jump tables
+  are supported (the bridge emits them as `jtbl_` `.rodata`).
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 

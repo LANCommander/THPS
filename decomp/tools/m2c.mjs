@@ -31,7 +31,8 @@ for (const l of readFileSync(new URL('../functions.tsv', import.meta.url), 'utf8
 const size = args[1] && !args[1].startsWith('--') ? parseInt(args[1], 10) : sizes.get(addr);
 if (!size) { console.error('size unknown: pass it explicitly'); process.exit(1); }
 const fname = t => names.get(t) ?? `FUN_${t.toString(16)}`;
-const sym = a => names.get(a) ?? `DAT_${(a >>> 0).toString(16)}`;
+const jumpTables = new Map();   // table address -> [entry word indices]; filled after pass 1
+const sym = a => jumpTables.has(a) ? `jtbl_${(a >>> 0).toString(16)}` : names.get(a) ?? `DAT_${(a >>> 0).toString(16)}`;
 
 // GTE command word -> INLINE_C.H macro name(s), via the DMPSX table in reverse
 const gteNames = new Map();
@@ -73,6 +74,19 @@ ins.forEach((x, i) => {
     if (ops[0]?.kind === 'gpr' && ops[0].number === r && !(mem && y.mnemonic.startsWith('s'))) break;   // r redefined
   }
 });
+// Jump tables: a %hi/%lo-addressed symbol whose retail words are (two or more) addresses inside this
+// function. m2c recognises them by a `jtbl_` name plus the table data in .rodata, so give it both.
+if (ins.some(x => x.mnemonic === 'jr' && x.operands[0].number !== 31)) {
+  for (const base of new Set([...hiSym.values(), ...[...loRef.values()].map(r => r.target)])) {
+    const entries = [];
+    for (let k = 0; k < 1024; k++) {
+      const t = retailWords(base + 4 * k, 1)[0];
+      if (t < addr || t >= addr + size || (t & 3)) break;
+      entries.push((t - addr) >> 2);
+    }
+    if (entries.length >= 2) { jumpTables.set(base, entries); entries.forEach(e => labels.add(e)); }
+  }
+}
 const symExpr = (base, target) => target === base ? sym(base) : `${sym(base)} + ${hex(target - base)}`;
 
 // pass 2: emit
@@ -106,6 +120,8 @@ ins.forEach((x, i) => {
   else s = `${m} ${ops.map(f).join(', ')}`.trim();
   out.push(`/* ${(addr + 4 * i).toString(16).toUpperCase()} ${w[i].toString(16).padStart(8, '0').toUpperCase()} */  ${s}`);
 });
+for (const [base, entries] of jumpTables)
+  out.push('', '.section .rodata', `glabel jtbl_${(base >>> 0).toString(16)}`, ...entries.map(e => `.word ${lab(e)}`), '.section .text');
 const asm = out.join('\n') + '\n';
 if (args.includes('--asm')) { process.stdout.write(asm); process.exit(0); }
 
