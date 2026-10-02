@@ -74,7 +74,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (777 as of 2026-10-02)
+## Byte-exact functions: `matched.tsv` is the source of truth (790 as of 2026-10-02)
 
 The first 32, by hand:
 
@@ -327,6 +327,13 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   and shift the layout.
 - **`addu` order via staged pointers:** `q=(int*)(a+K); q=(int*)((char*)q+o);` gives `addiu s0,s3,K; addu s0,s0,s1`.
 - **A permuter result that reorders calls is wrong**, even when it scores higher. Review before adopting.
+- **Retail recomputes `base + i*K` every iteration (no running pointer):** the loop counter is an
+  **unsigned narrow type** (`unsigned char`/`unsigned short i`). The `andi` wrap each iteration stops
+  GCC 2.8 from strength-reducing it. `int`, `short` and `signed char` counters all get reduced to an
+  `addu p,p,K` pointer. Verified with cc1. It explains the loops S12 couldn't match with any other source form.
+- **`for(;;){…; if(v==-1){a=0;continue;} r=v; break;} return r;`** puts `move v0,v1` last in the epilogue.
+- **Constant args to inline helpers get folded:** use plain locals (`int h=1,f=1;`) to keep them in registers.
+- **Statement-order search pays off:** try all 24 orderings of 4 independent blocks.
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 
