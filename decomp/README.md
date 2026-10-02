@@ -10,7 +10,7 @@ Node — no Docker/WSL/Psy-Q-binary needed.
 - **Compiler:** `psyq-wasm` = PsyQ 4.4 `cc1psx` (GCC 2.8.1), byte-exact vs the real compiler.
 - **Assembler:** `psyq-asm` = ASPSX 2.77/2.81-compatible encoder; expands macros and **inserts
   delay-slot / hazard nops** like Sony's assembler.
-- **`tools/compile.mjs <src.c> [-O2] [-G0|-G8] [-o out.s]`** — C → PsyQ assembly.
+- **`tools/compile.mjs <src.c> [-O2] [-G0|-G8] [-o out.s]`**: C to assembly through the matchers' own pipeline (CPPPSX + native PsyQ 4.5 cc1, default `-G8`).
 - **`tools/diff.mjs <src.c> <expected.txt>`** — instruction-level diff vs a Ghidra listing.
 - **`tools/match.mjs <src.c> <retailAddrHex> <sizeBytes> [-G0|-G8]`** — the real deal: compile +
   assemble + compare machine words against the function's actual bytes in `SLUS_008.60`.
@@ -74,7 +74,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (799 as of 2026-10-02)
+## Byte-exact functions: `matched.tsv` is the source of truth (804 as of 2026-10-02)
 
 The first 32, by hand:
 
@@ -342,6 +342,18 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **`for(;;){…; if(v==-1){a=0;continue;} r=v; break;} return r;`** puts `move v0,v1` last in the epilogue.
 - **Constant args to inline helpers get folded:** use plain locals (`int h=1,f=1;`) to keep them in registers.
 - **Statement-order search pays off:** try all 24 orderings of 4 independent blocks.
+- **A variable assigned in two basic blocks becomes a global pseudo**, and global-alloc then picks
+  different registers. Use a distinct variable per block (`t1/t2` → `t1/t2` + `u1/u2`). One `a=__nw()` reused
+  at 7 call sites became `a1..a7`. This is the biggest lever on large functions.
+- **Word-copy loops** (16-byte `lw/sw` blocks) need an int-typed struct (`struct{int c[34];}`). A char
+  struct gives `lwl/lwr` plus alignment checks.
+- **Typed table index:** `((short*)T)[((x*600)&0x3ff8)>>1]` gives retail's `sll, andi, addu base` with the
+  base `lui` first.
+- **Manual /4096:** `s0=prod; if(s0<0)s0+=4095; s0>>=12;`. `x*10/12` uses magic 0x2aaaaaab with `sra 1`.
+- **Argument evaluation order:** `f(DAT, cond?X:Y)` loads `DAT` before the condition, as retail does.
+- **Explicit temps fix `li` order:** `c=386; a=30; G=c; b=-160;`.
+- **Prologue order of `move this` vs a stack-arg load**, and the s-reg priority of spilled pseudos versus
+  `fp`, are the most common residual diffs on big functions. Nothing so far fixes them reliably.
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 
