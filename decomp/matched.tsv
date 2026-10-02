@@ -791,3 +791,11 @@ src/unnamed/8005fd50.c	0x8005fd50	604	sym	FUN_8005fd50
 src/unnamed/800605c0.c	0x800605c0	376	sym	FUN_800605c0
 src/unnamed/8006b490.c	0x8006b490	416	sym	FUN_8006b490
 src/unnamed/80071c24.c	0x80071c24	316	sym	FUN_80071c24
+src/unnamed/8002357c.c	0x8002357c	568	sym	FUN_8002357c
+src/unnamed/8002f774.c	0x8002f774	380	sym	FUN_8002f774
+src/unnamed/8002f980.c	0x8002f980	652	sym	FUN_8002f980
+src/unnamed/80037460.c	0x80037460	660	sym	FUN_80037460
+src/unnamed/80048d24.c	0x80048d24	284	sym	FUN_80048d24
+src/unnamed/8005de7c.c	0x8005de7c	544	sym	FUN_8005de7c
+src/unnamed/80061ef4.c	0x80061ef4	508	div	FUN_80061ef4
+src/unnamed/80065fec.c	0x80065fec	336	sym	FUN_80065fec

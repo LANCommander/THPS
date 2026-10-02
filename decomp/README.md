@@ -74,7 +74,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (790 as of 2026-10-02)
+## Byte-exact functions: `matched.tsv` is the source of truth (798 as of 2026-10-02)
 
 The first 32, by hand:
 
@@ -327,10 +327,18 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   and shift the layout.
 - **`addu` order via staged pointers:** `q=(int*)(a+K); q=(int*)((char*)q+o);` gives `addiu s0,s3,K; addu s0,s0,s1`.
 - **A permuter result that reorders calls is wrong**, even when it scores higher. Review before adopting.
-- **Retail recomputes `base + i*K` every iteration (no running pointer):** the loop counter is an
-  **unsigned narrow type** (`unsigned char`/`unsigned short i`). The `andi` wrap each iteration stops
-  GCC 2.8 from strength-reducing it. `int`, `short` and `signed char` counters all get reduced to an
-  `addu p,p,K` pointer. Verified with cc1. It explains the loops S12 couldn't match with any other source form.
+- **Retail recomputes `base + i*K` every iteration (no running pointer):** *if the counter has an
+  `andi 0xff/0xffff` wrap*, it's an **unsigned narrow type** (`unsigned char`/`unsigned short i`), which stops GCC 2.8
+  from strength-reducing it (verified with cc1). With a plain `int` counter (`slti`, no `andi`) that's
+  **not** the cause. Several such loops (0x80048ed8, 0x80041ce0, 0x8007171c, 0x800103a4, 0x80010000) mix
+  one running pointer, one offset giv and one per-iteration `sll` chain, and no source form has
+  reproduced that yet. Struct-array indexing (`E[i]`, `E[1-i]`) with an int `i` did fix 0x80048d24 and 0x80065fec.
+- **Sibling loop nests need their own counters** (`j2`/`k2`). Reusing `j`/`k` changes their registers.
+- **`&T[i]` written in the loop body** (no pre-declared `p=T`) keeps the `lui` after the loop guard.
+  `ptr=&T[x]; f(ptr-1)` keeps the `-4` as a separate `addiu`, whereas `&T[x-1]` folds it.
+- **`sh` before `sll/sra`:** `o->s16 = -o->i32; o->i32 = o->s16;` (no `short` temp).
+- **Nested `if(s>=20) if(s<25)`** gives retail's `slti/bne; slti/beq`. `a&&b` becomes one `sltiu` range check.
+- **Tail-call arg in the delay slot:** `if(!s4)f(2);else f(0);`. `f(s4?0:2)` becomes `sltiu`+`sll`.
 - **`for(;;){…; if(v==-1){a=0;continue;} r=v; break;} return r;`** puts `move v0,v1` last in the epilogue.
 - **Constant args to inline helpers get folded:** use plain locals (`int h=1,f=1;`) to keep them in registers.
 - **Statement-order search pays off:** try all 24 orderings of 4 independent blocks.
