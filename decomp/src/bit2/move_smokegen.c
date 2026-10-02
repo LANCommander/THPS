@@ -28,7 +28,8 @@ void Move__15CSmokeGenerator(char* t){
   }
   {
     S* s = (S*)t;
-    s->life++;
-    if ((short)s->life == s->maxlife && s->life != 0xffff) FUN_80027e18(t);
+    short l;
+    s->life++; l = s->life;
+    if (l == s->maxlife && (unsigned short)l != 0xffff) FUN_80027e18(t);
   }
 }

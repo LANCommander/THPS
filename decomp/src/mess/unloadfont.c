@@ -8,8 +8,9 @@ void FUN_8004d5d0(char*);
 void Mess_UnloadFont__Fv(void){
   int i, n, m;
   char* t;
+  char** bp;
   for (i = 0; i < DAT_800a6110[DAT_800d15e4].count; i++) {
-    char* p = i * 36 + DAT_800a6110[DAT_800d15e4].ptr;
+    char* p = (char*)(i * 36 + (int)DAT_800a6110[DAT_800d15e4].ptr);
     Pack_Unpack__Fss(*(short*)(p + 8), *(short*)(p + 12));
   }
   Free16Slot__FUs(*(unsigned short*)(DAT_800a6110[DAT_800d15e4].ptr + 22));
@@ -17,10 +18,11 @@ void Mess_UnloadFont__Fv(void){
   DAT_800a6110[DAT_800d15e4].ptr = 0;
   n = DAT_800d15e0;
   if (DAT_800d15e4 == n - 1) {
+    bp = &DAT_800a6110[0].ptr;
     for (;;) {
       if (n <= 0) break;
       m = n - 1;
-      t = DAT_800a6110[n - 2].ptr;
+      t = *(char**)((char*)bp + (n - 2) * 36);
       DAT_800d15e0 = m;
       n = m;
       if (t) break;
