@@ -74,7 +74,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (715 as of 2026-09-30)
+## Byte-exact functions: `matched.tsv` is the source of truth (737 as of 2026-10-02)
 
 The first 32, by hand:
 
