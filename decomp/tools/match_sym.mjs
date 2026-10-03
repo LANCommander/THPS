@@ -31,7 +31,28 @@ const gA = fm(words), wA = fm(want);
 let same = 0;
 for (let i = 0; i < Math.max(words.length, want.length); i++) {
   const ok = words[i] === want[i]; if (ok) same++;
-  if (!ok || process.env.V) console.log(`${String(i).padStart(2)} ${(gA[i]||'').padEnd(20)} | ${(wA[i]||'').padEnd(20)} ${ok?'':'X'}`);
+  if ((!ok && !process.env.D) || process.env.V) console.log(`${String(i).padStart(2)} ${(gA[i]||'').padEnd(20)} | ${(wA[i]||'').padEnd(20)} ${ok?'':'X'}`);
+}
+// D=1: alignment-aware diff. LCS-align the two word streams and print only the differing hunks, so
+// one inserted/missing instruction doesn't drown the real differences.
+if (process.env.D && (same !== want.length || words.length !== want.length)) {
+  const n = words.length, m = want.length, L = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--)
+    L[i][j] = words[i] === want[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  let i = 0, j = 0, mine = [], ret = [];
+  const flush = () => {
+    if (!mine.length && !ret.length) return;
+    console.log(`@@ mine ${mine[0]?.[0] ?? i} | retail ${ret[0]?.[0] ?? j}`);
+    for (let k = 0; k < Math.max(mine.length, ret.length); k++)
+      console.log(`  ${(mine[k] ? `${mine[k][0]} ${gA[mine[k][0]]}` : '').padEnd(30)} | ${ret[k] ? `${ret[k][0]} ${wA[ret[k][0]]}` : ''}`);
+    mine = []; ret = [];
+  };
+  while (i < n || j < m) {
+    if (i < n && j < m && words[i] === want[j]) { flush(); i++; j++; }
+    else if (j >= m || (i < n && L[i + 1][j] >= L[i][j + 1])) mine.push([i++]);
+    else ret.push([j++]);
+  }
+  flush();
 }
 const dataOk = data.every(d => d.same === d.total);
 if (same !== want.length || words.length !== want.length) console.log(`aligned ${alignedScore(words, want)}/${want.length} (${words.length} words compiled)`);

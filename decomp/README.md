@@ -40,6 +40,10 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
   macro (`cop2: gte_sqr0`), and GTE register moves appear as `M2C_ERROR(ctc2 …)` markers. Use it for
   big functions: it gets control flow, switches and arithmetic right, then the README patterns fix
   the codegen details.
+- **Diff views for `match_sym.mjs`:** `V=1` gives a full positional side-by-side. **`D=1`** gives an
+  alignment-aware diff that LCS-aligns both instruction streams and prints only the differing hunks
+  (`@@ mine 103 | retail 104`). Use it on big functions, where one shifted instruction makes the
+  positional view useless.
 - **`matched.tsv`** is the manifest of every byte-exact function: source, address, size, which
   matcher to use, and the mangled name. **`node tools/check_all.mjs [filter]`** re-verifies them all
   in parallel and exits non-zero on any regression. Run it after any tooling change.
@@ -74,7 +78,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (804 as of 2026-10-02)
+## Byte-exact functions: `matched.tsv` is the source of truth (807 as of 2026-10-02)
 
 The first 32, by hand:
 
@@ -354,6 +358,18 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **Explicit temps fix `li` order:** `c=386; a=30; G=c; b=-160;`.
 - **Prologue order of `move this` vs a stack-arg load**, and the s-reg priority of spilled pseudos versus
   `fp`, are the most common residual diffs on big functions. Nothing so far fixes them reliably.
+- **Block-scope vs function-scope declarations** change register allocation for multi-def variables.
+  Try every subset of {function-level, block-level}. `Split` went from 435/493 to 492/493 to exact that way.
+- **Hidden-return operators** (`__mi__`, `__ml__`, `__pl__`, …) can be declared `void f(T* ret, …)` with the
+  result pointer passed explicitly. `*p=f()` makes gcc build a temp and grows the frame.
+- **Force a stack slot without `volatile`:** `struct{int sv;int pad;Q r;} z;`. `volatile` blocks delay-slot fill,
+  and a 1-element array gets promoted to a register.
+- **`x = e + x` comes out as `addu x,x,e`.** Write `n = e + x; x = n;` to get `(e, x)`.
+- **`switch` vs if-chain:** `switch(x){case 0:…;break;case 1:…;break;}` with the shared tail *after* the
+  switch gives retail's `beq/beq/j` layout. The `if/||` form doesn't.
+- **Table search:** `for(i=0;i<6;i++) if(T[i]>=b) break;` gives the non-rotated top-exit loop.
+- **Statement-order hill climbing must be dependency-safe:** never move statements across blocks, calls
+  or aliasing memory ops. Unsafe climbers raise the score with semantically wrong code.
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
 
