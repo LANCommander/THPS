@@ -19,6 +19,9 @@ onto the unsymboled retail THPS1 executable. See **[docs/coverage-report.md](doc
 - ✅ Extracted both executables and the symbol file; parsed the full symbol census.
 - ✅ Correlated demo↔retail: **474 functions (31.7%) are byte-identical in retail THPS1** (a
   lower bound), concentrated in the shared engine core.
+- 🔄 Matching decompilation (`decomp/`): **25.6% of retail game code is byte-exact C**, with every
+  function re-verified against the retail executable. Live numbers, history and per-module coverage
+  are in **[decomp/PROGRESS.md](decomp/PROGRESS.md)**.
 - ⏭️ Phase 2: import retail into Ghidra with ported names/types; a one-module vertical slice both
   ways to pick the production path.
 

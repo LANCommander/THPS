@@ -34,7 +34,7 @@ for line in open(NAMES):
     if len(p) == 4 and p[2] == "F": sizes.setdefault(int(p[0], 16), int(p[1]))
 for line in open("functions.tsv"):
     p = line.strip().split("\t")
-    if len(p) == 3 and not line.startswith("#"): sizes.setdefault(int(p[0], 16), int(p[1]))
+    if len(p) >= 3 and not line.startswith("#"): sizes.setdefault(int(p[0], 16), int(p[1]))
 matched = {l.split("\t")[1].lower() for l in open("matched.tsv") if l.strip() and not l.startswith("#")}
 retail = open(RETAIL, "rb").read()
 
@@ -143,3 +143,5 @@ if not DRY:
         try: os.replace(tmp, "nearmiss.tsv"); break
         except OSError: time.sleep(0.5)
     else: print(f"warning: nearmiss.tsv locked; new view left at {tmp}")
+    # keep the coverage tracker current
+    subprocess.run(["node", "tools/progress.mjs"])

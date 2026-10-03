@@ -44,6 +44,10 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
   alignment-aware diff that LCS-aligns both instruction streams and prints only the differing hunks
   (`@@ mine 103 | retail 104`). Use it on big functions, where one shifted instruction makes the
   positional view useless.
+- **Coverage tracker:** **`node tools/progress.mjs`** regenerates **[PROGRESS.md](PROGRESS.md)** with
+  totals, history, coverage by size and by module, the closest near-misses and the biggest unmatched
+  functions. It also appends to **`progress.csv`** whenever the numbers change. `salvage.py` runs it after
+  every merge. `--backfill` rebuilds the history from git. Counting uses `functions.tsv` sizes.
 - **`matched.tsv`** is the manifest of every byte-exact function: source, address, size, which
   matcher to use, and the mangled name. **`node tools/check_all.mjs [filter]`** re-verifies them all
   in parallel and exits non-zero on any regression. Run it after any tooling change.
@@ -78,7 +82,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (807 as of 2026-10-02)
+## Byte-exact functions: `matched.tsv` is the source of truth (811 as of 2026-10-03)
 
 The first 32, by hand:
 

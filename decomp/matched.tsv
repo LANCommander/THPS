@@ -808,3 +808,7 @@ src/unnamed/8006dc78.c	0x8006dc78	1228	sym	FUN_8006dc78
 src/shatter/split.c	0x80020f1c	1972	sym	Split__FRC7CVectorN20iiiiiiUii
 src/unnamed/80042d04.c	0x80042d04	1364	sym	FUN_80042d04
 src/unnamed/8007b108.c	0x8007b108	1724	sym	FUN_8007b108
+src/unnamed/800237b4.c	0x800237b4	1172	sym	FUN_800237b4
+src/unnamed/8004f8a0.c	0x8004f8a0	1364	sym	FUN_8004f8a0
+src/unnamed/80070ff4.c	0x80070ff4	1428	sym	FUN_80070ff4
+src/utils/setvisibilityinbox.c	0x80048484	1376	sym	Utils_SetVisibilityInBox__FRC7CVectorT0bT2
