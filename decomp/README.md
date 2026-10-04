@@ -165,6 +165,26 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   (`char pad4c[0x6c - 0x4c];`). The CSmokeJet and CTape constructors matched this way.
 - **Mixed running pointer vs. indexed array in a loop:** `mAmp[i] = i ? Length / 80 : 0;` gives a
   running pointer for `mAmp`, where an `if/else` with two stores indexes from `this`.
+- **Assigning a parameter moves its prologue copy.** The `move sN,aN` copies are scheduled with
+  the register saves, and a parameter the body writes to gets its copy earlier. If retail copies
+  `this` before an argument but your build doesn't, stop assigning that argument and use a temporary
+  (`int t = -vel; …`), or compute into the member (`mNumSections = NumPoints * 2;` and then use
+  `mNumSections`). That fixed the CGlow and CGrindSpark constructors. Writing a constructor as a real
+  C++ constructor fixed the CPowerUp one.
+- **`new T` with a null check** before the constructor call means the class has its own
+  `void *operator new(unsigned int) throw();` (CBit's pool allocator, `__nw__4CBitUi`).
+- **A narrow stack argument read late:** pass the parameter straight to the narrower callee
+  (`FUN(..., scale)` with a `ushort` parameter). gcc then never copies it at entry, and loop.c hoists
+  the `lhu` into the loop preheader as retail does.
+- **ADDRESSOF variables are re-read after every store.** A local whose address goes to inline asm
+  (`gte_stlvnl2(&zed)`) is an ADDRESSOF pseudo during CSE, and after it is purged its address is based
+  on a fresh `$1` (soft frame pointer) rtx that `rtx_varies_p` treats as varying. Every later store
+  then invalidates it. If retail reads such a variable once, the source used it once: compute the
+  derived value into a local (`int idx = (zed >> 2) & 4095;`). The same effect blocks
+  `SlicedImage::pack`'s `dum2`.
+- **`OPS=1`** with `D=1` (match_div, via `tools/wdiff.mjs`) aligns on opcodes and immediates only, so
+  register noise drops out and only the structural differences are printed. **`DEMO=1 node
+  tools/dis.mjs <demoName>`** disassembles the THPS2 demo's version of a function for comparison.
 - **`ABS(x)` is a macro:** `(((x) ^ ((x) >> 31)) - ((x) >> 31))`. `abs()` gives a branch.
   `ABS(a) > ABS(b)` loads `a` first, while `ABS(b) < ABS(a)` loads `b` first.
 

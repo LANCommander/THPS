@@ -862,3 +862,10 @@ src/trickob/update_s19.cpp	0x8004f374	464	div	TrickOb_Update__Fv
 src/trig/sendvisiblefromnode.cpp	0x80045838	600	sym	SendVisibleFromNode__Fii
 src/utils/arccos_s19.cpp	0x800480f8	120	sym	Utils_ArcCos__Fi
 src/video/sortandmerge.cpp	0x80069164	560	sym	Video_SortAndMerge__Fv
+src/quat/slerp.cpp	0x80077ac4	1476	div	Quat_Slerp__FG5CQuatT0iR5CQuat
+src/mech/bloodsplat.cpp	0x80042ab0	596	sym	BloodSplat__6CBruceii
+src/powerup/ctor.cpp	0x8001f934	1248	sym	__8CPowerUpUsRC7CVectorT2Uii
+src/bit/glow_ctor_uiui.cpp	0x80028c48	268	div	__5CGlowUiUi
+src/bit/glow_ctor.cpp	0x80028d54	468	sym	__5CGlowRC7CVectoriiUcUcUcUcUcUc
+src/bit/ribbon_ctor.cpp	0x80029e28	496	sym	__7CRibbonRC7CVectoriiPcT4ii
+src/bit/grindspark_ctor.cpp	0x80027650	360	sym	__11CGrindSparkP5CBodyR7CVectoriii

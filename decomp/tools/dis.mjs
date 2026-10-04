@@ -3,26 +3,34 @@
 // lui/addiu|lw|sw pairs are resolved to absolute DAT_ addresses (the names to use in syms.json).
 //
 // Usage: node tools/dis.mjs <addrHex> [sizeBytes]     (size defaults to the functions.tsv entry)
+//        DEMO=1 node tools/dis.mjs <demoAddrHex|demoName>  disassembles the THPS2 demo (PROSKATE.EXE) instead
 import { readFileSync, existsSync } from 'node:fs';
 import { decodeWords } from 'psyq-asm';
 
-const RETAIL = "G:/Decompilation/Tony Hawk's Pro Skater/extern/thps1_retail/SLUS_008.60";
+const DEMO = !!process.env.DEMO;
+const RETAIL = DEMO ? "G:/Decompilation/Tony Hawk's Pro Skater/extern/demo/PROSKATE.EXE"
+  : "G:/Decompilation/Tony Hawk's Pro Skater/extern/thps1_retail/SLUS_008.60";
 const NAMES = "G:/Decompilation/Tony Hawk's Pro Skater/build/retail_names.tsv";
-const TEXT_ADDR = 0x80010000, HDR = 0x800, GP = 0x800d1080;
+const TEXT_ADDR = DEMO ? 0x80018000 : 0x80010000, HDR = 0x800, GP = DEMO ? 0 : 0x800d1080;
 
 const names = new Map(), sizes = new Map();
-if (existsSync(NAMES)) for (const l of readFileSync(NAMES, 'utf8').split('\n')) {
+if (DEMO) {
+  for (const f of JSON.parse(readFileSync("G:/Decompilation/Tony Hawk's Pro Skater/build/MAIN_sym.json", 'utf8')).funcs) {
+    names.set(f.addr >>> 0, f.name); sizes.set(f.addr >>> 0, f.size);
+  }
+} else if (existsSync(NAMES)) for (const l of readFileSync(NAMES, 'utf8').split('\n')) {
   const [a, s, k, n] = l.trim().split('\t');
   if (k === 'F' && !names.has(parseInt(a, 16))) { names.set(parseInt(a, 16), n); sizes.set(parseInt(a, 16), +s); }
 }
 // every game function, named or FUN_ (functions.tsv): sizes for the unnamed ones
-for (const l of readFileSync(new URL('../functions.tsv', import.meta.url), 'utf8').split('\n')) {
+if (!DEMO) for (const l of readFileSync(new URL('../functions.tsv', import.meta.url), 'utf8').split('\n')) {
   if (!l.trim() || l.startsWith('#')) continue;
   const [a, s, n] = l.trim().split('\t'), k = parseInt(a, 16);
   if (!sizes.has(k)) sizes.set(k, +s);
   if (!names.has(k)) names.set(k, n);
 }
-const addr = parseInt(process.argv[2], 16);
+let addr = parseInt(process.argv[2], 16);
+if (DEMO && !/^(0x)?[0-9a-f]+$/i.test(process.argv[2])) addr = [...names].find(([, n]) => n === process.argv[2])?.[0];
 const size = process.argv[3] ? parseInt(process.argv[3], 10) : sizes.get(addr);
 if (!size) { console.error('size unknown: pass it explicitly'); process.exit(1); }
 
