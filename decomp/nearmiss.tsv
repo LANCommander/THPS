@@ -29,7 +29,6 @@ src/unnamed/8002f1a0.c	0x8002f1a0	240	sym	52/60
 src/unnamed/800395b4.c	0x800395b4	1820	sym	439/455
 src/unnamed/8003a498.c	0x8003a498	268	sym	58/67
 src/unnamed/8003fc1c.c	0x8003fc1c	192	sym	43/48
-src/unnamed/80041388.c	0x80041388	756	div	177/189
 src/unnamed/80043f70.c	0x80043f70	380	sym	89/95
 src/unnamed/80048278.c	0x80048278	368	sym	89/92
 src/unnamed/800491e8.c	0x800491e8	652	sym	145/163
@@ -73,3 +72,4 @@ src/campt/setclosestcamera.cpp	0x8004e268	1792	div	431/448
 src/career/careerinit.cpp	0x80010000	484	sym	103/121
 src/ob/runanim.cpp	0x80043e0c	280	sym	62/70
 src/unnamed/8004169c.c	0x8004169c	1428	sym	323/357
+src/video/playback.cpp	0x8006a930	852	sym	208/213

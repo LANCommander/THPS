@@ -884,3 +884,4 @@ src/bit/chunkbit_ctor.cpp	0x8002876c	508	sym	__9CChunkBitRC8CSVectorN21
 src/ob/calcdynlight.cpp	0x800425c0	320	div	CalculateDynamicLighting__6CBrucePUiP4Item
 src/quat/mtoq.cpp	0x800776f8	972	div	MToQ__FRC6MATRIXR5CQuat
 src/competition/resetmarquee.cpp	0x8007657c	772	sym	Competition_ResetMarquee__Fv
+src/baddy/scriptonly_ai.cpp	0x80041388	756	div	AI__16CScriptOnlyBaddy
