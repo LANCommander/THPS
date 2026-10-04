@@ -71,3 +71,4 @@ src/unnamed/8005cba0.c	0x8005cba0	372	sym	92/93
 src/unnamed/8006ef30.c	0x8006ef30	136	sym	33/34
 src/unnamed/8004b0e4.c	0x8004b0e4	148	sym	35/37
 src/unnamed/80066bb4.c	0x80066bb4	188	sym	45/47
+src/trig/createobject.cpp	0x80045268	720	sym	179/180
