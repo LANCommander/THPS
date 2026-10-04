@@ -346,6 +346,10 @@ placement). Those still need the full AST-based `decomp-permuter-psyq` or hand-t
 Found by sweeping every Psy-Q build against `CVector::operator+=`: **`D:\Tools\psyq4.5\CC1PSX.EXE`
 (GCC 2.8.1) with `-O2 -G0` reproduces the retail bytes exactly** (THPS1's PSX-EXE has `gp=0` ⇒ -G0).
 psyq4.0/4.1 (2.7.2), 4.3/4.4 (other 2.8.1) and 4.6 (2.95.2) all miss — the exact SN build matters.
+**Correction (2026-10-04):** psyq4.5's `CC1PSX -version` banner says **egcs-2.91.66 (egcs 1.1.2)**,
+not 2.8.1. 4.3 is 2.8.0 and 4.4 is 2.8.1. Re-checked on CCamera::AI: 4.5 gets 670/671 aligned, 4.4 gets
+489 (it uses t0-t2 for block copies where retail uses t1-t3) and 4.6 gets 446. Set `CC1=… CC1PL=…` to
+try another build in either matcher; `NOEXC=1` drops `-fno-exceptions` for front ends that lack it.
 All compilers run **natively on Windows** (original SN `*.EXE`s, no wibo); `D:\Tools\psyq4.5` also has
 `ASPSX.EXE`/`CCPSX.EXE`/`CC1PLPSX.EXE`.
 
