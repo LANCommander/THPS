@@ -296,6 +296,13 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   (4-byte entries) gives the same slot order at half the offset.
 - **`extern RECT X[]` + `r = X[0];`** gives retail's `lui v1; addiu t3,v1,…` before an unaligned
   `lwl/lwr` struct copy (FUN_8006af64).
+- **fold reassociates constants within one expression:** `n2 - 2 + b * 2` always becomes
+  `n2 + (b*2 - 2)`, and `lo - (hi - 11)` becomes `(lo + 11) - hi`. Retail's literal order comes from
+  a temporary in its own statement (`int t = n2 - 2; … t + b * 2`; `int h1 = hi - 11; … lo - h1`).
+  This made FUN_8003036c and FUN_80055eb8 exact. Similarly, a product that's halved on two paths
+  (one even) is two separate `/ 2` expressions, and cross-jumping shares the final `sra`.
+- **MAX/MIN of two byte fields** as `uchar = a < b ? b : a` ternaries gives retail's
+  `lbu; lbu; andi; andi; sltu` prologue. `if` forms and `int` results don't (FUN_80055eb8).
 - **Copy fields through locals when retail does all the loads before the stores** (FUN_8006c4f0, UVs
   from a texture record into a POLY_FT4). Plain `p->a = q->a; p->b = q->b;` interleaves them, since
   without strict aliasing every store may alias the next load.
