@@ -123,6 +123,51 @@ operand's.** `&tab[i]` canonicalises to `base + i*4`, so when retail ties the su
 write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and CTape::AI's
 `&mMessageTable[n]`.
 
+**More from the S19 grind, each verified on retail:**
+
+- **Callee return types change register allocation.** A call to a function that returns a value is a
+  `call_value`, which sets `v0` even when the result is ignored. Declaring a callee `void` when it
+  really returns something shifts local-alloc's choices around every call. CCar::AI (1300 B) went from
+  322/325 to exact by declaring `Trig_GetPosition` as returning a pointer, and CMenu::Update (904 B)
+  from 219/226 by making `SFX_PlayX` return `int`. Check the callee's epilogue for a `v0` write.
+  **`tools/retsweep.py`** tries `void`→`int` on every prototype of every near-miss source.
+- **Compare-tree switches: fit the case set with `tools/casetree.py`.** It emulates GCC 2.8's
+  `group_case_nodes`/`balance_case_nodes`/`emit_case_nodes`, plus the jump optimizer deleting a
+  compare whose target matches the jump after it, and checks the predicted compare sequence against
+  retail's. Empty `return x;` groups and a case that shares the `default:` label are invisible in the
+  bodies but shift the tree's balance. SkipCommand (808 B) needed three such groups, found by searching
+  over optional nodes in the value gaps (`casetree.py --s` checks the model against your own build).
+- **Shared case tails: write the `goto`.** Two cases whose bodies end the same way get merged by
+  cross-jumping, but that happens after register allocation, so duplicated source doubles the shared
+  variables' ref counts and changes their registers. `case 1: f(104); goto Bouncy; case 3: f(40);
+  Bouncy: …` fixed CPlatform::Bounce's `s2`/`s3` swap.
+- **A const global hoisted out of a loop through gp:** declare `extern const int G;` before the
+  function and define `extern const int G = 0;` after it. The function body can't fold the value,
+  `const` (RTX_UNCHANGING) lets loop.c hoist the load into the preheader, and the definition makes it
+  small data, so the load is `lw rX,N(gp)`. A plain global stays in the loop, and a `const` defined
+  before use folds to its initializer.
+- **Two-statement byte reads:** `v = *p++; v += *p++ << 8;`. Retail increments between the loads, and
+  `*p++ + (*p++ << 8)` makes gcc load the same byte twice. The line table shows two lines.
+- **Remainders spelled out:** `remx = width - numx * slice_width` gives retail's `mult`+`subu`;
+  `width % slice_width` gives `mfhi`. `(n - 1) - a * b` vs `n - (a * b + 1)` changes CSE as well.
+- **A variable that dies twice isn't local.** Local-alloc only takes pseudos with exactly one death.
+  Reassigning a variable from its own value across several insns (`r = (r << 12) / d;`) gives it two
+  deaths, so global-alloc places it instead, usually in a worse register. Use a fresh variable for the
+  new value (InitLineInfo's `short Cos2`).
+- **The SYM omits some variables.** InitLineInfo's cosines, pack's `numx` and ParsePSX's hoisted
+  shift aren't listed, but retail keeps them in registers. If retail holds a value no listed local
+  explains, add a local for it.
+- **`gte_nop()`** pairs are real source statements: two `nop`s between `gte_ldlzc` and `gte_stlzc`.
+- **Constructors as real C++ classes.** Declare the hierarchy with the first polymorphic class's data
+  members before its virtual functions, so g++ 2.x puts the vptr after them (CBit at 0x44, CItem at
+  0x48). The derived constructor then stores `_vt.<len><Class>`; put that symbol in `syms.json` at the
+  vtable's retail address. Members that THPS1 moved can be padded to retail offsets
+  (`char pad4c[0x6c - 0x4c];`). The CSmokeJet and CTape constructors matched this way.
+- **Mixed running pointer vs. indexed array in a loop:** `mAmp[i] = i ? Length / 80 : 0;` gives a
+  running pointer for `mAmp`, where an `if/else` with two stores indexes from `this`.
+- **`ABS(x)` is a macro:** `(((x) ^ ((x) >> 31)) - ((x) >> 31))`. `abs()` gives a branch.
+  `ABS(a) > ABS(b)` loads `a` first, while `ABS(b) < ABS(a)` loads `b` first.
+
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
 **THPS1 is `-G8`** (not -G0): small globals are addressed **gp-relative**, `gp = 0x800d1080`
