@@ -880,3 +880,6 @@ src/medals/dophysics.cpp	0x80073cf8	176	sym	DoPhysics__6CMedal
 src/unnamed/800109b8.c	0x800109b8	264	sym	FUN_800109b8
 src/unnamed/80010eb8.c	0x80010eb8	184	sym	FUN_80010eb8
 src/ob/ctor_cbody.cpp	0x800437d4	140	sym	__5CBody
+src/bit/chunkbit_ctor.cpp	0x8002876c	508	sym	__9CChunkBitRC8CSVectorN21
+src/ob/calcdynlight.cpp	0x800425c0	320	div	CalculateDynamicLighting__6CBrucePUiP4Item
+src/quat/mtoq.cpp	0x800776f8	972	div	MToQ__FRC6MATRIXR5CQuat
