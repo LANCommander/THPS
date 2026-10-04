@@ -216,6 +216,10 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   (`unsigned snd = mLoopingSound; DAT = …; SFX_ModifyPos(snd, …)`), which made CScriptOnlyBaddy::AI
   exact. Likewise `int n = G; p->h++; G = n + 1;` for a global increment that retail loads before a
   member store (Video_Playback).
+- **A value reloaded just before a join, ahead of a global store:** keep it in one local that both
+  paths set: `int st = p->m734; if (st == 4 && …) { …calls…; st = p->m734; G = 1; } if (st || …)`.
+  The local is dead across the calls, so it stays in a caller-saved register. The reload lands
+  before `G = 1` instead of after the join. This made Video_Playback exact.
 - **Arguments set up *after* unrelated stores → `do { call(); } while (0);`.** Loop notes are
   scheduling barriers, so a call wrapped in a one-pass loop (probably a macro in the original) keeps
   its `addiu a0/a1` argument setup after the preceding stores. Retail's line table showed a new scope
