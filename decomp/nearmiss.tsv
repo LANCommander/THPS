@@ -38,11 +38,7 @@ src/unnamed/800502bc.c	0x800502bc	1044	sym	252/261
 src/unnamed/800506d0.c	0x800506d0	276	sym	63/69
 src/unnamed/800507e4.c	0x800507e4	1104	sym	263/276
 src/unnamed/80059520.c	0x80059520	248	sym	59/62
-src/unnamed/8005c97c.c	0x8005c97c	148	sym	36/37
-src/unnamed/8005cae8.c	0x8005cae8	108	sym	26/27
-src/unnamed/8005cba0.c	0x8005cba0	372	sym	82/93
 src/unnamed/8005d00c.c	0x8005d00c	640	sym	157/160
-src/unnamed/8005e754.c	0x8005e754	396	sym	98/99
 src/unnamed/8005f9ec.c	0x8005f9ec	868	sym	197/217
 src/unnamed/800604c8.c	0x800604c8	248	sym	55/62
 src/unnamed/80060854.c	0x80060854	372	sym	92/93
@@ -54,7 +50,6 @@ src/unnamed/8006623c.c	0x8006623c	252	sym	56/63
 src/unnamed/80066768.c	0x80066768	384	sym	84/96
 src/unnamed/800694a0.c	0x800694a0	140	sym	31/35
 src/unnamed/8006a158.c	0x8006a158	2008	sym	448/502
-src/unnamed/8006b01c.c	0x8006b01c	428	sym	104/107
 src/unnamed/8006b434.c	0x8006b434	92	sym	21/23
 src/unnamed/8006c6e4.c	0x8006c6e4	260	sym	57/65
 src/unnamed/8006d0c8.c	0x8006d0c8	724	sym	158/181
@@ -74,3 +69,5 @@ src/unnamed/8004169c.c	0x8004169c	1428	sym	323/357
 src/camera/ai.cpp	0x8007b7c4	2684	sym	670/671
 src/camera/reacttocollision.cpp	0x80078f3c	5464	div	1354/1366
 src/tricktips/update.cpp	0x80072404	2604	sym	609/651
+src/unnamed/8005cba0.c	0x8005cba0	372	sym	92/93
+src/unnamed/8006b01c.c	0x8006b01c	428	sym	105/107

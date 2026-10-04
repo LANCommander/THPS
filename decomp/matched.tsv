@@ -887,3 +887,6 @@ src/competition/resetmarquee.cpp	0x8007657c	772	sym	Competition_ResetMarquee__Fv
 src/baddy/scriptonly_ai.cpp	0x80041388	756	div	AI__16CScriptOnlyBaddy
 src/video/playback.cpp	0x8006a930	852	sym	Video_Playback__FP6CBruce
 src/campt/setclosestcamera.cpp	0x8004e268	1792	div	CamPt_SetClosestCamera__FP6CBruce
+src/unnamed/8005c97c.c	0x8005c97c	148	sym	FUN_8005c97c
+src/unnamed/8005cae8.c	0x8005cae8	108	sym	FUN_8005cae8
+src/unnamed/8005e754.c	0x8005e754	396	sym	FUN_8005e754
