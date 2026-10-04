@@ -925,3 +925,8 @@ src/unnamed/8006c4f0.c	0x8006c4f0	164	sym	FUN_8006c4f0
 src/unnamed/80048fec.c	0x80048fec	168	sym	FUN_80048fec
 src/unnamed/8006b01c.c	0x8006b01c	428	sym	FUN_8006b01c
 src/unnamed/8006b434.c	0x8006b434	92	sym	FUN_8006b434
+src/card/fileexists.cpp	0x800144a8	176	sym	FUN_800144a8
+src/unnamed/8002f290.c	0x8002f290	176	sym	FUN_8002f290
+src/ob/quickai.cpp	0x80044620	180	sym	Ob_QuickAI__FPP5CBody
+src/unnamed/8005ea74.c	0x8005ea74	180	sym	FUN_8005ea74
+src/unnamed/8006af64.c	0x8006af64	184	sym	FUN_8006af64

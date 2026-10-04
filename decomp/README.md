@@ -285,6 +285,17 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   load8bitbmp2, ribbon_ctor, 8006c4f0), so it's per-TU, not global. `check_all.mjs` and `salvage.py`
   read `flags=a,b` from the header line (sym: appended to `-O2`; div: `CC1_OPTS`). Try it on a near-miss
   whose only residue is load/store order.
+- **A list walk whose exit test also loads `pNext`:** retail's `beq sN,zero,exit; lw sN,next(sN); j
+  body` tail (an unconditional jump back, with `delete` keeping its null check) is
+  `for (p = *pp; p ? (pNext = p->mNext, 1) : 0; p = pNext)`, likely a Neversoft macro
+  (Ob_QuickAI). Plain `while (p) { pNext = p->mNext; … }` rotates into a bottom test.
+- **Case bodies are laid out in source order**, independent of the compare tree. Retail's body order
+  0, 2, 3, 1 means `case 1:` was written last (FUN_8005ea74).
+- **Old-style g++ vtables:** retail calls virtuals through 8-byte entries (`lh a0,8k(vt); lw v1,8k+4(vt);
+  addu a0,this,a0; jalr`), slot k = declaration order with the dtor first. The demo's thunk layout
+  (4-byte entries) gives the same slot order at half the offset.
+- **`extern RECT X[]` + `r = X[0];`** gives retail's `lui v1; addiu t3,v1,…` before an unaligned
+  `lwl/lwr` struct copy (FUN_8006af64).
 - **Copy fields through locals when retail does all the loads before the stores** (FUN_8006c4f0, UVs
   from a texture record into a POLY_FT4). Plain `p->a = q->a; p->b = q->b;` interleaves them, since
   without strict aliasing every store may alias the next load.
