@@ -268,6 +268,16 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   three-case switch builds a compare tree instead.
 - **An `if (G) x = f(a); else x = f(a);` pair is cross-jumped into one call.** That leaves a
   vestigial `bne …; addu a0,s0,zero` in front of it (FUN_80027d08).
+- **Static object construction/teardown (`_GLOBAL_.I/.D`) comes as a pair: one source, `size=` both.**
+  Defining `X G;` in a file emits D then I, back to back (FUN_80077060, size=196). An *implicit*
+  destructor of a polymorphic class never re-stores its own vptr; only inlined base dtors' stores
+  remain. A user-written `~X() {}` does store it. Read the retail vtables (`.word` dtor entries)
+  to tie destructors to classes.
+- **`ot` local for `addPrim`:** `{ u_long *ot = DAT_800d1a48 + 39; addPrim(ot, p); }` gives retail's
+  register choice. Passing `DAT_800d1a48 + 39` straight into the macro doesn't (FUN_80056394).
+- **Two globals that are elements of one array get separate `lui` bases:** the second element's
+  fields at offset > 0x7fff go through a separate symbol (`extern T DAT_800b09c8;`) while
+  `DAT_800a891c[1].on` uses the array (FUN_80048c8c).
 
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
