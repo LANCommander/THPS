@@ -207,6 +207,12 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   an intermediate `base` local (`unsigned *base = Tab; p = base + i;` fixed CamPt's register pair).
   A store of a call result straight from `v0` is grouped with the call by the scheduler, so nothing
   can be placed between them.
+- **A global load that retail hoists above member stores → `extern const int G;`.** If retail reads a
+  scalar global (e.g. the level index for an `sprintf`) before two `sw zero,off(sN)` member stores
+  and yours reads it after, declaring the global `const` (RTX_UNCHANGING) lets the scheduler hoist it.
+  This made Competition_ResetMarquee exact and fixed the GameTime load in CScriptOnlyBaddy's
+  ExecuteCommand. It does not help when the stalled load is a *member* sitting behind a *global*
+  store (Video_Playback).
 - **Struct-returning operators written into the destination:** `a = a + b` in C++ builds a temp and
   copies it. Retail's direct-to-destination shape comes from calling the hidden-return operator as
   `extern "C" void alias(T *ret, ...)`, with the alias mapped to the real address in syms.json and

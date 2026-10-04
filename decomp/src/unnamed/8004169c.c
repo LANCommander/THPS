@@ -4,9 +4,9 @@ typedef struct{char p[8];short off;short pad;void(*fn)(void*,int);}VT;
 typedef struct{V v;char c,d,e;}Q;
 typedef struct{char p0[0x42];char f42;char p1;VT*vt;char p2[0x4c-0x48];Q*f4c;V f50;unsigned char f5c,f5d,f5e;}O;
 typedef struct{char p0[4];V pos;int f10;char p1[0x1ac-0x14];int f1ac;unsigned short*f1b0;char p2[0x220-0x1b4];unsigned short f220;char p3;char p4;char*f224;O*f228;unsigned f22c;int f230;int f234;}S;
-extern int DAT_800d1acc;
+extern const int DAT_800d1acc;
 typedef struct{int pad;V pos;}OB;
-extern OB* DAT_800d19a4;
+extern OB* const DAT_800d19a4;
 extern int DAT_800d186c;
 extern char* DAT_800d2044;
 void SFX_Stop__FUi(unsigned);
@@ -31,8 +31,8 @@ int FUN_8004169c(S*p,unsigned short a1){
     a=p->f22c;
     if(a)SFX_Stop__FUi(a);
     p->f22c=FUN_8004b250(*p->f1b0++,0x2000,0);
-    p->f234=DAT_800d1acc;
     p->f230=-1;
+    p->f234=DAT_800d1acc;
     break;}
   case 0x4508:{unsigned a;
     a=p->f22c;
