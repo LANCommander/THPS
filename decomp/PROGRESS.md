@@ -117,6 +117,7 @@ From `nearmiss.tsv` (the score is the better of positional and alignment-aware).
 | FUN_8007b7c4 | 2684 | 670/671 (99.9%) | `src/camera/ai.cpp` |
 | FUN_8002566c | 1052 | 262/263 (99.6%) | `src/unnamed/8002566c.c` |
 | FUN_80076c4c | 1044 | 260/261 (99.6%) | `src/unnamed/80076c4c.c` |
+| FUN_80045268 | 720 | 179/180 (99.4%) | `src/trig/createobject.cpp` |
 | FUN_8001ddfc | 456 | 113/114 (99.1%) | `src/unnamed/8001ddfc.c` |
 | FUN_80078f3c | 5464 | 1354/1366 (99.1%) | `src/camera/reacttocollision.cpp` |
 | FUN_80062e20 | 1136 | 281/284 (98.9%) | `src/unnamed/80062e20.c` |
@@ -128,7 +129,6 @@ From `nearmiss.tsv` (the score is the better of positional and alignment-aware).
 | FUN_800116b4 | 256 | 63/64 (98.4%) | `src/unnamed/800116b4.c` |
 | FUN_8005d00c | 640 | 157/160 (98.1%) | `src/unnamed/8005d00c.c` |
 | FUN_800788b8 | 208 | 51/52 (98.1%) | `src/unnamed/800788b8.c` |
-| FUN_80011820 | 2124 | 520/531 (97.9%) | `src/unnamed/80011820.c` |
 
 ## Biggest unmatched functions
 
