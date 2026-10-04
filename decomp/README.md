@@ -251,6 +251,11 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
 - **Compare against the value you clamp *from*:** `if (Raw > 2400) Dist = 2400; else Dist = Raw;` puts
   the call result in its own register and the clamped copy in another. `Dist = Raw; if (Dist > ...)`
   merges them.
+- **`sll tmp,n,3` before the branch, with `addu v,v,tmp` in its delay slot (in an `a3`/`v1` temp):**
+  the pointer advance was written *before* the `if`: `int r = Clip(v, n); v += n; if (!(r & mask))
+  { n = p->m; w = v + p->i; …; Draw(w, v, n); }`. Reusing `n` for the next count and computing `w`
+  before the inner call give retail's s-register assignment. This made the six M3D render wrappers
+  (0x80084d18–0x800850c4) exact.
 
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
