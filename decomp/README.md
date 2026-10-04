@@ -187,6 +187,29 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   tools/dis.mjs <demoName>`** disassembles the THPS2 demo's version of a function for comparison.
 - **`ABS(x)` is a macro:** `(((x) ^ ((x) >> 31)) - ((x) >> 31))`. `abs()` gives a branch.
   `ABS(a) > ABS(b)` loads `a` first, while `ABS(b) < ABS(a)` loads `b` first.
+- **Chained assignment stores right to left:** `p.a1 = p.a3 = p.a4 = p.a2 = 0;` emits the stores in
+  the order a2, a4, a3, a1, which separate statements never produce (Crowd_Start). Read the store
+  order off retail and write the chain backwards.
+- **Two array elements loaded with separate `lui`s are two symbols.** If retail loads `X[0].f` and
+  `X[1].f` each with its own `lui`/`lw %lo`, declare them as two externs (`DAT_800bf318`,
+  `DAT_800bf3d8`). Indexing one array lets CSE share the base address (Card_Write).
+- **Store through `reg+off` with the base in a fresh register = an inline member.** Retail's
+  `lui a1; addiu a1,%lo(X); sh a0,2094(a1)` comes from `X.SetTime(v)`, where `this` is a pseudo that
+  CSE later reuses. `X.mTime = v` folds the offset into the symbol instead.
+- **Sin table as a struct:** `struct { short s, c; } T[]; T[a & 4095].s` (or an `int[]` cast to
+  `short`) allocates registers differently from `((short *)T)[(a & 4095) * 2]` (CMedal::DoPhysics).
+- **Locals the SYM lists as `auto` that retail reaches through `t0`** (`addiu t0,zero,640;
+  sw t0,16(sp)`) were spilled by global-alloc. They are not `volatile` and their address isn't
+  taken; the reload register `t0` gives them away. Fix the allocation by matching statement order
+  and every reference, e.g. a store that CSE folded into one pseudo's address (Card_Write).
+- **Load-after-store ordering is not aliasing:** a global load scheduled above a member store in
+  retail but not in yours usually means a different statement order (`f234 = Time; f230 = -1;`) or
+  an intermediate `base` local (`unsigned *base = Tab; p = base + i;` fixed CamPt's register pair).
+  A store of a call result straight from `v0` is grouped with the call by the scheduler, so nothing
+  can be placed between them.
+- **Compare against the value you clamp *from*:** `if (Raw > 2400) Dist = 2400; else Dist = Raw;` puts
+  the call result in its own register and the clamped copy in another. `Dist = Raw; if (Dist > ...)`
+  merges them.
 
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
