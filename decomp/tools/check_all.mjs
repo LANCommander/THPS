@@ -12,7 +12,7 @@ const rows = readFileSync('matched.tsv', 'utf8').split('\n')
   .filter(r => r.join(' ').includes(filter));
 
 async function check([src, addr, size, tool, name]) {
-  const syms = src.replace(/\.c$/, '.syms.json');
+  const syms = src.replace(/\.cpp$|\.c$/, '.syms.json');
   const cmd = {
     cc: ['node', ['tools/matchcc.mjs', src, addr, size, '-O2', '-G0']],
     sym: ['node', ['tools/match_sym.mjs', src, addr, size, syms, '-O2']],

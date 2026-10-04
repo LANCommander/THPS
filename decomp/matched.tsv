@@ -812,3 +812,10 @@ src/unnamed/800237b4.c	0x800237b4	1172	sym	FUN_800237b4
 src/unnamed/8004f8a0.c	0x8004f8a0	1364	sym	FUN_8004f8a0
 src/unnamed/80070ff4.c	0x80070ff4	1428	sym	FUN_80070ff4
 src/utils/setvisibilityinbox.c	0x80048484	1376	sym	Utils_SetVisibilityInBox__FRC7CVectorT0bT2
+src/m3dutils/linelineclosestpoints.cpp	0x80081778	1964	div	M3dUtils_LineLineClosestPoints__FP7CVectorN40PiT0T5
+src/trig/parsetrgfile.c	0x80047214	824	sym	Trig_ParseTRGFile__Fv
+src/m3delips/renderellipsoid.cpp	0x8007e300	1940	div	M3dElips_RenderEllipsoid__FP6SModelP6MATRIXUiiiP7Texture
+src/video/putdatachunk.cpp	0x80069974	1956	sym	PutDataChunk__FP6CBruce
+src/tapes/ai.cpp	0x800733ec	1656	sym	AI__5CTapei
+src/mess/display.c	0x8001d764	736	div	Mess_Display__Fv
+src/shellutils/load8bitbmp2.c	0x800613cc	648	sym	Load8BitBMP2__FPcPPcPiT2PUs

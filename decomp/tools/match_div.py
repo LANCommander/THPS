@@ -17,7 +17,8 @@ import subprocess
 import sys
 import os
 
-CC1 = r"D:\Tools\psyq4.5\CC1PSX.EXE"
+CC1 = os.environ.get("CC1", r"D:\Tools\psyq4.5\CC1PSX.EXE")
+CC1PL = r"D:\Tools\psyq4.5\CC1PLPSX.EXE"  # C++ front end, used for .cpp sources
 ASPSX = r"D:\Tools\psyq4.5\ASPSX.EXE"
 CPP = r"D:\Tools\psyq4.5\CPPPSX.EXE"
 DMPSX = r"D:\Tools\psyq4.5\DMPSX.EXE"
@@ -42,7 +43,7 @@ sfile, rfile, ofile = base + ".s", base + "_rw.s", base + ".obj"
 # cc1 has no preprocessor (not even comment stripping), so always run CPPPSX first, as CCPSX does
 csrc = base + ".i"
 subprocess.run([CPP, *CPP_DEFS, "-I", INC, src, csrc], check=True, capture_output=True)
-subprocess.run([CC1, csrc, "-quiet", *opt.split(), f"-G{g}", "-o", sfile], check=True)
+subprocess.run([CC1PL if src.endswith(".cpp") and "CC1" not in os.environ else CC1, csrc, "-quiet", *opt.split(), *(["-fno-exceptions"] if src.endswith(".cpp") else []), *os.environ.get("CC1_OPTS", "").split(), f"-G{g}", "-o", sfile], check=True)
 s = open(sfile).read()
 # div/divu/rem/remu macro -> bare op + mflo/mfhi, i.e. ASPSX's macro expansion minus the
 # divide-by-zero/overflow checks. ASPSX treats a macro-expanded mflo/mfhi like a load: when the next
@@ -179,8 +180,19 @@ for sec, t, off, e in patches:
     base[ref[0]] = ((hi << 16) + (l - 0x10000 if l & 0x8000 else l) - ref[1]) & 0xFFFFFFFF
 
 
+def via_symbol(sec, off):
+    """Address of `sec + off` through a global the source defines there (C++ puts defined globals in
+    .sdata/.data instead of common), so several defined globals each get their own syms.json address."""
+    best = None
+    for sid, (s2, o2) in local.items():
+        if s2 == sec and o2 <= off and names.get(sid) in syms and (best is None or o2 > best[1]): best = (sid, o2)
+    return None if best is None else int(syms[names[best[0]]], 16) + off - best[1]
+
+
 def ev(e):
     if e[0] == "const": return e[1]
+    ref = sect_ref(e)
+    if ref and ref[0] not in base and via_symbol(*ref) is not None: return via_symbol(*ref)
     if e[0] == "sym": return sym_addr(e[1])
     if e[0] == "sect":
         if e[1] in base: return base[e[1]]
@@ -225,7 +237,13 @@ if same != len(want) or not size_ok:
         for j, y in enumerate(want): cur.append(prev[j] + 1 if x == y else max(prev[j + 1], cur[j]))
         prev = cur
     print(f"aligned {prev[-1]}/{len(want)} ({len(full)} words compiled)")
-if same != len(want) or "-v" in sys.argv:
+if os.environ.get("D") and (same != len(want) or not size_ok):
+    # D=1: disassembled, LCS-aligned hunks only (tools/wdiff.mjs), like match_sym.mjs D=1
+    wfile = sfile[:-2] + "_words.json"
+    json.dump({"mine": full, "retail": want}, open(wfile, "w"))
+    sys.stdout.flush()
+    subprocess.run(["node", os.path.join(os.path.dirname(__file__), "wdiff.mjs"), wfile])
+elif same != len(want) or "-v" in sys.argv:
     for i in range(len(want)):
         mark = "" if got[i] == want[i] else " X"
         print(f"{i:2} {got[i]:08x} | {want[i]:08x}{mark}")

@@ -64,6 +64,52 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
   untracked/modified ones under `src/`). Each needs a first-line header `/* <mangledName> (0x<addr>) */`.
   It tries div → sym → cc, appends EXACT rows to `matched.tsv`, and regenerates **`nearmiss.tsv`**
   (≥85%, with scores). Grinding agents write sources, and this merges them.
+- **`D=1` for `match_div.py`** too: the same disassembled, LCS-aligned hunk diff as `match_sym.mjs`
+  (via `tools/wdiff.mjs`).
+
+## Demo twins: start here for any named function
+
+`build/matches.json` lists the retail functions that are byte-identical to a THPS2-demo function once
+relocations and load/store offsets are masked (field offsets can differ: THPS1's `CBody` is 0x2c
+bytes bigger, for example). **77 of them were still unmatched (45.8 KB)** when this was found. The
+demo's `MAIN.SYM` holds each one's full debug info, and that info decides most of the codegen
+choices that blind iteration can't find:
+
+- **`python ../tools/sym_locals.py <name>`** prints the function's parameters, nested blocks and every
+  local: its exact C type, its storage class, and the register or stack slot cc1 gave it, in
+  declaration order. Write the C with those variables, those types and those scopes.
+  `--struct <Tag>` prints a struct/union layout from the SYM's 157k type records. `--lines` prints
+  the source line that starts at each word, which splits the retail listing into the original statements.
+- **`python ../tools/twin_calls.py <retailAddr> <demoName>`** names every `jal` target from the
+  twin's call at the same word, including Psy-Q and `M3dMaths_*` library calls retail leaves as
+  `FUN_`. That's half a `syms.json`.
+- **Write it as C++** (`src/<module>/<name>.cpp`), since Neversoft's code is C++. A `.cpp` source goes
+  through `CC1PLPSX.EXE` with `-fno-exceptions` automatically, in every matcher and in
+  `check_all`/`salvage`. Declare `CVector operator-(const CVector&, const CVector&);` and so on, and the
+  calls, `const int&` temporaries and by-value returns come out the way retail has them. Wrap SDK
+  headers in `extern "C" { }`. Globals the source *defines* land in `.sdata`. Both linkers resolve them
+  through their own `syms.json` entries, so no section base is needed.
+
+Results so far: LineLineClosestPoints (1964 B) matched on the 2nd compile. RenderEllipsoid (1940),
+PutDataChunk (1956), CTape::AI (1656), Mess_Display, Load8BitBMP2 and Trig_ParseTRGFile matched
+within a few iterations each. The last three had been stuck at 97–99% as C.
+
+What the SYM fixed, by function:
+
+- **Intermediate variables.** ParseTRGFile had `char *pNodeName = … + 6;` before the post-increment
+  store. Mess_Display stores the scale straight into the global and passes the global. PutDataChunk's
+  `PredX/PredY/PredZ` caused retail's odd spill.
+- **A shared stack slot.** Block-scoped `CVector Dummy` and `Pos` at the same offset means one variable.
+- **Hidden arguments.** In Load8BitBMP2, `bpp` was `printf`'s second argument
+  (`"Not 8 bits per pixel, is %d bits per pixel"`).
+- **Declaration position.** CTape::AI's `int message_count = 0;` sits *after* the interpolation block.
+  Initialising it at the top cost a callee-saved register.
+- **`volatile`.** PutDataChunk's vblank counter is re-read each time.
+
+Residues these don't explain are local-alloc ties. **The register that `a + b` reuses is the first
+operand's.** `&tab[i]` canonicalises to `base + i*4`, so when retail ties the sum to the shifted index,
+write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and CTape::AI's
+`&mMessageTable[n]`.
 
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
@@ -82,7 +128,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (811 as of 2026-10-03)
+## Byte-exact functions: `matched.tsv` is the source of truth (818 as of 2026-10-04)
 
 The first 32, by hand:
 

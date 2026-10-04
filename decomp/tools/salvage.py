@@ -47,7 +47,7 @@ def candidates():
         out = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all", "src"],
                              capture_output=True, text=True, check=True).stdout
         files = [l[3:].strip().removeprefix("decomp/") for l in out.splitlines() if l[:2] != " D"]
-    return sorted(f for f in files if f.endswith(".c") and not f.endswith(".matched.c"))
+    return sorted(f for f in files if f.endswith((".c", ".cpp")) and not f.endswith((".matched.c", ".matched.cpp")))
 
 
 def has_bare_div(addr, size):
@@ -77,7 +77,7 @@ def attempt(src):
     size = int(m.group(3)) if m.group(3) else sizes.get(addr)
     if not size: return src, None, f"unknown size for {addr:#x}"
     if f"{addr:#010x}" in matched: return src, None, "already in matched.tsv"
-    syms = src[:-2] + ".syms.json"
+    syms = os.path.splitext(src)[0] + ".syms.json"
     stub = None
     if not os.path.exists(syms):
         stub = f"build/stub_{os.getpid()}_{abs(hash(src))}.json"

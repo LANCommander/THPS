@@ -79,6 +79,8 @@ ins.forEach((x, i) => {
 if (ins.some(x => x.mnemonic === 'jr' && x.operands[0].number !== 31)) {
   for (const base of new Set([...hiSym.values(), ...[...loRef.values()].map(r => r.target)])) {
     const entries = [];
+    // only addresses inside the loaded image can hold a table (lui/addiu pairs also build constants)
+    if (base < 0x80010000 || base >= 0x80010000 + 0xcd000 || (base & 3)) continue;
     for (let k = 0; k < 1024; k++) {
       const t = retailWords(base + 4 * k, 1)[0];
       if (t < addr || t >= addr + size || (t & 3)) break;
