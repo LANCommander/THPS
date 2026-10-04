@@ -58,8 +58,8 @@ def has_bare_div(addr, size):
     return False
 
 
-def run(cmd):
-    r = subprocess.run(cmd, capture_output=True, text=True)
+def run(cmd, extra=()):
+    r = subprocess.run(cmd, capture_output=True, text=True, env={**os.environ, "CC1_OPTS": " ".join(extra)})
     last = (r.stdout.strip().splitlines() or [""])[-1]
     m = re.match(r"(\d+)/(\d+)", last)
     if not m: return (0, 1, False)
@@ -83,15 +83,18 @@ def attempt(src):
         stub = f"build/stub_{os.getpid()}_{abs(hash(src))}.json"
         json.dump(GP_STUB, open(stub, "w"))
     sp = syms if stub is None else stub
+    # extra cc1 flags from a `flags=-fa,-fb` header note (a TU built with other options)
+    fm = re.search(r"flags=(\S+)", head)
+    extra = fm.group(1).split(",") if fm else []
     tries = {
         "div": ["python", "tools/match_div.py", src, hex(addr), str(size), *([syms] if stub is None else []), "-O2", "-G8"],
-        "sym": ["node", "tools/match_sym.mjs", src, hex(addr), str(size), sp, "-O2"],
+        "sym": ["node", "tools/match_sym.mjs", src, hex(addr), str(size), sp, " ".join(["-O2", *extra])],
         "cc": ["node", "tools/matchcc.mjs", src, hex(addr), str(size), "-O2", "-G0"],
     }
     order = ["div", "sym", "cc"] if has_bare_div(addr, size) else ["sym", "cc", "div"]
     best = None
     for tool in order:
-        got, total, exact = run(tries[tool])
+        got, total, exact = run(tries[tool], extra)
         if best is None or got > best[1]: best = (tool, got, total, exact)
         if exact: break
     if stub:

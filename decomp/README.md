@@ -278,6 +278,16 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
 - **Two globals that are elements of one array get separate `lui` bases:** the second element's
   fields at offset > 0x7fff go through a separate symbol (`extern T DAT_800b09c8;`) while
   `DAT_800a891c[1].on` uses the array (FUN_80048c8c).
+- **Some functions need `-fstrict-aliasing` (header note `flags=-fstrict-aliasing`).** The symptom is
+  a load from a struct field (an `int`) scheduled above a store to a pointer global, which plain
+  `-O2` won't do. FUN_80048fec, FUN_8006b01c and FUN_8006b434 are exact only with it. Over all of
+  matched.tsv, 896 functions match either way and 6 *break* with it (adv, setradius, 80061ef4,
+  load8bitbmp2, ribbon_ctor, 8006c4f0), so it's per-TU, not global. `check_all.mjs` and `salvage.py`
+  read `flags=a,b` from the header line (sym: appended to `-O2`; div: `CC1_OPTS`). Try it on a near-miss
+  whose only residue is load/store order.
+- **Copy fields through locals when retail does all the loads before the stores** (FUN_8006c4f0, UVs
+  from a texture record into a POLY_FT4). Plain `p->a = q->a; p->b = q->b;` interleaves them, since
+  without strict aliasing every store may alias the next load.
 
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 

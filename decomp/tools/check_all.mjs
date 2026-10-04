@@ -13,10 +13,13 @@ const rows = readFileSync('matched.tsv', 'utf8').split('\n')
 
 async function check([src, addr, size, tool, name]) {
   const syms = src.replace(/\.cpp$|\.c$/, '.syms.json');
+  // extra cc1 flags from a `flags=-fa,-fb` note in the header line (a TU built with other options)
+  const extra = (readFileSync(src, 'utf8').split('\n')[0].match(/flags=(\S+)/)?.[1] ?? '').split(',').filter(Boolean);
   const cmd = {
     cc: ['node', ['tools/matchcc.mjs', src, addr, size, '-O2', '-G0']],
-    sym: ['node', ['tools/match_sym.mjs', src, addr, size, syms, '-O2']],
-    div: ['python', ['tools/match_div.py', src, addr, size, ...(existsSync(syms) ? [syms] : []), '-O2', '-G8']],
+    sym: ['node', ['tools/match_sym.mjs', src, addr, size, syms, ['-O2', ...extra].join(' ')]],
+    div: ['python', ['tools/match_div.py', src, addr, size, ...(existsSync(syms) ? [syms] : []), '-O2', '-G8'],
+      { env: { ...process.env, CC1_OPTS: extra.join(' ') } }],
   }[tool];
   let out;
   try { out = (await run(...cmd)).stdout; } catch (e) { out = (e.stdout || '') + (e.stderr || e.message); }
