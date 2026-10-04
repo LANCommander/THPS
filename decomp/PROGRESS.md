@@ -118,6 +118,7 @@ From `nearmiss.tsv` (the score is the better of positional and alignment-aware).
 | FUN_8002566c | 1052 | 262/263 (99.6%) | `src/unnamed/8002566c.c` |
 | FUN_80076c4c | 1044 | 260/261 (99.6%) | `src/unnamed/80076c4c.c` |
 | FUN_8001ddfc | 456 | 113/114 (99.1%) | `src/unnamed/8001ddfc.c` |
+| FUN_80078f3c | 5464 | 1354/1366 (99.1%) | `src/camera/reacttocollision.cpp` |
 | FUN_8005e754 | 396 | 98/99 (99.0%) | `src/unnamed/8005e754.c` |
 | FUN_80062e20 | 1136 | 281/284 (98.9%) | `src/unnamed/80062e20.c` |
 | FUN_80060854 | 372 | 92/93 (98.9%) | `src/unnamed/80060854.c` |
@@ -128,7 +129,6 @@ From `nearmiss.tsv` (the score is the better of positional and alignment-aware).
 | FUN_8005d00c | 640 | 157/160 (98.1%) | `src/unnamed/8005d00c.c` |
 | FUN_800788b8 | 208 | 51/52 (98.1%) | `src/unnamed/800788b8.c` |
 | FUN_80011820 | 2124 | 520/531 (97.9%) | `src/unnamed/80011820.c` |
-| rotateDraw__11SlicedImageii | 860 | 210/215 (97.7%) | `src/shellutils/rotatedraw.c` |
 
 ## Biggest unmatched functions
 
@@ -143,7 +143,7 @@ From `nearmiss.tsv` (the score is the better of positional and alignment-aware).
 | FUN_80017d70 (0x80017d70) | FRONT (inferred) | 8.3 KB | — |
 | FUN_80066d7c (0x80066d7c) | PRE (inferred) | 7.3 KB | — |
 | FUN_80054510 (0x80054510) | CREDITS (inferred) | 6.4 KB | — |
-| FUN_80078f3c (0x80078f3c) | CAMERA (inferred) | 5.3 KB | — |
+| FUN_80078f3c (0x80078f3c) | CAMERA (inferred) | 5.3 KB | 1354/1366 |
 | FUN_8007ef68 (0x8007ef68) | M3DCOLIJ (inferred) | 4.9 KB | — |
 | FUN_80038268 (0x80038268) | PHYSICS (inferred) | 4.8 KB | — |
 | FUN_800331e4 (0x800331e4) | PHYSICS (inferred) | 4.4 KB | — |
