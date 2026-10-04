@@ -212,7 +212,10 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   and yours reads it after, declaring the global `const` (RTX_UNCHANGING) lets the scheduler hoist it.
   This made Competition_ResetMarquee exact and fixed the GameTime load in CScriptOnlyBaddy's
   ExecuteCommand. It does not help when the stalled load is a *member* sitting behind a *global*
-  store (Video_Playback).
+  store. For that case, read the member into a local *before* the global store
+  (`unsigned snd = mLoopingSound; DAT = …; SFX_ModifyPos(snd, …)`), which made CScriptOnlyBaddy::AI
+  exact. Likewise `int n = G; p->h++; G = n + 1;` for a global increment that retail loads before a
+  member store (Video_Playback).
 - **Struct-returning operators written into the destination:** `a = a + b` in C++ builds a temp and
   copies it. Retail's direct-to-destination shape comes from calling the hidden-return operator as
   `extern "C" void alias(T *ret, ...)`, with the alias mapped to the real address in syms.json and

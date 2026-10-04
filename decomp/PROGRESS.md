@@ -114,6 +114,7 @@ From `nearmiss.tsv` (the score is the better of positional and alignment-aware).
 
 | function | size | score | source |
 |---|---:|---:|---|
+| FUN_8007b7c4 | 2684 | 670/671 (99.9%) | `src/camera/ai.cpp` |
 | FUN_8002566c | 1052 | 262/263 (99.6%) | `src/unnamed/8002566c.c` |
 | FUN_80076c4c | 1044 | 260/261 (99.6%) | `src/unnamed/80076c4c.c` |
 | FUN_8001ddfc | 456 | 113/114 (99.1%) | `src/unnamed/8001ddfc.c` |
@@ -128,7 +129,6 @@ From `nearmiss.tsv` (the score is the better of positional and alignment-aware).
 | FUN_800788b8 | 208 | 51/52 (98.1%) | `src/unnamed/800788b8.c` |
 | FUN_80011820 | 2124 | 520/531 (97.9%) | `src/unnamed/80011820.c` |
 | rotateDraw__11SlicedImageii | 860 | 210/215 (97.7%) | `src/shellutils/rotatedraw.c` |
-| FUN_8006a930 | 852 | 208/213 (97.7%) | `src/video/playback.cpp` |
 
 ## Biggest unmatched functions
 

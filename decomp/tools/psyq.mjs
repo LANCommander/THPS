@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process';
 
 export const CC1 = process.env.CC1 || 'D:/Tools/psyq4.5/CC1PSX.EXE';
 // .cpp sources (Neversoft's code is C++) go through the C++ front end
-const CC1PL = 'D:/Tools/psyq4.5/CC1PLPSX.EXE';
+const CC1PL = process.env.CC1PL || 'D:/Tools/psyq4.5/CC1PLPSX.EXE';
 const CPP = process.env.CPP || 'D:/Tools/psyq4.5/CPPPSX.EXE';
 const INC = process.env.PSYQ_INC || 'D:/Tools/psyq4.5/include';
 // what CCPSX hands cpp for C on the PSX target
@@ -18,7 +18,7 @@ export function cc1(cfile, sfile, opt = '-O2', g = 0) {
   execFileSync(CPP, [...CPP_DEFS, '-I', INC, cfile, input], { stdio: 'ignore' });
   // C++: no exception tables (psyq-asm can't assemble their label-difference words; .text is unaffected)
   const cpp = cfile.endsWith('.cpp');
-  execFileSync(cpp && !process.env.CC1 ? CC1PL : CC1, [input, '-quiet', ...opt.split(' '), ...(cpp ? ['-fno-exceptions'] : []), `-G${g}`, '-o', sfile], { stdio: 'ignore' });
+  execFileSync(cpp && (process.env.CC1PL || !process.env.CC1) ? CC1PL : CC1, [input, '-quiet', ...opt.split(' '), ...(cpp && !process.env.NOEXC ? ['-fno-exceptions'] : []), `-G${g}`, '-o', sfile], { stdio: 'ignore' });
 }
 
 // INLINE_C.H emits GTE commands as `.word (n<<6)|0x3f` placeholders that Sony's DMPSX.EXE patches

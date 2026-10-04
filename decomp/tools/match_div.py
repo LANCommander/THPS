@@ -18,7 +18,7 @@ import sys
 import os
 
 CC1 = os.environ.get("CC1", r"D:\Tools\psyq4.5\CC1PSX.EXE")
-CC1PL = r"D:\Tools\psyq4.5\CC1PLPSX.EXE"  # C++ front end, used for .cpp sources
+CC1PL = os.environ.get("CC1PL", r"D:\Tools\psyq4.5\CC1PLPSX.EXE")  # C++ front end, used for .cpp sources
 ASPSX = r"D:\Tools\psyq4.5\ASPSX.EXE"
 CPP = r"D:\Tools\psyq4.5\CPPPSX.EXE"
 DMPSX = r"D:\Tools\psyq4.5\DMPSX.EXE"
@@ -43,7 +43,7 @@ sfile, rfile, ofile = base + ".s", base + "_rw.s", base + ".obj"
 # cc1 has no preprocessor (not even comment stripping), so always run CPPPSX first, as CCPSX does
 csrc = base + ".i"
 subprocess.run([CPP, *CPP_DEFS, "-I", INC, src, csrc], check=True, capture_output=True)
-subprocess.run([CC1PL if src.endswith(".cpp") and "CC1" not in os.environ else CC1, csrc, "-quiet", *opt.split(), *(["-fno-exceptions"] if src.endswith(".cpp") else []), *os.environ.get("CC1_OPTS", "").split(), f"-G{g}", "-o", sfile], check=True)
+subprocess.run([CC1PL if src.endswith(".cpp") and ("CC1PL" in os.environ or "CC1" not in os.environ) else CC1, csrc, "-quiet", *opt.split(), *(["-fno-exceptions"] if src.endswith(".cpp") and "NOEXC" not in os.environ else []), *os.environ.get("CC1_OPTS", "").split(), f"-G{g}", "-o", sfile], check=True)
 s = open(sfile).read()
 # div/divu/rem/remu macro -> bare op + mflo/mfhi, i.e. ASPSX's macro expansion minus the
 # divide-by-zero/overflow checks. ASPSX treats a macro-expanded mflo/mfhi like a load: when the next
