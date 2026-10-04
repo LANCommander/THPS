@@ -12,7 +12,7 @@ Two signals, both relocation-proof:
   * callee names: jal targets named through the demo SYM (demo side) and the ported exact-twin
     names (retail side); Jaccard over the named callees.
 
-Writes build/fuzzy_twins.tsv (best candidate per unmatched retail function, scored) and prints the
+Writes build/fuzzy_twins.tsv (best candidate per retail function not yet in decomp/matched.tsv) and prints the
 largest functions with a plausible twin.
 
     python tools/fuzzy_twins.py [--min-size 200] [--top 60]
@@ -87,6 +87,7 @@ def main():
             rnames.setdefault(int(p[0], 16), p[3])
     exact = {json.dumps(m['retail_addr']) for m in json.load(open('build/matches.json'))['exact_matches']}
     exact_demo = {m['name'] for m in json.load(open('build/matches.json'))['exact_matches']}
+    done = {int(l.split('	')[1], 16) for l in open('decomp/matched.tsv') if l.strip() and not l.startswith('#')}
 
     # demo index
     dsh, dcal = {}, {}
@@ -103,7 +104,7 @@ def main():
 
     rows = []
     for addr, size, name in retail:
-        if json.dumps(addr) in exact or size < min_size:
+        if json.dumps(addr) in exact or addr in done or size < min_size:
             continue
         ws = words(rbuf, RETAIL_TEXT, addr, size)
         s = shingles(ws) - common

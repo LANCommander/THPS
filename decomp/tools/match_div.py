@@ -220,6 +220,9 @@ got = list(struct.unpack_from(f"<{size//4}I", buf, 0))
 data_ok = True
 for sid, b in base.items():
     if sid == text or not code.get(sid): continue
+    if not (TEXT_ADDR <= b and b + len(code[sid]) <= TEXT_ADDR + len(retail_img) - HDR):
+        print(f"{sect_names[sid]}: not placed in the retail image (compiler-emitted data such as a vtable), not checked")
+        continue
     d = code[sid]; patch(sid, d, len(d))
     n = len(d) // 4
     ok = sum(struct.unpack_from("<I", d, 4 * i)[0] == rword(b + 4 * i) for i in range(n))

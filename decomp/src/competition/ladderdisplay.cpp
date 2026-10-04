@@ -1,0 +1,213 @@
+/* Competition_LadderDisplay__Fv (0x80074d10) */
+/* C++ (COMPETITION.CPP). Fuzzy demo twin; CCompetition and the locals from its MAIN.SYM (pComp isn't listed
+   there, but retail keeps the global's address in s2 from entry). */
+typedef unsigned char uchar;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+
+struct CJudge { int a, b; };
+class CCompetition {
+public:
+	int **vf;
+	uchar mCompetitorList[10];
+	uint mJudgeTimer;
+	uint mLadderTimer;
+	int mWinLoseCheer;
+	uchar mLastLadderEntry;
+	int mJudgeFullyDisplayed;
+	int mLadderFullyDisplayed;
+	CJudge mJudges[5];
+	short mJudgesScore[5];
+	uchar mHighScore;
+	uchar mLowScore;
+	uchar mPlacing[10];
+	uchar mOrdering[10];
+	ushort mScore[10][3];
+	ushort mTotalScore[10];
+	uchar mCurrentHeat;
+	int medal_mask;
+	void *mMedal1, *mMedal2, *mMedal3;
+	char *mMarqueeText;
+	char mMarqueeTextBuf[75];
+	uint mMarqueeTimer;
+	int our_skater_num;
+	int mFading;
+};
+struct SSkaterInfo { char *pName; char pad[0x154 - 4]; };
+
+extern CCompetition DAT_800c0fdc;
+extern SSkaterInfo DAT_800a4528[];
+extern char DAT_800a33a0[], DAT_800a33b8[], DAT_800a33c8[];
+extern char DAT_800d1fd4[];
+extern char DAT_800d1fd8[];
+extern char DAT_800d1fe0[];
+extern char *DAT_800a5edc[];
+
+void Mess_DeleteAll();
+void Mess_SetScale(int);
+void Mess_SetRGB(uchar, uchar, uchar, int);
+extern "C" void FUN_8001d250(int);
+extern "C" int FUN_8008b900(char *, char *, ...);
+extern "C" int FUN_8001e114(int, int, char *, int, int, int, int);
+int SFX_PlayX(unsigned int, short, int);
+void Front_PrintCentredPrompt(const char *);
+
+void Competition_LadderDisplay()
+{
+	uchar b;
+	uchar a;
+	uchar i;
+	char text_buf[45];
+	CCompetition *pComp = &DAT_800c0fdc;
+
+	Mess_DeleteAll();
+	Mess_SetScale(256);
+	FUN_8001d250(0);
+	Mess_SetRGB(182, 132, 36, 0);
+	FUN_8008b900(text_buf, DAT_800a33a0);
+	FUN_8001e114(256, 40, text_buf, 0, 0, 256, 0);
+	FUN_8001d250(1);
+	Mess_SetScale(120);
+	FUN_8008b900(text_buf, DAT_800a33b8);
+	FUN_8001e114(260, 50, text_buf, 0, 0, 256, 0);
+	FUN_8008b900(text_buf, DAT_800a33c8);
+	FUN_8001e114(260, 60, text_buf, 0, 0, 256, 0);
+	Mess_SetScale(160);
+
+	for (i = 0; i < 10; i++)
+	{
+		FUN_8008b900(text_buf, DAT_800d1fd4, DAT_800a4528[pComp->mCompetitorList[pComp->mOrdering[i]]].pName);
+		if (pComp->mOrdering[i] == pComp->our_skater_num)
+			Mess_SetRGB(182, 132, 36, 0);
+		else
+			Mess_SetRGB(122, 122, 122, 0);
+		FUN_8001e114(90, i * 14 + 70, text_buf, 0, 0, 256, 0);
+	}
+
+	for (a = 0; a < 3; a++)
+	{
+		for (b = 0; b < 10; b++)
+		{
+			uint low_score;
+			uint score2;
+			uint score1;
+			uint score0;
+			int dimness;
+
+			if (b * 20 < pComp->mLadderTimer)
+			{
+				if (pComp->mLadderTimer == b * 20 + 1)
+					SFX_PlayX(52, 0x2000, 0);
+				if (pComp->mCurrentHeat == 0)
+				{
+					pComp->mTotalScore[pComp->mOrdering[b]] = pComp->mScore[pComp->mOrdering[b]][0];
+				}
+				else
+				{
+					uint score2;
+					uint score1;
+					uint score0;
+					score0 = pComp->mScore[pComp->mOrdering[b]][0];
+					score1 = pComp->mScore[pComp->mOrdering[b]][1];
+					score2 = pComp->mScore[pComp->mOrdering[b]][2];
+					if (score0 < score1 && score0 < score2)
+						pComp->mTotalScore[pComp->mOrdering[b]] = score1 + score2;
+					else if (score1 < score0 && score1 < score2)
+						pComp->mTotalScore[pComp->mOrdering[b]] = score0 + score2;
+					else
+						pComp->mTotalScore[pComp->mOrdering[b]] = score0 + score1;
+				}
+			}
+			if (b && b * 20 < pComp->mLadderTimer)
+			{
+				int j = b;
+				do
+				{
+					if (!(pComp->mTotalScore[pComp->mOrdering[j]] > pComp->mTotalScore[pComp->mOrdering[j - 1]]))
+						break;
+					{
+						int temp_b = pComp->mOrdering[j - 1];
+						pComp->mOrdering[j - 1] = pComp->mOrdering[j];
+						pComp->mOrdering[j] = temp_b;
+					}
+				} while (--j > 0);
+			}
+
+			dimness = 0;
+			if (pComp->mCurrentHeat == 2)
+			{
+				if (pComp->mLadderTimer < (b + 1) * 20)
+				{
+					if (pComp->mLadderTimer >= b * 20)
+						dimness = (pComp->mLadderTimer % 20) * 4;
+				}
+				else if (pComp->mLadderTimer >= b * 20)
+					dimness = 100;
+			}
+			low_score = 0;
+			score0 = pComp->mScore[pComp->mOrdering[b]][0];
+			score1 = pComp->mScore[pComp->mOrdering[b]][1];
+			score2 = pComp->mScore[pComp->mOrdering[b]][2];
+			if (score1 < score0 || score2 < score0)
+			{
+				low_score = 2;
+				if (score0 >= score1 && score2 >= score1)
+					low_score = 1;
+			}
+			if (a == low_score)
+				Mess_SetRGB(122 - dimness, 122 - dimness, 122 - dimness, 0);
+			else if (pComp->mOrdering[b] == pComp->our_skater_num)
+				Mess_SetRGB(182, 132, 36, 0);
+			else
+				Mess_SetRGB(122, 122, 122, 0);
+
+			if (a < pComp->mCurrentHeat)
+			{
+				ushort s = pComp->mScore[pComp->mOrdering[b]][a];
+				FUN_8008b900(text_buf, DAT_800d1fd8, s / 10, s % 10);
+				FUN_8001e114(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
+			}
+			if (a == pComp->mCurrentHeat)
+			{
+				if (b * 20 < pComp->mLadderTimer)
+				{
+					ushort s = pComp->mScore[pComp->mOrdering[b]][a];
+					FUN_8008b900(text_buf, DAT_800d1fd8, s / 10, s % 10);
+				}
+				else
+				{
+					if (pComp->mOrdering[b] == pComp->our_skater_num)
+						Mess_SetRGB(182, 132, 36, 0);
+					else
+						Mess_SetRGB(122, 122, 122, 0);
+					FUN_8008b900(text_buf, DAT_800d1fe0);
+				}
+				FUN_8001e114(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
+				if (pComp->mOrdering[b] == pComp->our_skater_num)
+					Mess_SetRGB(182, 132, 36, 0);
+				else
+					Mess_SetRGB(122, 122, 122, 0);
+				if (b * 20 < pComp->mLadderTimer || pComp->mCurrentHeat)
+				{
+					ushort s = pComp->mTotalScore[pComp->mOrdering[b]];
+					FUN_8008b900(text_buf, DAT_800d1fd8, s / 10, s % 10);
+				}
+				else
+					FUN_8008b900(text_buf, DAT_800d1fe0);
+				FUN_8001e114(450, b * 14 + 70, text_buf, 0, 0, 256, 0);
+			}
+			if (a > pComp->mCurrentHeat)
+			{
+				FUN_8008b900(text_buf, DAT_800d1fe0);
+				FUN_8001e114(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
+			}
+		}
+	}
+	if (pComp->mLadderTimer > 200)
+		pComp->mLadderFullyDisplayed = 1;
+	else
+		pComp->mLadderFullyDisplayed = 0;
+	Mess_SetScale(256);
+	if (pComp->mLadderFullyDisplayed)
+		Front_PrintCentredPrompt(DAT_800a5edc[0]);
+}

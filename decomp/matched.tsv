@@ -869,3 +869,8 @@ src/bit/glow_ctor_uiui.cpp	0x80028c48	268	div	__5CGlowUiUi
 src/bit/glow_ctor.cpp	0x80028d54	468	sym	__5CGlowRC7CVectoriiUcUcUcUcUcUc
 src/bit/ribbon_ctor.cpp	0x80029e28	496	sym	__7CRibbonRC7CVectoriiPcT4ii
 src/bit/grindspark_ctor.cpp	0x80027650	360	sym	__11CGrindSparkP5CBodyR7CVectoriii
+src/camera/cm_normal.cpp	0x8007c240	1492	sym	CM_Normal__7CCamera
+src/unnamed/80069684.c	0x80069684	408	sym	FUN_80069684
+src/unnamed/80023168.c	0x80023168	248	sym	FUN_80023168
+src/platform/bouncyai.cpp	0x8003db00	2192	sym	BouncyAI__9CPlatform
+src/competition/ladderdisplay.cpp	0x80074d10	2128	sym	Competition_LadderDisplay__Fv
