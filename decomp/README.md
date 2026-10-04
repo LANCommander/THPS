@@ -207,6 +207,18 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   an intermediate `base` local (`unsigned *base = Tab; p = base + i;` fixed CamPt's register pair).
   A store of a call result straight from `v0` is grouped with the call by the scheduler, so nothing
   can be placed between them.
+- **Struct-returning operators written into the destination:** `a = a + b` in C++ builds a temp and
+  copies it. Retail's direct-to-destination shape comes from calling the hidden-return operator as
+  `extern "C" void alias(T *ret, ...)`, with the alias mapped to the real address in syms.json and
+  explicit `int` locals for `const int &` arguments (Shatter_Glass, from 113 to 181 aligned words).
+- **CQuat derives from a polymorphic CClass (vptr at +0).** `q = r` is a 5-word copy that re-stores the
+  first word last, which accounts for retail's odd `lw v1,vptr; … sw v1,vptr` tail.
+- **Five consecutive gp-relative shorts are five separate `short` globals.** A `short[5]` is 10 bytes,
+  over the `-G8` limit, so it gets `lui` addressing.
+- **Initialise a loop counter after the call before the loop** (`slot = Rnd(); j = 0;`). Initialising
+  it before the call keeps it live across the call, which forces an s-register.
+- **Use the `_x,_y,_z` inline setter for every stack vector, not just the first.** Plain field stores
+  on the later ones shift the stores and registers (CChunkBit ctor).
 - **Compare against the value you clamp *from*:** `if (Raw > 2400) Dist = 2400; else Dist = Raw;` puts
   the call result in its own register and the clamped copy in another. `Dist = Raw; if (Dist > ...)`
   merges them.
