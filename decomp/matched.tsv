@@ -874,3 +874,9 @@ src/unnamed/80069684.c	0x80069684	408	sym	FUN_80069684
 src/unnamed/80023168.c	0x80023168	248	sym	FUN_80023168
 src/platform/bouncyai.cpp	0x8003db00	2192	sym	BouncyAI__9CPlatform
 src/competition/ladderdisplay.cpp	0x80074d10	2128	sym	Competition_LadderDisplay__Fv
+src/physics/reflectheading.cpp	0x80039f2c	744	sym	ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi
+src/card/write.cpp	0x80014558	784	sym	Card_Write__F9EFileTypei
+src/medals/dophysics.cpp	0x80073cf8	176	sym	DoPhysics__6CMedal
+src/unnamed/800109b8.c	0x800109b8	264	sym	FUN_800109b8
+src/unnamed/80010eb8.c	0x80010eb8	184	sym	FUN_80010eb8
+src/ob/ctor_cbody.cpp	0x800437d4	140	sym	__5CBody

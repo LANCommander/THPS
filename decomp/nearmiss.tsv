@@ -18,10 +18,8 @@ src/shellutils/rotatedraw.c	0x80063474	860	div	210/215
 src/unnamed/800106e0.c	0x800106e0	68	sym	16/17
 src/unnamed/80010724.c	0x80010724	248	sym	53/62
 src/unnamed/8001081c.c	0x8001081c	296	sym	67/74
-src/unnamed/800109b8.c	0x800109b8	264	sym	59/66
 src/unnamed/800116b4.c	0x800116b4	256	sym	63/64
 src/unnamed/80011820.c	0x80011820	2124	sym	520/531
-src/unnamed/8001ddfc.c	0x8001ddfc	456	sym	110/114
 src/unnamed/8001f4c4.c	0x8001f4c4	336	sym	80/84
 src/unnamed/80020b84.c	0x80020b84	268	sym	60/67
 src/unnamed/80024ce4.c	0x80024ce4	436	sym	95/109
@@ -71,3 +69,4 @@ src/unnamed/800788b8.c	0x800788b8	208	sym	51/52
 src/unnamed/8007cd78.c	0x8007cd78	1068	sym	252/267
 src/unnamed/8007d6e4.c	0x8007d6e4	540	sym	125/135
 src/utils/spatialattenuation.c	0x800489e4	628	div	155/157
+src/unnamed/8001ddfc.c	0x8001ddfc	456	sym	113/114
