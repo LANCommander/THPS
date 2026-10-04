@@ -229,6 +229,10 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   previous barrier, and the reload-generated `mflo` (mulsi3's output is `=l`) carries no REG_DEAD
   note, so LO stays "live". A call (which clobbers LO) before the branch makes the fill happen. It is
   still open how retail's ReactToCollision got its `beq …; mult a1,s0`.
+- **Delay slot stolen from the branch target ↔ the polarity of the test.** Retail's `beq v0,zero,L;
+  addiu s3,zero,-1` (an instruction copied from L, with the branch redirected past it) came from
+  `if (!LOS(...)) Index = -1; else { …success… }`. The positive form `if (LOS(...)) {…} else
+  Index = -1;` filled the slot from the fall-through instead. This made CamPt_SetClosestCamera exact.
 - **Seeing cc1's view:** `CC1PLPSX.EXE x.i -quiet -O2 -fno-exceptions -G8 -dd -o x.s` writes `x.i.dbr`
   (RTL after delayed-branch scheduling, with REG_DEAD/REG_UNUSED notes and live sets). Make `x.i`
   with the CPPPSX line from `tools/match_div.py`.
