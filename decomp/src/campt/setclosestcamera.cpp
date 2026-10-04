@@ -115,13 +115,16 @@ void CamPt_SetClosestCamera(CBruce *pSkater)
 	}
 	if (Index != VInfo->CurCameraIndex && Index != -1) {
 		if (!Utils_LineOfSight(AdjustedPlayerPos, ClosestPos)) {
-			if (Index2 != VInfo->CurCameraIndex && Index2 != -1 && Utils_LineOfSight(AdjustedPlayerPos, ClosestPos2)) {
-				Index = Index2;
-				ClosestPos = ClosestPos2;
-				ClosestDist = ClosestDist2;
-			} else {
+			if (Index2 != VInfo->CurCameraIndex && Index2 != -1) {
+				if (!Utils_LineOfSight(AdjustedPlayerPos, ClosestPos2))
+					Index = -1;
+				else {
+					Index = Index2;
+					ClosestPos = ClosestPos2;
+					ClosestDist = ClosestDist2;
+				}
+			} else
 				Index = -1;
-			}
 		}
 	}
 	if (ClosestDist > 9000)

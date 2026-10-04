@@ -886,3 +886,4 @@ src/quat/mtoq.cpp	0x800776f8	972	div	MToQ__FRC6MATRIXR5CQuat
 src/competition/resetmarquee.cpp	0x8007657c	772	sym	Competition_ResetMarquee__Fv
 src/baddy/scriptonly_ai.cpp	0x80041388	756	div	AI__16CScriptOnlyBaddy
 src/video/playback.cpp	0x8006a930	852	sym	Video_Playback__FP6CBruce
+src/campt/setclosestcamera.cpp	0x8004e268	1792	div	CamPt_SetClosestCamera__FP6CBruce

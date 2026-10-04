@@ -68,7 +68,6 @@ src/unnamed/8007cd78.c	0x8007cd78	1068	sym	252/267
 src/unnamed/8007d6e4.c	0x8007d6e4	540	sym	125/135
 src/utils/spatialattenuation.c	0x800489e4	628	div	155/157
 src/unnamed/8001ddfc.c	0x8001ddfc	456	sym	113/114
-src/campt/setclosestcamera.cpp	0x8004e268	1792	div	431/448
 src/career/careerinit.cpp	0x80010000	484	sym	103/121
 src/ob/runanim.cpp	0x80043e0c	280	sym	62/70
 src/unnamed/8004169c.c	0x8004169c	1428	sym	323/357
