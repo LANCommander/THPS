@@ -948,3 +948,4 @@ src/trig/executerestart.cpp	0x80044c84	548	sym	Trig_ExecuteRestart__Fv
 src/trig/sendkillfromnode.cpp	0x80045a90	672	sym	SendKillFromNode__Fii
 src/spool/psx.cpp	0x800701b0	652	sym	Spool_PSX__FPciii
 src/unnamed/800103a4.c	0x800103a4	372	sym	FUN_800103a4
+src/decomp/getanimtransform.cpp	0x80013cd4	1348	sym	Decomp_GetAnimTransform__FP6CSuper

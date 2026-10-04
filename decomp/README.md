@@ -303,6 +303,16 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   (one even) is two separate `/ 2` expressions, and cross-jumping shares the final `sra`.
 - **MAX/MIN of two byte fields** as `uchar = a < b ? b : a` ternaries gives retail's
   `lbu; lbu; andi; andi; sltu` prologue. `if` forms and `int` results don't (FUN_80055eb8).
+- **For big twin functions, iterate with `D=1 OPS=1 python tools/match_div.py …`.** It aligns on opcodes
+  and immediates with registers ignored, so only structural hunks print (a load folded into an
+  offset, a statement in the wrong place). Fix those first; register allocation usually falls into
+  place afterwards. Decomp_GetAnimTransform (1348 B) went from 294 aligned words to exact in three
+  edits: `&p[i*2+1]` instead of `(char*)p + i*8 + 4`, splitting `x = base + n*f` into
+  `x = base; x += n*f;`, and an init moved into the declaration.
+- **GTE details from the twins:** `gte_sqr0` vs `gte_sqr12` (the sf bit, 0x0a00428 vs 0x0a80428).
+  An inline setter with `int _x,_y,_z` params (the SYM shows them as a block's locals) gives
+  full-word `lw` loads where plain field copies narrow to `lhu`. Per-register `mtc2`/`ctc2` asm
+  statements with C-level loads give retail's `lw t2; ctc2 t2,$n` runs.
 - **Copy fields through locals when retail does all the loads before the stores** (FUN_8006c4f0, UVs
   from a texture record into a POLY_FT4). Plain `p->a = q->a; p->b = q->b;` interleaves them, since
   without strict aliasing every store may alias the next load.
