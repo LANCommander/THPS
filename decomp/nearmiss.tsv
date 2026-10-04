@@ -40,7 +40,6 @@ src/unnamed/800507e4.c	0x800507e4	1104	sym	263/276
 src/unnamed/80059520.c	0x80059520	248	sym	59/62
 src/unnamed/8005d00c.c	0x8005d00c	640	sym	157/160
 src/unnamed/8005f9ec.c	0x8005f9ec	868	sym	197/217
-src/unnamed/800604c8.c	0x800604c8	248	sym	55/62
 src/unnamed/80060854.c	0x80060854	372	sym	92/93
 src/unnamed/800609c8.c	0x800609c8	472	sym	113/118
 src/unnamed/80062e20.c	0x80062e20	1136	sym	281/284
@@ -72,3 +71,4 @@ src/tricktips/update.cpp	0x80072404	2604	sym	609/651
 src/unnamed/8005cba0.c	0x8005cba0	372	sym	92/93
 src/unnamed/8006b01c.c	0x8006b01c	428	sym	105/107
 src/unnamed/8006ef30.c	0x8006ef30	136	sym	33/34
+src/unnamed/8004b0e4.c	0x8004b0e4	148	sym	35/37

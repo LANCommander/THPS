@@ -256,6 +256,18 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   { n = p->m; w = v + p->i; …; Draw(w, v, n); }`. Reusing `n` for the next count and computing `w`
   before the inner call give retail's s-register assignment. This made the six M3D render wrappers
   (0x80084d18–0x800850c4) exact.
+- **A loop that keeps its entry `j` to the test (not rotated) is a goto loop.** cc1 rotates every
+  `while`/`for`, and loop.c then strength-reduces it. Retail loops with `j test` at entry and no
+  strength reduction (`buf+i` recomputed in the body) come from `i = 0; goto test; body: …; i++;
+  test: if (i < N) goto body;` (FUN_8006ed2c exact; FUN_8004b0e4 at 35/37). An increment in the
+  back branch's delay slot is `test: if (j < N) { j++; goto body; }`. No -O/-f flag reproduces it.
+- **Several exits sharing one `return r` epilogue (`addu v0,v1,zero` after the restores):** write
+  `goto out;` for each exit and put `out: return r;` after the loop. `if (r == -1) return r;`
+  constant-folds to `return -1`, and `break` lets cc1 rotate the `for (;;)` (FUN_800604c8). A
+  two-case switch after a separate `if` gives retail's linear `beq; beq; j default` chain. A
+  three-case switch builds a compare tree instead.
+- **An `if (G) x = f(a); else x = f(a);` pair is cross-jumped into one call.** That leaves a
+  vestigial `bne …; addu a0,s0,zero` in front of it (FUN_80027d08).
 
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 

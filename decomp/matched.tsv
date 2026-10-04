@@ -913,3 +913,7 @@ src/unnamed/800850c4.c	0x800850c4	108	sym	FUN_800850c4
 src/unnamed/80084d18.c	0x80084d18	168	sym	FUN_80084d18
 src/unnamed/80085018.c	0x80085018	172	sym	FUN_80085018
 src/unnamed/80084ebc.c	0x80084ebc	188	sym	FUN_80084ebc
+src/unnamed/80027d08.c	0x80027d08	104	sym	FUN_80027d08
+src/unnamed/80048c8c.c	0x80048c8c	116	sym	FUN_80048c8c
+src/unnamed/8006ed2c.c	0x8006ed2c	140	sym	FUN_8006ed2c
+src/unnamed/800604c8.c	0x800604c8	248	sym	FUN_800604c8
