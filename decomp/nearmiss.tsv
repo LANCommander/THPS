@@ -71,3 +71,5 @@ src/camera/reacttocollision.cpp	0x80078f3c	5464	div	1354/1366
 src/tricktips/update.cpp	0x80072404	2604	sym	609/651
 src/unnamed/8005cba0.c	0x8005cba0	372	sym	92/93
 src/unnamed/8006b01c.c	0x8006b01c	428	sym	105/107
+src/unnamed/80084e50.c	0x80084e50	108	sym	24/27
+src/unnamed/800850c4.c	0x800850c4	108	sym	24/27

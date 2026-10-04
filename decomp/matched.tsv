@@ -900,3 +900,6 @@ src/unnamed/8006c478.c	0x8006c478	76	sym	FUN_8006c478
 src/unnamed/80041c30.c	0x80041c30	88	sym	FUN_80041c30
 src/unnamed/80041c88.c	0x80041c88	88	sym	FUN_80041c88
 src/unnamed/80043d04.cpp	0x80043d04	88	sym	FUN_80043d04
+src/bit2/gline_ctor.cpp	0x80027590	92	sym	__6CGLine
+src/unnamed/800496b0.c	0x800496b0	96	sym	FUN_800496b0
+src/unnamed/8004f318.c	0x8004f318	92	sym	FUN_8004f318
