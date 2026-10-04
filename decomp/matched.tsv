@@ -940,3 +940,6 @@ src/unnamed/80024010.cpp	0x80024010	200	sym	FUN_80024010
 src/unnamed/8003036c.c	0x8003036c	200	sym	FUN_8003036c
 src/unnamed/8004b188.c	0x8004b188	200	sym	FUN_8004b188
 src/unnamed/80055eb8.c	0x80055eb8	200	sym	FUN_80055eb8
+src/unnamed/80070f18.c	0x80070f18	220	div	FUN_80070f18
+src/unnamed/8004b250.cpp	0x8004b250	276	sym	FUN_8004b250
+src/unnamed/8004b464.cpp	0x8004b464	300	sym	FUN_8004b464
