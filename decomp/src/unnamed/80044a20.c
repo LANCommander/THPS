@@ -1,0 +1,36 @@
+/* FUN_80044a20 (0x80044a20) */
+/* Fires the trigger with the given id: marks it hit for this side (1 or 2) and, the first time
+   for that side, runs its script. Nodes are hashed on the id's low byte (see FUN_80044820). */
+typedef struct STrig {
+	char *pScript;
+	unsigned char Hit;
+	unsigned char Done;
+	unsigned char f6, f7;
+	short f8;
+	unsigned short Line;
+	int Id;
+	struct STrig *pNext;
+	struct STrig *pNextAll;
+} STrig;
+extern STrig *DAT_800d2610[];
+extern int DAT_800d199c;
+extern int DAT_800d17c8;
+void FUN_80046374(char *, int, int);
+STrig *FUN_80044a20(int id)
+{
+	STrig *t;
+	for (t = DAT_800d2610[id & 0xff]; t; t = t->pNext) {
+		if (t->Id == id) {
+			int bit = 2;
+			if (DAT_800d199c == DAT_800d17c8)
+				bit = 1;
+			t->Hit |= bit;
+			if (!(t->Done & bit)) {
+				FUN_80046374(t->pScript, t->Line, 0);
+				t->Done |= bit;
+				return t;
+			}
+		}
+	}
+	return 0;
+}

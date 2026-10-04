@@ -930,3 +930,8 @@ src/unnamed/8002f290.c	0x8002f290	176	sym	FUN_8002f290
 src/ob/quickai.cpp	0x80044620	180	sym	Ob_QuickAI__FPP5CBody
 src/unnamed/8005ea74.c	0x8005ea74	180	sym	FUN_8005ea74
 src/unnamed/8006af64.c	0x8006af64	184	sym	FUN_8006af64
+src/unnamed/8006bc88.c	0x8006bc88	188	sym	FUN_8006bc88
+src/unnamed/8006e454.cpp	0x8006e454	192	sym	FUN_8006e454
+src/unnamed/80044a20.c	0x80044a20	196	sym	FUN_80044a20
+src/unnamed/80044820.c	0x80044820	152	sym	FUN_80044820
+src/unnamed/80045774.cpp	0x80045774	196	sym	FUN_80045774
