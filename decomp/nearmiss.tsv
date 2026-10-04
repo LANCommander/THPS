@@ -74,3 +74,4 @@ src/ob/runanim.cpp	0x80043e0c	280	sym	62/70
 src/unnamed/8004169c.c	0x8004169c	1428	sym	323/357
 src/camera/ai.cpp	0x8007b7c4	2684	sym	670/671
 src/camera/reacttocollision.cpp	0x80078f3c	5464	div	1354/1366
+src/tricktips/update.cpp	0x80072404	2604	sym	609/651
