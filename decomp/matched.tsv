@@ -944,3 +944,5 @@ src/unnamed/80070f18.c	0x80070f18	220	div	FUN_80070f18
 src/unnamed/8004b250.cpp	0x8004b250	276	sym	FUN_8004b250
 src/unnamed/8004b464.cpp	0x8004b464	300	sym	FUN_8004b464
 src/baddy/getvariable.cpp	0x80040f50	604	sym	GetVariable__6CBaddyUs
+src/trig/executerestart.cpp	0x80044c84	548	sym	Trig_ExecuteRestart__Fv
+src/trig/sendkillfromnode.cpp	0x80045a90	672	sym	SendKillFromNode__Fii
