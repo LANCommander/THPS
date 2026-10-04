@@ -903,3 +903,6 @@ src/unnamed/80043d04.cpp	0x80043d04	88	sym	FUN_80043d04
 src/bit2/gline_ctor.cpp	0x80027590	92	sym	__6CGLine
 src/unnamed/800496b0.c	0x800496b0	96	sym	FUN_800496b0
 src/unnamed/8004f318.c	0x8004f318	92	sym	FUN_8004f318
+src/unnamed/8002ef24.cpp	0x8002ef24	128	sym	FUN_8002ef24
+src/unnamed/8006b1c8.c	0x8006b1c8	120	sym	FUN_8006b1c8
+src/unnamed/800429d0.cpp	0x800429d0	224	sym	FUN_800429d0
