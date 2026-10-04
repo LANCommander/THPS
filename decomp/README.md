@@ -106,6 +106,18 @@ What the SYM fixed, by function:
   Initialising it at the top cost a callee-saved register.
 - **`volatile`.** PutDataChunk's vblank counter is re-read each time.
 
+**More patterns from the S18 grind, each verified on retail:**
+
+- **Constants inside both ternary arms.** Write `((c1 ? (c2 ? a : b) : d) << 12) * 3 * 15 / 28` as a
+  single expression. gcc then folds the constant into each arm, with a `lui` in the delay slot and an
+  `ori` at the head of each arm, as retail does.
+- **16-byte stack vectors.** `typedef struct{int x,y,z;} __attribute__((aligned(8))) V;` puts vector
+  locals 16 bytes apart. Copy through a plain 12-byte type, or the copy becomes 4 words.
+- **`slt; xori; beq`** comes from `m = (a >= b); if (m) …`.
+- **6-byte by-value args.** `SV sv = *(SV*)&field; f(sv);` gives the `lwl/lwr` temp plus the `lhu` argument loads.
+- **Keeping identical arm tails apart.** When two arms end in the same code, crossjump merges them.
+  Give each stage a fresh variable to keep the tails distinct.
+
 Residues these don't explain are local-alloc ties. **The register that `a + b` reuses is the first
 operand's.** `&tab[i]` canonicalises to `base + i*4`, so when retail ties the sum to the shifted index,
 write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and CTape::AI's
@@ -128,7 +140,7 @@ retail Ghidra `DAT_########` labels.
 (function calls *and* local control-flow jumps — the latter via the function's own base address).
 Symbol addresses come from retail Ghidra `DAT_########` / `FUN_########` labels.
 
-## Byte-exact functions: `matched.tsv` is the source of truth (818 as of 2026-10-04)
+## Byte-exact functions: `matched.tsv` is the source of truth (820 as of 2026-10-04)
 
 The first 32, by hand:
 

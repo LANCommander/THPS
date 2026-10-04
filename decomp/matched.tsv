@@ -819,3 +819,5 @@ src/video/putdatachunk.cpp	0x80069974	1956	sym	PutDataChunk__FP6CBruce
 src/tapes/ai.cpp	0x800733ec	1656	sym	AI__5CTapei
 src/mess/display.c	0x8001d764	736	div	Mess_Display__Fv
 src/shellutils/load8bitbmp2.c	0x800613cc	648	sym	Load8BitBMP2__FPcPPcPiT2PUs
+src/unnamed/80039cd0.cpp	0x80039cd0	604	sym	FUN_80039cd0
+src/unnamed/8003e390.c	0x8003e390	1444	div	FUN_8003e390
