@@ -97,6 +97,11 @@ export function link(object, addr, syms) {
   const data = [];
   for (const s of object.sections) {
     if (s.name === '.text' || !s.bytes?.length || base[s.name] === undefined) continue;
+    // compiler-emitted data (a vtable, a constant initializer) whose address can't be inferred
+    if (!(base[s.name] >= TEXT_ADDR && base[s.name] + s.bytes.length <= TEXT_ADDR + (retailBuf ??= readFileSync(RETAIL)).length - HDR)) {
+      data.push({ section: s.name, base: base[s.name], same: 0, total: 0, skipped: true });
+      continue;
+    }
     const dv = new DataView(s.bytes.buffer, s.bytes.byteOffset, s.bytes.byteLength);
     const raw = Array.from({ length: s.bytes.length >> 2 }, (_, i) => dv.getUint32(4 * i, true));
     const got = apply(raw, s.relocations || []), exp = retailWords(base[s.name], got.length);
