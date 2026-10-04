@@ -216,6 +216,18 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   (`unsigned snd = mLoopingSound; DAT = …; SFX_ModifyPos(snd, …)`), which made CScriptOnlyBaddy::AI
   exact. Likewise `int n = G; p->h++; G = n + 1;` for a global increment that retail loads before a
   member store (Video_Playback).
+- **Arguments set up *after* unrelated stores → `do { call(); } while (0);`.** Loop notes are
+  scheduling barriers, so a call wrapped in a one-pass loop (probably a macro in the original) keeps
+  its `addiu a0/a1` argument setup after the preceding stores. Retail's line table showed a new scope
+  starting exactly at the argument setup. That fixed CCamera::ReactToCollision's ApplyMatrixLV block.
+- **Unfillable delay slot after a multiply:** cc1 leaves a branch in `.set reorder` for ASPSX, which
+  never fills it, when reorg thinks LO is live at the branch target. Reorg scans linearly from the
+  previous barrier, and the reload-generated `mflo` (mulsi3's output is `=l`) carries no REG_DEAD
+  note, so LO stays "live". A call (which clobbers LO) before the branch makes the fill happen. It is
+  still open how retail's ReactToCollision got its `beq …; mult a1,s0`.
+- **Seeing cc1's view:** `CC1PLPSX.EXE x.i -quiet -O2 -fno-exceptions -G8 -dd -o x.s` writes `x.i.dbr`
+  (RTL after delayed-branch scheduling, with REG_DEAD/REG_UNUSED notes and live sets). Make `x.i`
+  with the CPPPSX line from `tools/match_div.py`.
 - **Struct-returning operators written into the destination:** `a = a + b` in C++ builds a temp and
   copies it. Retail's direct-to-destination shape comes from calling the hidden-return operator as
   `extern "C" void alias(T *ret, ...)`, with the alias mapped to the real address in syms.json and
