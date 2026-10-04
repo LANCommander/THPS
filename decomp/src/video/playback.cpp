@@ -118,7 +118,8 @@ void Video_Playback(CBruce *pSkater)
 		FUN_8006a158(pSkater, 1);
 		VInfo->FramesLeft--;
 		IsAGrind = ABS(FUN_800720ac(-pSkater->m7e0, pSkater->m6c, pSkater->m7d8, pSkater->m74)) < 40000;
-		if (pSkater->m734 == 4 && (IsAGrind || pSkater->m146 == 58) && DAT_800d1868 < 200)
+		int st = pSkater->m734;
+		if (st == 4 && (IsAGrind || pSkater->m146 == 58) && DAT_800d1868 < 200)
 		{
 			CSVector Angles;
 			{
@@ -137,9 +138,10 @@ void Video_Playback(CBruce *pSkater)
 			CVector SparkPos(0, 0x19000, 0);
 			for (int i = 0; i < 9; i++)
 				new CGrindSpark((CBody *)pSkater, SparkPos, -40, 4096, 5);
+			st = pSkater->m734;
 			DAT_800d186c = 1;
 		}
-		if (pSkater->m734 || ABS(pSkater->mPos.vy - pSkater->m2e4) > 64)
+		if (st || ABS(pSkater->mPos.vy - pSkater->m2e4) > 64)
 		{
 			pSkater->m2e4 = pSkater->mPos.vy;
 			pSkater->DoShadowCheck();
