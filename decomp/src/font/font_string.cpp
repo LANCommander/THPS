@@ -1,4 +1,4 @@
-/* Font_String__FUsUsPcUcUcUcUc (0x8004c1a8) psyq=4.6: exact only with the PsyQ 4.6 cc1plus (gcc 2.95.2), see README */
+/* Font_String__FUsUsPcUcUcUcUc (0x8004c1a8) flags=-fstructure-noalias */
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;

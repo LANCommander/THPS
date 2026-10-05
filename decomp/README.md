@@ -299,31 +299,31 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
 - **Expression shape picks which invariant gets hoisted:** `LetterY + 2 + Height` and `LetterY +
   (Height + 2)` compile differently once `LetterY + 2` is a loop invariant. Try every association
   (Font_Display needed a different one on each of two near-identical branches).
-- **Compiler versions (`psyq=X` header note).** The installed cc1s are 4.4 = gcc 2.8.1, 4.5 =
-  egcs 1.1.2 (2.91.66, March 1999; everything else matches with it), and 4.6 = gcc 2.95.2 (October
-  1999, after THPS1 shipped). 4.0–4.4 and 4.6 schedule a global load above stores through a
-  struct pointer. 4.5 never does: its `-dS` dump shows a true dependence from every pointer store.
-  Retail sometimes does. A few functions are exact only with another cc1: `_._7CCamera` (4.4),
-  `_._5CRail` and Font_String (4.6). `check_all.mjs` reads `psyq=4.4` from the header line and sets
-  CC1/CC1PL (and TMPDIR) to match. These are probably coincidences of a retail egcs build whose
-  aliasing differs from ours. A whole-tree 4.6 run keeps only 515 of 958 matches, so no TU is simply
-  4.6. To sweep drafts with a compiler, set `CC1=D:\Tools\psyqX\CC1PSX.EXE CC1PL=...` and run the
-  matchers.
-- **Open residue: a global load that retail hoists above a member store.** In constructors
-  (CTrickOb, CSpark) retail loads a global (`lw DAT`) before the vptr/member stores; our cc1plus
-  keeps it after them. The `-dS` dump shows a true dependence from the store: `this` is
-  `reg/v/u` with a REG_EQUIV to its incoming-arg slot, so alias analysis sees two fixed addresses
-  and assumes they conflict. No flag tried fixes it: psyq 4.1/4.3/4.4/4.6 cc1plus,
-  `-fstrict-aliasing`, sched flags, and `-fthis-is-variable` (which adds the `__builtin_new` path).
-  Font_String/Font_Number look related (int field stores make it reload the global pointer).
-  Older cc1plus (4.0/4.1) only runs with `TMPDIR` set to a Windows path; otherwise it fails with
-  `\/ctaNNNN: No such file` and leaves `cta*` files behind.
-- **Loop invariants that are globals:** our cc1 never hoists a global load out of a loop that
-  stores to memory, even a fixed `p->u` (tested in C and C++, with `-fmove-all-movables` and
-  `-fstrict-aliasing`). If retail keeps the value in a register through the loop, the source
-  holds it in a local. Retail's `addu t3,v1,zero` (the pre-loop value copied into the loop
-  register) is still unexplained: a local declared first is loaded straight into t3, and one
-  declared after the intervening member stores gets reloaded (CSmokeJet::Move, 238/265).
+- **`-fstructure-noalias` (header note `flags=-fstructure-noalias`): the big one.** Our egcs
+  1.1.2 cc1 normally treats every store through a pointer as possibly aliasing every global, so a
+  global load never moves above a struct-field store. Retail moves it. `-fstructure-noalias` (an
+  option of this cc1; `strings` turns it up) lets it, and makes 14 near-misses exact: CSpark ctor,
+  CMenu::Display, LoadIntoMikeCamera, Font_String/Font_Number, DoShadowCheck, CCamera::AI (2684 B),
+  SlicedImage::pack (1580 B), FUN_800502bc, FUN_80059520, FUN_80066bb4, `_._7CCamera`,
+  `_._5CRail`. With it on for the whole tree (`GLOBAL_FLAGS=-fstructure-noalias node
+  tools/check_all.mjs`) 955 of the 961 matches at the time still matched. The rest were three
+  psyq=-pinned files (the flag doesn't exist in those cc1s) plus GetFaceFlags, TrickOb_Update and
+  FUN_8004f684, which need it *off*. So it's a per-TU build flag, mostly on. **Try it on any
+  near-miss whose residue is a load scheduled below stores, or a global re-read after field
+  stores.** Tells: a vptr store landing after a global load in a ctor or dtor; `lw DAT_x` above
+  `sh`/`sw` into a prim; a global pointer reused across int/short field stores but reloaded after
+  a byte store (byte stores still alias everything).
+- **Other compiler versions (`psyq=X` header note, now unused).** The installed cc1s are 4.4 =
+  gcc 2.8.1, 4.5 = egcs 1.1.2 (2.91.66, March 1999, the one that matches), and 4.6 = gcc 2.95.2
+  (October 1999, after THPS1 shipped). 4.4 and 4.6 hoist those loads by default, which is how the
+  `-fstructure-noalias` finding started. `check_all.mjs` still honours `psyq=4.4` (it sets CC1/CC1PL
+  and TMPDIR). To sweep drafts with another cc1, set `CC1=D:\Tools\psyqX\CC1PSX.EXE CC1PL=...`.
+  The old cc1s (4.0/4.1) only run with `TMPDIR` set to a Windows path; otherwise they fail with
+  `\/ctaNNNN: No such file` and leave `cta*` files behind.
+- **Loop invariants that are globals:** without `-fstructure-noalias` our cc1 never hoists a global
+  load out of a loop that stores to memory. If retail keeps the value in a register through the
+  loop, try the flag before reaching for a local. CSmokeJet::Move (240/265 with the flag) still
+  copies the pre-loop value into the loop register (`addu t3,v1,zero`) in a way neither form gives.
 - **`mflo` then an asm `mtc2`:** ASPSX puts a nop between them. `match_div.py` now treats
   `mtc2`/`ctc2` as reading their first operand, so it adds that nop too.
 - **A list walk whose exit test also loads `pNext`:** retail's `beq sN,zero,exit; lw sN,next(sN); j

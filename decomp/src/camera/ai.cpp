@@ -1,4 +1,4 @@
-/* AI__7CCamera (0x8007b7c4) */
+/* AI__7CCamera (0x8007b7c4) flags=-fstructure-noalias */
 /* C++ (CAMERA.CPP). Demo twin (opcode-identical but for 3 spots); layout by THPS1 offsets
    (CCamera members = demo + 0x2c). Pad is the SControl[2] array at DAT_800c0a48. */
 #pragma interface

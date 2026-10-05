@@ -15,7 +15,8 @@ async function check([src, addr, size, tool, name]) {
   const syms = src.replace(/\.cpp$|\.c$/, '.syms.json');
   // extra cc1 flags from a `flags=-fa,-fb` note in the header line (a TU built with other options)
   const header = readFileSync(src, 'utf8').split('\n')[0];
-  const extra = (header.match(/flags=(\S+)/)?.[1] ?? '').split(',').filter(Boolean);
+  const extra = [...(header.match(/flags=(\S+)/)?.[1] ?? '').split(','),
+    ...(process.env.GLOBAL_FLAGS ?? '').split(' ')].filter(Boolean);
   // `psyq=4.6` in the header: reproduced with another installed Psy-Q cc1 (see README); the old
   // cc1s need TMPDIR set to a Windows path
   const ver = header.match(/psyq=([\d.]+)/)?.[1];

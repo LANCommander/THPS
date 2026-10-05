@@ -1,4 +1,4 @@
-/* _._7CCamera (0x800788b8) psyq=4.4: exact only with the PsyQ 4.4 cc1 (gcc 2.8.1), see README */
+/* _._7CCamera (0x800788b8) flags=-fstructure-noalias */
 extern char DAT_800a3554[];extern char DAT_800a35c4[];extern char DAT_800a3594[];
 char DAT_800d2044[8];int DAT_800d2040;
 void DeleteFrom__5CBodyPP5CBody(char*p,char*l);void FUN_8007d20c(char*p,int a);void FUN_80043860(char*p,int a);void FUN_80043530(char*p);

@@ -962,3 +962,13 @@ src/competition/judgelogic.cpp	0x80074350	1120	div	Competition_JudgeLogic__Fv
 src/unnamed/800788b8.c	0x800788b8	208	div	_._7CCamera
 src/unnamed/8004f814.c	0x8004f814	140	div	_._5CRail
 src/font/font_string.cpp	0x8004c1a8	100	div	Font_String__FUsUsPcUcUcUcUc
+src/bit/spark_ctor.cpp	0x80029684	312	div	__6CSparkR7CVectoriii
+src/front/menu_display.cpp	0x8001696c	1108	div	Display__5CMenu
+src/camera/loadintomike.cpp	0x80078b04	656	div	LoadIntoMikeCamera__7CCamera
+src/font/font_number.cpp	0x8004c20c	132	div	Font_Number__FUsUsiUcUcUcUc
+src/ob/doshadowcheck.cpp	0x800427d4	436	div	DoShadowCheck__6CBruce
+src/unnamed/800502bc.c	0x800502bc	1044	div	FUN_800502bc
+src/unnamed/80059520.c	0x80059520	248	div	FUN_80059520
+src/camera/ai.cpp	0x8007b7c4	2684	div	AI__7CCamera
+src/unnamed/80066bb4.c	0x80066bb4	188	div	FUN_80066bb4
+src/shellutils/pack.cpp	0x800621c0	1580	div	pack__11SlicedImage

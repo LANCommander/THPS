@@ -1,4 +1,4 @@
-/* _._5CRail (0x8004f814) psyq=4.6: exact only with the PsyQ 4.6 cc1 (gcc 2.95.2), see README */
+/* _._5CRail (0x8004f814) flags=-fstructure-noalias */
 struct L{char*vt;char pad[28];struct L*prev;struct L*next;};
 struct L* DAT_800d1b94;extern char DAT_800a1340[];extern char DAT_800a1350[];
 void FUN_80024238(void*p);
