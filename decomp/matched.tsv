@@ -987,3 +987,4 @@ src/trig/initialparsetrgfile.cpp	0x80044ed8	808	div	Trig_InitialParseTRGFile__FP
 src/m3d/rendersuperitem.cpp	0x8008468c	1676	div	RenderSuperItem__FP4Item
 src/camera/cm_nobigair.cpp	0x8007cd78	1068	div	CM_NoBigAir__7CCamera
 src/utils/spatialattenuation.cpp	0x800489e4	628	div	Utils_CalculateSpatialAttenuation__FRC7CVectorii
+src/pack/pack.cpp	0x8004982c	2728	div	Pack_Pack__FiiiPiT3iiUi
