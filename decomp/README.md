@@ -309,6 +309,15 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   place afterwards. Decomp_GetAnimTransform (1348 B) went from 294 aligned words to exact in three
   edits: `&p[i*2+1]` instead of `(char*)p + i*8 + 4`, splitting `x = base + n*f` into
   `x = base; x += n*f;`, and an init moved into the declaration.
+- **Brute-force statement order when only ordering is left.** For independent stores (e.g. three
+  velocity components in each of two switch cases), try every permutation of the statements plus
+  equivalent comparison forms (`ABS(vx) > ABS(vz)` vs `ABS(vz) < ABS(vx)`). It's a small script
+  over a template, and it took CollideWithSkater from 342 to 368/370 in one run. Related findings
+  from the same functions:
+  - a branch-free `abs` is the `((x)^((x)>>31))-((x)>>31)` macro, not `abs()`;
+  - a loop comparison evaluated right operand first (`Best[Order[j+1]] > Best[Order[j]]`);
+  - a callee returning a measured width rather than a pointer (VerticalMenu: a `sw` into
+    `list[sel].w`).
 - **GTE details from the twins:** `gte_sqr0` vs `gte_sqr12` (the sf bit, 0x0a00428 vs 0x0a80428).
   An inline setter with `int _x,_y,_z` params (the SYM shows them as a block's locals) gives
   full-word `lw` loads where plain field copies narrow to `lhu`. Per-register `mtc2`/`ctc2` asm
