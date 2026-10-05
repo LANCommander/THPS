@@ -976,3 +976,4 @@ src/bit/gouraudribbon_display.cpp	0x8002dbf0	1520	div	Display__14CGouraudRibbon
 src/spool/continue.cpp	0x8007046c	816	div	Spool_Continue__Fv
 src/spool/processnewpsx.cpp	0x8006f290	1300	div	ProcessNewPSX__Fi
 src/camera/ctor_ccamera.cpp	0x800785f0	712	div	__7CCameraP5CBodyUs
+src/camera/cm_competitionintro.cpp	0x8007c83c	1320	div	CM_CompetitionIntro__7CCamera
