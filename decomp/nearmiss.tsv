@@ -79,3 +79,4 @@ src/career/setprefs.cpp	0x800101e4	448	div	95/112
 src/spool/findanim.cpp	0x80070064	220	div	46/55
 src/smoke/move_smokejet.cpp	0x80015c98	1060	div	238/265
 src/mem/newtop.cpp	0x8004d3a4	556	div	107/139
+src/bit/texturedribbon_display.cpp	0x8002e31c	2780	div	685/695
