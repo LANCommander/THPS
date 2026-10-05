@@ -284,7 +284,14 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   matched.tsv, 896 functions match either way and 6 *break* with it (adv, setradius, 80061ef4,
   load8bitbmp2, ribbon_ctor, 8006c4f0), so it's per-TU, not global. `check_all.mjs` and `salvage.py`
   read `flags=a,b` from the header line (sym: appended to `-O2`; div: `CC1_OPTS`). Try it on a near-miss
-  whose only residue is load/store order.
+  whose only residue is load/store order. Another tell (M3d_RenderBackground): after a store to an
+  `int` global, a `uchar` field is *reloaded* (char aliases everything) while a `ushort` field load
+  moves freely above the store (TBAA says it can't alias).
+- **Pointer advance with the index first (`addu v0,idx,base`):** g++ always emits `p + i` as base
+  first, whatever the C order. Retail's index-first form comes from integer arithmetic:
+  `p = (uint *)(n * 4 + (int)p) + 1;` (M3d_PreprocessPulsingColours).
+- **`mflo` then an asm `mtc2`:** ASPSX puts a nop between them. `match_div.py` now treats
+  `mtc2`/`ctc2` as reading their first operand, so it adds that nop too.
 - **A list walk whose exit test also loads `pNext`:** retail's `beq sN,zero,exit; lw sN,next(sN); j
   body` tail (an unconditional jump back, with `delete` keeping its null check) is
   `for (p = *pp; p ? (pNext = p->mNext, 1) : 0; p = pNext)`, likely a Neversoft macro

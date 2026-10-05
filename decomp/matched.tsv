@@ -952,3 +952,5 @@ src/decomp/getanimtransform.cpp	0x80013cd4	1348	sym	Decomp_GetAnimTransform__FP6
 src/shellutils/verticalmenu_draw.cpp	0x80064990	1548	div	draw__12VerticalMenu
 src/car/collidewithskater.cpp	0x8006b6c0	1480	sym	CollideWithSkater__FP4CCarP6CBruceRC6MATRIXPs
 src/m3d/renderbackground.cpp	0x800844b4	472	div	M3d_RenderBackground__FPv
+src/unnamed/8008523c.cpp	0x8008523c	80	div	FUN_8008523c
+src/m3d/preprocesspulsingcolours.cpp	0x800856d4	472	div	M3d_PreprocessPulsingColours__Fi

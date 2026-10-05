@@ -59,7 +59,8 @@ def reads(line, reg):
     regs = lambda o: re.findall(r"\$\w+", o)
     # stores/branches read every operand; otherwise operand 0 is the destination (but a memory
     # operand's base register is still read)
-    if m.group(1) in ("sw", "sh", "sb", "swl", "swr", "jr", "jalr") or m.group(1).startswith("b"):
+    # (mtc2/ctc2 read their first operand too: `mtc2 $2,$8` moves $2 into GTE register 8)
+    if m.group(1) in ("sw", "sh", "sb", "swl", "swr", "jr", "jalr", "mtc2", "ctc2") or m.group(1).startswith("b"):
         return any(reg in regs(o) for o in ops)
     return any(reg in regs(o) for o in ops[1:]) or bool(ops and "(" in ops[0] and reg in regs(ops[0]))
 
