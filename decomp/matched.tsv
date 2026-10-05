@@ -983,3 +983,4 @@ src/platform/handlebounce.cpp	0x8003f65c	984	div	Platform_HandleBounce__Fv
 src/panel/displaytime.cpp	0x8006d39c	736	div	DisplayTime__FP6CBruceUsUs
 src/main/launchgame.cpp	0x80026e98	584	div	LaunchGame__Fv
 src/shell/docheatprocessing.cpp	0x80078304	704	div	Shell_DoCheatProcessing__Fv
+src/trig/initialparsetrgfile.cpp	0x80044ed8	808	div	Trig_InitialParseTRGFile__FPc
