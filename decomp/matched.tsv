@@ -958,3 +958,4 @@ src/font/display.cpp	0x8004c290	1172	div	Font_Display__Fv
 src/spool/decrementtextureusage.cpp	0x8006f178	128	div	DecrementTextureUsage__Fi
 src/spool/clearregion.cpp	0x8006fde4	280	div	ClearRegion__Fiii
 src/pal/loadpalette.cpp	0x8004aea4	404	div	Pal_LoadPalette__FUiPUiUci
+src/competition/judgelogic.cpp	0x80074350	1120	div	Competition_JudgeLogic__Fv
