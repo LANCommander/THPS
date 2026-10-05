@@ -973,3 +973,4 @@ src/camera/ai.cpp	0x8007b7c4	2684	div	AI__7CCamera
 src/unnamed/80066bb4.c	0x80066bb4	188	div	FUN_80066bb4
 src/shellutils/pack.cpp	0x800621c0	1580	div	pack__11SlicedImage
 src/bit/gouraudribbon_display.cpp	0x8002dbf0	1520	div	Display__14CGouraudRibbon
+src/spool/continue.cpp	0x8007046c	816	div	Spool_Continue__Fv
