@@ -88,3 +88,4 @@ src/font/font_string.cpp	0x8004c1a8	100	div	10/25
 src/spool/findanim.cpp	0x80070064	220	div	46/55
 src/bit/spark_ctor.cpp	0x80029684	312	div	70/78
 src/smoke/move_smokejet.cpp	0x80015c98	1060	div	238/265
+src/mem/newtop.cpp	0x8004d3a4	556	div	107/139
