@@ -14,12 +14,19 @@ const rows = readFileSync('matched.tsv', 'utf8').split('\n')
 async function check([src, addr, size, tool, name]) {
   const syms = src.replace(/\.cpp$|\.c$/, '.syms.json');
   // extra cc1 flags from a `flags=-fa,-fb` note in the header line (a TU built with other options)
-  const extra = (readFileSync(src, 'utf8').split('\n')[0].match(/flags=(\S+)/)?.[1] ?? '').split(',').filter(Boolean);
+  const header = readFileSync(src, 'utf8').split('\n')[0];
+  const extra = (header.match(/flags=(\S+)/)?.[1] ?? '').split(',').filter(Boolean);
+  // `psyq=4.6` in the header: reproduced with another installed Psy-Q cc1 (see README); the old
+  // cc1s need TMPDIR set to a Windows path
+  const ver = header.match(/psyq=([\d.]+)/)?.[1];
+  const ccEnv = ver ? { CC1: `D:/Tools/psyq${ver}/CC1PSX.EXE`, CC1PL: `D:/Tools/psyq${ver}/CC1PLPSX.EXE`,
+    TMPDIR: process.cwd().replace(/\//g, '\\') + '\\build' } : {};
   const cmd = {
     cc: ['node', ['tools/matchcc.mjs', src, addr, size, '-O2', '-G0']],
-    sym: ['node', ['tools/match_sym.mjs', src, addr, size, syms, ['-O2', ...extra].join(' ')]],
+    sym: ['node', ['tools/match_sym.mjs', src, addr, size, syms, ['-O2', ...extra].join(' ')],
+      { env: { ...process.env, ...ccEnv } }],
     div: ['python', ['tools/match_div.py', src, addr, size, ...(existsSync(syms) ? [syms] : []), '-O2', '-G8'],
-      { env: { ...process.env, CC1_OPTS: extra.join(' ') } }],
+      { env: { ...process.env, ...ccEnv, CC1_OPTS: extra.join(' ') } }],
   }[tool];
   let out;
   try { out = (await run(...cmd)).stdout; } catch (e) { out = (e.stdout || '') + (e.stderr || e.message); }

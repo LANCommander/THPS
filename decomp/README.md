@@ -299,6 +299,16 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
 - **Expression shape picks which invariant gets hoisted:** `LetterY + 2 + Height` and `LetterY +
   (Height + 2)` compile differently once `LetterY + 2` is a loop invariant. Try every association
   (Font_Display needed a different one on each of two near-identical branches).
+- **Compiler versions (`psyq=X` header note).** The installed cc1s are 4.4 = gcc 2.8.1, 4.5 =
+  egcs 1.1.2 (2.91.66, March 1999; everything else matches with it), and 4.6 = gcc 2.95.2 (October
+  1999, after THPS1 shipped). 4.0–4.4 and 4.6 schedule a global load above stores through a
+  struct pointer. 4.5 never does: its `-dS` dump shows a true dependence from every pointer store.
+  Retail sometimes does. A few functions are exact only with another cc1: `_._7CCamera` (4.4),
+  `_._5CRail` and Font_String (4.6). `check_all.mjs` reads `psyq=4.4` from the header line and sets
+  CC1/CC1PL (and TMPDIR) to match. These are probably coincidences of a retail egcs build whose
+  aliasing differs from ours. A whole-tree 4.6 run keeps only 515 of 958 matches, so no TU is simply
+  4.6. To sweep drafts with a compiler, set `CC1=D:\Tools\psyqX\CC1PSX.EXE CC1PL=...` and run the
+  matchers.
 - **Open residue: a global load that retail hoists above a member store.** In constructors
   (CTrickOb, CSpark) retail loads a global (`lw DAT`) before the vptr/member stores; our cc1plus
   keeps it after them. The `-dS` dump shows a true dependence from the store: `this` is
