@@ -682,6 +682,20 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   or aliasing memory ops. Unsafe climbers raise the score with semantically wrong code.
 - **GTE:** `gte_rtv0tr` (0x4a480012) is not `gte_rtv0`. For a cross product use
   `gte_ldopv1/ldopv2/op12/stlvnl`. For a matrix multiply through a `VECTOR` local use `gte_ldlv0`.
+  `cop2 0x170000c` is `gte_op0` (sf=0, the code shifts by hand); `0x178000c` is `gte_op12`.
+- **C++ locals declared mid-block reuse freed stack slots.** cc1plus allocates a local's slot when its
+  declaration is expanded. Declared after an inner block or a statement with temporaries, it takes the
+  slots those released. That is how the SYM shows `U` and `old_pos` sharing `sp+24`, or a CQuat temp and
+  `offset_inc` sharing `sp+88`. Declare each local where retail's frame says it starts
+  (CM_CompetitionIntro, MoveToDesiredPos).
+- **fold() moves a product's constant onto the *other* factor:** `t * (b * 8000)` becomes
+  `(t*8000)*b` (shifts on `t`), while `t * 8000 * b` shifts `b` and emits `mult t, b8000`. Pick the
+  spelling whose shifted register matches retail. With `t = 49` known, only the shifted factor folds.
+- **Template members emit their vtable and inline dtor** (`_vt.t9AnimParam1Z5CQuat`, `_._t9…`) even
+  under `#pragma interface`. Map the dtor to its retail address in `syms.json` and the `.rdata` check
+  passes.
+- **A struct member read through a reference** (`SMike &m = G; CSVector &a = m.mAngles;`) gives
+  retail's `addiu v1,G; addiu a1,v1,24` base pair with mixed `n(a1)` and `24+n(v1)` loads.
 
 **Formerly open tooling gaps, now fixed:**
 - **Switch jump tables:** both matchers place a function's own `.rdata` at its retail address.
