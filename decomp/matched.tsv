@@ -986,3 +986,4 @@ src/shell/docheatprocessing.cpp	0x80078304	704	div	Shell_DoCheatProcessing__Fv
 src/trig/initialparsetrgfile.cpp	0x80044ed8	808	div	Trig_InitialParseTRGFile__FPc
 src/m3d/rendersuperitem.cpp	0x8008468c	1676	div	RenderSuperItem__FP4Item
 src/camera/cm_nobigair.cpp	0x8007cd78	1068	div	CM_NoBigAir__7CCamera
+src/utils/spatialattenuation.cpp	0x800489e4	628	div	Utils_CalculateSpatialAttenuation__FRC7CVectorii

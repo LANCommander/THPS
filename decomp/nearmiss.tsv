@@ -53,7 +53,6 @@ src/unnamed/80076880.c	0x80076880	972	sym	234/243
 src/unnamed/80076c4c.c	0x80076c4c	1044	sym	260/261
 src/unnamed/80077408.c	0x80077408	288	sym	71/72
 src/unnamed/8007d6e4.c	0x8007d6e4	540	sym	125/135
-src/utils/spatialattenuation.c	0x800489e4	628	div	155/157
 src/unnamed/8001ddfc.c	0x8001ddfc	456	sym	113/114
 src/career/careerinit.cpp	0x80010000	484	sym	103/121
 src/ob/runanim.cpp	0x80043e0c	280	sym	62/70
