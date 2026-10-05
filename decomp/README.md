@@ -290,6 +290,15 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
 - **Pointer advance with the index first (`addu v0,idx,base`):** g++ always emits `p + i` as base
   first, whatever the C order. Retail's index-first form comes from integer arithmetic:
   `p = (uint *)(n * 4 + (int)p) + 1;` (M3d_PreprocessPulsingColours).
+- **A byte read twice with no reload (`lbu t1` for a difference, then `addiu v0,t1,-1; sb` for
+  `x--`):** egcs CSE can serve the narrow QImode load in `x--` from the earlier widening
+  `(zero_extend (mem:QI))`, but only if *no store* comes between them. A zero_extend table entry
+  isn't a MEM, so every store invalidates it. Move the stores (here the UV word copies) above the
+  reads (Font_Display). A difference in register pressure like this one moves every allocation in
+  a big function, so check it before chasing register names.
+- **Expression shape picks which invariant gets hoisted:** `LetterY + 2 + Height` and `LetterY +
+  (Height + 2)` compile differently once `LetterY + 2` is a loop invariant. Try every association
+  (Font_Display needed a different one on each of two near-identical branches).
 - **`mflo` then an asm `mtc2`:** ASPSX puts a nop between them. `match_div.py` now treats
   `mtc2`/`ctc2` as reading their first operand, so it adds that nop too.
 - **A list walk whose exit test also loads `pNext`:** retail's `beq sN,zero,exit; lw sN,next(sN); j
