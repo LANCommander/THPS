@@ -45,6 +45,9 @@ csrc = base + ".i"
 subprocess.run([CPP, *CPP_DEFS, "-I", INC, src, csrc], check=True, capture_output=True)
 subprocess.run([CC1PL if src.endswith(".cpp") and ("CC1PL" in os.environ or "CC1" not in os.environ) else CC1, csrc, "-quiet", *opt.split(), *(["-fno-exceptions"] if src.endswith(".cpp") and "NOEXC" not in os.environ else []), *os.environ.get("CC1_OPTS", "").split(), f"-G{g}", "-o", sfile], check=True)
 s = open(sfile).read()
+# STRIPDBG=1 (with CC1_OPTS=-g): drop the SDB debug directives, whose LNK records the parser can't read
+if os.environ.get("STRIPDBG"):
+    s = "\n".join(l for l in s.split("\n") if not re.match(r"\s*\.(def|loc|bgnb|endb|bend|begin|file)\b", l))
 # div/divu/rem/remu macro -> bare op + mflo/mfhi, i.e. ASPSX's macro expansion minus the
 # divide-by-zero/overflow checks. ASPSX treats a macro-expanded mflo/mfhi like a load: when the next
 # instruction reads the result it inserts a nop, which it doesn't for a bare mflo, so emit it here.

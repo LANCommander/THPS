@@ -308,6 +308,12 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   Font_String/Font_Number look related (int field stores make it reload the global pointer).
   Older cc1plus (4.0/4.1) only runs with `TMPDIR` set to a Windows path; otherwise it fails with
   `\/ctaNNNN: No such file` and leaves `cta*` files behind.
+- **Loop invariants that are globals:** our cc1 never hoists a global load out of a loop that
+  stores to memory, even a fixed `p->u` (tested in C and C++, with `-fmove-all-movables` and
+  `-fstrict-aliasing`). If retail keeps the value in a register through the loop, the source
+  holds it in a local. Retail's `addu t3,v1,zero` (the pre-loop value copied into the loop
+  register) is still unexplained: a local declared first is loaded straight into t3, and one
+  declared after the intervening member stores gets reloaded (CSmokeJet::Move, 238/265).
 - **`mflo` then an asm `mtc2`:** ASPSX puts a nop between them. `match_div.py` now treats
   `mtc2`/`ctc2` as reading their first operand, so it adds that nop too.
 - **A list walk whose exit test also loads `pNext`:** retail's `beq sN,zero,exit; lw sN,next(sN); j
