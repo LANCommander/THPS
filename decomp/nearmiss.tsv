@@ -76,3 +76,4 @@ src/physics/aligntofallline.cpp	0x8003a214	644	div	148/161
 src/m3dcolij/linetosphere.cpp	0x80080cf8	1340	sym	326/335
 src/shatter/face.cpp	0x800218a4	1576	sym	376/394
 src/platform/executecommand.cpp	0x8003ec48	2068	div	509/517
+src/m3dcolij/linetothisitem.cpp	0x80080964	916	sym	224/229
