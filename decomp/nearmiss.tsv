@@ -50,7 +50,7 @@ src/unnamed/8006d0c8.c	0x8006d0c8	724	sym	158/181
 src/unnamed/8006e8ec.c	0x8006e8ec	352	sym	83/88
 src/unnamed/80075560.c	0x80075560	1028	sym	245/257
 src/unnamed/80076880.c	0x80076880	972	sym	234/243
-src/unnamed/80076c4c.c	0x80076c4c	1044	sym	260/261
+src/competition/endgamedisplay.cpp	0x80076c4c	1044	div	260/261
 src/unnamed/80077408.c	0x80077408	288	sym	71/72
 src/unnamed/8007d6e4.c	0x8007d6e4	540	sym	125/135
 src/unnamed/8001ddfc.c	0x8001ddfc	456	sym	113/114
