@@ -299,6 +299,15 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
 - **Expression shape picks which invariant gets hoisted:** `LetterY + 2 + Height` and `LetterY +
   (Height + 2)` compile differently once `LetterY + 2` is a loop invariant. Try every association
   (Font_Display needed a different one on each of two near-identical branches).
+- **Open residue: a global load that retail hoists above a member store.** In constructors
+  (CTrickOb, CSpark) retail loads a global (`lw DAT`) before the vptr/member stores; our cc1plus
+  keeps it after them. The `-dS` dump shows a true dependence from the store: `this` is
+  `reg/v/u` with a REG_EQUIV to its incoming-arg slot, so alias analysis sees two fixed addresses
+  and assumes they conflict. No flag tried fixes it: psyq 4.1/4.3/4.4/4.6 cc1plus,
+  `-fstrict-aliasing`, sched flags, and `-fthis-is-variable` (which adds the `__builtin_new` path).
+  Font_String/Font_Number look related (int field stores make it reload the global pointer).
+  Older cc1plus (4.0/4.1) only runs with `TMPDIR` set to a Windows path; otherwise it fails with
+  `\/ctaNNNN: No such file` and leaves `cta*` files behind.
 - **`mflo` then an asm `mtc2`:** ASPSX puts a nop between them. `match_div.py` now treats
   `mtc2`/`ctc2` as reading their first operand, so it adds that nop too.
 - **A list walk whose exit test also loads `pNext`:** retail's `beq sN,zero,exit; lw sN,next(sN); j

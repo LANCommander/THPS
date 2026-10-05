@@ -86,3 +86,4 @@ src/trickob/ctor.cpp	0x8004ef08	120	div	26/30
 src/career/setprefs.cpp	0x800101e4	448	div	95/112
 src/font/font_string.cpp	0x8004c1a8	100	div	10/25
 src/spool/findanim.cpp	0x80070064	220	div	46/55
+src/bit/spark_ctor.cpp	0x80029684	312	div	70/78
