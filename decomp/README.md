@@ -694,6 +694,15 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **Template members emit their vtable and inline dtor** (`_vt.t9AnimParam1Z5CQuat`, `_._t9…`) even
   under `#pragma interface`. Map the dtor to its retail address in `syms.json` and the `.rdata` check
   passes.
+- **Bump a pointer in place when retail adds the offset in its own register:** `p = f(); p += 6;
+  if (*p == 'H')` keeps `addiu a0,v0,6; lbu 0(a0)`. Written `p = f() + 6`, CSE keeps the call result
+  live and folds the offset into the load (`lbu 6(v0)`). The same goes for `pTable += 3` after
+  reading a header field through the base.
+- **`if (c) x = &A; else x = &B;` stays an if/else** only when each address is a split
+  `lui`/`addiu`. An unsized extern array (`extern T G[]; x = &G[1]`) gives that. A sized global
+  gives one `la` insn, and jump.c rewrites it to `x = &B; if (c) x = &A;`.
+- **Callee return types change register choice** even when the result is unused (`int
+  Mess_DrawPanelText` put a constant arg in v1 rather than v0). Try `int` before `void`.
 - **A struct member read through a reference** (`SMike &m = G; CSVector &a = m.mAngles;`) gives
   retail's `addiu v1,G; addiu a1,v1,24` base pair with mixed `n(a1)` and `24+n(v1)` loads.
 
