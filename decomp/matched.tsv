@@ -955,3 +955,5 @@ src/m3d/renderbackground.cpp	0x800844b4	472	div	M3d_RenderBackground__FPv
 src/unnamed/8008523c.cpp	0x8008523c	80	div	FUN_8008523c
 src/m3d/preprocesspulsingcolours.cpp	0x800856d4	472	div	M3d_PreprocessPulsingColours__Fi
 src/font/display.cpp	0x8004c290	1172	div	Font_Display__Fv
+src/spool/decrementtextureusage.cpp	0x8006f178	128	div	DecrementTextureUsage__Fi
+src/spool/clearregion.cpp	0x8006fde4	280	div	ClearRegion__Fiii
