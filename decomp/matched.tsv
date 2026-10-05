@@ -978,3 +978,4 @@ src/spool/processnewpsx.cpp	0x8006f290	1300	div	ProcessNewPSX__Fi
 src/camera/ctor_ccamera.cpp	0x800785f0	712	div	__7CCameraP5CBodyUs
 src/camera/cm_competitionintro.cpp	0x8007c83c	1320	div	CM_CompetitionIntro__7CCamera
 src/camera/movetodesiredpos.cpp	0x8007a494	3072	div	MoveToDesiredPos__7CCameraUi
+src/powerup/takeeffect.cpp	0x80020328	900	div	TakeEffect__8CPowerUpP6CBruce

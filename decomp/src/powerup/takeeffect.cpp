@@ -1,0 +1,153 @@
+/* TakeEffect__8CPowerUpP6CBruce (0x80020328) */
+/* C++ (POWERUP.CPP). Fuzzy demo twin (0.81 by opcode); locals from its MAIN.SYM. A skater picks up a
+   power-up: letters and the tape hand out their panel message, the bonus types score a trick and
+   pitch the pickup sound, then the item fires its trigger links and, if it did something, dies.
+   THPS1 asks the skater whether a letter/tape counts (FUN_80042744) instead of always taking it. */
+typedef unsigned char uchar;
+typedef unsigned short ushort;
+class CItem {
+public:
+	ushort mFlags;             /* 0x000 */
+	char pad2[0x3a - 2];
+	ushort mType;              /* 0x03a */
+	char pad3c[0x48 - 0x3c];
+	virtual ~CItem();
+	virtual void Die();
+};
+class CBody : public CItem {
+};
+class CBruce : public CBody {
+public:
+	char pad4c[0x358 - 0x4c];
+	int m358;                  /* 0x358 */
+	char pad35c[0x734 - 0x35c];
+	int m734;                  /* 0x734 */
+};
+class CPowerUp : public CBody {
+public:
+	char pad4c[0xe6 - 0x4c];
+	short mGapValue;           /* 0x0e6 */
+	char pade8[0x13c - 0xe8];
+	uchar mHasLinks;           /* 0x13c */
+	char pad13d[0x142 - 0x13d];
+	ushort mNode;              /* 0x142 */
+	void TakeEffect(CBruce *pMech);
+};
+struct SMessageProg;
+extern SMessageProg DAT_800a5fd0;
+extern char *DAT_800a5fb8[];
+extern char DAT_8009f0d4[];
+extern char DAT_8009f0e0[];
+extern char DAT_8009f0ec[];
+extern int DAT_800d1780;
+extern CBruce *DAT_800d19a4;
+int SFX_PlayX(unsigned int, short, int);
+void SFX_SetVoicePitch(unsigned int, ushort);
+int Panel_Letter(int);
+void Mess_DeleteAll();
+void Mess_Message(const char *, SMessageProg *, bool, short, short);
+ushort *Trig_GetLinksPointer(int);
+void Trig_SendPulse(ushort *);
+extern "C" {
+int FUN_80042744(CBruce *, short);
+void FUN_8006e2fc(int);
+void FUN_8002f1a0(CBruce *);
+void FUN_8002f340(CBruce *, int, char *, int, int);
+void FUN_8002f478(CBruce *);
+}
+
+void CPowerUp::TakeEffect(CBruce *pMech)
+{
+	int HadEffect;
+	int sound;
+
+	if ((DAT_800d1780 != 1 && pMech == DAT_800d19a4) ? (mFlags & 0x40) : (mFlags & 1))
+		return;
+	HadEffect = 0;
+	sound = 0;
+	switch (mType) {
+	case 4:
+	case 5:
+	case 6:
+	case 10:
+	case 14:
+	case 15:
+	case 16:
+		HadEffect = FUN_80042744(pMech, mGapValue);
+		if (!HadEffect)
+			break;
+		Mess_DeleteAll();
+		{
+			char *pMess = 0;
+			switch (mType) {
+			case 5:
+				SFX_PlayX(20, 8192, 0);
+				if (!Panel_Letter(0))
+					pMess = DAT_800a5fb8[3];
+				break;
+			case 4:
+				SFX_PlayX(20, 8192, 0);
+				if (!Panel_Letter(1))
+					pMess = DAT_800a5fb8[4];
+				break;
+			case 6:
+				SFX_PlayX(20, 8192, 0);
+				if (!Panel_Letter(2))
+					pMess = DAT_800a5fb8[5];
+				break;
+			case 15:
+				SFX_PlayX(20, 8192, 0);
+				if (!Panel_Letter(3))
+					pMess = DAT_800a5fb8[0];
+				break;
+			case 10:
+				SFX_PlayX(20, 8192, 0);
+				if (!Panel_Letter(4))
+					pMess = DAT_800a5fb8[2];
+				break;
+			case 16:
+				FUN_8006e2fc(3);
+				pMess = 0;
+				break;
+			}
+			if (pMess)
+				Mess_Message(pMess, &DAT_800a5fd0, 1, 0, 0);
+		}
+		break;
+	case 21:
+	case 22:
+	case 23:
+		if (pMech->m358)
+			break;
+		HadEffect = 1;
+		if (!pMech->m734)
+			FUN_8002f1a0(pMech);
+		{
+			int Pong = SFX_PlayX(18, 8192, 0);
+			switch (mType) {
+			case 21:
+				FUN_8002f340(pMech, 76, DAT_8009f0d4, -100, 0);
+				SFX_SetVoicePitch(Pong, 900);
+				break;
+			case 22:
+				FUN_8002f340(pMech, 76, DAT_8009f0e0, -200, 0);
+				SFX_SetVoicePitch(Pong, 1114);
+				break;
+			case 23:
+				FUN_8002f340(pMech, 76, DAT_8009f0ec, -500, 0);
+				SFX_SetVoicePitch(Pong, 1500);
+				break;
+			}
+		}
+		if (!pMech->m734)
+			FUN_8002f478(pMech);
+		break;
+	}
+	if (mHasLinks)
+		Trig_SendPulse(Trig_GetLinksPointer(mNode));
+	if (HadEffect) {
+		Die();
+		if (sound)
+			SFX_PlayX(0, 8192, 0);
+	}
+}
