@@ -51,7 +51,6 @@ src/unnamed/8004b0e4.c	0x8004b0e4	148	sym	35/37
 src/trig/createobject.cpp	0x80045268	720	sym	179/180
 src/physics/aligntofallline.cpp	0x8003a214	644	div	148/161
 src/m3dcolij/linetosphere.cpp	0x80080cf8	1340	sym	326/335
-src/platform/executecommand.cpp	0x8003ec48	2068	div	509/517
 src/competition/winlosedisplay.cpp	0x80075964	2816	sym	661/704
 src/spool/loadtexturestovram.cpp	0x8006f854	912	sym	194/228
 src/physics/handlebailperpendicular.cpp	0x80031224	732	div	173/183
