@@ -46,7 +46,6 @@ src/physics/aligntofallline.cpp	0x8003a214	644	div	148/161
 src/m3dcolij/linetosphere.cpp	0x80080cf8	1340	sym	326/335
 src/competition/winlosedisplay.cpp	0x80075964	2816	sym	682/704
 src/spool/loadtexturestovram.cpp	0x8006f854	912	sym	194/228
-src/physics/handlebailperpendicular.cpp	0x80031224	732	div	173/183
 src/career/setprefs.cpp	0x800101e4	448	div	95/112
 src/spool/findanim.cpp	0x80070064	220	div	46/55
 src/smoke/move_smokejet.cpp	0x80015c98	1060	div	241/265
