@@ -58,4 +58,4 @@ src/mem/newtop.cpp	0x8004d3a4	556	div	122/139
 src/bit/texturedribbon_display.cpp	0x8002e31c	2780	div	685/695
 src/mem/newx.cpp	0x8004d068	828	div	181/207
 src/front/switchonendlevelmenu.cpp	0x8001a2bc	764	div	185/191
-src/bit/display.cpp	0x8002ab20	12120	div	2434/3030
+src/bit/display.cpp	0x8002ab20	12120	div	2979/3030
