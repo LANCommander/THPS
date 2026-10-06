@@ -997,3 +997,4 @@ src/db/callback.cpp	0x80048e40	152	div	Db_CallBack__Fv
 src/panel/drawflatshadedpoly.cpp	0x8006c610	212	div	Panel_DrawFlatShadedPoly__FiiiiUcUcUci
 src/panel/drawgouraudpoly.cpp	0x8006c6e4	260	div	DrawGouraudPoly__FiiiiUcUcUcUcUcUci
 src/main/drawrect.cpp	0x80024e98	204	div	Draw_Rect__Fiiiiiiiii
+src/video/initonce.cpp	0x800694a0	140	div	Video_InitOnce__Fv
