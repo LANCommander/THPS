@@ -69,7 +69,7 @@ extern SOTBuffer *DAT_800d1a48;
 extern uchar *DAT_800d1a54;
 extern uchar *DAT_800d177c;
 extern int DAT_800d16e4;
-extern STrig DAT_800c9670[2048];
+extern STrig DAT_800c9670[1];  /* declared <= 8 bytes: cc1 then emits one la (as retail), not a hi/lo split */
 u_long DAT_800d1900[2];
 int Transform(const CVector &, int &);
 void CalcScreenNormal(SCalcBuffer *, int &, int &, int);
