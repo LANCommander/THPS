@@ -713,6 +713,22 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   Mess_DrawPanelText` put a constant arg in v1 rather than v0). Try `int` before `void`.
 - **A struct member read through a reference** (`SMike &m = G; CSVector &a = m.mAngles;`) gives
   retail's `addiu v1,G; addiu a1,v1,24` base pair with mixed `n(a1)` and `24+n(v1)` loads.
+- **`base[idx]`, not `p = base; p += idx`.** The pointer-bump form emits `addu rX,idx,base`, but
+  retail usually has `addu rX,base,idx`. This fixed FUN_8005cba0 and FUN_8005d00c.
+- **Switch cases: `break` vs `return 1` decides which tail cross-jumping keeps.** Two cases ending
+  in `pScript = p; MoveTo(pos);` merged in the wrong direction until they ended in `break` (falling
+  to the function's `return 1`). Seen in CPlatform::ExecuteCommand.
+- **Follow the demo's per-line store grouping over a libgpu macro.** Mick_Darken's quad corners match
+  only as `x0,x1 / y0,y1 / x2,x3 / y2,y3` (the demo's source lines), not `setXY4`'s order. The
+  reverse also holds: SlicedImage::draw's tpage is exactly libgpu's `getTPage` on the RECT.
+- **A signed-char field shares a constant with a compare.** RunAnim's direction byte stores `-1`.
+  As `signed char`, the store reuses the register of the `from == -1` test. As `uchar`, it
+  materialises 255.
+- **Frame padding without `volatile`.** An unused local `char buf[40];` keeps its stack space.
+- **Store position around a call can fix a register swap.** In Shatter_Face, `retval = 2;` after
+  the Shatter_Glass call (not before) fixed the delay-slot fill and an s5/s6 swap.
+- **Score with the header flags.** `match_div.py` ignores `flags=` in the header, so pass
+  `CC1_OPTS` (check_all/salvage do read it).
 
 **Formerly open tooling gaps, now fixed:**
 - **Switch jump tables:** both matchers place a function's own `.rdata` at its retail address.
