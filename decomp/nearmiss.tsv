@@ -50,7 +50,6 @@ src/career/setprefs.cpp	0x800101e4	448	div	95/112
 src/spool/findanim.cpp	0x80070064	220	div	46/55
 src/smoke/move_smokejet.cpp	0x80015c98	1060	div	241/265
 src/mem/newtop.cpp	0x8004d3a4	556	div	122/139
-src/bit/texturedribbon_display.cpp	0x8002e31c	2780	div	685/695
 src/mem/newx.cpp	0x8004d068	828	div	181/207
 src/front/switchonendlevelmenu.cpp	0x8001a2bc	764	div	185/191
 src/bit/display.cpp	0x8002ab20	12120	div	2979/3030
