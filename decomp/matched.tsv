@@ -1054,3 +1054,5 @@ src/sfx/playsfx.cpp	0x8004bb74	896	div	playSFX__FUiUcssiUs
 src/pad/restore.cpp	0x8007171c	436	div	Pad_Restore__Fv
 src/physics/continuoussounds.cpp	0x8003a6d4	2540	div	HandleContinuousSounds__6CBruce
 src/physics/doinair.cpp	0x8003609c	3808	div	DoInAirPhysics__6CBruce
+src/m3d/rendersetup.cpp	0x800831f8	1404	div	M3d_RenderSetup__FP7SCameraP9SViewportPUi
+src/m3dcolij/linetoitemzoned.cpp	0x80080328	1416	div	M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo
