@@ -740,6 +740,15 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   inline-function form stalled near 100/313. Keep the exact operand order, and define
   `DAT_800d1924` in the TU so it is gp-relative. Used by HandleKick and DoFootPlantPhysics; other
   physics functions that read stats likely need it too.
+- **More register/schedule levers from DoWallRidePhysics and HandleJump:**
+  - Unused separate `CVector` locals reproduce retail's frame padding. Arrays land in the wrong slots.
+  - A comparison constant held in a named local (`int CheckDist = 116; if (d <= CheckDist)`) keeps it
+    in a register for `slt`.
+  - Calling through a void-returning cast (`((void (*)(int))FUN_8008b5dc)(x)`) frees v0 when the
+    result of an int function is ignored.
+  - Duplicated calls in `if/else if` arms get cross-jumped, while `||` folds into a range check.
+  - Assigning a shared tail value in each arm (`JumpBoost = …`) and applying it once outside
+    reproduces retail's cross-jumped tails.
 - **Hidden empty cases decide jump table vs compare tree.** CBaddy::ExecuteCommand's visible cases
   were dense enough for a jump table, but retail uses a compare tree. Two invisible `case N: break;`
   labels (found with `tools/casetree.py`) widen the range past gcc's 10x-count threshold.
