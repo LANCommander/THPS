@@ -1008,3 +1008,4 @@ src/main/mick_darken.cpp	0x80024454	272	div	Mick_Darken__Fv
 src/ob/runanim.cpp	0x80043e0c	280	div	RunAnim__6CSuperiiii
 src/career/careerinit.cpp	0x80010000	484	div	Career_Init__Fv
 src/shatter/glass.cpp	0x80022004	1084	div	Shatter_Glass__FiRC7CVectorN31UcUcUc
+src/shatter/face.cpp	0x800218a4	1576	div	Shatter_Face__FP4ItemPUiiiiii
