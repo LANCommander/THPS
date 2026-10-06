@@ -1052,3 +1052,5 @@ src/shellutils/downloadbmp.cpp	0x80061a10	648	div	FUN_80061a10
 src/shellutils/downloadbmp2.cpp	0x80061714	764	div	FUN_80061714
 src/sfx/playsfx.cpp	0x8004bb74	896	div	playSFX__FUiUcssiUs
 src/pad/restore.cpp	0x8007171c	436	div	Pad_Restore__Fv
+src/physics/continuoussounds.cpp	0x8003a6d4	2540	div	HandleContinuousSounds__6CBruce
+src/physics/doinair.cpp	0x8003609c	3808	div	DoInAirPhysics__6CBruce
