@@ -1019,3 +1019,4 @@ src/trig/createobject.cpp	0x80045268	720	div	Trig_CreateObject__Fi
 src/baddy/scriptonly_executecommand.cpp	0x8004169c	1428	div	ExecuteCommand__16CScriptOnlyBaddyUs
 src/rfront/memcarddisplay.c	0x80011820	2124	div	Front_MemCardDisplay__Fv
 src/physics/handlebailperpendicular.cpp	0x80031224	732	div	HandleBailPerpendicular__6CBruceG7SVECTOR
+src/baddy/executecommand.cpp	0x8003fcdc	3980	div	ExecuteCommand__6CBaddyUs
