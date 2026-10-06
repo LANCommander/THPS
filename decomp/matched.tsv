@@ -1004,3 +1004,4 @@ src/spool/newtextureentry.cpp	0x8006ef30	136	div	NewTextureEntry__FUi
 src/shatter/ctor.cpp	0x80020b84	268	div	__11CShatterBitRC8CSVectorN21RC7CVectori
 src/physics/uprightsideways.cpp	0x8003a498	268	div	UprightSideways__6CBruce
 src/trickob/ctor.cpp	0x8004ef08	120	div	__8CTrickObUs
+src/main/mick_darken.cpp	0x80024454	272	div	Mick_Darken__Fv
