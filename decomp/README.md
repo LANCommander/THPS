@@ -757,6 +757,10 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   `for (i…) { char *n = names[i]; … }` lets loop.c create the pointer givs after the hoisted
   invariants, which is retail's preheader order (unloadPRE). Hand-written `p++` pointers are
   initialized before the hoisted `lui`.
+- **Initialize, don't assign, folded `?:` expressions.** `x = <GetStat ?: expr>` goes through a
+  temp register and a copy. `int x = <expr>;` builds the result directly in the variable, as
+  retail does (HandleContinuousSounds: 581 → 625).
+  - `Spd * 2048` keeps the `?:` arms distributed where `Spd << 11` merges them.
 - **Struct copies: pad word-aligned structs with `int` arrays, not `char`.** A struct padded with
   `char[]` is byte-aligned, and its copy compiles to `lwl`/`lwr` unaligned moves. Game_Logic's
   364-byte SControl swap went from 1860 to 1148 bytes with `int b[91]`.
