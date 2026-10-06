@@ -1029,3 +1029,6 @@ src/physics/dofootplant.cpp	0x80036f7c	1252	div	DoFootPlantPhysics__6CBruce
 src/physics/dowallride.cpp	0x800376f4	2932	div	DoWallRidePhysics__6CBruce
 src/rfront/memcardhiresdisplay.cpp	0x8001206c	1428	div	Front_MemCardHiResDisplay__Fv
 src/panel/displayscore.cpp	0x8006ca78	1616	div	DisplayScore__FP6CBruceUsUs
+src/baddy/getscriptvalue.cpp	0x80040c68	100	div	GetScriptValue__6CBaddy
+src/career/leveltapes.cpp	0x80010944	108	div	Career_LevelTapes__Fi
+src/shellutils/setclippingbox.c	0x80061e00	160	div	SetClippingBox__Fiiii
