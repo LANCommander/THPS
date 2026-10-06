@@ -727,6 +727,12 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **Frame padding without `volatile`.** An unused local `char buf[40];` keeps its stack space.
 - **Store position around a call can fix a register swap.** In Shatter_Face, `retval = 2;` after
   the Shatter_Glass call (not before) fixed the delay-slot fill and an s5/s6 swap.
+- **Declaring a big extern table as 8 bytes or less gives retail's single `la`.** With `-G8`, cc1
+  treats an extern of at most 8 bytes as possibly small and emits the `la` macro (lui and addiu in
+  one register, scheduled as one insn). A larger declared size (even a sized `[4096]`) gives an
+  explicit `%hi`/`%lo` split that the scheduler and reorg move apart. `extern STrig DAT_800c9670[1];`
+  (the sin table) fixed CTexturedRibbon::Display, GetVecFromMagDir and CSmokeJet::Move.
+  `build/t/externsweep1.py` tries `[1]` on every array extern in the near-misses.
 - **Hidden empty cases decide jump table vs compare tree.** CBaddy::ExecuteCommand's visible cases
   were dense enough for a jump table, but retail uses a compare tree. Two invisible `case N: break;`
   labels (found with `tools/casetree.py`) widen the range past gcc's 10x-count threshold.
