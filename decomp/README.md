@@ -749,6 +749,14 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   - Duplicated calls in `if/else if` arms get cross-jumped, while `||` folds into a range check.
   - Assigning a shared tail value in each arm (`JumpBoost = …`) and applying it once outside
     reproduces retail's cross-jumped tails.
+- **A scalar global read with a split `lui rA` / `lw rB,%lo(rA)`** (different registers) is an
+  unsized array in the source: `extern int X[]; … X[0]`. Plain `extern int X;` gives the `lw` macro
+  with one register. This fixed CPanelData::Land, M3dColij_GetLineInfo and FUN_8006d0c8.
+  `build/t/scalarsweep2.py` tries it on every scalar extern in the near-misses.
+- **Array walks: index and block-local pointer, not hand-made pointer bumps.**
+  `for (i…) { char *n = names[i]; … }` lets loop.c create the pointer givs after the hoisted
+  invariants, which is retail's preheader order (unloadPRE). Hand-written `p++` pointers are
+  initialized before the hoisted `lui`.
 - **Hidden empty cases decide jump table vs compare tree.** CBaddy::ExecuteCommand's visible cases
   were dense enough for a jump table, but retail uses a compare tree. Two invisible `case N: break;`
   labels (found with `tools/casetree.py`) widen the range past gcc's 10x-count threshold.
