@@ -52,7 +52,6 @@ src/unnamed/8004169c.c	0x8004169c	1428	sym	323/357
 src/camera/reacttocollision.cpp	0x80078f3c	5464	div	1354/1366
 src/tricktips/update.cpp	0x80072404	2604	sym	609/651
 src/unnamed/8005cba0.c	0x8005cba0	372	sym	92/93
-src/unnamed/8006ef30.c	0x8006ef30	136	sym	33/34
 src/unnamed/8004b0e4.c	0x8004b0e4	148	sym	35/37
 src/trig/createobject.cpp	0x80045268	720	sym	179/180
 src/physics/aligntofallline.cpp	0x8003a214	644	div	148/161
