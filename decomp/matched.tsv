@@ -999,3 +999,4 @@ src/panel/drawgouraudpoly.cpp	0x8006c6e4	260	div	DrawGouraudPoly__FiiiiUcUcUcUcU
 src/main/drawrect.cpp	0x80024e98	204	div	Draw_Rect__Fiiiiiiiii
 src/video/initonce.cpp	0x800694a0	140	div	Video_InitOnce__Fv
 src/career/givetape.cpp	0x80010724	248	div	Career_GiveTape__Fii
+src/career/givemedal.cpp	0x8001081c	296	div	Career_GiveMedal__Fi10EMedalType

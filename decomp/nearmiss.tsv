@@ -15,7 +15,6 @@ src/mess/loadfontfrombuffer.cpp	0x8001e8c8	1548	sym	352/387
 src/ob/updateshadow.c	0x80043b50	348	div	77/87
 src/shellutils/rotatedraw.c	0x80063474	860	div	210/215
 src/unnamed/800106e0.c	0x800106e0	68	sym	16/17
-src/unnamed/8001081c.c	0x8001081c	296	sym	67/74
 src/unnamed/80011820.c	0x80011820	2124	sym	520/531
 src/flash/display.cpp	0x8001f4c4	336	div	80/84
 src/unnamed/80020b84.c	0x80020b84	268	sym	60/67
