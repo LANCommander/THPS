@@ -104,8 +104,8 @@ extern CTrickTipMonitor DAT_800d38c8;
 extern SCareer DAT_800a6844;
 extern SLevel DAT_800a5398[];
 extern STip DAT_800a28c4[];
-extern SVideoInfo DAT_800bf318;
-extern SVideoInfo DAT_800bf3d8;
+extern SVideoInfo DAT_800bf318[];
+extern SVideoInfo DAT_800bf3d8[];
 extern SControl DAT_800c0a48[2];
 extern int DAT_800d1cb0;
 extern int DAT_800d16a4;
@@ -144,9 +144,10 @@ inline void CTrickTipMonitor::ShowTip(int tip)
 		int tip_bank = TipBank(tip);
 		if (DAT_800a6844.TipsOn) {
 			if (((DAT_800a5398[DAT_800d1e28].DisabledTips[tip_bank] >> (tip - tip_bank * 32)) & 1) == 0) {
+				int &seen = DAT_800a6844.TipsSeen[tip_bank];
 				int tip_mask = DAT_800a6844.TipsShown[tip_bank] & (1 << (tip - tip_bank * 32));
-				int tip_used = DAT_800a6844.TipsSeen[tip_bank] & (1 << (tip - tip_bank * 32));
-				DAT_800a6844.TipsSeen[tip_bank] |= 1 << (tip - tip_bank * 32);
+				int tip_used = seen & (1 << (tip - tip_bank * 32));
+				seen |= (1 << (tip - tip_bank * 32));
 				if (!tip_mask) {
 					if (tip_used) {
 						mTipLine1 = DAT_800d1fa4;
@@ -168,7 +169,7 @@ inline void CTrickTipMonitor::Update()
 {
 	if (DAT_800a5398[DAT_800d1e28].NoTips)
 		return;
-	if (DAT_800bf318.VideoMode == 2 || DAT_800bf3d8.VideoMode == 2)
+	if (DAT_800bf318[0].VideoMode == 2 || DAT_800bf3d8[0].VideoMode == 2)
 		return;
 	if (!DAT_800d1cb0 || DAT_800d16a4 != 1)
 		return;

@@ -1,0 +1,25 @@
+/* FUN_80077408 (0x80077408) */
+typedef struct{int x,y,z;}V;
+extern char DAT_800a3474[];typedef struct{short s,c;}ST;extern ST DAT_800c9670[];
+int FUN_8008b5dc(int a);void FUN_800934e4(V*a,V*b);
+char* FUN_80077408(char*out,V*v){
+int s;V t;int a,b,x,y,z;
+s=FUN_8008b5dc(v->x*v->x+v->y*v->y+v->z*v->z);
+if(!s){
+*(char**)out=DAT_800a3474;
+*(int*)(out+4)=0;*(int*)(out+8)=0;*(int*)(out+12)=0;
+*(int*)(out+16)=4096;
+}else{
+FUN_800934e4(v,&t);
+{ST*bb;int i=(s>>1)&4095;bb=DAT_800c9670;a=bb[i].s;b=bb[i].c;}
+x=(a*t.x)>>12;
+y=(a*t.y)>>12;
+z=(a*t.z)>>12;
+*(char**)out=DAT_800a3474;
+*(int*)(out+16)=b;
+*(int*)(out+4)=x;
+*(int*)(out+8)=y;
+*(int*)(out+12)=z;
+}
+return out;
+}

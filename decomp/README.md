@@ -367,6 +367,43 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   from a texture record into a POLY_FT4). Plain `p->a = q->a; p->b = q->b;` interleaves them, since
   without strict aliasing every store may alias the next load.
 
+**More from the S23 near-miss sweep (1055 → 1079), each verified on retail:**
+
+- **Global-alloc priority is `floor_log2(refs) * refs / live_length`** (`cc1 -dg -dl` prints the
+  stats). Most two-register swaps come down to this formula:
+  - Reuse an existing variable as a temp to raise its refs (FUN_80043f70, FUN_800609c8).
+  - Wrap a counter's `j = 0` and its loop in `do { … } while (0)` so sched1 can't float the init up
+    and lengthen its life (FUN_8006edb8).
+  - Write a `goto`-shared tail compare in each branch and let cross-jumping merge it (LineToSphere).
+- **Spill-slot order = pseudo-creation order.** In C++, declaring a local at its first assignment
+  (after a division) numbers it later and gives it the higher stack slot (SlicedImage::rotateDraw).
+- **Loop-preheader order:** egcs runs loop.c twice. Pass 1 hoists only the first few invariants, and
+  fewer as the body grows; pass 2 hoists the rest. Change the body's size or shape to move a setup
+  between constants (`short f` vs `uint f` in EndGameDisplay). Check the "moved to" lines in `-dL`.
+- **Wrong arity shows as a stale arg register.** An `a3` (or `a1`) that is only a leftover value or a
+  store base before the `jal` means the callee takes fewer args (FUN_800507e4, FUN_800506d0).
+- **A call arg rematerialized as `addiu a0,sp,16`:** cse1 swaps a frame address for any register in
+  the block holding it. Route every index through `char *p = buf;` and pass `buf` (FUN_8004b0e4).
+- **`-fstructure-noalias` only applies to stores through a struct type.** It does nothing for
+  `*(int *)(p + off)` with `char *p` (FUN_800506d0).
+- **Inline setters with `int` params** (`o->SetM40(100)`, `CVector v(0,0,0)`, `short[3]` globals
+  set in reverse address order) give retail's hoisted constants and store order (CSmokeGenerator::Move,
+  `_GLOBAL_.I.camDist` at 0x8007d6e4).
+- **An unfolded compare of a known zero** comes from a value only RTL proves zero (`unsigned char Life
+  = ushortFlags >> 16;`, Exp_HitEnvItem). Don't use an asm barrier.
+- **In C++, a `continue` in a `for` never fills its delay slot from the target** (a NOTE hides
+  LOOP_VTOP from reorg). If retail has the increment in the slot, use `i = -1; while (++i < N)`
+  (WinLoseDisplay).
+- **One `mtc2` per asm statement** for hand-rolled GTE loads (`gte_ldVXY0(x); gte_ldVZ0(z);`)
+  changes local-alloc around the packing math (RenderShadow).
+- **Splitting a constant offset** (`d = base; d += 68;`) changes sched1's first pick (spoolPRE).
+- **Table-read spellings:** `(tbl + i)->c` with `extern T tbl[1]` shares one address (QFromXRot).
+  `bb = tbl;` assigned after the index puts the `la` between the `sll` and `andi` (FUN_80077408).
+- **Global→global copies in both arms, with no locals,** let cross-jumping merge the store tails
+  (FUN_80059618).
+- **`-fno-gcse` fixes some invariant-load orders** (Card_GetDirAndFreeBlocks 68/69), but it breaks
+  other matches in the same TU, so it isn't adopted.
+
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
 **THPS1 is `-G8`** (not -G0): small globals are addressed **gp-relative**, `gp = 0x800d1080`

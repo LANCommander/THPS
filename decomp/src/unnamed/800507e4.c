@@ -1,0 +1,90 @@
+/* FUN_800507e4 (0x800507e4) flags=-fstructure-noalias */
+struct VT{char pad[8];short off;short p;void(*fn)(char*,int);};
+typedef struct P{char p0[4];int f4;char pa[0x48 - 8];struct VT*vt;char p1[0x78e - 0x4c];short s78e;char p2[0x794 - 0x790];short s794;char p3[0x79a - 0x796];short s79a;}P;
+struct E{int f0,f4,f8;char rest[0x154-12];};
+extern struct E DAT_800a44fc[];
+extern int DAT_800d2bf0[];
+extern int DAT_800d2120;
+extern int DAT_800d1a48;
+extern char*DAT_800d19a4;
+extern char DAT_800c119c[];
+short DAT_800d2294[3];
+int DAT_800d2284,DAT_800d2288,DAT_800d228c,DAT_800d1ba8;
+P*DAT_800d229c;
+short*DAT_800d22a0;
+void FUN_80043f70(P*);
+void FUN_8004cc18(void);
+P*FUN_800506d0(int);
+P*FUN_8006b1c8(void);
+void FUN_8006ed2c(int);
+void FUN_8006edb8(int);
+void FUN_8006f290(int);
+void FUN_8006fde4(int,int,int);
+int FUN_800701b0(int,int,int);
+void FUN_8007046c(void);
+int FUN_80070830(void);
+void FUN_800831f8(char*,short*,char*);
+void FUN_80083774(void);
+void FUN_80083838(char*);
+void FUN_80093240(short*,P*);
+void M3d_BuildTransform__FP6CSuper(P*);
+void Spool_ClearPSX__FPc(int);
+void Spool_Sync__Fv(void);
+void FUN_800507e4(int a,int b){
+  short*q;
+  switch(a){
+  case 0:
+    DAT_800d2284=-1;DAT_800d2288=0;DAT_800d228c=500;
+    DAT_800d2bf0[0]=FUN_800701b0(DAT_800a44fc[0].f8,2,1);
+    Spool_Sync__Fv();
+    DAT_800d2294[2]=0;DAT_800d2294[1]=0;DAT_800d2294[0]=0;
+    q=(short*)FUN_8006b1c8();
+    DAT_800d22a0=q;
+    q[0]=512;q[1]=240;
+    DAT_800d229c=0;
+    break;
+  case 1:
+    FUN_8004cc18();
+    FUN_8007046c();
+    if(DAT_800d228c==500&&FUN_80070830()==0){
+      if(DAT_800d2284>=0){
+        if(DAT_800d229c)DAT_800d229c->vt->fn((char*)DAT_800d229c+DAT_800d229c->vt->off,3);
+        FUN_8006fde4(DAT_800d2bf0[DAT_800d2284],1,1);
+        FUN_8006edb8(DAT_800d2bf0[DAT_800d2284]);
+        FUN_8006f290(DAT_800d2bf0[DAT_800d2284]);
+        Spool_ClearPSX__FPc(DAT_800a44fc[DAT_800d2284].f8);
+      }
+      FUN_8006ed2c(DAT_800d2bf0[DAT_800d2288]);
+      FUN_8006f290(DAT_800d2bf0[DAT_800d2288]);
+      DAT_800d229c=FUN_800506d0(DAT_800d2288);
+      DAT_800d229c->f4=DAT_800d1ba8;
+      DAT_800d2120=-1;
+      DAT_800d2284=DAT_800d2288;
+      if(++DAT_800d2288>=10)DAT_800d2288=0;
+      DAT_800d2bf0[DAT_800d2288]=FUN_800701b0(DAT_800a44fc[DAT_800d2288].f8,2,1);
+    }
+    DAT_800d228c--;
+    if(DAT_800d228c<=0)DAT_800d228c=500;
+    FUN_80093240(DAT_800d2294,(P*)((char*)DAT_800d229c+0x78c));
+    {P*q2=DAT_800d229c;unsigned short sa=q2->s78e,sb=q2->s794,sc=q2->s79a;
+    q2->s78e=-sa;q2->s794=-sb;q2->s79a=-sc;
+    M3d_BuildTransform__FP6CSuper(q2);}
+    FUN_80043f70(DAT_800d229c);
+    if(b)FUN_80043f70(DAT_800d229c);
+    FUN_800831f8(DAT_800c119c,DAT_800d22a0,(char*)DAT_800d1a48+0x8c);
+    FUN_80083838(DAT_800d19a4);
+    FUN_80083774();
+    DAT_800d2294[1]+=10;
+    break;
+  case 2:
+    if(DAT_800d229c)DAT_800d229c->vt->fn((char*)DAT_800d229c+DAT_800d229c->vt->off,3);
+    FUN_8006fde4(DAT_800d2bf0[DAT_800d2284],1,1);
+    FUN_8006edb8(DAT_800d2bf0[DAT_800d2284]);
+    FUN_8006f290(DAT_800d2bf0[DAT_800d2284]);
+    Spool_ClearPSX__FPc(DAT_800a44fc[DAT_800d2284].f8);
+    Spool_Sync__Fv();
+    FUN_8006f290(DAT_800d2bf0[DAT_800d2288]);
+    Spool_ClearPSX__FPc(DAT_800a44fc[DAT_800d2288].f8);
+    break;
+  }
+}

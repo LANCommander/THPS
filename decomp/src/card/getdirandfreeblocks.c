@@ -4,7 +4,7 @@ extern char DAT_800a584d[];
 extern char DAT_800a5869[];
 extern char DAT_800a58bc[];
 extern char DAT_8009e118[];
-void FUN_8008b900(char*,char*,int,int);
+int FUN_8008b900(char*,char*,int,int);
 char*FUN_8008ec1c(char*,char*);
 char*FUN_8008ea58(char*);
 int Utils_CompareStrings__FPCcT0Ui(char*,char*,unsigned);

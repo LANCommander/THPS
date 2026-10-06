@@ -27,6 +27,9 @@ HEADER = re.compile(r"/\*\s*(\S+)\s*\((0x[0-9a-fA-F]{8})\)(?:.*?size=(\d+))?")
 
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
 ALL, DRY = "--all" in sys.argv, "--dry-run" in sys.argv
+_bad = [a for a in sys.argv[1:] if a.startswith("-") and a not in ("--all", "--dry-run")]
+if _bad:
+    sys.exit(f"unknown option(s) {' '.join(_bad)}; usage: python tools/salvage.py [--all] [--dry-run] [paths...]")
 
 sizes = {}
 for line in open(NAMES):

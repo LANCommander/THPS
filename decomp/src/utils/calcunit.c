@@ -4,17 +4,18 @@
 #include <inline_c.h>
 typedef struct { int x, y, z; } V;
 extern long SquareRoot0(long);
-void Utils_CalcUnit(V *out, V *in){
-  VECTOR t;
-  int len;
-  t.vx = in->x >> 12; t.vy = in->y >> 12; t.vz = in->z >> 12;
-  gte_ldlvl(&t); gte_sqr0(); gte_stlvnl(&t);
-  len = SquareRoot0(t.vx + t.vy + t.vz);
-  if (len) {
-    out->x = in->x / len;
-    out->y = in->y / len;
-    out->z = in->z / len;
+static inline void VI(V *p, int _x, int _y, int _z) { p->x = _x; p->y = _y; p->z = _z; }
+void Utils_CalcUnit(V *Unit, V *Vec){
+  V u;
+  int l;
+  VI(&u, Vec->x >> 12, Vec->y >> 12, Vec->z >> 12);
+  gte_ldlvl(&u); gte_sqr0(); gte_stlvnl(&u);
+  l = SquareRoot0(u.x + u.y + u.z);
+  if (l) {
+    Unit->x = Vec->x / l;
+    Unit->y = Vec->y / l;
+    Unit->z = Vec->z / l;
   } else {
-    out->x = 0; out->y = 0; out->z = 0;
+    Unit->x = 0; Unit->y = 0; Unit->z = 0;
   }
 }

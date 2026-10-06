@@ -13,7 +13,18 @@ const rows = f => existsSync(f) ? readFileSync(f, 'utf8').split('\n').filter(l =
 const fns = rows('functions.tsv').map(([a, s, n, m]) => ({ addr: a.toLowerCase(), size: +s, name: n, module: (m || '?').replace(/^~/, ''), inferred: (m || '').startsWith('~') }));
 const byAddr = new Map(fns.map(f => [f.addr, f]));
 const TOTAL_BYTES = fns.reduce((n, f) => n + f.size, 0);
-const exactSet = text => new Set(text.split('\n').filter(l => l.trim() && !l.startsWith('#')).map(l => l.split('\t')[1]?.toLowerCase()).filter(a => byAddr.has(a)));
+// A matched row covers every function wholly inside [addr, addr+size): one source can span a genuine
+// pair (e.g. a static object's _GLOBAL_.D + _GLOBAL_.I).
+const exactSet = text => {
+  const set = new Set();
+  for (const l of text.split('\n')) {
+    if (!l.trim() || l.startsWith('#')) continue;
+    const [, a, s] = l.split('\t'), lo = parseInt(a, 16), hi = lo + (+s || 0);
+    if (!byAddr.has(a?.toLowerCase())) continue;
+    for (const f of fns) { const fa = parseInt(f.addr, 16); if (fa >= lo && fa + f.size <= hi) set.add(f.addr); }
+  }
+  return set;
+};
 const tally = set => ({ funcs: set.size, bytes: [...set].reduce((n, a) => n + byAddr.get(a).size, 0) });
 const pct = (a, b) => (b ? (100 * a / b) : 0).toFixed(1);
 const bar = (a, b, w = 20) => { const k = Math.round(w * a / (b || 1)); return '`' + '█'.repeat(k) + '░'.repeat(w - k) + '`'; };
