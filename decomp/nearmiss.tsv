@@ -43,3 +43,4 @@ src/front/switchonendlevelmenu.cpp	0x8001a2bc	764	div	185/191
 src/bit/display.cpp	0x8002ab20	12120	div	2979/3030
 src/physics/handlejump.cpp	0x80038268	4940	div	1192/1235
 src/mech/getstats.cpp	0x80041ce0	380	div	91/95
+src/mech/ctor_cbruce.cpp	0x80041e5c	1316	div	325/329
