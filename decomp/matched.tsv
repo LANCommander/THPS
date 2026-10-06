@@ -1034,3 +1034,4 @@ src/career/leveltapes.cpp	0x80010944	108	div	Career_LevelTapes__Fi
 src/shellutils/setclippingbox.c	0x80061e00	160	div	SetClippingBox__Fiiii
 src/shellutils/drawcoloredbox.c	0x80061d44	188	div	DrawColoredBox__FiiiiUcUcUc
 src/panel/displayoutofbounds.c	0x8006d704	340	div	DisplayOutOfBounds__FP6CBruceUsUs
+src/main/displayviewport.c	0x80024ce4	436	div	Display_Viewport__FP9SViewporti
