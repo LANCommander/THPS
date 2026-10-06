@@ -757,6 +757,9 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   `for (i…) { char *n = names[i]; … }` lets loop.c create the pointer givs after the hoisted
   invariants, which is retail's preheader order (unloadPRE). Hand-written `p++` pointers are
   initialized before the hoisted `lui`.
+- **Struct copies: pad word-aligned structs with `int` arrays, not `char`.** A struct padded with
+  `char[]` is byte-aligned, and its copy compiles to `lwl`/`lwr` unaligned moves. Game_Logic's
+  364-byte SControl swap went from 1860 to 1148 bytes with `int b[91]`.
 - **Hidden empty cases decide jump table vs compare tree.** CBaddy::ExecuteCommand's visible cases
   were dense enough for a jump table, but retail uses a compare tree. Two invisible `case N: break;`
   labels (found with `tools/casetree.py`) widen the range past gcc's 10x-count threshold.
