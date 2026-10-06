@@ -990,3 +990,4 @@ src/utils/spatialattenuation.cpp	0x800489e4	628	div	Utils_CalculateSpatialAttenu
 src/pack/pack.cpp	0x8004982c	2728	div	Pack_Pack__FiiiPiT3iiUi
 src/m3dcolij/linetothisitem.cpp	0x80080964	916	div	M3dColij_LineToThisItem__FP4ItemP9SLineInfo
 src/shellutils/ctor_verticalmenu.cpp	0x800642e8	968	div	__12VerticalMenuiiiPPciPiT6i
+src/rfront/setsjisname.cpp	0x800116b4	256	div	Front_SetSJISName__FPc
