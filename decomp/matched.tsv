@@ -1011,3 +1011,4 @@ src/shatter/glass.cpp	0x80022004	1084	div	Shatter_Glass__FiRC7CVectorN31UcUcUc
 src/shatter/face.cpp	0x800218a4	1576	div	Shatter_Face__FP4ItemPUiiiiii
 src/shellutils/draw_slicedimage.c	0x80062e20	1136	div	draw__11SlicedImageiiiiiiii
 src/platform/executecommand.cpp	0x8003ec48	2068	div	ExecuteCommand__9CPlatformUs
+src/unnamed/8005cba0.c	0x8005cba0	372	div	FUN_8005cba0

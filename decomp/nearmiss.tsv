@@ -46,7 +46,6 @@ src/unnamed/8007d6e4.c	0x8007d6e4	540	sym	125/135
 src/unnamed/8004169c.c	0x8004169c	1428	sym	323/357
 src/camera/reacttocollision.cpp	0x80078f3c	5464	div	1354/1366
 src/tricktips/update.cpp	0x80072404	2604	sym	609/651
-src/unnamed/8005cba0.c	0x8005cba0	372	sym	92/93
 src/unnamed/8004b0e4.c	0x8004b0e4	148	sym	35/37
 src/trig/createobject.cpp	0x80045268	720	sym	179/180
 src/physics/aligntofallline.cpp	0x8003a214	644	div	148/161
@@ -56,7 +55,7 @@ src/spool/loadtexturestovram.cpp	0x8006f854	912	sym	194/228
 src/physics/handlebailperpendicular.cpp	0x80031224	732	div	173/183
 src/career/setprefs.cpp	0x800101e4	448	div	95/112
 src/spool/findanim.cpp	0x80070064	220	div	46/55
-src/smoke/move_smokejet.cpp	0x80015c98	1060	div	238/265
+src/smoke/move_smokejet.cpp	0x80015c98	1060	div	241/265
 src/mem/newtop.cpp	0x8004d3a4	556	div	122/139
 src/bit/texturedribbon_display.cpp	0x8002e31c	2780	div	685/695
 src/mem/newx.cpp	0x8004d068	828	div	181/207
