@@ -1045,3 +1045,4 @@ src/physics/aligntofallline.cpp	0x8003a214	644	div	AlignToFallLine__6CBrucei
 src/rfront/memcardupdate.cpp	0x800127c4	4436	div	Front_MemCardUpdate__Fv
 src/m3d/render.cpp	0x80083838	3196	div	M3d_Render__FPv
 src/baddy/ctor.cpp	0x8003fa34	116	div	__6CBaddy
+src/front/setline.cpp	0x80016708	104	div	SetLine__5CMenuUc
