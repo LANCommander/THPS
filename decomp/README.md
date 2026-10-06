@@ -727,6 +727,13 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
 - **Frame padding without `volatile`.** An unused local `char buf[40];` keeps its stack space.
 - **Store position around a call can fix a register swap.** In Shatter_Face, `retval = 2;` after
   the Shatter_Glass call (not before) fixed the delay-slot fill and an s5/s6 swap.
+- **Hidden empty cases decide jump table vs compare tree.** CBaddy::ExecuteCommand's visible cases
+  were dense enough for a jump table, but retail uses a compare tree. Two invisible `case N: break;`
+  labels (found with `tools/casetree.py`) widen the range past gcc's 10x-count threshold.
+- **`gp` access means a definition in this TU:** `CBody *DAT_800d1998;`. A `section(".data")`
+  attribute or an unsized extern gives `lui` forms.
+- **A comparison stored in an int** (`int ok = x != 2; if (ok)`) keeps retail's `xori`. Folded into
+  an `&&` chain, it becomes a `beq`.
 - **Score with the header flags.** `match_div.py` ignores `flags=` in the header, so pass
   `CC1_OPTS` (check_all/salvage do read it).
 
