@@ -27,7 +27,6 @@ src/unnamed/800491e8.c	0x800491e8	652	sym	145/163
 src/unnamed/8004fe28.c	0x8004fe28	1108	sym	251/277
 src/unnamed/800506d0.c	0x800506d0	276	sym	63/69
 src/unnamed/800507e4.c	0x800507e4	1104	sym	263/276
-src/unnamed/8005d00c.c	0x8005d00c	640	sym	157/160
 src/unnamed/8005f9ec.c	0x8005f9ec	868	sym	197/217
 src/unnamed/80060854.c	0x80060854	372	sym	92/93
 src/unnamed/800609c8.c	0x800609c8	472	sym	113/118
@@ -59,3 +58,4 @@ src/mem/newtop.cpp	0x8004d3a4	556	div	122/139
 src/bit/texturedribbon_display.cpp	0x8002e31c	2780	div	685/695
 src/mem/newx.cpp	0x8004d068	828	div	181/207
 src/front/switchonendlevelmenu.cpp	0x8001a2bc	764	div	185/191
+src/bit/display.cpp	0x8002ab20	12120	div	2434/3030

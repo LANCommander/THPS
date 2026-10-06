@@ -1013,3 +1013,4 @@ src/shellutils/draw_slicedimage.c	0x80062e20	1136	div	draw__11SlicedImageiiiiiii
 src/platform/executecommand.cpp	0x8003ec48	2068	div	ExecuteCommand__9CPlatformUs
 src/unnamed/8005cba0.c	0x8005cba0	372	div	FUN_8005cba0
 src/career/gottape.cpp	0x800106e0	68	div	FUN_800106e0
+src/unnamed/8005d00c.c	0x8005d00c	640	div	FUN_8005d00c
