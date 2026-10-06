@@ -995,3 +995,4 @@ src/mess/getcharindex.c	0x8001ddfc	456	div	GetCharIndex__Fc
 src/utils/killobjectsinbox.cpp	0x80048278	368	div	Utils_KillObjectsInBox__FRC7CVectorT0P5CBodyb
 src/db/callback.cpp	0x80048e40	152	div	Db_CallBack__Fv
 src/panel/drawflatshadedpoly.cpp	0x8006c610	212	div	Panel_DrawFlatShadedPoly__FiiiiUcUcUci
+src/panel/drawgouraudpoly.cpp	0x8006c6e4	260	div	DrawGouraudPoly__FiiiiUcUcUcUcUcUci
