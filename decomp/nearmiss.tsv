@@ -3,7 +3,7 @@
 src/exp/hitenvitem.c	0x8004e968	236	sym	57/59
 src/spool/findanim.c	0x80070064	220	sym	47/55
 src/utils/calcunit.c	0x80047a34	240	div	53/60
-src/bit2/move_smokegen.c	0x80027450	320	sym	75/80
+src/bit2/move_smokegen.c	0x80027450	320	sym	77/80
 src/mess/unloadfont.c	0x8001ef60	380	sym	82/95
 src/card/getdirandfreeblocks.c	0x80015164	276	sym	67/69
 src/m3delips/rendershadow.cpp	0x8007d9ac	2388	div	580/597
