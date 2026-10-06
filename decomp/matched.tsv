@@ -1007,3 +1007,4 @@ src/trickob/ctor.cpp	0x8004ef08	120	div	__8CTrickObUs
 src/main/mick_darken.cpp	0x80024454	272	div	Mick_Darken__Fv
 src/ob/runanim.cpp	0x80043e0c	280	div	RunAnim__6CSuperiiii
 src/career/careerinit.cpp	0x80010000	484	div	Career_Init__Fv
+src/shatter/glass.cpp	0x80022004	1084	div	Shatter_Glass__FiRC7CVectorN31UcUcUc
