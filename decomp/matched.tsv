@@ -1027,3 +1027,5 @@ src/unnamed/80076880.c	0x80076880	972	div	FUN_80076880
 src/physics/handlekick.cpp	0x800395b4	1820	div	HandleKick__6CBruce
 src/physics/dofootplant.cpp	0x80036f7c	1252	div	DoFootPlantPhysics__6CBruce
 src/physics/dowallride.cpp	0x800376f4	2932	div	DoWallRidePhysics__6CBruce
+src/rfront/memcardhiresdisplay.cpp	0x8001206c	1428	div	Front_MemCardHiResDisplay__Fv
+src/panel/displayscore.cpp	0x8006ca78	1616	div	DisplayScore__FP6CBruceUsUs
