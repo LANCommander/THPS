@@ -1017,3 +1017,4 @@ src/unnamed/8005d00c.c	0x8005d00c	640	div	FUN_8005d00c
 src/video/getdatachunk.cpp	0x8006a158	2008	div	GetDataChunk__FP6CBrucei
 src/trig/createobject.cpp	0x80045268	720	div	Trig_CreateObject__Fi
 src/baddy/scriptonly_executecommand.cpp	0x8004169c	1428	div	ExecuteCommand__16CScriptOnlyBaddyUs
+src/rfront/memcarddisplay.c	0x80011820	2124	div	Front_MemCardDisplay__Fv
