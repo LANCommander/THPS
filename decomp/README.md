@@ -698,6 +698,14 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   if (*p == 'H')` keeps `addiu a0,v0,6; lbu 0(a0)`. Written `p = f() + 6`, CSE keeps the call result
   live and folds the offset into the load (`lbu 6(v0)`). The same goes for `pTable += 3` after
   reading a header field through the base.
+- **Sized vs unsized `extern` arrays change scheduling.** `extern T X[];` makes cc1 emit a split
+  `lui`/`addiu` pair (two insns it schedules separately). `extern T X[64];` (or a scalar) makes it one
+  `la` macro insn, which reorg won't put in a delay slot and the scheduler orders differently.
+  This fixed an index-before-base order (`sll; lui; addiu; addu`) twice: CalculateSpatialAttenuation
+  and LineToThisItem. `build/t/externsweep.py` tries the toggle on every near-miss draft.
+- **One variable vs two:** declaring a pair once in the enclosing block, rather than separately in
+  a loop and after it, makes it one pseudo that lives across a call. It then gets a callee-saved
+  register and shifts every other register by one (Pack_Pack's AlignedW).
 - **`if (c) x = &A; else x = &B;` stays an if/else** only when each address is a split
   `lui`/`addiu`. An unsized extern array (`extern T G[]; x = &G[1]`) gives that. A sized global
   gives one `la` insn, and jump.c rewrites it to `x = &B; if (c) x = &A;`.
