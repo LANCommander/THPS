@@ -33,7 +33,6 @@ src/unnamed/800609c8.c	0x800609c8	472	sym	113/118
 src/unnamed/8006582c.c	0x8006582c	1144	sym	257/286
 src/unnamed/8006623c.c	0x8006623c	252	sym	56/63
 src/unnamed/80066768.c	0x80066768	384	sym	84/96
-src/unnamed/8006a158.c	0x8006a158	2008	sym	448/502
 src/unnamed/8006d0c8.c	0x8006d0c8	724	sym	158/181
 src/unnamed/8006e8ec.c	0x8006e8ec	352	sym	83/88
 src/unnamed/80075560.c	0x80075560	1028	sym	245/257
@@ -48,7 +47,7 @@ src/unnamed/8004b0e4.c	0x8004b0e4	148	sym	35/37
 src/trig/createobject.cpp	0x80045268	720	sym	179/180
 src/physics/aligntofallline.cpp	0x8003a214	644	div	148/161
 src/m3dcolij/linetosphere.cpp	0x80080cf8	1340	sym	326/335
-src/competition/winlosedisplay.cpp	0x80075964	2816	sym	661/704
+src/competition/winlosedisplay.cpp	0x80075964	2816	sym	682/704
 src/spool/loadtexturestovram.cpp	0x8006f854	912	sym	194/228
 src/physics/handlebailperpendicular.cpp	0x80031224	732	div	173/183
 src/career/setprefs.cpp	0x800101e4	448	div	95/112
