@@ -5,7 +5,6 @@ src/exp/hitenvitem.c	0x8004e968	236	sym	57/59
 src/m3dcolij/getlineinfo.c	0x800808b0	180	sym	41/45
 src/pre/unloadpre.c	0x80066338	160	sym	36/40
 src/spool/findanim.c	0x80070064	220	sym	47/55
-src/utils/getvecfrommagdir.c	0x80047b24	208	sym	50/52
 src/utils/calcunit.c	0x80047a34	240	div	53/60
 src/bit2/move_smokegen.c	0x80027450	320	sym	75/80
 src/mess/unloadfont.c	0x8001ef60	380	sym	82/95
@@ -48,7 +47,6 @@ src/competition/winlosedisplay.cpp	0x80075964	2816	sym	682/704
 src/spool/loadtexturestovram.cpp	0x8006f854	912	sym	194/228
 src/career/setprefs.cpp	0x800101e4	448	div	95/112
 src/spool/findanim.cpp	0x80070064	220	div	46/55
-src/smoke/move_smokejet.cpp	0x80015c98	1060	div	241/265
 src/mem/newtop.cpp	0x8004d3a4	556	div	122/139
 src/mem/newx.cpp	0x8004d068	828	div	181/207
 src/front/switchonendlevelmenu.cpp	0x8001a2bc	764	div	185/191

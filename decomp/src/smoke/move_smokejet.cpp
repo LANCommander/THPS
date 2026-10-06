@@ -1,0 +1,176 @@
+/* Move__9CSmokeJet (0x80015c98) flags=-fstructure-noalias */
+/* C++ (SMOKE.CPP). Fuzzy demo twin (0.97); members, locals and blocks from its MAIN.SYM. A smoke jet
+   is a textured ribbon: switched off beyond 10000 units of the skater, otherwise each point
+   wobbles sideways on its own sine, the widths ease toward randomly re-picked targets, and while
+   it does damage a line test along the jet hits the skater (and optionally the baddies).
+   Near-miss: retail loads the frame counter and sine-table base for mU, then copies them into the
+   loop registers (t3/t4), as if the in-loop loads were hoisted and CSE'd. Ours never hoists a
+   global load past a store in a loop, so the locals t/pTrig stand in (not in the demo SYM). */
+#pragma interface
+typedef unsigned char uchar;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+struct CVector { int vx, vy, vz; };
+CVector operator-(const CVector &, const CVector &);
+struct CSVector { short vx, vy, vz; };
+struct CFriction { uchar x, y, z; };
+struct SRibbonPoint {
+	CVector Pos;
+	uchar r, g, b;
+	ushort Width;
+	ushort WidthB;
+	uchar rB, gB, bB;
+	int Last1Scr;
+	int Last2Scr;
+	int Last3Scr;
+};
+struct SWidthWobble {
+	int TChange;
+	int TargetWidth;
+};
+struct STrig { short s, c; };
+
+class CItem {
+public:
+	ushort mFlags;
+	ushort mInquiry;
+	CVector mPos;
+	char pad10[0x48 - 0x10];
+	virtual void v0();
+	virtual void v1();
+	virtual void v2();
+	virtual void v3();
+	virtual void v4();
+	virtual int Hit(ushort, CVector &, int);
+};
+class CBody : public CItem {
+};
+
+class CBit {
+public:
+	CBit *mPrevious;
+	CBit *mNext;
+	short mAge;
+	ushort mLifetime;
+	CVector mTweenPos;
+	CVector mPos;
+	CVector mVel;
+	CVector mAcc;
+	CFriction mFric;
+	uchar mDead;
+	ushort mFrigDeltaZ;
+	uchar mProtected;
+	uchar mType;
+	virtual ~CBit();
+};
+class CSpecialDisplay : public CBit {
+};
+class CTexturedRibbon : public CSpecialDisplay {
+public:
+	uchar mTrail;
+	void *mpTex;
+	uchar mDontDisplay;
+	int mU;
+	int mV;
+	int mDv;
+	int mWibble;
+	int mNumPoints;
+	SRibbonPoint *mpPoints;
+};
+class CSmokeJet : public CTexturedRibbon {
+public:
+	SWidthWobble mWidthWobble[10];
+	int mOrgX[10];
+	int mPhase[10];
+	int mFreq[10];
+	int mAmp[10];
+	uchar mScrollSpeed;
+	uchar mDamageBaddies;
+	ushort mDamage;
+	ushort mDamageTimer;
+	CSVector mAngles;
+	int mLength;
+	void Move();
+};
+
+extern STrig DAT_800c9670[1];
+extern int DAT_800d16e4;
+extern CBody *DAT_800d19a4;
+extern CBody *DAT_800d1998;
+int Redbook_Rnd(int);
+void Utils_CalcUnit(CVector &, const CVector &);
+CBody *M3dColij_LineToSphere(const CVector &, const CVector &, CVector &, CBody *, CBody *);
+extern "C" void FUN_80027e18(CSmokeJet *);
+
+void CSmokeJet::Move()
+{
+	if (mLifetime == 0xffff) {
+		{
+			int dx;
+			int dz;
+			int Dist;
+			dx = (mpPoints[0].Pos.vx - DAT_800d19a4->mPos.vx) >> 12;
+			if (dx < 0)
+				dx = -dx;
+			dz = (mpPoints[0].Pos.vz - DAT_800d19a4->mPos.vz) >> 12;
+			if (dz < 0)
+				dz = -dz;
+			if (dx < dz)
+				Dist = dz + dx / 2;
+			else
+				Dist = dx + dz / 2;
+			if (Dist > 10000) {
+				mDontDisplay = 1;
+				return;
+			}
+		}
+	} else {
+		if (!mLifetime || !--mLifetime)
+			FUN_80027e18(this);
+	}
+	mDontDisplay = 0;
+	mU = DAT_800c9670[(DAT_800d16e4 * 16) & 4080].s / 128;
+	mV += mScrollSpeed;
+	{
+		int i;
+
+		for (i = 0; i < 10; i++)
+			mpPoints[i].Pos.vx = mOrgX[i] + (mAmp[i] * DAT_800c9670[(mFreq[i] * DAT_800d16e4 + mPhase[i]) & 4095].s / 4096 << 12);
+	}
+	mpPoints[0].Width = 20;
+	mpPoints[0].WidthB = 60;
+	mWidthWobble[0].TargetWidth = Redbook_Rnd(60) + 20;
+	{
+		int i;
+		for (i = 1; i < 10; i++) {
+			mpPoints[i].Width += (mWidthWobble[i].TargetWidth - mpPoints[i].Width) / 8;
+			mpPoints[i].WidthB = mpPoints[i].Width + 40;
+			if ((DAT_800d16e4 & 15) == mWidthWobble[i].TChange) {
+				mWidthWobble[i].TChange = Redbook_Rnd(16);
+				mWidthWobble[i].TargetWidth = mWidthWobble[i - 1].TargetWidth * 148 / 128;
+			}
+		}
+	}
+	if (!mDamageTimer || !--mDamageTimer) {
+		if (mDamage) {
+			CVector Start = mpPoints[0].Pos;
+			CVector End = mpPoints[9].Pos;
+			CVector Unit = End - Start;
+			CVector dummy;
+			CBody *pBody;
+			Utils_CalcUnit(Unit, Unit);
+			pBody = M3dColij_LineToSphere(Start, End, dummy, DAT_800d19a4, 0);
+			if (pBody) {
+				pBody->Hit(mDamage, Unit, 31);
+				mDamageTimer = 15;
+			}
+			if (mDamageBaddies) {
+				CBody *pBody = M3dColij_LineToSphere(Start, End, dummy, DAT_800d1998, 0);
+				if (pBody) {
+					pBody->Hit(mDamage, Unit, 31);
+					mDamageTimer = 15;
+				}
+			}
+		}
+	}
+}

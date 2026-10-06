@@ -2,7 +2,7 @@
 typedef struct { int x, y, z; } V;
 typedef struct { unsigned short x, y, z; } SV;
 typedef struct { short s, c; } SC;
-extern SC DAT_800c9670[];
+extern SC DAT_800c9670[1];  /* declared <= 8 bytes: one la, as retail */
 #define rsin(a) ({ SC *p_ = &DAT_800c9670[(a) & 4095]; p_->s; })
 #define rcos(a) ({ SC *p_ = &DAT_800c9670[(a) & 4095]; p_->c; })
 void Utils_GetVecFromMagDir(V *out, int mag, SV *dir){
