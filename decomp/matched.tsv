@@ -1026,3 +1026,4 @@ src/smoke/move_smokejet.cpp	0x80015c98	1060	div	Move__9CSmokeJet
 src/unnamed/80076880.c	0x80076880	972	div	FUN_80076880
 src/physics/handlekick.cpp	0x800395b4	1820	div	HandleKick__6CBruce
 src/physics/dofootplant.cpp	0x80036f7c	1252	div	DoFootPlantPhysics__6CBruce
+src/physics/dowallride.cpp	0x800376f4	2932	div	DoWallRidePhysics__6CBruce
