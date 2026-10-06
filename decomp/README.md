@@ -733,6 +733,13 @@ C source in `src/vector/*.c`. Each verified with `matchcc.mjs <c> <addr> <size> 
   explicit `%hi`/`%lo` split that the scheduler and reorg move apart. `extern STrig DAT_800c9670[1];`
   (the sin table) fixed CTexturedRibbon::Display, GetVecFromMagDir and CSmokeJet::Move.
   `build/t/externsweep1.py` tries `[1]` on every array extern in the near-misses.
+- **CBruce's skater-stat getter is a macro, not an inline function:**
+  `#define GetStat(n) (DAT_800d1924 ? DAT_800d1924 : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) + mpStatBonus[n])`.
+  gcc 2.x `fold()` distributes the surrounding arithmetic into each `?:` arm only inside one
+  expression, which gives retail's per-arm sums, threaded override tests and shared loads. Every
+  inline-function form stalled near 100/313. Keep the exact operand order, and define
+  `DAT_800d1924` in the TU so it is gp-relative. Used by HandleKick and DoFootPlantPhysics; other
+  physics functions that read stats likely need it too.
 - **Hidden empty cases decide jump table vs compare tree.** CBaddy::ExecuteCommand's visible cases
   were dense enough for a jump table, but retail uses a compare tree. Two invisible `case N: break;`
   labels (found with `tools/casetree.py`) widen the range past gcc's 10x-count threshold.
