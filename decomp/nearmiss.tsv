@@ -3,7 +3,6 @@
 src/backgrnd/ctor.c	0x80078188	148	sym	34/37
 src/exp/hitenvitem.c	0x8004e968	236	sym	57/59
 src/m3dcolij/getlineinfo.c	0x800808b0	180	sym	41/45
-src/pre/unloadpre.c	0x80066338	160	sym	36/40
 src/spool/findanim.c	0x80070064	220	sym	47/55
 src/utils/calcunit.c	0x80047a34	240	div	53/60
 src/bit2/move_smokegen.c	0x80027450	320	sym	75/80
