@@ -32,7 +32,6 @@ src/unnamed/8007d6e4.c	0x8007d6e4	540	sym	125/135
 src/camera/reacttocollision.cpp	0x80078f3c	5464	div	1354/1366
 src/tricktips/update.cpp	0x80072404	2604	sym	619/651
 src/unnamed/8004b0e4.c	0x8004b0e4	148	sym	35/37
-src/physics/aligntofallline.cpp	0x8003a214	644	div	148/161
 src/m3dcolij/linetosphere.cpp	0x80080cf8	1340	sym	326/335
 src/competition/winlosedisplay.cpp	0x80075964	2816	sym	682/704
 src/spool/loadtexturestovram.cpp	0x8006f854	912	sym	194/228

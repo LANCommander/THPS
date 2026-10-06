@@ -1041,3 +1041,4 @@ src/unnamed/8006d0c8.c	0x8006d0c8	724	div	FUN_8006d0c8
 src/pre/unloadpre.c	0x80066338	160	div	unloadPRE__10PREManagerPc
 src/backgrnd/ctor.cpp	0x80078188	148	div	__11CBackgroundUiRC8CSVector
 src/m3dcolij/getlineinfo.c	0x800808b0	180	div	M3dColij_GetLineInfo__FP9SLineInfo
+src/physics/aligntofallline.cpp	0x8003a214	644	div	AlignToFallLine__6CBrucei
