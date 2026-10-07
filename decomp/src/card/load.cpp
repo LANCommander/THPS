@@ -1,0 +1,85 @@
+/* Card_Load__F9EFileTypePUlT1 (0x800149f4) */
+/* C++ (CARD.CPP). Demo twin. Reads a save/replay file from the memory card (two buffers for replays) and verifies the header checksums. The do{}while(0) makes the read-failure jumps loop exits (reorg predicts them not taken, filling their slots from the fall-through); every failure shares the sync-failure return. */
+typedef unsigned long ulong;
+enum EFileType { FILETYPE_A, FILETYPE_B, FILETYPE_C, FILETYPE_D };
+extern char DAT_800a5848[];
+extern char DAT_800a5864[];
+int SyncToGoodState(void);
+void _clear_event(void);
+int CalcChecksum(ulong *, ulong);
+extern "C" {
+int open(char *, int);
+int read(int, void *, int);
+int close(int);
+}
+int Card_Load(EFileType FileType, ulong *pBuf, ulong *pBuf2)
+{
+	int fd;
+	char *FName;
+	int ReadSize;
+	switch (FileType) {
+	case 0:
+		FName = DAT_800a5848;
+		ReadSize = 3200;
+		break;
+	case 1:
+		FName = DAT_800a5864;
+		ReadSize = 24576;
+		break;
+	case 2:
+		FName = DAT_800a5864;
+		ReadSize = 640;
+		break;
+	case 3:
+		FName = 0;
+		ReadSize = 0;
+		break;
+	}
+	if (SyncToGoodState() == 1) {
+	Error:
+		return 1;
+	}
+	do {
+		fd = open(FName, 1);
+		if (fd == -1)
+			goto Error;
+		_clear_event();
+		if (read(fd, pBuf, ReadSize) != ReadSize)
+			goto Error;
+		{
+			int Chk1 = 0;
+			int Chk2 = 0;
+			switch (FileType) {
+			case 0:
+				Chk1 = *(short *)((char *)pBuf + 566);
+				Chk2 = CalcChecksum(pBuf + 160, 2560);
+				break;
+			case 1:
+				Chk1 = *(short *)((char *)pBuf + 566);
+				Chk2 = CalcChecksum(pBuf + 160, 23936);
+				break;
+			case 2:
+			case 3:
+				break;
+			}
+			if (Chk1 != Chk2)
+				goto Error;
+		}
+		if (pBuf2) {
+			if (read(fd, pBuf2, ReadSize) != ReadSize)
+				goto Error;
+			{
+				int Chk1 = 0;
+				int Chk2 = 0;
+				if (FileType == 1) {
+					Chk1 = *(short *)((char *)pBuf2 + 566);
+					Chk2 = CalcChecksum(pBuf2 + 160, 23936);
+				}
+				if (Chk1 != Chk2)
+					goto Error;
+			}
+		}
+		close(fd);
+		return 0;
+	} while (0);
+}

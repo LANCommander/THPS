@@ -1,6 +1,6 @@
 // Shared compile helpers for the Node matchers: optional CPPPSX preprocessing (for sources that
 // #include the Psy-Q SDK headers, e.g. libgte.h / inline_c.h) and the DMPSX GTE-command fixup.
-import { readFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
 export const CC1 = process.env.CC1 || 'D:/Tools/psyq4.5/CC1PSX.EXE';
@@ -13,6 +13,8 @@ const CPP_DEFS = ['-undef', '-D__GNUC__=2', '-D__OPTIMIZE__', '-Dmips', '-D__mip
 
 // cc1 has no preprocessor (not even comment stripping), so always run CPPPSX first, as CCPSX does.
 export function cc1(cfile, sfile, opt = '-O2', g = 0) {
+  // Hand-written assembly modules (.s) skip the compiler and go straight to the assembler.
+  if (cfile.endsWith('.s')) { mkdirSync('build', { recursive: true }); writeFileSync(sfile, readFileSync(cfile)); return; }
   const input = sfile + '.i';
   mkdirSync('build', { recursive: true });
   execFileSync(CPP, [...CPP_DEFS, '-I', INC, cfile, input], { stdio: 'ignore' });

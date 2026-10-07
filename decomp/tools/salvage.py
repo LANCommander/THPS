@@ -23,7 +23,7 @@ RETAIL = "../extern/thps1_retail/SLUS_008.60"
 NAMES = "../build/retail_names.tsv"
 TEXT_ADDR, HDR = 0x80010000, 0x800
 GP_STUB = {"gp": "0x800d1080"}
-HEADER = re.compile(r"/\*\s*(\S+)\s*\((0x[0-9a-fA-F]{8})\)(?:.*?size=(\d+))?")
+HEADER = re.compile(r"(?:/\*|#)\s*(\S+)\s*\((0x[0-9a-fA-F]{8})\)(?:.*?size=(\d+))?")
 
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
 ALL, DRY = "--all" in sys.argv, "--dry-run" in sys.argv
@@ -50,7 +50,7 @@ def candidates():
         out = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all", "src"],
                              capture_output=True, text=True, check=True).stdout
         files = [l[3:].strip().removeprefix("decomp/") for l in out.splitlines() if l[:2] != " D"]
-    return sorted(f for f in files if f.endswith((".c", ".cpp")) and not f.endswith((".matched.c", ".matched.cpp")))
+    return sorted(f for f in files if f.endswith((".c", ".cpp", ".s")) and not f.endswith((".matched.c", ".matched.cpp")))
 
 
 def has_bare_div(addr, size):

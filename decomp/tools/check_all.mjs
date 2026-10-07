@@ -12,7 +12,7 @@ const rows = readFileSync('matched.tsv', 'utf8').split('\n')
   .filter(r => r.join(' ').includes(filter));
 
 async function check([src, addr, size, tool, name]) {
-  const syms = src.replace(/\.cpp$|\.c$/, '.syms.json');
+  const syms = src.replace(/\.cpp$|\.c$|\.s$/, '.syms.json');
   // extra cc1 flags from a `flags=-fa,-fb` note in the header line (a TU built with other options)
   const header = readFileSync(src, 'utf8').split('\n')[0];
   const extra = [...(header.match(/flags=(\S+)/)?.[1] ?? '').split(','),

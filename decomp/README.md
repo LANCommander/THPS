@@ -67,6 +67,26 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
 - **`D=1` for `match_div.py`** too: the same disassembled, LCS-aligned hunk diff as `match_sym.mjs`
   (via `tools/wdiff.mjs`).
 
+## Hand-written assembly modules (`.s` sources)
+
+A few game modules were written in assembly, not C. You can tell from non-cc1 idioms: `addi`/`ori`
+for constants, `bgez zero` branches, frameless leaf code, and the GTE LZCS/LZCR used as a
+leading-zero counter. For those the faithful source is a `.s` file:
+
+- **`node tools/asm2s.mjs <addr> <size> <out.s> [name]`** generates one from retail. Every
+  `functions.tsv` entry in the range becomes a global label, branches get local labels, external
+  calls use their ported names, and the file runs under `.set noreorder`. The first line is a `#`
+  header that salvage reads: `# <name> (0x<addr>) size=<n> -- hand-written assembly`.
+- **The matchers take `.s` directly:** `cc1()` in `tools/psyq.mjs` passes it to the assembler
+  unchanged. salvage, check_all and progress treat it like any other source, so one `.s` row with
+  `size=` covers every function inside it.
+- **Data embedded in `.text`** can go in the same module as `.word`s with a label. Example: the
+  memory-layout table at 0x80071fa4, split out of `FUN_80071f84` in `functions.tsv`.
+- **Modules so far:**
+  - `src/shatter/mdecdecode.s` (0x80022498, 1364 B): MDEC run-length/VLC decode, 10 entry points.
+  - `src/init/fixedmath.s` (0x80071fa4, 448 B): the layout table plus the 64-bit fixed-point
+    multiply helpers.
+
 ## Demo twins: start here for any named function
 
 `build/matches.json` lists the retail functions that are byte-identical to a THPS2-demo function once

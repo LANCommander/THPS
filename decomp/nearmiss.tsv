@@ -13,3 +13,4 @@ src/spool/loadtexturestovram.cpp	0x8006f854	912	sym	222/228
 src/physics/doonground.cpp	0x800347a8	5664	div	1413/1416
 src/front/boardselect1p.cpp	0x80054510	6568	sym	1626/1642
 src/physics/handlesticktorail.cpp	0x8003058c	2940	sym	699/735
+src/fileio/open.cpp	0x8004c8a4	620	sym	149/155
