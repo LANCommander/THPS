@@ -9,10 +9,12 @@
    Levers: -fstructure-noalias (GSkater[1] loaded above the GSkater[0] field store); Vblanks/
    Xblanks volatile; the "retry" text and the sound-level value are single ?: expressions; the
    replay choices store GVideoReplay, EndCode, then SwitchOffPauseMode (one cross-jumped tail);
-   `else Front_OnTime++` tails; the sfx-volume temp `v` lengthens the GCareer-high gcse pseudo
-   so the GameText-high one loses s0 (retail's s1/s2 for it and SoundEffect).
-   Residue (2316/2318): in both sfx blocks retail schedules `addiu s0,t0,%lo(GCareer)` before
-   `sra v0,v0,31`; the temp puts it after. */
+   `else Front_OnTime++` tails; the sfx volumes are one chained line (demo line 3990).
+   The EntryOn/EntryOff(GameText[105]) calls are each a `do { } while (0)` (macro-style):
+   flow weights REG_N_REFS by loop depth, so the loop notes lift the GameText-high gcse
+   pseudo's global-alloc priority (25 refs / 177 = 0.565) above the GCareer-high one
+   (8 / 45 = 0.533); GameText then skips s0 (which GCareer's prefers), giving retail's s1/s2.
+   */
 typedef unsigned char uchar;
 typedef unsigned int uint;
 
@@ -363,7 +365,7 @@ void Front_Update()
 			DAT_800d1474->AddEntry((DAT_800a5398[DAT_800d1e28].mNoHighScores && DAT_800d16a4 == 1) ? DAT_800a5d5c[30] : DAT_800a5d5c[29]);
 			DAT_800d1474->AddEntry(DAT_800a5d5c[105]);
 			if (!DAT_800d1710)
-				DAT_800d1474->EntryOff(DAT_800a5d5c[105]);
+				do { DAT_800d1474->EntryOff(DAT_800a5d5c[105]); } while (0);
 			DAT_800d1474->AddEntry(DAT_800a5d5c[83]);
 			if (DAT_800d16a4 == 7)
 				DAT_800d1474->AddEntry(DAT_800a5d5c[1]);
@@ -410,9 +412,9 @@ void Front_Update()
 		}
 		DAT_800d1fec = 0;
 		if (DAT_800d1710)
-			DAT_800d1474->EntryOn(DAT_800a5d5c[105]);
+			do { DAT_800d1474->EntryOn(DAT_800a5d5c[105]); } while (0);
 		else
-			DAT_800d1474->EntryOff(DAT_800a5d5c[105]);
+			do { DAT_800d1474->EntryOff(DAT_800a5d5c[105]); } while (0);
 		DAT_800d1474->Update();
 		if (Activated)
 		{
@@ -1282,12 +1284,9 @@ void Front_Update()
 			DAT_800c0a48[1].Left.Triggered = 0;
 			if (DAT_800d1440->ChoiceIs(DAT_800a5d2c))
 			{
-				int v;
 				if (DAT_800d21fc > 0)
 					DAT_800d21fc--;
-				v = DAT_800d21fc * 6 / 5;
-				DAT_800a6844.SfxVol = v;
-				DAT_800a4118.SfxVol = v;
+				DAT_800a4118.SfxVol = DAT_800a6844.SfxVol = DAT_800d21fc * 6 / 5;
 				FUN_8008b900(DAT_800a5d2c, DAT_800a5d5c[84], DAT_800d21fc);
 				DAT_800d13cc = DAT_800a6844.SfxVol * 0x555;
 				SFX_PlayX(5, 8192, 0);
@@ -1306,12 +1305,9 @@ void Front_Update()
 			DAT_800c0a48[1].Right.Triggered = 0;
 			if (DAT_800d1440->ChoiceIs(DAT_800a5d2c))
 			{
-				int v;
 				if (DAT_800d21fc < 10)
 					DAT_800d21fc++;
-				v = DAT_800d21fc * 6 / 5;
-				DAT_800a6844.SfxVol = v;
-				DAT_800a4118.SfxVol = v;
+				DAT_800a4118.SfxVol = DAT_800a6844.SfxVol = DAT_800d21fc * 6 / 5;
 				FUN_8008b900(DAT_800a5d2c, DAT_800a5d5c[84], DAT_800d21fc);
 				DAT_800d13cc = DAT_800a6844.SfxVol * 0x555;
 				SFX_PlayX(5, 8192, 0);

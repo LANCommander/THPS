@@ -483,6 +483,73 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   (LoadTexturesToVRAM).
 - **Header syntax:** write `flags=-f…` with no brackets. salvage ignores `[flags=…]`.
 
+**More from the S26 big-function round (1095 → 1101), each verified on retail:**
+
+- **`do { … } while (0)` raises global-alloc priority.** flow adds loop_depth to REG_N_REFS, so refs
+  inside the wrapper count double. Wrapping straight-line, macro-like calls fixed Front_Update's
+  s0/s1/s2 allocation without changing any code, and it gave DoOnGroundPhysics's `&mKick` the `fp`
+  register. Wrapping regions that contain branches changes jump threading and hurts.
+- **A block-ending `return` from an inline function, or `goto label;` where the label sits just before
+  the next statement,** stops sched1 hoisting a later global load into the block (PlayAway:
+  `EndCode = 9; goto done;`).
+- **Callee return type shows in loop-entry shape too:** retail's partially cross-jumped loop test came
+  from a body call declared `int` (PlayAway, Pad_Update).
+- **Spilled shared constant:** when loop.c hoists a shared `1` that global-alloc then spills (it shows
+  as `li tN,1` re-created at each use), give one group of uses its own local:
+  `int OffRail = 1; … m740 = OffRail;` (DoOnRailPhysics, 927 → 1100).
+- **Stack slots:**
+  - A named temporary keeps its slot alive: `CVector Diff = a - b; if (Diff.Length() > 30)`.
+  - A function-scope C++ local declared after a by-value call takes the call's freed arg slot.
+  - Unused separate `CVector` locals pad the frame in 16-byte steps; a `CVector[5]` pads only 60.
+  - `CVector v = expr;` as an initializer writes straight into v; an assignment adds a temp.
+- **Range tests:** consecutive case labels (`case 62: case 63: case 64:`) give a signed `slti` tree.
+  An `if` range folds to `addiu; sltiu`. A hidden empty `case 0: break;` shapes the compare tree.
+- **Clamps and arithmetic:**
+  - A clamp that stores only when in range: `if (x - d >= -Max) x -= d;`.
+  - A variable assigned only positive constants lets `(v >> 12) / 2` become `srl 13`.
+  - Per-stat rates go in one nested `?:`.
+  - Reuse a variable for an intermediate to pick its register: `B = 4096 - A; B = B * 6144 / 208;`.
+  - `-(x << 12) >> 12` survives; `(-x << 12) >> 12` is simplified away.
+- **fold distributes `x * (?:)` into the arms only when `x` is static data or an inline call:**
+  `int GetBalanceVel() { return mBalanceVel; }` does it; the member itself doesn't (HandleStickToRail).
+- **egcs PRE (in gcse) moves a subtraction up to just after its operands' last assignment.** Write
+  `X0 = (x0 - xL) / l;` at the division, not an early `X0 = x0 - xL;` (M3dZone_LineToItemNotSCached,
+  163 → 530). When a block's registers disagree with the SYM's variables, it uses different variables.
+- **Loops:**
+  - A redundant second exit stops cse1 carrying loop registers past the loop:
+    `while (n < 7) { if (…) break; n++; if (n >= 7) break; }`.
+  - A local table pointer keeps two pointer givs apart: `STrick *pTab = T;` for the body, `T[i]` for
+    the test.
+  - Bounds checks the demo puts on the `while` line belong in its condition.
+- **Re-index arrays in every statement** (`img[c][j]`) instead of taking a pointer (board select).
+- **Args:** `char *pName = T[i].pName; f(i, pName, T[i].Score);` gives score-first argument loads.
+- **Keep `(m & 0x4000) || (m & 0x2000)` as two ifs on a local,** or fold makes `& 0x6000`.
+- **Two `= 1` stores in separate arms**, not `b = (expr);`, keep a boolean's `andi; slti` form.
+- **Copies between neighbouring records:** records addressed by their own `lui/addiu` are separate
+  extern globals; one indexed array shares the base register.
+- **Wrong boundaries:** `functions.tsv` can split one function at a `jal`/delay-slot boundary.
+  - Tells: no prologue, and no outside `jal` or pointer.
+  - Merge the rows; the score uses `size=<total>` in the header meanwhile.
+  - DoOnGroundPhysics was 3 rows. It is 5664 B.
+- **From the 2P board select (exact from scratch, 9.8 KB):**
+  - **Loop bound in a variable:** `int lastBoard = 7;` set before the player loop gives retail's
+    never-folded `li t9,1; beq t9,zero` entry guard. A literal `7` lets cse1 fold it away.
+  - **gcse hash order sets spill slots:** the slots of hoisted `sp+N` addresses follow gcse's
+    hash-bucket order, which shifts with the function's total insn count. Fix length differences
+    elsewhere before chasing slot numbers.
+  - **Globals:** initialised globals are emitted to `.sdata` before the TU's string literals.
+    Zero-init ones that retail puts in `.sbss`/`.lcomm` are `static`. Pin `".sdata"` in syms.json
+    when the TU emits literals.
+  - **Aligned string copies:** `typedef char T[6] __attribute__((aligned(4))); T s = "board";` gives
+    `lw/lh` copies instead of `lwl/lwr`.
+  - **Split stores:** `x[0] = v; x[1] = v;` controls both the store order and the address-pseudo order.
+  - **Per-loop counters:** `for (int p…)` in each loop keeps one function-wide spilled counter out.
+  - **Loop shape:** `while (!result) { … break; }` is top-entered; `do … while` duplicates the head.
+- **Still open:**
+  - Front_Display: a dead `s2 = 0` that must be live at flow; a 2-insn partial cross-jump that needs
+    the two branches to differ before jump2.
+  - DoOnGroundPhysics: an `s1`/`s2` pass-0 preference.
+
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
 **THPS1 is `-G8`** (not -G0): small globals are addressed **gp-relative**, `gp = 0x800d1080`

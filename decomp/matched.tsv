@@ -1096,3 +1096,10 @@ src/ob/updateshadow.cpp	0x80043b50	348	div	UpdateShadow__5CBody
 src/unnamed/80025a88.c	0x80025a88	888	sym	FUN_80025a88
 src/unnamed/800491e8.c	0x800491e8	652	sym	FUN_800491e8
 src/unnamed/80066768.c	0x80066768	384	sym	FUN_80066768
+src/front/update.cpp	0x8001a6f8	9272	sym	Front_Update__Fv
+src/main/playaway.cpp	0x80025e00	3908	sym	PlayAway__Fv
+src/physics/doonrail.cpp	0x800331e4	4456	div	DoOnRailPhysics__6CBruce
+src/physics/handlespin.cpp	0x800323e0	3368	div	HandleSpin__6CBruce
+src/physics/dophysics.cpp	0x8003b424	8856	div	DoPhysics__6CBruce
+src/m3dzone/linetoitemnotscached.cpp	0x800827d4	2120	div	M3dZone_LineToItemNotSCached__FP9SLineInfoi
+src/front/boardselect2p.cpp	0x80051660	10076	sym	FUN_80051660
