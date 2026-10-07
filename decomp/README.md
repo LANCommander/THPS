@@ -570,6 +570,56 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
     the two branches to differ before jump2.
   - DoOnGroundPhysics: an `s1`/`s2` pass-0 preference.
 
+**More from the S27 sweep (1103 → 1172 functions), each verified on retail:**
+
+- **Allocation priority:**
+  - Nested `do { do { … } while (0); } while (0);` scales refs non-linearly through `floor_log2`.
+    local-alloc ties a 3-address op's output to its dying first input, so one quantity can carry
+    ~4× a neighbour's refs. Two wrappers flip a tie that one can't (boardselect1p).
+  - A wrapper's loop note is a sched barrier, so where it starts matters.
+  - `do{}while(0)` around error-return regions turns them into loop exits; reorg then fills those
+    delay slots from the fall-through (Card_Load).
+- **Struct layout:**
+  - A true struct layout keeps the displacement in the load. Modelling the board record as
+    `Boards[]` at +0x54 with `Req` at +8 stopped a hoisted `&G+92` invariant (GetStats).
+  - A wrong stride shows as merged index arithmetic.
+- **Scheduling:**
+  - sched1's tie rule: a register-setting insn whose pseudo is set once and stays live gets top rank
+    (`7f000001` in `-dS`); stores keep their critical-path priority. A variable set twice moves
+    within its block.
+  - Argument moves land low only when picked to fill a load-delay stall.
+- **jump.c rewrites `if (c) x = A; else x = B;` into a conditional set.** Start each arm with
+  another statement to keep the `bne; j` (DisplayTrick).
+- **Addressing:**
+  - A block-local pointer set once keeps alias.c's base, so a load through it can move above a byte
+    store to another global (controllerhandler).
+  - Column-first addressing, `int *b = &T[0].f[sel]; int *f = b + row*4;`, emits the table `lui`
+    before the row shift.
+- **Copies and folding:**
+  - A shared `goto out; … out: return ret;` stops a returned zero being folded to a constant.
+  - A zero-offset load through an `int` temp removes the base→value register preference (egcs
+    `set_preference`; ParsePSX went from 220 to 336).
+  - g++'s cast-as-lvalue `*((short *)p)++` keeps unfolded pointer copies (SetZone).
+  - `0xff00U` keeps a short-store mask unsigned (`andi`, not `li -256`).
+  - `int Frames = 5; x / Frames` keeps a real `div` by a register.
+- **Builtin string functions:** declare `extern "C" char *strcpy(char*, const char*);` (also strcmp,
+  sprintf) and map it, so constant copies expand inline as `lw/lb` moves. Literals of 8 bytes or less
+  go to `.sdata` after the TU's initialised globals.
+- **Loop shape:**
+  - A main loop with only `goto done;` exits (no `break`) isn't rotated by `expand_end_loop`.
+  - A plain `goto` loop loses its loop notes, and with them the loop-depth ref weighting.
+- **Cross-jumping:**
+  - Per-case calls get cross-jumped into a shared `jal`.
+  - Writing cross-jumped tails out in full raises refs without changing code.
+- **Callee identity:**
+  - An untouched `a0` at a `jal` can still be `f(param)`; the extra use raises the param's priority.
+  - FUN_8008b900 is `sprintf` and returns `int`. Wrong `void` return types caused several of the
+    remaining residues.
+- **Function table:**
+  - Identities: FUN_8003058c is HandleStickToRail; FUN_80059794 is the 1P skater select;
+    FUN_8006658c/80066d7c are the level select.
+  - The `Mem_Delete__FPv` row at 0x8006e19c is misnamed: it wraps CPanelData::Trick.
+
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
 **THPS1 is `-G8`** (not -G0): small globals are addressed **gp-relative**, `gp = 0x800d1080`

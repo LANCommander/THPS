@@ -3,7 +3,10 @@
    (special, glow, gouraud/flat polylines, flat bits, glass, gouraud lines, quads, chunks, pixels,
    linked two-ended bits) into the primitive buffer.
    Near-miss (2979/3030 aligned): the glow's first OT/RadA block schedules the OT chain later than
-   retail (insns 207-235), and in the flat-bit block Angle/Width/OffX get different registers. */
+   retail (insns 207-235), and in the flat-bit block Angle/Width/OffX get different registers.
+   That one is local-alloc order in the !Angle block: retail gives the Height/OffY/Width product
+   temps v0/v1/a0 and the OffX (short) shift temp a1 (so global puts OffX in a1, Width in t5,
+   Angle in s3); ours allocates the OffX chain first (v0). Statement order follows the demo lines. */
 #pragma interface
 extern "C" {
 #include <sys/types.h>
@@ -612,10 +615,10 @@ void Bit_Display()
 		{
 			ptr = (uint *)&apoly->x0;
 			Flipped = pFlatBit->mBitFlags & 1;
-			Width = pFlatBit->mpPSXFrame->Width;
-			Height = pFlatBit->mpPSXFrame->Height;
 			OffX = pFlatBit->mpPSXFrame->OffX;
 			OffY = pFlatBit->mpPSXFrame->OffY;
+			Width = pFlatBit->mpPSXFrame->Width;
+			Height = pFlatBit->mpPSXFrame->Height;
 			x_post_scale = pFlatBit->mPostScale & 0xffff;
 			y_post_scale = pFlatBit->mPostScale >> 16;
 			uint xs = Scale * x_post_scale;
@@ -625,8 +628,10 @@ void Bit_Display()
 				OffX = (short)(Scale * OffX >> 7);
 				Y1 = (Scale * OffY >> 7) << 16;
 				y0x0 += Y1 + OffX;
-				Width = Scale * Width >> 7;
-				Height = (Scale * Height >> 7) << 16;
+				Width *= Scale;
+				Width >>= 7;
+				Height = Scale * Height >> 7;
+				Height <<= 16;
 				if (Width < 5)
 					Width = 2;
 				if (Height < 0x50000)

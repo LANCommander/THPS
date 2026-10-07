@@ -2,9 +2,13 @@
 /* C++ (M3D.CPP). THPS1's M3d_PreprocessWibblyTextures(Region): the demo twin minus its
    ZeroU/ZeroVAmplitudes skips and the 16-pass cap on the tile-wrap loops, with u/v wibble calls
    interleaved per vertex. FUN_8008523c is vWibble. Locals and line order from the demo SYM.
-   245/274: the v0/v1/v2 coordinates rotate through s7/s5/fp vs retail's fp/s7/s5 (global-alloc
-   priority), which also leaves the uv2/uv3 word's or-chain order unsettled. The `0xff00U` masks
-   matter: an unsigned mask stops the store to a ushort narrowing the AND into `li -256`. */
+   Matching notes:
+   - The uv3 half of the last word goes through masked block locals (u3Hi/v3Hi) so local-alloc puts
+     them in a0/a1 and the or-chain in v0, which lets sched2 hoist them as retail does.
+   - The do{}while(0) wrappers around the v2/v3 wibble adds raise their global-alloc refs (40 -> 42)
+     to give retail's u1,u0,u2,v3,v2,u3,v1,v0 priority order (s1..fp).
+   - The `0xff00U` masks matter: an unsigned mask stops the store to a ushort narrowing the AND
+     into `li -256`. */
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
@@ -146,9 +150,13 @@ void M3d_PreprocessWibblyTextures(int Region)
 			u1 += uWibble(&pTexWibFaceInfo->p1);
 			v1 += vWibble(&pTexWibFaceInfo->p1);
 			u2 += uWibble(&pTexWibFaceInfo->p2);
-			v2 += vWibble(&pTexWibFaceInfo->p2);
+			do {
+				v2 += vWibble(&pTexWibFaceInfo->p2);
+			} while (0);
 			u3 += uWibble(&pTexWibFaceInfo->p3);
-			v3 += vWibble(&pTexWibFaceInfo->p3);
+			do {
+				v3 += vWibble(&pTexWibFaceInfo->p3);
+			} while (0);
 			And = u0 & u1 & u2 & u3;
 			Or = u0 | u1 | u2 | u3;
 			while ((And ^ Or) & 0x10000)
@@ -176,7 +184,9 @@ void M3d_PreprocessWibblyTextures(int Region)
 			u2 = (u2 & 0xff00) >> 8;
 			((ushort *)pFace)[8] = u0 | (v0 & 0xff00U);
 			((ushort *)pFace)[10] = u1 | (v1 & 0xff00U);
-			pFace[6] = ((v3 & 0xff00) << 16) | ((u3 & 0xff00) << 8) | u2 | (v2 & 0xff00);
+			int u3Hi = u3 & 0xff00;
+			int v3Hi = v3 & 0xff00;
+			pFace[6] = u2 | (v2 & 0xff00) | (u3Hi << 8) | (v3Hi << 16);
 			pFace = (uint *)((char *)pFace + (((ushort *)pFace)[1] & 0xfffc));
 		}
 		pData = (uint *)pTexWibFaceInfo;

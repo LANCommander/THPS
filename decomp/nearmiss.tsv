@@ -3,13 +3,12 @@
 src/physics/handlejump.cpp	0x80038268	4940	div	1192/1235
 src/tricktips/update.cpp	0x80072404	2604	sym	641/651
 src/unnamed/8002566c.c	0x8002566c	1052	sym	262/263
-src/bit/display.cpp	0x8002ab20	12120	div	2994/3030
 src/camera/reacttocollision.cpp	0x80078f3c	5464	div	1355/1366
 src/front/display.cpp	0x80017d70	8484	sym	2065/2121
 src/physics/doonground.cpp	0x800347a8	5664	div	1413/1416
 src/fileio/open.cpp	0x8004c8a4	620	sym	149/155
 src/physics/handlesticktorail.cpp	0x8003058c	2940	sym	700/735
-src/unnamed/8008528c.cpp	0x8008528c	1096	sym	245/274
-src/front/frontendmain.cpp	0x8005bb70	2824	sym	694/706
 src/card/getdirandfreeblocks.cpp	0x80015164	276	sym	68/69
 src/unnamed/8004f000.c	0x8004f000	588	sym	146/147
+src/front/frontendmain.cpp	0x8005bb70	2824	sym	695/706
+src/bit/display.cpp	0x8002ab20	12120	div	2995/3030

@@ -221,6 +221,7 @@ inline void CBruce::StartGrind(int RailTrick)
 {
 	int RightDot;
 	int Direction;
+	int Score;
 
 	if (!RailTrick || (DAT_800a7358[RailTrick].Flags & 0x2000000))
 		RailTrick = 0;
@@ -269,8 +270,8 @@ inline void CBruce::StartGrind(int RailTrick)
 	if (RailTrick) {
 		SFX_PlayX(162, 0x2000, 0);
 		m368 = 0x80001000;
-		char *pName = DAT_800a7358[RailTrick].pName;
-		Trick_Trick(RailTrick, pName, DAT_800a7358[RailTrick].Score, 0);
+		Score = DAT_800a7358[RailTrick].Score;
+		Trick_Trick(RailTrick, DAT_800a7358[RailTrick].pName, Score, 0);
 		m364 = 1;
 		m2EC = 0;
 		mGrindTrick = 0;
@@ -311,8 +312,8 @@ inline void CBruce::StartGrind(int RailTrick)
 			Direction = 3;
 	}
 	m368 = 0x80001000;
-	int Score = DAT_800a7edc[Direction];
 	mGrindTrick = Direction;
+	Score = DAT_800a7edc[Direction];
 	Trick_Trick(Direction + 66, DAT_800a7ef0[Direction], Score, 0);
 	m364 = 1;
 	switch (Direction) {

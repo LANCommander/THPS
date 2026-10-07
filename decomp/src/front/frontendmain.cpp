@@ -18,8 +18,19 @@
    Register levers: the duplicated case tails (2P modes, return screens 3/4/5) are cross-jumped in
    retail but their extra refs are what give `players`/`menu` their s1/s4 priority; the demo load
    sits in a one-pass do{}while(0) (macro-like), which gives DemoName's hoisted %hi s7 over DB's fp.
-   Residue (12 words): v0/v1 swap in the autotest ++DAT_800d16b4 == 9 test and the Levels[choice]
-   base/index order before Competition_Init. */
+   The Competition_Init test goes through a block-local `SLevel *l = &Levels[choice]`, which gives
+   retail's v1/a0 split for the loaded field and the constant 1.
+   Residue (11 words): v0/v1 swap in the autotest ++DAT_800d16b4 == 9 test (local-alloc gives the
+   short-lived constant 9 v0 because sched1 places its li after the store), and before
+   Competition_Init retail computes the Levels base (lui/addiu, in v1) ahead of choice*120 (v0);
+   ours puts the index first and swaps the two registers.
+   Tried (w5Z): cse1's fold_rtx moves the operand with a known constant (the Levels base) second,
+   so every `&Levels[choice]`/`l += choice` spelling gives (plus idx base). The `&&` form
+   `if (!DAT_800d1de8 && DAT_800a5398[choice].isCompetition == 1)` expands as (base+12)+idx and
+   combine rebuilds (plus base idx), giving retail's base-first sched order and `addu base,base,idx`,
+   but local-alloc then puts base in a0 and the 1 in v1 (694). A `max` variable reassigned 11/9/11
+   unboosts the li 9 and fixes the counter's v0 (698) but adds `li a0,11` in a delay slot, and
+   retail clearly shares one 11 register between both tests, so it isn't the source. */
 enum EPackInitType { PACK_0, PACK_1 };
 struct SVideoRestart {
 	int NumSkaters;
@@ -405,8 +416,11 @@ launch:
 		FUN_8005d35c(choice, mode, skater);
 		DAT_800d1780 = players;
 		DAT_800d1dc0 = 0;
-		if (!DAT_800d1de8 && DAT_800a5398[choice].isCompetition == 1)
-			Competition_Init();
+		if (!DAT_800d1de8) {
+			SLevel *l = &DAT_800a5398[choice];
+			if (l->isCompetition == 1)
+				Competition_Init();
+		}
 		FUN_8005c85c();
 		FUN_8006b434(choice, skater);
 		Init_Restart(PACK_0, 16);
