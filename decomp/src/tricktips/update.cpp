@@ -2,10 +2,10 @@
 /* C++ (TRICKTIPS.CPP). Fuzzy demo twin (0.967); the SYM shows the body is all inlined helpers
    (tip, tip_mask, tip_used, tip_bank locals). The FindTip() path uses its own copy of the
    show-tip inline (ShowFoundTip): the SYM gives that copy tip_mask/tip_used/tip_bank declared at
-   the top, and its sched1 order (TipsShown address and load first, tip_mask set twice) needs the
-   `tip_mask &= bit` split plus two nested one-pass loops (macro-like); the constant-tip copies
-   keep the single-expression form.
-   Residue (1 word): retail loads TipsShown after the sllv; ours loads it before. */
+   the top, and its sched1 order (TipsShown address first, tip_mask set twice so its load lands
+   after the sllv) needs plain statements with the `tip_mask &= bit` split and no one-pass loop
+   wrappers (their loop notes pinned the load above the sllv); the constant-tip copies keep the
+   single-expression form. */
 typedef unsigned char uchar;
 typedef unsigned int uint;
 
@@ -181,15 +181,11 @@ inline void CTrickTipMonitor::ShowFoundTip(int tip)
 		tip_bank = TipBank(tip);
 		if (DAT_800a6844.TipsOn) {
 			if (((DAT_800a5398[DAT_800d1e28].DisabledTips[tip_bank] >> (tip - tip_bank * 32)) & 1) == 0) {
-				do {
-					tip_mask = DAT_800a6844.TipsShown[tip_bank];
-					do {
-						tip_used = DAT_800a6844.TipsSeen[tip_bank];
-						tip_mask &= (1 << (tip - tip_bank * 32));
-					} while (0);
-					DAT_800a6844.TipsSeen[tip_bank] |= (1 << (tip - tip_bank * 32));
-					tip_used &= (1 << (tip - tip_bank * 32));
-				} while (0);
+				tip_mask = DAT_800a6844.TipsShown[tip_bank];
+				tip_used = DAT_800a6844.TipsSeen[tip_bank];
+				tip_mask &= (1 << (tip - tip_bank * 32));
+				DAT_800a6844.TipsSeen[tip_bank] |= (1 << (tip - tip_bank * 32));
+				tip_used &= (1 << (tip - tip_bank * 32));
 				if (!tip_mask) {
 					if (tip_used) {
 						mTipLine1 = DAT_800d1fa4;

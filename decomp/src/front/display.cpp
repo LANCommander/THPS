@@ -3,7 +3,11 @@
    the front end is showing, by DAT_800d13e8 (the current screen): the pause and quit menus, the
    tapes-got screen (creating the spinning tapes the first time round), the yes/no menus, the
    name entry, the H.O.R.S.E. turn screens, the level's high-score table and the end-of-run
-   statistics (career totals, two-player result, graffiti tallies or the H.O.R.S.E. letters). */
+   statistics (career totals, two-player result, graffiti tallies or the H.O.R.S.E. letters).
+   H.O.R.S.E. case: `Line = 0;` before the player-colour test is retail's dead `addu s2,zero,zero`
+   in that bne's delay slot (Line is the SYM's function-wide s2 row counter); the second player's
+   rows use Line++ * 24 + 80. Residue: the first of those rows isn't folded to 80 (2 words), and
+   the NO SCORE tail cross-jumps from the call where retail shares only `xori; sw`. */
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
@@ -566,6 +570,7 @@ void Front_Display()
 					DAT_800d1508 = DAT_800d17ac;
 					DAT_800d150c[0] = DAT_800d17b0[0];
 					DAT_800d150c[1] = DAT_800d17b0[1];
+					Line = 0;
 					if (DAT_800d179c == 0)
 						Mess_SetRGB(80, 80, 128, 0);
 					else
@@ -583,11 +588,11 @@ void Front_Display()
 						}
 					} else {
 						FUN_8008b900(Score, DAT_8009e484, DAT_800d17a4);
-						FUN_8001e114(256, 80, Score, 0, 0, 256, 0);
+						FUN_8001e114(256, Line++ * 24 + 80, Score, 0, 0, 256, 0);
 						FUN_8008b900(Score, DAT_8009e494, DAT_800d17c8->mHorseScore);
-						FUN_8001e114(256, 104, Score, 0, 0, 256, 0);
+						FUN_8001e114(256, Line++ * 24 + 80, Score, 0, 0, 256, 0);
 						if (DAT_800d17c8->mHorseScore == (uint)DAT_800d17a4) {
-							FUN_8001e114(256, 128, DAT_800d14c0, 0, 0, 256, 0);
+							FUN_8001e114(256, Line * 24 + 80, DAT_800d14c0, 0, 0, 256, 0);
 							DAT_800d1500 ^= 1;
 						} else if (DAT_800d17c8->mHorseScore < (uint)DAT_800d17a4) {
 							char YouAre[40];
@@ -662,7 +667,7 @@ void Front_Display()
 								DAT_800d14fc ^= 1;
 							}
 						} else {
-							FUN_8001e114(256, 128, DAT_800d14c8, 0, 0, 256, 0);
+							FUN_8001e114(256, Line * 24 + 80, DAT_800d14c8, 0, 0, 256, 0);
 							DAT_800d1500 ^= 1;
 							DAT_800d1504 = DAT_800d17c8->mHorseScore;
 						}

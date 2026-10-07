@@ -18,19 +18,11 @@
    Register levers: the duplicated case tails (2P modes, return screens 3/4/5) are cross-jumped in
    retail but their extra refs are what give `players`/`menu` their s1/s4 priority; the demo load
    sits in a one-pass do{}while(0) (macro-like), which gives DemoName's hoisted %hi s7 over DB's fp.
-   The Competition_Init test goes through a block-local `SLevel *l = &Levels[choice]`, which gives
-   retail's v1/a0 split for the loaded field and the constant 1.
-   Residue (11 words): v0/v1 swap in the autotest ++DAT_800d16b4 == 9 test (local-alloc gives the
-   short-lived constant 9 v0 because sched1 places its li after the store), and before
-   Competition_Init retail computes the Levels base (lui/addiu, in v1) ahead of choice*120 (v0);
-   ours puts the index first and swaps the two registers.
-   Tried (w5Z): cse1's fold_rtx moves the operand with a known constant (the Levels base) second,
-   so every `&Levels[choice]`/`l += choice` spelling gives (plus idx base). The `&&` form
-   `if (!DAT_800d1de8 && DAT_800a5398[choice].isCompetition == 1)` expands as (base+12)+idx and
-   combine rebuilds (plus base idx), giving retail's base-first sched order and `addu base,base,idx`,
-   but local-alloc then puts base in a0 and the 1 in v1 (694). A `max` variable reassigned 11/9/11
-   unboosts the li 9 and fixes the counter's v0 (698) but adds `li a0,11` in a delay slot, and
-   retail clearly shares one 11 register between both tests, so it isn't the source. */
+   The whole dispatcher is a goto loop (`restart:` ... `goto restart`), not for(;;): with no loop
+   notes the pseudos' refs aren't loop-weighted, so local-alloc gives the ++DAT_800d16b4 == 9
+   counter v0 ahead of the short-lived constant 9 (as retail). The Competition_Init test is the `&&`
+   form `!DAT_800d1de8 && Levels[choice].isCompetition == 1`, which expands as (base+12)+idx and
+   gives retail's base-first `addu base,base,idx`. */
 enum EPackInitType { PACK_0, PACK_1 };
 struct SVideoRestart {
 	int NumSkaters;
@@ -146,361 +138,357 @@ void FUN_8005bb70(void)
 	int r;
 
 	FUN_8005c678();
-	for (;;) {
-		if (DAT_800d1cb8) {
+restart:
+	if (DAT_800d1cb8) {
 reset:
-			FUN_8001f0dc();
-			FUN_8005ca10();
-			FUN_8005cae8();
-			FUN_8005c678();
-		}
-		DAT_800bf0c4 = DAT_800a192c;
-		DAT_800d1cb4 = 1;
-		Front_ClearGVideoRestartData();
-		FUN_80010000();
-		FUN_800161d8();
-top:
-		FUN_8005c8ac();
-		DAT_800d1dc0 = 1;
-		DAT_800d1780 = 1;
-		DAT_800d1cb0 = 1600;
-		FUN_800642d4(2);
-		DAT_800d1ca0 = 0;
-		if (DAT_800d16a8) {
-			mode = 1;
-			skater = DAT_800d16ac;
-			choice = DAT_800d16b4;
-			DAT_800d16d8 = DAT_800d16b0;
-			if (!DAT_800d16b8) {
-				DAT_800d1780 = 1;
-				DAT_800d16a4 = 1;
-				players = 1;
-			} else {
-				players = 2;
-				DAT_800d1780 = 2;
-				DAT_800d16a4 = 8;
-			}
-			if (++DAT_800d16ac == 11)
-				DAT_800d16ac = 0;
-			if (++DAT_800d16b4 == 9) {
-				DAT_800d16b4 = 0;
-				DAT_800d16b8 ^= 1;
-				if (++DAT_800d16b0 == 11)
-					DAT_800d16b0 = 0;
-			}
-			goto launch;
-		}
-		FUN_8005ca88();
-		if (DAT_800d1c9c) {
-			FUN_8005c734(157);
-			Mess_LoadFont(DAT_800a1938, -1, -1, -1);
-			Mess_SetRGB(128, 128, 128, 0);
-			Mess_SetFontScale(256);
-			FUN_8001d250(1);
-			FUN_8001f1b4(4);
-			mode = 0;
-			skater = DAT_800a7068[0];
-			players = 1;
-			switch (DAT_800d16a4) {
-			case 1:
-				menu = 16;
-				break;
-			case 2:
-			case 3:
-				mode = 1;
-				break;
-			case 4:
-				break;
-			case 5:
-			case 6:
-				mode = 1;
-				menu = 32;
-				players = 2;
-				break;
-			case 7:
-				mode = 5;
-				menu = 32;
-				players = 2;
-				break;
-			case 8:
-				mode = 3;
-				menu = 32;
-				players = 2;
-				break;
-			}
-			switch (GetReturnScreen()) {
-			case 2:
-				if (players != 1)
-					goto board2;
-				FUN_800642d4(1);
-				goto board1;
-			case 1:
-				if (players == 1)
-					FUN_800642d4(1);
-				goto level;
-			case 3:
-				DAT_800a42f4.NumSkaters = 0;
-				menu = 96;
-				FUN_8005c8dc(0);
-				goto mainmenu;
-			case 4:
-				DAT_800a42f4.NumSkaters = 0;
-				menu = 0;
-				FUN_8005c8dc(0);
-				goto mainmenu;
-			case 5:
-				DAT_800a42f4.NumSkaters = 0;
-				menu = 0;
-				FUN_8005c8dc(0);
-				goto mainmenu;
-			case 6:
-				if (players == 1)
-					FUN_800642d4(1);
-				choice = DAT_800d1e28;
-				Mess_SetCurrentFont(DAT_800a1938);
-				Mess_UnloadFont();
-				FUN_8005cae8();
-				goto launch;
-			}
-		}
-		DAT_800d1c9c = 5;
-title:
-		FUN_8005ca10();
-		FUN_80060e98();
-		if (DAT_800d1cb8)
-			goto reset;
-		Mess_SetCurrentFont(DAT_800a1944);
-		Mess_UnloadFont();
-		if (!DAT_800d1cb0)
-			goto demo;
-		menu = 0;
-mainmenu:
-		FUN_8005c734(157);
-		Pack_DefragmentFully();
-		choice = FUN_8005de7c(menu);
-		if (DAT_800d1cb8)
-			goto reset;
-		if (!DAT_800d1cb0)
-			goto demo;
-		FUN_800101e4();
-		mode = 0;
-		players = 1;
-		menu = 0;
-		switch (choice) {
-		case -1:
-			goto title;
-		case 17:
-		case 18:
-			if (choice == 18) {
-				DAT_800d1d80 = 0;
-				FUN_80010000();
-			}
-			DAT_800d16a4 = players;
-			menu = 16;
-			goto skater1;
-		case 3:
-			DAT_800d16a4 = choice;
-			mode = 1;
-			goto skater1;
-		case 4:
-			DAT_800d16a4 = 2;
-			mode = 1;
-			goto skater1;
-		case 34:
-			mode = 1;
-			DAT_800d16a4 = 5;
-			menu = 32;
-			players = 2;
-			goto skater2;
-		case 33:
-			mode = 3;
-			DAT_800d16a4 = 8;
-			menu = 32;
-			players = 2;
-			goto skater2;
-		case 1234567:
-			mode = 1;
-			DAT_800d16a4 = 6;
-			menu = 32;
-			players = 2;
-			goto skater2;
-		case 35:
-			mode = 5;
-			DAT_800d16a4 = 7;
-			menu = 32;
-			players = 2;
-			goto skater2;
-		case 1553:
-			mode = 2;
-			choice = DAT_800a42f4.Level;
-			skater = DAT_800a42f4.Skater;
-			DAT_800d1c9c = 3;
-			DAT_800d16a4 = DAT_800a42f4.GGame;
-			goto replay;
-		case 1554:
-			players = 2;
-			mode = 2;
-			choice = DAT_800a42f4.Level;
-			skater = DAT_800a42f4.Skater2;
-			DAT_800d1c9c = 3;
-			DAT_800d16a4 = DAT_800a42f4.GGame;
-			DAT_800d16d8 = DAT_800a42f4.Skater;
-		replay:
-			FUN_8005ca10();
-			FUN_8005cae8();
-			goto launch;
-		case 19:
-			DAT_800d1d80 = players;
-			DAT_800d16a4 = players;
-			menu = 16;
-			goto skater1;
-		case 100:
-		case 101:
-			goto credits;
-		}
-		if ((unsigned)(choice - 99) < 2 || (unsigned)(choice - 1569) < 6 || (unsigned)(choice - 25202) < 6)
-			goto movie;
-		goto title;
-
-skater1:
-		FUN_800642d4(1);
-		DAT_800d1780 = 1;
-		skater = FUN_80059794();
-		if (DAT_800d1cb8)
-			goto reset;
-		if (skater == -1) {
-			FUN_800642d4(2);
-			goto mainmenu;
-		}
-		goto board1;
-skater2:
-		Pack_DefragmentFully();
-		skater = FUN_80056754();
-		if (DAT_800d1cb8)
-			goto reset;
-		Mess_SetCurrentFont(DAT_800a1950);
-		Mess_UnloadFont();
-		Mess_SetCurrentFont(DAT_800a1938);
-		if (skater == -1)
-			goto mainmenu;
-		goto board2;
-board1:
-		r = FUN_80054510(skater);
-		if (DAT_800d1cb8)
-			goto reset;
-		if (r == -1)
-			goto skater1;
-		goto level;
-board2:
-		r = FUN_80051660(skater);
-		if (DAT_800d1cb8)
-			goto reset;
-		if (r == -1)
-			goto skater2;
-level:
-		choice = FUN_8006658c(skater);
-		if (DAT_800d1cb8)
-			goto reset;
-		if (choice == -1) {
-			if (players == 1)
-				goto board1;
-			if (players == 2)
-				goto board2;
-		}
-		Mess_SetCurrentFont(DAT_800a1938);
-		Mess_UnloadFont();
-		FUN_8005cae8();
-launch:
 		FUN_8001f0dc();
 		FUN_8005ca10();
-		FUN_8005d35c(choice, mode, skater);
-		DAT_800d1780 = players;
-		DAT_800d1dc0 = 0;
-		if (!DAT_800d1de8) {
-			SLevel *l = &DAT_800a5398[choice];
-			if (l->isCompetition == 1)
-				Competition_Init();
+		FUN_8005cae8();
+		FUN_8005c678();
+	}
+	DAT_800bf0c4 = DAT_800a192c;
+	DAT_800d1cb4 = 1;
+	Front_ClearGVideoRestartData();
+	FUN_80010000();
+	FUN_800161d8();
+top:
+	FUN_8005c8ac();
+	DAT_800d1dc0 = 1;
+	DAT_800d1780 = 1;
+	DAT_800d1cb0 = 1600;
+	FUN_800642d4(2);
+	DAT_800d1ca0 = 0;
+	if (DAT_800d16a8) {
+		mode = 1;
+		skater = DAT_800d16ac;
+		choice = DAT_800d16b4;
+		DAT_800d16d8 = DAT_800d16b0;
+		if (!DAT_800d16b8) {
+			DAT_800d1780 = 1;
+			DAT_800d16a4 = 1;
+			players = 1;
+		} else {
+			players = 2;
+			DAT_800d1780 = 2;
+			DAT_800d16a4 = 8;
 		}
-		FUN_8005c85c();
-		FUN_8006b434(choice, skater);
-		Init_Restart(PACK_0, 16);
-		FUN_800491e8();
-		DAT_800d1780 = 1;
-		Init_Restart(PACK_1, 16);
-		FUN_8006b01c(0);
-		FUN_800161d8();
-		FUN_8004b09c(DAT_800a195c);
-		FUN_800171f0();
-		if (DAT_800d1cb8) {
-			DAT_800d1c9c = 0;
-			continue;
+		if (++DAT_800d16ac == 11)
+			DAT_800d16ac = 0;
+		if (++DAT_800d16b4 == 9) {
+			DAT_800d16b4 = 0;
+			DAT_800d16b8 ^= 1;
+			if (++DAT_800d16b0 == 11)
+				DAT_800d16b0 = 0;
 		}
-		if (!DAT_800d13d8)
-			goto top;
-		DAT_800d13d8 = 0;
-		choice = 101;
+		goto launch;
+	}
+	FUN_8005ca88();
+	if (DAT_800d1c9c) {
+		FUN_8005c734(157);
+		Mess_LoadFont(DAT_800a1938, -1, -1, -1);
+		Mess_SetRGB(128, 128, 128, 0);
+		Mess_SetFontScale(256);
+		FUN_8001d250(1);
+		FUN_8001f1b4(4);
+		mode = 0;
+		skater = DAT_800a7068[0];
+		players = 1;
+		switch (DAT_800d16a4) {
+		case 1:
+			menu = 16;
+			break;
+		case 2:
+		case 3:
+			mode = 1;
+			break;
+		case 4:
+			break;
+		case 5:
+		case 6:
+			mode = 1;
+			menu = 32;
+			players = 2;
+			break;
+		case 7:
+			mode = 5;
+			menu = 32;
+			players = 2;
+			break;
+		case 8:
+			mode = 3;
+			menu = 32;
+			players = 2;
+			break;
+		}
+		switch (GetReturnScreen()) {
+		case 2:
+			if (players != 1)
+				goto board2;
+			FUN_800642d4(1);
+			goto board1;
+		case 1:
+			if (players == 1)
+				FUN_800642d4(1);
+			goto level;
+		case 3:
+			DAT_800a42f4.NumSkaters = 0;
+			menu = 96;
+			FUN_8005c8dc(0);
+			goto mainmenu;
+		case 4:
+			DAT_800a42f4.NumSkaters = 0;
+			menu = 0;
+			FUN_8005c8dc(0);
+			goto mainmenu;
+		case 5:
+			DAT_800a42f4.NumSkaters = 0;
+			menu = 0;
+			FUN_8005c8dc(0);
+			goto mainmenu;
+		case 6:
+			if (players == 1)
+				FUN_800642d4(1);
+			choice = DAT_800d1e28;
+			Mess_SetCurrentFont(DAT_800a1938);
+			Mess_UnloadFont();
+			FUN_8005cae8();
+			goto launch;
+		}
+	}
+	DAT_800d1c9c = 5;
+title:
+	FUN_8005ca10();
+	FUN_80060e98();
+	if (DAT_800d1cb8)
+		goto reset;
+	Mess_SetCurrentFont(DAT_800a1944);
+	Mess_UnloadFont();
+	if (!DAT_800d1cb0)
+		goto demo;
+	menu = 0;
+mainmenu:
+	FUN_8005c734(157);
+	Pack_DefragmentFully();
+	choice = FUN_8005de7c(menu);
+	if (DAT_800d1cb8)
+		goto reset;
+	if (!DAT_800d1cb0)
+		goto demo;
+	FUN_800101e4();
+	mode = 0;
+	players = 1;
+	menu = 0;
+	switch (choice) {
+	case -1:
+		goto title;
+	case 17:
+	case 18:
+		if (choice == 18) {
+			DAT_800d1d80 = 0;
+			FUN_80010000();
+		}
+		DAT_800d16a4 = players;
+		menu = 16;
+		goto skater1;
+	case 3:
+		DAT_800d16a4 = choice;
+		mode = 1;
+		goto skater1;
+	case 4:
+		DAT_800d16a4 = 2;
+		mode = 1;
+		goto skater1;
+	case 34:
+		mode = 1;
+		DAT_800d16a4 = 5;
+		menu = 32;
+		players = 2;
+		goto skater2;
+	case 33:
+		mode = 3;
+		DAT_800d16a4 = 8;
+		menu = 32;
+		players = 2;
+		goto skater2;
+	case 1234567:
+		mode = 1;
+		DAT_800d16a4 = 6;
+		menu = 32;
+		players = 2;
+		goto skater2;
+	case 35:
+		mode = 5;
+		DAT_800d16a4 = 7;
+		menu = 32;
+		players = 2;
+		goto skater2;
+	case 1553:
+		mode = 2;
+		choice = DAT_800a42f4.Level;
+		skater = DAT_800a42f4.Skater;
+		DAT_800d1c9c = 3;
+		DAT_800d16a4 = DAT_800a42f4.GGame;
+		goto replay;
+	case 1554:
+		players = 2;
+		mode = 2;
+		choice = DAT_800a42f4.Level;
+		skater = DAT_800a42f4.Skater2;
+		DAT_800d1c9c = 3;
+		DAT_800d16a4 = DAT_800a42f4.GGame;
+		DAT_800d16d8 = DAT_800a42f4.Skater;
+	replay:
+		FUN_8005ca10();
+		FUN_8005cae8();
+		goto launch;
+	case 19:
+		DAT_800d1d80 = players;
+		DAT_800d16a4 = players;
+		menu = 16;
+		goto skater1;
+	case 100:
+	case 101:
 		goto credits;
+	}
+	if ((unsigned)(choice - 99) < 2 || (unsigned)(choice - 1569) < 6 || (unsigned)(choice - 25202) < 6)
+		goto movie;
+	goto title;
+
+skater1:
+	FUN_800642d4(1);
+	DAT_800d1780 = 1;
+	skater = FUN_80059794();
+	if (DAT_800d1cb8)
+		goto reset;
+	if (skater == -1) {
+		FUN_800642d4(2);
+		goto mainmenu;
+	}
+	goto board1;
+skater2:
+	Pack_DefragmentFully();
+	skater = FUN_80056754();
+	if (DAT_800d1cb8)
+		goto reset;
+	Mess_SetCurrentFont(DAT_800a1950);
+	Mess_UnloadFont();
+	Mess_SetCurrentFont(DAT_800a1938);
+	if (skater == -1)
+		goto mainmenu;
+	goto board2;
+board1:
+	r = FUN_80054510(skater);
+	if (DAT_800d1cb8)
+		goto reset;
+	if (r == -1)
+		goto skater1;
+	goto level;
+board2:
+	r = FUN_80051660(skater);
+	if (DAT_800d1cb8)
+		goto reset;
+	if (r == -1)
+		goto skater2;
+level:
+	choice = FUN_8006658c(skater);
+	if (DAT_800d1cb8)
+		goto reset;
+	if (choice == -1) {
+		if (players == 1)
+			goto board1;
+		if (players == 2)
+			goto board2;
+	}
+	Mess_SetCurrentFont(DAT_800a1938);
+	Mess_UnloadFont();
+	FUN_8005cae8();
+launch:
+	FUN_8001f0dc();
+	FUN_8005ca10();
+	FUN_8005d35c(choice, mode, skater);
+	DAT_800d1780 = players;
+	DAT_800d1dc0 = 0;
+	if (!DAT_800d1de8 && DAT_800a5398[choice].isCompetition == 1)
+		Competition_Init();
+	FUN_8005c85c();
+	FUN_8006b434(choice, skater);
+	Init_Restart(PACK_0, 16);
+	FUN_800491e8();
+	DAT_800d1780 = 1;
+	Init_Restart(PACK_1, 16);
+	FUN_8006b01c(0);
+	FUN_800161d8();
+	FUN_8004b09c(DAT_800a195c);
+	FUN_800171f0();
+	if (DAT_800d1cb8) {
+		DAT_800d1c9c = 0;
+		goto restart;
+	}
+	if (!DAT_800d13d8)
+		goto top;
+	DAT_800d13d8 = 0;
+	choice = 101;
+	goto credits;
 
 demo:
-		do {
-			FUN_80014ba4(&DAT_800bf0c4);
-		} while (0);
-		mode = 2;
-		menu = 16;
-		players = DAT_800a42f4.NumSkaters;
-		skater = DAT_800a42f4.Skater;
-		choice = DAT_800a42f4.Level;
-		DAT_800d16d8 = DAT_800a42f4.Skater2;
-		DAT_800d16a4 = DAT_800a42f4.GGame;
-		FUN_8005cae8();
-		DAT_800d1c9c = 4;
-		goto launch;
+	do {
+		FUN_80014ba4(&DAT_800bf0c4);
+	} while (0);
+	mode = 2;
+	menu = 16;
+	players = DAT_800a42f4.NumSkaters;
+	skater = DAT_800a42f4.Skater;
+	choice = DAT_800a42f4.Level;
+	DAT_800d16d8 = DAT_800a42f4.Skater2;
+	DAT_800d16a4 = DAT_800a42f4.GGame;
+	FUN_8005cae8();
+	DAT_800d1c9c = 4;
+	goto launch;
 
 movie:
-		FUN_8006af64();
-		DAT_800d1dc0 = 0;
-		FUN_8005c85c();
-		if ((unsigned)(choice - 99) < 2)
-			menu = 96;
-		else if ((unsigned)(choice - 1569) < 6)
-			menu = 1568;
-		else if ((unsigned)(choice - 25202) < 6)
-			menu = 25200;
-		switch (choice) {
-		case 99: FUN_80022c1c(-26); break;
-		case 1569: FUN_80022c1c(-25); break;
-		case 1570: FUN_80022c1c(-12); break;
-		case 1571: FUN_80022c1c(-13); break;
-		case 1572: FUN_80022c1c(-14); break;
-		case 1573: FUN_80022c1c(-15); break;
-		case 1574: FUN_80022c1c(-16); break;
-		case 25202: FUN_80022c1c(-17); break;
-		case 25203: FUN_80022c1c(-18); break;
-		case 25204: FUN_80022c1c(-19); break;
-		case 25205: FUN_80022c1c(-20); break;
-		case 25206: FUN_80022c1c(-21); break;
-		case 25207: FUN_80022c1c(-11); break;
-		case 100: break;
-		}
-		if (DAT_800a891c[0].Polys)
-			FUN_8004d5d0(DAT_800a891c[0].Polys);
-		DAT_800a891c[0].Polys = 0;
-		FUN_8006b01c(1);
-		FUN_8005c8dc(0);
-		FUN_800161d8();
-		goto mainmenu;
+	FUN_8006af64();
+	DAT_800d1dc0 = 0;
+	FUN_8005c85c();
+	if ((unsigned)(choice - 99) < 2)
+		menu = 96;
+	else if ((unsigned)(choice - 1569) < 6)
+		menu = 1568;
+	else if ((unsigned)(choice - 25202) < 6)
+		menu = 25200;
+	switch (choice) {
+	case 99: FUN_80022c1c(-26); break;
+	case 1569: FUN_80022c1c(-25); break;
+	case 1570: FUN_80022c1c(-12); break;
+	case 1571: FUN_80022c1c(-13); break;
+	case 1572: FUN_80022c1c(-14); break;
+	case 1573: FUN_80022c1c(-15); break;
+	case 1574: FUN_80022c1c(-16); break;
+	case 25202: FUN_80022c1c(-17); break;
+	case 25203: FUN_80022c1c(-18); break;
+	case 25204: FUN_80022c1c(-19); break;
+	case 25205: FUN_80022c1c(-20); break;
+	case 25206: FUN_80022c1c(-21); break;
+	case 25207: FUN_80022c1c(-11); break;
+	case 100: break;
+	}
+	if (DAT_800a891c[0].Polys)
+		FUN_8004d5d0(DAT_800a891c[0].Polys);
+	DAT_800a891c[0].Polys = 0;
+	FUN_8006b01c(1);
+	FUN_8005c8dc(0);
+	FUN_800161d8();
+	goto mainmenu;
 
 
 credits:
-		FUN_8005c734(choice == 101 ? 157 : -1);
-		FUN_8004fe28(choice != 100, 1);
-		if (DAT_800a891c[0].Polys)
-			FUN_8004d5d0(DAT_800a891c[0].Polys);
-		DAT_800a891c[0].Polys = 0;
-		FUN_8006b01c(1);
-		FUN_8005c8dc(0);
-		FUN_800161d8();
-		DAT_800d16a4 = 3;
-		goto top;
-	}
+	FUN_8005c734(choice == 101 ? 157 : -1);
+	FUN_8004fe28(choice != 100, 1);
+	if (DAT_800a891c[0].Polys)
+		FUN_8004d5d0(DAT_800a891c[0].Polys);
+	DAT_800a891c[0].Polys = 0;
+	FUN_8006b01c(1);
+	FUN_8005c8dc(0);
+	FUN_800161d8();
+	DAT_800d16a4 = 3;
+	goto top;
 }

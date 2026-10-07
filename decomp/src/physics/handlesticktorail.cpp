@@ -9,10 +9,17 @@
    keeps the two pointer givs apart as in retail; `char *pName` loaded before the Trick_Trick call
    gives retail's score-first argument loads; the Limit test is two ifs on a State local (not an
    || that folds to & 0x6000); `case 0: break;` gives the m210 slti tree; Bailing as two `= 1`
-   stores. Residues: the 2*index giv and pre-test load schedule in the trick walk, the
-   GetBalanceVel copy/arm register roles (a1/a2/a3: retail's DAT arm uses the load, the stat
-   arms the copy; ours the reverse), and the Direction call's a0 move / name-table base register
-   (Score read into a local between the m368 and mGrindTrick stores gives retail's lhu-first order). */
+   stores. StartGrind's Score is one function-scope local assigned in both Trick_Trick arms (set
+   twice, so no sched1 set-once boost; as in FUN_8003159c) and read after the mGrindTrick store.
+   Residues: the trick walk and the GetBalanceVel copy/arm register roles (a1/a2/a3: retail's DAT
+   arm uses the load, the stat arms the copy; ours the reverse = cse1 swapped `321=mem; 322=321`
+   into `322=mem; 321=322` because 322 outlives the block).
+   Trick walk: retail's zero-trip `blez` goes straight to `RailTrick = 0` (jump-threaded past the
+   post-loop recheck). The test written WITHOUT `f` (`DAT_800a7358[RailTrick].Flags > 0`) threads
+   it, after which gcse PRE copies 2*RailTrick in both body and test and loop reduces the 2R giv
+   exactly as retail (li 64 / +2), but still 2 words long: retail's entry load and loop test share
+   one pseudo (t0; unboosted, so the entry lw lands early), and ours are two (renamed by
+   duplicate_loop_exit_test), which also moves the 2R biv out of v0. With `f`, no threading. */
 extern "C" {
 #include <sys/types.h>
 #include <libgte.h>
