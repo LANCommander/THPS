@@ -1160,3 +1160,4 @@ src/spool/loadtexturestovram.cpp	0x8006f854	912	sym	Spool_LoadTexturesToVRAM__Fi
 src/unnamed/8003159c.cpp	0x8003159c	304	sym	FUN_8003159c
 src/unnamed/8008528c.cpp	0x8008528c	1096	sym	FUN_8008528c
 src/tricktips/update.cpp	0x80072404	2604	sym	TrickTips_Update__Fv
+src/front/frontendmain.cpp	0x8005bb70	2824	sym	FUN_8005bb70
