@@ -4,10 +4,12 @@
    tapes-got screen (creating the spinning tapes the first time round), the yes/no menus, the
    name entry, the H.O.R.S.E. turn screens, the level's high-score table and the end-of-run
    statistics (career totals, two-player result, graffiti tallies or the H.O.R.S.E. letters).
-   H.O.R.S.E. case: `Line = 0;` before the player-colour test is retail's dead `addu s2,zero,zero`
-   in that bne's delay slot (Line is the SYM's function-wide s2 row counter); the second player's
-   rows use Line++ * 24 + 80. Residue: the first of those rows isn't folded to 80 (2 words), and
-   the NO SCORE tail cross-jumps from the call where retail shares only `xori; sw`. */
+   H.O.R.S.E. case: the 1P stats block has its own `int Line` (the SYM lists two: a function-wide
+   s2 one and a block-local s2 one), so the function-wide Line is only ever set to 0. gcse can't
+   cprop 0 into the `ashift` of `Line * 24`, so the rows stay live through flow; combine then folds
+   them via nonzero_bits (every set of Line is 0), leaving retail's dead `addu s2,zero,zero` in the
+   bne delay slot. The NO SCORE row's `Line * 24 + 80` also keeps its call apart from the PUSH
+   tail, so cross-jumping shares only `xori; sw` as in retail. */
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
@@ -486,6 +488,7 @@ void Front_Display()
 		Mess_SetRGB(122, 122, 122, 0);
 		Mess_SetScale(256);
 		if (DAT_800d1780 == 1) {
+			int Line;
 			int i;
 			FUN_8001d250(1);
 			for (i = 0; i < 5; i++) {
@@ -579,11 +582,11 @@ void Front_Display()
 						DAT_800d17a4 = DAT_800d17c8->mHorseScore;
 						if (DAT_800d17a4) {
 							FUN_8008b900(Score, DAT_8009e460, DAT_800d17a4);
-							FUN_8001e114(256, 80, Score, 0, 0, 256, 0);
+							FUN_8001e114(256, Line * 24 + 80, Score, 0, 0, 256, 0);
 							DAT_800d14fc ^= 1;
 							DAT_800d1500 ^= 1;
 						} else {
-							FUN_8001e114(256, 80, DAT_8009e470, 0, 0, 256, 0);
+							FUN_8001e114(256, Line * 24 + 80, DAT_8009e470, 0, 0, 256, 0);
 							DAT_800d1500 ^= 1;
 						}
 					} else {

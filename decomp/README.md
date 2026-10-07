@@ -615,6 +615,28 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
   - An untouched `a0` at a `jal` can still be `f(param)`; the extra use raises the param's priority.
   - FUN_8008b900 is `sprintf` and returns `int`. Wrong `void` return types caused several of the
     remaining residues.
+- **End-game levers (the last exact matches):**
+  - **sched1's set-once boost:** an insn setting a pseudo that is set exactly once and still live
+    gets top priority and lands right above its consumer. Assign the variable in two places (both
+    if/else arms) so it can stay early (FUN_8003159c, HandleStickToRail). Index with `[i - 2]`
+    rather than `i -= 2` to glue it to its use (Mess_UnloadFont).
+  - **Removing wrappers:** a `do{}while(0)` from an earlier pass can *cause* a residue (its loop note
+    is a sched barrier). Recompile with every wrapper removed (TrickTips_Update).
+  - **Goto loops:** an outermost `label: … goto label;` loop has no loop notes, so refs aren't
+    loop-weighted and short-lived constants stop winning v0 (front-end dispatcher).
+  - **Priority ties:** an equal global-alloc priority goes to the lower pseudo number, i.e. the
+    earlier declaration. A duplicated, later cross-jumped tail can raise refs in place of a wrapper.
+  - **Expression chains:** block-local temps for an or-chain's low-priority terms decide
+    local-alloc's chain register (M3d_PreprocessWibblyTextures).
+  - **Check `;; N conflicts:` in `.greg`** before trying priority levers. A hard register listed
+    there means local-alloc already took it, and no priority change will help.
+- **Parked, with mechanisms understood but no plausible source found:**
+  - HandleJump: a dead `mult` without `mfhi` needs REG_UNUSED at reload.
+  - ReactToCollision: retail's reorg follows 2 conditional branches to our 1.
+  - DoOnGroundPhysics: needs an invisible s1 preference.
+  - Bit_Display: local-alloc qty order.
+  - HandleStickToRail, FUN_8004f000, Card_GetDirAndFreeBlocks, FUN_8002566c,
+    FileIO_Open.
 - **Function table:**
   - Identities: FUN_8003058c is HandleStickToRail; FUN_80059794 is the 1P skater select;
     FUN_8006658c/80066d7c are the level select.
