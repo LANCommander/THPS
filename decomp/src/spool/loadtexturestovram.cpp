@@ -3,7 +3,8 @@
    past the models, texture lookup, 36-byte and 516-byte tables to the texture records. For each
    texture not yet resident it finds VRAM space (Pack_Pack), uploads the image (8-bit or 4-bit),
    then fills the Texture entry: palette (ref-counted), tpage, UVs, texture-window command and the
-   resident flag. */
+   resident flag. The flag update goes through a multiply-set local, so sched1 doesn't treat it as a
+   birthing insn and keeps the store last (demo line 1135, after Window). */
 extern "C" {
 #include <sys/types.h>
 #include <libgte.h>
@@ -135,7 +136,6 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 					u = t << 2;
 				pTextureEntry->u0 = u;
 				v = y;
-				pTextureEntry->Flags = (pTextureEntry->Flags & 0xfff0ffff) | 0x10000;
 				pTextureEntry->v0 = v;
 				pTextureEntry->u1 = u + Width - 1;
 				pTextureEntry->v1 = v;
@@ -144,6 +144,12 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 				pTextureEntry->u3 = u + Width - 1;
 				pTextureEntry->v3 = v + Height - 1;
 				pTextureEntry->Window = ((v & 0xf8) << 12) | 0xe2000000 | ((u & 0xf8) << 7) | ((-Height & 0xf8) << 2) | ((-Width & 0xf8) >> 3);
+				{
+					uint f = pTextureEntry->Flags;
+					f &= 0xfff0ffff;
+					f |= 0x10000;
+					pTextureEntry->Flags = f;
+				}
 			}
 		}
 	}

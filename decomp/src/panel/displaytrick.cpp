@@ -3,9 +3,8 @@
    uses the Font/TextEffect classes THPS1 lacks). Draws the three trick-name lines bottom-up and
    animates the text scale: grow from 60 (state 1), settle to normal (2), hold for 30 frames (3),
    shrink away (4), or hand over to the message effect at +0x164 (5). Called on pBruce->mPanel.
-   205/208: retail keeps the BigScale if/else (bne; j) but loads DAT_800d1780 into v1, not
-   BigScale's a1. Any form whose jump test doesn't use BigScale gets jump.c's
-   "x = b; if (c) x = a;" rewrite instead (no j). */
+   The per-mode scale pair is set in both arms (NormalScale first): that keeps jump.c from
+   rewriting the if/else into "x = b; if (c) x = a;", giving retail's bne; j shape. */
 typedef unsigned short ushort;
 typedef unsigned int uint;
 struct SVideoInfo {
@@ -58,12 +57,15 @@ void CPanelData::DisplayTrick(CBruce *pBruce, ushort xpos, ushort ypos)
 	Mess_SetRGB(128, 128, 128, 0);
 	FUN_8006ca1c(pBruce);
 	FUN_8001d250(0);
-	int NormalScale = 188;
-	int BigScale = DAT_800d1780;
-	if (BigScale == 1)
+	int NormalScale;
+	int BigScale;
+	if (DAT_800d1780 == 1) {
+		NormalScale = 188;
 		BigScale = 256;
-	else
+	} else {
+		NormalScale = 188;
 		BigScale = 188;
+	}
 	switch (mTrickState) {
 	case 0:
 		return;

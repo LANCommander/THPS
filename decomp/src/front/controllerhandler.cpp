@@ -14,8 +14,10 @@
      - X/start on RESET TO DEFAULT restores the identity mapping and turns both options on.
    The four left/right button-row blocks index by the stored selection (`Function[sel]`,
    `DAT_800d2350 = sel`), which keeps retail's unfolded (&map + 4k) + pl*16 address and the s2
-   copy of the selection. Residue (8 words): in each of those blocks retail schedules the
-   `lui` of DAT_800bf260 before `sll pl,4` and the reload of *f before the DAT_800d2350 byte store. */
+   copy of the selection. The row address is built column-first (`b = &map[0].Function[sel];
+   f = b + pl * 4;`), which puts the DAT_800bf260 `lui` ahead of `sll pl,4`. `f` is a block-local
+   (set once per pseudo), so alias.c knows its base is DAT_800bf260 and lets the reload of *f move
+   above the DAT_800d2350 byte store; one function-wide `f` set four times loses its base value. */
 typedef unsigned char uchar;
 
 struct SButton {
@@ -83,7 +85,6 @@ void FUN_8005eb78(VerticalMenu *menu)
 	int pl = DAT_800d1d28;
 	char buf[32];
 	uchar left;
-	int *f;
 	int sel;
 
 	if (pl == 1 && !DAT_800c0a48[1].Connected) {
@@ -147,7 +148,8 @@ void FUN_8005eb78(VerticalMenu *menu)
 		Pad_ClearTriggers(&DAT_800c0a48[1]);
 		if ((sel = menu->getSelected()) == 0) {
 			SFX_PlayX(144, 8192, 0);
-			f = &DAT_800bf260[pl].Function[sel];
+			int *b = &DAT_800bf260[0].Function[sel];
+			int *f = b + pl * 4;
 			*f = *f + (left ? -1 : 1);
 			if ((signed char)*f < 0)
 				*f = 3;
@@ -158,7 +160,8 @@ void FUN_8005eb78(VerticalMenu *menu)
 		}
 		if ((sel = menu->getSelected()) == 1) {
 			SFX_PlayX(144, 8192, 0);
-			f = &DAT_800bf260[pl].Function[sel];
+			int *b = &DAT_800bf260[0].Function[sel];
+			int *f = b + pl * 4;
 			*f = *f + (left ? -1 : 1);
 			if ((signed char)*f < 0)
 				*f = 3;
@@ -169,7 +172,8 @@ void FUN_8005eb78(VerticalMenu *menu)
 		}
 		if ((sel = menu->getSelected()) == 2) {
 			SFX_PlayX(144, 8192, 0);
-			f = &DAT_800bf260[pl].Function[sel];
+			int *b = &DAT_800bf260[0].Function[sel];
+			int *f = b + pl * 4;
 			*f = *f + (left ? -1 : 1);
 			if ((signed char)*f < 0)
 				*f = 3;
@@ -180,7 +184,8 @@ void FUN_8005eb78(VerticalMenu *menu)
 		}
 		if ((sel = menu->getSelected()) == 3) {
 			SFX_PlayX(144, 8192, 0);
-			f = &DAT_800bf260[pl].Function[sel];
+			int *b = &DAT_800bf260[0].Function[sel];
+			int *f = b + pl * 4;
 			*f = *f + (left ? -1 : 1);
 			if ((signed char)*f < 0)
 				*f = 3;
