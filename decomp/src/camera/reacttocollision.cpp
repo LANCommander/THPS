@@ -223,12 +223,12 @@ void CCamera::ReactToCollision()
 			}
 		}
 	}
-	vTemp.vz = 0;
-	vTemp.vy = 0;
-	vTemp.vx = -(DAT_800d203c << 13);
 	do {
-		FUN_80092f60(&m, &vTemp, &vLeft);
+		vTemp.vz = 0;
+		vTemp.vy = 0;
+		vTemp.vx = -(DAT_800d203c << 13);
 	} while (0);
+	FUN_80092f60(&m, &vTemp, &vLeft);
 	vRight.vx = -vLeft.vx;
 	vRight.vy = -vLeft.vy;
 	vRight.vz = -vLeft.vz;

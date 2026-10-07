@@ -1,6 +1,7 @@
 /* ParseScript__6CBaddyPUs (0x8003fc1c) */
 /* C++ (BADDY.CPP). Demo twin; locals from its MAIN.SYM. Runs script commands until the end marker:
-   0x4000 commands call one virtual (stopping the parse if it returns 0), 0x2000 ones another. */
+   0x4000 commands go to ExecuteCommand (stopping the parse if it returns 0), 0x2000 ones to another
+   virtual; both take the command word (still in a1, which is why retail keeps it there). */
 #pragma interface
 typedef unsigned short ushort;
 typedef unsigned char uchar;
@@ -40,8 +41,8 @@ public:
 	virtual void Virtual5();
 	virtual void Virtual6();
 	virtual void Virtual7();
-	virtual int Virtual8();
-	virtual void Virtual9();
+	virtual int ExecuteCommand(ushort);
+	virtual void HandleCommand(ushort);   /* slot 9; name unknown */
 	virtual int GetNode(ushort);
 };
 
@@ -67,10 +68,10 @@ void CBaddy::ParseScript(ushort *p_script)
 	while (*mpScript != 0x4100) {
 		ushort command = *mpScript++;
 		if (command & 0x4000) {
-			if (!Virtual8())
+			if (!ExecuteCommand(command))
 				return;
 		} else if (command & 0x2000) {
-			Virtual9();
+			HandleCommand(command);
 		}
 	}
 	mDoScript = 0;

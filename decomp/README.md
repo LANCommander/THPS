@@ -404,6 +404,85 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
 - **`-fno-gcse` fixes some invariant-load orders** (Card_GetDirAndFreeBlocks 68/69), but it breaks
   other matches in the same TU, so it isn't adopted.
 
+**More from the S24 big-twin pass (1079 → 1082), each verified on retail:**
+
+- **Global-alloc order:**
+  - The `;; N regs to allocate:` line in `cc1 -dg` (`.greg`) lists pseudos in priority order.
+  - Pass 0 also skips registers that *lower*-priority conflicting pseudos prefer (`;; N preferences:`).
+  - Lengthening one GCSE pseudo's life with a temp can therefore move other pseudos' registers. In
+    Front_Update, `v = vol*6/5; A = v; B = v;` took the score from 2042 to 2314.
+- **`a = b = x` vs two statements** moves the address high/lo_sum in sched1 and changes GCSE
+  live lengths. It isn't neutral.
+- **A constant store's statement position decides a neighbour's register.** Take the order from the
+  demo line table. Moving `m710 = -1;` made the CBruce ctor exact.
+- **sched1 loop-note barrier:** the first insn after `NOTE_INSN_LOOP_END` is a barrier, and every
+  later reader depends on it. Wrap the stores *before* a call in `do{}while(0)`, not the call
+  (ReactToCollision vRight).
+- **Pointer bumps:**
+  - `uint c = *pw++; p = (ushort *)pw;` keeps retail's unfolded `addiu; lhu 0` bumps.
+  - `p = (ushort *)(pw + 1)` lets CSE fold them into offsets.
+  - Seen in ExecuteCommandList.
+- **Two-arg calls with the bump in the `jal` delay slot:** read the args into locals first:
+  `ushort a = p[0], b = p[1]; p += 2; cam->F(a, b);`. The plain form gets cross-jumped with the
+  else's `p += 2`.
+- **Short field stores:**
+  - An `lh` feeding a short field comes from an inline setter with a `short` parameter.
+  - An inline 2-arg setter `{ x = a; y = b; }` gives `lhu; lhu; sw; sw` instead of interleaved
+    loads and stores.
+- **A global address rebuilt before a store in a big loop** (`lui; addiu; sw x,4(sN)`): set
+  `T *pG = &G;` inside the loop's entry guard (the preheader). `G.f = x` gets folded because loop.c
+  calls the hoist "not desirable" (LineToThisItemCached).
+- **Walk an array of structs with `p->f … p++`**, not `p[i].f`. That gives retail's reduced givs
+  and frame size (LineToThisItemCached went from 1077 to 1197).
+- **Hidden `case N: default:`** shows up as an `eq K; slti K+1; bne → default` tree. Search
+  `casetree.py` with the `ge K+1` form (Front_Display).
+- **A clamp `f(x <= K ? x : K)`** loads straight into the arg register. `x > K ? K : x` adds a copy.
+- **A row counter set mid-argument-setup** comes from `Line++*18+60` post-increments that CSE folds.
+- **Statement order can block an unwanted cross-jump** between cases: write
+  `SwitchOffPauseMode = 1; EndCode = 7;` in one case so it stops sharing another case's tail.
+- **Still unexplained:**
+  - HandleJump's lone dead `mult` from an unused `/10`. Flow deletes the whole chain whenever the
+    quotient is dead before combine.
+  - ReactToCollision's unfilled `beq; mult` slot. reorg's `find_dead_or_set_registers` gives up
+    after the 2nd conditional branch.
+
+**More from the S25 mid-size sweep (1082 → 1095), each verified on retail:**
+
+- **An argument register you can't explain is often a missing parameter.** ParseScript's opcode sat in `a1`
+  because the virtuals take it: `ExecuteCommand(ushort command)`. The same fix filled a loop delay slot.
+  The stale-register form of the arity lever applies here too (FUN_8006582c).
+- **A wrong struct stride shows up as merged index arithmetic.** If retail computes `(n-1)<<2` and
+  `e*stride` separately and yours is one `(e*K+n-1)<<2` chain, recover the stride from the multiply
+  sequence (`sll 4; subu; sll 3` = ×120) (FUN_800491e8).
+- **Fake `volatile` blocks jump threading.** Typed struct fields give the same reloads and let a `bne`
+  thread into the nested test (FUN_8005f9ec).
+- **Reassociation:**
+  - `ptr + (x + K)` keeps its grouping only when `ptr` is a real pointer.
+  - `X - (Y + C)` folds to `(X - C) - Y` even across a variable; use named temps
+    `total = a - b; used = S + 16; avail = total - used;` (Mem_NewX).
+- **Copies:**
+  - A load through the copy's register means the copy is mentioned later. Reuse it in the tail
+    (`pLast = pChoiceLast; if (pLast) pLast->pNext = …`, Mem_NewTop).
+  - `i = n; …; n = m; i -= 2;` keeps `addu; addiu -2` (Mess_UnloadFont).
+- **Quotients:** `t /= 6; f(t);` keeps the quotient in t's register; `f(t / 6)` puts it in the
+  argument register (UpdateShadow).
+- **Shared constants across blocks:** `X[i] = one = 1;` at the first use, `Y = one;` later (FUN_80066768).
+- **The prologue's `sw ra` stays first** with an aggregate initializer, `char *l[2] = {A, B};`. Element
+  assignments let sched2 sink it (FUN_80060854).
+- **Follow the demo line table:**
+  - A statement split over two lines needs its own temp: `int pad = ((w*h)&1)*2; db += w*h*2 + pad;`.
+    It changed giv combining elsewhere and was worth 50+ words (Mess_LoadFont).
+  - Three tests on one line is one `||` condition.
+  - The masks go inside the assignments (`a = *p & 0xdf;`), and cross-jumping merges them (Spool_FindAnim).
+- **Byte stores:** `x << 2` into a byte field narrows the load to `lbu`; `x * 4` keeps `lw`.
+- **Unrotated top-tested loops** come from `for(;;)` whose exits are `return`. A `break` or a `while`
+  condition gets rotated (Mess_UnloadFont).
+- **Jump threading:** after `if (a != b) break;`, test `!a` rather than `!b` to steer the zero exit
+  (Spool_FindAnim).
+- **Operand order inside multi-term `|`** changes sched1 and register choice. Put the constant second
+  (LoadTexturesToVRAM).
+- **Header syntax:** write `flags=-f…` with no brackets. salvage ignores `[flags=…]`.
+
 ## Global-referencing functions — UNLOCKED (linker-lite reloc resolution)
 
 **THPS1 is `-G8`** (not -G0): small globals are addressed **gp-relative**, `gp = 0x800d1080`

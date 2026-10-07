@@ -7,11 +7,9 @@ int DAT_800d1d7c,DAT_800d1d80;
 int FUN_8005e0e0(char**,int*,int,int,int*,int,int,int,int);
 void FUN_8008c190(char*);
 int FUN_80060854(int a){
-  char*l[2];
+  char*l[2]={DAT_800a1f50,DAT_800a1f60};
   int k[2];
   int v,i,j;
-  l[0]=DAT_800a1f50;
-  l[1]=DAT_800a1f60;
   k[0]=0;
   k[1]=0;
   v=FUN_8005e0e0(l,k,2,112,&a,0,0,0,0);

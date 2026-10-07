@@ -50,7 +50,6 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
   u_short *clut;
   RECT r;
   char *db;
-  char *tb;
   int x, y;
 
   Mess_SetNewFont(1);
@@ -97,7 +96,7 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
   if (!Font_table[this_font].mChar_table) printf(DAT_8009ef84);
 
   db = file_buffer + (Font_table[this_font].mNum_chars * 16 + 4) + 32;
-  tb = file_buffer + 4;
+  char *tb = file_buffer + 4;
   {
     int i;
     for (i = 0; i < Font_table[this_font].mNum_chars; i++) {
@@ -117,14 +116,13 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
       Font_table[this_font].mChar_table[i].w = w;
       Font_table[this_font].mChar_table[i].h = h;
       Font_table[this_font].mChar_table[i].baseline = *(int *)(tb + 8);
-      if (width == -1)
+      if (width == -1 || (width == 0 && i == 0))
         Font_table[this_font].mChar_table[i].real_w = *(int *)(tb + 12);
-      else if (width == 0) {
-        if (i == 0) Font_table[this_font].mChar_table[i].real_w = *(int *)(tb + 12);
-        else Font_table[this_font].mChar_table[i].real_w = Font_table[this_font].mChar_table[0].real_w;
-      } else
+      else if (width == 0)
+        Font_table[this_font].mChar_table[i].real_w = Font_table[this_font].mChar_table[0].real_w;
+      else
         Font_table[this_font].mChar_table[i].real_w = width;
-      Font_table[this_font].mChar_table[i].u0 = x * 4;
+      Font_table[this_font].mChar_table[i].u0 = x << 2;
       Font_table[this_font].mChar_table[i].v0 = y;
       Font_table[this_font].mChar_table[i].u1 = Font_table[this_font].mChar_table[i].u0 + w * 4;
       Font_table[this_font].mChar_table[i].v1 = Font_table[this_font].mChar_table[i].v0;
@@ -134,7 +132,8 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
       Font_table[this_font].mChar_table[i].v3 = Font_table[this_font].mChar_table[i].v2;
       Font_table[this_font].mChar_table[i].tp = GetTPage(0, 0, x, y);
       Font_table[this_font].mChar_table[i].clut = DAT_800d1600;
-      db += w * h * 2 + ((w * h) & 1) * 2;
+      int pad = ((w * h) & 1) * 2;
+      db += w * h * 2 + pad;
       tb += 16;
     }
   }

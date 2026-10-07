@@ -27,19 +27,19 @@ void *Mem_NewTop(uint size)
 	SBlockHeader *pChoice;
 	SBlockHeader *pChoiceLast;
 
-	pLast = 0;
-	pBlock = DAT_800d1b64[Heap];
-	pChoiceLast = 0;
-	pChoice = pBlock;
 	DAT_800d1b58 = (DAT_800d1b58 + 1) & 0x7fffffff;
 	size = (size + 3) & ~3;
+	pBlock = DAT_800d1b64[Heap];
+	pLast = 0;
+	pChoice = pBlock;
+	pChoiceLast = 0;
 	while (pBlock) {
 		if (pBlock->Size >= size) {
 			pChoice = pBlock;
 			pChoiceLast = pLast;
 		}
 		pLast = pBlock;
-		pBlock = pBlock->pNext;
+		pBlock = pLast->pNext;
 	}
 	if (pChoice->Size < size) {
 		if (AssertOnFailure) {
@@ -67,8 +67,9 @@ void *Mem_NewTop(uint size)
 		}
 		return pBlock + 1;
 	}
-	if (pChoiceLast)
-		pChoiceLast->pNext = pChoice->pNext;
+	pLast = pChoiceLast;
+	if (pLast)
+		pLast->pNext = pChoice->pNext;
 	else
 		DAT_800d1b64[Heap] = pChoice->pNext;
 	pChoice->Flags = 1;

@@ -17,10 +17,9 @@ void FUN_80066768(void){
   FUN_8004cc18();
   if(DAT_800d1afc==0&&DAT_800d2380==0&&DAT_800d2390<4){
     t=DAT_800d2374;
-    one=1;
     if(t>=0){
       DAT_800d2390++;
-      DAT_800d3840[DAT_800d2360]=one;
+      DAT_800d3840[DAT_800d2360]=one=1;
     }else{
       DAT_800d2374=DAT_800d2374+1;
       goto L50;
@@ -42,8 +41,8 @@ L50:
       FUN_8008c190(DAT_800a21cc,buf);
       return;
     }
-    t=FUN_8004d068(n,1,1);
-    DAT_800d3810[DAT_800d2360]=t;
-    FUN_8004cb10(t);
+    {int r=FUN_8004d068(n,1,1);
+    DAT_800d3810[DAT_800d2360]=r;
+    FUN_8004cb10(r);}
   }
 }

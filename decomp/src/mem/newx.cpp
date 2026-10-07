@@ -36,8 +36,8 @@ void *Mem_NewX(uint size, int Heap, int AssertOnFailure)
 	DAT_800d1b58 = (DAT_800d1b58 + 1) & 0x7fffffff;
 	size = (size + 3) & ~3;
 	if (Heap == -2) {
+		int avail;
 		if (!DAT_800d1b48) {
-			int avail;
 			if (DAT_800d1b4c)
 				avail = (char *)DAT_800d1b4c - DAT_800d1b40 - 8;
 			else
@@ -52,7 +52,10 @@ void *Mem_NewX(uint size, int Heap, int AssertOnFailure)
 			DAT_800d1b48->pNext = (SBlockHeader *)DAT_800d1b58;
 			return DAT_800d1b48 + 1;
 		} else {
-			if (DAT_800d1b44 - DAT_800d1b40 - (DAT_800d1b48->Size + 16) < size) {
+			int total = DAT_800d1b44 - DAT_800d1b40;
+			int used = DAT_800d1b48->Size + 16;
+			avail = total - used;
+			if (avail < size) {
 				if (AssertOnFailure)
 					Bang(128, 128, 0);
 				return 0;
@@ -80,8 +83,8 @@ void *Mem_NewX(uint size, int Heap, int AssertOnFailure)
 		}
 		return 0;
 	}
-	if (size + 8 < pBlock->Size) {
-		SBlockHeader *pLeftOver = (SBlockHeader *)((char *)pBlock + size + 8);
+	if (pBlock->Size > size + 8) {
+		SBlockHeader *pLeftOver = (SBlockHeader *)((char *)pBlock + (size + 8));
 		pLeftOver->Size = pBlock->Size - size - 8;
 		if (pLast)
 			pLast->pNext = pBlock->pNext;

@@ -293,9 +293,9 @@ void Bit_Display()
 				continue;
 			uint *OTPos = (uint *)(DAT_800d1a48->pOT + (RotCoords.vz & 0x3ffc));
 			DVECTOR *pBufA = (DVECTOR *)0x1f800000;
+			DVECTOR *pBufB = (DVECTOR *)0x1f800004 + pGlow->mNumFringes;
 			STrig *pTab = DAT_800c9670;
 			STrig *p = &pTab[Ang & 4095];
-			DVECTOR *pBufB = (DVECTOR *)0x1f800004 + pGlow->mNumFringes;
 			int RadA = pSection[n - 1].Radius * 400 / RotCoords.vz;
 			int MSin = p->s * 400 / 256;
 			int MCos = p->c;

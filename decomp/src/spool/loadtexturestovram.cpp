@@ -126,14 +126,16 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 			pTextureEntry->Clut = pPal->Clut;
 			pTextureEntry->TPage = FUN_8008f72c(NumColours == 256, 0, x, y);
 			{
-				int u = x & 63;
+				int t = x & 63;
+				uchar u;
 				uchar v;
 				if (NumColours == 256)
-					u <<= 1;
+					u = t << 1;
 				else
-					u <<= 2;
+					u = t << 2;
 				pTextureEntry->u0 = u;
 				v = y;
+				pTextureEntry->Flags = (pTextureEntry->Flags & 0xfff0ffff) | 0x10000;
 				pTextureEntry->v0 = v;
 				pTextureEntry->u1 = u + Width - 1;
 				pTextureEntry->v1 = v;
@@ -141,8 +143,7 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 				pTextureEntry->v2 = v + Height - 1;
 				pTextureEntry->u3 = u + Width - 1;
 				pTextureEntry->v3 = v + Height - 1;
-				pTextureEntry->Window = 0xe2000000 | ((u & 0xf8) << 7) | ((v & 0xf8) << 12) | ((-Height & 0xf8) << 2) | ((-Width & 0xf8) >> 3);
-				pTextureEntry->Flags = (pTextureEntry->Flags & 0xfff0ffff) | 0x10000;
+				pTextureEntry->Window = ((v & 0xf8) << 12) | 0xe2000000 | ((u & 0xf8) << 7) | ((-Height & 0xf8) << 2) | ((-Width & 0xf8) >> 3);
 			}
 		}
 	}

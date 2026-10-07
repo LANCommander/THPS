@@ -207,11 +207,11 @@ CBruce::CBruce() : mPanel(this)
 	mKickSpeed = ((GetStat(1) + 17) << 12) * 3 * 15 / 28;
 	m340 = 30;
 	m344 = 30;
-	m710 = -1;
 	m6DC = 0;
 	m6E0 = 0;
 	m70C = 0;
 	m6C8 = 0;
+	m710 = -1;
 	m6CC = 0;
 	m734 = 1;
 	m738 = 1;
