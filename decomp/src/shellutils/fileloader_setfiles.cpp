@@ -1,0 +1,84 @@
+/* FUN_80065594 (0x80065594) */
+/* C++ (SHELLUTILS.CPP, THPS1-only; no demo twin). A front-end file loader object (vtable
+   0x800a2130, 32 entries of 36 bytes). This is its "load this set of files" call: it syncs
+   any pending read, keeps entries that are still wanted and loaded (compacting them to the
+   front), unloads the rest (FUN_80065e04), appends the new names as unloaded entries, and
+   blanks the unused tail. FUN_8005c8dc calls it with a per-screen file list. */
+extern "C" {
+int strcmp(const char *, const char *);
+char *strcpy(char *, const char *);
+}
+
+struct SLoadEntry {
+	void *pData;       /* 0 */
+	char Name[16];     /* 4 */
+	int Handle;        /* 0x14 */
+	int Type;          /* 0x18 */
+	int Size;          /* 0x1c */
+	int Loaded;        /* 0x20 */
+};
+
+class CItem {
+public:
+	virtual ~CItem();
+};
+class FileLoader : public CItem {
+public:
+	int mMode;                 /* 4 */
+	int mNum;                  /* 8 */
+	int mCur;                  /* 0xc */
+	SLoadEntry mEntry[32];     /* 0x10 */
+	void unload(int);
+	void setFiles(char **names, int num);
+};
+
+void Spool_Sync();
+void FUN_8004cdd0();
+void FUN_8004c740(int);
+
+void FileLoader::setFiles(char **names, int num)
+{
+	int keep[32];
+	int i;
+	int j;
+	int n;
+
+	if (mMode == 1)
+		Spool_Sync();
+	else
+		FUN_8004cdd0();
+	for (int k = 0; k < 32; k++)
+		keep[k] = 0;
+	n = 0;
+	for (i = 0; i < mNum; i++)
+	{
+		for (j = 0; j < num; j++)
+			if (!strcmp(mEntry[i].Name, names[j]))
+				break;
+		if (j < num && mEntry[i].Loaded)
+		{
+			keep[j] = 1;
+			mEntry[n++] = mEntry[i];
+		}
+		else
+			unload(i);
+	}
+	for (int f = 0; f < num; f++)
+	{
+		if (!keep[f])
+		{
+			strcpy(mEntry[n].Name, names[f]);
+			mEntry[n].Loaded = 0;
+			n++;
+		}
+	}
+	mNum = n;
+	for (int e = n; e < 32; e++)
+	{
+		strcpy(mEntry[e].Name, "URB");
+		mEntry[e].Loaded = 0;
+	}
+	mCur = 0;
+	mMode = 0;
+	FUN_8004c740(4);
+}

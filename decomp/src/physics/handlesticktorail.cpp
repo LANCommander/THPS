@@ -10,7 +10,9 @@
    gives retail's score-first argument loads; the Limit test is two ifs on a State local (not an
    || that folds to & 0x6000); `case 0: break;` gives the m210 slti tree; Bailing as two `= 1`
    stores. Residues: the 2*index giv and pre-test load schedule in the trick walk, the
-   GetBalanceVel copy/arm register roles (a1/a2/a3), and the Direction Trick_Trick load order. */
+   GetBalanceVel copy/arm register roles (a1/a2/a3: retail's DAT arm uses the load, the stat
+   arms the copy; ours the reverse), and the Direction call's a0 move / name-table base register
+   (Score read into a local between the m368 and mGrindTrick stores gives retail's lhu-first order). */
 extern "C" {
 #include <sys/types.h>
 #include <libgte.h>
@@ -309,8 +311,9 @@ inline void CBruce::StartGrind(int RailTrick)
 			Direction = 3;
 	}
 	m368 = 0x80001000;
+	int Score = DAT_800a7edc[Direction];
 	mGrindTrick = Direction;
-	Trick_Trick(Direction + 66, DAT_800a7ef0[Direction], DAT_800a7edc[Direction], 0);
+	Trick_Trick(Direction + 66, DAT_800a7ef0[Direction], Score, 0);
 	m364 = 1;
 	switch (Direction) {
 	case 2:

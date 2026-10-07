@@ -1,0 +1,139 @@
+/* FUN_8005d3dc (0x8005d3dc) */
+/* C++ (front end, THPS1-only; no demo twin). Loading-screen frame for the picture screens
+   (DAT_800d1cf8 = 1, 3, 4, 5; dispatched by FUN_8005d370). Called once per load callback while
+   loading (DAT_800d1cec = 0) and, after FUN_8005dc8c sets DAT_800d1cec, it loops until the player
+   continues: draws the background, the level picture (DAT_800d1d0c) and the blinking "Press X"
+   sprite (DAT_800d1d04, toggled by the DAT_800d1d08 counter). START/X or DAT_800d16a8 continue
+   (sound 6, fade 64); triangle backs out (sound 2). Afterwards it deletes the two sprites. */
+typedef unsigned char uchar;
+typedef unsigned int uint;
+
+struct SButton {
+	uchar Pressed;
+	uchar Triggered;
+	int PressedTime;
+	int ReleasedTime;
+	int TriggeredTime;
+};
+struct SControl {
+	SButton Triangle, Square, Circle, X;
+	SButton LeftOne, LeftTwo, RightOne, RightTwo;
+	SButton Left, Right, Up, Down;
+	SButton AnalogueLeft, AnalogueRight, Start, Select;
+	SButton Crouch, Jump, SmartBomb, SelectWeapon;
+	int rest[11];
+};
+class CItem {
+public:
+	virtual ~CItem();
+	void *operator new(uint) throw();
+};
+class SlicedImage;
+class Sprite : public CItem {
+public:
+	int m_w;
+	int m_h;
+	int m_packed;
+	int m_bpp;
+	SlicedImage *m_image;
+	~Sprite();
+	void draw(int, int, int, int, int, int);
+};
+
+extern SControl DAT_800c0a48[2];
+extern int DAT_800bf0d4[];		/* picture x by screen */
+extern int DAT_800bf0e0[];		/* picture y by screen */
+extern int DAT_800d16a8;
+extern uint DAT_800d1a1c;		/* GameFade */
+extern int DAT_800d1cb8;		/* START+SELECT quit */
+int DAT_800d1ce8;
+int DAT_800d1cec;			/* loading finished */
+int DAT_800d1cf0;			/* backed out */
+int DAT_800d1cf8;			/* screen type */
+Sprite *DAT_800d1d04;			/* "Press X" */
+int DAT_800d1d08;			/* blink counter */
+Sprite *DAT_800d1d0c;			/* level picture */
+int DAT_800d1d14;			/* redraw picture */
+
+int SFX_PlayX(uint, short, int);
+void Pause(int);
+void Pad_ClearTriggers(SControl *);
+extern "C" {
+void FUN_8008eebc(int);
+int DrawSync(int);
+void FUN_8006b2f4(void);
+void FUN_8006b240(void);
+void FUN_80061ea0(void);
+void FUN_800242cc(void);
+void FUN_80061d44(int, int, int, int, int, int, int);
+void FUN_80061e00(int, int, int, int);
+void FUN_80070ff4(void);
+void FUN_8005c68c(void);
+}
+
+extern "C" void FUN_8005d3dc(void)
+{
+	do {
+		if (DAT_800d1cec)
+			FUN_8008eebc(0);
+		DrawSync(0);
+		FUN_8006b2f4();
+		FUN_8006b240();
+		FUN_80061ea0();
+		FUN_800242cc();
+		if (DAT_800d1cf0) {
+			FUN_80061d44(0, 0, 512, 240, 0, 0, 0);
+			return;
+		}
+		FUN_80061e00(0, 0, 512, 240);
+		if (DAT_800d1d14) {
+			DAT_800d1d14 = 0;
+			if (DAT_800d1cf8 == 4)
+				DAT_800d1d0c->draw(DAT_800bf0d4[1], DAT_800bf0e0[1], 0, -1, -1, -1);
+			else
+				DAT_800d1d0c->draw(DAT_800bf0d4[2], DAT_800bf0e0[2], 0, -1, -1, -1);
+		}
+		if (DAT_800d1cec) {
+			if (--DAT_800d1d08 == 0)
+				DAT_800d1d08 = 92;
+			if (DAT_800d1d08 == 91) {
+				if (DAT_800d1cf8 == 4)
+					DAT_800d1d04->draw(88, 196, 0, -1, -1, -1);
+				else
+					DAT_800d1d04->draw(88, 196, 0, -1, -1, -1);
+			} else if (DAT_800d1d08 == 15) {
+				if (DAT_800d1cf8 == 4)
+					DAT_800d1d0c->draw(DAT_800bf0d4[1], DAT_800bf0e0[1], 0, -1, -1, -1);
+				else
+					DAT_800d1d0c->draw(DAT_800bf0d4[2], DAT_800bf0e0[2], 0, -1, -1, -1);
+			}
+		}
+		FUN_80070ff4();
+		FUN_8005c68c();
+		if (DAT_800d1cb8) {
+			DAT_800d1ce8 = 0;
+			DAT_800d1cf0 = 1;
+			break;
+		}
+		if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered
+		    || DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered || DAT_800d16a8) {
+			SFX_PlayX(6, 8192, 0);
+			Pad_ClearTriggers(&DAT_800c0a48[0]);
+			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			DAT_800d1a1c = 64;
+			break;
+		}
+		if (DAT_800c0a48[0].Triangle.Triggered || DAT_800c0a48[1].Triangle.Triggered) {
+			SFX_PlayX(2, 8192, 0);
+			Pause(20);
+			Pad_ClearTriggers(&DAT_800c0a48[0]);
+			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			DAT_800d1ce8 = 0;
+			DAT_800d1cf0 = 1;
+		}
+	} while (DAT_800d1cec);
+	if (DAT_800d1cec) {
+		delete DAT_800d1d04;
+		delete DAT_800d1d0c;
+	}
+}

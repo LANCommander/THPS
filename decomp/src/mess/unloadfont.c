@@ -1,4 +1,7 @@
 /* Mess_UnloadFont__Fv (0x8001ef60) */
+/* Residue: cse rewrites m = n - 1 as m = i - 1 (i = n is the newer copy that lives longer), so the
+   addiu reads v1 where retail reads a2; writing m before i fixes the operand but sched1 then puts
+   i -= 2 above it. */
 typedef struct { char pad[16]; int count; char* ptr; char rest[12]; } Font;
 extern Font DAT_800a6110[];
 int DAT_800d15e4, DAT_800d15e0;
@@ -20,7 +23,7 @@ void Mess_UnloadFont__Fv(void){
   if (DAT_800d15e4 == n - 1) {
     for (;;) {
       if (n <= 0) return;
-      i = n; m = n - 1; n = m; i -= 2; t = DAT_800a6110[i].ptr; DAT_800d15e0 = m;
+      i = n; m = n - 1; DAT_800d15e0 = m; n = m; i -= 2; t = DAT_800a6110[i].ptr;
       if (t) return;
     }
   }
