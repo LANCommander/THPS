@@ -3,21 +3,16 @@
    career game, from the best board the skater's tape count has unlocked; otherwise all 3. */
 typedef unsigned char uchar;
 struct SBoard {
+	char *File;
+	char *Name;
 	uchar Req;                 /* tapes needed */
-	char p1[3];
-	uchar Stat0;               /* 4 */
-	char p5[3];
-	uchar Stat1;               /* 8 */
-	char p9[3];
-	uchar Stat2;               /* 12 */
-	char p13[3];
-	uchar Stat3;               /* 16 */
-	char p17[32 - 17];
+	int Stats[4];
+	int pad;
 };
 struct SSkater {
-	char pad0[92];
-	SBoard Boards[7];          /* 92 */
-	char pad[340 - 92 - 7 * 32];
+	char pad0[0x54];
+	SBoard Boards[8];
+	char pad[340 - 0x54 - 8 * 32];
 };
 struct SSkaterCareer {
 	char pad0[8];
@@ -46,10 +41,10 @@ void CBruce::GetStats(int Skater)
 				break;
 			highest_board++;
 		}
-		DAT_800a8240[Skater].s[0] = DAT_800a44fc[mSkaterIndex].Boards[highest_board].Stat0;
-		DAT_800a8240[Skater].s[1] = DAT_800a44fc[mSkaterIndex].Boards[highest_board].Stat1;
-		DAT_800a8240[Skater].s[2] = DAT_800a44fc[mSkaterIndex].Boards[highest_board].Stat2;
-		DAT_800a8240[Skater].s[3] = DAT_800a44fc[mSkaterIndex].Boards[highest_board].Stat3;
+		DAT_800a8240[Skater].s[0] = DAT_800a44fc[mSkaterIndex].Boards[highest_board].Stats[0];
+		DAT_800a8240[Skater].s[1] = DAT_800a44fc[mSkaterIndex].Boards[highest_board].Stats[1];
+		DAT_800a8240[Skater].s[2] = DAT_800a44fc[mSkaterIndex].Boards[highest_board].Stats[2];
+		DAT_800a8240[Skater].s[3] = DAT_800a44fc[mSkaterIndex].Boards[highest_board].Stats[3];
 	} else {
 		DAT_800a8240[Skater].s[0] = 3;
 		DAT_800a8240[Skater].s[1] = 3;

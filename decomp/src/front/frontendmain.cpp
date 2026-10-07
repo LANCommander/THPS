@@ -14,7 +14,12 @@
      - 1P: skater select -> board select (FUN_80054510); 2P: skater select -> board select
        (FUN_80051660); both then level select (FUN_8006658c). -1 from a screen backs up one.
      - launch: record the choice, start the game (FUN_8006b434 -> LaunchGame), tear down, reload
-       the shell, and loop (rolling the credits first if the career was finished). */
+       the shell, and loop (rolling the credits first if the career was finished).
+   Register levers: the duplicated case tails (2P modes, return screens 3/4/5) are cross-jumped in
+   retail but their extra refs are what give `players`/`menu` their s1/s4 priority; the demo load
+   sits in a one-pass do{}while(0) (macro-like), which gives DemoName's hoisted %hi s7 over DB's fp.
+   Residue (12 words): v0/v1 swap in the autotest ++DAT_800d16b4 == 9 test and the Levels[choice]
+   base/index order before Competition_Init. */
 enum EPackInitType { PACK_0, PACK_1 };
 struct SVideoRestart {
 	int NumSkaters;

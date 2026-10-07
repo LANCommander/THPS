@@ -562,8 +562,6 @@ src/unnamed/80059018.c	0x80059018	56	sym	FUN_80059018
 src/unnamed/80059050.c	0x80059050	68	sym	FUN_80059050
 src/unnamed/800596a0.c	0x800596a0	184	sym	FUN_800596a0
 src/unnamed/80059758.c	0x80059758	60	sym	FUN_80059758
-src/unnamed/8005bad0.c	0x8005bad0	108	sym	FUN_8005bad0
-src/unnamed/8005bb3c.c	0x8005bb3c	52	sym	FUN_8005bb3c
 src/unnamed/8005c678.c	0x8005c678	20	sym	FUN_8005c678
 src/unnamed/8005c85c.c	0x8005c85c	80	sym	FUN_8005c85c
 src/unnamed/8005c8ac.c	0x8005c8ac	16	sym	FUN_8005c8ac
@@ -1150,3 +1148,5 @@ src/front/loadscreenwaitlevel.cpp	0x8005d73c	772	sym	FUN_8005d73c
 src/m3dinit/parsepsx.cpp	0x800821f8	1344	sym	M3dInit_ParsePSX__Fi
 src/m3dutils/interpolatevectors.cpp	0x800814b0	540	div	M3dUtils_InterpolateVectors__FiiPUiP4Itemii
 src/unnamed/800229ec.cpp	0x800229ec	256	sym	FUN_800229ec
+src/front/careerlevelselect.cpp	0x80066d7c	7472	sym	FUN_80066d7c
+src/front/skaterselect1p.cpp	0x80059794	9180	sym	FUN_80059794

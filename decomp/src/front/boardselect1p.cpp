@@ -616,14 +616,21 @@ extern "C" int FUN_80054510(int player)
 			DAT_800a8240[0].s[3] = DAT_800a44fc[DAT_800d22f0].Boards[n].Stats[3];
 			DAT_800a8240[0].s[4] = DAT_800be438[trucks];
 			if (DAT_800a6844.Skater[DAT_800d22f0].NumTapes >= DAT_800a44fc[DAT_800d22f0].Boards[deck].Req) {
-				FUN_8004b250(145, 0x2000, 0);
 				int j;
-				j = y[0][0] >= y[0][1];
-				DAT_800a6844.LastDeck[0] = idx[0][j];
-				j = y[1][0] >= y[1][1];
-				DAT_800a6844.LastTrucks[0] = idx[1][j];
-				j = y[2][0] >= y[2][1];
-				DAT_800a6844.LastWheel[0] = idx[2][j];
+				/* Two nested one-pass loops (macro-like): they double the refs of the
+				   y/idx temps so local-alloc gives the y[c][1] loads the short-lived
+				   registers first, and the loop note before the call frees sched2. */
+				do {
+					do {
+						FUN_8004b250(145, 0x2000, 0);
+						j = y[0][0] >= y[0][1];
+						DAT_800a6844.LastDeck[0] = idx[0][j];
+						j = y[1][0] >= y[1][1];
+						DAT_800a6844.LastTrucks[0] = idx[1][j];
+						j = y[2][0] >= y[2][1];
+						DAT_800a6844.LastWheel[0] = idx[2][j];
+					} while (0);
+				} while (0);
 				break;
 			}
 			FUN_8004b250(146, 0x2000, 0);
