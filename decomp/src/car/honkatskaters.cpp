@@ -1,6 +1,6 @@
 /* HonkAtSkaters__FP4CCarG7CVector (0x8006bd44) */
 /* C++ (CAR.CPP). Demo twin HonkAtSkaters (0.26): THPS1 has no skater table, so it checks the
-   player skater (DAT_800d19a4) and the one linked after it. A car honks (by type) once when a
+   player skater (MechList) and the one linked after it. A car honks (by type) once when a
    skater within 2000 units is inside the cone ahead of it; the flag at +0x220 rearms when clear.
    Mips_DotProd2Sign = 64-bit cross-product sign helper, SFX_PlayX__FUisi = SFX_PlayX. Each honk case
    makes its own SFX call; cross-jumping merges them into retail's single jal. */
@@ -33,9 +33,9 @@ struct SVideoInfo {
 	char pad4[0xc0 - 4];
 };
 
-extern SVideoInfo DAT_800bf318;
-extern SVideoInfo DAT_800bf3d8;
-extern CBruce *DAT_800d19a4;
+extern SVideoInfo GVInfo1;
+extern SVideoInfo GVInfo2;
+extern CBruce *MechList;
 
 int Utils_CrapDist(const CVector &, const CVector &);
 int Redbook_Rnd(int);
@@ -48,10 +48,10 @@ extern "C" {
 void HonkAtSkaters(CCar *pCar, CVector Front) {
 	int Honk = 0;
 
-	if (DAT_800bf318.VideoMode == 2 || DAT_800bf3d8.VideoMode == 2)
+	if (GVInfo1.VideoMode == 2 || GVInfo2.VideoMode == 2)
 		return;
 
-	CBruce *pSkater = DAT_800d19a4;
+	CBruce *pSkater = MechList;
 	CBruce *pOther = pSkater->mpNext;
 
 	if (Utils_CrapDist(pCar->mPos, pSkater->mPos) < 2000) {

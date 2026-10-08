@@ -16,12 +16,12 @@ typedef struct {
 	char b19, b1a, b1b;
 } H;
 
-extern G DAT_800a891c;
+extern G DoubleBuffer;
 extern H DAT_800b09c8;
 extern char DAT_800b0a24[];
-extern G *DAT_800d1a48;
-extern int DAT_800d1774, DAT_800d177c, DAT_800d1a54;
-extern short DAT_800d214c, DAT_800d214e;
+extern G *pDoubleBuffer;
+extern int TimeScale, PolyBufferEnd, pPoly;
+extern short M3d_OTPushback, M3d_OTPushback2;
 
 void FUN_8008c3d0(int);
 int Mem_NewX(int, int, int);
@@ -40,42 +40,42 @@ void FUN_8006b01c(int a) {
 	FUN_8008c3d0(0);
 
 	v = Mem_NewX(0x14000, 1, 1);
-	DAT_800a891c.f80a8 = v;
-	DAT_800a891c.f10154 = v + 0xa000;
-	FUN_80092e70(&DAT_800a891c, 0, 0, 640, 480);
+	DoubleBuffer.f80a8 = v;
+	DoubleBuffer.f10154 = v + 0xa000;
+	FUN_80092e70(&DoubleBuffer, 0, 0, 640, 480);
 
-	s2 = (char *)&DAT_800a891c + 92;
+	s2 = (char *)&DoubleBuffer + 92;
 	FUN_800914fc(s2, 0, 0, 640, 480);
 	FUN_80092e70(&DAT_800b09c8, 0, 0, 640, 480);
 	FUN_800914fc(DAT_800b0a24, 0, 0, 640, 480);
 	FUN_80048d00();
 
-	DAT_800a891c.b17 = 0;
-	DAT_800a891c.b80c3 = 0;
-	DAT_800a891c.b18 = 0;
-	DAT_800a891c.b80c4 = 0;
-	DAT_800a891c.b19 = 255;
-	DAT_800a891c.b1a = 0;
-	DAT_800a891c.b1b = 0;
+	DoubleBuffer.b17 = 0;
+	DoubleBuffer.b80c3 = 0;
+	DoubleBuffer.b18 = 0;
+	DoubleBuffer.b80c4 = 0;
+	DoubleBuffer.b19 = 255;
+	DoubleBuffer.b1a = 0;
+	DoubleBuffer.b1b = 0;
 	DAT_800b09c8.b19 = 0;
 	DAT_800b09c8.b1a = 0;
 	DAT_800b09c8.b1b = 255;
-	FUN_8008c94c(&DAT_800a891c);
+	FUN_8008c94c(&DoubleBuffer);
 	FUN_8008ca0c(s2);
 
 	if (a)
 		FUN_8006af64();
 
-	DAT_800a891c.b17 = 0;
-	DAT_800a891c.b18 = 0;
-	FUN_8008c94c(&DAT_800a891c);
+	DoubleBuffer.b17 = 0;
+	DoubleBuffer.b18 = 0;
+	FUN_8008c94c(&DoubleBuffer);
 
-	DAT_800d1a48 = &DAT_800a891c;
-	DAT_800d177c = -1;
-	DAT_800d1a54 = DAT_800a891c.f80a8;
+	pDoubleBuffer = &DoubleBuffer;
+	PolyBufferEnd = -1;
+	pPoly = DoubleBuffer.f80a8;
 	M3dInit_SetResolution(640, 480);
 
-	DAT_800d1774 = 128;
-	DAT_800d214c = 0;
-	DAT_800d214e = 0;
+	TimeScale = 128;
+	M3d_OTPushback = 0;
+	M3d_OTPushback2 = 0;
 }

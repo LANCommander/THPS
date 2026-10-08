@@ -6,17 +6,17 @@ typedef struct {
 	int pad2;
 } FE;
 
-extern FE DAT_800a63e8[];
-extern int DAT_800a6748[];
+extern FE movieDetails[];
+extern int decodeSliceBuffer[];
 
-int DAT_800d1634, DAT_800d162c, DAT_800d163c, DAT_800d1640, DAT_800d1644, DAT_800d164c,
-    DAT_800d1630;
-int DAT_800d168c[2];
-int DAT_800d1664, DAT_800d1668, DAT_800d222c;
-unsigned char DAT_800d167c, DAT_800d166c;
-unsigned short DAT_800d1658, DAT_800d166e, DAT_800d1672, DAT_800d1674, DAT_800d1684, DAT_800d1686,
-    DAT_800d1688, DAT_800d168a;
-unsigned char DAT_800d167d;
+int GameFMV_Active, GameFMV_IsMovie, currentDecodeBuffer, currentVlcBuffer, sendVLC, alreadyHandledPause,
+    GameFMV_RewindSwitch;
+int vlcBuffer[2];
+int GameFMV_VLCBufferSize, GameFMV_RingBufferSectors, pRingBuffer;
+unsigned char GameFMV_Is24Bit, GameFMV_SliceBuffers;
+unsigned short GameFMV_StartX, GameFMV_StartY, GameFMV_Width, GameFMV_Height, decodeSlice, decodeSlice_2,
+    decodeSlice_4, decodeSlice_6;
+unsigned char GameFMV_CurrentTrack;
 
 int Mem_NewX(int, int, int);
 void DecDCTvlcBuild3(void);
@@ -27,26 +27,26 @@ void GameFMV_StartFMV(int a) {
 	int i, j;
 	unsigned t, u;
 
-	if (DAT_800d1634 == 0 && DAT_800a63e8[DAT_800d167d].p != 0) {
-		DAT_800d1684 = DAT_800d1658;
-		DAT_800d1686 = DAT_800d166e;
-		DAT_800d1688 = DAT_800d167c ? 24 : 16;
-		DAT_800d164c = 0;
-		DAT_800d162c = 0;
-		DAT_800d163c = 0;
-		DAT_800d1640 = 0;
-		DAT_800d1644 = 0;
-		DAT_800d168a = DAT_800d1674;
+	if (GameFMV_Active == 0 && movieDetails[GameFMV_CurrentTrack].p != 0) {
+		decodeSlice = GameFMV_StartX;
+		decodeSlice_2 = GameFMV_StartY;
+		decodeSlice_4 = GameFMV_Is24Bit ? 24 : 16;
+		alreadyHandledPause = 0;
+		GameFMV_IsMovie = 0;
+		currentDecodeBuffer = 0;
+		currentVlcBuffer = 0;
+		sendVLC = 0;
+		decodeSlice_6 = GameFMV_Height;
 
 		if (a) {
 			for (i = 0; i < 2; i++)
-				DAT_800d168c[i] = Mem_NewX(DAT_800d1664, 1, 1);
+				vlcBuffer[i] = Mem_NewX(GameFMV_VLCBufferSize, 1, 1);
 		}
 
-		DAT_800d222c = Mem_NewX(DAT_800d1668 << 11, 1, 1);
-		t = DAT_800d1672;
+		pRingBuffer = Mem_NewX(GameFMV_RingBufferSectors << 11, 1, 1);
+		t = GameFMV_Width;
 		t >>= 4;
-		DAT_800d166c = t;
+		GameFMV_SliceBuffers = t;
 
 		if (a) {
 			u = t & 255;
@@ -55,16 +55,16 @@ void GameFMV_StartFMV(int a) {
 				j = 0;
 
 				do {
-					DAT_800a6748[j] = Mem_NewX(DAT_800d1674 << 5, 1, 1);
+					decodeSliceBuffer[j] = Mem_NewX(GameFMV_Height << 5, 1, 1);
 					j++;
-				} while (j < DAT_800d166c);
+				} while (j < GameFMV_SliceBuffers);
 			}
 
 			DecDCTvlcBuild3();
 		}
 
-		DAT_800d1634 = 1;
-		DAT_800d1630 = 0;
+		GameFMV_Active = 1;
+		GameFMV_RewindSwitch = 0;
 		strInit();
 		strNextVlc(1);
 	}

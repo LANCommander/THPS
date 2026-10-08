@@ -8,10 +8,10 @@ typedef struct B {
 
 B *DAT_800d1b48;
 B *DAT_800d1b4c;
-int DAT_800d1b50;
-unsigned DAT_800d1b54;
-int DAT_800d1b5c[2];
-unsigned DAT_800d1b60;
+int LowMemory;
+unsigned CriticalBigHeapUsage;
+int Used[2];
+unsigned Used_4;
 
 void AddToFreeList(B *b, int i);
 
@@ -37,15 +37,15 @@ void FUN_8004d6a0(char *p, unsigned n) {
 		r = (B *)(p + n);
 		n8 = n + 8;
 		r->len = l - n8;
-		DAT_800d1b5c[f] -= b->len - n;
+		Used[f] -= b->len - n;
 		b->len = n;
 		AddToFreeList(r, f);
 
 		if (f == 1) {
-			if (DAT_800d1b60 >= DAT_800d1b54)
-				DAT_800d1b50 = f;
+			if (Used_4 >= CriticalBigHeapUsage)
+				LowMemory = f;
 			else
-				DAT_800d1b50 = 0;
+				LowMemory = 0;
 		}
 	}
 }

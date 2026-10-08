@@ -1,6 +1,6 @@
 /* FUN_8001d2c4 (0x8001d2c4) */
-short DAT_800d15fa;
+short Sort;
 
 void FUN_8001d2c4(short v) {
-	DAT_800d15fa = v;
+	Sort = v;
 }

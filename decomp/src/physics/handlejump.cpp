@@ -52,11 +52,11 @@ struct CPanelData {
 
 extern SSkater DAT_800a44fc[];
 
-int DAT_800d1924;
+int Cheat_StatsOverride;
 
-extern int DAT_800d172c;
-extern int DAT_800d1770;
-extern int DAT_800d1784;
+extern int Cheat_Fire;
+extern int XFrames;
+extern int GState;
 extern char DAT_8009fe44[];
 extern char DAT_800d1948[];
 
@@ -154,8 +154,8 @@ class CBruce {
 };
 
 #define GetStat(n)                                                                                 \
-	(DAT_800d1924 ? DAT_800d1924                                                                   \
-	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	(Cheat_StatsOverride ? Cheat_StatsOverride                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || Cheat_Fire) ? 3 : 0)) +     \
 	                    mpStatBonus[n])
 
 int Redbook_Rnd(int);
@@ -340,14 +340,14 @@ void CBruce::HandleJump() {
 		m310 = 0;
 		m73C = 0;
 
-		if (m300 > 0 && DAT_800d1770 - m300 > 20)
+		if (m300 > 0 && XFrames - m300 > 20)
 			m744 = 0;
 
 		if (m744) {
 			int LastPhysics;
 			int JumpBoost;
 
-			if (DAT_800d1784 == 1 && m734 != 4 && m734 != 5) {
+			if (GState == 1 && m734 != 4 && m734 != 5) {
 				m744 = 0;
 
 				do {
@@ -441,7 +441,7 @@ void CBruce::HandleJump() {
 				if (m764 && m734 == 0) {
 					StateTransition(3, 6480);
 
-					m1E8 = DAT_800d1770;
+					m1E8 = XFrames;
 				} else
 					StateTransition(1, 6485);
 			}
@@ -449,11 +449,11 @@ void CBruce::HandleJump() {
 			if (!m368 || (m368 & 0xf000) == 0x1000) {
 				m150 = 0x10000;
 
-				if (LastPhysics != 5 && m278 == 1 && DAT_800d1770 - m274 < 20) {
+				if (LastPhysics != 5 && m278 == 1 && XFrames - m274 < 20) {
 					m328 = 0;
 					m32C = 0;
 
-					if (m268 == 1 && DAT_800d1770 - m26C < 35) {
+					if (m268 == 1 && XFrames - m26C < 35) {
 						FUN_8002f1a0(this);
 						Trick_Trick(65, DAT_8009fe44, 250, 0);
 
@@ -472,7 +472,7 @@ void CBruce::HandleJump() {
 				}
 			}
 
-			m2FC = DAT_800d1770;
+			m2FC = XFrames;
 		}
 
 		m748 = 0;

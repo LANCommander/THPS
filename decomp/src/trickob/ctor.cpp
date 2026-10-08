@@ -22,19 +22,19 @@ class CTrickOb : public CClass {
 	virtual ~CTrickOb();
 };
 
-CTrickOb *DAT_800d1b70;
+CTrickOb *TrickObList;
 
-extern unsigned short **DAT_800d19e8;
+extern unsigned short **OffsetList;
 
 CTrickOb::CTrickOb(unsigned short Node) {
-	mpNext = DAT_800d1b70;
-	DAT_800d1b70 = this;
+	mpNext = TrickObList;
+	TrickObList = this;
 	mpItem = 0;
 	mNode = Node;
 	mState = 0;
 
 	{
-		unsigned short *pNode = DAT_800d19e8[Node];
+		unsigned short *pNode = OffsetList[Node];
 
 		pNode += pNode[1] + 2;
 

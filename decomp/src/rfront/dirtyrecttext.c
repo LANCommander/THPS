@@ -8,9 +8,9 @@ typedef struct {
 	int state;
 } T;
 
-extern T DAT_800a4434[];
+extern T BGCache[];
 
-int DAT_800d1118;
+int FreeSprite;
 
 void Mess_DrawText(int, int, const char *, int, int, int, int);
 int Mess_TextWidth(const char *);
@@ -23,28 +23,28 @@ void Front_DirtyRectText(int x, int y, const char *s) {
 	T *e;
 	char *p;
 
-	for (i = 0; i < DAT_800d1118; i++) {
-		if (DAT_800a4434[i].str == s) {
+	for (i = 0; i < FreeSprite; i++) {
+		if (BGCache[i].str == s) {
 			Mess_DrawText(x, y, s, 0, 0, 256, 0);
 			return;
 		}
 	}
 
-	DAT_800a4434[DAT_800d1118].str = s;
+	BGCache[FreeSprite].str = s;
 	w = Mess_TextWidth(s);
 	h = Mess_TextHeight(s);
 	nx = x - (w >> 1);
 	w += 4;
-	e = &DAT_800a4434[DAT_800d1118];
+	e = &BGCache[FreeSprite];
 	e->x = nx;
 	e->y = y - h;
 	h += 4;
 	p = __nw__6CClassUi(24);
 
 	if (p)
-		p = __6Spriteiiiiiii(p, nx, DAT_800a4434[DAT_800d1118].y, w, h, 1, 32, 128);
+		p = __6Spriteiiiiiii(p, nx, BGCache[FreeSprite].y, w, h, 1, 32, 128);
 
 	e->ptr = p;
-	DAT_800a4434[DAT_800d1118].state = 2;
-	DAT_800d1118++;
+	BGCache[FreeSprite].state = 2;
+	FreeSprite++;
 }

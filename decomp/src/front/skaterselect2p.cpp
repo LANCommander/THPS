@@ -4,7 +4,7 @@
    (models stream in through the credits spooler, "LOADING" is shown until the PSX is resident),
    the skater's name slides in on a text bar, and after the name settles an info panel (six text
    lines) and four stat bars are drawn. X/Start locks a skater in ("skater chosen"), triangle
-   backs out. Returns player 1's skater (player 2's goes to DAT_800d16d8), or -1. No demo twin.
+   backs out. Returns player 1's skater (player 2's goes to SelectedSkater2), or -1. No demo twin.
    Levers (as in the 1P sibling): the function-wide `i` is reused as the counter of the stat
    bars' inner loop and of the teardown loops, which lowers its global-alloc priority so the
    counters land in s1 under the pointers/offsets; the best-board scan is a top-tested
@@ -142,13 +142,13 @@ class CBruce : public CSuper {
 	MATRIX mRotMatrix; /* 0x78c */
 };
 
-extern SControl DAT_800c0a48[];
-extern SCareer DAT_800a6844;
+extern SControl Pad[];
+extern SCareer GCareer;
 extern SSkater DAT_800a44fc[];
-extern char DAT_800a891c[];
-extern char DAT_800c119c[];
-extern char *DAT_800d1a48;
-extern char *DAT_800d19a4;
+extern char DoubleBuffer[];
+extern char MikeCamera[];
+extern char *pDoubleBuffer;
+extern char *MechList;
 extern int DAT_800d3758[];
 extern int DAT_800d3788[];
 
@@ -159,11 +159,11 @@ static int DAT_800d22fc;
 static int DAT_800d2314;
 
 extern int DAT_800d1cb8;
-extern int DAT_800d16d8;
+extern int SelectedSkater2;
 extern int DAT_800d1724;
-extern int DAT_800d1afc;
-extern int DAT_800d2120;
-extern int DAT_800d2130;
+extern int Loading;
+extern int GHeadPart;
+extern int GHeadUp;
 
 int DAT_800d1c1c = 32;
 int DAT_800d1c20 = 0;
@@ -283,14 +283,14 @@ extern "C" int FUN_80056754(void) {
 	numSkaters = 10;
 
 	for (i = 0; i < 11; i++) {
-		if (DAT_800a6844.Skater[i].NumTapes >= 30) {
+		if (GCareer.Skater[i].NumTapes >= 30) {
 			DAT_800d1c20 = 1;
 			numSkaters = 11;
 		}
 	}
 
 	for (int k = 0; k < 2; k++) {
-		DAT_800d2304[k] = DAT_800a6844.LastSkater[k];
+		DAT_800d2304[k] = GCareer.LastSkater[k];
 
 		if (!DAT_800d1c24 && DAT_800d1c20 && DAT_800d2304[1 - k] != 10)
 			DAT_800d2304[k] = 10;
@@ -301,8 +301,8 @@ extern "C" int FUN_80056754(void) {
 
 	DAT_800d1c24 = DAT_800d1c20;
 
-	Pad_ClearTriggers(&DAT_800c0a48[0]);
-	Pad_ClearTriggers(&DAT_800c0a48[1]);
+	Pad_ClearTriggers(&Pad[0]);
+	Pad_ClearTriggers(&Pad[1]);
 
 	if (DAT_800d2304[0] == DAT_800d2304[1]) {
 		DAT_800d2304[1] = DAT_800d2304[0] + 1;
@@ -464,11 +464,11 @@ extern "C" int FUN_80056754(void) {
 	barX[1] = 340;
 	textState[0] = 0;
 	textState[1] = 0;
-	DAT_800d1a48 = DAT_800d1a48 == DAT_800a891c ? DAT_800a891c + 32940 : DAT_800a891c;
+	pDoubleBuffer = pDoubleBuffer == DoubleBuffer ? DoubleBuffer + 32940 : DoubleBuffer;
 
 	FUN_8006b240();
 
-	DAT_800d1a48 = DAT_800d1a48 == DAT_800a891c ? DAT_800a891c + 32940 : DAT_800a891c;
+	pDoubleBuffer = pDoubleBuffer == DoubleBuffer ? DoubleBuffer + 32940 : DoubleBuffer;
 
 	FUN_8006b240();
 
@@ -537,13 +537,13 @@ extern "C" int FUN_80056754(void) {
 							FUN_8006ed2c(DAT_800d3758[DAT_800d2304[p]]);
 
 							if (DAT_800d1724) {
-								DAT_800d2130 = DAT_800a44fc[DAT_800d2304[p]].b14;
-								DAT_800d2120 = DAT_800a44fc[DAT_800d2304[p]].b13;
+								GHeadUp = DAT_800a44fc[DAT_800d2304[p]].b14;
+								GHeadPart = DAT_800a44fc[DAT_800d2304[p]].b13;
 							}
 
 							ProcessNewPSX__Fi(DAT_800d3758[DAT_800d2304[p]]);
 
-							DAT_800d2120 = -1;
+							GHeadPart = -1;
 						}
 
 						bruce[p] = FUN_8005622c(p);
@@ -772,8 +772,8 @@ extern "C" int FUN_80056754(void) {
 
 					bruce[0]->m15a = 0;
 					bruce[1]->m15a = 0;
-					M3d_RenderSetup__FP7SCameraP9SViewportPUi(DAT_800c119c, vp, DAT_800d1a48 + ((p << 14) + 140));
-					M3d_Render__FPv(DAT_800d19a4);
+					M3d_RenderSetup__FP7SCameraP9SViewportPUi(MikeCamera, vp, pDoubleBuffer + ((p << 14) + 140));
+					M3d_Render__FPv(MechList);
 					FUN_80083774();
 
 					bruce[p ^ 1]->mFlags ^= 0x41;
@@ -857,7 +857,7 @@ extern "C" int FUN_80056754(void) {
 				best[p] = 0;
 
 				while (best[p] < 7) {
-					if (DAT_800a6844.Skater[DAT_800d2304[p]].NumTapes <
+					if (GCareer.Skater[DAT_800d2304[p]].NumTapes <
 					    DAT_800a44fc[DAT_800d2304[p]].Boards[best[p] + 1].Req)
 						break;
 
@@ -962,10 +962,10 @@ extern "C" int FUN_80056754(void) {
 			if (p == 0) {
 				FUN_80059018();
 
-				DAT_800d1a48 = DAT_800d1a48 == DAT_800a891c ? DAT_800a891c + 32940 : DAT_800a891c;
-				FUN_8008c8dc(DAT_800d1a48 + 32904);
+				pDoubleBuffer = pDoubleBuffer == DoubleBuffer ? DoubleBuffer + 32940 : DoubleBuffer;
+				FUN_8008c8dc(pDoubleBuffer + 32904);
 
-				DAT_800d1a48 = DAT_800d1a48 == DAT_800a891c ? DAT_800a891c + 32940 : DAT_800a891c;
+				pDoubleBuffer = pDoubleBuffer == DoubleBuffer ? DoubleBuffer + 32940 : DoubleBuffer;
 			}
 		}
 
@@ -974,9 +974,9 @@ extern "C" int FUN_80056754(void) {
 		FUN_8006b374();
 
 		for (p = 0; p < 2; p++) {
-			if (DAT_800c0a48[p].Start.Triggered || DAT_800c0a48[p].X.Triggered) {
-				DAT_800c0a48[p].Start.Triggered = 0;
-				DAT_800c0a48[p].X.Triggered = 0;
+			if (Pad[p].Start.Triggered || Pad[p].X.Triggered) {
+				Pad[p].Start.Triggered = 0;
+				Pad[p].X.Triggered = 0;
 
 				if (state[p] != 1 && DAT_800d231c[p] &&
 				    (DAT_800d2304[0] != DAT_800d2304[1] || state[1 - p] != 1)) {
@@ -987,8 +987,8 @@ extern "C" int FUN_80056754(void) {
 				}
 			}
 
-			if (DAT_800c0a48[p].Triangle.Triggered) {
-				DAT_800c0a48[p].Triangle.Triggered = 0;
+			if (Pad[p].Triangle.Triggered) {
+				Pad[p].Triangle.Triggered = 0;
 
 				if (state[p] != 1) {
 					if (state[1 - p] != 1) {
@@ -1012,15 +1012,15 @@ extern "C" int FUN_80056754(void) {
 			result = DAT_800d2304[0];
 
 			for (int k = 0; k < 2; k++) {
-				if (DAT_800a6844.LastSkater[k] != DAT_800d2304[k]) {
-					DAT_800a6844.LastSkater[k] = 0;
-					DAT_800a6844.LastDeck[k] = 0;
-					DAT_800a6844.LastWheel[k] = 0;
-					DAT_800a6844.LastTrucks[k] = 1;
-					DAT_800a6844.b82c = 0;
+				if (GCareer.LastSkater[k] != DAT_800d2304[k]) {
+					GCareer.LastSkater[k] = 0;
+					GCareer.LastDeck[k] = 0;
+					GCareer.LastWheel[k] = 0;
+					GCareer.LastTrucks[k] = 1;
+					GCareer.b82c = 0;
 				}
 
-				DAT_800a6844.LastSkater[k] = DAT_800d2304[k];
+				GCareer.LastSkater[k] = DAT_800d2304[k];
 			}
 
 			goto out;
@@ -1030,7 +1030,7 @@ extern "C" int FUN_80056754(void) {
 out:
 
 	FUN_8006af64();
-	if (DAT_800d1afc)
+	if (Loading)
 		FileIO_Sync__Fv();
 
 	for (i = 0; i < 2; i++) {
@@ -1058,6 +1058,6 @@ out:
 		delete input[i];
 	}
 
-	DAT_800d16d8 = DAT_800d2304[1];
+	SelectedSkater2 = DAT_800d2304[1];
 	return result;
 }

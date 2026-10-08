@@ -60,10 +60,10 @@ extern "C" {
 	void *__6CSparkR7CVectoriii(void *, CVector &, int, int, int);
 }
 
-extern int DAT_800d171c;
-extern int DAT_800d1868;
-extern int DAT_800d186c;
-extern int DAT_800d18b8;
+extern int Cheat_Blood;
+extern int BitCount;
+extern int UseCacheForBits;
+extern int SparkSemiTrans;
 
 void Video_BloodSplat(struct CBruce *, int, int);
 void Bit_SetSparkTrajectory(const CSVector &);
@@ -83,10 +83,10 @@ struct CBruce {
 };
 
 void CBruce::BloodSplat(int BodyPart, int MaxBloodBits) {
-	if (DAT_800d171c) {
+	if (Cheat_Blood) {
 		Video_BloodSplat(this, BodyPart, MaxBloodBits);
 
-		if (DAT_800d1868 < 200) {
+		if (BitCount < 200) {
 			CSVector v;
 			CVector Pos;
 			CSVector Cone;
@@ -118,9 +118,9 @@ void CBruce::BloodSplat(int BodyPart, int MaxBloodBits) {
 			Bit_SetSparkFadeRGB(0, 0, 0);
 			GetHookPosition(Pos, BodyPart);
 
-			DAT_800d18b8 = 0;
-			DAT_800d186c = 0;
-			Bits = 200 - DAT_800d1868;
+			SparkSemiTrans = 0;
+			UseCacheForBits = 0;
+			Bits = 200 - BitCount;
 
 			if (MaxBloodBits < Bits)
 				Bits = MaxBloodBits;
@@ -164,8 +164,8 @@ void CBruce::BloodSplat(int BodyPart, int MaxBloodBits) {
 				}
 			}
 
-			DAT_800d186c = 1;
-			DAT_800d18b8 = 1;
+			UseCacheForBits = 1;
+			SparkSemiTrans = 1;
 		}
 	}
 }

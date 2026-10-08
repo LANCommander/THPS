@@ -1,16 +1,16 @@
 /* FUN_80042d04 (0x80042d04) */
 #include "names.h"
-extern int DAT_800d140c;
-extern int DAT_800d2044;
-extern int DAT_800d1770;
-extern int DAT_800d1998;
-extern int DAT_800d1618;
+extern int GamePaused;
+extern int CameraList;
+extern int XFrames;
+extern int BaddyList;
+extern int PowerUpList;
 extern int DAT_800d1718;
-extern int DAT_800d1924;
-extern int DAT_800d17c8;
-extern int DAT_800d172c;
-extern int DAT_800bf318[];
-extern int DAT_800bf3d8[];
+extern int Cheat_StatsOverride;
+extern int GSkater;
+extern int Cheat_Fire;
+extern int GVInfo1[];
+extern int GVInfo2[];
 extern char DAT_800d25f0[];
 extern char DAT_800a0524[];
 
@@ -22,9 +22,9 @@ typedef struct E {
 	char q[0x154 - 0x28];
 } E;
 
-extern E DAT_800a44fc[];
+extern E Stats[];
 
-char *DAT_800d19a4;
+char *MechList;
 
 int FUN_8007cd64(int);
 void Video_Record(char *);
@@ -41,7 +41,7 @@ void CBruce_GlowUpdate(char *);
 void FUN_8008b900(char *, char *, int, int, int, int);
 void Font_String(int, int, char *, int, int, int, int);
 
-#define CC     (I(0x254) || DAT_800d172c)
+#define CC     (I(0x254) || Cheat_Fire)
 #define I(o)   (*(int *)(a + (o)))
 #define U8(o)  (*(unsigned char *)(a + (o)))
 #define U16(o) (*(unsigned short *)(a + (o)))
@@ -54,27 +54,27 @@ void FUN_80042d04(char *a) {
 	char *p1;
 	char *p2;
 
-	if (DAT_800d140c == 0) {
-		if (FUN_8007cd64(DAT_800d2044)) {
-			I(0x330) = DAT_800d1770 + 0xe2e;
+	if (GamePaused == 0) {
+		if (FUN_8007cd64(CameraList)) {
+			I(0x330) = XFrames + 0xe2e;
 			return;
 		}
 
 		if (U8(0x890) == 0) {
 			x1 = I(0x310);
 
-			if (x1 && DAT_800d1770 - x1 >= 11)
+			if (x1 && XFrames - x1 >= 11)
 				I(0x310) = 0;
 
 			x2 = I(0x314);
 
-			if (x2 && DAT_800d1770 - x2 >= 11)
+			if (x2 && XFrames - x2 >= 11)
 				I(0x314) = 0;
 
-			if (a == DAT_800d19a4)
-				pp = DAT_800bf318;
+			if (a == MechList)
+				pp = GVInfo1;
 			else
-				pp = DAT_800bf3d8;
+				pp = GVInfo2;
 
 			x3 = *pp;
 
@@ -120,12 +120,12 @@ void FUN_80042d04(char *a) {
 
 				s2 = a + 0xf0;
 				s1 = a + 4;
-				x6 = M3dColij_LineToSphere(s2, s1, sp20, DAT_800d1998, 0);
+				x6 = M3dColij_LineToSphere(s2, s1, sp20, BaddyList, 0);
 
 				if (x6)
 					FUN_800427cc(a, x6);
 
-				x7 = M3dColij_LineToSphere(s2, s1, sp20, DAT_800d1618, 0);
+				x7 = M3dColij_LineToSphere(s2, s1, sp20, PowerUpList, 0);
 
 				if (x7)
 					CPowerUp_TakeEffect(x7, a);
@@ -143,21 +143,21 @@ void FUN_80042d04(char *a) {
 				if (*(short *)(a + 0xe6) < 0)
 					*(short *)(a + 0xe6) = 0;
 
-				if (DAT_800a44fc[I(0x2e8)].fc == 0x4000) {
+				if (Stats[I(0x2e8)].fc == 0x4000) {
 					if (U16(0x146) != 0x3f)
 						I(0x194) = I(0x194) | 0x1000;
 					else
 						I(0x194) = I(0x194) & ~0x1000;
 				}
 
-				if ((DAT_800d1718 || DAT_800d1924) && a == (char *)DAT_800d17c8) {
-					a2 = DAT_800d1924;
+				if ((DAT_800d1718 || Cheat_StatsOverride) && a == (char *)GSkater) {
+					a2 = Cheat_StatsOverride;
 					t0 = a2;
 					p1 = DAT_800d25f0;
 					p2 = DAT_800a0524;
 
 					if (a2 == 0) {
-						e = DAT_800a44fc[I(0x2e8)].f18;
+						e = Stats[I(0x2e8)].f18;
 						a2 = (*(unsigned char **)(a + 0x198))[0];
 
 						if (CC) {
@@ -172,7 +172,7 @@ void FUN_80042d04(char *a) {
 					a3 = t0;
 
 					if (a3 == 0) {
-						e = DAT_800a44fc[I(0x2e8)].f1c;
+						e = Stats[I(0x2e8)].f1c;
 						a3 = (*(unsigned char **)(a + 0x198))[1];
 
 						if (CC) {
@@ -185,7 +185,7 @@ void FUN_80042d04(char *a) {
 					}
 
 					FUN_8008b900(p1, p2, a2, a3, t0 ? t0 : ({
-						             int e2 = DAT_800a44fc[I(0x2e8)].f20;
+						             int e2 = Stats[I(0x2e8)].f20;
 						             int u2 = (*(unsigned char **)(a + 0x198))[2];
 						             int r2;
 
@@ -198,8 +198,8 @@ void FUN_80042d04(char *a) {
 
 						             r2;
 					             }),
-					             DAT_800d1924 ? DAT_800d1924 : ({
-						             int e3 = DAT_800a44fc[I(0x2e8)].f24;
+					             Cheat_StatsOverride ? Cheat_StatsOverride : ({
+						             int e3 = Stats[I(0x2e8)].f24;
 						             int u3 = (*(unsigned char **)(a + 0x198))[3];
 						             int r3;
 

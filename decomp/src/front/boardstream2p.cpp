@@ -21,7 +21,7 @@ class SlicedImage : public CItem {
 	void pack();
 };
 
-extern int DAT_800d1afc;
+extern int Loading;
 extern int DAT_800d2c1c[3];             /* pictures per column (8 decks, 3 trucks, 15 wheels) */
 extern char DAT_800d2c2c[2][3][15][16]; /* picture file names */
 extern SlicedImage *DAT_800d31cc[2][3][15];
@@ -56,7 +56,7 @@ extern "C" void FUN_8005115c(void) {
 	if (DAT_800d22cc)
 		DAT_800d22c8 = 1;
 
-	if (DAT_800d22c8 == 1 && !DAT_800d1afc && !DAT_800d22cc) {
+	if (DAT_800d22c8 == 1 && !Loading && !DAT_800d22cc) {
 		if (DAT_800d333c[DAT_800d22ac][col] >= 0) {
 			ushort clut;
 			char *data;

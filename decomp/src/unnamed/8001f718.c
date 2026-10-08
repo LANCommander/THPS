@@ -11,7 +11,7 @@ struct O {
 	struct VT *vt;
 };
 
-extern char DAT_8009f0b0[];
+extern char __vt_6CLight[];
 
 void FUN_80027fa4(char *p, int a);
 void __dl__4CBitPv(void *p);
@@ -19,7 +19,7 @@ void __dl__4CBitPv(void *p);
 void FUN_8001f718(char *p, int f) {
 	struct O *o = *(struct O **)(p + 96);
 
-	*(char **)(p + 68) = DAT_8009f0b0;
+	*(char **)(p + 68) = __vt_6CLight;
 
 	if (o)
 		o->vt->fn((char *)o + o->vt->off, 3);

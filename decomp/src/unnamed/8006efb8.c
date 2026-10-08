@@ -9,7 +9,7 @@ struct N {
 	struct N *b;
 };
 
-extern struct N *DAT_800c01a8[];
+extern struct N *TextureChecksumHashTable[];
 
 void Mem_Delete(struct N *p);
 
@@ -22,7 +22,7 @@ void RemoveTextureEntry(struct N *p) {
 	if (p->b)
 		p->b->a = p->a;
 
-	s = &DAT_800c01a8[p->id & 511];
+	s = &TextureChecksumHashTable[p->id & 511];
 
 	if (p == *s)
 		*s = p->a;

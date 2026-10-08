@@ -50,8 +50,8 @@ class CSuper {
 	ushort mAnim;           /* 0x146 */
 };
 
-extern SPSXRegion DAT_800bf7a8[];
-extern SMatrix DAT_800c4b3c[];
+extern SPSXRegion PSXRegion[];
+extern SMatrix TweenBuffer[];
 
 void M3dUtils_InBetween(CSuper *);
 uchar *DecompressStream(uchar *, short *, int, int);
@@ -67,7 +67,7 @@ SMatrix *Decomp_GetAnimTransform(CSuper *pSuper) {
 	uint NumModels;
 	uint NumItems;
 
-	pRegion = &DAT_800bf7a8[pSuper->mType];
+	pRegion = &PSXRegion[pSuper->mType];
 	pAnimFile = pRegion->pAnimFile;
 	NumModels = pRegion->pModels[-1];
 	NumItems = pRegion->pItems[2];
@@ -76,7 +76,7 @@ SMatrix *Decomp_GetAnimTransform(CSuper *pSuper) {
 		case 42:
 			if (*(ushort *)((char *)pAnimFile + pSuper->mAnim * 8 + 10)) {
 				M3dUtils_InBetween(pSuper);
-				return DAT_800c4b3c;
+				return TweenBuffer;
 			}
 
 			return (SMatrix *)((char *)pAnimFile + pAnimFile[pSuper->mAnim * 2 + 1]) +

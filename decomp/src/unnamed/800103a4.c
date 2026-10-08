@@ -1,6 +1,6 @@
 /* FUN_800103a4 (0x800103a4) */
-/* Copies the saved preferences (career block DAT_800a6844) into the live game settings
-   (DAT_800a4118): two words, the per-player controller settings and both name strings, with the
+/* Copies the saved preferences (career block GCareer) into the live game settings
+   (GPreferences): two words, the per-player controller settings and both name strings, with the
    first name zero-padded to 11 bytes. */
 typedef struct {
 	int a, b, c, d;
@@ -31,38 +31,38 @@ typedef struct {
 	char Name[16]; /* 0x9c0 */
 } SCareer;
 
-extern SGame DAT_800a4118;
-extern SCareer DAT_800a6844;
+extern SGame GPreferences;
+extern SCareer GCareer;
 
 int FUN_8008b900(char *, const char *, ...);
 
 void FUN_800103a4(void) {
 	int i;
 
-	DAT_800a4118.w0 = DAT_800a6844.w830;
-	DAT_800a4118.w4 = DAT_800a6844.w834;
-	DAT_800a4118.x184 = DAT_800a6844.x9b4;
-	DAT_800a4118.x188 = DAT_800a6844.x9b8;
+	GPreferences.w0 = GCareer.w830;
+	GPreferences.w4 = GCareer.w834;
+	GPreferences.x184 = GCareer.x9b4;
+	GPreferences.x188 = GCareer.x9b8;
 
 	for (i = 0; i < 2; i++) {
-		DAT_800a4118.x110[i] = DAT_800a6844.x940[i];
-		DAT_800a4118.x118[i] = DAT_800a6844.x948[i];
-		DAT_800a4118.Pad[i].a = DAT_800a6844.Pad[i].a;
-		DAT_800a4118.Pad[i].b = DAT_800a6844.Pad[i].b;
-		DAT_800a4118.Pad[i].c = DAT_800a6844.Pad[i].c;
-		DAT_800a4118.Pad[i].d = DAT_800a6844.Pad[i].d;
+		GPreferences.x110[i] = GCareer.x940[i];
+		GPreferences.x118[i] = GCareer.x948[i];
+		GPreferences.Pad[i].a = GCareer.Pad[i].a;
+		GPreferences.Pad[i].b = GCareer.Pad[i].b;
+		GPreferences.Pad[i].c = GCareer.Pad[i].c;
+		GPreferences.Pad[i].d = GCareer.Pad[i].d;
 	}
 
-	FUN_8008b900(DAT_800a4118.Name, DAT_800a6844.Name);
+	FUN_8008b900(GPreferences.Name, GCareer.Name);
 
-	DAT_800a4118.NameLen = DAT_800a6844.NameLen;
+	GPreferences.NameLen = GCareer.NameLen;
 
 	{
 		int j;
 
-		for (j = DAT_800a4118.NameLen; j < 11; j++)
-			DAT_800a4118.Name[j] = 0;
+		for (j = GPreferences.NameLen; j < 11; j++)
+			GPreferences.Name[j] = 0;
 	}
 
-	FUN_8008b900(DAT_800a4118.Str, DAT_800a6844.Str);
+	FUN_8008b900(GPreferences.Str, GCareer.Str);
 }

@@ -10,7 +10,7 @@ typedef struct SPalette {
 
 SPalette *DAT_800d1a80;
 
-extern unsigned char DAT_800d2a10[], DAT_800d2b10[];
+extern unsigned char Free16Slots[], Free256Slots[];
 
 void RemovePaletteEntry(SPalette *);
 
@@ -22,10 +22,10 @@ void Pal_RemoveUnusedPalettes(void) {
 
 		if (!p->usage) {
 			if (p->flags & 1)
-				DAT_800d2a10[p->slot] = 1;
+				Free16Slots[p->slot] = 1;
 
 			if (p->flags & 2)
-				DAT_800d2b10[p->slot] = 1;
+				Free256Slots[p->slot] = 1;
 
 			RemovePaletteEntry(p);
 		}

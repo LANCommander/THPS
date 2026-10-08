@@ -1,17 +1,17 @@
 /* FUN_80068f40 (0x80068f40) */
-extern int DAT_800bf318[];
+extern int GVInfo1[];
 
-int DAT_800d1e04;
-int DAT_800d1e08;
+int TrickOb1;
+int TrickOb2;
 
 void FUN_80068f40(int a, int b) {
-	if (DAT_800bf318[0] == 1) {
+	if (GVInfo1[0] == 1) {
 		switch (a) {
 			case 1:
-				DAT_800d1e04 = b;
+				TrickOb1 = b;
 				break;
 			case 2:
-				DAT_800d1e08 = b;
+				TrickOb2 = b;
 				break;
 		}
 	}

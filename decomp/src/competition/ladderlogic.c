@@ -24,15 +24,15 @@ typedef struct {
 	int n;
 } SComp;
 
-extern SComp DAT_800c0fdc;
+extern SComp theCompetition;
 
-unsigned short DAT_800d1fc2, DAT_800d1fc4, DAT_800d1fc6, DAT_800d1fc8;
+unsigned short FIRST_PLACE, SECOND_PLACE, THIRD_PLACE, LAST_PLACE;
 
 int Redbook_Rnd(int n);
 
 void Competition_LadderLogic(void) {
 	unsigned char i, j;
-	SComp *c = &DAT_800c0fdc;
+	SComp *c = &theCompetition;
 	unsigned short s;
 
 	if (c->f14 == 0) {
@@ -43,13 +43,13 @@ void Competition_LadderLogic(void) {
 				continue;
 
 			if (c->type[i] == 0)
-				s = DAT_800d1fc2;
+				s = FIRST_PLACE;
 			else if (c->type[i] == 1)
-				s = DAT_800d1fc4;
+				s = SECOND_PLACE;
 			else if (c->type[i] == 2)
-				s = DAT_800d1fc6;
+				s = THIRD_PLACE;
 			else
-				s = DAT_800d1fc8 + Redbook_Rnd(DAT_800d1fc6 - DAT_800d1fc8);
+				s = LAST_PLACE + Redbook_Rnd(THIRD_PLACE - LAST_PLACE);
 
 			s -= Redbook_Rnd(18);
 

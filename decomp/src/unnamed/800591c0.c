@@ -6,7 +6,7 @@ struct E {
 	char q[328];
 };
 
-extern struct E DAT_800a44fc[];
+extern struct E Stats[];
 
 int DAT_800d2344, DAT_800d1c40, DAT_800d2338, DAT_800d233c, DAT_800d2340;
 
@@ -22,7 +22,7 @@ void Spool_Sync(void);
 void FUN_800591c0(void) {
 	int i, v;
 
-	if (DAT_800d2344 && *DAT_800a44fc[DAT_800d1c40].n8) {
+	if (DAT_800d2344 && *Stats[DAT_800d1c40].n8) {
 		ClearRegion(DAT_800d37b4[DAT_800d1c40], 1, 1);
 		FUN_8006edb8(DAT_800d37b4[DAT_800d1c40]);
 	}
@@ -40,10 +40,10 @@ void FUN_800591c0(void) {
 		DAT_800d37e4[v] = 1;
 
 	for (i = 0; i < 11; i++) {
-		if (*DAT_800a44fc[i].n8 && DAT_800d37e4[i]) {
+		if (*Stats[i].n8 && DAT_800d37e4[i]) {
 			FUN_800596a0();
 			ProcessNewPSX(DAT_800d37b4[i]);
-			Spool_ClearPSX(DAT_800a44fc[i].n8);
+			Spool_ClearPSX(Stats[i].n8);
 		}
 	}
 

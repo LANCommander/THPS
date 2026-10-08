@@ -22,9 +22,9 @@ struct SSkater {
 
 extern SSkater DAT_800a44fc[];
 
-int DAT_800d1924; /* stats cheat override */
+int Cheat_StatsOverride; /* stats cheat override */
 
-extern int DAT_800d172c;
+extern int Cheat_Fire;
 extern char DAT_8009fe38[];
 
 class CBruce {
@@ -49,8 +49,8 @@ class CBruce {
 };
 
 #define GetStat(n)                                                                                 \
-	(DAT_800d1924 ? DAT_800d1924                                                                   \
-	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	(Cheat_StatsOverride ? Cheat_StatsOverride                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || Cheat_Fire) ? 3 : 0)) +     \
 	                    mpStatBonus[n])
 
 void CBruce::DoFootPlantPhysics() {

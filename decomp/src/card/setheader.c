@@ -1,8 +1,8 @@
 /* Card_SetHeader__FP9SCardHeadiPcT2 (0x80014300) */
 #include "names.h"
-extern int DAT_800d1148;
-extern char DAT_8009e130[];
-extern char DAT_8009e150[];
+extern int GSaveAction;
+extern char CARD_GTITLE[];
+extern char CARD_VTITLE[];
 
 void FUN_8008e904(char *, char *);
 
@@ -27,10 +27,10 @@ void Card_SetHeader(SCardHead *h, int icon, char *name, char *data) {
 	for (i = 0; i < 64; i++)
 		h->title[i] = 0;
 
-	if (DAT_800d1148 == 1)
-		FUN_8008e904(h->title, DAT_8009e130);
+	if (GSaveAction == 1)
+		FUN_8008e904(h->title, CARD_GTITLE);
 	else
-		FUN_8008e904(h->title, DAT_8009e150);
+		FUN_8008e904(h->title, CARD_VTITLE);
 
 	for (i = 0; i < 28; i++)
 		h->pad[i] = 0;

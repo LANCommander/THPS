@@ -9,12 +9,12 @@ typedef struct {
 	char pad[0xa0];
 } SVideoInfo;
 
-extern SVideoInfo DAT_800bf318[];
-extern int DAT_800d140c;
+extern SVideoInfo GVInfo1[];
+extern int GamePaused;
 
 void QueueSoundCmd(int, int);
 
 void Video_SFXPlay(int a, short b, int c) {
-	if (DAT_800bf318[0].state == 1 && DAT_800d140c == 0)
+	if (GVInfo1[0].state == 1 && GamePaused == 0)
 		QueueSoundCmd(1, a);
 }

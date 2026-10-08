@@ -11,9 +11,9 @@ struct SCardHead {
 	char Icon[3][128];
 };
 
-extern char DAT_800a5848[];
-extern char DAT_800a5864[];
-extern int DAT_800d1148;
+extern char CARD_FNAME[];
+extern char CARD_VNAME[];
+extern int GSaveAction;
 
 int SyncToGoodState(void);
 void Card_SetHeader(SCardHead *, int, char *, char *);
@@ -31,13 +31,13 @@ int FUN_800144a8(int FileType) {
 	int fd;
 
 	if (FileType == 0)
-		FName = DAT_800a5848;
+		FName = CARD_FNAME;
 	else
-		FName = DAT_800a5864;
+		FName = CARD_VNAME;
 
 	Card_SetHeader(&Head, 1, (char *)&Head, (char *)&Head);
 
-	if (DAT_800d1148 == 1)
+	if (GSaveAction == 1)
 		Front_SetSJISName__FPc((char *)&Head + 32);
 	else
 		Front_SetSJISName__FPc((char *)&Head + 30);

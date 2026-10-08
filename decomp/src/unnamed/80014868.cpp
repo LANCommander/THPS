@@ -12,8 +12,8 @@ struct SVideoInfo {
 	char pad[0xc0 - 8];
 };
 
-extern SVideoInfo DAT_800bf318;
-extern SVideoInfo DAT_800bf3d8;
+extern SVideoInfo GVInfo1;
+extern SVideoInfo GVInfo2;
 extern char DAT_8009e00c[];
 extern char DAT_8009e030[];
 extern char DAT_8009e054[];
@@ -43,11 +43,11 @@ extern "C" int FUN_80014868(EFileType FileType, char *FName) {
 
 	switch (FileType) {
 		case 1:
-			pHeaderBuf = DAT_800bf318.pBlockStart;
+			pHeaderBuf = GVInfo1.pBlockStart;
 			HeaderSize = 640;
 			pDataBuf = pHeaderBuf + 160;
 			DataSize = 23936;
-			pHeaderBuf2 = DAT_800bf3d8.pBlockStart;
+			pHeaderBuf2 = GVInfo2.pBlockStart;
 			pDataBuf2 = pHeaderBuf2 + 160;
 			DataSize2 = 23936;
 			break;

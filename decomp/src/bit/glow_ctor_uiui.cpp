@@ -54,7 +54,7 @@ class CGlow : public CBit {
 
 void *Mem_New(uint, int, int);
 
-char DAT_800d18e8[8];
+char GlowList[8];
 
 CGlow::CGlow(uint NumPoints, uint NumFringes) {
 	mNumSections = NumPoints * 2;
@@ -69,5 +69,5 @@ CGlow::CGlow(uint NumPoints, uint NumFringes) {
 
 	mCentreCodeBGR = 0x32000000;
 	mMask = 0xffffffff;
-	AttachTo(DAT_800d18e8);
+	AttachTo(GlowList);
 }

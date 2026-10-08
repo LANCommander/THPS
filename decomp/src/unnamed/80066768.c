@@ -6,8 +6,8 @@ typedef struct {
 	char q[0x78 - 0x28];
 } E;
 
-extern E DAT_800a5398[];
-extern int DAT_800d1afc;
+extern E Levels[];
+extern int Loading;
 
 int DAT_800d2360, DAT_800d2374, DAT_800d2378, DAT_800d237c, DAT_800d2380, DAT_800d2390;
 
@@ -27,7 +27,7 @@ void FUN_80066768(void) {
 
 	FileIO_Continue();
 
-	if (DAT_800d1afc == 0 && DAT_800d2380 == 0 && DAT_800d2390 < 4) {
+	if (Loading == 0 && DAT_800d2380 == 0 && DAT_800d2390 < 4) {
 		t = DAT_800d2374;
 
 		if (t >= 0) {
@@ -54,7 +54,7 @@ void FUN_80066768(void) {
 		if (DAT_800d2360 >= DAT_800d237c)
 			DAT_800d2360 -= DAT_800d237c;
 
-		FUN_8008e904(buf, DAT_800a5398[DAT_800d2360].f24);
+		FUN_8008e904(buf, Levels[DAT_800d2360].f24);
 
 		n = FileIO_Open(buf);
 

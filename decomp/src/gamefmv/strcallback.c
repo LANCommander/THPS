@@ -4,14 +4,14 @@ typedef struct {
 	short x, y, w, h;
 } RECT;
 
-extern int DAT_800a6748[];
-extern int DAT_800d785c;
+extern int decodeSliceBuffer[];
+extern int StCdIntrFlag;
 
-int DAT_800d163c, DAT_800d162c;
-unsigned char DAT_800d167c, DAT_800d166c;
-short DAT_800d1658, DAT_800d1686, DAT_800d168a;
-RECT DAT_800d1684;
-unsigned short DAT_800d1670, DAT_800d1688;
+int currentDecodeBuffer, GameFMV_IsMovie;
+unsigned char GameFMV_Is24Bit, GameFMV_SliceBuffers;
+short GameFMV_StartX, decodeSlice_2, decodeSlice_6;
+RECT decodeSlice;
+unsigned short GameFMV_EndX, decodeSlice_4;
 
 void FUN_8008f79c(void);
 void FUN_8009033c(int, int);
@@ -21,34 +21,34 @@ void strCallback(void) {
 	RECT r;
 	int p;
 
-	if (DAT_800d167c && DAT_800d785c) {
+	if (GameFMV_Is24Bit && StCdIntrFlag) {
 		FUN_8008f79c();
 
-		DAT_800d785c = 0;
+		StCdIntrFlag = 0;
 	}
 
-	r = DAT_800d1684;
-	p = DAT_800a6748[DAT_800d163c];
-	DAT_800d163c++;
+	r = decodeSlice;
+	p = decodeSliceBuffer[currentDecodeBuffer];
+	currentDecodeBuffer++;
 
-	if (DAT_800d163c >= DAT_800d166c)
-		DAT_800d163c = 0;
+	if (currentDecodeBuffer >= GameFMV_SliceBuffers)
+		currentDecodeBuffer = 0;
 
-	DAT_800d1684.x += DAT_800d1688;
+	decodeSlice.x += decodeSlice_4;
 
-	if (DAT_800d1684.x < DAT_800d1670) {
-		FUN_8009033c(DAT_800a6748[DAT_800d163c], (short)DAT_800d1688 * DAT_800d168a / 2);
+	if (decodeSlice.x < GameFMV_EndX) {
+		FUN_8009033c(decodeSliceBuffer[currentDecodeBuffer], (short)decodeSlice_4 * decodeSlice_6 / 2);
 	} else {
-		DAT_800d1684.x = DAT_800d1658;
+		decodeSlice.x = GameFMV_StartX;
 
-		if (DAT_800d162c) {
-			if (DAT_800d1686 < 256)
-				DAT_800d1686 += 256;
+		if (GameFMV_IsMovie) {
+			if (decodeSlice_2 < 256)
+				decodeSlice_2 += 256;
 			else
-				DAT_800d1686 -= 256;
+				decodeSlice_2 -= 256;
 		}
 	}
 
-	if (DAT_800d1658 != -1)
+	if (GameFMV_StartX != -1)
 		FUN_8008c714(&r, p);
 }

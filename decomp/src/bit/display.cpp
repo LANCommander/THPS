@@ -244,26 +244,26 @@ struct SClipLineBuf {
 	uint ScrEnd;
 };
 
-extern SCam DAT_800c119c[];
-extern int DAT_800d2048;
-extern SCamera *DAT_800d2178;
-extern SOTBuffer *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
-extern uchar *DAT_800d177c;
-extern STrig DAT_800c9670[];
+extern SCam MikeCamera[];
+extern int Camera_CurrentMikeCamera;
+extern SCamera *pCurrentViewport;
+extern SOTBuffer *pDoubleBuffer;
+extern uchar *pPoly;
+extern uchar *PolyBufferEnd;
+extern STrig rcossin_tbl[];
 
-CSpecialDisplay *DAT_800d18f0;
-CGlow *DAT_800d18e8;
-CGPolyLine *DAT_800d18f8;
-CPolyLine *DAT_800d18f4;
-CFlatBit *DAT_800d18d0;
-CGlassBit *DAT_800d18ec;
-CGLine *DAT_800d18fc;
-CQuadBit *DAT_800d18dc;
-CChunkBit *DAT_800d18e4;
-CPixel *DAT_800d18d8;
-CLinked2EndedBit *DAT_800d18d4;
-u_long DAT_800d1900[2];
+CSpecialDisplay *SpecialDisplayList;
+CGlow *GlowList;
+CGPolyLine *GPolyLineList;
+CPolyLine *PolyLineList;
+CFlatBit *FlatBitList;
+CGlassBit *GlassList;
+CGLine *GLineList;
+CQuadBit *QuadBitList;
+CChunkBit *ChunkBitList;
+CPixel *PixelList;
+CLinked2EndedBit *Linked2EndedBitList;
+u_long StoredTPagePrim[2];
 
 int M3dAsm_ClipLine(SClipLineBuf *);
 int M3dMaths_SquareRoot0(int);
@@ -275,14 +275,14 @@ void Bit_Display() {
 	CSpecialDisplay *pSpecial;
 	CGlow *pGlow;
 
-	gte_SetRotMatrix(&DAT_800c119c[DAT_800d2048].Matrix);
+	gte_SetRotMatrix(&MikeCamera[Camera_CurrentMikeCamera].Matrix);
 	__asm__ volatile("ctc2 $0, $5; ctc2 $0, $6; ctc2 $0, $7");
 
-	camera_pos.vx = DAT_800c119c[DAT_800d2048].Pos.vx;
-	camera_pos.vy = DAT_800c119c[DAT_800d2048].Pos.vy;
-	camera_pos.vz = DAT_800c119c[DAT_800d2048].Pos.vz;
-	GTEZedLimit = DAT_800d2178->H >> 1;
-	pSpecial = DAT_800d18f0;
+	camera_pos.vx = MikeCamera[Camera_CurrentMikeCamera].Pos.vx;
+	camera_pos.vy = MikeCamera[Camera_CurrentMikeCamera].Pos.vy;
+	camera_pos.vz = MikeCamera[Camera_CurrentMikeCamera].Pos.vz;
+	GTEZedLimit = pCurrentViewport->H >> 1;
+	pSpecial = SpecialDisplayList;
 
 	while (pSpecial) {
 		pSpecial->Display();
@@ -291,22 +291,22 @@ void Bit_Display() {
 	}
 
 	{
-		for (pGlow = DAT_800d18e8; pGlow; pGlow = (CGlow *)pGlow->mNext) {
+		for (pGlow = GlowList; pGlow; pGlow = (CGlow *)pGlow->mNext) {
 			uint y0x0;
 			VECTOR RotCoords;
 			CVector Centre = (pGlow->mPos >> 12) - camera_pos;
 
 			gte_ldlv0(&Centre);
 			gte_rtps();
-			DR_TPAGE *ptpage = (DR_TPAGE *)DAT_800d1a54;
-			uchar *newppoly = DAT_800d1a54 + sizeof(DR_TPAGE);
+			DR_TPAGE *ptpage = (DR_TPAGE *)pPoly;
+			uchar *newppoly = pPoly + sizeof(DR_TPAGE);
 
-			if (newppoly > DAT_800d177c)
+			if (newppoly > PolyBufferEnd)
 				return;
 
-			DAT_800d1a54 = newppoly;
-			uint a = DAT_800d1900[0];
-			uint b = DAT_800d1900[1];
+			pPoly = newppoly;
+			uint a = StoredTPagePrim[0];
+			uint b = StoredTPagePrim[1];
 
 			ptpage->tag = a;
 			ptpage->code[0] = b;
@@ -328,14 +328,14 @@ void Bit_Display() {
 				RGBFade = RotCoords.vz * 255 / 700 + 1;
 
 			if (RotCoords.vz < GTEZedLimit) {
-				CentreX = DAT_800d2178->H * RotCoords.vx / RotCoords.vz + DAT_800d2178->OffX;
+				CentreX = pCurrentViewport->H * RotCoords.vx / RotCoords.vz + pCurrentViewport->OffX;
 
 				if (CentreX > 1023)
 					CentreX = 1023;
 				else if (CentreX < -1024)
 					CentreX = -1024;
 
-				CentreY = DAT_800d2178->H * RotCoords.vy / RotCoords.vz + DAT_800d2178->OffY;
+				CentreY = pCurrentViewport->H * RotCoords.vy / RotCoords.vz + pCurrentViewport->OffY;
 
 				if (CentreY > 1023)
 					CentreY = 1023;
@@ -351,10 +351,10 @@ void Bit_Display() {
 			if (CentreX == -1024 || CentreX == 1023 || CentreY == -1024 || CentreY == 1023)
 				continue;
 
-			uint *OTPos = (uint *)(DAT_800d1a48->pOT + (RotCoords.vz & 0x3ffc));
+			uint *OTPos = (uint *)(pDoubleBuffer->pOT + (RotCoords.vz & 0x3ffc));
 			DVECTOR *pBufA = (DVECTOR *)0x1f800000;
 			DVECTOR *pBufB = (DVECTOR *)0x1f800004 + pGlow->mNumFringes;
-			STrig *pTab = DAT_800c9670;
+			STrig *pTab = rcossin_tbl;
 			STrig *p = &pTab[Ang & 4095];
 			int RadA = pSection[n - 1].Radius * 400 / RotCoords.vz;
 			int MSin = p->s * 400 / 256;
@@ -450,13 +450,13 @@ void Bit_Display() {
 							POLY_G3 *aGou;
 							uchar *newppoly;
 
-							aGou = (POLY_G3 *)DAT_800d1a54;
-							newppoly = DAT_800d1a54 + sizeof(POLY_G3);
+							aGou = (POLY_G3 *)pPoly;
+							newppoly = pPoly + sizeof(POLY_G3);
 
-							if (newppoly > DAT_800d177c)
+							if (newppoly > PolyBufferEnd)
 								return;
 
-							DAT_800d1a54 = newppoly;
+							pPoly = newppoly;
 							aGou->tag = 0x06000000;
 							*(u_long *)&aGou->r0 = pGlow->mCentreCodeBGR;
 							*(u_long *)&aGou->r1 = pSection->PadBGR;
@@ -515,13 +515,13 @@ void Bit_Display() {
 								uchar *newppoly;
 								uint CodeBGR;
 
-								aGou = (POLY_G4 *)DAT_800d1a54;
-								newppoly = DAT_800d1a54 + sizeof(POLY_G4);
+								aGou = (POLY_G4 *)pPoly;
+								newppoly = pPoly + sizeof(POLY_G4);
 
-								if (newppoly > DAT_800d177c)
+								if (newppoly > PolyBufferEnd)
 									return;
 
-								DAT_800d1a54 = newppoly;
+								pPoly = newppoly;
 								aGou->tag = 0x08000000;
 								CodeBGR = pFringe->CodeBGR;
 								*(u_long *)&aGou->r0 = CodeBGR;
@@ -592,7 +592,7 @@ void Bit_Display() {
 		SLineSeg *pSeg;
 		SClipLineBuf *pClip = (SClipLineBuf *)0x1f800000;
 
-		pGPolyLine = DAT_800d18f8;
+		pGPolyLine = GPolyLineList;
 
 		while (pGPolyLine) {
 			int i;
@@ -619,22 +619,22 @@ void Bit_Display() {
 					uchar *newppoly;
 					uint *otpos;
 
-					ptpage = (DR_TPAGE *)DAT_800d1a54;
+					ptpage = (DR_TPAGE *)pPoly;
 					aline = (LINE_G2 *)(ptpage + 1);
-					newppoly = DAT_800d1a54 + sizeof(DR_TPAGE) + sizeof(LINE_G2);
+					newppoly = pPoly + sizeof(DR_TPAGE) + sizeof(LINE_G2);
 
-					if (newppoly > DAT_800d177c)
+					if (newppoly > PolyBufferEnd)
 						return;
 
-					DAT_800d1a54 = newppoly;
+					pPoly = newppoly;
 					aline->tag = 0x04000000;
 					*(u_long *)&aline->r0 = LastBGR;
 					*(u_long *)&aline->r1 = NewBGR;
 
 					if (pGPolyLine->mForcedPriority)
-						otpos = (uint *)DAT_800d1a48->pOT + pGPolyLine->mForcedPriority;
+						otpos = (uint *)pDoubleBuffer->pOT + pGPolyLine->mForcedPriority;
 					else
-						otpos = (uint *)DAT_800d1a48->pOT + sort;
+						otpos = (uint *)pDoubleBuffer->pOT + sort;
 
 					*(u_long *)&aline->x0 = pClip->ScrStart;
 					*(u_long *)&aline->x1 = pClip->ScrEnd;
@@ -644,8 +644,8 @@ void Bit_Display() {
 						uint a;
 						uint b;
 
-						a = DAT_800d1900[0];
-						b = DAT_800d1900[1];
+						a = StoredTPagePrim[0];
+						b = StoredTPagePrim[1];
 						ptpage->tag = a;
 						ptpage->code[0] = b;
 						addPrim(otpos, ptpage);
@@ -669,7 +669,7 @@ void Bit_Display() {
 		SLineSeg *pSeg;
 		SClipLineBuf *pClip = (SClipLineBuf *)0x1f800000;
 
-		pPolyLine = DAT_800d18f4;
+		pPolyLine = PolyLineList;
 
 		while (pPolyLine) {
 			int i;
@@ -695,21 +695,21 @@ void Bit_Display() {
 					uchar *newppoly;
 					uint *otpos;
 
-					ptpage = (DR_TPAGE *)DAT_800d1a54;
+					ptpage = (DR_TPAGE *)pPoly;
 					aline = (LINE_F2 *)(ptpage + 1);
-					newppoly = DAT_800d1a54 + sizeof(DR_TPAGE) + sizeof(LINE_F2);
+					newppoly = pPoly + sizeof(DR_TPAGE) + sizeof(LINE_F2);
 
-					if (newppoly > DAT_800d177c)
+					if (newppoly > PolyBufferEnd)
 						return;
 
-					DAT_800d1a54 = newppoly;
+					pPoly = newppoly;
 					aline->tag = 0x03000000;
 					*(u_long *)&aline->r0 = CodeBGR;
 
 					if (pPolyLine->mForcedPriority)
-						otpos = (uint *)DAT_800d1a48->pOT + pPolyLine->mForcedPriority;
+						otpos = (uint *)pDoubleBuffer->pOT + pPolyLine->mForcedPriority;
 					else
-						otpos = (uint *)DAT_800d1a48->pOT + sort;
+						otpos = (uint *)pDoubleBuffer->pOT + sort;
 
 					*(u_long *)&aline->x0 = pClip->ScrStart;
 					*(u_long *)&aline->x1 = pClip->ScrEnd;
@@ -719,8 +719,8 @@ void Bit_Display() {
 						uint a;
 						uint b;
 
-						a = DAT_800d1900[0];
-						b = DAT_800d1900[1];
+						a = StoredTPagePrim[0];
+						b = StoredTPagePrim[1];
 						ptpage->tag = a;
 						ptpage->code[0] = b;
 						addPrim(otpos, ptpage);
@@ -739,7 +739,7 @@ void Bit_Display() {
 
 	CFlatBit *pFlatBit;
 
-	for (pFlatBit = DAT_800d18d0; pFlatBit; pFlatBit = (CFlatBit *)pFlatBit->mNext) {
+	for (pFlatBit = FlatBitList; pFlatBit; pFlatBit = (CFlatBit *)pFlatBit->mNext) {
 		long zed;
 		uint y0x0;
 
@@ -748,19 +748,19 @@ void Bit_Display() {
 		Temp.vz = (pFlatBit->mPos.vz >> 12) - camera_pos.vz;
 		gte_ldlv0(&Temp);
 		gte_rtps();
-		POLY_FT4 *apoly = (POLY_FT4 *)DAT_800d1a54;
-		uchar *newppoly = DAT_800d1a54 + sizeof(POLY_FT4);
+		POLY_FT4 *apoly = (POLY_FT4 *)pPoly;
+		uchar *newppoly = pPoly + sizeof(POLY_FT4);
 
-		if (newppoly > DAT_800d177c)
+		if (newppoly > PolyBufferEnd)
 			return;
 
-		DAT_800d1a54 = newppoly;
+		pPoly = newppoly;
 		apoly->tag = 0x09000000;
 		*(u_long *)&apoly->r0 = pFlatBit->mCodeBGR;
 		gte_stlvnl2(&zed);
 
-		if (zed < GTEZedLimit || zed > DAT_800d2178->Far) {
-			DAT_800d1a54 = (uchar *)apoly;
+		if (zed < GTEZedLimit || zed > pCurrentViewport->Far) {
+			pPoly = (uchar *)apoly;
 			continue;
 		}
 
@@ -769,7 +769,7 @@ void Bit_Display() {
 		Scale = (Scale << 7) / zed;
 
 		if (Scale > 512 && !(pFlatBit->mBitFlags & 8)) {
-			DAT_800d1a54 = (uchar *)apoly;
+			pPoly = (uchar *)apoly;
 			continue;
 		}
 
@@ -861,7 +861,7 @@ void Bit_Display() {
 				uint y_scale;
 
 				{
-					STrig *p = DAT_800c9670;
+					STrig *p = rcossin_tbl;
 
 					p += Angle & 4095;
 					sin = p->s;
@@ -902,15 +902,15 @@ void Bit_Display() {
 		}
 
 		if (pFlatBit->mForcedPriority)
-			addPrim((uint *)DAT_800d1a48->pOT + pFlatBit->mForcedPriority, apoly);
+			addPrim((uint *)pDoubleBuffer->pOT + pFlatBit->mForcedPriority, apoly);
 		else
-			addPrim((uint *)(((zed - pFlatBit->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+			addPrim((uint *)(((zed - pFlatBit->mFrigDeltaZ) & 0x3ffc) + (uint)pDoubleBuffer->pOT),
 			        apoly);
 	}
 
 	CGlassBit *pGlass;
 
-	pGlass = DAT_800d18ec;
+	pGlass = GlassList;
 
 	while (pGlass) {
 		SVECTOR STemp;
@@ -938,27 +938,27 @@ void Bit_Display() {
 		gte_ldv2(&STemp);
 		gte_rtpt();
 
-		aGou = (POLY_F3 *)DAT_800d1a54;
+		aGou = (POLY_F3 *)pPoly;
 		ptpage = (DR_TPAGE *)(aGou + 1);
-		newppoly = DAT_800d1a54 + sizeof(POLY_F3) + sizeof(DR_TPAGE);
+		newppoly = pPoly + sizeof(POLY_F3) + sizeof(DR_TPAGE);
 
-		if (newppoly > DAT_800d177c)
+		if (newppoly > PolyBufferEnd)
 			return;
 
-		DAT_800d1a54 = newppoly;
+		pPoly = newppoly;
 		aGou->tag = 0x04000000;
 		aGou->code = 0x22;
 		aGou->r0 = pGlass->mR;
 		aGou->g0 = pGlass->mG;
 		aGou->b0 = pGlass->mB;
-		a = DAT_800d1900[0];
-		b = DAT_800d1900[1];
+		a = StoredTPagePrim[0];
+		b = StoredTPagePrim[1];
 		ptpage->tag = a;
 		ptpage->code[0] = b;
 		gte_stsxy3(&aGou->x0, &aGou->x1, &aGou->x2);
 		gte_stlvnl2(&zed);
 
-		OTPos = (uint *)(DAT_800d1a48->pOT + (zed & 0x3ffc));
+		OTPos = (uint *)(pDoubleBuffer->pOT + (zed & 0x3ffc));
 		addPrim(OTPos, aGou);
 		addPrim(OTPos, ptpage);
 
@@ -967,7 +967,7 @@ void Bit_Display() {
 
 	CGLine *pGLine;
 
-	pGLine = DAT_800d18fc;
+	pGLine = GLineList;
 
 	while (pGLine) {
 		uint y0x01;
@@ -980,7 +980,7 @@ void Bit_Display() {
 		gte_rtps();
 		gte_stlvnl2(&zed);
 
-		if (zed >= DAT_800d2178->Near && zed <= DAT_800d2178->Far) {
+		if (zed >= pCurrentViewport->Near && zed <= pCurrentViewport->Far) {
 			gte_stsxy(&y0x01);
 
 			Temp = (pGLine->mEnd >> 12) - camera_pos;
@@ -988,19 +988,19 @@ void Bit_Display() {
 			gte_rtps();
 			gte_stlvnl2(&zed2);
 
-			if (zed2 >= DAT_800d2178->Near && zed2 <= DAT_800d2178->Far) {
+			if (zed2 >= pCurrentViewport->Near && zed2 <= pCurrentViewport->Far) {
 				LINE_G2 *aline;
 				uchar *newppoly;
 
 				gte_stsxy(&y0x02);
 
-				aline = (LINE_G2 *)DAT_800d1a54;
-				newppoly = DAT_800d1a54 + sizeof(LINE_G2);
+				aline = (LINE_G2 *)pPoly;
+				newppoly = pPoly + sizeof(LINE_G2);
 
-				if (newppoly > DAT_800d177c)
+				if (newppoly > PolyBufferEnd)
 					return;
 
-				DAT_800d1a54 = newppoly;
+				pPoly = newppoly;
 				aline->tag = 0x04000000;
 				*(u_long *)&aline->r0 = pGLine->mCodeBGR0;
 				*(u_long *)&aline->r1 = pGLine->mPadBGR1;
@@ -1010,7 +1010,7 @@ void Bit_Display() {
 				if (zed2 < zed)
 					zed = zed2;
 
-				addPrim((uint *)((zed & 0x3ffc) + (uint)DAT_800d1a48->pOT), aline);
+				addPrim((uint *)((zed & 0x3ffc) + (uint)pDoubleBuffer->pOT), aline);
 			}
 		}
 
@@ -1019,7 +1019,7 @@ void Bit_Display() {
 
 	CQuadBit *pQuad;
 
-	pQuad = DAT_800d18dc;
+	pQuad = QuadBitList;
 
 	while (pQuad) {
 		if (pQuad->mpTexture) {
@@ -1039,17 +1039,17 @@ void Bit_Display() {
 			gte_rtps();
 
 			stored = pQuad->mpTexture;
-			apoly = (POLY_FT4 *)DAT_800d1a54;
-			newppoly = DAT_800d1a54 + sizeof(POLY_FT4);
+			apoly = (POLY_FT4 *)pPoly;
+			newppoly = pPoly + sizeof(POLY_FT4);
 
-			if (newppoly > DAT_800d177c)
+			if (newppoly > PolyBufferEnd)
 				return;
 
-			DAT_800d1a54 = newppoly;
+			pPoly = newppoly;
 			gte_stlvnl2(&MaxZed);
 
-			if (MaxZed < DAT_800d2178->Near || MaxZed > DAT_800d2178->Far) {
-				DAT_800d1a54 = (uchar *)apoly;
+			if (MaxZed < pCurrentViewport->Near || MaxZed > pCurrentViewport->Far) {
+				pPoly = (uchar *)apoly;
 				goto NEXTQUAD;
 			}
 
@@ -1060,8 +1060,8 @@ void Bit_Display() {
 			gte_rtps();
 			gte_stlvnl2(&ZedB);
 
-			if (ZedB < DAT_800d2178->Near || ZedB > DAT_800d2178->Far) {
-				DAT_800d1a54 = (uchar *)apoly;
+			if (ZedB < pCurrentViewport->Near || ZedB > pCurrentViewport->Far) {
+				pPoly = (uchar *)apoly;
 				goto NEXTQUAD;
 			}
 
@@ -1079,8 +1079,8 @@ void Bit_Display() {
 
 			gte_stlvnl2(&ZedC);
 
-			if (ZedC < DAT_800d2178->Near || ZedC > DAT_800d2178->Far) {
-				DAT_800d1a54 = (uchar *)apoly;
+			if (ZedC < pCurrentViewport->Near || ZedC > pCurrentViewport->Far) {
+				pPoly = (uchar *)apoly;
 				goto NEXTQUAD;
 			}
 
@@ -1108,8 +1108,8 @@ void Bit_Display() {
 
 			gte_stlvnl2(&ZedD);
 
-			if (ZedD < DAT_800d2178->Near || ZedD > DAT_800d2178->Far) {
-				DAT_800d1a54 = (uchar *)apoly;
+			if (ZedD < pCurrentViewport->Near || ZedD > pCurrentViewport->Far) {
+				pPoly = (uchar *)apoly;
 				goto NEXTQUAD;
 			}
 
@@ -1118,7 +1118,7 @@ void Bit_Display() {
 			if (MaxZed < ZedD)
 				MaxZed = ZedD;
 
-			addPrim((uint *)(((MaxZed - pQuad->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+			addPrim((uint *)(((MaxZed - pQuad->mFrigDeltaZ) & 0x3ffc) + (uint)pDoubleBuffer->pOT),
 			        apoly);
 		}
 	NEXTQUAD:
@@ -1127,7 +1127,7 @@ void Bit_Display() {
 
 	CChunkBit *p_chunk;
 
-	p_chunk = DAT_800d18e4;
+	p_chunk = ChunkBitList;
 
 	while (p_chunk) {
 		DR_TWIN *p_overflow2;
@@ -1147,7 +1147,7 @@ void Bit_Display() {
 		uchar *newppoly;
 		uint *pOTPos;
 
-		if (DAT_800d1a54 + 152 > DAT_800d177c)
+		if (pPoly + 152 > PolyBufferEnd)
 			return;
 
 		MaxZed = -1;
@@ -1161,7 +1161,7 @@ void Bit_Display() {
 		gte_ldlv0(&Temp);
 		gte_rtps();
 
-		if (ZedA < DAT_800d2178->Near || ZedA > DAT_800d2178->Far)
+		if (ZedA < pCurrentViewport->Near || ZedA > pCurrentViewport->Far)
 			goto NEXTCHUNK;
 
 		if (ZedA > MaxZed)
@@ -1174,7 +1174,7 @@ void Bit_Display() {
 		gte_ldlv0(&Temp);
 		gte_rtps();
 
-		if (ZedB < DAT_800d2178->Near || ZedB > DAT_800d2178->Far)
+		if (ZedB < pCurrentViewport->Near || ZedB > pCurrentViewport->Far)
 			goto NEXTCHUNK;
 
 		if (ZedB > MaxZed)
@@ -1187,7 +1187,7 @@ void Bit_Display() {
 		gte_ldlv0(&Temp);
 		gte_rtps();
 
-		if (ZedC < DAT_800d2178->Near || ZedC > DAT_800d2178->Far)
+		if (ZedC < pCurrentViewport->Near || ZedC > pCurrentViewport->Far)
 			goto NEXTCHUNK;
 
 		if (ZedC > MaxZed)
@@ -1195,7 +1195,7 @@ void Bit_Display() {
 
 		gte_stlvnl2(&ZedD);
 
-		if (ZedD < DAT_800d2178->Near || ZedD > DAT_800d2178->Far)
+		if (ZedD < pCurrentViewport->Near || ZedD > pCurrentViewport->Far)
 			goto NEXTCHUNK;
 
 		if (ZedD > MaxZed)
@@ -1203,13 +1203,13 @@ void Bit_Display() {
 
 		gte_stsxy(&y0x0D);
 
-		pOTPos = (uint *)(DAT_800d1a48->pOT + (MaxZed & 0x3ffc));
+		pOTPos = (uint *)(pDoubleBuffer->pOT + (MaxZed & 0x3ffc));
 
 		if (p_chunk->mTexWin) {
-			pWinOff = (DR_TWIN *)DAT_800d1a54;
+			pWinOff = (DR_TWIN *)pPoly;
 			pWinOn = pWinOff + 1;
 			newppoly = (uchar *)(pWinOn + 1);
-			DAT_800d1a54 = newppoly;
+			pPoly = newppoly;
 
 			{
 				RECT win;
@@ -1225,7 +1225,7 @@ void Bit_Display() {
 				addPrim(pOTPos, pWinOff);
 		}
 
-		aft3poly = (POLY_FT3 *)DAT_800d1a54;
+		aft3poly = (POLY_FT3 *)pPoly;
 		gte_ldsxy3(y0x0A, y0x0B, y0x0C);
 		gte_nclip();
 		gte_stopz(&opz);
@@ -1298,7 +1298,7 @@ void Bit_Display() {
 			aft3poly++;
 		}
 
-		DAT_800d1a54 = (uchar *)aft3poly;
+		pPoly = (uchar *)aft3poly;
 
 		if (p_chunk->mTexWin)
 			addPrim(pOTPos, pWinOn);
@@ -1308,7 +1308,7 @@ void Bit_Display() {
 
 	CPixel *pPixel;
 
-	pPixel = DAT_800d18d8;
+	pPixel = PixelList;
 
 	while (pPixel) {
 		long zed;
@@ -1321,58 +1321,58 @@ void Bit_Display() {
 			TILE_1 *atile;
 			uchar *newppoly;
 
-			atile = (TILE_1 *)DAT_800d1a54;
-			newppoly = DAT_800d1a54 + sizeof(TILE_1);
+			atile = (TILE_1 *)pPoly;
+			newppoly = pPoly + sizeof(TILE_1);
 
-			if (newppoly > DAT_800d177c)
+			if (newppoly > PolyBufferEnd)
 				return;
 
-			DAT_800d1a54 = newppoly;
+			pPoly = newppoly;
 			atile->tag = pPixel->tag;
 			*(u_long *)&atile->r0 = *(u_long *)&pPixel->r0;
 			gte_stlvnl2(&zed);
 
-			if (zed < DAT_800d2178->Near) {
-				DAT_800d1a54 = (uchar *)atile;
+			if (zed < pCurrentViewport->Near) {
+				pPoly = (uchar *)atile;
 				goto SKIPPIXEL;
 			}
 
-			if (zed > DAT_800d2178->Far) {
-				DAT_800d1a54 = (uchar *)atile;
+			if (zed > pCurrentViewport->Far) {
+				pPoly = (uchar *)atile;
 				goto SKIPPIXEL;
 			}
 
 			gte_stsxy(&atile->x0);
-			addPrim((uint *)(((zed - pPixel->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+			addPrim((uint *)(((zed - pPixel->mFrigDeltaZ) & 0x3ffc) + (uint)pDoubleBuffer->pOT),
 			        atile);
 		} else {
 			TILE *atile;
 			uchar *newppoly;
 
-			atile = (TILE *)DAT_800d1a54;
-			newppoly = DAT_800d1a54 + sizeof(TILE);
+			atile = (TILE *)pPoly;
+			newppoly = pPoly + sizeof(TILE);
 
-			if (newppoly > DAT_800d177c)
+			if (newppoly > PolyBufferEnd)
 				return;
 
-			DAT_800d1a54 = newppoly;
+			pPoly = newppoly;
 			atile->tag = pPixel->tag;
 			*(u_long *)&atile->r0 = *(u_long *)&pPixel->r0;
 			*(u_long *)&atile->w = pPixel->mWidthHeight;
 			gte_stlvnl2(&zed);
 
-			if (zed < DAT_800d2178->Near) {
-				DAT_800d1a54 = (uchar *)atile;
+			if (zed < pCurrentViewport->Near) {
+				pPoly = (uchar *)atile;
 				goto SKIPPIXEL;
 			}
 
-			if (zed > DAT_800d2178->Far) {
-				DAT_800d1a54 = (uchar *)atile;
+			if (zed > pCurrentViewport->Far) {
+				pPoly = (uchar *)atile;
 				goto SKIPPIXEL;
 			}
 
 			gte_stsxy(&atile->x0);
-			addPrim((uint *)(((zed - pPixel->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+			addPrim((uint *)(((zed - pPixel->mFrigDeltaZ) & 0x3ffc) + (uint)pDoubleBuffer->pOT),
 			        atile);
 		}
 	SKIPPIXEL:
@@ -1403,7 +1403,7 @@ void Bit_Display() {
 	StoredAx = 0;
 	StoredAy = 0;
 	Broken = 0;
-	pLinked2EndedBit = DAT_800d18d4;
+	pLinked2EndedBit = Linked2EndedBitList;
 
 	while (pLinked2EndedBit) {
 		Texture *stored;
@@ -1447,7 +1447,7 @@ void Bit_Display() {
 			Width = pLinked2EndedBit->mpPSXFrame->Width;
 			gte_stlvnl2(&zed);
 
-			if (zed < DAT_800d2178->Near || zed > DAT_800d2178->Far) {
+			if (zed < pCurrentViewport->Near || zed > pCurrentViewport->Far) {
 				Broken = 1;
 				goto NEXTL2E;
 			}
@@ -1471,13 +1471,13 @@ void Bit_Display() {
 		gte_ldlv0(&Temp);
 		gte_rtps();
 
-		apoly = (POLY_FT4 *)DAT_800d1a54;
-		newppoly = DAT_800d1a54 + sizeof(POLY_FT4);
+		apoly = (POLY_FT4 *)pPoly;
+		newppoly = pPoly + sizeof(POLY_FT4);
 
-		if (newppoly > DAT_800d177c)
+		if (newppoly > PolyBufferEnd)
 			return;
 
-		DAT_800d1a54 = newppoly;
+		pPoly = newppoly;
 		apoly->tag = 0x09000000;
 		*(u_long *)&apoly->r0 = pLinked2EndedBit->mCodeBGR;
 		ushort foo4;
@@ -1496,8 +1496,8 @@ void Bit_Display() {
 		apoly->v3--;
 		gte_stlvnl2(&zed);
 
-		if (zed < DAT_800d2178->Near || zed > DAT_800d2178->Far) {
-			DAT_800d1a54 = (uchar *)apoly;
+		if (zed < pCurrentViewport->Near || zed > pCurrentViewport->Far) {
+			pPoly = (uchar *)apoly;
 			Broken = 1;
 			goto NEXTL2E;
 		}
@@ -1518,7 +1518,7 @@ void Bit_Display() {
 		d = M3dMaths_SquareRoot0(dx * dx + dy * dy);
 
 		if (!d) {
-			DAT_800d1a54 = (uchar *)apoly;
+			pPoly = (uchar *)apoly;
 			Broken = 1;
 			goto NEXTL2E;
 		}
@@ -1612,7 +1612,7 @@ void Bit_Display() {
 		}
 
 		addPrim(
-		    (uint *)(((zed - pLinked2EndedBit->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+		    (uint *)(((zed - pLinked2EndedBit->mFrigDeltaZ) & 0x3ffc) + (uint)pDoubleBuffer->pOT),
 		    apoly);
 
 		Broken = 0;

@@ -165,24 +165,24 @@ struct SLevel {
 	char pad64[120 - 0x64];
 };
 
-extern CVector DAT_800a824c;
-extern CBruce *DAT_800d19a4;
-extern int DAT_800d16f0;
-extern int DAT_800d16f4;
-extern int DAT_800d1768;
-extern CCamera *DAT_800d2044;
-extern int DAT_800d16a4;
-extern int DAT_800d1780;
-extern int DAT_800d1e28;
-extern SLevel DAT_800a5398[];
+extern CVector ZeroVector;
+extern CBruce *MechList;
+extern int CurrentWaterLevel;
+extern int CurrentWaterLevel2;
+extern int CurrentWaterDamage;
+extern CCamera *CameraList;
+extern int GGame;
+extern int GNumberOfPlayers;
+extern int GLevel;
+extern SLevel Levels[];
 
-CBody *DAT_800d1998;
+CBody *BaddyList;
 
-extern CBody *DAT_800d19b0 __attribute__((section(".data")));
+extern CBody *EnvironmentalObjectList __attribute__((section(".data")));
 
-extern int DAT_800bf318[];
-extern int DAT_800d1868;
-extern int DAT_800d186c;
+extern int GVInfo1[];
+extern int BitCount;
+extern int UseCacheForBits;
 
 CPowerUp *PowerUp_Create(ushort, const CVector &, uint, int, CVector &);
 ushort *Trig_GetPosition(CVector &, int);
@@ -228,7 +228,7 @@ int CBaddy::ExecuteCommand(ushort command) {
 			int b = *mpScript++;
 
 			gravity = *mpScript++;
-			p_powerup = PowerUp_Create(type, mPos, a, b, DAT_800a824c);
+			p_powerup = PowerUp_Create(type, mPos, a, b, ZeroVector);
 
 			if (p_powerup)
 				p_powerup->SetGravity(gravity << 12, 5);
@@ -237,20 +237,20 @@ int CBaddy::ExecuteCommand(ushort command) {
 		}
 		case 17054:
 			if (mpCreatedByPlayer) {
-				if (mpCreatedByPlayer == DAT_800d19a4) {
-					DAT_800d16f0 = mPos.vy;
+				if (mpCreatedByPlayer == MechList) {
+					CurrentWaterLevel = mPos.vy;
 					break;
 				}
 
-				DAT_800d16f4 = mPos.vy;
+				CurrentWaterLevel2 = mPos.vy;
 				break;
 			}
 
-			DAT_800d16f0 = mPos.vy;
-			DAT_800d16f4 = mPos.vy;
+			CurrentWaterLevel = mPos.vy;
+			CurrentWaterLevel2 = mPos.vy;
 			break;
 		case 17058:
-			DAT_800d1768 = *mpScript++;
+			CurrentWaterDamage = *mpScript++;
 			break;
 		case 17050:
 		case 17062: {
@@ -300,13 +300,13 @@ int CBaddy::ExecuteCommand(ushort command) {
 			if (shake & 0x2000)
 				shake = GetVariable(shake);
 
-			if (DAT_800d2044) {
+			if (CameraList) {
 				if (shake == 0)
-					DAT_800d2044->Shake(mPos, SHAKE_2);
+					CameraList->Shake(mPos, SHAKE_2);
 				else if (shake == 1)
-					DAT_800d2044->Shake(mPos, SHAKE_1);
+					CameraList->Shake(mPos, SHAKE_1);
 				else
-					DAT_800d2044->Shake(mPos, SHAKE_0);
+					CameraList->Shake(mPos, SHAKE_0);
 			}
 
 			break;
@@ -339,10 +339,10 @@ int CBaddy::ExecuteCommand(ushort command) {
 				FUN_80022aec(&mPos);
 			}
 
-			if (DAT_800d16a4 == 7)
+			if (GGame == 7)
 				break;
 
-			GameFMV_StartFMV(DAT_800d1780 == 1 && DAT_800a5398[DAT_800d1e28].f60);
+			GameFMV_StartFMV(GNumberOfPlayers == 1 && Levels[GLevel].f60);
 			break;
 		}
 		case 17053:
@@ -378,8 +378,8 @@ int CBaddy::ExecuteCommand(ushort command) {
 				node = GetVariable(node);
 
 			if (command == 17075) {
-				SendSignalToNode(DAT_800d1998, node);
-				SendSignalToNode(DAT_800d19b0, node);
+				SendSignalToNode(BaddyList, node);
+				SendSignalToNode(EnvironmentalObjectList, node);
 				break;
 			}
 
@@ -389,8 +389,8 @@ int CBaddy::ExecuteCommand(ushort command) {
 		case 17088: {
 			ushort goals = *mpScript++;
 
-			if (DAT_800d16a4 == 1 && !Career_Got(1)) {
-				int ok = DAT_800bf318[0] != 2;
+			if (GGame == 1 && !Career_Got(1)) {
+				int ok = GVInfo1[0] != 2;
 
 				if (ok)
 					FUN_8006e454(goals);
@@ -611,7 +611,7 @@ int CBaddy::ExecuteCommand(ushort command) {
 		case 17042: {
 			ushort sparks = *mpScript++;
 
-			if (DAT_800d1868 < 200) {
+			if (BitCount < 200) {
 				Bit_SetSparkTrajectory(mAngles);
 				CSVector cone(512, 4096, 0);
 
@@ -620,14 +620,14 @@ int CBaddy::ExecuteCommand(ushort command) {
 				Bit_SetSparkRGB(128, 128, 128);
 				Bit_SetSparkFadeRGB(4, 4, 4);
 
-				DAT_800d186c = 0;
+				UseCacheForBits = 0;
 
 				for (int i = 0; i < sparks; i++) {
 					if (Mem_GetFree(1) > 10000)
 						new CSpark(mPos, 32, 0x2000, 32);
 				}
 
-				DAT_800d186c = 1;
+				UseCacheForBits = 1;
 			}
 
 			break;

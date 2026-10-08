@@ -30,7 +30,7 @@ class SlicedImage {
 void *Mem_New(uint, int, int);
 void Pack_Pack(int, int, int, int *, int *, int, int, uint);
 
-extern int DAT_800d1a6c;
+extern int Pack_NoBottom;
 
 int SlicedImage::pack() {
 	int j;
@@ -55,7 +55,7 @@ int SlicedImage::pack() {
 	remx = width - numx * slice_width;
 	numy = height / slice_height;
 	remy = height - numy * slice_height;
-	DAT_800d1a6c = 1;
+	Pack_NoBottom = 1;
 
 	for (j = 0; j < numx; j++) {
 		data = data_col;
@@ -139,6 +139,6 @@ int SlicedImage::pack() {
 		}
 	}
 
-	DAT_800d1a6c = 0;
+	Pack_NoBottom = 0;
 	return DrawSync(0);
 }

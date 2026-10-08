@@ -8,13 +8,13 @@ typedef struct {
 	char q[64 - 24];
 } S;
 
-extern S DAT_800bf7a8[];
+extern S PSXRegion[];
 extern int *DAT_800c09a8[];
 
 int *Mem_NewX(int, int, int);
 
 void FUN_8006ed2c(int i) {
-	int *s = DAT_800bf7a8[i].p14;
+	int *s = PSXRegion[i].p14;
 	int *d = Mem_NewX(30000, 1, 1);
 	int j = 0;
 

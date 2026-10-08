@@ -2,7 +2,7 @@
 #include "names.h"
 extern char DAT_800b9014[];
 
-char DAT_800d1ad0[8];
+char pSFXVABHeader[8];
 int DAT_800d1a94;
 
 void FUN_80093854(int a, char *b);
@@ -13,5 +13,5 @@ void FUN_8004b09c(int a) {
 	FUN_80093854(16, DAT_800b9014);
 	SFX_SetReverbType(0);
 
-	DAT_800d1a94 = FUN_8004b188(a, DAT_800d1ad0);
+	DAT_800d1a94 = FUN_8004b188(a, pSFXVABHeader);
 }

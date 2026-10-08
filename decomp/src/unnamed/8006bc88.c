@@ -21,10 +21,10 @@ typedef struct {
 	char q[64 - 20];
 } SType;
 
-extern SVideoInfo DAT_800bf318;
-extern SVideoInfo DAT_800bf3d8;
-extern SType DAT_800bf7a8[];
-extern char *DAT_800d19a4;
+extern SVideoInfo GVInfo1;
+extern SVideoInfo GVInfo2;
+extern SType PSXRegion[];
+extern char *MechList;
 
 void CollideWithSkater(char *, char *, MATRIX *, char *);
 
@@ -33,11 +33,11 @@ void CollideWithSkaters(char *p) {
 	SModelInfo *info;
 	char *s1, *s2, *x;
 
-	if (DAT_800bf318.VideoMode == 2 || DAT_800bf3d8.VideoMode == 2)
+	if (GVInfo1.VideoMode == 2 || GVInfo2.VideoMode == 2)
 		return;
 
-	info = DAT_800bf7a8[(unsigned char)p[27]].pInfo;
-	s1 = DAT_800d19a4;
+	info = PSXRegion[(unsigned char)p[27]].pInfo;
+	s1 = MechList;
 	s2 = *(char **)(s1 + 28);
 	x = info->p10 + 12;
 	RotMatrix((SVECTOR *)(p + 356), &m);

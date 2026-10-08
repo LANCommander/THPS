@@ -1,6 +1,6 @@
 /* FUN_8004b8e8 (0x8004b8e8) */
-int DAT_800d1a9c;
+int SFXPaused;
 
 void FUN_8004b8e8(void) {
-	DAT_800d1a9c = 0;
+	SFXPaused = 0;
 }

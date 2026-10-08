@@ -11,7 +11,7 @@ typedef struct {
 	struct VT *vt;
 } O;
 
-extern int DAT_800d1afc;
+extern int Loading;
 extern int DAT_800d2c1c[];
 extern O *DAT_800d31cc[][3][15];
 
@@ -25,7 +25,7 @@ void FUN_800514f0(void) {
 	int k, i, j;
 	O *o;
 
-	if (DAT_800d1afc)
+	if (Loading)
 		FileIO_Sync();
 
 	for (k = 0; k < 2; k++) {

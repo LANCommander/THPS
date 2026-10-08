@@ -7,22 +7,22 @@ typedef struct {
 	int w24, w28;
 } E;
 
-extern E DAT_800a63e8[];
+extern E movieDetails[];
 
-int DAT_800d1634;
+int GameFMV_Active;
 int DAT_800d1648;
-unsigned char DAT_800d167d;
-unsigned short DAT_800d1672;
-unsigned short DAT_800d1674;
-int DAT_800d1660;
-int DAT_800d1664;
-int DAT_800d1668;
-unsigned char DAT_800d167c;
+unsigned char GameFMV_CurrentTrack;
+unsigned short GameFMV_Width;
+unsigned short GameFMV_Height;
+int GameFMV_EndFrame;
+int GameFMV_VLCBufferSize;
+int GameFMV_RingBufferSectors;
+unsigned char GameFMV_Is24Bit;
 int DAT_800d1680;
-int DAT_800d165c;
+int GameFMV_StartSector;
 
 void FUN_80023168(int a) {
-	if (DAT_800d1634)
+	if (GameFMV_Active)
 		return;
 
 	if (a < 0) {
@@ -31,7 +31,7 @@ void FUN_80023168(int a) {
 		a = DAT_800d1648++;
 
 		while (DAT_800d1648 < 26) {
-			if (DAT_800a63e8[DAT_800d1648].h4 == 96)
+			if (movieDetails[DAT_800d1648].h4 == 96)
 				break;
 
 			DAT_800d1648++;
@@ -41,13 +41,13 @@ void FUN_80023168(int a) {
 			DAT_800d1648 = 2;
 	}
 
-	DAT_800d167d = a;
-	DAT_800d1672 = DAT_800a63e8[a].h4;
-	DAT_800d1674 = DAT_800a63e8[a].h6;
-	DAT_800d1660 = DAT_800a63e8[a].h8;
-	DAT_800d1664 = DAT_800a63e8[a].w12;
-	DAT_800d1668 = DAT_800a63e8[a].w16;
-	DAT_800d167c = DAT_800a63e8[a].b20;
-	DAT_800d1680 = DAT_800a63e8[a].w28;
-	DAT_800d165c = DAT_800a63e8[a].w24;
+	GameFMV_CurrentTrack = a;
+	GameFMV_Width = movieDetails[a].h4;
+	GameFMV_Height = movieDetails[a].h6;
+	GameFMV_EndFrame = movieDetails[a].h8;
+	GameFMV_VLCBufferSize = movieDetails[a].w12;
+	GameFMV_RingBufferSectors = movieDetails[a].w16;
+	GameFMV_Is24Bit = movieDetails[a].b20;
+	DAT_800d1680 = movieDetails[a].w28;
+	GameFMV_StartSector = movieDetails[a].w24;
 }

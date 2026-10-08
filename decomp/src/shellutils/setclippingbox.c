@@ -11,20 +11,20 @@ typedef struct {
 	u_long Layer[1]; /* 140 */
 } SOTBuffer;
 
-extern SOTBuffer *DAT_800d1a48;
-extern u_char *DAT_800d1a54;
+extern SOTBuffer *pDoubleBuffer;
+extern u_char *pPoly;
 
-int DAT_800d1d94;
+int OT_entry;
 
 void SetClippingBox(int x, int y, int w, int h) {
 	RECT r;
-	DR_AREA *pClip = (DR_AREA *)DAT_800d1a54;
+	DR_AREA *pClip = (DR_AREA *)pPoly;
 
 	setRECT(&r, x, y, w, h);
 	SetDrawArea(pClip, &r);
 
-	DAT_800d1a54 = (u_char *)(pClip + 1);
-	addPrim(&DAT_800d1a48->Layer[DAT_800d1d94], pClip);
+	pPoly = (u_char *)(pClip + 1);
+	addPrim(&pDoubleBuffer->Layer[OT_entry], pClip);
 
-	DAT_800d1d94--;
+	OT_entry--;
 }

@@ -16,21 +16,21 @@ struct E {
 	int x;
 };
 
-int DAT_800d1118;
+int FreeSprite;
 
-extern struct E DAT_800a4434[];
+extern struct E BGCache[];
 
 void FUN_80011570(void) {
 	int i;
 
-	for (i = 0; i < DAT_800d1118; i++) {
-		struct O *o = DAT_800a4434[i].p;
+	for (i = 0; i < FreeSprite; i++) {
+		struct O *o = BGCache[i].p;
 
 		if (o)
 			o->vt->fn((char *)o + o->vt->off, 3);
 
-		DAT_800a4434[i].x = 0;
+		BGCache[i].x = 0;
 	}
 
-	DAT_800d1118 = 0;
+	FreeSprite = 0;
 }

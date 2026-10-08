@@ -14,8 +14,8 @@ typedef struct O {
 	struct VT *vt;
 } O;
 
-extern char DAT_800c0a48[];
-extern int DAT_800d1cb0;
+extern char Pad[];
+extern int DemoTimer;
 extern int DAT_800d1cb8;
 
 int DAT_800d2358, DAT_800d235c, DAT_800d1d28;
@@ -54,8 +54,8 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	int s3, s0, i, r, t;
 	char *P;
 
-	Pad_ClearTriggers(DAT_800c0a48);
-	Pad_ClearTriggers(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(Pad);
+	Pad_ClearTriggers(Pad + 364);
 
 	s3 = FUN_8005e09c(a4);
 
@@ -84,14 +84,14 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	if (s1)
 		s1 = PadBuffer_ctor(s1, s0);
 
-	DAT_800d1cb0 = 1600;
+	DemoTimer = 1600;
 
 	while (s3 == 0) {
 		FUN_8005c780();
 
 		if (FUN_8008f6fc(*a0, DAT_800a1c04) == 0) {
-			if (DAT_800d1cb0)
-				DAT_800d1cb0--;
+			if (DemoTimer)
+				DemoTimer--;
 			else
 				s3 = 128;
 		}
@@ -122,7 +122,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		}
 
 		if (r)
-			DAT_800d1cb0 = 1600;
+			DemoTimer = 1600;
 
 		PadBuffer_update(s1);
 
@@ -132,16 +132,16 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		s2->vt->fn2((char *)s2 + s2->vt->off2);
 		FUN_8006b26c();
 
-		if (DAT_800c0a48[225] || DAT_800c0a48[589] || DAT_800c0a48[49] || DAT_800c0a48[413]) {
-			Pad_ClearTriggers(DAT_800c0a48);
-			Pad_ClearTriggers(DAT_800c0a48 + 364);
+		if (Pad[225] || Pad[589] || Pad[49] || Pad[413]) {
+			Pad_ClearTriggers(Pad);
+			Pad_ClearTriggers(Pad + 364);
 			SFX_PlayX(145, 8192, 0);
 
 			t = VerticalMenu_getSelected(s2) + 1;
 			s3 = a3 + t;
 		}
 
-		P = DAT_800c0a48;
+		P = Pad;
 
 		if (P[1] || P[365]) {
 			Pad_ClearTriggers(P);

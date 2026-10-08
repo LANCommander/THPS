@@ -15,9 +15,9 @@ typedef struct {
 	unsigned char f7;
 } CP;
 
-short **DAT_800d19e8;
+short **OffsetList;
 
-extern int DAT_800d186c;
+extern int UseCacheForBits;
 
 void Trig_CreateObject(int, short **);
 CP *GetCommandPoint(int, short **);
@@ -35,31 +35,31 @@ void Trig_SendPulseToNode(int idx) {
 	CP *cp;
 	int o, o2;
 
-	switch (*DAT_800d19e8[idx]) {
+	switch (*OffsetList[idx]) {
 		case 5:
 		case 7:
 		case 1:
-			Trig_CreateObject(idx, DAT_800d19e8);
+			Trig_CreateObject(idx, OffsetList);
 			break;
 		case 6:
-			cp = GetCommandPoint(idx, DAT_800d19e8);
+			cp = GetCommandPoint(idx, OffsetList);
 			cp->f7 = cp->f7 + 1;
 			ExecuteCommandList(cp->a, idx, 0);
 			break;
 		case 501:
 			p = Trig_GetPosition(&v, idx);
-			DAT_800d186c = 0;
+			UseCacheForBits = 0;
 			o = __nw__4CBitUi(100);
 
 			if (o)
 				CLight_ctor(o, &v, idx, p->w0, p->w2, p->w4, p->w6, p->b8, p->b10, p->b12, p->b14,
 				             p->b16, p->b18);
 
-			DAT_800d186c = 1;
+			UseCacheForBits = 1;
 			break;
 		case 10:
 		case 11:
-			o2 = __nw__6CClassUi(44, DAT_800d19e8);
+			o2 = __nw__6CClassUi(44, OffsetList);
 
 			if (o2)
 				FUN_8004f684(o2, idx);
@@ -67,7 +67,7 @@ void Trig_SendPulseToNode(int idx) {
 			break;
 		case 14:
 		case 12:
-			TrickOb_DarkenNode(idx, DAT_800d19e8);
+			TrickOb_DarkenNode(idx, OffsetList);
 			break;
 	}
 }

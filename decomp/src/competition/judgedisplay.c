@@ -12,10 +12,10 @@ typedef struct {
 	unsigned char b192;
 } J;
 
-extern J DAT_800c0fdc;
+extern J theCompetition;
 extern char DAT_800a33f0[], DAT_800a3400[], DAT_800a3410[], DAT_800a3424[], DAT_800a3430[],
     DAT_800d1fd8[];
-extern char *DAT_800a5edc[];
+extern char *GameText_180[];
 
 void Mess_DeleteAll(void);
 void Mess_SetScale(int);
@@ -28,7 +28,7 @@ void Front_PrintCentredPrompt(char *);
 
 void Competition_JudgeDisplay(void) {
 	char buf[16];
-	J *p = &DAT_800c0fdc;
+	J *p = &theCompetition;
 	int i, t, c, sum, k;
 	unsigned s;
 
@@ -99,5 +99,5 @@ void Competition_JudgeDisplay(void) {
 	}
 
 	Mess_SetScale(256);
-	Front_PrintCentredPrompt(DAT_800a5edc[0]);
+	Front_PrintCentredPrompt(GameText_180[0]);
 }

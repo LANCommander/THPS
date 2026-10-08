@@ -2,7 +2,7 @@
 #include "names.h"
 extern char DAT_800a0534[];
 
-char DAT_800d19a4[8];
+char MechList[8];
 int DAT_800d19a0;
 
 void SFX_Stop(int a);
@@ -34,7 +34,7 @@ void FUN_80042380(char *p, int f) {
 	if (*(int *)(p + 352))
 		Mem_Delete(*(int *)(p + 352));
 
-	CBody_DeleteFrom(p, DAT_800d19a4);
+	CBody_DeleteFrom(p, MechList);
 
 	DAT_800d19a0--;
 	FUN_800427bc(p);

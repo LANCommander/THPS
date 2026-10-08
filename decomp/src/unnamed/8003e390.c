@@ -65,7 +65,7 @@ typedef struct {
 } __attribute__((aligned(8))) V;
 
 extern char DAT_800a7f28[];
-extern int DAT_800d16e4;
+extern int TTime;
 
 void CPlatform_DoPhysics(S *);
 void CPlatform_BouncyAI(S *);
@@ -263,7 +263,7 @@ void FUN_8003e390(S *p) {
 
 	CPlatform_DoPhysics(p);
 
-	if (p->i248 != -1 && DAT_800d16e4 % p->i248 == 0)
+	if (p->i248 != -1 && TTime % p->i248 == 0)
 		SFX_ModifyPos(p->i244, PB(4), 0);
 
 	p->i23c = 0;

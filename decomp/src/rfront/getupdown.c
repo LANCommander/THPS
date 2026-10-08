@@ -1,22 +1,22 @@
 /* GetUpDown__Fv (0x80011240) */
-extern unsigned char DAT_800c0a48[];
-extern int DAT_800d141c;
+extern unsigned char Pad[];
+extern int LeftRightAutoRepeatTimer;
 
 int GetUpDown(void) {
 	int r = 0;
 
-	if (DAT_800c0a48[0xa0] || DAT_800c0a48[0x20c] || DAT_800c0a48[0xb0] || DAT_800c0a48[0x21c]) {
-		if (DAT_800d141c == 0 || (DAT_800d141c >= 16 && (DAT_800d141c & 3) == 0)) {
-			if (DAT_800c0a48[0xb0] || DAT_800c0a48[0x21c])
+	if (Pad[0xa0] || Pad[0x20c] || Pad[0xb0] || Pad[0x21c]) {
+		if (LeftRightAutoRepeatTimer == 0 || (LeftRightAutoRepeatTimer >= 16 && (LeftRightAutoRepeatTimer & 3) == 0)) {
+			if (Pad[0xb0] || Pad[0x21c])
 				r = 1;
 
-			if (DAT_800c0a48[0xa0] || DAT_800c0a48[0x20c])
+			if (Pad[0xa0] || Pad[0x20c])
 				r = -1;
 		}
 
-		DAT_800d141c++;
+		LeftRightAutoRepeatTimer++;
 	} else {
-		DAT_800d141c = 0;
+		LeftRightAutoRepeatTimer = 0;
 	}
 
 	return r;

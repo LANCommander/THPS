@@ -31,7 +31,8 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
 
 - **`node tools/dis.mjs <addrHex> [size]`** disassembles a retail function for writing C. Call
   targets get their ported demo names, branches get `L<n>` labels, and gp-relative and `lui`-pair
-  accesses are resolved to `DAT_xxxxxxxx` (the names to put in `syms.json`).
+  accesses are resolved to globals: the demo name from `data_names.tsv` (see below), else
+  `DAT_xxxxxxxx`. Those are the names to put in `syms.json`. `m2c.mjs` uses the same names.
 - **`node tools/m2c.mjs <addrHex> [size] [--asm]`** gives a **first-draft C decompilation** of a retail
   function via [m2c](https://github.com/matt-kempster/m2c). Clone it once with
   `git clone --depth 1 https://github.com/matt-kempster/m2c ../tools/vendor/m2c`; it's gitignored and
@@ -70,6 +71,35 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
   adjacency (same `.CPP`, same order). Byte-shape matching alone mislabels identical bodies:
   `0x800241dc` was `__nw__5CItemUi` but is `__nw__6CClassUi`, and `0x8006e19c` was `Mem_Delete`
   but is a panel wrapper.
+- **Source order settles most of the rest.** `python ../tools/align_demo.py <lo> <hi> FILE.CPP[,…]`
+  lines a retail range up against a demo file's function order, and `../tools/slot_check.py` scores
+  proposed names. Many classes share a destructor or constructor shape, so a "100%" match can be
+  the wrong class. When the slot and the twin disagree, compare the `jal` targets and the vtable.
+  That's how `0x800275ec` (`_._4CCar` → `_._6CGLine`) and `0x80029d80` (`__9VMenuItemi` →
+  `__10CRibbonBit`) were fixed. Destructor sources keep a `FUN_`/alias function name in C. Their
+  header comment carries the real mangled name.
+- **Use class layouts for THPS1-only code.** `MAIN.SYM` defines classes the demo never calls,
+  and `python ../tools/sym_locals.py --struct NAME` prints one with its field offsets. When a
+  function's field accesses match a layout, the class is proven even without a demo function.
+  That's how invented `SaveRect` and `MenuInput` turned out to be `EraseSprite` and `PadBuffer`.
+- **`inferred_names.tsv`** lists every name that isn't a demo function name verbatim: SYM class
+  with a descriptive method name, a slot-only name, or a changed signature. Each row records its
+  basis. Add to it whenever you name something the SYM doesn't name.
+- **Globals get their names from demo twins too.** `python ../tools/data_names.py` aligns each
+  twin with its demo function by opcode and pairs up their `lui`/`%lo` and gp-relative accesses. The
+  demo SYM names the demo address, and each pair votes for that name at the retail address. It
+  writes **`data_names.tsv`**: address, name, votes, demo address and C type. `exact` rows are a
+  demo global. `offset` rows are `<Base>_<hex offset>` inside a typed demo object, and the note
+  gives the demo member. A name needs 75% of its address's votes, and only matching runs of at
+  least 4 words in twins at least half aligned count (shorter runs and worse twins disagreed with
+  the confident votes most of the time). Each demo global keeps only its best-supported retail
+  address. `1/1` rows rest on a single access, so check those first if something looks off.
+  **`python tools/rename_data.py [--apply]`** then rewrites `DAT_` in the sources and the keys in
+  their `.syms.json`. The address and type stay, so the code doesn't change. A file where the name
+  is already an identifier (a member, local or type) keeps its `DAT_`, because the new name could
+  bind to that instead. Verify a rename with `compile_all.mjs` before and after, with the names mapped
+  back to `DAT_`, plus `check_all.mjs`. Rerun both scripts as more functions get twins. The
+  rest of the `DAT_`s are THPS1-only, or no twin touches them.
 - `src/unnamed/<addr>.c` holds unnamed functions. The trivial ones (empty bodies, `return K`,
   one-store setters) were generated mechanically from their bytes.
 - All matchers use per-process temp files under `build/`, so they can run concurrently.
@@ -102,7 +132,7 @@ Names like `Mess_SetTextJustify__FUc` are g++ 2.x **mangled** symbols: what the 
   - `.cpp` sources don't include it; they declare real C++ prototypes. New C sources can call
     functions by their written name and include `names.h`.
 - **Check source-wide edits with `node tools/compile_all.mjs <tag>`.** It compiles every `.c`
-  under a tag, so you can compile before and after and diff the assembly. The names.h rewrite
+  and `.cpp` under a tag, so you can compile before and after and diff the assembly. The names.h rewrite
   changed nothing except each defining file's own label, which became the mangled symbol (more
   faithful).
 

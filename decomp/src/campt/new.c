@@ -4,9 +4,9 @@ typedef struct {
 	int x, y, z;
 } V;
 
-extern short DAT_800be344[];
+extern short CamPtNode[];
 
-int DAT_800d1b6c;
+int CamPtIndex;
 
 void Trig_GetPosition(V *v, int n);
 
@@ -15,5 +15,5 @@ void CamPt_New(int n) {
 
 	Trig_GetPosition(&v, n);
 
-	DAT_800be344[DAT_800d1b6c++] = n;
+	CamPtNode[CamPtIndex++] = n;
 }

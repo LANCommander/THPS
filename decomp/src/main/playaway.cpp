@@ -121,8 +121,8 @@ extern "C" {
 	extern int DAT_800d1e28;               /* GLevel */
 	extern CBody *DAT_800d2044;            /* CameraList */
 	extern unsigned DAT_800d1a1c;          /* GameFade */
-	extern int DAT_800d140c;
-	extern int DAT_800d215c;
+	extern int GamePaused;
+	extern int M3d_WireframeMode;
 	extern short DAT_800d214c;         /* M3d_OTPushback */
 	extern SVideoRestart DAT_800a42f4; /* GVideoRestart */
 	extern SVideoInfo DAT_800bf318;    /* GVInfo1 */
@@ -146,18 +146,18 @@ extern "C" {
 	CPowerUp *DAT_800d17e4; /* GPowTape */
 	int DAT_800d1784;       /* GState */
 	int DAT_800d1788;
-	int DAT_800d178c;
+	int GSpinSpeed;
 	CSkater *DAT_800d17c8; /* GSkater[0] */
 	CSkater *DAT_800d17cc; /* GSkater[1] */
 	int DAT_800d179c;      /* GHorsePlayer */
 	int DAT_800d17e8;      /* GClear1 */
 	int DAT_800d17ec;      /* GClear2 */
-	int DAT_800d17c0;
-	int DAT_800d1728;
-	int DAT_800d16fc;
+	int GHorseClearInput2;
+	int Cheat_ScreenShots;
+	int GameFrozen;
 	int DAT_800d1718;
-	int DAT_800d16cc;
-	int DAT_800d17a8;
+	int GHorseWordChosen;
+	int GHorseDoneStart;
 	int DAT_800d1790;
 	int DAT_800d1794;
 	int DAT_800d1798;
@@ -475,7 +475,7 @@ void PlayAway(void) {
 		if (!DAT_800d17c8->Dead && (!DAT_800d17cc || !DAT_800d17cc->Dead) && DAT_800d1784 == 1) {
 			if (--DAT_800d1788 <= 0) {
 				if (DAT_800d16a4 != 7 && DAT_800d17c8->ma64) {
-					DAT_800d178c = 0;
+					GSpinSpeed = 0;
 					DAT_800d1788 = 1;
 				} else {
 					if (DAT_800d17c8->m6c8) {
@@ -517,7 +517,7 @@ void PlayAway(void) {
 		System_Logic();
 		Video_HandleStepping__Fv();
 
-		if (DAT_800d1784 == 1 && !DAT_800d140c) {
+		if (DAT_800d1784 == 1 && !GamePaused) {
 			if (!DAT_800d17c8->Dead) {
 				uchar c = DAT_800c0a48[0].Circle.Pressed;
 
@@ -537,7 +537,7 @@ void PlayAway(void) {
 			}
 		}
 
-		if ((DAT_800d1780 == 1 || (DAT_800d16a4 == 7 && DAT_800d17c0)) && !DAT_800d1728)
+		if ((DAT_800d1780 == 1 || (DAT_800d16a4 == 7 && GHorseClearInput2)) && !Cheat_ScreenShots)
 			Pad_ClearAllOne__Fi(1);
 
 		Game_Logic__Fv();
@@ -554,17 +554,17 @@ void PlayAway(void) {
 		FUN_80025440();
 		FUN_80024fa4();
 
-		if (!DAT_800d16fc && DAT_800d1718)
+		if (!GameFrozen && DAT_800d1718)
 			Panel_DrawFlatShadedPoly__FiiiiUcUcUci(448, 208, 54, 18, 0, 0, 0, 0);
 
 		if (!DAT_800d1cb0)
 			Front_PrintDemo__Fv();
 
 		FUN_8002357c(DAT_800a5398[DAT_800d1e28].m60 && (DAT_800d1780 == 1 || DAT_800d16a4 == 7)
-		                 ? DAT_800d215c
+		                 ? M3d_WireframeMode
 						 : 0);
 
-		DAT_800d215c = 0;
+		M3d_WireframeMode = 0;
 
 		if (DAT_800d1a20 == StartVblanks)
 			Pause__Fi(1);
@@ -575,12 +575,12 @@ void PlayAway(void) {
 			Pause__Fi(1);
 
 		if (DAT_800d16a4 == 7) {
-			if (!DAT_800d16cc) {
-				DAT_800d17a8 = 1;
-				DAT_800d16cc = 1;
+			if (!GHorseWordChosen) {
+				GHorseDoneStart = 1;
+				GHorseWordChosen = 1;
 				FUN_8001a5e0();
-			} else if (!DAT_800d17a8) {
-				DAT_800d17a8 = 1;
+			} else if (!GHorseDoneStart) {
+				GHorseDoneStart = 1;
 				Front_SwitchOnStartLevelMenu__Fv();
 			}
 		}

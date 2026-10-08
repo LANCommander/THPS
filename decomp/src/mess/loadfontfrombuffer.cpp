@@ -29,9 +29,9 @@ struct FontInfo {
 extern FontInfo DAT_800a6110[10];
 
 int DAT_800d15e0, DAT_800d15e4;
-u_short DAT_800d1600;
+u_short Clut;
 
-extern int DAT_800d1a6c, DAT_800d1a70, DAT_800d1a84, DAT_800d1a88;
+extern int Pack_NoBottom, Pack_NoRight, Pal16X, Pal16Y;
 extern char DAT_8009ef84[];
 
 #define Font_table   DAT_800a6110
@@ -78,8 +78,8 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
 		}
 	}
 
-	DAT_800d1a6c = 1;
-	DAT_800d1a70 = 1;
+	Pack_NoBottom = 1;
+	Pack_NoRight = 1;
 
 	if (this_font == Num_fonts)
 		Num_fonts = this_font + 1;
@@ -87,8 +87,8 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
 	Font_table[this_font].mNum_chars = *(int *)file_buffer;
 	strcpy(Font_table[this_font].mFont_name, filename);
 
-	clutx = DAT_800d1a84;
-	cluty = DAT_800d1a88 + GetFree16Slot();
+	clutx = Pal16X;
+	cluty = Pal16Y + GetFree16Slot();
 	clut = (u_short *)Mem_New(32, 1, 1);
 
 	{
@@ -105,7 +105,7 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
 	LoadImage(&r, (u_long *)clut);
 	Mem_Delete(clut);
 
-	DAT_800d1600 = GetClut(clutx, cluty);
+	Clut = GetClut(clutx, cluty);
 
 	Font_table[this_font].mChar_table =
 	    (Character *)Mem_New(Font_table[this_font].mNum_chars * sizeof(Character), 0, 1);
@@ -159,7 +159,7 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
 			Font_table[this_font].mChar_table[i].u3 = Font_table[this_font].mChar_table[i].u1;
 			Font_table[this_font].mChar_table[i].v3 = Font_table[this_font].mChar_table[i].v2;
 			Font_table[this_font].mChar_table[i].tp = GetTPage(0, 0, x, y);
-			Font_table[this_font].mChar_table[i].clut = DAT_800d1600;
+			Font_table[this_font].mChar_table[i].clut = Clut;
 			int pad = ((w * h) & 1) * 2;
 
 			db += w * h * 2 + pad;
@@ -181,8 +181,8 @@ int Mess_LoadFont(char *filename, char *file_buffer, int char_sep, int shadow_of
 
 	Font_table[this_font].mSpace_width = Font_table[this_font].mChar_table[0].w * 28 / 10;
 
-	DAT_800d1a6c = 0;
-	DAT_800d1a70 = 0;
+	Pack_NoBottom = 0;
+	Pack_NoRight = 0;
 
 	Current_font = this_font;
 	return this_font;

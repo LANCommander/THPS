@@ -64,20 +64,20 @@ class CBruce {
 	ushort m930; /* 0x930 */
 };
 
-extern CCompetition DAT_800c0fdc;
-extern SLevel DAT_800a5398[];
-extern CBruce *DAT_800d19a4;
-extern int DAT_800d1e28;
+extern CCompetition theCompetition;
+extern SLevel Levels[];
+extern CBruce *MechList;
+extern int GLevel;
 
-ushort DAT_800d1fc0;
-ushort DAT_800d1fc2;
-ushort DAT_800d1fc4;
-ushort DAT_800d1fc6;
+ushort HOLYCOW_PLACE;
+ushort FIRST_PLACE;
+ushort SECOND_PLACE;
+ushort THIRD_PLACE;
 
 int Redbook_Rnd(int);
 
 void Competition_JudgeLogic() {
-	CCompetition *c = &DAT_800c0fdc;
+	CCompetition *c = &theCompetition;
 
 	if (!c->mJudgeTimer) {
 		CBruce *pSkater;
@@ -85,7 +85,7 @@ void Competition_JudgeLogic() {
 		uint score;
 		int average_score;
 
-		pSkater = DAT_800d19a4;
+		pSkater = MechList;
 		c->mJudgeFullyDisplayed = 0;
 		score = pSkater->mScore;
 
@@ -93,33 +93,33 @@ void Competition_JudgeLogic() {
 			int i;
 
 			for (i = 0; i < 5; i++) {
-				uint Gold = DAT_800a5398[DAT_800d1e28].Gold;
+				uint Gold = Levels[GLevel].Gold;
 
 				if (Gold * 2 < score) {
 					temp = ((score - Gold * 2) << 12) / (Gold * 3);
-					temp = ((1000 - DAT_800d1fc0) * temp) >> 12;
-					temp += DAT_800d1fc0;
+					temp = ((1000 - HOLYCOW_PLACE) * temp) >> 12;
+					temp += HOLYCOW_PLACE;
 				} else if (Gold < score) {
 					temp = ((score - Gold) << 12) / Gold;
-					temp = ((DAT_800d1fc0 - DAT_800d1fc2) * temp) >> 12;
-					temp += DAT_800d1fc2;
+					temp = ((HOLYCOW_PLACE - FIRST_PLACE) * temp) >> 12;
+					temp += FIRST_PLACE;
 				} else {
-					uint Silver = DAT_800a5398[DAT_800d1e28].Silver;
+					uint Silver = Levels[GLevel].Silver;
 
 					if (Silver < score) {
 						temp = ((score - Silver) << 12) / (Gold - Silver);
-						temp = ((DAT_800d1fc2 - DAT_800d1fc4) * temp) >> 12;
-						temp += DAT_800d1fc4;
+						temp = ((FIRST_PLACE - SECOND_PLACE) * temp) >> 12;
+						temp += SECOND_PLACE;
 					} else {
-						uint Bronze = DAT_800a5398[DAT_800d1e28].Bronze;
+						uint Bronze = Levels[GLevel].Bronze;
 
 						if (Bronze < score) {
 							temp = ((score - Bronze) << 12) / (Silver - Bronze);
-							temp = ((DAT_800d1fc4 - DAT_800d1fc6) * temp) >> 12;
-							temp += DAT_800d1fc6;
+							temp = ((SECOND_PLACE - THIRD_PLACE) * temp) >> 12;
+							temp += THIRD_PLACE;
 						} else {
 							temp = (score << 12) / Bronze;
-							temp = ((DAT_800d1fc6 - 300) * temp) >> 12;
+							temp = ((THIRD_PLACE - 300) * temp) >> 12;
 							temp += 300;
 						}
 					}

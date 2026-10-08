@@ -11,16 +11,16 @@ typedef struct {
 	char pad[0xa0];
 } SVideoInfo;
 
-extern SVideoInfo DAT_800bf318[];
-extern CBruce *DAT_800d19a4;
+extern SVideoInfo GVInfo1[];
+extern CBruce *MechList;
 
-int DAT_800d1dfc, DAT_800d1e00;
+int Splat1, Splat2;
 
 void Video_BloodSplat(CBruce *b, int a, int c) {
-	if (DAT_800bf318[0].state == 1) {
-		if (b == DAT_800d19a4)
-			DAT_800d1dfc = a;
+	if (GVInfo1[0].state == 1) {
+		if (b == MechList)
+			Splat1 = a;
 		else
-			DAT_800d1e00 = a;
+			Splat2 = a;
 	}
 }

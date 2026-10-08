@@ -29,16 +29,16 @@ typedef struct {
 	char *f10154;
 } S;
 
-extern S DAT_800a891c;
+extern S DoubleBuffer;
 extern char DAT_800b09c8[], DAT_800b0a24[], DAT_800b0a4c[];
-extern E DAT_800a5398[];
-extern int DAT_800d1780, DAT_800d1e28;
+extern E Levels[];
+extern int GNumberOfPlayers, GLevel;
 
-int DAT_800d1a3c;
+int Db_SkyColor;
 
 extern R DAT_800d1a40[];
 
-char *DAT_800d1a48, *DAT_800d1a4c;
+char *pDoubleBuffer, *pOtherBuffer;
 
 extern void FUN_8008c3d0(int);
 extern int FUN_8008c468(int);
@@ -60,37 +60,37 @@ void FUN_800491e8(void) {
 	FUN_8008c3d0(0);
 	FUN_8008c468(0);
 
-	DAT_800d1a3c = 0;
+	Db_SkyColor = 0;
 
-	if (DAT_800a891c.f80a8 == 0) {
-		DAT_800a891c.f80a8 =
-		    Mem_NewX((DAT_800a5398[DAT_800d1e28].arr[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
-		DAT_800a891c.f10154 =
-		    DAT_800a891c.f80a8 + (DAT_800a5398[DAT_800d1e28].arr[DAT_800d1780 - 1] + 0x17c00);
+	if (DoubleBuffer.f80a8 == 0) {
+		DoubleBuffer.f80a8 =
+		    Mem_NewX((Levels[GLevel].arr[GNumberOfPlayers - 1] + 0x17c00) * 2, 1, 1);
+		DoubleBuffer.f10154 =
+		    DoubleBuffer.f80a8 + (Levels[GLevel].arr[GNumberOfPlayers - 1] + 0x17c00);
 	}
 
-	DAT_800a891c.f8090 = 0;
-	DAT_800a891c.f1013c = 0x100;
-	FUN_80092e70(&DAT_800a891c, 0, 0, 512, 240);
+	DoubleBuffer.f8090 = 0;
+	DoubleBuffer.f1013c = 0x100;
+	FUN_80092e70(&DoubleBuffer, 0, 0, 512, 240);
 	FUN_80092e70(DAT_800b09c8, 0, 256, 512, 240);
-	FUN_800914fc((char *)&DAT_800a891c + 92, 0, 256, 512, 240);
+	FUN_800914fc((char *)&DoubleBuffer + 92, 0, 256, 512, 240);
 	FUN_800914fc(DAT_800b0a24, 0, 0, 512, 240);
 	FUN_80048d00();
 	Db_UpdateSky();
-	FUN_8008c94c(&DAT_800a891c);
-	FUN_8008ca0c((char *)&DAT_800a891c + 92);
+	FUN_8008c94c(&DoubleBuffer);
+	FUN_8008ca0c((char *)&DoubleBuffer + 92);
 
-	DAT_800a891c.f70 = 0;
-	DAT_800a891c.f811c = 0;
-	DAT_800a891c.f78 = 0;
-	DAT_800a891c.f8124 = 0;
-	DAT_800a891c.f7c = 0;
-	DAT_800a891c.f8128 = 0;
-	DAT_800a891c.f74 = 0;
-	DAT_800a891c.f8120 = 0;
-	DAT_800d1a48 = DAT_800b09c8;
-	DAT_800d1a4c = (char *)&DAT_800a891c;
-	FUN_8008c7d4((char *)&DAT_800a891c + 132, FUN_80048c74());
+	DoubleBuffer.f70 = 0;
+	DoubleBuffer.f811c = 0;
+	DoubleBuffer.f78 = 0;
+	DoubleBuffer.f8124 = 0;
+	DoubleBuffer.f7c = 0;
+	DoubleBuffer.f8128 = 0;
+	DoubleBuffer.f74 = 0;
+	DoubleBuffer.f8120 = 0;
+	pDoubleBuffer = DAT_800b09c8;
+	pOtherBuffer = (char *)&DoubleBuffer;
+	FUN_8008c7d4((char *)&DoubleBuffer + 132, FUN_80048c74());
 	FUN_8008c7d4(DAT_800b0a4c, FUN_80048c74());
 
 	r = DAT_800d1a40[0];

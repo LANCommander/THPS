@@ -50,19 +50,19 @@ class VerticalMenu : public CItem {
 };
 
 extern "C" {
-	extern S DAT_800a5d5c;
-	extern char *DAT_800a5edc[];
-	extern char *DAT_800a43bc[];
+	extern S GameText;
+	extern char *GameText_180[];
+	extern char *VertMenuItem[];
 	extern char DAT_8009d11c[];
 	extern char DAT_8009d130[];
 	extern char DAT_8009d144[];
 	extern char DAT_800d2474[];
-	extern int DAT_800d16e4;
+	extern int TTime;
 }
 
-VerticalMenu *DAT_800d1104;
-int DAT_800d1108, DAT_800d110c, DAT_800d1110, DAT_800d111c, DAT_800d1120, DAT_800d1128,
-    DAT_800d1144;
+VerticalMenu *pVertMenu;
+int NumVertMenuItems, VertMenuTopIndex, VertMenuTopChanged, MCState, OldMCState, MCResolution,
+    GLoadAction;
 
 extern "C" {
 	void FUN_80011214(void);
@@ -88,9 +88,9 @@ void Front_MemCardHiResDisplay() {
 
 	Mess_SetScale(200);
 
-	XMid = DAT_800d1128 >> 1;
+	XMid = MCResolution >> 1;
 
-	if (DAT_800d111c == 21 && DAT_800d1144 == 2) {
+	if (MCState == 21 && GLoadAction == 2) {
 		{
 			char *load;
 
@@ -98,8 +98,8 @@ void Front_MemCardHiResDisplay() {
 				FUN_8006b240();
 				FUN_80061ea0();
 
-				if (DAT_800d1104)
-					DAT_800d1104->erase();
+				if (pVertMenu)
+					pVertMenu->erase();
 
 				FUN_8006b26c();
 			}
@@ -117,112 +117,112 @@ void Front_MemCardHiResDisplay() {
 			}
 		}
 
-		DAT_800d1120 = 24;
+		OldMCState = 24;
 		return;
 	}
 
-	if (DAT_800d1120 != 26)
+	if (OldMCState != 26)
 		Front_RestoreBackground();
 
 	{
-		int w = DAT_800d1120;
+		int w = OldMCState;
 		int v = w;
 
-		if (v != DAT_800d111c) {
+		if (v != MCState) {
 			if (v == 15)
 				goto set;
 
 			if (v == 24) {
-				DAT_800d1120 = 25;
+				OldMCState = 25;
 				return;
 			}
 
 			if (v == 25) {
-				DAT_800d1120 = 26;
+				OldMCState = 26;
 				return;
 			}
 
 			if (w != 26) {
-				DAT_800d1120 = 24;
+				OldMCState = 24;
 				return;
 			}
 
 			FUN_80011570();
 		set:
-			DAT_800d1120 = DAT_800d111c;
+			OldMCState = MCState;
 		}
 	}
 
 	Mess_SetScale(200);
 	Mess_SetTextJustify__FUc(0);
 
-	switch (DAT_800d111c) {
+	switch (MCState) {
 		case 15:
 		case 16:
 			FUN_80011214();
-			Front_DirtyRectText(XMid, 180, DAT_800a5d5c.f200);
+			Front_DirtyRectText(XMid, 180, GameText.f200);
 			RGBRed();
-			Front_DirtyRectText(XMid, 280, DAT_800a5d5c.f1f8);
-			Front_DirtyRectText(XMid, 332, DAT_800a5d5c.f1fc);
+			Front_DirtyRectText(XMid, 280, GameText.f1f8);
+			Front_DirtyRectText(XMid, 332, GameText.f1fc);
 			break;
 		case 17:
 			RGBRed();
-			Front_DirtyRectText(XMid, 180, DAT_800a5d5c.f1c8);
-			Front_DirtyRectText(XMid, 232, DAT_800a5d5c.f1cc);
-			Front_DirtyRectText(XMid, 284, DAT_800a5d5c.f1d0);
-			Front_DirtyRectText(XMid, 336, DAT_800a5d5c.f1d4);
+			Front_DirtyRectText(XMid, 180, GameText.f1c8);
+			Front_DirtyRectText(XMid, 232, GameText.f1cc);
+			Front_DirtyRectText(XMid, 284, GameText.f1d0);
+			Front_DirtyRectText(XMid, 336, GameText.f1d4);
 			break;
 		case 18:
 			RGBRed();
-			Front_DirtyRectText(XMid, 174, DAT_800a5d5c.f104);
-			Front_DirtyRectText(XMid, 226, DAT_800a5d5c.f108);
-			Front_DirtyRectText(XMid, 278, DAT_800a5d5c.f10c);
+			Front_DirtyRectText(XMid, 174, GameText.f104);
+			Front_DirtyRectText(XMid, 226, GameText.f108);
+			Front_DirtyRectText(XMid, 278, GameText.f10c);
 			break;
 		case 19:
 			RGBRed();
 
-			if (DAT_800d1144 == 2)
-				Front_DirtyRectText(XMid, 220, DAT_800a5d5c.f10);
+			if (GLoadAction == 2)
+				Front_DirtyRectText(XMid, 220, GameText.f10);
 			else
-				Front_DirtyRectText(XMid, 220, DAT_800a5d5c.f0c);
+				Front_DirtyRectText(XMid, 220, GameText.f0c);
 
-			if (DAT_800d1128 == 512)
-				Front_PrintCentredPrompt(DAT_800a5d5c.f180);
+			if (MCResolution == 512)
+				Front_PrintCentredPrompt(GameText.f180);
 
 			break;
 		case 20:
-			if (!DAT_800d1104) {
-				DAT_800d1104 = new VerticalMenu(100, 398, 15, DAT_800a43bc,
-				                                DAT_800d1108 < 6 ? DAT_800d1108 : 5, 0, 0, 0);
-				FUN_8008b900(DAT_800d2474, DAT_800a5d5c.f128, DAT_800a5d5c.f134);
+			if (!pVertMenu) {
+				pVertMenu = new VerticalMenu(100, 398, 15, VertMenuItem,
+				                                NumVertMenuItems < 6 ? NumVertMenuItems : 5, 0, 0, 0);
+				FUN_8008b900(DAT_800d2474, GameText.f128, GameText.f134);
 				Front_DirtyRectText(XMid, 380, DAT_800d2474);
 			}
 
 			for (i = 0; i < 5; i++) {
-				if (i != DAT_800d1104->getSelected() || DAT_800d1110)
-					DAT_800d1104->setString(i, DAT_800a43bc[DAT_800d110c + i]);
+				if (i != pVertMenu->getSelected() || VertMenuTopChanged)
+					pVertMenu->setString(i, VertMenuItem[VertMenuTopIndex + i]);
 			}
 
-			if (DAT_800d1108 > 5 && ((DAT_800d16e4 / 20) & 3)) {
+			if (NumVertMenuItems > 5 && ((TTime / 20) & 3)) {
 				FUN_80011214();
 
 				{
-					int up = DAT_800d110c > 0;
-					int down = DAT_800d110c < DAT_800d1108 - 5;
+					int up = VertMenuTopIndex > 0;
+					int down = VertMenuTopIndex < NumVertMenuItems - 5;
 
 					if (up && down)
-						FUN_8008b900(DAT_800d2474, DAT_800a5d5c.f128, DAT_800a5d5c.f134);
+						FUN_8008b900(DAT_800d2474, GameText.f128, GameText.f134);
 					else
-						FUN_8008b900(DAT_800d2474, DAT_800a5d5c.f128,
-						             up ? DAT_800a5d5c.f12c : DAT_800a5d5c.f130);
+						FUN_8008b900(DAT_800d2474, GameText.f128,
+						             up ? GameText.f12c : GameText.f130);
 				}
 
 				Front_DirtyRectText(XMid, 380, DAT_800d2474);
 			}
 
-			DAT_800d1104->draw();
+			pVertMenu->draw();
 
-			if (DAT_800d1128 == 512)
+			if (MCResolution == 512)
 				Front_PrintGoBackSelect();
 
 			break;
@@ -230,23 +230,23 @@ void Front_MemCardHiResDisplay() {
 			FUN_80011214();
 			Front_DirtyRectText(XMid, 220, DAT_8009d11c);
 			RGBRed();
-			Front_DirtyRectText(XMid, 280, DAT_800a5d5c.f1f8);
-			Front_DirtyRectText(XMid, 332, DAT_800a5d5c.f1fc);
+			Front_DirtyRectText(XMid, 280, GameText.f1f8);
+			Front_DirtyRectText(XMid, 332, GameText.f1fc);
 			break;
 		case 22:
 			RGBRed();
-			Front_DirtyRectText(XMid, 220, DAT_800a5d5c.f244);
+			Front_DirtyRectText(XMid, 220, GameText.f244);
 
-			if (DAT_800d1128 == 512)
-				Front_PrintCentredPrompt(DAT_800a5d5c.f180);
+			if (MCResolution == 512)
+				Front_PrintCentredPrompt(GameText.f180);
 
 			break;
 		case 23:
 			RGBRed();
 			Front_DirtyRectText(XMid, 220, DAT_8009d144);
 
-			if (DAT_800d1128 == 512)
-				Front_PrintCentredPrompt(DAT_800a5edc[0]);
+			if (MCResolution == 512)
+				Front_PrintCentredPrompt(GameText_180[0]);
 
 			break;
 		case 27:

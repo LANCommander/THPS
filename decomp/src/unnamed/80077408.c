@@ -10,7 +10,7 @@ typedef struct {
 	short s, c;
 } ST;
 
-extern ST DAT_800c9670[];
+extern ST rcossin_tbl[];
 
 int FUN_8008b5dc(int a);
 void FUN_800934e4(V *a, V *b);
@@ -35,7 +35,7 @@ char *QFromV(char *out, V *v) {
 			ST *bb;
 			int i = (s >> 1) & 4095;
 
-			bb = DAT_800c9670;
+			bb = rcossin_tbl;
 			a = bb[i].s;
 			b = bb[i].c;
 		}

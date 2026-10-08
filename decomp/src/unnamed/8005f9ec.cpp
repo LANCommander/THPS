@@ -36,11 +36,11 @@ class Sprite {
 	void draw(int, int, int, int, int, int);
 };
 
-extern int DAT_800a4118[];
-extern SControl DAT_800c0a48[2];
-extern int DAT_800d13cc;
-extern int DAT_800d13d0;
-extern short DAT_800d1658;
+extern int GPreferences[];
+extern SControl Pad[2];
+extern int SFXLEVEL;
+extern int XALEVEL;
+extern short GameFMV_StartX;
 
 Sprite *DAT_800d1d5c;
 Sprite *DAT_800d1d60;
@@ -59,77 +59,77 @@ void GameFMV_StartFMV(int);
 
 extern "C" void FUN_8005f9ec(int a) {
 	int v, w, u, i, dir;
-	DAT_800d13d0 = getSelected__12VerticalMenu(a) == 1 ? DAT_800a4118[1] * 0x555 : 0;
-	DAT_800d13cc = DAT_800a4118[0] * 0x555;
+	XALEVEL = getSelected__12VerticalMenu(a) == 1 ? GPreferences[1] * 0x555 : 0;
+	SFXLEVEL = GPreferences[0] * 0x555;
 
 	FUN_8002357c(0);
 
-	if (DAT_800c0a48[0].Left.Triggered || DAT_800c0a48[1].Left.Triggered ||
-	    DAT_800c0a48[0].Right.Triggered || DAT_800c0a48[1].Right.Triggered) {
+	if (Pad[0].Left.Triggered || Pad[1].Left.Triggered ||
+	    Pad[0].Right.Triggered || Pad[1].Right.Triggered) {
 		dir = 0;
 
-		if (DAT_800c0a48[0].Left.Triggered || DAT_800c0a48[1].Left.Triggered)
+		if (Pad[0].Left.Triggered || Pad[1].Left.Triggered)
 			dir = 1;
 
-		Pad_ClearTriggers(&DAT_800c0a48[0]);
-		Pad_ClearTriggers(&DAT_800c0a48[1]);
+		Pad_ClearTriggers(&Pad[0]);
+		Pad_ClearTriggers(&Pad[1]);
 
 		if (getSelected__12VerticalMenu(a) == 0) {
-			w = DAT_800a4118[0] + 1;
+			w = GPreferences[0] + 1;
 
 			if (dir)
-				w = DAT_800a4118[0] - 1;
+				w = GPreferences[0] - 1;
 
-			DAT_800a4118[0] = w;
+			GPreferences[0] = w;
 
 			if (w < 0)
-				DAT_800a4118[0] = 0;
+				GPreferences[0] = 0;
 
-			v = DAT_800a4118[0];
+			v = GPreferences[0];
 
 			if (v >= 12) {
-				DAT_800a4118[0] = 12;
+				GPreferences[0] = 12;
 				v = 12;
 			}
 
-			DAT_800d13cc = v * 0x555;
+			SFXLEVEL = v * 0x555;
 			SFX_PlayX__FUisi(145, 8192, 0);
 		}
 
 		if (getSelected__12VerticalMenu(a) == 1) {
-			u = DAT_800a4118[1] + 1;
+			u = GPreferences[1] + 1;
 
 			if (dir)
-				u = DAT_800a4118[1] - 1;
+				u = GPreferences[1] - 1;
 
-			DAT_800a4118[1] = u;
+			GPreferences[1] = u;
 
 			if (u < 0)
-				DAT_800a4118[1] = 0;
+				GPreferences[1] = 0;
 
-			if (DAT_800a4118[1] >= 12)
-				DAT_800a4118[1] = 12;
+			if (GPreferences[1] >= 12)
+				GPreferences[1] = 12;
 		}
 	}
 
-	if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered ||
-	    DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered) {
+	if (Pad[0].Start.Triggered || Pad[1].Start.Triggered ||
+	    Pad[0].X.Triggered || Pad[1].X.Triggered) {
 		if (getSelected__12VerticalMenu(a) == 0) {
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 			SFX_PlayX__FUisi(145, 8192, 0);
 		}
 
 		if (getSelected__12VerticalMenu(a) == 1) {
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 			GameFMV_StopFMV();
 			CVector t(0, 0, 0);
 
 			FUN_80023168(2);
 			FUN_80022aec(&t);
 
-			DAT_800d1658 = -1;
+			GameFMV_StartX = -1;
 			GameFMV_StartFMV(0);
 		}
 	}
@@ -137,14 +137,14 @@ extern "C" void FUN_8005f9ec(int a) {
 	for (i = 0; i < 12; i++) {
 		v = 32;
 
-		if (i < DAT_800a4118[0])
+		if (i < GPreferences[0])
 			v = 128;
 
 		DAT_800d1d5c->draw(i * 24 + 206, 204, 0, v, v, v);
 
 		v = 32;
 
-		if (i < DAT_800a4118[1])
+		if (i < GPreferences[1])
 			v = 128;
 
 		DAT_800d1d60->draw(i * 24 + 206, 284, 0, v, v, v);

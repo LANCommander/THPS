@@ -9,7 +9,7 @@ typedef struct {
 	int arr[(0x80ac - 0x84) / 4];
 } E;
 
-extern E DAT_800a891c[];
+extern E DoubleBuffer[];
 
 extern int FUN_80048c74(void);
 extern int FUN_8008c94c(void *a);
@@ -20,13 +20,13 @@ void FUN_80048d24(void) {
 	int *q;
 
 	for (i = 0; i < 2; i++) {
-		if (DAT_800a891c[i].f74) {
-			if (!DAT_800a891c[i].f78 && !DAT_800a891c[1 - i].f78 && !DAT_800a891c[i].f70) {
-				DAT_800a891c[i].f74 = 0;
-				DAT_800a891c[i].f78 = 1;
-				FUN_8008c94c(&DAT_800a891c[i]);
+		if (DoubleBuffer[i].f74) {
+			if (!DoubleBuffer[i].f78 && !DoubleBuffer[1 - i].f78 && !DoubleBuffer[i].f70) {
+				DoubleBuffer[i].f74 = 0;
+				DoubleBuffer[i].f78 = 1;
+				FUN_8008c94c(&DoubleBuffer[i]);
 
-				q = &DAT_800a891c[i].arr[FUN_80048c74()];
+				q = &DoubleBuffer[i].arr[FUN_80048c74()];
 				FUN_8008c8dc(q - 1);
 			}
 		}

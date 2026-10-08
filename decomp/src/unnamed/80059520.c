@@ -4,7 +4,7 @@ typedef struct {
 	int a, b, c, d, e;
 } S;
 
-extern int DAT_800d1a60;
+extern int Pack_pFree;
 extern int DAT_800d1a64;
 
 S *DAT_800d1c84;
@@ -33,6 +33,6 @@ void FUN_80059520(int m) {
 	*DAT_800d1c80 = *s;
 	DAT_800d1c88 = 0;
 	DAT_800d1c84->c = 0;
-	DAT_800d1c8c = DAT_800d1a60;
+	DAT_800d1c8c = Pack_pFree;
 	DAT_800d1c90 = DAT_800d1a64;
 }

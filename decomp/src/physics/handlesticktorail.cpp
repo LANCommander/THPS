@@ -15,7 +15,7 @@
    arm uses the load, the stat arms the copy; ours the reverse = cse1 swapped `321=mem; 322=321`
    into `322=mem; 321=322` because 322 outlives the block).
    Trick walk: retail's zero-trip `blez` goes straight to `RailTrick = 0` (jump-threaded past the
-   post-loop recheck). The test written WITHOUT `f` (`DAT_800a7358[RailTrick].Flags > 0`) threads
+   post-loop recheck). The test written WITHOUT `f` (`Group[RailTrick].Flags > 0`) threads
    it, after which gcse PRE copies 2*RailTrick in both body and test and loop reduces the 2R giv
    exactly as retail (li 64 / +2), but still 2 words long: retail's entry load and loop test share
    one pseudo (t0; unboosted, so the entry lw lands early), and ours are two (renamed by
@@ -80,15 +80,15 @@ struct STrick {
 };
 
 extern SSkater DAT_800a44fc[];
-extern STrick DAT_800a7358[];
+extern STrick Group[];
 extern char DAT_8009fcbc[];
 extern ushort DAT_800a7edc[];
 extern char *DAT_800a7ef0[];
 
-int DAT_800d1924;
+int Cheat_StatsOverride;
 
-extern int DAT_800d172c;
-extern int DAT_800d1770;
+extern int Cheat_Fire;
+extern int XFrames;
 
 class CBruce {
   public:
@@ -190,8 +190,8 @@ class CBruce {
 };
 
 #define GetStat(n)                                                                                 \
-	(DAT_800d1924 ? DAT_800d1924                                                                   \
-	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	(Cheat_StatsOverride ? Cheat_StatsOverride                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || Cheat_Fire) ? 3 : 0)) +     \
 	                    mpStatBonus[n])
 
 int SFX_PlayX(unsigned int, short, int);
@@ -223,10 +223,10 @@ inline void CBruce::StartHandPlant(int RailTrick, int Flags) {
 	}
 
 	if (RailTrick && (Flags & 0x2000000)) {
-		char *pName = DAT_800a7358[RailTrick].pName;
+		char *pName = Group[RailTrick].pName;
 
-		Trick_Trick(RailTrick, pName, DAT_800a7358[RailTrick].Score, 0);
-		Debug_RunAnim__6CBruceii(this, DAT_800a7358[RailTrick].Anim, 1536);
+		Trick_Trick(RailTrick, pName, Group[RailTrick].Score, 0);
+		Debug_RunAnim__6CBruceii(this, Group[RailTrick].Anim, 1536);
 
 		m368 |= 0x4800;
 		SFX_PlayX(162, 0x2000, 0);
@@ -255,7 +255,7 @@ inline void CBruce::StartGrind(int RailTrick) {
 	int Direction;
 	int Score;
 
-	if (!RailTrick || (DAT_800a7358[RailTrick].Flags & 0x2000000))
+	if (!RailTrick || (Group[RailTrick].Flags & 0x2000000))
 		RailTrick = 0;
 
 	FlipToVelocity__6CBruce(this);
@@ -316,17 +316,17 @@ inline void CBruce::StartGrind(int RailTrick) {
 		SFX_PlayX(162, 0x2000, 0);
 
 		m368 = 0x80001000;
-		Score = DAT_800a7358[RailTrick].Score;
-		Trick_Trick(RailTrick, DAT_800a7358[RailTrick].pName, Score, 0);
+		Score = Group[RailTrick].Score;
+		Trick_Trick(RailTrick, Group[RailTrick].pName, Score, 0);
 
 		m364 = 1;
 		m2EC = 0;
 		mGrindTrick = 0;
 
-		if (!DAT_800a7358[RailTrick].Frames)
-			Debug_RunAnim__6CBruceii(this, DAT_800a7358[RailTrick].Anim, 1701);
+		if (!Group[RailTrick].Frames)
+			Debug_RunAnim__6CBruceii(this, Group[RailTrick].Anim, 1701);
 		else
-			Debug_RunAnim2__6CBruceiiii(this, DAT_800a7358[RailTrick].Anim, 0, DAT_800a7358[RailTrick].Frames,
+			Debug_RunAnim2__6CBruceiiii(this, Group[RailTrick].Anim, 0, Group[RailTrick].Frames,
 			             1705);
 
 		return;
@@ -448,9 +448,9 @@ void CBruce::HandleStickToRail() {
 		int Trick = State & 0xff;
 
 		if (State & 0x4000)
-			Limit = m14E - DAT_800a7358[Trick].MinFrame;
+			Limit = m14E - Group[Trick].MinFrame;
 		else if (State & 0x2000)
-			Limit = m14E - DAT_800a7358[Trick].MinFrame;
+			Limit = m14E - Group[Trick].MinFrame;
 	}
 
 	Bailing = 0;
@@ -479,20 +479,20 @@ void CBruce::HandleStickToRail() {
 	RailTrick = 0;
 	Flags = 0;
 
-	if (m254 && m278 && DAT_800d1770 - m274 < 35 && m268 && DAT_800d1770 - m26C < 45) {
-		STrick *pTab = DAT_800a7358;
+	if (m254 && m278 && XFrames - m274 < 35 && m268 && XFrames - m26C < 45) {
+		STrick *pTab = Group;
 
 		Flags = DAT_800a44fc[mSkaterIndex].Style + (m268 << 8) + (m278 << 4) + 3;
 		int f;
 
-		for (RailTrick = 32; (f = DAT_800a7358[RailTrick].Flags) > 0; RailTrick++) {
+		for (RailTrick = 32; (f = Group[RailTrick].Flags) > 0; RailTrick++) {
 			if ((pTab[RailTrick].Flags & 0xfffff) == Flags) {
 				Flags = pTab[RailTrick].Flags;
 				break;
 			}
 		}
 
-		if (DAT_800a7358[RailTrick].Flags <= 0)
+		if (Group[RailTrick].Flags <= 0)
 			RailTrick = 0;
 	}
 

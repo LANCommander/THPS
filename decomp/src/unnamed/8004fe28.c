@@ -3,7 +3,7 @@
 extern char DAT_800a1360[];
 extern char DAT_800a136c[];
 extern char DAT_800a1378[];
-extern char DAT_800c0a48[];
+extern char Pad[];
 
 int DAT_800d1b98[1];
 
@@ -122,8 +122,8 @@ void FUN_8004fe28(int a0, int a1) {
 	top = s3;
 	off = a0 * 4;
 	s4 = *(int *)((char *)DAT_800d1b98 + off);
-	Pad_ClearTriggers(DAT_800c0a48);
-	Pad_ClearTriggers(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(Pad);
+	Pad_ClearTriggers(Pad + 364);
 	FUN_800491e8();
 
 	tog = 0;
@@ -173,10 +173,10 @@ void FUN_8004fe28(int a0, int a1) {
 		FUN_80070ff4();
 		FUN_800242cc();
 
-		if (DAT_800c0a48[49] || DAT_800c0a48[413] || DAT_800c0a48[225] || DAT_800c0a48[589] ||
-		    DAT_800c0a48[241] || DAT_800c0a48[605]) {
-			Pad_ClearTriggers(DAT_800c0a48);
-			Pad_ClearTriggers(DAT_800c0a48 + 364);
+		if (Pad[49] || Pad[413] || Pad[225] || Pad[589] ||
+		    Pad[241] || Pad[605]) {
+			Pad_ClearTriggers(Pad);
+			Pad_ClearTriggers(Pad + 364);
 			SFX_PlayX(145, 8192, 0);
 			break;
 		}

@@ -6,11 +6,11 @@ typedef struct {
 	unsigned short w[10];
 } P;
 
-extern P DAT_800c0a48[];
-extern char DAT_800c0b9c[];
-extern int DAT_800d16a4;
+extern P Pad[];
+extern char Pad_154[];
+extern int GGame;
 
-char DAT_800d1f6c[8];
+char align[8];
 
 int FUN_80096090(int);
 void FUN_800962b0(int, void *, int);
@@ -22,7 +22,7 @@ void Pad_ActuatorOn(unsigned char a, unsigned short b, unsigned char c,
 	int s3;
 	int r;
 
-	if (DAT_800d16a4 != 7)
+	if (GGame != 7)
 		s0 = a;
 
 	s3 = (a != 0) << 4;
@@ -30,18 +30,18 @@ void Pad_ActuatorOn(unsigned char a, unsigned short b, unsigned char c,
 
 	if (r != 0) {
 		if (r == 1)
-			DAT_800c0a48[s0].act[3] = 0;
+			Pad[s0].act[3] = 0;
 
-		if (DAT_800c0a48[s0].act[3] == 0) {
-			FUN_800962b0(s3, &DAT_800c0a48[a].act[0], 2);
+		if (Pad[s0].act[3] == 0) {
+			FUN_800962b0(s3, &Pad[a].act[0], 2);
 
-			if (r == 2 || (r == 6 && FUN_80096230(s3, DAT_800d1f6c)))
-				DAT_800c0a48[s0].act[3] = 1;
+			if (r == 2 || (r == 6 && FUN_80096230(s3, align)))
+				Pad[s0].act[3] = 1;
 		}
 
 		{
 			int o = a * 0x16c;
-			char *p = DAT_800c0b9c;
+			char *p = Pad_154;
 			char *q = p + 4;
 
 			*(p + o + c) = d;

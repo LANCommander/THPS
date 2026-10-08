@@ -6,7 +6,7 @@ typedef struct {
 	unsigned char b824, b825;
 } SCareer;
 
-extern SCareer DAT_800a6844;
+extern SCareer GCareer;
 extern int DAT_800d3788[11];
 
 int DAT_800d231c;
@@ -26,8 +26,8 @@ void FUN_80055eb8(void) {
 		DAT_800d3788[i] = 0;
 
 	DAT_800d230c = -1;
-	hi = DAT_800a6844.b825 < DAT_800a6844.b824 ? DAT_800a6844.b824 : DAT_800a6844.b825;
-	lo = DAT_800a6844.b825 < DAT_800a6844.b824 ? DAT_800a6844.b825 : DAT_800a6844.b824;
+	hi = GCareer.b825 < GCareer.b824 ? GCareer.b824 : GCareer.b825;
+	lo = GCareer.b825 < GCareer.b824 ? GCareer.b825 : GCareer.b824;
 
 	{
 		int h1 = hi - 11;

@@ -15,7 +15,7 @@ typedef unsigned short ushort;
 void *Mem_New(unsigned int, int, int);
 void Mem_Delete(void *);
 
-extern void *DAT_800d1150;
+extern void *pBMR;
 
 void DownloadBMP16x2(char *pData) {
 	int w;
@@ -30,10 +30,10 @@ void DownloadBMP16x2(char *pData) {
 	char *in;
 	char *out;
 
-	if (DAT_800d1150) {
-		Mem_Delete(DAT_800d1150);
+	if (pBMR) {
+		Mem_Delete(pBMR);
 
-		DAT_800d1150 = 0;
+		pBMR = 0;
 	}
 
 	w = *(ushort *)(pData + 18);

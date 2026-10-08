@@ -72,23 +72,23 @@ struct SFog {
 	short m12;
 };
 
-extern SVideoInfo DAT_800bf318;
-extern SVideoInfo DAT_800bf3d8;
-extern CBruce *DAT_800d19a4;
-extern unsigned int DAT_800d1a24;
-extern short DAT_800be344[];
-extern unsigned int DAT_800be22c[];
+extern SVideoInfo GVInfo1;
+extern SVideoInfo GVInfo2;
+extern CBruce *MechList;
+extern unsigned int Xblanks;
+extern short CamPtNode[];
+extern unsigned int CamModes[];
 
-int DAT_800d1b6c;
+int CamPtIndex;
 
-extern SFog *DAT_800d2178;
-extern int DAT_800d1ff4;
-extern int DAT_800d1ff8;
-extern int DAT_800d1ffc;
-extern int DAT_800d2134;
-extern int DAT_800d2138;
-extern int DAT_800d2168;
-extern int DAT_800d216c;
+extern SFog *pCurrentViewport;
+extern int camDist;
+extern int camPitch;
+extern int camYOffset;
+extern int LastDpqMax;
+extern int LastDpqMin;
+extern int DpqMax;
+extern int DpqMin;
 
 int Utils_LineOfSight(const CVector &, const CVector &);
 short *Trig_GetPosition(CVector &, int);
@@ -113,10 +113,10 @@ void CamPt_SetClosestCamera(CBruce *pSkater) {
 	AdjustedPlayerPos.vy += pSkater->mUp.vy * 110;
 	AdjustedPlayerPos.vz += pSkater->mUp.vz * 110;
 
-	if (pSkater == DAT_800d19a4)
-		VInfo = &DAT_800bf318;
+	if (pSkater == MechList)
+		VInfo = &GVInfo1;
 	else
-		VInfo = &DAT_800bf3d8;
+		VInfo = &GVInfo2;
 
 	if (Utils_LineOfSight(AdjustedPlayerPos, pSkater->mpCamera->mPos)) {
 		VInfo->NoLOS = 0;
@@ -127,11 +127,11 @@ void CamPt_SetClosestCamera(CBruce *pSkater) {
 	{
 		int i;
 
-		for (i = 0; i < DAT_800d1b6c; i++) {
+		for (i = 0; i < CamPtIndex; i++) {
 			if (i == VInfo->TabuCam)
 				continue;
 
-			Trig_GetPosition(CamPos, DAT_800be344[i]);
+			Trig_GetPosition(CamPos, CamPtNode[i]);
 
 			Dist = Utils_CrapDist(pSkater->mPos, CamPos);
 
@@ -166,24 +166,24 @@ void CamPt_SetClosestCamera(CBruce *pSkater) {
 
 	if (Index != -1 && Index != VInfo->CurCameraIndex) {
 		if (Index != VInfo->OldCameraIndex ||
-		    DAT_800d1a24 >= (unsigned int)(VInfo->CamXblanks + 60)) {
+		    Xblanks >= (unsigned int)(VInfo->CamXblanks + 60)) {
 			CVector Dummy;
 			short *pCam;
 			int Type;
 			int Param;
 
-			pCam = Trig_GetPosition(Dummy, DAT_800be344[Index]);
+			pCam = Trig_GetPosition(Dummy, CamPtNode[Index]);
 			Type = pCam[0];
 			Param = pCam[1];
-			DAT_800be22c[0] &= ~0xc00;
+			CamModes[0] &= ~0xc00;
 
 			if (Type == 1)
-				DAT_800be22c[0] |= 0x400;
+				CamModes[0] |= 0x400;
 			else
-				DAT_800be22c[0] |= 0x800;
+				CamModes[0] |= 0x800;
 
-			DAT_800be22c[0] = (DAT_800be22c[0] & ~0xff) + (Redbook_Rnd(5) + 5) * 10;
-			DAT_800be22c[Index] = DAT_800be22c[0];
+			CamModes[0] = (CamModes[0] & ~0xff) + (Redbook_Rnd(5) + 5) * 10;
+			CamModes[Index] = CamModes[0];
 
 			if (ClosestDist > 4000) {
 				int Val = 10000 - ClosestDist;
@@ -191,11 +191,11 @@ void CamPt_SetClosestCamera(CBruce *pSkater) {
 				if (Val < 0)
 					Val = 0;
 
-				DAT_800be22c[0] = (DAT_800be22c[0] & ~0xff) + (Val = Val / 200 + 10);
+				CamModes[0] = (CamModes[0] & ~0xff) + (Val = Val / 200 + 10);
 			}
 
 			{
-				int t = DAT_800d1a24;
+				int t = Xblanks;
 				int o = VInfo->CurCameraIndex;
 
 				VInfo->CurCameraIndex = Index;
@@ -205,13 +205,13 @@ void CamPt_SetClosestCamera(CBruce *pSkater) {
 
 			VInfo->CamPos = ClosestPos;
 
-			if (DAT_800be22c[Index] & 0x800) {
+			if (CamModes[Index] & 0x800) {
 				pSkater->mpCamera->SetMode(1);
 				pSkater->mpCamera->SetFocus((CBody *)pSkater);
 				pSkater->mpCamera->SetTripod((CBody *)pSkater);
 
 				VInfo->TrailingCameraType = Param;
-			} else if (DAT_800be22c[Index] & 0x400) {
+			} else if (CamModes[Index] & 0x400) {
 				pSkater->mpCamera->SetMode(2);
 				pSkater->mpCamera->SetFocus((CBody *)pSkater);
 				pSkater->mpCamera->SetTripodPos(ClosestPos);
@@ -221,7 +221,7 @@ void CamPt_SetClosestCamera(CBruce *pSkater) {
 
 	{
 		unsigned int *pFlags;
-		unsigned int *base = DAT_800be22c;
+		unsigned int *base = CamModes;
 
 		Index = VInfo->CurCameraIndex;
 		pFlags = base + Index;
@@ -231,53 +231,53 @@ void CamPt_SetClosestCamera(CBruce *pSkater) {
 
 			switch (VInfo->TrailingCameraType) {
 				case 0:
-					DAT_800d1ff4 = 245;
-					DAT_800d1ff8 = 215;
-					DAT_800d2178->m12 = 2410;
+					camDist = 245;
+					camPitch = 215;
+					pCurrentViewport->m12 = 2410;
 					pSkater->mpCamera->m5f0 = 0;
-					DAT_800d1ffc = -70;
+					camYOffset = -70;
 					break;
 				case 1:
-					DAT_800d1ff4 = 175;
-					DAT_800d1ff8 = 50;
-					DAT_800d2178->m12 = 2930;
+					camDist = 175;
+					camPitch = 50;
+					pCurrentViewport->m12 = 2930;
 					pSkater->mpCamera->m5f0 = 0;
-					DAT_800d1ffc = -17;
+					camYOffset = -17;
 					break;
 				case 2:
-					DAT_800d1ff4 = 290;
-					DAT_800d1ff8 = 150;
-					DAT_800d2178->m12 = 3410;
+					camDist = 290;
+					camPitch = 150;
+					pCurrentViewport->m12 = 3410;
 					pSkater->mpCamera->m5f0 = 0;
-					DAT_800d1ffc = -108;
+					camYOffset = -108;
 					break;
 				case 3:
 					break;
 				case 4:
-					DAT_800d1ff4 = 245;
-					DAT_800d1ff8 = 215;
-					DAT_800d1ffc = -70;
-					DAT_800d2178->m12 = 2410;
+					camDist = 245;
+					camPitch = 215;
+					camYOffset = -70;
+					pCurrentViewport->m12 = 2410;
 					pSkater->mpCamera->m5f0 = 2048;
 					break;
 				case 5:
-					DAT_800d1ff4 = 195;
-					DAT_800d1ff8 = 50;
-					DAT_800d1ffc = -17;
-					DAT_800d2178->m12 = 2930;
+					camDist = 195;
+					camPitch = 50;
+					camYOffset = -17;
+					pCurrentViewport->m12 = 2930;
 					pSkater->mpCamera->m5f0 = 2048;
 					break;
 				case 6:
-					DAT_800d1ff4 = 290;
-					DAT_800d1ff8 = 150;
-					DAT_800d1ffc = -108;
-					DAT_800d2178->m12 = 3410;
+					camDist = 290;
+					camPitch = 150;
+					camYOffset = -108;
+					pCurrentViewport->m12 = 3410;
 					pSkater->mpCamera->m5f0 = 2048;
 					break;
 			}
 		} else if (*pFlags & 0x400) {
 			if (*pFlags & 0x200) {
-				DAT_800d2178->m12 = (256 - (*pFlags & 255)) * 10 + 300;
+				pCurrentViewport->m12 = (256 - (*pFlags & 255)) * 10 + 300;
 			} else if (*pFlags & 0x100) {
 				int Dist;
 				int FogDist;
@@ -292,9 +292,9 @@ void CamPt_SetClosestCamera(CBruce *pSkater) {
 				if (Dist < 450)
 					Dist = 450;
 
-				DAT_800d216c = FogDist + DAT_800d2138;
-				DAT_800d2168 = DAT_800d216c + (DAT_800d2134 - DAT_800d2138);
-				DAT_800d2178->m12 = (int)(*pFlags & 255) * 34130 / Dist;
+				DpqMin = FogDist + LastDpqMin;
+				DpqMax = DpqMin + (LastDpqMax - LastDpqMin);
+				pCurrentViewport->m12 = (int)(*pFlags & 255) * 34130 / Dist;
 			}
 		}
 	}

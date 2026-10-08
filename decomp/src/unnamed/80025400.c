@@ -1,8 +1,8 @@
 /* FUN_80025400 (0x80025400) */
 extern int DAT_800a7214[];
-extern int DAT_800d1a24;
+extern int Xblanks;
 
-int DAT_800d1844;
+int LastXblanks;
 
 void FUN_80025400(void) {
 	int i;
@@ -10,5 +10,5 @@ void FUN_80025400(void) {
 	for (i = 0; i < 3; i++)
 		DAT_800a7214[i] = 2;
 
-	DAT_800d1844 = DAT_800d1a24 - 2;
+	LastXblanks = Xblanks - 2;
 }

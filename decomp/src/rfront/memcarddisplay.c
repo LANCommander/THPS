@@ -49,14 +49,14 @@ typedef struct {
 	int f10;
 } O;
 
-extern S DAT_800a5d5c;
-extern char *DAT_800a5d90[];
-extern char *DAT_800a5f50[];
-extern char *DAT_800a5f98[];
-extern char *DAT_800a5f9c[];
+extern S GameText;
+extern char *GameText_34[];
+extern char *GameText_1f4[];
+extern char *GameText_23c[];
+extern char *GameText_240[];
 extern char DAT_8009d0f0[];
 extern char DAT_8009d11c[];
-extern char DAT_800a42d0[];
+extern char SaveGameName[];
 extern char DAT_800d112c[];
 extern char DAT_800d1130[];
 extern char DAT_800d1134[];
@@ -66,12 +66,12 @@ typedef struct {
 } T3;
 
 extern char DAT_800d1138[];
-extern O *DAT_800d1428;
-extern int DAT_800d16e4;
+extern O *pYesNoMenu;
+extern int TTime;
 
-unsigned DAT_800d111c;
-int DAT_800d1128;
-int DAT_800d10fc, DAT_800d1100, DAT_800d1144, DAT_800d21d8, DAT_800d21dc;
+unsigned MCState;
+int MCResolution;
+int CursorPos, SizeUp, GLoadAction, SaveNeedBlocks, SaveFreeBlocks;
 
 void FUN_80011214(void);
 void CMenu_Display(O *);
@@ -91,128 +91,128 @@ void Front_MemCardDisplay(void) {
 	O *o;
 	char *a;
 
-	s2 = DAT_800d1128 >> 1;
+	s2 = MCResolution >> 1;
 	Mess_SetScale(256);
 	Mess_SetTextJustify(0);
 
-	switch (DAT_800d111c) {
+	switch (MCState) {
 		case 0:
 		case 1:
 		case 15:
 		case 16:
 			FUN_80011214();
-			Mess_DrawText(s2, 90, DAT_800a5d5c.f200, 0, 0, 256, 0);
+			Mess_DrawText(s2, 90, GameText.f200, 0, 0, 256, 0);
 			RGBRed();
-			Mess_DrawText(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
-			Mess_DrawText(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 140, GameText.f1f8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 166, GameText.f1fc, 0, 0, 256, 0);
 			break;
 		case 9:
 		case 17:
 			RGBRed();
-			Mess_DrawText(s2, 90, DAT_800a5d5c.f1c8, 0, 0, 256, 0);
-			Mess_DrawText(s2, 116, DAT_800a5d5c.f1cc, 0, 0, 256, 0);
-			Mess_DrawText(s2, 142, DAT_800a5d5c.f1d0, 0, 0, 256, 0);
-			Mess_DrawText(s2, 168, DAT_800a5d5c.f1d4, 0, 0, 256, 0);
+			Mess_DrawText(s2, 90, GameText.f1c8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 116, GameText.f1cc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 142, GameText.f1d0, 0, 0, 256, 0);
+			Mess_DrawText(s2, 168, GameText.f1d4, 0, 0, 256, 0);
 			break;
 		case 10:
 			Front_PrintGoBackSelect();
 			RGBRed();
-			Mess_DrawText(s2, 35, DAT_800a5d5c.f1d8, 0, 0, 256, 0);
-			Mess_DrawText(s2, 61, DAT_800a5d5c.f1dc, 0, 0, 256, 0);
-			Mess_DrawText(s2, 87, DAT_800a5d5c.f1e0, 0, 0, 256, 0);
-			Mess_DrawText(s2, 113, DAT_800a5d5c.f1e4, 0, 0, 256, 0);
+			Mess_DrawText(s2, 35, GameText.f1d8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 61, GameText.f1dc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 87, GameText.f1e0, 0, 0, 256, 0);
+			Mess_DrawText(s2, 113, GameText.f1e4, 0, 0, 256, 0);
 
-			o = DAT_800d1428;
+			o = pYesNoMenu;
 			o->f10 = 148;
 			CMenu_Display(o);
 			break;
 		case 11:
 			FUN_80011214();
 
-			if ((DAT_800d16e4 / 10) & 1)
-				Mess_DrawText(s2, 110, DAT_800a5f50[0], 0, 0, 256, 0);
+			if ((TTime / 10) & 1)
+				Mess_DrawText(s2, 110, GameText_1f4[0], 0, 0, 256, 0);
 
 			RGBRed();
-			Mess_DrawText(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
-			Mess_DrawText(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 140, GameText.f1f8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 166, GameText.f1fc, 0, 0, 256, 0);
 			break;
 		case 13:
 			FUN_80011214();
-			Mess_DrawText(s2, 110, DAT_800a5f9c[0], 0, 0, 256, 0);
+			Mess_DrawText(s2, 110, GameText_240[0], 0, 0, 256, 0);
 			break;
 		case 12:
 			RGBRed();
-			Mess_DrawText(s2, 110, DAT_800a5f98[0], 0, 0, 256, 0);
+			Mess_DrawText(s2, 110, GameText_23c[0], 0, 0, 256, 0);
 			break;
 		case 8:
 			RGBRed();
 			Mess_SetScale(192);
-			Mess_DrawText(s2, 67, DAT_800a5d5c.f208, 0, 0, 256, 0);
-			Mess_DrawText(s2, 85, DAT_800a5d5c.f20c, 0, 0, 256, 0);
-			Mess_DrawText(s2, 103, DAT_800a5d5c.f210, 0, 0, 256, 0);
-			FUN_8008b900(buf, DAT_800a5d5c.f214, DAT_800d21d8,
-			             DAT_800d21d8 == 1 ? DAT_800d112c : DAT_800d1130);
+			Mess_DrawText(s2, 67, GameText.f208, 0, 0, 256, 0);
+			Mess_DrawText(s2, 85, GameText.f20c, 0, 0, 256, 0);
+			Mess_DrawText(s2, 103, GameText.f210, 0, 0, 256, 0);
+			FUN_8008b900(buf, GameText.f214, SaveNeedBlocks,
+			             SaveNeedBlocks == 1 ? DAT_800d112c : DAT_800d1130);
 			Mess_DrawText(s2, 121, buf, 0, 0, 256, 0);
-			FUN_8008b900(buf, DAT_800a5d5c.f218, DAT_800d21d8 - DAT_800d21dc,
-			             DAT_800d21d8 - DAT_800d21dc == 1 ? DAT_800d112c : DAT_800d1130);
+			FUN_8008b900(buf, GameText.f218, SaveNeedBlocks - SaveFreeBlocks,
+			             SaveNeedBlocks - SaveFreeBlocks == 1 ? DAT_800d112c : DAT_800d1130);
 			Mess_DrawText(s2, 139, buf, 0, 0, 256, 0);
-			Mess_DrawText(s2, 157, DAT_800a5d5c.f21c, 0, 0, 256, 0);
-			Front_PrintCentredPrompt(DAT_800a5d5c.f180);
+			Mess_DrawText(s2, 157, GameText.f21c, 0, 0, 256, 0);
+			Front_PrintCentredPrompt(GameText.f180);
 			break;
 		case 3:
 			FUN_80011214();
-			Mess_DrawText(s2, 50, DAT_800a5d5c.f18, 0, 0, 256, 0);
-			Mess_DrawText(s2, 76, DAT_800a5d5c.f1c, 0, 0, 256, 0);
-			Mess_DrawText(s2, 102, DAT_800a5d5c.f228, 0, 0, 256, 0);
+			Mess_DrawText(s2, 50, GameText.f18, 0, 0, 256, 0);
+			Mess_DrawText(s2, 76, GameText.f1c, 0, 0, 256, 0);
+			Mess_DrawText(s2, 102, GameText.f228, 0, 0, 256, 0);
 			Front_PrintGoBackSelect();
 
-			o = DAT_800d1428;
+			o = pYesNoMenu;
 			o->f10 = 145;
 			CMenu_Display(o);
 			break;
 		case 4:
 			FUN_80011214();
-			Mess_DrawText(s2, 110, DAT_800a5d5c.f234, 0, 0, 256, 0);
+			Mess_DrawText(s2, 110, GameText.f234, 0, 0, 256, 0);
 			RGBRed();
-			Mess_DrawText(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
-			Mess_DrawText(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 140, GameText.f1f8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 166, GameText.f1fc, 0, 0, 256, 0);
 			break;
 		case 7:
 			FUN_80011214();
-			Mess_DrawText(s2, 110, DAT_800a5d5c.fd0, 0, 0, 256, 0);
-			Front_PrintCentredPrompt(DAT_800a5d5c.f180);
+			Mess_DrawText(s2, 110, GameText.fd0, 0, 0, 256, 0);
+			Front_PrintCentredPrompt(GameText.f180);
 			break;
 		case 6:
 			RGBRed();
-			Mess_DrawText(s2, 110, DAT_800a5d5c.fd8, 0, 0, 256, 0);
-			Front_PrintCentredPrompt(DAT_800a5d5c.f180);
+			Mess_DrawText(s2, 110, GameText.fd8, 0, 0, 256, 0);
+			Front_PrintCentredPrompt(GameText.f180);
 			break;
 		case 2:
 			s0 = 0;
 			RGBRed();
 			Mess_SetTextJustify(0);
 			Mess_SetScale(256);
-			Mess_DrawText(s2, 40, DAT_800a5d90[0], 0, 0, 256, 0);
+			Mess_DrawText(s2, 40, GameText_34[0], 0, 0, 256, 0);
 
 			do {
-				if (DAT_800d1100 > 0)
-					DAT_800d1100--;
+				if (SizeUp > 0)
+					SizeUp--;
 
 				Mess_SetScale(256);
 
-				if (s0 == DAT_800d10fc)
+				if (s0 == CursorPos)
 					Mess_SetRGB(182, 132, 36, 0);
 				else
 					Mess_SetRGB(122, 122, 122, 0);
 
 				Mess_DrawText(s2 - 150 + s0 * 30, 100, DAT_800d1134, 0, 0, 256, 0);
 
-				if (s0 == DAT_800d10fc)
-					Mess_SetScale(DAT_800d1100 * 6 + 256);
+				if (s0 == CursorPos)
+					Mess_SetScale(SizeUp * 6 + 256);
 
-				if (DAT_800a42d0[s0]) {
+				if (SaveGameName[s0]) {
 					*(T3 *)buf = *(T3 *)DAT_800d1138;
-					buf[0] = DAT_800a42d0[s0];
+					buf[0] = SaveGameName[s0];
 					Mess_DrawText(s2 - 150 + s0 * 30, 92, buf, 0, 0, 256, 0);
 				}
 
@@ -227,17 +227,17 @@ void Front_MemCardDisplay(void) {
 		case 19:
 			RGBRed();
 
-			if (DAT_800d1144 == 2)
-				Mess_DrawText(s2, 110, DAT_800a5d5c.f10, 0, 0, 256, 0);
+			if (GLoadAction == 2)
+				Mess_DrawText(s2, 110, GameText.f10, 0, 0, 256, 0);
 			else
-				Mess_DrawText(s2, 110, DAT_800a5d5c.f0c, 0, 0, 256, 0);
+				Mess_DrawText(s2, 110, GameText.f0c, 0, 0, 256, 0);
 
-			if (DAT_800d1128 == 512)
-				Front_PrintCentredPrompt(DAT_800a5d5c.f180);
+			if (MCResolution == 512)
+				Front_PrintCentredPrompt(GameText.f180);
 
 			break;
 		case 20:
-			if (DAT_800d1128 == 512)
+			if (MCResolution == 512)
 				Front_PrintGoBackSelect();
 
 			break;
@@ -245,15 +245,15 @@ void Front_MemCardDisplay(void) {
 			FUN_80011214();
 			Mess_DrawText(s2, 110, DAT_8009d11c, 0, 0, 256, 0);
 			RGBRed();
-			Mess_DrawText(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
-			Mess_DrawText(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 140, GameText.f1f8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 166, GameText.f1fc, 0, 0, 256, 0);
 			break;
 		case 22:
 			RGBRed();
-			Mess_DrawText(s2, 110, DAT_800a5d5c.f244, 0, 0, 256, 0);
+			Mess_DrawText(s2, 110, GameText.f244, 0, 0, 256, 0);
 
-			if (DAT_800d1128 == 512)
-				Front_PrintCentredPrompt(DAT_800a5d5c.f180);
+			if (MCResolution == 512)
+				Front_PrintCentredPrompt(GameText.f180);
 
 			break;
 		case 23:

@@ -8,12 +8,12 @@ typedef struct {
 	short x, y, z, pad;
 } CS;
 
-extern int DAT_800d1b50;
-extern int DAT_800d186c;
+extern int LowMemory;
+extern int UseCacheForBits;
 
-int DAT_800d1624;
-unsigned short DAT_800d2220, DAT_800d2224;
-unsigned char DAT_800d2228, DAT_800d2229, DAT_800d222a;
+int pNormal;
+unsigned short VRAMClut, VRAMTPage;
+unsigned char AverageR, AverageG, AverageB;
 
 extern void *__nw__4CBitUi(int);
 extern void *CShatterBit_ctor(void *, CS *, CS *, CS *, V *, int);
@@ -49,7 +49,7 @@ void Split(V *a0, V *a1, V *a2, int a3, int a4, int a5, int a6, int a7,
 	int s0, s1, l2, x7, x8;
 	void *o;
 
-	if (DAT_800d1b50 == 0) {
+	if (LowMemory == 0) {
 		if (a10 != 0) {
 			__mi__FRC7CVectorT0(&t40, a1, a2);
 
@@ -178,7 +178,7 @@ void Split(V *a0, V *a1, V *a2, int a3, int a4, int a5, int a6, int a7,
 			pA0 = &cA0;
 			pA8 = &cA8;
 			iD4 = Redbook_Rnd(100);
-			__ml__FRCiRC8CSVector(pA8, &iD4, (CS *)DAT_800d1624);
+			__ml__FRCiRC8CSVector(pA8, &iD4, (CS *)pNormal);
 
 			iD8 = 12;
 			__rs__FRC8CSVectorRCi(pA0, pA8, &iD8);
@@ -186,14 +186,14 @@ void Split(V *a0, V *a1, V *a2, int a3, int a4, int a5, int a6, int a7,
 
 			pB0 = &cB0;
 			iDC = Redbook_Rnd(100);
-			__ml__FRCiRC8CSVector(pB0, &iDC, (CS *)DAT_800d1624);
+			__ml__FRCiRC8CSVector(pB0, &iDC, (CS *)pNormal);
 
 			iE0 = 12;
 			__rs__FRC8CSVectorRCi(pA0, pB0, &iE0);
 			__apl__8CSVectorRC8CSVector(&c90, pA0);
 
 			iE4 = Redbook_Rnd(100);
-			__ml__FRCiRC8CSVector(pA8, &iE4, (CS *)DAT_800d1624);
+			__ml__FRCiRC8CSVector(pA8, &iE4, (CS *)pNormal);
 
 			iE8 = 12;
 			__rs__FRC8CSVectorRCi(pA0, pA8, &iE8);
@@ -202,15 +202,15 @@ void Split(V *a0, V *a1, V *a2, int a3, int a4, int a5, int a6, int a7,
 			iEC = 12;
 			__als__7CVectorRCi(&t60, &iEC);
 
-			DAT_800d186c = 0;
+			UseCacheForBits = 0;
 			o = __nw__4CBitUi(204);
 
 			if (o)
 				o = CShatterBit_ctor(o, (CS *)&s70, &c90, &c98, &t60, 0);
 
-			DAT_800d186c = 1;
-			CChunkBit_SetRGB(o, DAT_800d2228, DAT_800d2229, DAT_800d222a);
-			CChunkBit_SetUVs(o, DAT_800d2220, DAT_800d2224, a3 & 255, a4 & 255,
+			UseCacheForBits = 1;
+			CChunkBit_SetRGB(o, AverageR, AverageG, AverageB);
+			CChunkBit_SetUVs(o, VRAMClut, VRAMTPage, a3 & 255, a4 & 255,
 			                                   a5 & 255, a6 & 255, a7 & 255, a8 & 255);
 
 			*(int *)((char *)o + 0xbc) = a9;

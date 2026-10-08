@@ -74,10 +74,10 @@ struct SRegion {
 	char pad2c[0x40 - 0x2c];
 };
 
-extern SRegion DAT_800bf7a8[];
+extern SRegion PSXRegion[];
 
-int DAT_800d21b0;
-int DAT_800d21c4;
+int XblanksNow;
+int BasePhase;
 
 int uWibble(STexWibVertInfo *pTexWibVertInfo);
 int vWibble(STexWibVertInfo *pTexWibVertInfo);
@@ -109,12 +109,12 @@ void M3d_PreprocessWibblyTextures(int Region) {
 	if (Region == -1)
 		return;
 
-	pData = DAT_800bf7a8[Region].pWibbleData;
+	pData = PSXRegion[Region].pWibbleData;
 
 	if (!pData)
 		return;
 
-	pPSX = DAT_800bf7a8[Region].pPSX;
+	pPSX = PSXRegion[Region].pPSX;
 
 	while (*pData) {
 		pItem = (Item *)((char *)pPSX + *pData);
@@ -126,11 +126,11 @@ void M3d_PreprocessWibblyTextures(int Region) {
 			continue;
 		}
 
-		pModel = DAT_800bf7a8[pItem->Region].ppModels[pItem->Model];
+		pModel = PSXRegion[pItem->Region].ppModels[pItem->Model];
 		pFace = (uint *)(&pModel->Vertices[pModel->NumVertices] + pModel->NumNormals);
-		uScroll = (DAT_800d21b0 * ((short *)pData)[2]) >> 4;
-		vScroll = (DAT_800d21b0 * ((short *)pData)[3]) >> 4;
-		DAT_800d21c4 = (DAT_800d21b0 * (int)pData[2]) >> 10;
+		uScroll = (XblanksNow * ((short *)pData)[2]) >> 4;
+		vScroll = (XblanksNow * ((short *)pData)[3]) >> 4;
+		BasePhase = (XblanksNow * (int)pData[2]) >> 10;
 
 		for (i = 0; i < NumFaces; i++, pTexWibFaceInfo++) {
 			TileWidth = ((-(pFace[7] & 0x1f)) << 11) & 0xf800;

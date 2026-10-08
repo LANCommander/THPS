@@ -6,11 +6,11 @@ typedef struct CP {
 	struct CP *next;
 } CP;
 
-CP *DAT_800d19f8;
+CP *CommandPoints;
 
 void Trig_ResetCPCollisionFlags(int m) {
 	CP *p;
 
-	for (p = DAT_800d19f8; p; p = p->next)
+	for (p = CommandPoints; p; p = p->next)
 		p->coll &= ~m;
 }

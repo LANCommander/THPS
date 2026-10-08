@@ -1,15 +1,15 @@
 /* Spool_Sync__Fv (0x8007079c) */
 #include "names.h"
-extern char DAT_800bf654[][17];
-extern int DAT_800d1afc;
+extern char SpoolQ[][17];
+extern int Loading;
 
-int DAT_800d1ef4;
+int SpoolPos;
 
 void Spool_Continue(void);
 void FileIO_Continue(void);
 
 void Spool_Sync(void) {
-	while (DAT_800d1afc || DAT_800bf654[DAT_800d1ef4][13]) {
+	while (Loading || SpoolQ[SpoolPos][13]) {
 		Spool_Continue();
 		FileIO_Continue();
 	}

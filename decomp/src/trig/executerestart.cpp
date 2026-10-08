@@ -32,14 +32,14 @@ class CBruce {
 	CVector m7D8; /* 0x7d8 */
 };
 
-extern CBruce *DAT_800d19a4;
-extern int DAT_800d1780;
-extern int DAT_800d16a4;
+extern CBruce *MechList;
+extern int GNumberOfPlayers;
+extern int GGame;
 extern char DAT_800d19fc[];
 
-int DAT_800d19e4;
-short **DAT_800d19e8;
-int DAT_800d19ec;
+int RestartNode;
+short **OffsetList;
+int NumNodes;
 
 CSVector *Trig_GetPosition(CVector &, int);
 void FudgeAngles(CBruce *);
@@ -59,9 +59,9 @@ void Trig_ExecuteRestart() {
 	char *pName;
 	CBruce *pMan;
 
-	pAngles = Trig_GetPosition(StartPos, DAT_800d19e4);
+	pAngles = Trig_GetPosition(StartPos, RestartNode);
 
-	for (MechListCopy = DAT_800d19a4; MechListCopy; MechListCopy = MechListCopy->mNext) {
+	for (MechListCopy = MechList; MechListCopy; MechListCopy = MechListCopy->mNext) {
 		MechListCopy->mPos = StartPos;
 		MechListCopy->mOldPos = StartPos;
 		MechListCopy->mAngles = *pAngles;
@@ -77,16 +77,16 @@ void Trig_ExecuteRestart() {
 
 	pName++;
 	pName += (int)pName & 1;
-	ExecuteCommandList__FPUsii((ushort *)pName, DAT_800d19e4, 1);
+	ExecuteCommandList__FPUsii((ushort *)pName, RestartNode, 1);
 
-	if (DAT_800d1780 == 2 && DAT_800d16a4 != 7) {
+	if (GNumberOfPlayers == 2 && GGame != 7) {
 		int i;
 
-		pMan = DAT_800d19a4;
+		pMan = MechList;
 		pMan->mPos += pMan->m7D8 * 100;
 
-		for (i = 0; i < DAT_800d19ec; i++) {
-			short *pNode = DAT_800d19e8[i];
+		for (i = 0; i < NumNodes; i++) {
+			short *pNode = OffsetList[i];
 			CVector Dummy;
 
 			if (*pNode == 8 &&

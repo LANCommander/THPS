@@ -242,12 +242,12 @@ struct SLineInfo {
 	char pad89[168 - 137];
 };
 
-extern MATRIX DAT_800c12e4;
-extern CVector DAT_800c1154;
-extern int DAT_800d20cc;
+extern MATRIX tm;
+extern CVector Camera_CamOffset;
+extern int CameraCollisionCheck;
 
-int DAT_800d203c;
-int DAT_800d2038;
+int Camera_CamDist;
+int Camera_CamPitch;
 
 void QToM(const CQuat &, MATRIX &);
 void MToQ(const MATRIX &, CQuat &);
@@ -289,18 +289,18 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 		V.vx >>= 12;
 		V.vy >>= 12;
 		V.vz >>= 12;
-		DAT_800c12e4.m[0][0] = U.vx;
-		DAT_800c12e4.m[1][0] = U.vy;
-		DAT_800c12e4.m[2][0] = U.vz;
-		DAT_800c12e4.m[0][1] = V.vx;
-		DAT_800c12e4.m[1][1] = V.vy;
-		DAT_800c12e4.m[2][1] = V.vz;
-		DAT_800c12e4.m[0][2] = N.vx;
-		DAT_800c12e4.m[1][2] = N.vy;
-		DAT_800c12e4.m[2][2] = N.vz;
+		tm.m[0][0] = U.vx;
+		tm.m[1][0] = U.vy;
+		tm.m[2][0] = U.vz;
+		tm.m[0][1] = V.vx;
+		tm.m[1][1] = V.vy;
+		tm.m[2][1] = V.vz;
+		tm.m[0][2] = N.vx;
+		tm.m[1][2] = N.vy;
+		tm.m[2][2] = N.vz;
 		CQuat tempO;
 
-		MToQ(DAT_800c12e4, tempO);
+		MToQ(tm, tempO);
 
 		if (new_focus) {
 			mO = tempO;
@@ -357,7 +357,7 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 	mph = Spd / 34 * 60 / Frames * 3600 / 5278;
 	mph >>= 12;
 	mSpeed = mph;
-	speed_lag_dist = (DAT_800d203c + mph * 4 + prev_speed_lag_dist) >> 1;
+	speed_lag_dist = (Camera_CamDist + mph * 4 + prev_speed_lag_dist) >> 1;
 	prev_speed_lag_dist = speed_lag_dist;
 	v1.vx = 0;
 	v1.vy = 0;
@@ -372,7 +372,7 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 
 		v.vx = 0;
 		v.vy = 0;
-		v.vz = -(DAT_800d203c << 12);
+		v.vz = -(Camera_CamDist << 12);
 		QToM(wouldbeO, m);
 		FUN_80092f60(&m, &v, &vCheck);
 
@@ -385,10 +385,10 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 		M3dColij_InitLineInfo(&line_info);
 
 		line_info.m88 = 0;
-		DAT_800d20cc = 1;
+		CameraCollisionCheck = 1;
 		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
-		DAT_800d20cc = 0;
+		CameraCollisionCheck = 0;
 
 		if (!line_info.m68)
 			mDesiredO = wouldbeO;
@@ -427,20 +427,20 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 
 			temptime = temptime * temptime;
 			big_air_end_timer--;
-			DAT_800c1154.vy += temptime * 8000 * big_air_mph / 30;
+			Camera_CamOffset.vy += temptime * 8000 * big_air_mph / 30;
 			v1.vz += big_air_mph * 600 * temptime;
 		} else {
 			big_air_end_timer = 0;
 
 			if (big_air_timer >= 7) {
 				temptime = 49;
-				DAT_800c1154.vy += temptime * 8000 * big_air_mph / 30;
+				Camera_CamOffset.vy += temptime * 8000 * big_air_mph / 30;
 				v1.vz += big_air_mph * 600 * temptime;
 				new_hang_time++;
 			} else if (big_air_timer >= 0) {
 				temptime = big_air_timer * big_air_timer;
 				new_hang_time = 0;
-				DAT_800c1154.vy += temptime * 8000 * big_air_mph / 30;
+				Camera_CamOffset.vy += temptime * 8000 * big_air_mph / 30;
 				v1.vz += big_air_mph * 600 * temptime;
 			}
 		}
@@ -456,7 +456,7 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 			loose_cam_timer--;
 		}
 
-		mDesiredO = mDesiredO * Quat_FromXRot(DAT_800d2038);
+		mDesiredO = mDesiredO * Quat_FromXRot(Camera_CamPitch);
 		ReactToCollision();
 
 		if (mTripod->m740) {
@@ -484,9 +484,9 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 	QToM(mO, m);
 	FUN_80092f60(&m, &v1, &v2);
 
-	v1.vx = DAT_800c1154.vx;
-	v1.vy = DAT_800c1154.vy;
-	v1.vz = DAT_800c1154.vz;
+	v1.vx = Camera_CamOffset.vx;
+	v1.vy = Camera_CamOffset.vy;
+	v1.vz = Camera_CamOffset.vz;
 	FUN_80092f60(&m, &v1, &real_cam_offset);
 
 	mPos.vx = mTripodPos.vx + v2.vx;

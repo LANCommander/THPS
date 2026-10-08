@@ -1,1 +1,1 @@
-{"gp":"0x800d1080","DAT_800d1394":"0x800d1394","DAT_800d1384":"0x800d1384","DAT_800d1390":"0x800d1390","DAT_800d1380":"0x800d1380","FUN_8008eebc":"0x8008eebc","Card_CheckStatus__Fii":"0x80015278"}
+{"gp":"0x800d1080","CardStatusMode":"0x800d1394","CardLoadFlag":"0x800d1384","CardStatusTemp":"0x800d1390","CardStatus":"0x800d1380","FUN_8008eebc":"0x8008eebc","Card_CheckStatus__Fii":"0x80015278"}

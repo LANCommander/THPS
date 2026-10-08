@@ -1,9 +1,9 @@
 /* ResetTrickBuffers__6CBruce (0x8002fe50) */
 #include "names.h"
-extern int DAT_800d1770;
+extern int XFrames;
 
 void CBruce_ResetTrickBuffers(int *p) {
-	int t = DAT_800d1770 - p[157];
+	int t = XFrames - p[157];
 
 	p[201] = 0;
 	p[220] = 0;

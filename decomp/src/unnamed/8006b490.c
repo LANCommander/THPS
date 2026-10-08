@@ -1,9 +1,9 @@
 /* __4CCarPsii (0x8006b490) */
 #include "names.h"
-extern char DAT_800d1e2c[], DAT_800d1e34[], DAT_800d1e3c[], DAT_800a232c[], DAT_800a233c[];
-extern int DAT_800d1998;
+extern char DAT_800d1e2c[], DAT_800d1e34[], DAT_800d1e3c[], DAT_800a232c[], __vt_4CCar[];
+extern int BaddyList;
 
-int DAT_800d1e44;
+int CarVol;
 
 int CBaddy_ctor(char *);
 void CItem_InitItem(char *, char *);
@@ -21,7 +21,7 @@ char *CCar_ctor(char *t, short *p, int id, int ty) {
 
 	CBaddy_ctor(t);
 
-	*(char **)(t + 0x48) = DAT_800a233c;
+	*(char **)(t + 0x48) = __vt_4CCar;
 	*(short *)(t + 0x3a) = ty;
 	*(int *)(t + 0x214) = 1;
 
@@ -49,8 +49,8 @@ char *CCar_ctor(char *t, short *p, int id, int ty) {
 			break;
 	}
 
-	DAT_800d1e44 = 300;
-	CBody_AttachTo(t, &DAT_800d1998);
+	CarVol = 300;
+	CBody_AttachTo(t, &BaddyList);
 
 	*(int *)(t + 0x150) = 0x10000;
 	CSuper_CycleAnim(t, 0, 1);

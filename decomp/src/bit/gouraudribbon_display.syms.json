@@ -1,1 +1,1 @@
-{"gp":"0x800d1080","DAT_800d2178":"0x800d2178","DAT_800d1a48":"0x800d1a48","DAT_800d1a54":"0x800d1a54","DAT_800d177c":"0x800d177c","DAT_800d1900":"0x800d1900","Transform__FRC7CVectorRi":"0x80027920","CalcScreenNormal__FP11SCalcBufferRiT1i":"0x8002dad8"}
+{"gp":"0x800d1080","pCurrentViewport":"0x800d2178","pDoubleBuffer":"0x800d1a48","pPoly":"0x800d1a54","PolyBufferEnd":"0x800d177c","StoredTPagePrim":"0x800d1900","Transform__FRC7CVectorRi":"0x80027920","CalcScreenNormal__FP11SCalcBufferRiT1i":"0x8002dad8"}

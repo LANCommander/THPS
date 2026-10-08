@@ -65,16 +65,16 @@ struct SViewport {
 	ushort Hither, Yon;
 };
 
-extern SCamera DAT_800c119c[];
-extern int DAT_800d2048;
-extern SString DAT_800b909c[];
-extern uchar DAT_800b9d1c[];
+extern SCamera MikeCamera[];
+extern int Camera_CurrentMikeCamera;
+extern SString StringBuffer[];
+extern uchar Mapping[];
 
-SAnimFrame *DAT_800d1ad8;
+SAnimFrame *FontAnim;
 
-extern char *DAT_800d1a54;
-extern char *DAT_800d177c;
-extern SViewport *DAT_800d2178;
+extern char *pPoly;
+extern char *PolyBufferEnd;
+extern SViewport *pCurrentViewport;
 
 struct SOTBuffer {
 	char pad[132];
@@ -83,7 +83,7 @@ struct SOTBuffer {
 	u_long OT3D[4096]; /* 0x8c */
 };
 
-extern SOTBuffer *DAT_800d1a48;
+extern SOTBuffer *pDoubleBuffer;
 
 void Font_Display() {
 	SString *pStringInfo;
@@ -97,14 +97,14 @@ void Font_Display() {
 	CVector camera_pos;
 	uint ColourInfo;
 
-	gte_SetRotMatrix(&DAT_800c119c[DAT_800d2048].View);
+	gte_SetRotMatrix(&MikeCamera[Camera_CurrentMikeCamera].View);
 	__asm__ volatile("ctc2 $0, $5; ctc2 $0, $6; ctc2 $0, $7");
 
-	camera_pos.vx = DAT_800c119c[DAT_800d2048].Position.vx << 12;
-	camera_pos.vy = DAT_800c119c[DAT_800d2048].Position.vy << 12;
-	camera_pos.vz = DAT_800c119c[DAT_800d2048].Position.vz << 12;
+	camera_pos.vx = MikeCamera[Camera_CurrentMikeCamera].Position.vx << 12;
+	camera_pos.vy = MikeCamera[Camera_CurrentMikeCamera].Position.vy << 12;
+	camera_pos.vz = MikeCamera[Camera_CurrentMikeCamera].Position.vz << 12;
 
-	for (pStringInfo = DAT_800b909c; !pStringInfo->End; pStringInfo++) {
+	for (pStringInfo = StringBuffer; !pStringInfo->End; pStringInfo++) {
 		long zed;
 
 		CurrentChar = pStringInfo->pString;
@@ -120,7 +120,7 @@ void Font_Display() {
 			ColourInfo = pStringInfo->CodeBGR;
 			gte_stlvnl2(&zed);
 
-			if (zed < DAT_800d2178->Hither || zed > DAT_800d2178->Yon)
+			if (zed < pCurrentViewport->Hither || zed > pCurrentViewport->Yon)
 				goto SKIP;
 
 			gte_stsxy2(&y0x0);
@@ -136,13 +136,13 @@ void Font_Display() {
 		while (*CurrentChar) {
 			char letter = *CurrentChar++;
 
-			LetterFrame = DAT_800b9d1c[letter & 0x7f];
+			LetterFrame = Mapping[letter & 0x7f];
 
 			if (letter == '_')
-				LetterFrame = DAT_800b9d1c[45];
+				LetterFrame = Mapping[45];
 
 			if (LetterFrame != 255) {
-				SAnimFrame *pFrame = &DAT_800d1ad8[LetterFrame];
+				SAnimFrame *pFrame = &FontAnim[LetterFrame];
 				Texture *stored = pFrame->pTexture;
 				uchar *newppoly;
 
@@ -151,13 +151,13 @@ void Font_Display() {
 				if (Width < 4)
 					LetterX++;
 
-				apoly = (POLY_FT4 *)DAT_800d1a54;
+				apoly = (POLY_FT4 *)pPoly;
 				newppoly = (uchar *)apoly + sizeof(POLY_FT4);
 
-				if ((uchar *)DAT_800d177c < newppoly)
+				if ((uchar *)PolyBufferEnd < newppoly)
 					return;
 
-				DAT_800d1a54 = (char *)newppoly;
+				pPoly = (char *)newppoly;
 				apoly->tag = 0x09000000;
 				*(uint *)&apoly->r0 = ColourInfo;
 				*(uint *)&apoly->u0 = *(uint *)&stored->u0;
@@ -208,11 +208,11 @@ void Font_Display() {
 				}
 
 				if (pStringInfo->Is3d) {
-					u_long *ot = (u_long *)((zed & 0x3ffc) + (int)DAT_800d1a48);
+					u_long *ot = (u_long *)((zed & 0x3ffc) + (int)pDoubleBuffer);
 
 					addPrim(&ot[35], apoly);
 				} else {
-					u_long *ot = &DAT_800d1a48->OT2D;
+					u_long *ot = &pDoubleBuffer->OT2D;
 
 					addPrim(ot, apoly);
 				}

@@ -3,7 +3,7 @@ typedef struct {
 	short s, c;
 } SC;
 
-extern SC DAT_800c9670[1];
+extern SC rcossin_tbl[1];
 
 int Utils_ArcCos(int c) {
 	int neg = 0, step, i, v;
@@ -15,7 +15,7 @@ int Utils_ArcCos(int c) {
 	}
 
 	step = 256;
-	t = DAT_800c9670;
+	t = rcossin_tbl;
 	i = 512;
 
 	for (;;) {

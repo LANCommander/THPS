@@ -75,13 +75,13 @@ struct SGame {
 	int Player; /* 0x2e8 */
 };
 
-extern SCompetition DAT_800c0fdc;
-extern char *DAT_800c0fb8[9];
-extern SSkater DAT_800a44fc[];
-extern SCareer DAT_800a6844;
-extern SGame *DAT_800d17c8;
-extern int DAT_800d1e28;
-extern char *DAT_800a5edc[];
+extern SCompetition theCompetition;
+extern char *MedalMessage[9];
+extern SSkater Stats[];
+extern SCareer GCareer;
+extern SGame *GSkater;
+extern int GLevel;
+extern char *GameText_180[];
 extern char DAT_800a3328[];
 extern char DAT_800a333c[];
 extern char DAT_800a3350[];
@@ -91,10 +91,10 @@ extern char DAT_800a3380[];
 extern char DAT_800a3390[];
 extern char DAT_800d1fcc[];
 
-ushort DAT_800d1fc2;
-ushort DAT_800d1fc4;
-ushort DAT_800d1fc6;
-ushort DAT_800d1fc8;
+ushort FIRST_PLACE;
+ushort SECOND_PLACE;
+ushort THIRD_PLACE;
+ushort LAST_PLACE;
 
 void Mess_DeleteAll(void);
 void Mess_SetScale(int);
@@ -113,7 +113,7 @@ extern "C" {
 void Competition_WinLoseDisplay() {
 	int our_placing;
 	char buf[40];
-	SCompetition *c = &DAT_800c0fdc;
+	SCompetition *c = &theCompetition;
 
 	Mess_DeleteAll();
 
@@ -133,13 +133,13 @@ void Competition_WinLoseDisplay() {
 				continue;
 
 			if (c->Order[i] == 0)
-				base = DAT_800d1fc2;
+				base = FIRST_PLACE;
 			else if (c->Order[i] == 1)
-				base = DAT_800d1fc4;
+				base = SECOND_PLACE;
 			else if (c->Order[i] == 2)
-				base = DAT_800d1fc6;
+				base = THIRD_PLACE;
 			else
-				base = Redbook_Rnd(DAT_800d1fc6 - DAT_800d1fc8) + DAT_800d1fc8;
+				base = Redbook_Rnd(THIRD_PLACE - LAST_PLACE) + LAST_PLACE;
 
 			base -= Redbook_Rnd(18);
 
@@ -214,7 +214,7 @@ void Competition_WinLoseDisplay() {
 			Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a3328, 0, 0, 256, 0);
 
 			if (!c->pMedal) {
-				Career_GiveMedal__Fi10EMedalType(DAT_800d1e28, 5);
+				Career_GiveMedal__Fi10EMedalType(GLevel, 5);
 
 				c->pMedal = Medal_Create((EMedalType)5, 0, -5, 140, 2048, 10);
 			}
@@ -231,7 +231,7 @@ void Competition_WinLoseDisplay() {
 			Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a333c, 0, 0, 256, 0);
 
 			if (!c->pMedal) {
-				Career_GiveMedal__Fi10EMedalType(DAT_800d1e28, 6);
+				Career_GiveMedal__Fi10EMedalType(GLevel, 6);
 
 				c->pMedal = Medal_Create((EMedalType)6, 0, -5, 140, 2048, 10);
 			}
@@ -247,7 +247,7 @@ void Competition_WinLoseDisplay() {
 			Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a3350, 0, 0, 256, 0);
 
 			if (!c->pMedal) {
-				Career_GiveMedal__Fi10EMedalType(DAT_800d1e28, 7);
+				Career_GiveMedal__Fi10EMedalType(GLevel, 7);
 
 				c->pMedal = Medal_Create((EMedalType)7, 0, -5, 140, 2048, 10);
 			}
@@ -289,16 +289,16 @@ void Competition_WinLoseDisplay() {
 
 			Mess_SetRGB(182, 132, 36, 0);
 			Mess_SetScale(160);
-			FUN_8008b900(buf, DAT_800a3370, DAT_800a44fc[c->SkaterId[first]].pName);
+			FUN_8008b900(buf, DAT_800a3370, Stats[c->SkaterId[first]].pName);
 			Mess_DrawText__FiiPCciUiib(256, 60, buf, 0, 0, 256, 0);
-			FUN_8008b900(buf, DAT_800a3380, DAT_800a44fc[c->SkaterId[second]].pName);
+			FUN_8008b900(buf, DAT_800a3380, Stats[c->SkaterId[second]].pName);
 			Mess_DrawText__FiiPCciUiib(256, 70, buf, 0, 0, 256, 0);
-			FUN_8008b900(buf, DAT_800a3390, DAT_800a44fc[c->SkaterId[third]].pName);
+			FUN_8008b900(buf, DAT_800a3390, Stats[c->SkaterId[third]].pName);
 			Mess_DrawText__FiiPCciUiib(256, 80, buf, 0, 0, 256, 0);
 			Mess_SetRGB(122, 122, 122, 0);
 			FUN_8008b900(buf, DAT_800d1fcc, our_placing + 1);
 			Mess_SetScale(384);
-			Mess_DrawText__FiiPCciUiib(256, 120, DAT_800a44fc[c->SkaterId[c->Player]].pName, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 120, Stats[c->SkaterId[c->Player]].pName, 0, 0, 256, 0);
 			Mess_DrawText__FiiPCciUiib(256, 150, buf, 0, 0, 256, 0);
 			break;
 		}
@@ -309,60 +309,60 @@ void Competition_WinLoseDisplay() {
 
 		c->MedalMask = 0;
 
-		if (DAT_800a6844.Medals[DAT_800d1e28 + DAT_800d17c8->Player * 14] & 0xe0)
-			c->MedalMask = 1 << DAT_800d1e28;
+		if (GCareer.Medals[GLevel + GSkater->Player * 14] & 0xe0)
+			c->MedalMask = 1 << GLevel;
 
 		Mess_SetScale(256);
 		Mess_SetRGB(122, 122, 122, 0);
 
-		if (DAT_800a6844.Total[DAT_800d17c8->Player] == 328) {
+		if (GCareer.Total[GSkater->Player] == 328) {
 			c->pMedal->m156 = c->pMedal->m158 = 2;
 			c->pMedal->mY = c->pMedal->m14C - 0x5000;
 
-			if (DAT_800c0fb8[6])
-				Mess_DrawText__FiiPCciUiib(256, 155, DAT_800c0fb8[6], 0, 0, 256, 0);
+			if (MedalMessage[6])
+				Mess_DrawText__FiiPCciUiib(256, 155, MedalMessage[6], 0, 0, 256, 0);
 
-			if (DAT_800c0fb8[7])
-				Mess_DrawText__FiiPCciUiib(256, 175, DAT_800c0fb8[7], 0, 0, 256, 0);
+			if (MedalMessage[7])
+				Mess_DrawText__FiiPCciUiib(256, 175, MedalMessage[7], 0, 0, 256, 0);
 
-			if (DAT_800c0fb8[8])
-				Mess_DrawText__FiiPCciUiib(256, 195, DAT_800c0fb8[8], 0, 0, 256, 0);
+			if (MedalMessage[8])
+				Mess_DrawText__FiiPCciUiib(256, 195, MedalMessage[8], 0, 0, 256, 0);
 		} else {
-			switch ((DAT_800a6844.Total[DAT_800d17c8->Player] & c->MedalMask) ^ c->MedalMask) {
+			switch ((GCareer.Total[GSkater->Player] & c->MedalMask) ^ c->MedalMask) {
 				case 8:
-					if (DAT_800c0fb8[0])
-						Mess_DrawText__FiiPCciUiib(256, 155, DAT_800c0fb8[0], 0, 0, 256, 0);
+					if (MedalMessage[0])
+						Mess_DrawText__FiiPCciUiib(256, 155, MedalMessage[0], 0, 0, 256, 0);
 
-					if (DAT_800c0fb8[1])
-						Mess_DrawText__FiiPCciUiib(256, 175, DAT_800c0fb8[1], 0, 0, 256, 0);
+					if (MedalMessage[1])
+						Mess_DrawText__FiiPCciUiib(256, 175, MedalMessage[1], 0, 0, 256, 0);
 
-					if (DAT_800c0fb8[2])
-						Mess_DrawText__FiiPCciUiib(256, 195, DAT_800c0fb8[2], 0, 0, 256, 0);
+					if (MedalMessage[2])
+						Mess_DrawText__FiiPCciUiib(256, 195, MedalMessage[2], 0, 0, 256, 0);
 
 					break;
 				case 64:
-					if (DAT_800c0fb8[3])
-						Mess_DrawText__FiiPCciUiib(256, 155, DAT_800c0fb8[3], 0, 0, 256, 0);
+					if (MedalMessage[3])
+						Mess_DrawText__FiiPCciUiib(256, 155, MedalMessage[3], 0, 0, 256, 0);
 
-					if (DAT_800c0fb8[4])
-						Mess_DrawText__FiiPCciUiib(256, 175, DAT_800c0fb8[4], 0, 0, 256, 0);
+					if (MedalMessage[4])
+						Mess_DrawText__FiiPCciUiib(256, 175, MedalMessage[4], 0, 0, 256, 0);
 
-					if (DAT_800c0fb8[5])
-						Mess_DrawText__FiiPCciUiib(256, 195, DAT_800c0fb8[5], 0, 0, 256, 0);
+					if (MedalMessage[5])
+						Mess_DrawText__FiiPCciUiib(256, 195, MedalMessage[5], 0, 0, 256, 0);
 
 					break;
 				case 256:
 					c->pMedal->m156 = c->pMedal->m158 = 2;
 					c->pMedal->mY = c->pMedal->m14C - 0x5000;
 
-					if (DAT_800c0fb8[6])
-						Mess_DrawText__FiiPCciUiib(256, 155, DAT_800c0fb8[6], 0, 0, 256, 0);
+					if (MedalMessage[6])
+						Mess_DrawText__FiiPCciUiib(256, 155, MedalMessage[6], 0, 0, 256, 0);
 
-					if (DAT_800c0fb8[7])
-						Mess_DrawText__FiiPCciUiib(256, 175, DAT_800c0fb8[7], 0, 0, 256, 0);
+					if (MedalMessage[7])
+						Mess_DrawText__FiiPCciUiib(256, 175, MedalMessage[7], 0, 0, 256, 0);
 
-					if (DAT_800c0fb8[8])
-						Mess_DrawText__FiiPCciUiib(256, 195, DAT_800c0fb8[8], 0, 0, 256, 0);
+					if (MedalMessage[8])
+						Mess_DrawText__FiiPCciUiib(256, 195, MedalMessage[8], 0, 0, 256, 0);
 
 					break;
 			}
@@ -375,10 +375,10 @@ void Competition_WinLoseDisplay() {
 				show = 0;
 
 			if (show && !c->NoPrompt)
-				Front_PrintCentredPrompt(DAT_800a5edc[0]);
+				Front_PrintCentredPrompt(GameText_180[0]);
 		}
 	} else {
 		if (!c->NoPrompt)
-			Front_PrintCentredPrompt(DAT_800a5edc[0]);
+			Front_PrintCentredPrompt(GameText_180[0]);
 	}
 }

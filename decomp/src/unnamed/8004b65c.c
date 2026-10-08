@@ -9,9 +9,9 @@ typedef struct {
 	char pad2[42];
 } S;
 
-extern int DAT_800d13cc;
+extern int SFXLEVEL;
 
-unsigned short DAT_800d2b5c[48];
+unsigned short SFXFalloffArray[48];
 
 void FUN_80093e54(int, S *);
 unsigned Utils_CalculateSpatialAttenuation(void *, int, int);
@@ -25,14 +25,14 @@ void SFX_ModifyPos(unsigned a, void *pos, int b) {
 
 	if (a) {
 		t = Utils_CalculateSpatialAttenuation(pos, 256, 12000);
-		l = ((t & 0xfff) * DAT_800d13cc) >> 14;
-		r = (((t >> 16) & 0xfff) * DAT_800d13cc) >> 14;
+		l = ((t & 0xfff) * SFXLEVEL) >> 14;
+		r = (((t >> 16) & 0xfff) * SFXLEVEL) >> 14;
 
 		if ((int)t < 0)
 			l = -l;
 
 		i = 0;
-		tab = DAT_800d2b5c;
+		tab = SFXFalloffArray;
 
 		for (; i < 24; i++) {
 			if (a & (1 << i)) {

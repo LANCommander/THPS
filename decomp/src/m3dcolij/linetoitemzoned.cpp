@@ -74,11 +74,11 @@ struct SFaceCache {
 	int ZMax;
 };
 
-extern SPSXRegion DAT_800bf7a8[];
-extern SColCache DAT_800c13ec[];
-extern SFaceCache DAT_800c148c[];
+extern SPSXRegion PSXRegion[];
+extern SColCache ItemCache[];
+extern SFaceCache FaceCache[];
 
-int DAT_800d20e0;
+int ItemCacheIndex;
 int DAT_800d20e4;
 int DAT_800d20e8;
 int DAT_800d2110;
@@ -108,11 +108,11 @@ void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo) {
 			pItem = *ppItem;
 
 			for (i = 0; i < 10; i++)
-				if (DAT_800c13ec[i].pItem == pItem)
+				if (ItemCache[i].pItem == pItem)
 					break;
 
 			if (i != 10) {
-				M3dColij_LineToThisItemCached(pItem, pInfo, &DAT_800c13ec[i]);
+				M3dColij_LineToThisItemCached(pItem, pInfo, &ItemCache[i]);
 
 				DAT_800d2110++;
 			} else {
@@ -126,30 +126,30 @@ void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo) {
 				uint *pFaceX;
 				SFaceCache *pFaceCache;
 
-				if (DAT_800c13ec[DAT_800d20e0].pItem) {
-					if (DAT_800d20e0 + 1 == 10)
-						DAT_800d20e8 = DAT_800c13ec[0].FirstFace;
+				if (ItemCache[ItemCacheIndex].pItem) {
+					if (ItemCacheIndex + 1 == 10)
+						DAT_800d20e8 = ItemCache[0].FirstFace;
 					else
-						DAT_800d20e8 = DAT_800c13ec[DAT_800d20e0 + 1].FirstFace;
+						DAT_800d20e8 = ItemCache[ItemCacheIndex + 1].FirstFace;
 				}
 
-				DAT_800c13ec[DAT_800d20e0].pItem = pItem;
-				pModel = DAT_800bf7a8[pItem->Region].pModels[pItem->ModelIndex];
-				DAT_800c13ec[DAT_800d20e0].pModel = pModel;
+				ItemCache[ItemCacheIndex].pItem = pItem;
+				pModel = PSXRegion[pItem->Region].pModels[pItem->ModelIndex];
+				ItemCache[ItemCacheIndex].pModel = pModel;
 				Faces = pModel->NumFaces;
-				DAT_800c13ec[DAT_800d20e0].Faces = Faces;
+				ItemCache[ItemCacheIndex].Faces = Faces;
 
 				if (DAT_800d20e4 + Faces < 500) {
-					DAT_800c13ec[DAT_800d20e0].FirstFace = DAT_800d20e4;
+					ItemCache[ItemCacheIndex].FirstFace = DAT_800d20e4;
 					DAT_800d20e4 += Faces;
 				} else {
-					DAT_800c13ec[DAT_800d20e0].FirstFace = 0;
+					ItemCache[ItemCacheIndex].FirstFace = 0;
 					DAT_800d20e4 = Faces;
 				}
 
 				pVertices = pModel->Vertices;
 				pFaceX = (uint *)(&pModel->Vertices[pModel->NumVertices] + pModel->NumNormals);
-				pFaceCache = &DAT_800c148c[DAT_800c13ec[DAT_800d20e0].FirstFace];
+				pFaceCache = &FaceCache[ItemCache[ItemCacheIndex].FirstFace];
 				ItemX = pItem->Pos.vx;
 				ItemY = pItem->Pos.vy;
 				ItemZ = pItem->Pos.vz;
@@ -265,16 +265,16 @@ void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo) {
 				DAT_800d2118 = 0;
 
 				for (i = 0; i < 10; i++)
-					if (DAT_800c13ec[i].pItem)
-						DAT_800d2118 += DAT_800c13ec[i].Faces;
+					if (ItemCache[i].pItem)
+						DAT_800d2118 += ItemCache[i].Faces;
 
 				if (DAT_800d2118 > DAT_800d211c)
 					DAT_800d211c = DAT_800d2118;
 
-				M3dColij_LineToThisItemCached(pItem, pInfo, &DAT_800c13ec[DAT_800d20e0]);
+				M3dColij_LineToThisItemCached(pItem, pInfo, &ItemCache[ItemCacheIndex]);
 
-				if (++DAT_800d20e0 == 10)
-					DAT_800d20e0 = 0;
+				if (++ItemCacheIndex == 10)
+					ItemCacheIndex = 0;
 
 				DAT_800d2114++;
 			}

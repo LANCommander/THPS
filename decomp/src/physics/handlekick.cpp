@@ -29,13 +29,13 @@ struct SColl {
 };
 
 extern SSkater DAT_800a44fc[];
-extern SCareer DAT_800a6844;
+extern SCareer GCareer;
 
-int DAT_800d1924;
+int Cheat_StatsOverride;
 
-extern int DAT_800d172c;
-extern int DAT_800d16a4;
-extern int DAT_800d179c;
+extern int Cheat_Fire;
+extern int GGame;
+extern int GHorsePlayer;
 
 class CBruce {
   public:
@@ -83,8 +83,8 @@ class CBruce {
 };
 
 #define GetStat(n)                                                                                 \
-	(DAT_800d1924 ? DAT_800d1924                                                                   \
-	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	(Cheat_StatsOverride ? Cheat_StatsOverride                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || Cheat_Fire) ? 3 : 0)) +     \
 	                    mpStatBonus[n])
 
 void ProjectCVectorToPlane(CVector *, SVECTOR);
@@ -103,10 +103,10 @@ void CBruce::HandleKick() {
 	CVector mVel2;
 	int x;
 
-	if (DAT_800d16a4 != 7)
-		AutoKickEnabled = DAT_800a6844.AutoKick[m870];
+	if (GGame != 7)
+		AutoKickEnabled = GCareer.AutoKick[m870];
 	else
-		AutoKickEnabled = DAT_800a6844.AutoKick[m870 ^ DAT_800d179c];
+		AutoKickEnabled = GCareer.AutoKick[m870 ^ GHorsePlayer];
 
 	if (m734)
 		return;

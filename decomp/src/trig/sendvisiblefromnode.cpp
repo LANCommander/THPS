@@ -24,13 +24,13 @@ struct CItemL {
 	CItemL *mNextItem;
 };
 
-extern int DAT_800d199c;
-extern int DAT_800d1780;
-extern int DAT_800d19a4;
-extern CItemL *DAT_800d1618;
-extern CBit *DAT_800d18cc;
+extern int pCurrentPlayer;
+extern int GNumberOfPlayers;
+extern int MechList;
+extern CItemL *PowerUpList;
+extern CBit *NonRenderedBitList;
 
-short **DAT_800d19e8;
+short **OffsetList;
 
 ushort *Trig_GetLinksPointer(int);
 Item *Spool_FindEnviroItem(uint);
@@ -41,9 +41,9 @@ void SendVisibleFromNode(int node, int visible) {
 	ushort *pNodes;
 	ushort NumLinks;
 
-	if (!DAT_800d199c || DAT_800d1780 == 1)
+	if (!pCurrentPlayer || GNumberOfPlayers == 1)
 		SetFlags = 65;
-	else if (DAT_800d199c == DAT_800d19a4)
+	else if (pCurrentPlayer == MechList)
 		SetFlags = 64;
 	else
 		SetFlags = 1;
@@ -63,13 +63,13 @@ void SendVisibleFromNode(int node, int visible) {
 
 		for (i = 0; i < NumLinks; i++) {
 			ushort VisNode = *pNodes++;
-			short *pVisNode = DAT_800d19e8[VisNode];
+			short *pVisNode = OffsetList[VisNode];
 
 			switch (*pVisNode) {
 				case 5: {
 					CItemL *pUp;
 
-					for (pUp = DAT_800d1618; pUp; pUp = pUp->mNextItem) {
+					for (pUp = PowerUpList; pUp; pUp = pUp->mNextItem) {
 						if (*(ushort *)((char *)pUp + 0xe2) == VisNode) {
 							pUp->mFlags = (pUp->mFlags & ClearFlags) | SetFlags;
 							break;
@@ -81,11 +81,11 @@ void SendVisibleFromNode(int node, int visible) {
 				case 501: {
 					CBit *pBit;
 
-					for (pBit = DAT_800d18cc; pBit; pBit = pBit->mNext) {
+					for (pBit = NonRenderedBitList; pBit; pBit = pBit->mNext) {
 						if (pBit->mType == 2 && pBit->mNodeId == VisNode) {
 							if (visible)
 								pBit->mProtected = 1;
-							else if (DAT_800d1780 == 1)
+							else if (GNumberOfPlayers == 1)
 								pBit->mProtected = 0;
 
 							break;

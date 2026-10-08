@@ -57,7 +57,7 @@ struct SControl {
 	SButton *pX;
 };
 
-extern SControl DAT_800c0a48[];
+extern SControl Pad[];
 
 void Pad_Remap(void) {
 	SButton TempButtonTriangle;
@@ -69,14 +69,14 @@ void Pad_Remap(void) {
 		int i;
 
 		for (i = 0; i < 2; i++) {
-			TempButtonTriangle = DAT_800c0a48[i].Triangle;
-			TempButtonCircle = DAT_800c0a48[i].Circle;
-			TempButtonSquare = DAT_800c0a48[i].Square;
-			TempButtonX = DAT_800c0a48[i].X;
-			*DAT_800c0a48[i].pTriangle = TempButtonTriangle;
-			*DAT_800c0a48[i].pCircle = TempButtonCircle;
-			*DAT_800c0a48[i].pSquare = TempButtonSquare;
-			*DAT_800c0a48[i].pX = TempButtonX;
+			TempButtonTriangle = Pad[i].Triangle;
+			TempButtonCircle = Pad[i].Circle;
+			TempButtonSquare = Pad[i].Square;
+			TempButtonX = Pad[i].X;
+			*Pad[i].pTriangle = TempButtonTriangle;
+			*Pad[i].pCircle = TempButtonCircle;
+			*Pad[i].pSquare = TempButtonSquare;
+			*Pad[i].pX = TempButtonX;
 		}
 	}
 }

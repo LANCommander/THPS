@@ -5,9 +5,9 @@ typedef struct {
 } V;
 
 extern short DAT_800a679e[];
-extern char DAT_800a5be9[];
-extern int DAT_800d16e4, DAT_800d1768, DAT_800d19c0;
-extern int DAT_800d16f0, DAT_800d16f4;
+extern char LastGameState_d[];
+extern int TTime, CurrentWaterDamage, SuspendDistance;
+extern int CurrentWaterLevel, CurrentWaterLevel2;
 
 void FUN_8004b8e0(void);
 void FUN_8004b8e8(void);
@@ -61,7 +61,7 @@ void Init_Cleanup(int a) {
 		Trig_DeleteTrigFile();
 		Pack_DefragmentFully();
 
-		DAT_800a5be9[0] = 0;
+		LastGameState_d[0] = 0;
 	} else {
 		Spool_ClearEnvironmentRegions();
 	}
@@ -75,11 +75,11 @@ void Init_Cleanup(int a) {
 	VI(&v, 0, 0x8000, 0);
 	FUN_8002ef24(&v);
 
-	DAT_800d16e4 = 0;
+	TTime = 0;
 	Pad_ClearAll();
 
-	DAT_800d19c0 = 13000;
-	DAT_800d1768 = 0;
-	DAT_800d16f0 = 0x7fffffff;
-	DAT_800d16f4 = 0x7fffffff;
+	SuspendDistance = 13000;
+	CurrentWaterDamage = 0;
+	CurrentWaterLevel = 0x7fffffff;
+	CurrentWaterLevel2 = 0x7fffffff;
 }

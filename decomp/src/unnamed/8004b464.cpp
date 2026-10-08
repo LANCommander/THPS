@@ -1,15 +1,15 @@
 /* SFX_PlayPos__FUiRC7CVectori (0x8004b464) */
 /* C++ (PAL). Positional variant of FUN_8004b250: left/right volumes come from the spatial
-   attenuation at pos (12 bits each, scaled by the global percentage DAT_800d13cc). The
+   attenuation at pos (12 bits each, scaled by the global percentage SFXLEVEL). The
    attenuation's sign bit flips the left channel's phase. */
 struct CVector {
 	int vx, vy, vz;
 };
 
 extern int DAT_800b8a9c[];
-extern int DAT_800d13cc;
+extern int SFXLEVEL;
 
-int DAT_800d1acc;
+int SFX_v;
 
 unsigned int Utils_CalculateSpatialAttenuation(const CVector &, int, int);
 extern "C" int playSFX__FUiUcssiUs(int, unsigned char, short, short, int);
@@ -20,8 +20,8 @@ extern "C" int SFX_PlayPos__FUiRC7CVectori(int id, const CVector &pos, int pan) 
 	if (id < 0 || id == 0xffff)
 		return 0;
 	att = Utils_CalculateSpatialAttenuation(pos, 256, 12000);
-	l = ((att & 0xfff) * DAT_800d13cc) >> 14;
-	r = (((att >> 16) & 0xfff) * DAT_800d13cc) >> 14;
+	l = ((att & 0xfff) * SFXLEVEL) >> 14;
+	r = (((att >> 16) & 0xfff) * SFXLEVEL) >> 14;
 	if ((int)att < 0)
 		l = -l;
 	p = DAT_800b8a9c[id * 2 + 1];
@@ -32,7 +32,7 @@ extern "C" int SFX_PlayPos__FUiRC7CVectori(int id, const CVector &pos, int pan) 
 		p &= 0xffff;
 	}
 
-	DAT_800d1acc = p;
+	SFX_v = p;
 
 	return playSFX__FUiUcssiUs(DAT_800b8a9c[id * 2], note, l * p / 100, r * p / 100, pan);
 }

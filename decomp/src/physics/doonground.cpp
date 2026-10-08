@@ -225,22 +225,22 @@ class CBruce {
 	void DoOnGroundPhysics();
 };
 
-extern int DAT_800d16a4;
-extern int DAT_800d179c;
-extern SPadOptions DAT_800a6844;
-extern int DAT_800d1868;
-extern int DAT_800d186c;
-extern int DAT_800d1770;
-extern int DAT_800d1774;
-extern int DAT_800d1778;
-extern CVector DAT_800a824c;
-extern SItemType DAT_800bf7a8[];
+extern int GGame;
+extern int GHorsePlayer;
+extern SPadOptions GCareer;
+extern int BitCount;
+extern int UseCacheForBits;
+extern int XFrames;
+extern int TimeScale;
+extern int TimeScaleSquared;
+extern CVector ZeroVector;
+extern SItemType PSXRegion[];
 
-int DAT_800d1974;
-int DAT_800d1978;
-int DAT_800d197c;
-int DAT_800d1980;
-int DAT_800d1984;
+int Face_Air;
+int Face_Skateable;
+int Face_WallRide;
+int Face_Visible;
+int Face_Terrain;
 
 void Platform_HandleBounce();
 void Bit_SetSparkTrajectory(const CSVector &);
@@ -285,10 +285,10 @@ void CBruce::DoOnGroundPhysics() {
 
 	OnInvisible = m734 == 2;
 
-	if (DAT_800d16a4 != 7)
-		AutoKickEnabled = DAT_800a6844.AutoKick[mPad];
+	if (GGame != 7)
+		AutoKickEnabled = GCareer.AutoKick[mPad];
 	else
-		AutoKickEnabled = DAT_800a6844.AutoKick[mPad ^ DAT_800d179c];
+		AutoKickEnabled = GCareer.AutoKick[mPad ^ GHorsePlayer];
 
 	Gravity.vx = 0;
 	Gravity.vy = 6500;
@@ -299,7 +299,7 @@ void CBruce::DoOnGroundPhysics() {
 
 	Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
-	if ((m72C == 5 || m72C == 6 || m72C == 3) && DAT_800d1868 < 200) {
+	if ((m72C == 5 || m72C == 6 || m72C == 3) && BitCount < 200) {
 		SetAnglesFromHeading();
 		Bit_SetSparkTrajectory(mAngles);
 		CSVector Cone;
@@ -325,7 +325,7 @@ void CBruce::DoOnGroundPhysics() {
 
 			Bit_SetSparkFadeRGB__FUcUcUc(0, 0, 0);
 
-			DAT_800d186c = 0;
+			UseCacheForBits = 0;
 
 			for (i = 0; i < 6; i++) {
 				if (Mem_GetFree__Fc(1) > 10000) {
@@ -335,7 +335,7 @@ void CBruce::DoOnGroundPhysics() {
 				}
 			}
 
-			DAT_800d186c = 1;
+			UseCacheForBits = 1;
 		}
 	}
 
@@ -364,7 +364,7 @@ void CBruce::DoOnGroundPhysics() {
 	}
 
 	do {
-		mPos += ((mVel * DAT_800d1774) >> 8) + ((mKick * DAT_800d1778) >> 8) / 2;
+		mPos += ((mVel * TimeScale) >> 8) + ((mKick * TimeScaleSquared) >> 8) / 2;
 	} while (0);
 
 	Platform_HandleBounce();
@@ -395,9 +395,9 @@ void CBruce::DoOnGroundPhysics() {
 	}
 
 	Mips_FixMul__Fii(TurnAngle, 3072);
-	RotateHeadingAndVelocity((TurnAngle * DAT_800d1774) >> 8, !OnInvisible, 0);
+	RotateHeadingAndVelocity((TurnAngle * TimeScale) >> 8, !OnInvisible, 0);
 
-	m328 += (TurnAngle * DAT_800d1774) >> 8;
+	m328 += (TurnAngle * TimeScale) >> 8;
 
 	if (m328 >= 2048) {
 		m328 -= 2048;
@@ -416,7 +416,7 @@ void CBruce::DoOnGroundPhysics() {
 	SetVector(&line_info.StartCoords, mOldPos.vx, mOldPos.vy, mOldPos.vz)
 	    SetVector(&line_info.EndCoords, mPos.vx, mPos.vy, mPos.vz) vMovement = mPos - mOldPos;
 
-	if (vMovement != DAT_800a824c) {
+	if (vMovement != ZeroVector) {
 		Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement)) << 6;
 
 		if (mInAir ? Speed < 0x64000 : Speed < 0x1e000) {
@@ -436,7 +436,7 @@ void CBruce::DoOnGroundPhysics() {
 		GetFaceFlags(&line_info);
 
 		if (line_info.pItem) {
-			if (!DAT_800d1978 && !DAT_800d197c && !DAT_800d1974) {
+			if (!Face_Skateable && !Face_WallRide && !Face_Air) {
 				int TurnAway;
 
 				mPos = mOldPos;
@@ -458,7 +458,7 @@ void CBruce::DoOnGroundPhysics() {
 
 				ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(this, line_info.Normal, TurnAway);
 			} else if (line_info.pItem) {
-				if (!DAT_800d1974 || DAT_800d1980) {
+				if (!Face_Air || Face_Visible) {
 					CVector WallFloorNormal;
 					int UpDot;
 
@@ -568,9 +568,9 @@ void CBruce::DoOnGroundPhysics() {
 	GetFaceFlags(&line_info);
 
 	if (line_info.pItem) {
-		m72C = DAT_800d1984;
+		m72C = Face_Terrain;
 
-		if (!DAT_800d1978 && !DAT_800d197c && !DAT_800d1974) {
+		if (!Face_Skateable && !Face_WallRide && !Face_Air) {
 			StateTransition(1, 4363);
 		} else if (line_info.pItem) {
 			int d = line_info.Distance;
@@ -595,8 +595,8 @@ void CBruce::DoOnGroundPhysics() {
 				if (Mips_CVecDotProd__FP7CVectorT0(&Move, &Move) < 4096)
 					mPos = Orig;
 
-				if (DAT_800d1974) {
-					if (!DAT_800d1980 && m1F8 && DAT_800d1770 - m1F8 >= 5 && !mInAir && m734 != 2) {
+				if (Face_Air) {
+					if (!Face_Visible && m1F8 && XFrames - m1F8 >= 5 && !mInAir && m734 != 2) {
 						SVECTOR N;
 
 						N = line_info.Normal;
@@ -634,7 +634,7 @@ void CBruce::DoOnGroundPhysics() {
 
 						StateTransition(2, 4488);
 					}
-				} else if (DAT_800d1978) {
+				} else if (Face_Skateable) {
 					if (m734)
 						HandleBailPerpendicular(line_info.Normal);
 
@@ -657,7 +657,7 @@ void CBruce::DoOnGroundPhysics() {
 
 					if (!OnInvisible) {
 						mpWallItem = line_info.pItem;
-						mWallHandle = FUN_8004d7ac(DAT_800bf7a8[line_info.pItem->Type].p14);
+						mWallHandle = FUN_8004d7ac(PSXRegion[line_info.pItem->Type].p14);
 					}
 				} else {
 					FUN_8003434c(this);

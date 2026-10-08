@@ -195,15 +195,15 @@ class CCamera : public CBody {
 	void LoadIntoMikeCamera();
 };
 
-extern SControl DAT_800c0a48[2];
-extern SMike DAT_800c1118;
+extern SControl Pad[2];
+extern SMike Presets;
 
-int DAT_800d1ff4;
-int DAT_800d1ff8;
-int DAT_800d1ffc;
-int DAT_800d2020;
-int DAT_800d2040;
-CBody *DAT_800d2044;
+int camDist;
+int camPitch;
+int camYOffset;
+int Camera_Preset;
+int NumCameras;
+CBody *CameraList;
 
 CCamera::CCamera(CBody *tripod, ushort mike_index)
     : mMikeIndex(mike_index), mTripod(tripod), mCalcTripod(1), new_focus(0), mFocus(tripod),
@@ -214,9 +214,9 @@ CCamera::CCamera(CBody *tripod, ushort mike_index)
       mStoppedExtraYRot(0) {
 	loose_cam_timer = 0;
 
-	if (((CBruce *)mTripod)->mpPad == &DAT_800c0a48[0])
+	if (((CBruce *)mTripod)->mpPad == &Pad[0])
 		mMikeIndex = 0;
-	else if (((CBruce *)mTripod)->mpPad == &DAT_800c0a48[1])
+	else if (((CBruce *)mTripod)->mpPad == &Pad[1])
 		mMikeIndex = 1;
 
 	vFront = CVector(0, 0, 4096);
@@ -228,22 +228,22 @@ CCamera::CCamera(CBody *tripod, ushort mike_index)
 	mFocusPos = mFocus->mPos;
 	mFocusTime = 0;
 	m3a = 99;
-	DAT_800d2020 = 2;
+	Camera_Preset = 2;
 
 	{
-		SMike &m = DAT_800c1118;
+		SMike &m = Presets;
 		CSVector &a = m.mAngles;
 
-		DAT_800d1ff4 = a.vz;
-		DAT_800d1ff8 = a.vy;
-		DAT_800d1ffc = a.vx;
+		camDist = a.vz;
+		camPitch = a.vy;
+		camYOffset = a.vx;
 	}
 
 	mType = 1;
 	LoadIntoMikeCamera();
-	AttachTo(&DAT_800d2044);
+	AttachTo(&CameraList);
 
-	DAT_800d2040++;
+	NumCameras++;
 	mRMinor = 0;
 	mCBodyFlags &= ~2;
 }

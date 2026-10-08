@@ -19,8 +19,8 @@ typedef struct {
 	short s398, s400, s402;
 } Tape;
 
-extern char *DAT_800d217c;
-extern char DAT_800a824c[];
+extern char *pCurrentCamera;
+extern char ZeroVector[];
 
 Tape *__nw__5CItemUi(int);
 Tape *CTape_ctor(Tape *, int, V *, V *, int, int, char *, int, int);
@@ -34,20 +34,20 @@ Tape *Tape_Create(int x, int y, int z, int p, int e, int f, int g, int h) {
 		v.vx = x;
 		v.vy = y;
 		v.vz = z;
-		CTC2(0, *(int *)(DAT_800d217c + 0x34));
-		CTC2(1, *(int *)(DAT_800d217c + 0x38));
-		CTC2(2, *(int *)(DAT_800d217c + 0x3c));
-		CTC2(3, *(int *)(DAT_800d217c + 0x40));
-		CTC2(4, *(int *)(DAT_800d217c + 0x44));
+		CTC2(0, *(int *)(pCurrentCamera + 0x34));
+		CTC2(1, *(int *)(pCurrentCamera + 0x38));
+		CTC2(2, *(int *)(pCurrentCamera + 0x3c));
+		CTC2(3, *(int *)(pCurrentCamera + 0x40));
+		CTC2(4, *(int *)(pCurrentCamera + 0x44));
 		MTC2(0, *(int *)&v.vx);
 		MTC2(1, *(int *)&v.vz);
 		__asm__ volatile("nop; nop; cop2 0x406012");
 
 		STLVNL(&o);
 
-		pos1.x = o.x + (*(int *)(DAT_800d217c + 4) << 12);
-		pos1.y = o.y + (*(int *)(DAT_800d217c + 8) << 12);
-		pos1.z = o.z + (*(int *)(DAT_800d217c + 12) << 12);
+		pos1.x = o.x + (*(int *)(pCurrentCamera + 4) << 12);
+		pos1.y = o.y + (*(int *)(pCurrentCamera + 8) << 12);
+		pos1.z = o.z + (*(int *)(pCurrentCamera + 12) << 12);
 	}
 
 	{
@@ -57,26 +57,26 @@ Tape *Tape_Create(int x, int y, int z, int p, int e, int f, int g, int h) {
 		o.x = 0;
 		o.y = 0;
 		o.z = 0;
-		CTC2(0, *(int *)(DAT_800d217c + 0x34));
-		CTC2(1, *(int *)(DAT_800d217c + 0x38));
-		CTC2(2, *(int *)(DAT_800d217c + 0x3c));
-		CTC2(3, *(int *)(DAT_800d217c + 0x40));
-		CTC2(4, *(int *)(DAT_800d217c + 0x44));
+		CTC2(0, *(int *)(pCurrentCamera + 0x34));
+		CTC2(1, *(int *)(pCurrentCamera + 0x38));
+		CTC2(2, *(int *)(pCurrentCamera + 0x3c));
+		CTC2(3, *(int *)(pCurrentCamera + 0x40));
+		CTC2(4, *(int *)(pCurrentCamera + 0x44));
 		MTC2(0, *(int *)&v.vx);
 		MTC2(1, *(int *)&v.vz);
 		__asm__ volatile("nop; nop; cop2 0x406012");
 
 		STLVNL(&o);
 
-		pos2.x = o.x + (*(int *)(DAT_800d217c + 4) << 12);
-		pos2.y = o.y + (*(int *)(DAT_800d217c + 8) << 12);
-		pos2.z = o.z + (*(int *)(DAT_800d217c + 12) << 12);
+		pos2.x = o.x + (*(int *)(pCurrentCamera + 4) << 12);
+		pos2.y = o.y + (*(int *)(pCurrentCamera + 8) << 12);
+		pos2.z = o.z + (*(int *)(pCurrentCamera + 12) << 12);
 	}
 
 	t = __nw__5CItemUi(412);
 
 	if (t)
-		t = CTape_ctor(t, 18, &pos1, &pos2, p, h, DAT_800a824c, 0, 0xffff);
+		t = CTape_ctor(t, 18, &pos1, &pos2, p, h, ZeroVector, 0, 0xffff);
 
 	t->s400 = 10;
 	t->s398 = 10;

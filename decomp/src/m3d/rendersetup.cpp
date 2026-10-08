@@ -64,25 +64,25 @@ Texture *Spool_FindTextureEntry(uint);
 void M3d_PreprocessPulsingColours(int);
 void M3d_PreprocessWibblyTextures(int);
 
-extern SVECTOR DAT_800c7c00[];
-extern SVec DAT_800c7c50[];
-extern SVec DAT_800c7c70[];
-extern int DAT_800d1a24;
-extern SScreen *DAT_800d1a48;
-extern DR_AREA *DAT_800d1a54;
-extern int DAT_800d1ed0;
-extern int DAT_800d1ed4;
+extern SVECTOR FrustumNormals[];
+extern SVec FrustumMatrix1[];
+extern SVec FrustumMatrix2[];
+extern int Xblanks;
+extern SScreen *pDoubleBuffer;
+extern DR_AREA *pPoly;
+extern int EnvRegions;
+extern int EnvRegions_4;
 extern uchar DAT_800d1a14;
-extern int DAT_800d16f0;
+extern int CurrentWaterLevel;
 
-int DAT_800d21b0, DAT_800d2154, DAT_800d2150;
-ushort DAT_800d2168, DAT_800d2188, DAT_800d218c;
-SCamera *DAT_800d217c;
-SViewport *DAT_800d2178;
-uint *DAT_800d21a0;
-int DAT_800d2190, DAT_800d2194;
-int DAT_800d21a4, DAT_800d21a8, DAT_800d21ac;
-SVECTOR DAT_800d2180;
+int XblanksNow, XblanksThen, FrameNo;
+ushort DpqMax, Xres, Yres;
+SCamera *pCurrentCamera;
+SViewport *pCurrentViewport;
+uint *CurrentOrderingTable;
+int PixelAspectX, PixelAspectY;
+int RefMapClut, RefMapTpage, RefMapU0V0;
+SVECTOR WaterNormal;
 
 void M3d_RenderSetup(SCamera *pCamera, SViewport *pVP, uint *ot) {
 	RECT Window;
@@ -92,93 +92,93 @@ void M3d_RenderSetup(SCamera *pCamera, SViewport *pVP, uint *ot) {
 	uint hyp;
 	Texture *pTex;
 
-	DAT_800d2154 = DAT_800d21b0;
-	DAT_800d21b0 = DAT_800d1a24;
+	XblanksThen = XblanksNow;
+	XblanksNow = Xblanks;
 
-	if (DAT_800d2154 != DAT_800d21b0)
-		DAT_800d2150++;
+	if (XblanksThen != XblanksNow)
+		FrameNo++;
 
-	DAT_800d217c = pCamera;
-	DAT_800d2178 = pVP;
-	pVP->Yon = DAT_800d2168;
-	DAT_800d21a0 = ot;
+	pCurrentCamera = pCamera;
+	pCurrentViewport = pVP;
+	pVP->Yon = DpqMax;
+	CurrentOrderingTable = ot;
 	Window.x = 0;
-	Window.y = DAT_800d1a48->y;
-	Window.w = DAT_800d2188;
-	Window.h = DAT_800d218c;
-	pClipArea = DAT_800d1a54;
+	Window.y = pDoubleBuffer->y;
+	Window.w = Xres;
+	Window.h = Yres;
+	pClipArea = pPoly;
 	SetDrawArea(pClipArea, &Window);
 
-	DAT_800d1a54 = pClipArea + 1;
-	addPrim(DAT_800d21a0, pClipArea);
+	pPoly = pClipArea + 1;
+	addPrim(CurrentOrderingTable, pClipArea);
 
-	pVP->Zoom = ((((pVP->xR - pVP->xL) >> 1) << 12) / pVP->TanHalf << 12) / DAT_800d2194;
+	pVP->Zoom = ((((pVP->xR - pVP->xL) >> 1) << 12) / pVP->TanHalf << 12) / PixelAspectY;
 	pVP->xC = (pVP->xL + pVP->xR) >> 1;
 	pVP->yC = (pVP->yT + pVP->yB) >> 1;
 
-	DAT_800c7c00[0].vx = 0;
-	DAT_800c7c00[0].vy = 0;
-	DAT_800c7c00[0].vz = -4096;
-	DAT_800c7c00[0].pad = pVP->Yon;
-	DAT_800c7c00[1].vx = 0;
-	DAT_800c7c00[1].vy = 0;
-	DAT_800c7c00[1].vz = 4096;
-	DAT_800c7c00[1].pad = -pVP->Hither;
+	FrustumNormals[0].vx = 0;
+	FrustumNormals[0].vy = 0;
+	FrustumNormals[0].vz = -4096;
+	FrustumNormals[0].pad = pVP->Yon;
+	FrustumNormals[1].vx = 0;
+	FrustumNormals[1].vy = 0;
+	FrustumNormals[1].vz = 4096;
+	FrustumNormals[1].pad = -pVP->Hither;
 
 	opp = (pVP->xR - pVP->xL) << 11;
-	adj = pVP->Zoom * DAT_800d2190;
+	adj = pVP->Zoom * PixelAspectX;
 	hyp = M3dMaths_SquareRoot0((opp >> 12) * (opp >> 12) + (adj >> 12) * (adj >> 12));
-	DAT_800c7c00[2].vx = 0;
-	DAT_800c7c00[2].vy = adj / hyp;
-	DAT_800c7c00[2].vz = opp / hyp;
-	DAT_800c7c00[2].pad = 0;
-	DAT_800c7c00[3].vx = 0;
-	DAT_800c7c00[3].vy = -(adj / hyp);
-	DAT_800c7c00[3].vz = opp / hyp;
-	DAT_800c7c00[3].pad = 0;
+	FrustumNormals[2].vx = 0;
+	FrustumNormals[2].vy = adj / hyp;
+	FrustumNormals[2].vz = opp / hyp;
+	FrustumNormals[2].pad = 0;
+	FrustumNormals[3].vx = 0;
+	FrustumNormals[3].vy = -(adj / hyp);
+	FrustumNormals[3].vz = opp / hyp;
+	FrustumNormals[3].pad = 0;
 
 	opp = (pVP->xR - pVP->xL) << 11;
-	adj = pVP->Zoom * DAT_800d2194;
+	adj = pVP->Zoom * PixelAspectY;
 	hyp = M3dMaths_SquareRoot0((opp >> 12) * (opp >> 12) + (adj >> 12) * (adj >> 12));
-	DAT_800c7c00[4].vx = adj / hyp;
-	DAT_800c7c00[4].vy = 0;
-	DAT_800c7c00[4].vz = opp / hyp;
-	DAT_800c7c00[4].pad = 0;
-	DAT_800c7c00[5].vx = -(adj / hyp);
-	DAT_800c7c00[5].vy = 0;
-	DAT_800c7c00[5].vz = opp / hyp;
-	DAT_800c7c00[5].pad = 0;
+	FrustumNormals[4].vx = adj / hyp;
+	FrustumNormals[4].vy = 0;
+	FrustumNormals[4].vz = opp / hyp;
+	FrustumNormals[4].pad = 0;
+	FrustumNormals[5].vx = -(adj / hyp);
+	FrustumNormals[5].vy = 0;
+	FrustumNormals[5].vz = opp / hyp;
+	FrustumNormals[5].pad = 0;
 
 	opp = (pVP->yB - pVP->yT) >> 1;
 	adj = pVP->Zoom;
 	hyp = M3dMaths_SquareRoot0(opp * opp + adj * adj);
-	DAT_800c7c00[6].vx = 0;
-	DAT_800c7c00[6].vy = (adj << 12) / hyp;
-	DAT_800c7c00[6].vz = (opp << 12) / hyp;
-	DAT_800c7c00[6].pad = 0;
-	DAT_800c7c00[7].vx = 0;
-	DAT_800c7c00[7].vy = -((adj << 12) / hyp);
-	DAT_800c7c00[7].vz = (opp << 12) / hyp;
-	DAT_800c7c00[7].pad = 0;
+	FrustumNormals[6].vx = 0;
+	FrustumNormals[6].vy = (adj << 12) / hyp;
+	FrustumNormals[6].vz = (opp << 12) / hyp;
+	FrustumNormals[6].pad = 0;
+	FrustumNormals[7].vx = 0;
+	FrustumNormals[7].vy = -((adj << 12) / hyp);
+	FrustumNormals[7].vz = (opp << 12) / hyp;
+	FrustumNormals[7].pad = 0;
 
 	opp = (pVP->xR - pVP->xL) >> 1;
 	adj = pVP->Zoom;
 	hyp = M3dMaths_SquareRoot0(opp * opp + adj * adj);
-	DAT_800c7c00[8].vx = (adj << 12) / hyp;
-	DAT_800c7c00[8].vy = 0;
-	DAT_800c7c00[8].vz = (opp << 12) / hyp;
-	DAT_800c7c00[8].pad = 0;
-	DAT_800c7c00[9].vx = -((adj << 12) / hyp);
-	DAT_800c7c00[9].vy = 0;
-	DAT_800c7c00[9].vz = (opp << 12) / hyp;
-	DAT_800c7c00[9].pad = 0;
+	FrustumNormals[8].vx = (adj << 12) / hyp;
+	FrustumNormals[8].vy = 0;
+	FrustumNormals[8].vz = (opp << 12) / hyp;
+	FrustumNormals[8].pad = 0;
+	FrustumNormals[9].vx = -((adj << 12) / hyp);
+	FrustumNormals[9].vy = 0;
+	FrustumNormals[9].vz = (opp << 12) / hyp;
+	FrustumNormals[9].pad = 0;
 
 	{
 		int i;
 
 		for (i = 0; i < 3; i++) {
-			ApplyMatrixSV(&pCamera->Transform, &DAT_800c7c00[i], (SVECTOR *)&DAT_800c7c50[i]);
-			ApplyMatrixSV(&pCamera->Transform, &DAT_800c7c00[i + 3], (SVECTOR *)&DAT_800c7c70[i]);
+			ApplyMatrixSV(&pCamera->Transform, &FrustumNormals[i], (SVECTOR *)&FrustumMatrix1[i]);
+			ApplyMatrixSV(&pCamera->Transform, &FrustumNormals[i + 3], (SVECTOR *)&FrustumMatrix2[i]);
 		}
 	}
 
@@ -190,23 +190,23 @@ void M3d_RenderSetup(SCamera *pCamera, SViewport *pVP, uint *ot) {
 		int i;
 
 		for (i = 0; i < 3; i++) {
-			pCamera->View.m[0][i] = (pCamera->Inverse.m[0][i] * DAT_800d2194) >> 12;
-			pCamera->View.m[1][i] = (pCamera->Inverse.m[1][i] * DAT_800d2190) >> 12;
+			pCamera->View.m[0][i] = (pCamera->Inverse.m[0][i] * PixelAspectY) >> 12;
+			pCamera->View.m[1][i] = (pCamera->Inverse.m[1][i] * PixelAspectX) >> 12;
 			pCamera->View.m[2][i] = pCamera->Inverse.m[2][i];
 		}
 	}
 
 	pTex = Spool_FindTextureEntry(0xcce0187c);
-	DAT_800d21a4 = pTex->f2 << 16;
-	DAT_800d21a8 = pTex->f6 << 16;
-	DAT_800d21ac = pTex->f0 | (pTex->f1 << 8);
-	M3d_PreprocessPulsingColours(DAT_800d1ed0);
-	M3d_PreprocessPulsingColours(DAT_800d1ed4);
+	RefMapClut = pTex->f2 << 16;
+	RefMapTpage = pTex->f6 << 16;
+	RefMapU0V0 = pTex->f0 | (pTex->f1 << 8);
+	M3d_PreprocessPulsingColours(EnvRegions);
+	M3d_PreprocessPulsingColours(EnvRegions_4);
 	M3d_PreprocessPulsingColours(DAT_800d1a14);
 	M3d_PreprocessWibblyTextures(DAT_800d1a14);
 
-	DAT_800d2180.vx = -DAT_800d217c->Transform.m[1][0];
-	DAT_800d2180.vy = -DAT_800d217c->Transform.m[1][1];
-	DAT_800d2180.vz = -DAT_800d217c->Transform.m[1][2];
-	DAT_800d2180.pad = (DAT_800d16f0 >> 12) - DAT_800d217c->Position.vy;
+	WaterNormal.vx = -pCurrentCamera->Transform.m[1][0];
+	WaterNormal.vy = -pCurrentCamera->Transform.m[1][1];
+	WaterNormal.vz = -pCurrentCamera->Transform.m[1][2];
+	WaterNormal.pad = (CurrentWaterLevel >> 12) - pCurrentCamera->Position.vy;
 }

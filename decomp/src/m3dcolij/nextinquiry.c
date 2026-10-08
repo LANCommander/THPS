@@ -6,21 +6,21 @@ typedef struct Item {
 	struct Item *next;
 } Item;
 
-unsigned short DAT_800d20c8;
+unsigned short Inquiry;
 
-extern Item *DAT_800d1eec __attribute__((section(".data"))),
-    *DAT_800d19b0 __attribute__((section(".data")));
+extern Item *EnviroList __attribute__((section(".data"))),
+    *EnvironmentalObjectList __attribute__((section(".data")));
 
 void NextInquiry(void) {
 	Item *p;
 
-	if (++DAT_800d20c8 == 0) {
-		DAT_800d20c8 = 1;
+	if (++Inquiry == 0) {
+		Inquiry = 1;
 
-		for (p = DAT_800d1eec; p; p = p->next)
+		for (p = EnviroList; p; p = p->next)
 			p->inquiry = 0;
 
-		for (p = DAT_800d19b0; p; p = p->next)
+		for (p = EnvironmentalObjectList; p; p = p->next)
 			p->inquiry = 0;
 	}
 }

@@ -8,9 +8,9 @@ typedef struct {
 	char q[0x24 - 0x14];
 } E;
 
-extern E DAT_800a6110[];
+extern E Font_table[];
 
-int DAT_800d15e4;
+int Current_font;
 
 int GetCharIndex(int ch) {
 	unsigned c;
@@ -18,7 +18,7 @@ int GetCharIndex(int ch) {
 
 	c = ch & 255;
 
-	if (DAT_800a6110[DAT_800d15e4].f10 < 15) {
+	if (Font_table[Current_font].f10 < 15) {
 		v = c - 48;
 
 		if ((unsigned char)v < 10)
@@ -84,7 +84,7 @@ int GetCharIndex(int ch) {
 		case 43:
 			return 43;
 		case 39: {
-			if (DAT_800a6110[DAT_800d15e4].f10 >= 45)
+			if (Font_table[Current_font].f10 >= 45)
 				return 44;
 		}
 			return 36;

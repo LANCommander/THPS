@@ -1,7 +1,7 @@
 /* FUN_800270e0 (0x800270e0) */
 #include "names.h"
-extern char DAT_8009f670[];
-extern int DAT_800d18f4;
+extern char __vt_9CPolyLine[];
+extern int PolyLineList;
 
 struct V {
 	int x, y, z;
@@ -12,7 +12,7 @@ struct E {
 	int w;
 };
 
-extern struct V DAT_800a824c;
+extern struct V ZeroVector;
 
 struct D {
 	char pad[68];
@@ -33,15 +33,15 @@ struct D *FUN_800270e0(struct D *p, int n) {
 
 	CBit_ctor(p);
 
-	p->vt = DAT_8009f670;
+	p->vt = __vt_9CPolyLine;
 	p->e = Mem_NewX(n << 4, 0, 1);
 
 	for (i = 0; i < n; i++) {
 		p->e[i].w = 0x40ffffff;
-		p->e[i].v = DAT_800a824c;
+		p->e[i].v = ZeroVector;
 	}
 
 	p->n = n;
-	CBit_AttachTo(p, &DAT_800d18f4);
+	CBit_AttachTo(p, &PolyLineList);
 	return p;
 }

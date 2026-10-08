@@ -17,7 +17,7 @@ struct SPSXRegion {
 	char pad18[64 - 0x18];
 };
 
-extern SPSXRegion DAT_800bf7a8[];
+extern SPSXRegion PSXRegion[];
 
 uint *Spool_SkipPackets(uint *);
 
@@ -28,8 +28,8 @@ void DecrementTextureUsage(int region) {
 	uint *ChecksumTable;
 	uint NumChecksums;
 
-	pPSX = DAT_800bf7a8[region].pPSX;
-	pNumModels = DAT_800bf7a8[region].pModels;
+	pPSX = PSXRegion[region].pPSX;
+	pNumModels = PSXRegion[region].pModels;
 	NumModels = pNumModels[-1];
 	ChecksumTable = Spool_SkipPackets(pPSX) + (NumModels + 1);
 	NumChecksums = ChecksumTable[-1];

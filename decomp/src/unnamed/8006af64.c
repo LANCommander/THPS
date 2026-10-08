@@ -6,7 +6,7 @@
 #include <libgpu.h>
 
 extern RECT DAT_800d1e20[];
-extern DRAWENV DAT_800a891c;
+extern DRAWENV DoubleBuffer;
 
 void FUN_8006af64(void) {
 	RECT r;
@@ -22,8 +22,8 @@ void FUN_8006af64(void) {
 	ClearImage(&r, 0, 0, 0);
 	DrawSync(0);
 
-	DAT_800a891c.dfe = 0;
-	DAT_800a891c.isbg = 0;
-	PutDrawEnv(&DAT_800a891c);
+	DoubleBuffer.dfe = 0;
+	DoubleBuffer.isbg = 0;
+	PutDrawEnv(&DoubleBuffer);
 	SetDispMask(1);
 }

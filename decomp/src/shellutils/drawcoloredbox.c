@@ -11,19 +11,19 @@ typedef struct {
 	u_long Layer[1]; /* 140 */
 } SOTBuffer;
 
-extern SOTBuffer *DAT_800d1a48;
-extern u_char *DAT_800d1a54;
+extern SOTBuffer *pDoubleBuffer;
+extern u_char *pPoly;
 
-int DAT_800d1d94;
+int OT_entry;
 
 void DrawColoredBox(int x, int y, int w, int h, u_char r, u_char g, u_char b) {
-	POLY_F4 *Poly = (POLY_F4 *)DAT_800d1a54;
+	POLY_F4 *Poly = (POLY_F4 *)pPoly;
 
-	DAT_800d1a54 = (u_char *)(Poly + 1);
+	pPoly = (u_char *)(Poly + 1);
 	setPolyF4(Poly);
 	setRGB0(Poly, r, g, b);
 	setXY4(Poly, x, y, x + w, y, x, y + h, x + w, y + h);
-	addPrim(&DAT_800d1a48->Layer[DAT_800d1d94], Poly);
+	addPrim(&pDoubleBuffer->Layer[OT_entry], Poly);
 
-	DAT_800d1d94--;
+	OT_entry--;
 }

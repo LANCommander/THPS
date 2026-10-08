@@ -8,7 +8,7 @@ typedef struct {
 	char q[0x40 - 0x1c];
 } R;
 
-extern R DAT_800bf7a8[] __attribute__((section(".data")));
+extern R PSXRegion[] __attribute__((section(".data")));
 
 class CSuper {
   public:
@@ -29,10 +29,10 @@ class CSuper {
 void CSuper::RunAnim(int a, int from, int to, int to2) {
 	anim = a;
 
-	if (anim >= *DAT_800bf7a8[type].anims)
+	if (anim >= *PSXRegion[type].anims)
 		anim = 46;
 
-	nframes = ((unsigned char *)DAT_800bf7a8[type].anims)[anim * 8 + 8];
+	nframes = ((unsigned char *)PSXRegion[type].anims)[anim * 8 + 8];
 
 	if (from == -1)
 		from = nframes - 1;

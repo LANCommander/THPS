@@ -36,10 +36,10 @@ class CBruce {
 	CPanelData mPanel; /* 0x924 */
 };
 
-extern SVideoInfo DAT_800bf318;
-extern int DAT_800a71fc[];
-extern int DAT_800d1780;
-extern int DAT_800d16fc;
+extern SVideoInfo GVInfo1;
+extern int GCareer_9b8[];
+extern int GNumberOfPlayers;
+extern int GameFrozen;
 
 void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
 void Mess_SetScale(int);
@@ -55,12 +55,12 @@ extern "C" {
 }
 
 void CPanelData::DisplayTrick(CBruce *pBruce, ushort xpos, ushort ypos) {
-	int ok = DAT_800bf318.VideoMode != 2;
+	int ok = GVInfo1.VideoMode != 2;
 
 	if (!ok)
 		return;
 
-	if (!DAT_800a71fc[0])
+	if (!GCareer_9b8[0])
 		return;
 
 	Mess_SetRGB(128, 128, 128, 0);
@@ -69,7 +69,7 @@ void CPanelData::DisplayTrick(CBruce *pBruce, ushort xpos, ushort ypos) {
 	int NormalScale;
 	int BigScale;
 
-	if (DAT_800d1780 == 1) {
+	if (GNumberOfPlayers == 1) {
 		NormalScale = 188;
 		BigScale = 256;
 	} else {
@@ -142,7 +142,7 @@ void CPanelData::DisplayTrick(CBruce *pBruce, ushort xpos, ushort ypos) {
 	else
 		FUN_8001e0f8(pBruce->mPanel.mTrickMess, Mess_GetScale());
 
-	if (!DAT_800d16fc)
+	if (!GameFrozen)
 		mTrickTimer++;
 
 	int LineHeight = Mess_GetScale() * 13 / 188;

@@ -33,7 +33,7 @@ typedef struct {
 	int f330;
 } V;
 
-extern char DAT_800a2158[];
+extern char __vt_12VerticalMenu[];
 extern char DAT_800a21b0[];
 
 void __dl__6CClassPv(V *);
@@ -41,7 +41,7 @@ void __dl__6CClassPv(V *);
 void FUN_80064720(V *p, int f) {
 	int i;
 
-	p->vt = DAT_800a2158;
+	p->vt = __vt_12VerticalMenu;
 
 	if (p->f330 == 0) {
 		if (p->q0)

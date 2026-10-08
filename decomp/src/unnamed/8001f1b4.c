@@ -1,8 +1,8 @@
 /* FUN_8001f1b4 (0x8001f1b4) */
-extern char DAT_800a6110[];
+extern char Font_table[];
 
-int DAT_800d15e4;
+int Current_font;
 
 void FUN_8001f1b4(char v) {
-	DAT_800a6110[DAT_800d15e4 * 36 + 24] = v;
+	Font_table[Current_font * 36 + 24] = v;
 }

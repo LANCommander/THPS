@@ -9,7 +9,7 @@ struct TSPack {
 	uchar no_bottom, bpp, aligned;
 };
 
-TSPack *DAT_800d1a60;
+TSPack *Pack_pFree;
 
 TSPack *Pack_MergeAdjacent(TSPack *, TSPack *);
 
@@ -22,7 +22,7 @@ int Pack_Merge(TSPack *p_merge) {
 
 	do {
 		worth_continuing = 0;
-		p_free = DAT_800d1a60;
+		p_free = Pack_pFree;
 
 		while (p_free) {
 			if (p_merge->Y == p_free->Y && p_merge->H == p_free->H) {

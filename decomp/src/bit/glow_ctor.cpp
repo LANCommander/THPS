@@ -56,7 +56,7 @@ class CGlow : public CBit {
 
 void *Mem_New(uint, int, int);
 
-char DAT_800d18e8[8];
+char GlowList[8];
 
 CGlow::CGlow(const CVector &Pos, int InnerRadius, int FringeRadius, uchar r0, uchar g0, uchar b0,
              uchar r1, uchar g1, uchar b1) {
@@ -67,7 +67,7 @@ CGlow::CGlow(const CVector &Pos, int InnerRadius, int FringeRadius, uchar r0, uc
 	mNumFringes = 1;
 	mpSections = (SSection *)Mem_New(128, 0, 1);
 	mpFringes = (SFringeQuad *)(mpSections + mNumSections);
-	AttachTo(DAT_800d18e8);
+	AttachTo(GlowList);
 
 	mPos = Pos;
 

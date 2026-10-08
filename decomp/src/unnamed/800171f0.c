@@ -60,17 +60,17 @@ typedef struct {
 } W;
 
 extern B136 DAT_8009e31c;
-extern B136 DAT_800a5c64;
-extern B136 DAT_800a5bdc;
-extern S DAT_800a5d5c;
-extern T DAT_800a5398[];
-extern W DAT_800a6844;
-extern char DAT_800a5d2c[];
-extern char DAT_800a5d44[];
-extern int DAT_800d16a4, DAT_800d1e28;
+extern B136 StartupGameState;
+extern B136 LastGameState;
+extern S GameText;
+extern T Levels[];
+extern W GCareer;
+extern char soundBuf[];
+extern char musicBuf[];
+extern int GGame, GLevel;
 
-int DAT_800d1428, DAT_800d142c, DAT_800d1430, DAT_800d1434, DAT_800d1438, DAT_800d143c,
-    DAT_800d1440, DAT_800d21fc, DAT_800d2200;
+int pYesNoMenu, pESMenu, pVSMenu, pVS2Menu, pVS3Menu, pEHMenu,
+    pSoundMenu, soundVol, musicVol;
 
 void (*DAT_800d1408)(void);
 void FUN_80071fa4(void);
@@ -87,58 +87,58 @@ void FUN_800171f0(void) {
 	int q, q2, a1, a2, a3, a4, a5, a6, a7;
 
 	DAT_800d1408 = FUN_80071fa4;
-	DAT_800a5c64 = DAT_8009e31c;
-	DAT_800a5bdc = DAT_8009e31c;
+	StartupGameState = DAT_8009e31c;
+	LastGameState = DAT_8009e31c;
 	a1 = __nw__6CClassUi(384);
 
 	if (a1)
 		a1 = CMenu_ctor(a1, 256, 0, 0, 335, 256, 22);
 
-	DAT_800d1428 = a1;
-	CMenu_AddEntry(a1, DAT_800a5d5c.f1b4);
-	CMenu_AddEntry(DAT_800d1428, DAT_800a5d5c.f1b8);
+	pYesNoMenu = a1;
+	CMenu_AddEntry(a1, GameText.f1b4);
+	CMenu_AddEntry(pYesNoMenu, GameText.f1b8);
 
 	a2 = __nw__6CClassUi(384);
 
 	if (a2)
 		a2 = CMenu_ctor(a2, 256, 0, 0, 335, 256, 22);
 
-	DAT_800d142c = a2;
-	CMenu_AddEntry(a2, DAT_800a5d5c.f164);
-	CMenu_AddEntry(DAT_800d142c, (DAT_800a5398[DAT_800d1e28].fc && DAT_800d16a4 == 1)
-	                                      ? DAT_800a5d5c.f78
-										  : DAT_800a5d5c.f74);
-	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f00);
-	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f7c);
-	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f80);
-	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f84);
-	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f70);
-	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f188);
+	pESMenu = a2;
+	CMenu_AddEntry(a2, GameText.f164);
+	CMenu_AddEntry(pESMenu, (Levels[GLevel].fc && GGame == 1)
+	                                      ? GameText.f78
+										  : GameText.f74);
+	CMenu_AddEntry(pESMenu, GameText.f00);
+	CMenu_AddEntry(pESMenu, GameText.f7c);
+	CMenu_AddEntry(pESMenu, GameText.f80);
+	CMenu_AddEntry(pESMenu, GameText.f84);
+	CMenu_AddEntry(pESMenu, GameText.f70);
+	CMenu_AddEntry(pESMenu, GameText.f188);
 
-	if (DAT_800d16a4 != 1) {
-		CMenu_EntryOff(DAT_800d142c, DAT_800a5d5c.f70);
+	if (GGame != 1) {
+		CMenu_EntryOff(pESMenu, GameText.f70);
 
-		if (DAT_800d16a4 != 1)
+		if (GGame != 1)
 			goto off0;
 	}
 
-	if (DAT_800a5398[DAT_800d1e28].fc) {
+	if (Levels[GLevel].fc) {
 	off0:
-		CMenu_EntryOff(DAT_800d142c, DAT_800a5d5c.f00);
+		CMenu_EntryOff(pESMenu, GameText.f00);
 	}
 
-	if (DAT_800d16a4 != 3)
-		CMenu_EntryOff(DAT_800d142c, DAT_800a5d5c.f164);
+	if (GGame != 3)
+		CMenu_EntryOff(pESMenu, GameText.f164);
 
-	if (DAT_800d16a4 == 2 || DAT_800d16a4 == 7)
-		CMenu_EntryOff(DAT_800d142c, DAT_800a5d5c.f84);
+	if (GGame == 2 || GGame == 7)
+		CMenu_EntryOff(pESMenu, GameText.f84);
 
-	CMenu_CentreY(DAT_800d142c);
+	CMenu_CentreY(pESMenu);
 	CMenu_SetLine(
-	    DAT_800d142c,
-	    CMenu_FindEntry(DAT_800d142c, (DAT_800a5398[DAT_800d1e28].fc && DAT_800d16a4 == 1)
-	                                           ? DAT_800a5d5c.f78
-											   : DAT_800a5d5c.f74) &
+	    pESMenu,
+	    CMenu_FindEntry(pESMenu, (Levels[GLevel].fc && GGame == 1)
+	                                           ? GameText.f78
+											   : GameText.f74) &
 	        255);
 
 	a3 = __nw__6CClassUi(384);
@@ -146,64 +146,64 @@ void FUN_800171f0(void) {
 	if (a3)
 		a3 = CMenu_ctor(a3, 256, 0, 0, 335, 256, 22);
 
-	DAT_800d1430 = a3;
-	CMenu_AddEntry(a3, DAT_800a5d5c.f5c);
-	CMenu_AddEntry(DAT_800d1430, DAT_800a5d5c.f60);
-	CMenu_AddEntry(DAT_800d1430, DAT_800a5d5c.f64);
-	CMenu_AddEntry(DAT_800d1430, DAT_800a5d5c.f6c);
-	CMenu_CentreY(DAT_800d1430);
+	pVSMenu = a3;
+	CMenu_AddEntry(a3, GameText.f5c);
+	CMenu_AddEntry(pVSMenu, GameText.f60);
+	CMenu_AddEntry(pVSMenu, GameText.f64);
+	CMenu_AddEntry(pVSMenu, GameText.f6c);
+	CMenu_CentreY(pVSMenu);
 
 	a4 = __nw__6CClassUi(384);
 
 	if (a4)
 		a4 = CMenu_ctor(a4, 256, 0, 0, 335, 256, 22);
 
-	DAT_800d1434 = a4;
-	CMenu_AddEntry(a4, DAT_800a5d5c.f5c);
-	CMenu_AddEntry(DAT_800d1434, DAT_800a5d5c.f60);
-	CMenu_AddEntry(DAT_800d1434, DAT_800a5d5c.f6c);
-	CMenu_CentreY(DAT_800d1434);
+	pVS2Menu = a4;
+	CMenu_AddEntry(a4, GameText.f5c);
+	CMenu_AddEntry(pVS2Menu, GameText.f60);
+	CMenu_AddEntry(pVS2Menu, GameText.f6c);
+	CMenu_CentreY(pVS2Menu);
 
 	a5 = __nw__6CClassUi(384);
 
 	if (a5)
 		a5 = CMenu_ctor(a5, 256, 0, 0, 335, 256, 22);
 
-	DAT_800d1438 = a5;
-	CMenu_AddEntry(a5, DAT_800a5d5c.f5c);
-	CMenu_AddEntry(DAT_800d1438, DAT_800a5d5c.f60);
-	CMenu_AddEntry(DAT_800d1438, DAT_800a5d5c.f64);
-	CMenu_AddEntry(DAT_800d1438, DAT_800a5d5c.f124);
-	CMenu_CentreY(DAT_800d1438);
+	pVS3Menu = a5;
+	CMenu_AddEntry(a5, GameText.f5c);
+	CMenu_AddEntry(pVS3Menu, GameText.f60);
+	CMenu_AddEntry(pVS3Menu, GameText.f64);
+	CMenu_AddEntry(pVS3Menu, GameText.f124);
+	CMenu_CentreY(pVS3Menu);
 
 	a6 = __nw__6CClassUi(384);
 
 	if (a6)
 		a6 = CMenu_ctor(a6, 256, 0, 0, 335, 256, 22);
 
-	DAT_800d143c = a6;
-	CMenu_AddEntry(a6, DAT_800a5d5c.fc4);
-	CMenu_AddEntry(DAT_800d143c, DAT_800a5d5c.f84);
-	CMenu_AddEntry(DAT_800d143c, DAT_800a5d5c.fc8);
-	CMenu_AddEntry(DAT_800d143c, DAT_800a5d5c.f188);
-	CMenu_CentreY(DAT_800d143c);
+	pEHMenu = a6;
+	CMenu_AddEntry(a6, GameText.fc4);
+	CMenu_AddEntry(pEHMenu, GameText.f84);
+	CMenu_AddEntry(pEHMenu, GameText.fc8);
+	CMenu_AddEntry(pEHMenu, GameText.f188);
+	CMenu_CentreY(pEHMenu);
 
 	a7 = __nw__6CClassUi(384);
 
 	if (a7)
 		a7 = CMenu_ctor(a7, 256, 0, 0, 335, 256, 22);
 
-	DAT_800d1440 = a7;
-	q = (DAT_800a6844.f830 + 1) * 10 / 12;
-	DAT_800d21fc = q;
-	FUN_8008b900(DAT_800a5d2c, DAT_800a5d5c.f150, q);
-	CMenu_AddEntry(DAT_800d1440, DAT_800a5d2c);
+	pSoundMenu = a7;
+	q = (GCareer.f830 + 1) * 10 / 12;
+	soundVol = q;
+	FUN_8008b900(soundBuf, GameText.f150, q);
+	CMenu_AddEntry(pSoundMenu, soundBuf);
 
-	q2 = (DAT_800a6844.f834 + 1) * 10 / 12;
-	DAT_800d2200 = q2;
-	FUN_8008b900(DAT_800a5d44, DAT_800a5d5c.f154, q2);
-	CMenu_AddEntry(DAT_800d1440, DAT_800a5d44);
-	CMenu_AddEntry(DAT_800d1440, DAT_800a5d5c.f158);
-	CMenu_AddEntry(DAT_800d1440, DAT_800a5d5c.f15c);
-	CMenu_CentreY(DAT_800d1440);
+	q2 = (GCareer.f834 + 1) * 10 / 12;
+	musicVol = q2;
+	FUN_8008b900(musicBuf, GameText.f154, q2);
+	CMenu_AddEntry(pSoundMenu, musicBuf);
+	CMenu_AddEntry(pSoundMenu, GameText.f158);
+	CMenu_AddEntry(pSoundMenu, GameText.f15c);
+	CMenu_CentreY(pSoundMenu);
 }

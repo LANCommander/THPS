@@ -1,7 +1,7 @@
 /* Mess_SetNewFont__FUc (0x8001f268) */
 #include "names.h"
-char DAT_800d1602;
+char NewFont;
 
 void Mess_SetNewFont(char v) {
-	DAT_800d1602 = v;
+	NewFont = v;
 }

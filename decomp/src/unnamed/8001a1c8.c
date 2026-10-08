@@ -1,18 +1,18 @@
 /* FUN_8001a1c8 (0x8001a1c8) */
 #include "names.h"
-extern int DAT_800bf318[];
-extern int DAT_800bf3d8[];
-extern char *DAT_800a5f14[];
-extern char DAT_800c0a48[];
-extern char *DAT_800d19a4;
+extern int GVInfo1[];
+extern int GVInfo2[];
+extern char *GameText_1b8[];
+extern char Pad[];
+extern char *MechList;
 extern int DAT_800d1e48;
 
 int DAT_800d1524;
 int DAT_800d1528;
 int DAT_800d152c;
-int DAT_800d13e8;
-int DAT_800d140c;
-char *DAT_800d1428;
+int Status;
+int GamePaused;
+char *pYesNoMenu;
 
 void Video_Stop(char *b);
 void Pad_ClearTriggers(char *p);
@@ -29,20 +29,20 @@ void FUN_8001a1c8(void) {
 	DAT_800d1524 = 0;
 	DAT_800d1528 = 0;
 	DAT_800d152c = 0;
-	s = *(char **)(DAT_800d19a4 + 28);
+	s = *(char **)(MechList + 28);
 
-	if (DAT_800bf318[0])
-		Video_Stop(DAT_800d19a4);
+	if (GVInfo1[0])
+		Video_Stop(MechList);
 
-	if (s && DAT_800bf3d8[0])
+	if (s && GVInfo2[0])
 		Video_Stop(s);
 
-	DAT_800d13e8 = 19;
-	Pad_ClearTriggers(DAT_800c0a48);
-	Pad_ClearTriggers(DAT_800c0a48 + 364);
+	Status = 19;
+	Pad_ClearTriggers(Pad);
+	Pad_ClearTriggers(Pad + 364);
 
-	DAT_800d140c = 1;
-	CMenu_SetLine(DAT_800d1428, CMenu_FindEntry(DAT_800d1428, DAT_800a5f14[0]));
+	GamePaused = 1;
+	CMenu_SetLine(pYesNoMenu, CMenu_FindEntry(pYesNoMenu, GameText_1b8[0]));
 	Mess_DeleteAll();
 	Pad_ActuatorOff(0, 0);
 	Pad_ActuatorOff(0, 1);

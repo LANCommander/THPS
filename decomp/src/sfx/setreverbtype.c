@@ -15,7 +15,7 @@ extern long FUN_80093914(ATTR *);
 extern long FUN_80094ca4(long);
 extern long FUN_80094c74(long, long);
 
-int DAT_800d1ac4;
+int SFX_ReverbDepthSetTimer;
 
 void SFX_SetReverbType(unsigned char t) {
 	ATTR a;
@@ -27,10 +27,10 @@ void SFX_SetReverbType(unsigned char t) {
 		return;
 
 	if (t == 0) {
-		DAT_800d1ac4 = 0;
+		SFX_ReverbDepthSetTimer = 0;
 		FUN_80094c74(0, 0xffffff);
 	} else if (FUN_80094ca4(1)) {
-		DAT_800d1ac4 = 0xf0;
+		SFX_ReverbDepthSetTimer = 0xf0;
 		FUN_80094c74(1, 0xffffff);
 	} else
 		FUN_80094c74(0, 0xffffff);

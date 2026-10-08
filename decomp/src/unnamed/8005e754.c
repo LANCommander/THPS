@@ -3,7 +3,7 @@ typedef struct {
 	int a, b, c, d, e, f;
 } S;
 
-extern unsigned char DAT_800c0a48[];
+extern unsigned char Pad[];
 extern S DAT_800a1c44;
 
 int DAT_800d1d2c;
@@ -24,7 +24,7 @@ int FUN_8005e754(int a) {
 
 	FUN_80070ff4();
 
-	if (DAT_800c0a48[0x40] && DAT_800c0a48[0x60])
+	if (Pad[0x40] && Pad[0x60])
 		DAT_800d1d2c = 1;
 
 	for (;;) {

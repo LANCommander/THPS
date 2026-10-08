@@ -6,12 +6,12 @@ struct T {
 	char q[104];
 };
 
-extern struct T DAT_800a5398[];
-extern int DAT_800d1e28;
-extern int DAT_800d16a4;
+extern struct T Levels[];
+extern int GLevel;
+extern int GGame;
 
 int InCompetition(void) {
-	if (DAT_800a5398[DAT_800d1e28].f != 0 && DAT_800d16a4 == 1)
+	if (Levels[GLevel].f != 0 && GGame == 1)
 		return 1;
 
 	return 0;

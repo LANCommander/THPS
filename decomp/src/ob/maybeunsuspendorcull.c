@@ -9,16 +9,16 @@ typedef struct CBody {
 	unsigned short flags;
 } CBody;
 
-CBody *DAT_800d19b4;
-unsigned DAT_800d19c0;
+CBody *SuspendedList;
+unsigned SuspendDistance;
 
-extern CBody *DAT_800d19a4 __attribute__((section(".data")));
-extern int DAT_800d1780 __attribute__((section(".data")));
+extern CBody *MechList __attribute__((section(".data")));
+extern int GNumberOfPlayers __attribute__((section(".data")));
 unsigned Utils_CrapDist(int *, int *);
 void CBody_UnSuspend(CBody *);
 
 void Ob_MaybeUnSuspendOrCull(void) {
-	CBody *b = DAT_800d19b4;
+	CBody *b = SuspendedList;
 	CBody *n;
 
 	if (!b)
@@ -28,16 +28,16 @@ void Ob_MaybeUnSuspendOrCull(void) {
 
 	for (;;) {
 		if (b->flags & 2) {
-			unsigned d = Utils_CrapDist(DAT_800d19a4->pos, b->pos);
+			unsigned d = Utils_CrapDist(MechList->pos, b->pos);
 
-			if (DAT_800d1780 == 2) {
-				unsigned d2 = Utils_CrapDist(DAT_800d19a4->next->pos, b->pos);
+			if (GNumberOfPlayers == 2) {
+				unsigned d2 = Utils_CrapDist(MechList->next->pos, b->pos);
 
 				if (d2 < d)
 					d = d2;
 			}
 
-			if (!(DAT_800d19c0 < d))
+			if (!(SuspendDistance < d))
 				CBody_UnSuspend(b);
 		}
 

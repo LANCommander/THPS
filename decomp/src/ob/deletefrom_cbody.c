@@ -9,12 +9,12 @@ typedef struct CBody {
 	unsigned short flags;
 } CBody;
 
-CBody *DAT_800d19b4;
+CBody *SuspendedList;
 
 void CBody_UnSuspend(CBody *);
 
 void CBody_DeleteFrom(CBody *t, CBody **head) {
-	if ((t->flags & 1) && head != &DAT_800d19b4)
+	if ((t->flags & 1) && head != &SuspendedList)
 		CBody_UnSuspend(t);
 
 	if (t->next)

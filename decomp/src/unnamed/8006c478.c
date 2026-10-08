@@ -5,14 +5,14 @@ typedef struct {
 	unsigned long ot;
 } O;
 
-extern O *DAT_800d1a48;
+extern O *pDoubleBuffer;
 
-int DAT_800d1ecc;
+int prim_added;
 
 void Panel_addPrim(unsigned long *p) {
-	O *o = DAT_800d1a48;
+	O *o = pDoubleBuffer;
 
 	*p = (*p & 0xff000000) | (o->ot & 0x00ffffff);
 	o->ot = (o->ot & 0xff000000) | ((unsigned long)p & 0x00ffffff);
-	DAT_800d1ecc = 1;
+	prim_added = 1;
 }

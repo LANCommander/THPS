@@ -16,7 +16,7 @@ typedef struct {
 	int timer;
 } VerticalMenu;
 
-extern char DAT_800c0a48[];
+extern char Pad[];
 
 void Pad_ClearTriggers(void *);
 void VerticalMenu_select(VerticalMenu *, int);
@@ -25,8 +25,8 @@ void VerticalMenu_up(VerticalMenu *m) {
 	int n;
 
 	if (m->timer > 60) {
-		Pad_ClearTriggers(DAT_800c0a48);
-		Pad_ClearTriggers(DAT_800c0a48 + 364);
+		Pad_ClearTriggers(Pad);
+		Pad_ClearTriggers(Pad + 364);
 	} else {
 		n = m->cur - 1;
 

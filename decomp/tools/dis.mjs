@@ -1,6 +1,7 @@
 // Disassemble a retail SLUS_008.60 function, annotated for writing matching C:
 // call/jump targets get their ported demo names, branches get local labels, gp-relative and
-// lui/addiu|lw|sw pairs are resolved to absolute DAT_ addresses (the names to use in syms.json).
+// lui/addiu|lw|sw pairs are resolved to globals: the demo name from data_names.tsv, else DAT_<addr>
+// (the names to use in syms.json).
 //
 // Usage: node tools/dis.mjs <addrHex> [sizeBytes]     (size defaults to the functions.tsv entry)
 //        DEMO=1 node tools/dis.mjs <demoAddrHex|demoName>  disassembles the THPS2 demo (PROSKATE.EXE) instead
@@ -14,6 +15,11 @@ const NAMES = "G:/Decompilation/Tony Hawk's Pro Skater/build/retail_names.tsv";
 const TEXT_ADDR = DEMO ? 0x80018000 : 0x80010000, HDR = 0x800, GP = DEMO ? 0 : 0x800d1080;
 
 const names = new Map(), sizes = new Map();
+// globals named from their demo twins (../tools/data_names.py)
+const dataNames = new Map();
+if (!DEMO) for (const l of readFileSync(new URL('../data_names.tsv', import.meta.url), 'utf8').split('\n'))
+  if (l.startsWith('0x')) { const [a, n] = l.split('\t'); dataNames.set(parseInt(a, 16), n); }
+const dat = a => dataNames.get(a >>> 0) ?? `DAT_${(a >>> 0).toString(16)}`;
 if (DEMO) {
   for (const f of JSON.parse(readFileSync("G:/Decompilation/Tony Hawk's Pro Skater/build/MAIN_sym.json", 'utf8')).funcs) {
     names.set(f.addr >>> 0, f.name); sizes.set(f.addr >>> 0, f.size);
@@ -57,8 +63,8 @@ ins.forEach((x, i) => {
     if (o.kind === 'imm') return o.value;
     if (o.kind === 'shamt') return o.value;
     if (o.kind === 'mem') {
-      if (o.base === 28) note = `DAT_${((GP + o.offset) >>> 0).toString(16)} (gp)`;
-      else if (lui[o.base] !== undefined) note = `DAT_${((lui[o.base] + o.offset) >>> 0).toString(16)}`;
+      if (o.base === 28) note = `${dat(GP + o.offset)} (gp)`;
+      else if (lui[o.base] !== undefined) note = dat(lui[o.base] + o.offset);
       return `${o.offset}(${R[o.base]})`;
     }
     if (o.kind === 'branch') return `L${i + 1 + o.displacement}`;
@@ -67,6 +73,6 @@ ins.forEach((x, i) => {
   };
   const txt = `${x.mnemonic} ${ops.map(f).join(',')}`;
   if (x.mnemonic === 'lui') lui[ops[0].number] = (ops[1].value << 16) | 0;
-  else if (x.mnemonic === 'addiu' && lui[ops[1]?.number] !== undefined) { note = `&DAT_${((lui[ops[1].number] + ops[2].value) >>> 0).toString(16)}`; }
+  else if (x.mnemonic === 'addiu' && lui[ops[1]?.number] !== undefined) { note = `&${dat(lui[ops[1].number] + ops[2].value)}`; }
   console.log(`${labels.has(i) ? `L${i}:`.padEnd(5) : '     '}${String(i).padStart(3)} ${w[i].toString(16).padStart(8, '0')}  ${txt.padEnd(34)}${note ? '; ' + note : ''}`);
 });

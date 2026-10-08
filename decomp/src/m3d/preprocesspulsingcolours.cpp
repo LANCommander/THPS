@@ -31,11 +31,11 @@ struct SRegion {
 	char pad30[64 - 0x30];
 };
 
-extern SRegion DAT_800bf7a8[];
+extern SRegion PSXRegion[];
 
-uint DAT_800d21b0;
-uint DAT_800d2154;
-u_long *DAT_800d219c;
+uint XblanksNow;
+uint XblanksThen;
+u_long *pColourTable;
 
 void M3d_PreprocessPulsingColours(int Region) {
 	uint *pData;
@@ -51,16 +51,16 @@ void M3d_PreprocessPulsingColours(int Region) {
 	if (Region == -1)
 		return;
 
-	pData = DAT_800bf7a8[Region].pPulse;
+	pData = PSXRegion[Region].pPulse;
 
 	if (!pData)
 		return;
 
 	pEnd = (uint *)((char *)pData + pData[-1]);
-	dt = DAT_800d21b0 - DAT_800d2154;
-	DAT_800d219c = DAT_800bf7a8[Region].pColours;
+	dt = XblanksNow - XblanksThen;
+	pColourTable = PSXRegion[Region].pColours;
 
-	if (DAT_800d21b0 < DAT_800d2154)
+	if (XblanksNow < XblanksThen)
 		dt = 1;
 
 	while (pData < pEnd) {
@@ -99,7 +99,7 @@ void M3d_PreprocessPulsingColours(int Region) {
 		gte_ldlvnl(&rgb0[0]);
 		gte_ldlvl(&drgb[0]);
 		gte_gpl12();
-		gte_strgb(&DAT_800d219c[((uchar *)pData)[0]]);
+		gte_strgb(&pColourTable[((uchar *)pData)[0]]);
 
 		pData = (uint *)(ListLen * 4 + (int)pData) + 1;
 	}

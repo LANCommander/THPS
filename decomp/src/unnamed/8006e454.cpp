@@ -9,13 +9,13 @@ struct SLevel {
 	char pad3c[120 - 0x3c];
 };
 
-extern SLevel DAT_800a5398[];
+extern SLevel Levels[];
 extern char DAT_800a23a0[];
-extern SMessageProg DAT_800a5fd0;
+extern SMessageProg Messprog_Zoom;
 extern char DAT_800d3888[];
-extern int DAT_800d16a4;
-extern char *DAT_800d19a4;
-extern int DAT_800d1e28;
+extern int GGame;
+extern char *MechList;
+extern int GLevel;
 
 void Mess_Message(const char *, SMessageProg *, bool, short, short);
 
@@ -25,9 +25,9 @@ extern "C" {
 }
 
 extern "C" void FUN_8006e454(void) {
-	if (DAT_800d16a4 != 1)
+	if (GGame != 1)
 		return;
-	char *pSkater = DAT_800d19a4;
+	char *pSkater = MechList;
 	int n = ++*(int *)(pSkater + 0xe00);
 
 	if (n == 5) {
@@ -36,6 +36,6 @@ extern "C" void FUN_8006e454(void) {
 		return;
 	}
 
-	FUN_8008b900(DAT_800d3888, DAT_800a23a0, n, DAT_800a5398[DAT_800d1e28].Goal);
-	Mess_Message(DAT_800d3888, &DAT_800a5fd0, 1, 0, 0);
+	FUN_8008b900(DAT_800d3888, DAT_800a23a0, n, Levels[GLevel].Goal);
+	Mess_Message(DAT_800d3888, &Messprog_Zoom, 1, 0, 0);
 }

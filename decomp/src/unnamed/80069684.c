@@ -40,13 +40,13 @@ typedef struct {
 	int f724;
 } B;
 
-extern S DAT_800bf318[];
-extern S DAT_800bf3d8[];
-extern int DAT_800d19a4;
+extern S GVInfo1[];
+extern S GVInfo2[];
+extern int MechList;
 
-int DAT_800d1dec;
+int HLStartCalled;
 
-extern int DAT_800d1a24;
+extern int Xblanks;
 
 void FUN_80068d88(void);
 void FUN_80068ed4(void);
@@ -60,12 +60,12 @@ void Video_Start(B *a, int b, int c, int d) {
 	int *t;
 	int g;
 
-	if ((int)a == DAT_800d19a4)
-		s = DAT_800bf318;
+	if ((int)a == MechList)
+		s = GVInfo1;
 	else
-		s = DAT_800bf3d8;
+		s = GVInfo2;
 
-	DAT_800d1dec = 0;
+	HLStartCalled = 0;
 	FUN_80068d88();
 	FUN_80068ed4();
 	FUN_80068f2c();
@@ -104,7 +104,7 @@ void Video_Start(B *a, int b, int c, int d) {
 	if (d != 0x7fffffff)
 		s->f20 = d - c + 1;
 
-	g = DAT_800d1a24;
+	g = Xblanks;
 	s->f9c = 0;
 	s->f98 = 0;
 	s->f94 = 0;

@@ -58,14 +58,14 @@ struct SCamera {
 #define gte_ldVXY2(r) __asm__ volatile("mtc2 %0, $4" : : "r"(r))
 #define gte_ldVZ2(r)  __asm__ volatile("mtc2 %0, $5" : : "r"(r))
 
-extern SCamera *DAT_800d217c;
-extern SVECTOR *DAT_800d2160;
-extern u_long *DAT_800d21a0;
-extern char *DAT_800d1a54;
-extern char *DAT_800d177c;
-extern Texture *DAT_800d18a0;
+extern SCamera *pCurrentCamera;
+extern SVECTOR *ProjectedVertices;
+extern u_long *CurrentOrderingTable;
+extern char *pPoly;
+extern char *PolyBufferEnd;
+extern Texture *pShadowTexture;
 
-int DAT_800d20c4;
+int M3dElips_MinDotProd;
 
 void M3dMaths_ZeroMat(ushort *);
 void M3dMaths_CopyMat(ushort *, ushort *);
@@ -160,7 +160,7 @@ void M3dElips_RenderShadow(SModel *pModel, MATRIX *pTransform, CSVector *pNormal
 	M3dMaths_TransformVec0((ushort *)pLightVec);
 	gte_stlvnl0(&n_dot_l);
 
-	if (n_dot_l < DAT_800d20c4)
+	if (n_dot_l < M3dElips_MinDotProd)
 		return;
 
 	M[0][0] = (pPoint->vx >> 12) - t.vx;
@@ -178,9 +178,9 @@ void M3dElips_RenderShadow(SModel *pModel, MATRIX *pTransform, CSVector *pNormal
 	if (DotProds.vx > 0)
 		return;
 
-	t.vx -= DAT_800d217c->Pos.vx;
-	t.vy -= DAT_800d217c->Pos.vy;
-	t.vz -= DAT_800d217c->Pos.vz;
+	t.vx -= pCurrentCamera->Pos.vx;
+	t.vy -= pCurrentCamera->Pos.vy;
+	t.vz -= pCurrentCamera->Pos.vz;
 	gte_ldsv(pLightVec);
 	M3dMaths_AddScaledLastVec12(&t, (DotProds.vx << 12) / n_dot_l);
 	gte_stsv(&Centre);
@@ -191,7 +191,7 @@ void M3dElips_RenderShadow(SModel *pModel, MATRIX *pTransform, CSVector *pNormal
 	M3dMaths_AddScaledLastVec12(&f, -(DotProds.vz << 12) / n_dot_l);
 	gte_stsv(&f_Proj);
 
-	gte_SetRotMatrix(&DAT_800d217c->View);
+	gte_SetRotMatrix(&pCurrentCamera->View);
 	__asm__ volatile("ctc2 $0, $5; ctc2 $0, $6; ctc2 $0, $7");
 
 	t1 = Centre.vx - e_Proj.vx - f_Proj.vx;
@@ -216,24 +216,24 @@ void M3dElips_RenderShadow(SModel *pModel, MATRIX *pTransform, CSVector *pNormal
 	t1 = Centre.vx + e_Proj.vx + f_Proj.vx;
 	t2 = Centre.vy + e_Proj.vy + f_Proj.vy;
 	t3 = Centre.vz + e_Proj.vz + f_Proj.vz;
-	gte_stsxy0(&DAT_800d2160[0]);
-	gte_stsxy1(&DAT_800d2160[1]);
-	gte_stsxy2(&DAT_800d2160[2]);
+	gte_stsxy0(&ProjectedVertices[0]);
+	gte_stsxy1(&ProjectedVertices[1]);
+	gte_stsxy2(&ProjectedVertices[2]);
 	gte_ldVXY0((t2 << 16) + (t1 & 0xffff));
 	gte_ldVZ0(t3);
 	gte_rtps();
-	gte_stsxy(&DAT_800d2160[3]);
+	gte_stsxy(&ProjectedVertices[3]);
 	gte_avsz4();
 	gte_stotz(&OTPos);
 
 	if (OTPos >= 4096)
 		OTPos = 4095;
 
-	pQuad = (POLY_FT4 *)DAT_800d1a54;
-	DAT_800d1a54 += sizeof(POLY_FT4);
+	pQuad = (POLY_FT4 *)pPoly;
+	pPoly += sizeof(POLY_FT4);
 
-	if (DAT_800d1a54 > DAT_800d177c) {
-		DAT_800d1a54 = (char *)pQuad;
+	if (pPoly > PolyBufferEnd) {
+		pPoly = (char *)pQuad;
 		return;
 	}
 
@@ -242,7 +242,7 @@ void M3dElips_RenderShadow(SModel *pModel, MATRIX *pTransform, CSVector *pNormal
 
 	{
 		uint t0, t1, t2, t3;
-		SVECTOR *sc = DAT_800d2160;
+		SVECTOR *sc = ProjectedVertices;
 
 		t0 = *(uint *)&sc[0];
 		t1 = *(uint *)&sc[1];
@@ -254,24 +254,24 @@ void M3dElips_RenderShadow(SModel *pModel, MATRIX *pTransform, CSVector *pNormal
 		*(uint *)&pQuad->x3 = t3;
 	}
 
-	pQuad->u0 = DAT_800d18a0->u0;
-	pQuad->v0 = DAT_800d18a0->v0;
-	pQuad->u1 = DAT_800d18a0->u1 - 1;
-	pQuad->v1 = DAT_800d18a0->v1;
-	pQuad->u2 = DAT_800d18a0->u2;
-	pQuad->v2 = DAT_800d18a0->v2 - 1;
-	pQuad->u3 = DAT_800d18a0->u3 - 1;
-	pQuad->v3 = DAT_800d18a0->v3 - 1;
+	pQuad->u0 = pShadowTexture->u0;
+	pQuad->v0 = pShadowTexture->v0;
+	pQuad->u1 = pShadowTexture->u1 - 1;
+	pQuad->v1 = pShadowTexture->v1;
+	pQuad->u2 = pShadowTexture->u2;
+	pQuad->v2 = pShadowTexture->v2 - 1;
+	pQuad->u3 = pShadowTexture->u3 - 1;
+	pQuad->v3 = pShadowTexture->v3 - 1;
 
 	{
-		Texture *tx = DAT_800d18a0;
+		Texture *tx = pShadowTexture;
 
 		pQuad->clut = tx->clut;
 		pQuad->tpage = (tx->tpage & ~0x60) | 0x40;
 	}
 
 	{
-		u_long *ot = (u_long *)(OTPos * 4 + (uint)DAT_800d21a0);
+		u_long *ot = (u_long *)(OTPos * 4 + (uint)CurrentOrderingTable);
 
 		addPrim(ot, pQuad);
 	}

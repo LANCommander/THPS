@@ -9,7 +9,7 @@ typedef struct {
 	unsigned cnt;
 } TT;
 
-extern TT DAT_800d38c8;
+extern TT TrickTipMonitor;
 
 void Mess_SetTextJustify(int);
 void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
@@ -21,37 +21,37 @@ void TrickTips_Display(void) {
 	unsigned short y = 20;
 	unsigned short t;
 
-	if (DAT_800d38c8.s0) {
-		t = 200 - DAT_800d38c8.cnt;
+	if (TrickTipMonitor.s0) {
+		t = 200 - TrickTipMonitor.cnt;
 
 		if (t < 10)
 			y = y - (10 - t) * 40;
 
-		if (DAT_800d38c8.cnt < 10)
-			y = y - (10 - DAT_800d38c8.cnt) * 40;
+		if (TrickTipMonitor.cnt < 10)
+			y = y - (10 - TrickTipMonitor.cnt) * 40;
 
 		Mess_SetTextJustify(1);
 		Mess_SetRGB(128, 128, 0, 0);
 		Mess_SetScale(220);
-		Mess_DrawPanelText(y, 100, DAT_800d38c8.s0, 0, 0, 256);
+		Mess_DrawPanelText(y, 100, TrickTipMonitor.s0, 0, 0, 256);
 
-		if (DAT_800d38c8.s1)
-			Mess_DrawPanelText(y, Mess_GetScale() / 11 + 100, DAT_800d38c8.s1, 0, 0,
+		if (TrickTipMonitor.s1)
+			Mess_DrawPanelText(y, Mess_GetScale() / 11 + 100, TrickTipMonitor.s1, 0, 0,
 			                               256);
 
-		if (DAT_800d38c8.s2)
-			Mess_DrawPanelText(y, Mess_GetScale() / 11 * 2 + 100, DAT_800d38c8.s2,
+		if (TrickTipMonitor.s2)
+			Mess_DrawPanelText(y, Mess_GetScale() / 11 * 2 + 100, TrickTipMonitor.s2,
 			                               0, 0, 256);
 
-		if (DAT_800d38c8.s3)
-			Mess_DrawPanelText(y, Mess_GetScale() / 11 * 3 + 100, DAT_800d38c8.s3,
+		if (TrickTipMonitor.s3)
+			Mess_DrawPanelText(y, Mess_GetScale() / 11 * 3 + 100, TrickTipMonitor.s3,
 			                               0, 0, 256);
 
-		if (--DAT_800d38c8.cnt == 0) {
-			DAT_800d38c8.s3 = 0;
-			DAT_800d38c8.s2 = 0;
-			DAT_800d38c8.s1 = 0;
-			DAT_800d38c8.s0 = 0;
+		if (--TrickTipMonitor.cnt == 0) {
+			TrickTipMonitor.s3 = 0;
+			TrickTipMonitor.s2 = 0;
+			TrickTipMonitor.s1 = 0;
+			TrickTipMonitor.s0 = 0;
 		}
 	}
 }

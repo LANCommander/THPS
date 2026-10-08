@@ -21,9 +21,9 @@ typedef struct {
 
 extern V DAT_800a1d7c;
 extern char DAT_800a1d2c[], DAT_800a1d38[], DAT_800a1d44[], DAT_800a1d54[];
-extern int DAT_800a411c[];
-extern int DAT_800d13d0;
-extern short DAT_800d1658;
+extern int GPreferences_4[];
+extern int XALEVEL;
+extern short GameFMV_StartX;
 
 O *DAT_800d1d5c;
 O *DAT_800d1d60;
@@ -71,12 +71,12 @@ int FUN_8005fd50(int a) {
 		o2 = __6SpritePciii(o2, DAT_800a1d54, 1, 256, 256);
 
 	DAT_800d1d60 = o2;
-	DAT_800d13d0 = 0;
+	XALEVEL = 0;
 	VI(&z, 0, 0, 0);
 	FUN_80023168(2);
 	FUN_80022aec(&z);
 
-	DAT_800d1658 = -1;
+	GameFMV_StartX = -1;
 	GameFMV_StartFMV(0);
 
 	*(V12 *)&t = *(V12 *)&DAT_800a1d7c;
@@ -98,7 +98,7 @@ int FUN_8005fd50(int a) {
 		FUN_8005ca64();
 		FUN_80061714(FUN_8005ca3c(DAT_800a1d2c));
 
-		DAT_800d13d0 = DAT_800a411c[0] * 1365;
+		XALEVEL = GPreferences_4[0] * 1365;
 	}
 
 	if (DAT_800d1d60)

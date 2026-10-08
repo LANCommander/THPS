@@ -4,13 +4,13 @@ typedef struct {
 	unsigned short x, y, w, h;
 } RECT;
 
-extern int DAT_800a6748[];
+extern int decodeSliceBuffer[];
 
-int DAT_800d1634, DAT_800d1638, DAT_800d1678, DAT_800d165c, DAT_800d222c;
-int DAT_800d168c[2];
-unsigned char DAT_800d166c;
-short DAT_800d1658;
-unsigned short DAT_800d166e, DAT_800d1672, DAT_800d1674;
+int GameFMV_Active, GameFMV_FrameBufferCopyActive, GameFMV_NumSoundSources, GameFMV_StartSector, pRingBuffer;
+int vlcBuffer[2];
+unsigned char GameFMV_SliceBuffers;
+short GameFMV_StartX;
+unsigned short GameFMV_StartY, GameFMV_Width, GameFMV_Height;
 
 void FUN_8008f620(unsigned char *);
 void FUN_8009035c(int);
@@ -26,49 +26,49 @@ void GameFMV_StopFMV(void) {
 	RECT r;
 	int i;
 
-	DAT_800d1678 = 0;
-	DAT_800d1638 = 0;
+	GameFMV_NumSoundSources = 0;
+	GameFMV_FrameBufferCopyActive = 0;
 
-	if (DAT_800d1634) {
+	if (GameFMV_Active) {
 		p[0] = 0;
 		p[1] = 0;
 		p[2] = 0;
 		p[3] = 0;
 		FUN_8008f620(p);
 
-		DAT_800d1634 = 0;
+		GameFMV_Active = 0;
 		FUN_8009035c(0);
 		FUN_8009074c();
-		FUN_800912bc(DAT_800d165c, loc);
+		FUN_800912bc(GameFMV_StartSector, loc);
 		FUN_8008f264(22, loc, 0);
 
-		if (DAT_800d222c) {
-			Mem_Delete(DAT_800d222c);
+		if (pRingBuffer) {
+			Mem_Delete(pRingBuffer);
 
-			DAT_800d222c = 0;
+			pRingBuffer = 0;
 		}
 
-		for (i = 0; i < DAT_800d166c; i++) {
-			if (DAT_800a6748[i]) {
-				Mem_Delete(DAT_800a6748[i]);
+		for (i = 0; i < GameFMV_SliceBuffers; i++) {
+			if (decodeSliceBuffer[i]) {
+				Mem_Delete(decodeSliceBuffer[i]);
 
-				DAT_800a6748[i] = 0;
+				decodeSliceBuffer[i] = 0;
 			}
 		}
 
 		for (i = 0; i < 2; i++) {
-			if (DAT_800d168c[i]) {
-				Mem_Delete(DAT_800d168c[i]);
+			if (vlcBuffer[i]) {
+				Mem_Delete(vlcBuffer[i]);
 
-				DAT_800d168c[i] = 0;
+				vlcBuffer[i] = 0;
 			}
 		}
 
-		if (DAT_800d1658 != -1) {
-			r.x = DAT_800d1658;
-			r.y = DAT_800d166e;
-			r.w = DAT_800d1672;
-			r.h = DAT_800d1674;
+		if (GameFMV_StartX != -1) {
+			r.x = GameFMV_StartX;
+			r.y = GameFMV_StartY;
+			r.w = GameFMV_Width;
+			r.h = GameFMV_Height;
 			FUN_8008c5ec(&r, 1, 1, 1);
 		}
 	}

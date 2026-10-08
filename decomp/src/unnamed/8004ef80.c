@@ -5,18 +5,18 @@ struct L {
 	struct L *next;
 };
 
-struct L *DAT_800d1b70;
+struct L *TrickObList;
 
-extern char DAT_800a1320[];
+extern char __vt_8CTrickOb[];
 extern char DAT_800a1330[];
 
 void __dl__6CClassPv(void *p);
 
 void FUN_8004ef80(struct L *p, int f) {
 	struct L *prev = 0;
-	struct L *c = DAT_800d1b70;
+	struct L *c = TrickObList;
 
-	p->vt = DAT_800a1320;
+	p->vt = __vt_8CTrickOb;
 
 	while (c != p) {
 		prev = c;
@@ -26,7 +26,7 @@ void FUN_8004ef80(struct L *p, int f) {
 	if (prev)
 		prev->next = p->next;
 	else
-		DAT_800d1b70 = p->next;
+		TrickObList = p->next;
 
 	p->vt = DAT_800a1330;
 

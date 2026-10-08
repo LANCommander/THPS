@@ -4,9 +4,9 @@ typedef struct {
 	short x, y, w, h;
 } R;
 
-int DAT_800d1b14, DAT_800d1afc, DAT_800d1b34, DAT_800d1af8, DAT_800d224c, DAT_800d1b04,
-    DAT_800d1b0c, DAT_800d2264, DAT_800d2260;
-char DAT_800d225c[8];
+int LoadFromPRE, Loading, LastLoading, CurrentPos, FileSize, FileOpen,
+    ReadSyncFailures, NumSectors, Dest;
+char FileStart[8];
 
 extern R DAT_800d1b20[];
 
@@ -22,38 +22,38 @@ void FileIO_Continue(void) {
 	R r;
 	int s0, v;
 
-	if (DAT_800d1b14 != 0) {
-		DAT_800d1afc = 0;
+	if (LoadFromPRE != 0) {
+		Loading = 0;
 		return;
 	}
 
-	DAT_800d1b34 = DAT_800d1afc;
+	LastLoading = Loading;
 	s0 = 0;
 
-	switch (DAT_800d1afc) {
+	switch (Loading) {
 		case 0:
 			break;
 		case 1:
-			DAT_800d1af8 = 0;
+			CurrentPos = 0;
 
-			if (FUN_8008f264(2, DAT_800d225c, 0) == 0) {
+			if (FUN_8008f264(2, FileStart, 0) == 0) {
 				s0 = 1;
 				break;
 			}
 
-			DAT_800d1afc = 2;
+			Loading = 2;
 		case 2:
-			if (FUN_800958c0(DAT_800d2264, DAT_800d2260, 384) == 0) {
+			if (FUN_800958c0(NumSectors, Dest, 384) == 0) {
 				s0 = 1;
-				DAT_800d1afc = s0;
+				Loading = s0;
 				break;
 			}
 
-			DAT_800d1afc = 3;
+			Loading = 3;
 		case 3:
-			if (DAT_800d1af8 == DAT_800d224c) {
-				DAT_800d1afc = 0;
-				DAT_800d1b04 = 0;
+			if (CurrentPos == FileSize) {
+				Loading = 0;
+				FileOpen = 0;
 				break;
 			}
 
@@ -62,18 +62,18 @@ void FileIO_Continue(void) {
 			v = FUN_80095a5c(1, buf);
 
 			if (v > 0) {
-				DAT_800d1b0c = 0;
+				ReadSyncFailures = 0;
 			} else if (v < 0) {
-				DAT_800d1b0c = DAT_800d1b0c + 1;
+				ReadSyncFailures = ReadSyncFailures + 1;
 
-				if (DAT_800d1b0c >= 5) {
-					DAT_800d1b0c = 0;
-					DAT_800d1afc = 1;
+				if (ReadSyncFailures >= 5) {
+					ReadSyncFailures = 0;
+					Loading = 1;
 				}
 
 				s0 = 1;
 			} else {
-				DAT_800d1af8 = DAT_800d224c;
+				CurrentPos = FileSize;
 			}
 
 			break;

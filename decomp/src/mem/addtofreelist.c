@@ -6,10 +6,10 @@ typedef struct SBlockHeader {
 	unsigned len : 28;
 } SBlockHeader;
 
-SBlockHeader *DAT_800d1b64[2];
+SBlockHeader *FirstFreeBlock[2];
 
 void AddToFreeList(SBlockHeader *b, int idx) {
-	SBlockHeader *cur = DAT_800d1b64[idx];
+	SBlockHeader *cur = FirstFreeBlock[idx];
 	SBlockHeader *prev = 0;
 
 	while (cur < b && cur) {
@@ -31,7 +31,7 @@ void AddToFreeList(SBlockHeader *b, int idx) {
 
 		prev->next = b;
 	} else {
-		DAT_800d1b64[idx] = b;
+		FirstFreeBlock[idx] = b;
 	}
 
 	if ((SBlockHeader *)((char *)b + (b->len + 8)) == cur) {

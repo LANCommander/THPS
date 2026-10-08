@@ -8,7 +8,7 @@ typedef struct {
 	char pad[0x2c];
 } SRegion;
 
-extern SRegion DAT_800bf7a8[];
+extern SRegion PSXRegion[];
 
 void Spool_Sync(void);
 void Spool_ClearEnvironmentRegions(void);
@@ -22,7 +22,7 @@ void Spool_ClearAllPSXs(void) {
 	Spool_ClearEnvironmentRegions();
 
 	for (i = 0; i < 40; i++)
-		if (!DAT_800bf7a8[i].f0b)
+		if (!PSXRegion[i].f0b)
 			ClearRegion(i, 1, 0);
 
 	Spool_RemoveUnusedTextures();

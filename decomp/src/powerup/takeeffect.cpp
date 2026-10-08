@@ -39,13 +39,13 @@ class CPowerUp : public CBody {
 
 struct SMessageProg;
 
-extern SMessageProg DAT_800a5fd0;
-extern char *DAT_800a5fb8[];
+extern SMessageProg Messprog_Zoom;
+extern char *GameText_25c[];
 extern char DAT_8009f0d4[];
 extern char DAT_8009f0e0[];
 extern char DAT_8009f0ec[];
-extern int DAT_800d1780;
-extern CBruce *DAT_800d19a4;
+extern int GNumberOfPlayers;
+extern CBruce *MechList;
 
 int SFX_PlayX(unsigned int, short, int);
 void SFX_SetVoicePitch(unsigned int, ushort);
@@ -67,7 +67,7 @@ void CPowerUp::TakeEffect(CBruce *pMech) {
 	int HadEffect;
 	int sound;
 
-	if ((DAT_800d1780 != 1 && pMech == DAT_800d19a4) ? (mFlags & 0x40) : (mFlags & 1))
+	if ((GNumberOfPlayers != 1 && pMech == MechList) ? (mFlags & 0x40) : (mFlags & 1))
 		return;
 
 	HadEffect = 0;
@@ -96,35 +96,35 @@ void CPowerUp::TakeEffect(CBruce *pMech) {
 						SFX_PlayX(20, 8192, 0);
 
 						if (!Panel_Letter(0))
-							pMess = DAT_800a5fb8[3];
+							pMess = GameText_25c[3];
 
 						break;
 					case 4:
 						SFX_PlayX(20, 8192, 0);
 
 						if (!Panel_Letter(1))
-							pMess = DAT_800a5fb8[4];
+							pMess = GameText_25c[4];
 
 						break;
 					case 6:
 						SFX_PlayX(20, 8192, 0);
 
 						if (!Panel_Letter(2))
-							pMess = DAT_800a5fb8[5];
+							pMess = GameText_25c[5];
 
 						break;
 					case 15:
 						SFX_PlayX(20, 8192, 0);
 
 						if (!Panel_Letter(3))
-							pMess = DAT_800a5fb8[0];
+							pMess = GameText_25c[0];
 
 						break;
 					case 10:
 						SFX_PlayX(20, 8192, 0);
 
 						if (!Panel_Letter(4))
-							pMess = DAT_800a5fb8[2];
+							pMess = GameText_25c[2];
 
 						break;
 					case 16:
@@ -135,7 +135,7 @@ void CPowerUp::TakeEffect(CBruce *pMech) {
 				}
 
 				if (pMess)
-					Mess_Message(pMess, &DAT_800a5fd0, 1, 0, 0);
+					Mess_Message(pMess, &Messprog_Zoom, 1, 0, 0);
 			}
 
 			break;

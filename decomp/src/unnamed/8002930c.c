@@ -1,8 +1,8 @@
 /* __8CFlatBit (0x8002930c) */
 #include "names.h"
-extern char DAT_8009f7d0[];
+extern char __vt_8CFlatBit[];
 
-char DAT_800d18d0[8];
+char FlatBitList[8];
 
 char *CFT4Bit_ctor(char *p);
 void CBit_AttachTo(char *p, char *q);
@@ -10,8 +10,8 @@ void CBit_AttachTo(char *p, char *q);
 char *CFlatBit_ctor(char *p) {
 	CFT4Bit_ctor(p);
 
-	*(char **)(p + 68) = DAT_8009f7d0;
-	CBit_AttachTo(p, DAT_800d18d0);
+	*(char **)(p + 68) = __vt_8CFlatBit;
+	CBit_AttachTo(p, FlatBitList);
 
 	p[109] = 32;
 	*(short *)(p + 102) = 1;

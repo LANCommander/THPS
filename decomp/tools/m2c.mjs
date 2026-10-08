@@ -32,7 +32,12 @@ const size = args[1] && !args[1].startsWith('--') ? parseInt(args[1], 10) : size
 if (!size) { console.error('size unknown: pass it explicitly'); process.exit(1); }
 const fname = t => names.get(t) ?? `FUN_${t.toString(16)}`;
 const jumpTables = new Map();   // table address -> [entry word indices]; filled after pass 1
-const sym = a => jumpTables.has(a) ? `jtbl_${(a >>> 0).toString(16)}` : names.get(a) ?? `DAT_${(a >>> 0).toString(16)}`;
+// globals named from their demo twins (../tools/data_names.py)
+const dataNames = new Map();
+for (const l of readFileSync(new URL('../data_names.tsv', import.meta.url), 'utf8').split('\n'))
+  if (l.startsWith('0x')) { const [a, n] = l.split('\t'); dataNames.set(parseInt(a, 16), n); }
+const sym = a => jumpTables.has(a) ? `jtbl_${(a >>> 0).toString(16)}`
+  : names.get(a) ?? dataNames.get(a >>> 0) ?? `DAT_${(a >>> 0).toString(16)}`;
 
 // GTE command word -> INLINE_C.H macro name(s), via the DMPSX table in reverse
 const gteNames = new Map();

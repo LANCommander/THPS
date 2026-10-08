@@ -5,20 +5,20 @@ typedef struct {
 	char pad2[8];
 } Font;
 
-int DAT_800d15e0;
-int DAT_800d15e4;
+int Num_fonts;
+int Current_font;
 
-extern Font DAT_800a6110[];
+extern Font Font_table[];
 
 extern int FUN_8008f6fc(char *, char *);
 
 void Mess_SetCurrentFont(char *name) {
 	int i;
 
-	for (i = 0; i < DAT_800d15e0; i++) {
-		if (!FUN_8008f6fc(name, DAT_800a6110[i].name))
+	for (i = 0; i < Num_fonts; i++) {
+		if (!FUN_8008f6fc(name, Font_table[i].name))
 			break;
 	}
 
-	DAT_800d15e4 = i;
+	Current_font = i;
 }

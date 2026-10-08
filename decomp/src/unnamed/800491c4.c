@@ -1,9 +1,9 @@
 /* Db_Reset__Fv (0x800491c4) */
 #include "names.h"
-extern char DAT_800a891c[];
+extern char DoubleBuffer[];
 
 void Db_Reset(void) {
-	char *p = DAT_800a891c;
+	char *p = DoubleBuffer;
 	char *q = p + 32768;
 	char *r = p + 65536;
 

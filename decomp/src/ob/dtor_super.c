@@ -1,13 +1,13 @@
 /* _._6CSuper (0x80043d5c) */
 #include "names.h"
-extern char DAT_800a0574[];
+extern char __vt_6CSuper[];
 
 void Mem_Delete(void *);
 void FUN_80043860(char *, int);
 void __dl__5CItemPv(char *);
 
 void __dt__6CSuper(char *t, int f) {
-	*(char **)(t + 0x48) = DAT_800a0574;
+	*(char **)(t + 0x48) = __vt_6CSuper;
 
 	if (*(void **)(t + 0x184))
 		Mem_Delete(*(void **)(t + 0x184));

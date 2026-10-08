@@ -17,19 +17,19 @@ typedef struct {
 	STexUV *pUV;
 } STexture;
 
-extern u_long *DAT_800d1a48;
-extern u_char *DAT_800d1a54;
-extern u_char *DAT_800d177c;
+extern u_long *pDoubleBuffer;
+extern u_char *pPoly;
+extern u_char *PolyBufferEnd;
 
 POLY_FT4 *Panel_DrawTexturedPoly(STexture *t) {
-	POLY_FT4 *p = (POLY_FT4 *)DAT_800d1a54;
+	POLY_FT4 *p = (POLY_FT4 *)pPoly;
 	u_char *next = (u_char *)(p + 1);
 	STexUV *uv;
 
-	if (next > DAT_800d177c)
+	if (next > PolyBufferEnd)
 		return 0;
 
-	DAT_800d1a54 = next;
+	pPoly = next;
 	*(u_long *)&p->tag = 0x09000000;
 	*(u_long *)&p->r0 = 0x2c808080;
 	uv = t->pUV;
@@ -47,7 +47,7 @@ POLY_FT4 *Panel_DrawTexturedPoly(STexture *t) {
 	}
 
 	{
-		u_long *ot = DAT_800d1a48 + 33;
+		u_long *ot = pDoubleBuffer + 33;
 
 		addPrim(ot, p);
 	}

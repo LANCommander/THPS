@@ -1,5 +1,5 @@
 /* strKickCD__Fv (0x80023f44) */
-int DAT_800d165c;
+int GameFMV_StartSector;
 
 unsigned char *FUN_800912bc(int, unsigned char *);
 int FUN_8008f264(int, unsigned char *, unsigned char *);
@@ -10,7 +10,7 @@ void strKickCD(void) {
 	unsigned char param[4];
 
 	param[0] = 0x80;
-	FUN_800912bc(DAT_800d165c, loc);
+	FUN_800912bc(GameFMV_StartSector, loc);
 
 	do {
 		while (!FUN_8008f264(2, loc, 0))

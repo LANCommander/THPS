@@ -14,8 +14,8 @@ typedef struct {
 } D;
 
 extern T DAT_800a1df8;
-extern Q DAT_800a5d5c;
-extern D DAT_800a4118;
+extern Q GameText;
+extern D GPreferences;
 extern char DAT_800d1d40[], DAT_800a1d2c[], DAT_800a1bd4[];
 
 int DAT_800d1d28;
@@ -52,12 +52,12 @@ int FUN_80060274(int a) {
 		k[4] = 0;
 		k[5] = 0;
 		k[6] = 0;
-		FUN_8008b900(A, DAT_800d1d40, DAT_800a5d5c.f8,
-		             DAT_800a4118.f184 ? DAT_800a5d5c.f0 : DAT_800a5d5c.f4);
+		FUN_8008b900(A, DAT_800d1d40, GameText.f8,
+		             GPreferences.f184 ? GameText.f0 : GameText.f4);
 
 		t.w[3] = (int)A;
-		FUN_8008b900(B, DAT_800d1d40, DAT_800a5d5c.fc,
-		             DAT_800a4118.f188 ? DAT_800a5d5c.f0 : DAT_800a5d5c.f4);
+		FUN_8008b900(B, DAT_800d1d40, GameText.fc,
+		             GPreferences.f188 ? GameText.f0 : GameText.f4);
 
 		t.w[4] = (int)B;
 		v = FUN_8005e0e0(&t, k, 7, 80, &a, FUN_8005ffac, 0, 0, 0);

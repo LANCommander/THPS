@@ -97,17 +97,17 @@ struct SLights {
 };
 
 extern "C" {
-	extern SLights DAT_800c7c00;
-	extern SPSXRegion DAT_800bf7a8[];
-	extern Item *DAT_800d1998;
-	extern int DAT_800d2048;
-	extern Item *DAT_800d1eec;
-	extern int DAT_800d1ed0;
-	extern int DAT_800d1ed4;
-	extern Item *DAT_800d19a4;
-	extern int DAT_800d16f0;
-	extern int DAT_800d16f4;
-	extern int DAT_800d1e28;
+	extern SLights FrustumNormals;
+	extern SPSXRegion PSXRegion[];
+	extern Item *BaddyList;
+	extern int Camera_CurrentMikeCamera;
+	extern Item *EnviroList;
+	extern int EnvRegions;
+	extern int EnvRegions_4;
+	extern Item *MechList;
+	extern int CurrentWaterLevel;
+	extern int CurrentWaterLevel2;
+	extern int GLevel;
 
 	void FUN_8008b238(MATRIX *);
 	void FUN_8008b254(MATRIX *, MATRIX *);
@@ -123,13 +123,13 @@ extern "C" {
 	void FUN_800858ac(Item *, int);
 }
 
-ushort DAT_800d216c, DAT_800d2170, DAT_800d214c, DAT_800d214e;
-int DAT_800d21a4, DAT_800d21a8, DAT_800d2174;
-int DAT_800d21b8, DAT_800d21bc, DAT_800d2140, DAT_800d215c, DAT_800d2168;
-short DAT_800d2186;
-SCamera *DAT_800d217c;
-SViewport *DAT_800d2178;
-void *DAT_800d219c;
+ushort DpqMin, DpqShift, M3d_OTPushback, M3d_OTPushback2;
+int RefMapClut, RefMapTpage, M3d_FadeColour;
+int TestTheWater, Fast, WaterClipValue, M3d_WireframeMode, DpqMax;
+short WaterNormal_6;
+SCamera *pCurrentCamera;
+SViewport *pCurrentViewport;
+void *pColourTable;
 
 void M3d_PreprocessWibblyTextures(int);
 void RenderSuperItem(Item *);
@@ -148,34 +148,34 @@ void M3d_Render(void *p) {
 	if (!pItem)
 		return;
 
-	gte_SetLightMatrix(&DAT_800c7c00.LightMatrix);
-	gte_SetColorMatrix(&DAT_800c7c00.ColourMatrix);
-	gte_ldbkdir(DAT_800c7c00.BackR >> 1, DAT_800c7c00.BackG >> 1, 0);
+	gte_SetLightMatrix(&FrustumNormals.LightMatrix);
+	gte_SetColorMatrix(&FrustumNormals.ColourMatrix);
+	gte_ldbkdir(FrustumNormals.BackR >> 1, FrustumNormals.BackG >> 1, 0);
 
-	if (pItem != DAT_800d1998)
-		FUN_800858ac(pItem, DAT_800d2048 ? 64 : 1);
+	if (pItem != BaddyList)
+		FUN_800858ac(pItem, Camera_CurrentMikeCamera ? 64 : 1);
 	else
 		FUN_800858ac(pItem, 1);
 
-	if (pItem == DAT_800d1eec) {
-		M3d_PreprocessWibblyTextures(DAT_800d1ed0);
-		M3d_PreprocessWibblyTextures(DAT_800d1ed4);
+	if (pItem == EnviroList) {
+		M3d_PreprocessWibblyTextures(EnvRegions);
+		M3d_PreprocessWibblyTextures(EnvRegions_4);
 	}
 
-	SCRATCH_S(0x284) = DAT_800d216c;
-	SCRATCH_S(0x294) = DAT_800d2170;
-	SCRATCH_S(0x2b4) = DAT_800d214c;
-	SCRATCH_S(0x2c4) = DAT_800d214e;
+	SCRATCH_S(0x284) = DpqMin;
+	SCRATCH_S(0x294) = DpqShift;
+	SCRATCH_S(0x2b4) = M3d_OTPushback;
+	SCRATCH_S(0x2c4) = M3d_OTPushback2;
 	SCRATCH_S(0x2d4) = 0;
-	SCRATCH_I(0x364) = DAT_800d21a4;
-	SCRATCH_I(0x374) = DAT_800d21a8;
-	SCRATCH_I(0x354) = DAT_800d2174;
+	SCRATCH_I(0x364) = RefMapClut;
+	SCRATCH_I(0x374) = RefMapTpage;
+	SCRATCH_I(0x354) = M3d_FadeColour;
 
 	while (pItem) {
 		if (pItem->Flags & 0x8000)
 			goto next;
 
-		if (!DAT_800bf7a8[pItem->Region].Active)
+		if (!PSXRegion[pItem->Region].Active)
 			goto next;
 
 		GlobalFaceFlags = 0xffff0000;
@@ -208,17 +208,17 @@ void M3d_Render(void *p) {
 		}
 
 		SCRATCH_I(0x3f4) = GlobalFaceFlags;
-		DAT_800d21b8 = (pItem->Flags >> 3) & 1;
+		TestTheWater = (pItem->Flags >> 3) & 1;
 
 		if (pItem->Flags & 2) {
-			if (pItem == DAT_800d19a4)
-				DAT_800d2186 = (DAT_800d16f0 >> 12) - DAT_800d217c->Pos.vy;
+			if (pItem == MechList)
+				WaterNormal_6 = (CurrentWaterLevel >> 12) - pCurrentCamera->Pos.vy;
 			else
-				DAT_800d2186 = (DAT_800d16f4 >> 12) - DAT_800d217c->Pos.vy;
+				WaterNormal_6 = (CurrentWaterLevel2 >> 12) - pCurrentCamera->Pos.vy;
 
 			RenderSuperItem(pItem);
 
-			if (DAT_800d21b8) {
+			if (TestTheWater) {
 				int tmp;
 				int r;
 				int g;
@@ -228,7 +228,7 @@ void M3d_Render(void *p) {
 				tmp = pItem->Flags;
 				pItem->Flags = tmp | 0x400;
 
-				if (!DAT_800d1e28) {
+				if (!GLevel) {
 					b = 10;
 					g = 13;
 					r = 8;
@@ -239,7 +239,7 @@ void M3d_Render(void *p) {
 				}
 
 				pItem->RGB = (b << 16) | (g << 8) | r;
-				DAT_800d2140 = 0;
+				WaterClipValue = 0;
 				GlobalFaceFlags &= ~0x40000;
 				GlobalFaceFlags |= 8;
 				SCRATCH_I(0x3e4) = RGB2GPU(pItem->RGB);
@@ -250,66 +250,66 @@ void M3d_Render(void *p) {
 
 				pItem->Flags = tmp;
 				pItem->NumShadows = NumShadows;
-				DAT_800d2140 = 0xffff;
+				WaterClipValue = 0xffff;
 			}
 
 			goto next;
 		}
 
-		pModel = DAT_800bf7a8[pItem->Region].ppModels[pItem->Model];
+		pModel = PSXRegion[pItem->Region].ppModels[pItem->Model];
 
 		if (pModel->Flags & 0x20)
 			goto next;
 
 		if (pModel->Flags & 0x200)
-			DAT_800d215c = 1;
+			M3d_WireframeMode = 1;
 
-		gte_SetRotMatrix(&DAT_800d217c->View);
+		gte_SetRotMatrix(&pCurrentCamera->View);
 
 		{
 			register int zero asm("$0");
 			gte_ldtr(zero, zero, zero);
 		}
 
-		PosnRelCam.vx = (pItem->Position.vx >> 12) - DAT_800d217c->Pos.vx;
-		PosnRelCam.vy = (pItem->Position.vy >> 12) - DAT_800d217c->Pos.vy;
-		PosnRelCam.vz = (pItem->Position.vz >> 12) - DAT_800d217c->Pos.vz;
+		PosnRelCam.vx = (pItem->Position.vx >> 12) - pCurrentCamera->Pos.vx;
+		PosnRelCam.vy = (pItem->Position.vy >> 12) - pCurrentCamera->Pos.vy;
+		PosnRelCam.vz = (pItem->Position.vz >> 12) - pCurrentCamera->Pos.vz;
 		gte_ldlv0(&PosnRelCam);
 		gte_rtv0();
 		gte_stlvnl(&Position);
 
 		if (pModel->LODDist < 0) {
-			while (-((short)(pModel->LODDist * DAT_800d2178->Fov / 191) * DAT_800d2168 >> 10) <
+			while (-((short)(pModel->LODDist * pCurrentViewport->Fov / 191) * DpqMax >> 10) <
 			           Position.vz &&
 			       pModel->NextLOD != 0xffff)
-				pModel = DAT_800bf7a8[pItem->Region].ppModels[pModel->NextLOD];
+				pModel = PSXRegion[pItem->Region].ppModels[pModel->NextLOD];
 
 			if (pModel->LODDist < 0) {
-				if (-((short)(pModel->LODDist * DAT_800d2178->Fov / 191) * DAT_800d2168 >> 10) <
+				if (-((short)(pModel->LODDist * pCurrentViewport->Fov / 191) * DpqMax >> 10) <
 				        Position.vz &&
 				    pModel->NextLOD == 0xffff)
 					goto next;
 			} else {
-				if (pModel->LODDist * DAT_800d2178->Fov / 191 < Position.vz &&
+				if (pModel->LODDist * pCurrentViewport->Fov / 191 < Position.vz &&
 				    pModel->NextLOD == 0xffff)
 					goto next;
 			}
 		} else {
-			while (pModel->LODDist * DAT_800d2178->Fov / 191 < Position.vz &&
+			while (pModel->LODDist * pCurrentViewport->Fov / 191 < Position.vz &&
 			       pModel->NextLOD != 0xffff)
-				pModel = DAT_800bf7a8[pItem->Region].ppModels[pModel->NextLOD];
+				pModel = PSXRegion[pItem->Region].ppModels[pModel->NextLOD];
 
-			if (pModel->LODDist * DAT_800d2178->Fov / 191 < Position.vz &&
+			if (pModel->LODDist * pCurrentViewport->Fov / 191 < Position.vz &&
 			    pModel->NextLOD == 0xffff)
 				goto next;
 		}
 
 		if (pModel->NumVertices < 101 && !(pModel->Flags & 0x100) && !(pItem->Flags & 0x480) &&
-		    Position.vz - (pModel->Radius >> 12) > (ushort)(DAT_800d2178->Yon / 10) &&
+		    Position.vz - (pModel->Radius >> 12) > (ushort)(pCurrentViewport->Yon / 10) &&
 		    !(pItem->Angles.vx | pItem->Angles.vy | pItem->Angles.vz))
-			DAT_800d21bc = 1;
+			Fast = 1;
 		else
-			DAT_800d21bc = 0;
+			Fast = 0;
 
 		if (ANGLES_SET(pItem)) {
 			FUN_8008b3d4(&pItem->Angles, &WorldTransform);
@@ -329,7 +329,7 @@ void M3d_Render(void *p) {
 			}
 		}
 
-		DAT_800d219c = DAT_800bf7a8[pItem->Region].pAnimTex;
+		pColourTable = PSXRegion[pItem->Region].pAnimTex;
 
 		if ((pModel->Flags & 1) || (pItem->Flags & 0x4000)) {
 			FUN_800866cc(&WorldTransform, (long *)&Position, pModel);
@@ -346,15 +346,15 @@ void M3d_Render(void *p) {
 			FUN_80086a4c((char *)pModel + (pModel->NumVertices * 8 + 28), pModel->NumNormals);
 		}
 
-		yon = DAT_800d2178->Yon;
+		yon = pCurrentViewport->Yon;
 
 		if (pItem->Flags & 0x2000) {
 			SCRATCH_S(0x284) = 0x7fff;
 			SCRATCH_S(0x2d4) = 0;
-			DAT_800d2178->Yon = 0x7fff;
+			pCurrentViewport->Yon = 0x7fff;
 		}
 
-		if (DAT_800d21bc) {
+		if (Fast) {
 			if (*(uint *)&pItem->Frame & 0xff00ff) {
 				if (pItem->Frame)
 					SCRATCH_S(0x2b4) = (signed char)pItem->Frame << 5;
@@ -364,8 +364,8 @@ void M3d_Render(void *p) {
 
 				FUN_80084dc0(pModel, &PosnRelCam);
 
-				SCRATCH_S(0x2b4) = DAT_800d214c;
-				SCRATCH_S(0x2c4) = DAT_800d214e;
+				SCRATCH_S(0x2b4) = M3d_OTPushback;
+				SCRATCH_S(0x2c4) = M3d_OTPushback2;
 			} else {
 				FUN_80084dc0(pModel, &PosnRelCam);
 			}
@@ -379,8 +379,8 @@ void M3d_Render(void *p) {
 
 				FUN_80085018(pModel, &PosnRelCam);
 
-				SCRATCH_S(0x2b4) = DAT_800d214c;
-				SCRATCH_S(0x2c4) = DAT_800d214e;
+				SCRATCH_S(0x2b4) = M3d_OTPushback;
+				SCRATCH_S(0x2c4) = M3d_OTPushback2;
 			} else {
 				FUN_80085018(pModel, &PosnRelCam);
 			}
@@ -396,8 +396,8 @@ void M3d_Render(void *p) {
 
 				FUN_80084d18(pModel);
 
-				SCRATCH_S(0x2b4) = DAT_800d214c;
-				SCRATCH_S(0x2c4) = DAT_800d214e;
+				SCRATCH_S(0x2b4) = M3d_OTPushback;
+				SCRATCH_S(0x2c4) = M3d_OTPushback2;
 			} else {
 				FUN_80084d18(pModel);
 			}
@@ -405,8 +405,8 @@ void M3d_Render(void *p) {
 
 		if (pItem->Flags & 0x2000) {
 			SCRATCH_S(0x2d4) = 0;
-			SCRATCH_S(0x284) = DAT_800d216c;
-			DAT_800d2178->Yon = yon;
+			SCRATCH_S(0x284) = DpqMin;
+			pCurrentViewport->Yon = yon;
 		}
 	next:
 		pItem = pItem->NextItem;

@@ -5,7 +5,7 @@ void Mess_SetTextJustify(int);
 void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
 void Mess_DrawText(int, int, char *, int, int, int, int);
 
-extern char DAT_800a7204[], DAT_8009e304[], DAT_8009e310[];
+extern char GCareer_9c0[], DAT_8009e304[], DAT_8009e310[];
 
 void Horse_DisplayWords(int *p) {
 	char buf[32];
@@ -15,7 +15,7 @@ void Horse_DisplayWords(int *p) {
 	Mess_SetTextJustify(0);
 
 	for (i = 0; i < 2; i++) {
-		char *s = DAT_800a7204;
+		char *s = GCareer_9c0;
 		char *o = buf;
 		int n = p[i];
 

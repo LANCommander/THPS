@@ -15,9 +15,9 @@ struct SSkaterCareer {
 	uchar Tapes[2]; /* 12 (indexed by level, runs into the next record) */
 };
 
-extern CBruce *DAT_800d17c8;
-extern SSkaterCareer DAT_800a6844[];
-extern int DAT_800d1e28;
+extern CBruce *GSkater;
+extern SSkaterCareer GCareer[];
+extern int GLevel;
 
 int Career_LevelTapes(int Level) {
 	int t = 0;
@@ -26,7 +26,7 @@ int Career_LevelTapes(int Level) {
 		int i;
 
 		for (i = 0; i < 5; i++)
-			if ((DAT_800a6844[DAT_800d17c8->mSkaterIndex].Tapes[DAT_800d1e28] >> i) & 1)
+			if ((GCareer[GSkater->mSkaterIndex].Tapes[GLevel] >> i) & 1)
 				t++;
 	}
 

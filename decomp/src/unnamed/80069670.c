@@ -1,9 +1,9 @@
 /* Video_Cleanup__Fv (0x80069670) */
 #include "names.h"
-extern int DAT_800bf318[];
-extern int DAT_800bf3d8[];
+extern int GVInfo1[];
+extern int GVInfo2[];
 
 void Video_Cleanup(void) {
-	DAT_800bf318[0] = 0;
-	DAT_800bf3d8[0] = 0;
+	GVInfo1[0] = 0;
+	GVInfo2[0] = 0;
 }

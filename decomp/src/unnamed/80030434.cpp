@@ -22,9 +22,9 @@ struct SMemRef {
 	int Word0;
 };
 
-extern SPSXRegion DAT_800bf7a8[];
-extern short **DAT_800d19e8;
-extern int DAT_800d16a4;
+extern SPSXRegion PSXRegion[];
+extern short **OffsetList;
+extern int GGame;
 
 class CBruce;
 
@@ -50,14 +50,14 @@ class CBruce {
 void CBruce::TrickObRail() {
 	short *pNode;
 
-	if (*DAT_800d19e8[mRailStart] == 11) {
+	if (*OffsetList[mRailStart] == 11) {
 		ushort *pLinks = Trig_GetLinksPointer(mRailStart);
-		short *pLink = DAT_800d19e8[pLinks[1]];
+		short *pLink = OffsetList[pLinks[1]];
 
 		if (*pLink == 14 || *pLink == 12)
 			pNode = pLink;
 		else {
-			short *pLink2 = DAT_800d19e8[pLinks[2]];
+			short *pLink2 = OffsetList[pLinks[2]];
 
 			if (*pLink2 == 14 || *pLink2 == 12)
 				pNode = pLink2;
@@ -73,9 +73,9 @@ void CBruce::TrickObRail() {
 		FUN_8003036c(this);
 
 		m418 = Spool_FindEnviroItem(Checksum);
-		m41C = FUN_8004d7ac(DAT_800bf7a8[m418->Region].pData);
+		m41C = FUN_8004d7ac(PSXRegion[m418->Region].pData);
 
-		if (DAT_800d16a4 == 1)
+		if (GGame == 1)
 			FUN_8004f000(m418, this, -1);
 	}
 }

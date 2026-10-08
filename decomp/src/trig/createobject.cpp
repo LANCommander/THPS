@@ -41,12 +41,12 @@ class CCar : public CBody {
 	CCar(short *, int, int);
 };
 
-short **DAT_800d19e8;
+short **OffsetList;
 
-extern CBody *DAT_800d1998;
-extern CBody *DAT_800d19b0;
-extern CBody *DAT_800d1618;
-extern CVector DAT_800a824c;
+extern CBody *BaddyList;
+extern CBody *EnvironmentalObjectList;
+extern CBody *PowerUpList;
+extern CVector ZeroVector;
 
 int GetFlag(uchar, uchar *);
 uchar *SkipFlags(uchar *);
@@ -69,7 +69,7 @@ CBody *Trig_CreateObject(int NodeIndex) {
 	short *pInfo;
 	int NodeType;
 
-	pInfo = DAT_800d19e8[NodeIndex];
+	pInfo = OffsetList[NodeIndex];
 	NodeType = *pInfo++;
 
 	switch (NodeType) {
@@ -110,7 +110,7 @@ CBody *Trig_CreateObject(int NodeIndex) {
 			{
 				int Flag = (*pStuff++ == 0) << 2;
 
-				NewObject = PowerUp_Create(Type, Pos, Flag, *pStuff, DAT_800a824c);
+				NewObject = PowerUp_Create(Type, Pos, Flag, *pStuff, ZeroVector);
 			}
 
 			if (*Trig_GetLinksPointer(NodeIndex))
@@ -134,14 +134,14 @@ CBody *Trig_CreateObject(int NodeIndex) {
 		if (!NotSuspendedAtStart) {
 			CBody **ppList = 0;
 
-			if (NewObject == DAT_800d1998)
-				ppList = &DAT_800d1998;
+			if (NewObject == BaddyList)
+				ppList = &BaddyList;
 
-			if (NewObject == DAT_800d19b0)
-				ppList = &DAT_800d19b0;
+			if (NewObject == EnvironmentalObjectList)
+				ppList = &EnvironmentalObjectList;
 
-			if (NewObject == DAT_800d1618)
-				ppList = &DAT_800d1618;
+			if (NewObject == PowerUpList)
+				ppList = &PowerUpList;
 
 			Suspend__5CBodyPP5CBody(NewObject, ppList);
 		}

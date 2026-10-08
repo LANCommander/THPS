@@ -10,10 +10,10 @@ typedef struct {
 	char q[0x78 - 16];
 } E;
 
-extern E DAT_800a5398[];
-extern char DAT_800c0a48[];
+extern E Levels[];
+extern char Pad[];
 
-int DAT_800d1cf0, DAT_800d1cf4;
+int BackOut, DAT_800d1cf4;
 unsigned DAT_800d1cf8;
 
 void Pad_ClearTriggers(char *);
@@ -32,9 +32,9 @@ void FUN_8005cba0(void) {
 	DRAWENV dr;
 	RECT r;
 
-	DAT_800d1cf0 = 0;
-	Pad_ClearTriggers(DAT_800c0a48);
-	Pad_ClearTriggers(DAT_800c0a48 + 364);
+	BackOut = 0;
+	Pad_ClearTriggers(Pad);
+	Pad_ClearTriggers(Pad + 364);
 	FUN_80092e70(&dr, 0, 0, 512, 240);
 	FUN_800914fc(&de, 0, 0, 512, 240);
 
@@ -57,7 +57,7 @@ void FUN_8005cba0(void) {
 	if (DAT_800d1cf8 < 6) {
 		switch (DAT_800d1cf8) {
 			case 0:
-				if (DAT_800a5398[DAT_800d1cf4].f != 0) {
+				if (Levels[DAT_800d1cf4].f != 0) {
 					FUN_8005cd14();
 					return;
 				}

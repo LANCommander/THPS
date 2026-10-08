@@ -21,7 +21,7 @@ typedef struct {
 	int b[80];
 } O;
 
-extern int DAT_800d16a4;
+extern int GGame;
 
 extern void FUN_80042700(void *, int, int, int, int);
 extern int Mips_CVecDotProd(void *, void *);
@@ -37,7 +37,7 @@ void CBruce_Trick_Bail(O *oo) {
 	volatile int pad[2];
 	int *p, *q;
 
-	if (DAT_800d16a4 == 7)
+	if (GGame == 7)
 		*(int *)(o + 0x330) = 0;
 
 	*(int *)(o + 0x760) = 0;

@@ -102,10 +102,10 @@ class CScriptOnlyBaddy : public CBaddy {
 	int ExecuteCommand(ushort command);
 };
 
-extern const int DAT_800d1acc;
-extern SSkater *DAT_800d19a4;
-extern int DAT_800d186c;
-extern SObj *DAT_800d2044;
+extern const int SFX_v;
+extern SSkater *MechList;
+extern int UseCacheForBits;
+extern SObj *CameraList;
 
 void SFX_Stop(uint);
 uint SFX_PlayX(uint, short, int);
@@ -121,7 +121,7 @@ int CScriptOnlyBaddy::ExecuteCommand(ushort command) {
 
 			mLoopingSound = SFX_PlayX(*pScript++, 0x2000, 0);
 			mLoopingSoundUpdate = -1;
-			mLoopingSoundVol = DAT_800d1acc;
+			mLoopingSoundVol = SFX_v;
 			break;
 		case 17672: {
 			if (mLoopingSound)
@@ -131,7 +131,7 @@ int CScriptOnlyBaddy::ExecuteCommand(ushort command) {
 
 			mLoopingSoundUpdate = *pScript++;
 			mLoopingSound = SFX_PlayPos(sound, mPos, 0);
-			mLoopingSoundVol = DAT_800d1acc;
+			mLoopingSoundVol = SFX_v;
 			break;
 		}
 		case 17673:
@@ -141,8 +141,8 @@ int CScriptOnlyBaddy::ExecuteCommand(ushort command) {
 			mLoopingSound = 0;
 			break;
 		case 17670:
-			if (DAT_800d19a4) {
-				mPos = DAT_800d19a4->mPos;
+			if (MechList) {
+				mPos = MechList->mPos;
 				return 1;
 			}
 
@@ -174,9 +174,9 @@ int CScriptOnlyBaddy::ExecuteCommand(ushort command) {
 		case 17667: {
 			mWeatherData = GetScriptValue();
 			mpWeather = (SRainEntry *)Mem_New(mWeatherData * 16, 0, 1);
-			CVector origin = DAT_800d19a4->mPos;
+			CVector origin = MechList->mPos;
 
-			DAT_800d186c = 0;
+			UseCacheForBits = 0;
 
 			for (int i = 0; i < mWeatherData; i++) {
 				SRainEntry *p_entry = &mpWeather[i];
@@ -190,7 +190,7 @@ int CScriptOnlyBaddy::ExecuteCommand(ushort command) {
 				p_entry->p_line = p_droplet;
 				p_droplet->mKeep = 1;
 				p_droplet->mStart = offset;
-				p_droplet->mSegs->End = (offset - p_entry->vel) + (DAT_800d2044->v6c >> 1);
+				p_droplet->mSegs->End = (offset - p_entry->vel) + (CameraList->v6c >> 1);
 				p_droplet->mStartR = 64;
 				p_droplet->mStartG = 64;
 				p_droplet->mStartB = 80;
@@ -200,7 +200,7 @@ int CScriptOnlyBaddy::ExecuteCommand(ushort command) {
 				p_droplet->SetSemiTransparent();
 			}
 
-			DAT_800d186c = 1;
+			UseCacheForBits = 1;
 			break;
 		}
 		default:

@@ -34,30 +34,30 @@ struct SCareer {
 	SOptions Options;
 };
 
-extern SControl DAT_800c0a48[2];
-extern SCareer DAT_800a6844;
+extern SControl Pad[2];
+extern SCareer GCareer;
 
 void Options_RemapControllers() {
 	int padNum;
 
 	for (padNum = 0; padNum < 2; padNum++) {
-		SButton *b = &DAT_800c0a48[padNum].Triangle;
-		int *f = DAT_800a6844.Options.ControllerFunction[padNum];
+		SButton *b = &Pad[padNum].Triangle;
+		int *f = GCareer.Options.ControllerFunction[padNum];
 		int i;
 
 		for (i = 0; i < 4; i++) {
 			switch (f[i]) {
 				case 0:
-					DAT_800c0a48[padNum].pTriangle = b + i;
+					Pad[padNum].pTriangle = b + i;
 					break;
 				case 1:
-					DAT_800c0a48[padNum].pSquare = b + i;
+					Pad[padNum].pSquare = b + i;
 					break;
 				case 2:
-					DAT_800c0a48[padNum].pCircle = b + i;
+					Pad[padNum].pCircle = b + i;
 					break;
 				case 3:
-					DAT_800c0a48[padNum].pX = b + i;
+					Pad[padNum].pX = b + i;
 					break;
 			}
 		}

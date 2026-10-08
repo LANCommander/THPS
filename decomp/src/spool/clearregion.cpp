@@ -25,9 +25,9 @@ struct SPSXRegion {
 	char pad35[64 - 0x35];
 };
 
-extern SPSXRegion DAT_800bf7a8[];
+extern SPSXRegion PSXRegion[];
 
-int DAT_800d1ed0[2];
+int EnvRegions[2];
 
 void DecrementTextureUsage(int);
 int Spool_GetEnvIndex(int);
@@ -43,22 +43,22 @@ void ClearRegion(int Region, int cleanuptextures, int KeepInMemory) {
 	if (Region == -1)
 		return;
 
-	if (!DAT_800bf7a8[Region].Used)
+	if (!PSXRegion[Region].Used)
 		return;
 
 	DecrementTextureUsage(Region);
 
 	if (!KeepInMemory) {
-		DAT_800bf7a8[Region].m18 = 0;
-		DAT_800bf7a8[Region].m2C = 0;
-		DAT_800bf7a8[Region].m28 = 0;
-		DAT_800bf7a8[Region].m0B = 0;
-		DAT_800bf7a8[Region].Loaded = 0;
-		DAT_800bf7a8[Region].m20 = 0;
-		DAT_800bf7a8[Region].pModels = 0;
-		DAT_800bf7a8[Region].Used = 0;
-		DAT_800bf7a8[Region].m33 = 0;
-		DAT_800bf7a8[Region].m34 = 0;
+		PSXRegion[Region].m18 = 0;
+		PSXRegion[Region].m2C = 0;
+		PSXRegion[Region].m28 = 0;
+		PSXRegion[Region].m0B = 0;
+		PSXRegion[Region].Loaded = 0;
+		PSXRegion[Region].m20 = 0;
+		PSXRegion[Region].pModels = 0;
+		PSXRegion[Region].Used = 0;
+		PSXRegion[Region].m33 = 0;
+		PSXRegion[Region].m34 = 0;
 
 		{
 			int EnvIndex = Spool_GetEnvIndex(Region);
@@ -67,13 +67,13 @@ void ClearRegion(int Region, int cleanuptextures, int KeepInMemory) {
 				FUN_80082738(EnvIndex);
 				DetachOldEnviro(EnvIndex);
 
-				DAT_800d1ed0[EnvIndex] = -1;
+				EnvRegions[EnvIndex] = -1;
 			}
 		}
 
-		Mem_Delete__FPv(DAT_800bf7a8[Region].pPSX);
+		Mem_Delete__FPv(PSXRegion[Region].pPSX);
 
-		DAT_800bf7a8[Region].pPSX = 0;
+		PSXRegion[Region].pPSX = 0;
 	}
 
 	if (cleanuptextures)

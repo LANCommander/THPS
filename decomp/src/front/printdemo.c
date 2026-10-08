@@ -2,7 +2,7 @@
 #include "names.h"
 int DAT_800d13ec;
 
-extern int DAT_800d1780;
+extern int GNumberOfPlayers;
 extern char DAT_8009e2e0[];
 
 void Mess_SetTextJustify(int);
@@ -15,7 +15,7 @@ void Front_PrintDemo(void) {
 		DAT_800d13ec = 48;
 
 	if (DAT_800d13ec >= 13) {
-		if (DAT_800d1780 == 2) {
+		if (GNumberOfPlayers == 2) {
 			Mess_SetTextJustify(0);
 			Mess_SetScale(255);
 			Mess_SetRGB(150, 100, 25, 0);

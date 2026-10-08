@@ -90,14 +90,14 @@ class CGrindSpark : public CBit {
 	CGrindSpark(CBody *pParent, CVector &pos, int vel, int gravity, int life);
 };
 
-extern SVideoInfo DAT_800bf318[2];
-extern CBruce *DAT_800d19a4;
-extern int DAT_800d13e8;
-extern int DAT_800d1868;
-extern int DAT_800d186c;
-extern int DAT_800d1780;
+extern SVideoInfo GVInfo1[2];
+extern CBruce *MechList;
+extern int Status;
+extern int BitCount;
+extern int UseCacheForBits;
+extern int GNumberOfPlayers;
 
-int DAT_800d1de8;
+int GVideoReplay;
 
 extern "C" void CamPt_SetClosestCamera__FP6CBruce(CBruce *);
 void RestartCompFrig();
@@ -118,12 +118,12 @@ void Video_Playback(CBruce *pSkater) {
 
 	CamPt_SetClosestCamera__FP6CBruce(pSkater);
 
-	if (pSkater == DAT_800d19a4)
-		VInfo = &DAT_800bf318[0];
+	if (pSkater == MechList)
+		VInfo = &GVInfo1[0];
 	else
-		VInfo = &DAT_800bf318[1];
+		VInfo = &GVInfo1[1];
 
-	if (DAT_800d13e8 == 20 || DAT_800d13e8 == 22 || DAT_800d13e8 == 21) {
+	if (Status == 20 || Status == 22 || Status == 21) {
 		if (!VInfo->FramesLeft) {
 			RestartCompFrig();
 			Video_Start__FP6CBruce10EVideoModeii(pSkater, 2, 1, 0x7fffffff);
@@ -140,7 +140,7 @@ void Video_Playback(CBruce *pSkater) {
 		    ABS(Mips_DotProd2(-pSkater->m7e0, pSkater->m6c, pSkater->m7d8, pSkater->m74)) < 40000;
 		int st = pSkater->m734;
 
-		if (st == 4 && (IsAGrind || pSkater->m146 == 58) && DAT_800d1868 < 200) {
+		if (st == 4 && (IsAGrind || pSkater->m146 == 58) && BitCount < 200) {
 			CSVector Angles;
 
 			{
@@ -159,14 +159,14 @@ void Video_Playback(CBruce *pSkater) {
 			cone.vz = 0;
 			Bit_SetSparkTrajectoryCone__FRC8CSVector(cone);
 
-			DAT_800d186c = 0;
+			UseCacheForBits = 0;
 			CVector SparkPos(0, 0x19000, 0);
 
 			for (int i = 0; i < 9; i++)
 				new CGrindSpark((CBody *)pSkater, SparkPos, -40, 4096, 5);
 
 			st = pSkater->m734;
-			DAT_800d186c = 1;
+			UseCacheForBits = 1;
 		}
 
 		if (st || ABS(pSkater->mPos.vy - pSkater->m2e4) > 64) {
@@ -190,17 +190,17 @@ void Video_Playback(CBruce *pSkater) {
 				VInfo->FramesLeft = EndFrame - StartFrame + 1;
 
 			{
-				int n = DAT_800d1de8;
+				int n = GVideoReplay;
 
 				VInfo->ReplayHighlight++;
-				DAT_800d1de8 = n + 1;
+				GVideoReplay = n + 1;
 			}
 
 			Video_SyncObsIfNeeded();
 		} else {
 			Video_Stop(pSkater);
 
-			if (DAT_800d1780 == 1 || pSkater == DAT_800d19a4)
+			if (GNumberOfPlayers == 1 || pSkater == MechList)
 				Front_SwitchOnVideoScreen__Fv();
 		}
 	}

@@ -14,11 +14,11 @@ struct SDB {
 	u_long OT[3];
 };
 
-extern SDB *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
+extern SDB *pDoubleBuffer;
+extern uchar *pPoly;
 
 void Draw_Rect(int X0, int Y0, int X1, int Y1, int X2, int Y2, int X3, int Y3, int c) {
-	POLY_F4 *pF4 = (POLY_F4 *)DAT_800d1a54;
+	POLY_F4 *pF4 = (POLY_F4 *)pPoly;
 	uchar *newppoly;
 
 	*(u_long *)&pF4->r0 = c;
@@ -31,8 +31,8 @@ void Draw_Rect(int X0, int Y0, int X1, int Y1, int X2, int Y2, int X3, int Y3, i
 	pF4->x2 = X3;
 	pF4->y2 = Y3 + 1;
 	newppoly = (uchar *)pF4 + sizeof(POLY_F4);
-	SetPolyF4((POLY_F4 *)DAT_800d1a54);
-	addPrim(&DAT_800d1a48->OT[2], DAT_800d1a54);
+	SetPolyF4((POLY_F4 *)pPoly);
+	addPrim(&pDoubleBuffer->OT[2], pPoly);
 
-	DAT_800d1a54 = newppoly;
+	pPoly = newppoly;
 }

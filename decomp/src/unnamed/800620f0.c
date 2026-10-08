@@ -1,6 +1,6 @@
 /* FUN_800620f0 (0x800620f0) */
 #include "names.h"
-extern char DAT_800a21a0[];
+extern char __vt_11SlicedImage[];
 extern char DAT_800a21b0[];
 
 void SlicedImage_unpack(char *p);
@@ -10,7 +10,7 @@ void Free256Slot(unsigned short s);
 void __dl__6CClassPv(char *p);
 
 void FUN_800620f0(char *p, int f) {
-	*(char **)p = DAT_800a21a0;
+	*(char **)p = __vt_11SlicedImage;
 
 	if (*(int *)(p + 44)) {
 		SlicedImage_unpack(p);

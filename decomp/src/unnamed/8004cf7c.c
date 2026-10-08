@@ -13,9 +13,9 @@ typedef struct {
 
 extern R DAT_800be09c[];
 
-int DAT_800d1b5c[2];
-int DAT_800d1b64[2];
-unsigned DAT_800d1b54;
+int Used[2];
+int FirstFreeBlock[2];
+unsigned CriticalBigHeapUsage;
 
 void AddToFreeList(B *b, int i);
 
@@ -23,8 +23,8 @@ void FUN_8004cf7c(void) {
 	int i;
 
 	for (i = 0; i < 2; i++) {
-		DAT_800d1b64[i] = 0;
-		DAT_800d1b5c[i] = 0;
+		FirstFreeBlock[i] = 0;
+		Used[i] = 0;
 
 		{
 			B *b = DAT_800be09c[i].a;
@@ -34,5 +34,5 @@ void FUN_8004cf7c(void) {
 		}
 	}
 
-	DAT_800d1b54 = (98 * (DAT_800be09c[1].b - (unsigned)DAT_800be09c[1].a)) / 100;
+	CriticalBigHeapUsage = (98 * (DAT_800be09c[1].b - (unsigned)DAT_800be09c[1].a)) / 100;
 }

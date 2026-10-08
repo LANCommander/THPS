@@ -6,16 +6,16 @@ typedef struct {
 	char pad2[8];
 } Font;
 
-unsigned char DAT_800d1602;
-int DAT_800d15e4;
+unsigned char NewFont;
+int Current_font;
 
-extern Font DAT_800a6110[];
+extern Font Font_table[];
 
 extern void Mess_SetScale(int);
 
 void Mess_SetFontScale(unsigned s) {
-	if (!DAT_800d1602)
+	if (!NewFont)
 		Mess_SetScale(s);
 	else
-		(DAT_800d15e4 + DAT_800a6110)->scale = s;
+		(Current_font + Font_table)->scale = s;
 }

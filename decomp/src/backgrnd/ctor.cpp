@@ -42,20 +42,20 @@ class CBackground : public CSuper {
 	CBackground(uint checksum, const CSVector &ang_vel);
 };
 
-extern char *DAT_800d19f0 __attribute__((section(".data")));
+extern char *pCurrentObjFile __attribute__((section(".data")));
 
-CBody *DAT_800d1fe4;
-ushort DAT_800d1fe8;
+CBody *BackgroundList;
+ushort CurrentIndex;
 
 int Spool_GetModel(uint, int);
 
 CBackground::CBackground(uint checksum, const CSVector &ang_vel) : CSuper(checksum, ang_vel) {
-	InitItem(DAT_800d19f0);
+	InitItem(pCurrentObjFile);
 
 	mModel = Spool_GetModel(checksum, mRegion);
 	mFlags &= ~2;
 	mCBodyFlags &= ~6;
-	AttachTo(&DAT_800d1fe4);
+	AttachTo(&BackgroundList);
 
-	mId = DAT_800d1fe8++;
+	mId = CurrentIndex++;
 }

@@ -6,12 +6,12 @@ typedef struct Message {
 	struct Message *prev;
 } Message;
 
-Message *DAT_800d15ec;
+Message *pMessages;
 
 extern void Mem_Delete(void *);
 
 void Mess_DeleteAll(void) {
-	Message *m = DAT_800d15ec;
+	Message *m = pMessages;
 	Message *n;
 
 	if (m) {
@@ -26,5 +26,5 @@ void Mess_DeleteAll(void) {
 		}
 	}
 
-	DAT_800d15ec = 0;
+	pMessages = 0;
 }

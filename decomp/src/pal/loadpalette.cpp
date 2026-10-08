@@ -22,10 +22,10 @@ struct tag_S_Pal {
 	uchar Loaded;    /* 6 */
 };
 
-int DAT_800d1a84;
-int DAT_800d1a88;
-int DAT_800d1a8c;
-int DAT_800d1a90;
+int Pal16X;
+int Pal16Y;
+int Pal256X;
+int Pal256Y;
 
 tag_S_Pal *Pal_NewEntry(uint);
 int GetFree16Slot(void);
@@ -77,14 +77,14 @@ tag_S_Pal *Pal_LoadPalette(uint checksum, uint *pData, uchar flags) {
 
 	if (entries == 16) {
 		pNew->Slot = GetFree16Slot();
-		rec.x = DAT_800d1a84;
-		rec.y = DAT_800d1a88 + pNew->Slot;
-		pNew->Clut = getClut(DAT_800d1a84, DAT_800d1a88 + pNew->Slot);
+		rec.x = Pal16X;
+		rec.y = Pal16Y + pNew->Slot;
+		pNew->Clut = getClut(Pal16X, Pal16Y + pNew->Slot);
 	} else {
 		pNew->Slot = GetFree256Slot();
-		rec.x = DAT_800d1a8c;
-		rec.y = DAT_800d1a90 + pNew->Slot;
-		pNew->Clut = getClut(DAT_800d1a8c, DAT_800d1a90 + pNew->Slot);
+		rec.x = Pal256X;
+		rec.y = Pal256Y + pNew->Slot;
+		pNew->Clut = getClut(Pal256X, Pal256Y + pNew->Slot);
 	}
 
 	rec.w = entries;

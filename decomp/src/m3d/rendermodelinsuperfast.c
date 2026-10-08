@@ -7,7 +7,7 @@ typedef struct {
 	char verts[1];
 } SModel;
 
-int DAT_800d21c0, DAT_800d21b4;
+int Dewibble, SubObjectMasked;
 
 int FUN_80086404(char *, int);
 int FUN_800862d4(char *, int);
@@ -18,14 +18,14 @@ void RenderModelInSuperFast(SModel *m) {
 	char *p = (char *)m + 28;
 	int r;
 
-	if (DAT_800d21c0)
+	if (Dewibble)
 		r = FUN_80086404(p, n);
 	else
 		r = FUN_800862d4(p, n);
 
 	p += n * 8;
 
-	if (DAT_800d21b4 == 0 && (r & 0x60006000) == 0)
+	if (SubObjectMasked == 0 && (r & 0x60006000) == 0)
 		FUN_800898ac(p + *(unsigned short *)((char *)m + 4) * 8, p,
 		             *(unsigned short *)((char *)m + 6));
 }

@@ -22,7 +22,7 @@ extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 extern "C" void FUN_80093130(MATRIX *, MATRIX *);
 extern "C" MATRIX *FUN_80093240(SVECTOR *, MATRIX *);
 
-extern CVector DAT_800a7f1c;
+extern CVector WorldUp;
 
 struct CBruce {
 	char pad0[0x78c];
@@ -43,7 +43,7 @@ void CBruce::UprightSideways() {
 	VECTOR v;
 
 	gte_ldopv1(&mFront);
-	gte_ldopv2(&DAT_800a7f1c);
+	gte_ldopv2(&WorldUp);
 	gte_op12();
 	gte_stlvnl(&v);
 
@@ -72,7 +72,7 @@ void CBruce::UprightSideways() {
 		FUN_80093240(&RotAngle, &SurfaceRotMatrix);
 		FUN_80093130(&mRotMatrix, &SurfaceRotMatrix);
 	} else {
-		Mips_CVecDotProd__FP7CVectorT0(&mUp, &DAT_800a7f1c);
+		Mips_CVecDotProd__FP7CVectorT0(&mUp, &WorldUp);
 	}
 
 	FRUVectorsFromRotMatrix();

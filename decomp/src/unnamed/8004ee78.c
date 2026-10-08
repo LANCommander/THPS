@@ -15,10 +15,10 @@ struct O {
 	struct O *next2;
 };
 
-struct O *DAT_800d1b70;
+struct O *TrickObList;
 
 void TrickOb_DeleteAll(void) {
-	struct O *p = DAT_800d1b70;
+	struct O *p = TrickObList;
 	struct O *n;
 
 	while (p) {

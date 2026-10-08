@@ -5,16 +5,16 @@ struct B {
 	int g[20][20];
 };
 
-extern struct B DAT_800c4e0c[];
+extern struct B Zones[];
 
 void FUN_80082738(int a) {
 	int i, j;
 
 	if (a < 2) {
-		DAT_800c4e0c[a].x = 0;
+		Zones[a].x = 0;
 
 		for (i = 0; i < 20; i++)
 			for (j = 0; j < 20; j++)
-				DAT_800c4e0c[a].g[i][j] = 0;
+				Zones[a].g[i][j] = 0;
 	}
 }

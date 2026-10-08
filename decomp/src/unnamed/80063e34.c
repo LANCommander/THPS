@@ -23,7 +23,7 @@ typedef struct {
 	int f280;
 } P;
 
-extern S DAT_800c0a48[];
+extern S Pad[];
 extern char DAT_800a2170[];
 
 int DAT_800d1d9c;
@@ -43,20 +43,20 @@ P *PadBuffer_ctor(P *p, int a1) {
 		p->f280 = 0;
 
 	if ((unsigned)p->f280 < 2) {
-		t = DAT_800c0a48;
+		t = Pad;
 		t[p->f280].a = 0;
 		t[p->f280].b = 0;
 		t[p->f280].c = 0;
 		t[p->f280].d = 0;
 	} else {
-		DAT_800c0a48[0].a = 0;
-		DAT_800c0a48[0].b = 0;
-		DAT_800c0a48[0].c = 0;
-		DAT_800c0a48[0].d = 0;
-		DAT_800c0a48[1].a = 0;
-		DAT_800c0a48[1].b = 0;
-		DAT_800c0a48[1].c = 0;
-		DAT_800c0a48[1].d = 0;
+		Pad[0].a = 0;
+		Pad[0].b = 0;
+		Pad[0].c = 0;
+		Pad[0].d = 0;
+		Pad[1].a = 0;
+		Pad[1].b = 0;
+		Pad[1].c = 0;
+		Pad[1].d = 0;
 	}
 
 	return p;

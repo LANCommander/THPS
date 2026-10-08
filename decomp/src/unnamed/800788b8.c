@@ -1,11 +1,11 @@
 /* _._7CCamera (0x800788b8) flags=-fstructure-noalias */
 #include "names.h"
-extern char DAT_800a3554[];
+extern char __vt_7CCamera[];
 extern char DAT_800a35c4[];
 extern char DAT_800a3594[];
 
-char DAT_800d2044[8];
-int DAT_800d2040;
+char CameraList[8];
+int NumCameras;
 
 void CBody_DeleteFrom(char *p, char *l);
 void FUN_8007d20c(char *p, int a);
@@ -20,11 +20,11 @@ void FUN_800788b8(char *q, int f) {
 	S *p = (S *)q;
 	int n;
 
-	p->v[18] = DAT_800a3554;
-	CBody_DeleteFrom(q, DAT_800d2044);
+	p->v[18] = __vt_7CCamera;
+	CBody_DeleteFrom(q, CameraList);
 
 	p->v[418] = DAT_800a35c4;
-	n = DAT_800d2040 - 1;
+	n = NumCameras - 1;
 	p->v[357] = DAT_800a3594;
 	p->v[359] = DAT_800a35c4;
 	p->v[357] = DAT_800a35c4;
@@ -33,7 +33,7 @@ void FUN_800788b8(char *q, int f) {
 	p->v[314] = DAT_800a35c4;
 	p->v[309] = DAT_800a35c4;
 	p->v[304] = DAT_800a35c4;
-	DAT_800d2040 = n;
+	NumCameras = n;
 	FUN_8007d20c(q + 864, 2);
 	FUN_8007d20c(q + 680, 2);
 	FUN_8007d20c(q + 496, 2);

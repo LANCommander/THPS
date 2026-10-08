@@ -11,7 +11,7 @@ struct O {
 	struct VT *vt;
 };
 
-extern char DAT_8009f280[];
+extern char __vt_11CShatterBit[];
 
 void FUN_80028968(char *p, int a);
 void __dl__4CBitPv(void *p);
@@ -19,7 +19,7 @@ void __dl__4CBitPv(void *p);
 void FUN_80020c90(char *p, int f) {
 	struct O *o = *(struct O **)(p + 200);
 
-	*(char **)(p + 68) = DAT_8009f280;
+	*(char **)(p + 68) = __vt_11CShatterBit;
 
 	if (o)
 		o->vt->fn((char *)o + o->vt->off, 3);

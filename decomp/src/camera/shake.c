@@ -20,29 +20,29 @@ typedef struct {
 	SV c;
 } CCamera;
 
-SV DAT_800d243c, DAT_800d2434, DAT_800d242c, DAT_800d241c;
-BV DAT_800d2424;
+SV BigShakeAmp, MediumShakeAmp, SmallShakeAmp, LandShakeSpeed;
+BV LandShakeDecay;
 
-extern void *DAT_800d1998 __attribute__((section(".data")));
-extern void *DAT_800d19b0 __attribute__((section(".data")));
+extern void *BaddyList __attribute__((section(".data")));
+extern void *EnvironmentalObjectList __attribute__((section(".data")));
 void SendShake(const V *, void *, int);
 
 void CCamera_Shake(CCamera *t, const V *v, int type) {
 	switch (type) {
 		case 0:
-			t->a = DAT_800d243c;
+			t->a = BigShakeAmp;
 			goto tail;
 		case 1:
-			t->a = DAT_800d2434;
+			t->a = MediumShakeAmp;
 			goto tail;
 		case 2:
-			t->a = DAT_800d242c;
+			t->a = SmallShakeAmp;
 		tail:
-			t->b = DAT_800d2424;
-			t->c = DAT_800d241c;
+			t->b = LandShakeDecay;
+			t->c = LandShakeSpeed;
 			break;
 	}
 
-	SendShake(v, DAT_800d1998, type);
-	SendShake(v, DAT_800d19b0, type);
+	SendShake(v, BaddyList, type);
+	SendShake(v, EnvironmentalObjectList, type);
 }

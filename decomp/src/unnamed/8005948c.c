@@ -4,21 +4,21 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-extern u_long *DAT_800d1a48;
-extern u_char *DAT_800d1a54;
+extern u_long *pDoubleBuffer;
+extern u_char *pPoly;
 
 void FUN_8005948c(void) {
-	DR_AREA *p = (DR_AREA *)DAT_800d1a54;
+	DR_AREA *p = (DR_AREA *)pPoly;
 	RECT r;
 
 	setRECT(&r, 0, 0, 640, 480);
 	SetDrawArea(p, &r);
 
 	{
-		u_long *ot = DAT_800d1a48 + 39;
+		u_long *ot = pDoubleBuffer + 39;
 
 		addPrim(ot, p);
 	}
 
-	DAT_800d1a54 = (u_char *)(p + 1);
+	pPoly = (u_char *)(p + 1);
 }

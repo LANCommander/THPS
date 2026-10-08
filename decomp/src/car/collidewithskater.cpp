@@ -54,10 +54,10 @@ class CBruce {
 	void BloodSplat(int, int);
 };
 
-extern int DAT_800a5e1c[];
-extern int DAT_800d1868;
-extern int DAT_800d186c;
-extern char DAT_800a824c[];
+extern int GameText_c0[];
+extern int BitCount;
+extern int UseCacheForBits;
+extern char ZeroVector[];
 
 unsigned int Utils_CrapDist(const CVector &, const CVector &);
 int Redbook_Rnd(int);
@@ -173,10 +173,10 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 				pSkater->Vibrate(8, 1, 150);
 				SFX_Grunt__FP6CBruce(pSkater);
 				SFX_PlayX__FUisi(40, 0x2000, 0);
-				Trick_Trick__6CBruceiPcii(pSkater, 78, DAT_800a5e1c[0], -1000, 0);
+				Trick_Trick__6CBruceiPcii(pSkater, 78, GameText_c0[0], -1000, 0);
 
 				{
-					int n = DAT_800d1868;
+					int n = BitCount;
 
 					pSkater->mLastCar = pCar;
 
@@ -196,16 +196,16 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 					cone.vz = 0;
 					Bit_SetSparkTrajectoryCone__FRC8CSVector(&cone);
 
-					DAT_800d186c = 0;
+					UseCacheForBits = 0;
 
 					for (i = 0; i < 20; i++) {
 						void *p = __nw__4CBitUi(120);
 
 						if (p)
-							__11CGrindSparkP5CBodyR7CVectoriii(p, pSkater, DAT_800a824c, -40, 4096, 5);
+							__11CGrindSparkP5CBodyR7CVectoriii(p, pSkater, ZeroVector, -40, 4096, 5);
 					}
 
-					DAT_800d186c = 1;
+					UseCacheForBits = 1;
 				}
 
 				return;

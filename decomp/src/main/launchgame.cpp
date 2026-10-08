@@ -29,23 +29,23 @@ struct SControl {
 
 enum EPackInitType { PACK_0, PACK_1 };
 
-extern SSaveGame DAT_800a5c64;
-extern SControl DAT_800c0a48[2];
+extern SSaveGame StartupGameState;
+extern SControl Pad[2];
 extern char DAT_8009f5b8[];
 extern char DAT_8009f5cc[];
-extern int DAT_800d1cf0;
-extern int DAT_800d1cb0;
-extern int DAT_800d1c9c;
+extern int BackOut;
+extern int DemoTimer;
+extern int StartScreen;
 
-int DAT_800d16a8;
-int DAT_800d16a4;
-int DAT_800d1780;
-int DAT_800d1830;
-int DAT_800d173c;
-int DAT_800d16e0;
-int DAT_800d17e8;
-int DAT_800d17ec;
-int DAT_800d17a8;
+int GAutoTest;
+int GGame;
+int GNumberOfPlayers;
+int CloseCam;
+int ViewportMode;
+int EndCode;
+int GClear1;
+int GClear2;
+int GHorseDoneStart;
 
 void Pack_Init();
 void Init_Restart(EPackInitType, int);
@@ -74,54 +74,54 @@ int LaunchGame() {
 	Init_Restart(PACK_0, 16);
 
 	{
-		SSaveGame tmp = DAT_800a5c64;
+		SSaveGame tmp = StartupGameState;
 
 		FUN_80071f3c();
 
-		DAT_800a5c64 = tmp;
+		StartupGameState = tmp;
 	}
 
-	FUN_800171e8(&DAT_800a5c64.Prefs);
+	FUN_800171e8(&StartupGameState.Prefs);
 
 	if (!Result) {
 		FUN_8005cba0();
 
-		if (DAT_800d16a8)
+		if (GAutoTest)
 			DumpAutoTest();
 
-		FUN_8001ccf8(&DAT_800a5c64);
+		FUN_8001ccf8(&StartupGameState);
 	}
 
-	if (DAT_800d1cf0) {
-		if (DAT_800d1cb0)
-			DAT_800d1c9c = 1;
+	if (BackOut) {
+		if (DemoTimer)
+			StartScreen = 1;
 		else
-			DAT_800d1c9c = 4;
+			StartScreen = 4;
 
-		DAT_800d1cf0 = 0;
+		BackOut = 0;
 		return 0;
 	}
 
-	if (DAT_800d16a4 == 7)
+	if (GGame == 7)
 		Horse_Reset();
 DUN:
-	DAT_800c0a48[0].X.Pressed = 1;
-	DAT_800c0a48[0].X.Triggered = 0;
-	DAT_800c0a48[1].X.Pressed = 1;
-	DAT_800c0a48[1].X.Triggered = 0;
-	DAT_800d1830 = 0;
-	DAT_800d173c = 0;
+	Pad[0].X.Pressed = 1;
+	Pad[0].X.Triggered = 0;
+	Pad[1].X.Pressed = 1;
+	Pad[1].X.Triggered = 0;
+	CloseCam = 0;
+	ViewportMode = 0;
 
-	if (DAT_800d1780 == 2 && DAT_800d16a4 != 7)
-		DAT_800d173c = 1;
+	if (GNumberOfPlayers == 2 && GGame != 7)
+		ViewportMode = 1;
 
 	PlayAway__Fv();
 
-	DAT_800d17e8 = 0;
-	DAT_800d17ec = 0;
-	DAT_800d17a8 = 0;
+	GClear1 = 0;
+	GClear2 = 0;
+	GHorseDoneStart = 0;
 
-	if (DAT_800d16e0 == 7) {
+	if (EndCode == 7) {
 		FUN_8008c190(DAT_8009f5b8);
 		Init_Cleanup__Fi(1);
 		Trig_ParseTRGFile();
@@ -134,7 +134,7 @@ DUN:
 	Init_Restart(PACK_0, 16);
 	FUN_800491e8();
 
-	DAT_800d1780 = 1;
+	GNumberOfPlayers = 1;
 	Init_Restart(PACK_1, 16);
 	FUN_8006b01c(1);
 	return 0;

@@ -6,7 +6,7 @@ typedef struct T {
 	struct T *mpNext;
 } T;
 
-T *DAT_800d1b70;
+T *TrickObList;
 
 unsigned int FUN_8006ef00(void);
 
@@ -14,7 +14,7 @@ int FUN_8004f318(void) {
 	unsigned int c = FUN_8006ef00();
 	T *p;
 
-	for (p = DAT_800d1b70; p; p = p->mpNext)
+	for (p = TrickObList; p; p = p->mpNext)
 		if (p->mChecksum == c)
 			break;
 

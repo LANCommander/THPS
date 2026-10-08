@@ -1,8 +1,8 @@
 /* SendSignalToLinks__FPUs (0x80045d70) */
 #include "names.h"
-extern void *DAT_800d1998, *DAT_800d19b0;
+extern void *BaddyList, *EnvironmentalObjectList;
 
-short **DAT_800d19e8;
+short **OffsetList;
 
 void SendSignalToNode(void *b, int node);
 
@@ -12,11 +12,11 @@ void SendSignalToLinks(unsigned short *p) {
 
 	for (i = 0; i < n; i++) {
 		int node = *q;
-		short t = *DAT_800d19e8[node];
+		short t = *OffsetList[node];
 
 		if (t == 1 || t == 7) {
-			SendSignalToNode(DAT_800d1998, node);
-			SendSignalToNode(DAT_800d19b0, node);
+			SendSignalToNode(BaddyList, node);
+			SendSignalToNode(EnvironmentalObjectList, node);
 		}
 
 		q++;

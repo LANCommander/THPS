@@ -7,7 +7,7 @@ typedef struct {
 	unsigned x;
 } SComp;
 
-extern SComp DAT_800c0fdc;
+extern SComp theCompetition;
 
 void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
 void Mess_SetScale(int);
@@ -15,16 +15,16 @@ void Mess_SetTextJustify(int);
 int Mess_DrawText(int, int, const char *, int, int, int, int);
 
 void Competition_MarqueeDisplay(void) {
-	if (DAT_800c0fdc.text) {
+	if (theCompetition.text) {
 		Mess_SetRGB(122, 122, 122, 0);
 		Mess_SetScale(256);
 		Mess_SetTextJustify(1);
 
-		if (DAT_800c0fdc.x > 768)
-			DAT_800c0fdc.x = 0;
+		if (theCompetition.x > 768)
+			theCompetition.x = 0;
 
-		Mess_DrawText(512 - DAT_800c0fdc.x, 200, DAT_800c0fdc.text, 0, 0, 256, 0);
+		Mess_DrawText(512 - theCompetition.x, 200, theCompetition.text, 0, 0, 256, 0);
 
-		DAT_800c0fdc.x += 5;
+		theCompetition.x += 5;
 	}
 }

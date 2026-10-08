@@ -11,26 +11,26 @@ typedef struct {
 	unsigned code[1];
 } DR_TPAGE;
 
-volatile int DAT_800d1a1c;
+volatile int GameFade;
 
-extern int DAT_800d1ac4;
+extern int SFX_ReverbDepthSetTimer;
 
 int FUN_8008c468(int);
 void FUN_8008c880(void *);
 void SFX_SetReverbDepth(int, int);
 
 void Utils_VblankProcessing(void) {
-	if (DAT_800d1a1c) {
+	if (GameFade) {
 		POLY_F4 p;
 		DR_TPAGE m;
 
 		m.tag = 0x01000000;
 		m.code[0] = 0xe1000640;
 		((unsigned char *)&p.tag)[3] = 5;
-		DAT_800d1a1c--;
+		GameFade--;
 		p.code = 0x2a;
 
-		if (DAT_800d1a1c & 1) {
+		if (GameFade & 1) {
 			p.r0 = 0;
 			p.g0 = 0;
 			p.b0 = 8;
@@ -54,8 +54,8 @@ void Utils_VblankProcessing(void) {
 		FUN_8008c468(0);
 	}
 
-	if (DAT_800d1ac4) {
-		if (--DAT_800d1ac4 == 0)
+	if (SFX_ReverbDepthSetTimer) {
+		if (--SFX_ReverbDepthSetTimer == 0)
 			SFX_SetReverbDepth(32, 32);
 	}
 }

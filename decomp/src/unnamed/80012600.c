@@ -1,14 +1,14 @@
 /* FUN_80012600 (0x80012600) */
-extern unsigned char DAT_800a42d0[];
+extern unsigned char SaveGameName[];
 
 int FUN_80012600(void) {
 	int i;
 
 	for (i = 0; i < 10; i++) {
-		if (DAT_800a42d0[i] == 0)
+		if (SaveGameName[i] == 0)
 			return 1;
 
-		if (DAT_800a42d0[i] != 32)
+		if (SaveGameName[i] != 32)
 			return 0;
 	}
 

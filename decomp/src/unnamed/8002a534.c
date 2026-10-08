@@ -19,9 +19,9 @@ typedef struct {
 	unsigned char b70, b71, b72, b73, b74, b75, b76;
 } B;
 
-extern char DAT_8009f688[];
+extern char __vt_9CGlassBit[];
 
-char DAT_800d18ec[8];
+char GlassList[8];
 
 void CBit_ctor(B *);
 void CBit_AttachTo(B *, char *);
@@ -33,8 +33,8 @@ B *CGlassBit_ctor(B *p, V *pos, V *vel, int a3, unsigned char r, unsigned char g
 
 	CBit_ctor(p);
 
-	p->vt = DAT_8009f688;
-	CBit_AttachTo(p, DAT_800d18ec);
+	p->vt = __vt_9CGlassBit;
+	CBit_AttachTo(p, GlassList);
 
 	sx = rx * 2 + 1;
 	sy = ry * 2 + 1;

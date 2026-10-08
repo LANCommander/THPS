@@ -7,7 +7,7 @@ typedef struct {
 	void (*fn)(char *, int);
 } VT;
 
-extern char DAT_8009f6b8[];
+extern char __vt_7CRibbon[];
 
 void Mem_Delete(char *p);
 void FUN_80027fa4(char *p, int a);
@@ -16,7 +16,7 @@ void __dl__4CBitPv(char *p);
 void FUN_8002a018(char *p, int f) {
 	int i;
 
-	*(char **)(p + 68) = DAT_8009f6b8;
+	*(char **)(p + 68) = __vt_7CRibbon;
 
 	for (i = 0; i < *(int *)(p + 72); i++) {
 		char *o = ((char **)*(char **)(p + 92))[i];

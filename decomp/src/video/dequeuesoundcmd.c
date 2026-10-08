@@ -4,12 +4,12 @@ typedef struct {
 	int type, val;
 } SSoundCmd;
 
-extern SSoundCmd DAT_800bf524[];
+extern SSoundCmd SoundCmd[];
 
-int DAT_800d1df4;
+int FirstEntry;
 
 void DequeueSoundCmd(int *type, int *val) {
-	*type = DAT_800bf524[DAT_800d1df4].type;
-	*val = DAT_800bf524[DAT_800d1df4].val;
-	DAT_800d1df4 = (DAT_800d1df4 + 1) % 30;
+	*type = SoundCmd[FirstEntry].type;
+	*val = SoundCmd[FirstEntry].val;
+	FirstEntry = (FirstEntry + 1) % 30;
 }

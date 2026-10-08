@@ -18,14 +18,14 @@ typedef struct {
 	E e[15];
 } P;
 
-extern char DAT_8009e538[];
+extern char __vt_5CMenu[];
 
 void CMenu_SetLine(char *p, int l);
 
 char *CMenu_ctor(P *p, int a, int b, int c, int s2, int s1, int g) {
 	int i;
 
-	*(char **)p = DAT_8009e538;
+	*(char **)p = __vt_5CMenu;
 	p->f12 = a;
 	p->f16 = b;
 	p->b4 = c;

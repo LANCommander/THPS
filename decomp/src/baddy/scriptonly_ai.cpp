@@ -78,10 +78,10 @@ class CScriptOnlyBaddy {
 	void AI();
 };
 
-extern int DAT_800d13cc;
-extern volatile int DAT_800d16e4;
-extern SSkater *DAT_800d19a4;
-extern SObj *DAT_800d2044;
+extern int SFXLEVEL;
+extern volatile int TTime;
+extern SSkater *MechList;
+extern SObj *CameraList;
 
 extern "C" int ParseScript__6CBaddyPUs(CScriptOnlyBaddy *, int);
 void SFX_ModifyPos(unsigned int, const CVector &, int);
@@ -105,18 +105,18 @@ void CScriptOnlyBaddy::AI() {
 		vt->fn((char *)this + vt->off);
 	}
 
-	if (mLoopingSoundUpdate != -1 && DAT_800d16e4 % mLoopingSoundUpdate == 0) {
-		int t = DAT_800d13cc;
+	if (mLoopingSoundUpdate != -1 && TTime % mLoopingSoundUpdate == 0) {
+		int t = SFXLEVEL;
 		unsigned int snd = mLoopingSound;
 
-		DAT_800d13cc = t * mLoopingSoundVolume / 100;
+		SFXLEVEL = t * mLoopingSoundVolume / 100;
 		SFX_ModifyPos(snd, mPos, 0);
 
-		DAT_800d13cc = t;
+		SFXLEVEL = t;
 	}
 
 	if (mpRain) {
-		int ground = DAT_800d19a4->yc0;
+		int ground = MechList->yc0;
 
 		for (int i = 0; i < mNumRain; i++) {
 			SRainEntry *p_entry = &mpRain[i];
@@ -128,11 +128,11 @@ void CScriptOnlyBaddy::AI() {
 				CVector offset((Rnd(2400) - 1200) << 12, (Rnd(400) - 1200) << 12,
 				               (Rnd(2400) - 1200) << 12);
 
-				pos = DAT_800d19a4->mPos + offset;
+				pos = MechList->mPos + offset;
 			}
 
 			p_entry->p_line->Start = pos;
-			*p_entry->p_line->pEnd = (pos - p_entry->vel) + (DAT_800d2044->v6c >> 1);
+			*p_entry->p_line->pEnd = (pos - p_entry->vel) + (CameraList->v6c >> 1);
 		}
 	}
 }

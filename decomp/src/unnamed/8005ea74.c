@@ -9,7 +9,7 @@ typedef struct {
 } T;
 
 extern S DAT_800a5e38;
-extern T DAT_800a4118;
+extern T GPreferences;
 
 int DAT_800d1d28;
 
@@ -24,7 +24,7 @@ int FUN_8005ea74(int i) {
 		case 3:
 			return DAT_800a5e38.e;
 		case 1:
-			if (DAT_800a4118.f[cur])
+			if (GPreferences.f[cur])
 				return DAT_800a5e38.c;
 
 			return DAT_800a5e38.d;

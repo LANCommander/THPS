@@ -3,7 +3,7 @@ typedef struct {
 	unsigned char a, b, c, d, e[10];
 } R;
 
-extern R DAT_800a684c[];
+extern R GCareer_8[];
 extern char DAT_800a1f50[], DAT_800a1f60[], DAT_800a1f78[], DAT_800a1f88[];
 extern int DAT_800d1708;
 
@@ -26,17 +26,17 @@ int FUN_80060854(int a) {
 		DAT_800d1d80 = 1;
 
 		for (i = 0; i < 11; i++) {
-			DAT_800a684c[i].a = 0;
-			DAT_800a684c[i].d = 0;
-			DAT_800a684c[i].c = 0;
-			DAT_800a684c[i].b = 0;
+			GCareer_8[i].a = 0;
+			GCareer_8[i].d = 0;
+			GCareer_8[i].c = 0;
+			GCareer_8[i].b = 0;
 
 			for (j = 0; j < 10; j++) {
-				DAT_800a684c[i].e[j] = 255;
-				DAT_800a684c[i].a += 5;
-				DAT_800a684c[i].d += 1;
-				DAT_800a684c[i].c += 1;
-				DAT_800a684c[i].b += 1;
+				GCareer_8[i].e[j] = 255;
+				GCareer_8[i].a += 5;
+				GCareer_8[i].d += 1;
+				GCareer_8[i].c += 1;
+				GCareer_8[i].b += 1;
 			}
 		}
 	} else if (v == 114) {

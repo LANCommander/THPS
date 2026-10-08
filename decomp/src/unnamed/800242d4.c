@@ -7,59 +7,59 @@ typedef struct {
 	int f838;
 } B;
 
-int DAT_800d16a4, DAT_800d1784, DAT_800d1788, DAT_800d178c;
-B *DAT_800d17c8;
+int GGame, GState, DAT_800d1788, GSpinSpeed;
+B *GSkater;
 B *DAT_800d17cc;
 
-extern int DAT_800d1954, DAT_800d1958, DAT_800d195c, DAT_800d1960, DAT_800d1964, DAT_800d1968,
-    DAT_800d196c, DAT_800d1970;
+extern int GWins1, GLosses1, GStreak1, GHighTags1, GWins2, GLosses2,
+    GStreak2, GHighTags2;
 
 void Game_Over(void) {
 	int a, b, c;
 
-	if (DAT_800d16a4 == 8) {
+	if (GGame == 8) {
 		a = DAT_800d17cc->f1f0;
-		b = DAT_800d17c8->f1f0;
+		b = GSkater->f1f0;
 
 		if (a != b) {
 			if (b < a) {
-				DAT_800d1964++;
-				DAT_800d1958++;
+				GWins2++;
+				GLosses1++;
 
-				if (DAT_800d196c < 0)
-					DAT_800d196c = 1;
+				if (GStreak2 < 0)
+					GStreak2 = 1;
 				else
-					DAT_800d196c++;
+					GStreak2++;
 
-				DAT_800d195c = -DAT_800d196c;
+				GStreak1 = -GStreak2;
 			} else {
-				DAT_800d1954++;
-				DAT_800d1968++;
+				GWins1++;
+				GLosses2++;
 
-				if (DAT_800d195c < 0)
-					DAT_800d195c = 1;
+				if (GStreak1 < 0)
+					GStreak1 = 1;
 				else
-					DAT_800d195c++;
+					GStreak1++;
 
-				DAT_800d196c = -DAT_800d195c;
+				GStreak2 = -GStreak1;
 			}
 
-			c = DAT_800d17c8->f1f0;
+			c = GSkater->f1f0;
 
-			if (DAT_800d1960 < c)
-				DAT_800d1960 = c;
+			if (GHighTags1 < c)
+				GHighTags1 = c;
 
 			c = DAT_800d17cc->f1f0;
 
-			if (DAT_800d1970 < c)
-				DAT_800d1970 = c;
+			if (GHighTags2 < c)
+				GHighTags2 = c;
 		}
 	}
 
-	if (DAT_800d1784 == 0) {
-		DAT_800d1784 = 1;
+	if (GState == 0) {
+		GState = 1;
 		DAT_800d1788 = 80;
-		DAT_800d178c = 64;
+		GSpinSpeed = 64;
 
 		if (DAT_800d17cc)
 			DAT_800d17cc->f838 = 0;

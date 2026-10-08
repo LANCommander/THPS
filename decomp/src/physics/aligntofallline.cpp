@@ -33,7 +33,7 @@ class CBruce {
 	void AlignToFallLine(int Amount);
 };
 
-extern int DAT_800d1770;
+extern int XFrames;
 
 void M3dUtils_NormaliseVector(CVector *);
 void ProjectCVectorToPlane(CVector *, SVECTOR);
@@ -67,10 +67,10 @@ void CBruce::AlignToFallLine(int Amount) {
 	if (!angle)
 		return;
 
-	if (mFallLineFrame + 10 < DAT_800d1770)
+	if (mFallLineFrame + 10 < XFrames)
 		mFallLineSide = 0;
 
-	mFallLineFrame = DAT_800d1770;
+	mFallLineFrame = XFrames;
 	FallLineUnit = mFallLine;
 	M3dUtils_NormaliseVector(&FallLineUnit);
 

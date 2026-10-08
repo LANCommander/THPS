@@ -1,10 +1,10 @@
 /* __9CPlatformPsi (0x8003d6d8) */
 #include "names.h"
-extern char DAT_800a013c[];
+extern char __vt_9CPlatform[];
 
-extern void *DAT_800d19b0 __attribute__((section(".data")));
-extern char *DAT_800d19f0 __attribute__((section(".data")));
-extern int DAT_800d199c __attribute__((section(".data")));
+extern void *EnvironmentalObjectList __attribute__((section(".data")));
+extern char *pCurrentObjFile __attribute__((section(".data")));
+extern int pCurrentPlayer __attribute__((section(".data")));
 void CBaddy_ctor(char *);
 void CItem_InitItem(char *, char *);
 void CBody_AttachTo(char *, void *);
@@ -17,12 +17,12 @@ char *CPlatform_ctor(char *t, short *p, int id) {
 
 	CBaddy_ctor(t);
 
-	nm = DAT_800d19f0;
-	x = DAT_800d199c;
-	*(char **)(t + 0x48) = DAT_800a013c;
+	nm = pCurrentObjFile;
+	x = pCurrentPlayer;
+	*(char **)(t + 0x48) = __vt_9CPlatform;
 	*(int *)(t + 0x218) = x;
 	CItem_InitItem(t, nm);
-	CBody_AttachTo(t, &DAT_800d19b0);
+	CBody_AttachTo(t, &EnvironmentalObjectList);
 
 	*(short *)(t + 0x22c) = 402;
 	*(unsigned short *)t |= 0x111;

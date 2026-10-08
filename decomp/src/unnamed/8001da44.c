@@ -9,10 +9,10 @@ typedef struct E {
 	int f20;
 } E;
 
-extern E DAT_800a6110[];
+extern E Font_table[];
 
-int DAT_800d15e4;
-unsigned char DAT_800d1602;
+int Current_font;
+unsigned char NewFont;
 
 int FUN_8001d340(void);
 int GetCharIndex(int);
@@ -21,7 +21,7 @@ int Mess_TextWidth(unsigned char *s0) {
 	int n, idx;
 	unsigned char *s;
 
-	if (DAT_800d1602 == 0)
+	if (NewFont == 0)
 		return FUN_8001d340();
 
 	s = s0;
@@ -33,13 +33,13 @@ int Mess_TextWidth(unsigned char *s0) {
 
 			if ((unsigned)(idx - 250) >= 5) {
 				if (idx == 255) {
-					n += ((DAT_800a6110[DAT_800d15e4].f20 + DAT_800a6110[DAT_800d15e4].f1c) *
-					      DAT_800a6110[DAT_800d15e4].f1a) >>
+					n += ((Font_table[Current_font].f20 + Font_table[Current_font].f1c) *
+					      Font_table[Current_font].f1a) >>
 					     8;
 				} else {
-					n += (((DAT_800a6110[DAT_800d15e4].f14 + idx)->f20 +
-					       DAT_800a6110[DAT_800d15e4].f1c) *
-					      DAT_800a6110[DAT_800d15e4].f1a) >>
+					n += (((Font_table[Current_font].f14 + idx)->f20 +
+					       Font_table[Current_font].f1c) *
+					      Font_table[Current_font].f1a) >>
 					     8;
 				}
 			}

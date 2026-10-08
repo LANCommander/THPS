@@ -4,8 +4,8 @@ typedef struct {
 	int x, y, z;
 } V;
 
-int DAT_800d19e4, DAT_800d19ec;
-short **DAT_800d19e8;
+int RestartNode, NumNodes;
+short **OffsetList;
 
 char *Trig_GetPosition(V *v, int n);
 int Utils_CompareStrings__FPCcT0Ui(const char *a, const char *b, unsigned n);
@@ -13,15 +13,15 @@ int Utils_CompareStrings__FPCcT0Ui(const char *a, const char *b, unsigned n);
 void Trig_SetRestart(char *name) {
 	int i;
 
-	DAT_800d19e4 = 0xffff;
+	RestartNode = 0xffff;
 
-	for (i = 0; i < DAT_800d19ec; i++) {
-		if (*DAT_800d19e8[i] == 8) {
+	for (i = 0; i < NumNodes; i++) {
+		if (*OffsetList[i] == 8) {
 			V v;
 
 			if (Utils_CompareStrings__FPCcT0Ui(Trig_GetPosition(&v, i) + 6, name,
 			                                   -1)) {
-				DAT_800d19e4 = i;
+				RestartNode = i;
 				return;
 			}
 		}

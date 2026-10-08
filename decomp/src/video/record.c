@@ -2,13 +2,13 @@
 #include "names.h"
 typedef struct CBruce CBruce;
 
-extern int DAT_800d1784;
+extern int GState;
 
 void Video_Stop(CBruce *);
 void PutDataChunk(CBruce *);
 
 void Video_Record(CBruce *b) {
-	if (DAT_800d1784 == 1)
+	if (GState == 1)
 		Video_Stop(b);
 	else
 		PutDataChunk(b);

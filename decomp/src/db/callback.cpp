@@ -8,21 +8,21 @@ struct SDb {
 	char pad80[32940 - 128];
 };
 
-extern SDb DAT_800a891c[2];
+extern SDb DoubleBuffer[2];
 
 extern "C" int FUN_8008c468(int);
 
 void Db_CallBack() {
-	if (!DAT_800a891c[0].Pending && !DAT_800a891c[1].Pending)
+	if (!DoubleBuffer[0].Pending && !DoubleBuffer[1].Pending)
 		return;
 
 	if (!FUN_8008c468(1)) {
 		int i;
 
 		for (i = 0; i < 2; i++) {
-			if (DAT_800a891c[i].Pending) {
-				DAT_800a891c[i].Pending = 0;
-				DAT_800a891c[i].Done = 1;
+			if (DoubleBuffer[i].Pending) {
+				DoubleBuffer[i].Pending = 0;
+				DoubleBuffer[i].Done = 1;
 			}
 		}
 	}

@@ -23,7 +23,7 @@ struct CBruce {
 CVector operator<<(const CVector &, const int &);
 extern "C" void ApplyMatrixLV(void *, VECTOR *, VECTOR *);
 
-unsigned int DAT_800d2048;
+unsigned int Camera_CurrentMikeCamera;
 
 struct CCamera {
 	char pad0[0x134];
@@ -66,7 +66,7 @@ void CCamera::ResetOrientation() {
 	real_cam_offset.vz = vtemp2.vz;
 	v5f4 = v600 = (*(CVector *)&real_cam_offset) << 12;
 	mOldFocusPos = mFocusPos = mFocus->mPos;
-	DAT_800d2048 = mMikeIndex;
+	Camera_CurrentMikeCamera = mMikeIndex;
 	CM_Normal();
 
 	q510 = q4e8 = q4c0 = q4d4;

@@ -3,7 +3,7 @@
    (DAT_800d1cf8 = 1, 3, 4, 5; dispatched by FUN_8005d370). Called once per load callback while
    loading (DAT_800d1cec = 0) and, after FUN_8005dc8c sets DAT_800d1cec, it loops until the player
    continues: draws the background, the level picture (DAT_800d1d0c) and the blinking "Press X"
-   sprite (DAT_800d1d04, toggled by the DAT_800d1d08 counter). START/X or DAT_800d16a8 continue
+   sprite (DAT_800d1d04, toggled by the DAT_800d1d08 counter). START/X or GAutoTest continue
    (sound 6, fade 64); triangle backs out (sound 2). Afterwards it deletes the two sprites. */
 typedef unsigned char uchar;
 typedef unsigned int uint;
@@ -44,16 +44,16 @@ class Sprite : public CItem {
 	void draw(int, int, int, int, int, int);
 };
 
-extern SControl DAT_800c0a48[2];
+extern SControl Pad[2];
 extern int DAT_800bf0d4[]; /* picture x by screen */
 extern int DAT_800bf0e0[]; /* picture y by screen */
-extern int DAT_800d16a8;
+extern int GAutoTest;
 extern uint DAT_800d1a1c; /* GameFade */
 extern int DAT_800d1cb8;  /* START+SELECT quit */
 
 int DAT_800d1ce8;
 int DAT_800d1cec;     /* loading finished */
-int DAT_800d1cf0;     /* backed out */
+int BackOut;     /* backed out */
 int DAT_800d1cf8;     /* screen type */
 Sprite *DAT_800d1d04; /* "Press X" */
 int DAT_800d1d08;     /* blink counter */
@@ -86,7 +86,7 @@ extern "C" void FUN_8005d3dc(void) {
 		FUN_8006b240();
 		FUN_80061ea0();
 		FUN_800242cc();
-		if (DAT_800d1cf0) {
+		if (BackOut) {
 			DrawColoredBox__FiiiiUcUcUc(0, 0, 512, 240, 0, 0, 0);
 			return;
 		}
@@ -117,24 +117,24 @@ extern "C" void FUN_8005d3dc(void) {
 		FUN_8005c68c();
 		if (DAT_800d1cb8) {
 			DAT_800d1ce8 = 0;
-			DAT_800d1cf0 = 1;
+			BackOut = 1;
 			break;
 		}
-		if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered ||
-		    DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered || DAT_800d16a8) {
+		if (Pad[0].Start.Triggered || Pad[1].Start.Triggered ||
+		    Pad[0].X.Triggered || Pad[1].X.Triggered || GAutoTest) {
 			SFX_PlayX(6, 8192, 0);
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 			DAT_800d1a1c = 64;
 			break;
 		}
-		if (DAT_800c0a48[0].Triangle.Triggered || DAT_800c0a48[1].Triangle.Triggered) {
+		if (Pad[0].Triangle.Triggered || Pad[1].Triangle.Triggered) {
 			SFX_PlayX(2, 8192, 0);
 			Pause(20);
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 			DAT_800d1ce8 = 0;
-			DAT_800d1cf0 = 1;
+			BackOut = 1;
 		}
 	} while (DAT_800d1cec);
 

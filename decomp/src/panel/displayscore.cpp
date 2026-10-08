@@ -3,7 +3,7 @@
    with inner Value). Draws the balance meter and score panel, counts ScoreToAdd into Score, awards
    the two score tapes in career mode, and prints the score (flashing above 999999).
    Levers: DrawGouraudPoly returns POLY_G4* and Mess_DrawPanelText returns int (register choice of
-   the stacked args); DAT_800d17b0 is a small sized extern ([2]) so its address is one `la` and the
+   the stacked args); GHorseLetters is a small sized extern ([2]) so its address is one `la` and the
    Horse_DisplayWords jal delay slot stays empty; Sprite::draw takes ints (no &255 on the flash). */
 typedef unsigned char uchar;
 typedef unsigned short ushort;
@@ -37,21 +37,21 @@ struct SLevelInfo {
 	char pad2[120 - 0x4c];
 };
 
-extern int DAT_800bf318[];
-extern int DAT_800d172c;
-extern int DAT_800d16a4;
+extern int GVInfo1[];
+extern int Cheat_Fire;
+extern int GGame;
 extern int DAT_800d1798;
 extern int DAT_800d1790;
-extern int DAT_800d1d94;
-extern Sprite *DAT_800d184c;
-extern Sprite *DAT_800d1854;
-extern CBruce *DAT_800d17c8;
-extern int DAT_800d1e28;
-extern volatile unsigned DAT_800d1a24;
-extern int DAT_800d17b0[2];
+extern int OT_entry;
+extern Sprite *pScoreSprite;
+extern Sprite *pBarSprite;
+extern CBruce *GSkater;
+extern int GLevel;
+extern volatile unsigned Xblanks;
+extern int GHorseLetters[2];
 extern char DAT_800d1e80[];
 extern char DAT_800d1e88[];
-extern SLevelInfo DAT_800a5398[];
+extern SLevelInfo Levels[];
 
 void Horse_DisplayWords(int *);
 
@@ -72,20 +72,20 @@ void Mess_SetScale(int);
 int Mess_DrawPanelText(int, int, const char *, int, unsigned, int);
 
 void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
-	int DoDisplay = DAT_800bf318[0] != 2;
+	int DoDisplay = GVInfo1[0] != 2;
 
-	if (DAT_800d172c) {
+	if (Cheat_Fire) {
 		pBruce->BalanceFlash = 750;
 		pBruce->BalanceTime = 750;
 	}
 
-	if (DAT_800d16a4 == 7) {
-		if (!DAT_800d172c) {
+	if (GGame == 7) {
+		if (!Cheat_Fire) {
 			pBruce->BalanceFlash = 0;
 			pBruce->BalanceTime = -1;
 		}
 
-		Horse_DisplayWords(DAT_800d17b0);
+		Horse_DisplayWords(GHorseLetters);
 		return;
 	}
 
@@ -100,20 +100,20 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
 			if (pBruce->BalanceTime != -1) {
 				if (pBruce->BalanceFlash)
 					DrawGouraudPoly(xpos - 1, ypos + 10, pBruce->BalanceFlash * 120 / 750, 3,
-					                (DAT_800d1a24 % 40) * 6, (DAT_800d1a24 % 40) * 6, 50,
-					                (DAT_800d1a24 % 40) * 6, (DAT_800d1a24 % 40) * 6, 50, 0);
+					                (Xblanks % 40) * 6, (Xblanks % 40) * 6, 50,
+					                (Xblanks % 40) * 6, (Xblanks % 40) * 6, 50, 0);
 				else if (pBruce->BalanceTime)
 					DrawGouraudPoly(xpos - 1, ypos + 10, pBruce->BalanceTime / 25, 3, 0, 150, 0, 0,
 					                150, 50, 0);
 			}
 
-			DAT_800d1d94 = 1;
+			OT_entry = 1;
 			r = -1;
 			g = -1;
 			b = -1;
 
-			if (DAT_800d16a4 == 8) {
-				if (pBruce == DAT_800d17c8) {
+			if (GGame == 8) {
+				if (pBruce == GSkater) {
 					r = 80;
 					g = 80;
 					b = 128;
@@ -124,20 +124,20 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
 				}
 			}
 
-			DAT_800d184c->draw(xpos, ypos - 20, 1, r, g, b);
+			pScoreSprite->draw(xpos, ypos - 20, 1, r, g, b);
 
-			if (DAT_800d16a4 != 7) {
+			if (GGame != 7) {
 				if (pBruce->BalanceFlash == 0)
-					DAT_800d1854->draw(xpos - 4, ypos, 1, r, g, b);
+					pBarSprite->draw(xpos - 4, ypos, 1, r, g, b);
 				else
-					DAT_800d1854->draw(xpos - 4, ypos, 1, (DAT_800d1a24 % 40) * 6,
-					                   (DAT_800d1a24 % 40) * 6, 50);
+					pBarSprite->draw(xpos - 4, ypos, 1, (Xblanks % 40) * 6,
+					                   (Xblanks % 40) * 6, 50);
 			}
 		}
 	}
 
-	if (DAT_800d16a4 != 7 && pBruce->ScoreToAdd && !pBruce->Bailing) {
-		if (DAT_800d16a4 == 8) {
+	if (GGame != 7 && pBruce->ScoreToAdd && !pBruce->Bailing) {
+		if (GGame == 8) {
 			pBruce->ScoreToAdd = 0;
 		} else if (pBruce->ScoreToAdd > 10000) {
 			pBruce->Score += 250;
@@ -154,11 +154,11 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
 		}
 	}
 
-	if (DoDisplay && DAT_800d16a4 == 1 && !DAT_800a5398[DAT_800d1e28].NoTapes) {
-		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore1 && !Career_Got__Fi(0))
+	if (DoDisplay && GGame == 1 && !Levels[GLevel].NoTapes) {
+		if (pBruce->Score >= Levels[GLevel].TapeScore1 && !Career_Got__Fi(0))
 			Panel_Tape__Fi(0);
 
-		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore2 && !Career_Got__Fi(4))
+		if (pBruce->Score >= Levels[GLevel].TapeScore2 && !Career_Got__Fi(4))
 			Panel_Tape__Fi(4);
 	}
 
@@ -167,14 +167,14 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
 
 		if (pBruce->Score > 999999) {
 			FUN_8008b900(score, DAT_800d1e80, pBruce->Score);
-			Mess_SetRGB((DAT_800d1a24 % 20) * 12, 100, 100, 0);
+			Mess_SetRGB((Xblanks % 20) * 12, 100, 100, 0);
 		} else {
 			Mess_SetRGB(128, 128, 128, 0);
 
 			{
 				int Value = pBruce->Score;
 
-				if (DAT_800d16a4 == 8) {
+				if (GGame == 8) {
 					Value = pBruce->GraffitiScore;
 					GraffitiColor(pBruce);
 				}

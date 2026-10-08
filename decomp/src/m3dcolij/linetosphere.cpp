@@ -3,7 +3,7 @@
    the list whose bounding sphere the segment OldPos->NewPos passes through: an AABB reject, then
    the perpendicular distance (cross product with the unit direction) against the radius, then the
    distance along the line, with the end caps checked against the end points. The nearest hit's
-   distance is kept in DAT_800c1304's best field, and ColijPos is set to the hit point. */
+   distance is kept in NearestHit's best field, and ColijPos is set to the hit point. */
 extern "C" {
 	#include <sys/types.h>
 	#include <libgte.h>
@@ -40,9 +40,9 @@ struct SColijInfo {
 	int BestDist; /* 0x20 */
 };
 
-extern SColijInfo DAT_800c1304;
+extern SColijInfo NearestHit;
 
-CBody *DAT_800d2108;
+CBody *pBodyHit;
 
 static inline void SetSVector(SVECTOR *v, int _x, int _y, int _z) {
 	v->vx = _x;
@@ -62,8 +62,8 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 	VECTOR NewToCentre;
 	SVECTOR DirVecShort;
 
-	DAT_800d2108 = 0;
-	DAT_800c1304.BestDist = 0x7fffffff;
+	pBodyHit = 0;
+	NearestHit.BestDist = 0x7fffffff;
 	DirectionVec = (NewPos - OldPos) >> 12;
 	gte_ldlvl(&DirectionVec);
 	gte_sqr0();
@@ -139,7 +139,7 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 		gte_llv0();
 		gte_stlvnl0(&DotProd);
 
-		if (DotProd >= DAT_800c1304.BestDist)
+		if (DotProd >= NearestHit.BestDist)
 			continue;
 
 		if (DotProd < 0) {
@@ -159,18 +159,18 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 				continue;
 		}
 
-		DAT_800d2108 = pBody;
-		DAT_800c1304.BestDist = DotProd;
+		pBodyHit = pBody;
+		NearestHit.BestDist = DotProd;
 	}
 
-	if (DAT_800d2108) {
+	if (pBodyHit) {
 		gte_ldlvl(&DirectionVec);
-		gte_lddp(DAT_800c1304.BestDist);
+		gte_lddp(NearestHit.BestDist);
 		gte_gpf12();
 		gte_stlvnl(&ColijPos);
 		ColijPos <<= 12;
 		ColijPos += OldPos;
 	}
 
-	return DAT_800d2108;
+	return pBodyHit;
 }

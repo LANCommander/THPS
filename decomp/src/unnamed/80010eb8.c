@@ -6,21 +6,21 @@ typedef struct {
 	char q[0x78 - 0x50];
 } E;
 
-extern E DAT_800a5398[];
-extern int DAT_800d1e28;
-extern int DAT_800d16a4;
+extern E Levels[];
+extern int GLevel;
+extern int GGame;
 
-int DAT_800d10ec;
+int Crowd_Bored;
 
 int SFX_PlayX(int, short, int);
 
 void FUN_80010eb8(int Speed) {
 	int Volume;
 
-	if (DAT_800a5398[DAT_800d1e28].f4c) {
-		if (DAT_800d16a4 == 1) {
+	if (Levels[GLevel].f4c) {
+		if (GGame == 1) {
 			Volume = (Speed << 14) / 80;
-			DAT_800d10ec++;
+			Crowd_Bored++;
 
 			if (Volume > 16384)
 				Volume = 16384;

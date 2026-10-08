@@ -7,9 +7,9 @@ typedef struct {
 	void (*fn)(char *, int);
 } VT;
 
-extern char DAT_800a0218[];
+extern char __vt_16CScriptOnlyBaddy[];
 
-char DAT_800d1998[8];
+char BaddyList[8];
 
 void CBody_DeleteFrom(char *p, char *l);
 void SFX_Stop(int a);
@@ -20,8 +20,8 @@ void __dl__5CItemPv(char *p);
 void FUN_80041264(char *p, int f) {
 	int i;
 
-	*(char **)(p + 72) = DAT_800a0218;
-	CBody_DeleteFrom(p, DAT_800d1998);
+	*(char **)(p + 72) = __vt_16CScriptOnlyBaddy;
+	CBody_DeleteFrom(p, BaddyList);
 
 	if (*(int *)(p + 556))
 		SFX_Stop(*(int *)(p + 556));

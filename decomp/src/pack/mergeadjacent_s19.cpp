@@ -9,7 +9,7 @@ struct TSPack {
 	uchar no_bottom, bpp, aligned;
 };
 
-TSPack *DAT_800d1a60;
+TSPack *Pack_pFree;
 
 void Pack_Remove(TSPack **, TSPack *);
 TSPack *Pack_NewFree(int, int, int, int);
@@ -24,8 +24,8 @@ TSPack *Pack_MergeAdjacent(TSPack *p_first, TSPack *p_second) {
 				y = p_first->Y;
 				w = p_first->W + p_second->W;
 				h = p_first->H;
-				Pack_Remove(&DAT_800d1a60, p_first);
-				Pack_Remove(&DAT_800d1a60, p_second);
+				Pack_Remove(&Pack_pFree, p_first);
+				Pack_Remove(&Pack_pFree, p_second);
 				return Pack_NewFree(x, y, w, h);
 			}
 		} else if (p_second->X < p_first->X) {
@@ -34,8 +34,8 @@ TSPack *Pack_MergeAdjacent(TSPack *p_first, TSPack *p_second) {
 				y = p_second->Y;
 				w = p_first->W + p_second->W;
 				h = p_first->H;
-				Pack_Remove(&DAT_800d1a60, p_first);
-				Pack_Remove(&DAT_800d1a60, p_second);
+				Pack_Remove(&Pack_pFree, p_first);
+				Pack_Remove(&Pack_pFree, p_second);
 				return Pack_NewFree(x, y, w, h);
 			}
 		}
@@ -46,8 +46,8 @@ TSPack *Pack_MergeAdjacent(TSPack *p_first, TSPack *p_second) {
 				y = p_first->Y;
 				w = p_first->W;
 				h = p_first->H + p_second->H;
-				Pack_Remove(&DAT_800d1a60, p_first);
-				Pack_Remove(&DAT_800d1a60, p_second);
+				Pack_Remove(&Pack_pFree, p_first);
+				Pack_Remove(&Pack_pFree, p_second);
 				return Pack_NewFree(x, y, w, h);
 			}
 		} else if (p_second->Y < p_first->Y) {
@@ -56,8 +56,8 @@ TSPack *Pack_MergeAdjacent(TSPack *p_first, TSPack *p_second) {
 				y = p_second->Y;
 				w = p_first->W;
 				h = p_first->H + p_second->H;
-				Pack_Remove(&DAT_800d1a60, p_first);
-				Pack_Remove(&DAT_800d1a60, p_second);
+				Pack_Remove(&Pack_pFree, p_first);
+				Pack_Remove(&Pack_pFree, p_second);
 				return Pack_NewFree(x, y, w, h);
 			}
 		}

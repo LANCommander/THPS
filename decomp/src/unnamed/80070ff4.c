@@ -19,11 +19,11 @@ typedef struct {
 } Raw;
 
 extern Pad DAT_800c0a48[];
-extern Raw DAT_800c0d64[];
+extern Raw theControllers[];
 
 int DAT_800d1f34, DAT_800d1f38, DAT_800d1f3c, DAT_800d1f40, DAT_800d1f44, DAT_800d1f48,
     DAT_800d1f4c, DAT_800d1f50;
-int DAT_800d1f54, DAT_800d1f58, DAT_800d1f5c, DAT_800d1f60, DAT_800d1f68;
+int DAT_800d1f54, DAT_800d1f58, DAT_800d1f5c, DAT_800d1f60, Pad_IdleTime;
 int DAT_800d23e4, DAT_800d23e8, DAT_800d23ec, DAT_800d23f0, DAT_800d23f4, DAT_800d23f8,
     DAT_800d23fc, DAT_800d2400;
 
@@ -33,7 +33,7 @@ void ReadControllers(void);
 int FUN_80070f18(int, int, int, int);
 
 #define B DAT_800c0a48
-#define R DAT_800c0d64
+#define R theControllers
 
 int FUN_80070ff4(void) {
 	int a;
@@ -101,7 +101,7 @@ int FUN_80070ff4(void) {
 		DAT_800d23fc = a1;
 		DAT_800d2400 = a0;
 	} else {
-		DAT_800d1f68 = DAT_800d1f68 + 1;
+		Pad_IdleTime = Pad_IdleTime + 1;
 	}
 
 	if (((s2 >> 16) & 0x900) != 0x900)

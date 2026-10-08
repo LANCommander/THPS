@@ -19,9 +19,9 @@ typedef struct {
 	short s6;
 } Q;
 
-extern char DAT_800a1340[];
+extern char __vt_5CRail[];
 
-P *DAT_800d1b94;
+P *RailList;
 
 unsigned short *Trig_GetLinksPointer(int);
 Q *Trig_GetPosition(V *, int);
@@ -33,14 +33,14 @@ P *FUN_8004f684(P *p, int idx) {
 	short s;
 	unsigned short *l;
 
-	p->vt = DAT_800a1340;
+	p->vt = __vt_5CRail;
 
-	if (DAT_800d1b94)
-		DAT_800d1b94->prev = p;
+	if (RailList)
+		RailList->prev = p;
 
-	p->next = DAT_800d1b94;
+	p->next = RailList;
 	p->prev = 0;
-	DAT_800d1b94 = p;
+	RailList = p;
 	Trig_GetLinksPointer(idx);
 
 	p->f4 = idx;

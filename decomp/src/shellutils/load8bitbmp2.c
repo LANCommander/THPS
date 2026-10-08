@@ -18,7 +18,7 @@ typedef struct {
 } BMP;
 
 extern char DAT_800a2060[];
-extern int DAT_800d1a8c, DAT_800d1a90;
+extern int Pal256X, Pal256Y;
 
 int FUN_8008c190(char *, ...);
 int GetFree256Slot(void);
@@ -78,9 +78,9 @@ int Load8BitBMP2(char *file, char **out, int *pw, int *ph, unsigned short *pclut
 		pp += 4;
 	}
 
-	x = DAT_800d1a8c;
+	x = Pal256X;
 	slot = GetFree256Slot();
-	y = DAT_800d1a90 + slot;
+	y = Pal256Y + slot;
 	rc.x = x;
 	rc.y = y;
 	rc.w = 256;

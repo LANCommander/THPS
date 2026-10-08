@@ -1,13 +1,13 @@
 /* Flash_Reset__Fv (0x8001f310) */
 #include "names.h"
-int DAT_800d160c;
-int DAT_800d1614;
-int DAT_800d1610;
-char DAT_800d1604;
+int FlashCountdown;
+int FadeCountdown;
+int Fading;
+char CurrentImportance;
 
 void Flash_Reset(void) {
-	DAT_800d160c = 0;
-	DAT_800d1614 = 0;
-	DAT_800d1610 = 0;
-	DAT_800d1604 = 0;
+	FlashCountdown = 0;
+	FadeCountdown = 0;
+	Fading = 0;
+	CurrentImportance = 0;
 }

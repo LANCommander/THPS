@@ -19,7 +19,7 @@ struct Item {
 	uchar mAnimMode;
 };
 
-extern SMatrix DAT_800c4b3c[];
+extern SMatrix TweenBuffer[];
 
 void M3dUtils_InterpolateVectors(int NumVectors, int Interval, uint *pAnimFile, Item *pItem,
                                  int Part, int NumParts) {
@@ -63,7 +63,7 @@ void M3dUtils_InterpolateVectors(int NumVectors, int Interval, uint *pAnimFile, 
 		Alpha = ((Frame - Frame0) << 12) / (Frame1 - Frame0);
 	}
 
-	pTween = (CSVector *)((char *)DAT_800c4b3c + Part * 24);
+	pTween = (CSVector *)((char *)TweenBuffer + Part * 24);
 	pAnim0 = (CSVector *)((char *)pAnims + (NumParts * Frame0 / Interval) * 24 + Part * 24);
 
 	if (Alpha == 0) {

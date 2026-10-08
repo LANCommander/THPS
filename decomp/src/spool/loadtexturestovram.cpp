@@ -43,7 +43,7 @@ struct SPSXRegion {
 	char pad18[64 - 0x18];
 };
 
-extern SPSXRegion DAT_800bf7a8[];
+extern SPSXRegion PSXRegion[];
 
 void Pack_DefragmentFully(void);
 uint *Spool_SkipPackets(uint *);
@@ -67,9 +67,9 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag) {
 	if (defrag)
 		Pack_DefragmentFully();
 
-	pPSX = DAT_800bf7a8[Region].pPSX;
+	pPSX = PSXRegion[Region].pPSX;
 	pStuff = Spool_SkipPackets(pPSX);
-	pStuff += DAT_800bf7a8[Region].pModels[-1];
+	pStuff += PSXRegion[Region].pModels[-1];
 	Temp = *pStuff++;
 	TextureLookup = (Texture **)pStuff;
 	pStuff += Temp;

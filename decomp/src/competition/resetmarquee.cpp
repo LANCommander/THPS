@@ -39,20 +39,20 @@ struct Comp {
 	int f124, f128, f12c;
 };
 
-extern Comp DAT_800c0fdc;
-extern int DAT_800d1a20, DAT_800d1114;
-extern const int DAT_800d1e28;
-extern Msg DAT_800a5398[];
+extern Comp theCompetition;
+extern int Vblanks, SelectedSkater;
+extern const int GLevel;
+extern Msg Levels[];
 extern char DAT_800a3240[];
 
-short DAT_800d1fc0, DAT_800d1fc2, DAT_800d1fc4, DAT_800d1fc6, DAT_800d1fc8;
+short HOLYCOW_PLACE, FIRST_PLACE, SECOND_PLACE, THIRD_PLACE, LAST_PLACE;
 
 void Redbook_InitialRand(int);
 int Redbook_Rnd(int);
 extern "C" void FUN_8008b900(char *, char *, int, int, int);
 
 void Competition_ResetMarquee() {
-	Comp *c = &DAT_800c0fdc;
+	Comp *c = &theCompetition;
 	int n;
 
 	if (c->flag == 0) {
@@ -60,7 +60,7 @@ void Competition_ResetMarquee() {
 		c->f14 = 0;
 		c->f18 = 0;
 		c->f12c = 0;
-		Redbook_InitialRand(DAT_800d1a20);
+		Redbook_InitialRand(Vblanks);
 
 		{
 			int i;
@@ -69,7 +69,7 @@ void Competition_ResetMarquee() {
 				c->A[i] = i;
 		}
 
-		n = DAT_800d1114;
+		n = SelectedSkater;
 		c->f128 = n;
 
 		if (n == 10) {
@@ -77,18 +77,18 @@ void Competition_ResetMarquee() {
 			c->A[c->f128] = n;
 		}
 
-		if (DAT_800d1e28 == 8) {
-			DAT_800d1fc0 = 975;
-			DAT_800d1fc2 = 935;
-			DAT_800d1fc4 = 910;
-			DAT_800d1fc6 = 860;
-			DAT_800d1fc8 = 770;
+		if (GLevel == 8) {
+			HOLYCOW_PLACE = 975;
+			FIRST_PLACE = 935;
+			SECOND_PLACE = 910;
+			THIRD_PLACE = 860;
+			LAST_PLACE = 770;
 		} else {
-			DAT_800d1fc0 = 975;
-			DAT_800d1fc2 = 920;
-			DAT_800d1fc4 = 870;
-			DAT_800d1fc6 = 820;
-			DAT_800d1fc8 = 520;
+			HOLYCOW_PLACE = 975;
+			FIRST_PLACE = 920;
+			SECOND_PLACE = 870;
+			THIRD_PLACE = 820;
+			LAST_PLACE = 520;
 		}
 
 		{
@@ -159,7 +159,7 @@ void Competition_ResetMarquee() {
 
 	c->f124 = 0;
 	c->ptr = 0;
-	FUN_8008b900(c->buf, DAT_800a3240, DAT_800a5398[DAT_800d1e28].a, DAT_800a5398[DAT_800d1e28].b,
+	FUN_8008b900(c->buf, DAT_800a3240, Levels[GLevel].a, Levels[GLevel].b,
 	             c->flag + 1);
 
 	c->ptr = c->buf;

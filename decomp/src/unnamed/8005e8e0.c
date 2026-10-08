@@ -10,8 +10,8 @@ typedef struct {
 	int f;
 } Q;
 
-extern Q DAT_800a5d5c;
-extern int DAT_800d10f4;
+extern Q GameText;
+extern int GHasCareerLoaded;
 
 int DAT_800d1d80;
 
@@ -42,7 +42,7 @@ int FUN_8005e8e0(int a) {
 				v = FUN_80060ba0(0);
 
 				if (v == 0) {
-					v = DAT_800a5d5c.f;
+					v = GameText.f;
 					s = v;
 					FUN_8005e4ec(&s, 1, -1);
 
@@ -51,7 +51,7 @@ int FUN_8005e8e0(int a) {
 
 				break;
 			case 17:
-				DAT_800d10f4 = 1;
+				GHasCareerLoaded = 1;
 				break;
 		}
 

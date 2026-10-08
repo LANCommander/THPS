@@ -135,31 +135,31 @@ class CBackground : public CItem {
 	CBackground(uint, const CSVector &);
 };
 
-int DAT_800d19d8;
-int DAT_800d19dc;
-int DAT_800d19e4;
-short **DAT_800d19e8;
-int DAT_800d19ec;
-char *DAT_800d19f0;
+int NumCheatRestarts;
+int NumHorseRestarts;
+int RestartNode;
+short **OffsetList;
+int NumNodes;
+char *pCurrentObjFile;
 char DAT_800d1a14;
 
-extern char *DAT_800a8788[];
-extern char *DAT_800a87d8[];
-extern SGapTrick DAT_800a8258[];
-extern int DAT_800bf318[];
-extern int DAT_800d16a4;
-extern int DAT_800d17ac;
-extern int DAT_800d1780;
+extern char *CheatRestarts[];
+extern char *HorseRestarts[];
+extern SGapTrick GapTricks[];
+extern int GVInfo1[];
+extern int GGame;
+extern int GHorseRestart;
+extern int GNumberOfPlayers;
 extern int DAT_800d1f14;
-extern uint DAT_800d2174;
-extern uint DAT_800d1a3c;
-extern CBruce *DAT_800d199c;
-extern CBruce *DAT_800d19a4;
-extern int DAT_800d19c0;
-extern ushort DAT_800d214c;
-extern ushort DAT_800d214e;
-extern CCamera *DAT_800d2044;
-extern int DAT_800d1764;
+extern uint M3d_FadeColour;
+extern uint Db_SkyColor;
+extern CBruce *pCurrentPlayer;
+extern CBruce *MechList;
+extern int SuspendDistance;
+extern ushort M3d_OTPushback;
+extern ushort M3d_OTPushback2;
+extern CCamera *CameraList;
+extern int CurrentGameLevel;
 
 SCommandPoint *GetCommandPoint(int);
 char *SkipString(char *);
@@ -211,10 +211,10 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 
 		switch (Command) {
 			case 0x02:
-				DAT_800d19d8 = 0;
+				NumCheatRestarts = 0;
 
 				while (*(char *)pCommands) {
-					DAT_800a8788[DAT_800d19d8++] = (char *)pCommands;
+					CheatRestarts[NumCheatRestarts++] = (char *)pCommands;
 					pCommands = (ushort *)SkipString((char *)pCommands);
 				}
 
@@ -228,16 +228,16 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 
 			case 0x8c:
 			case 0xb0: {
-				int OldRestart = DAT_800d19e4;
+				int OldRestart = RestartNode;
 
-				if (DAT_800d16a4 == 7)
-					Trig_SetRestart(DAT_800a87d8[DAT_800d17ac]);
+				if (GGame == 7)
+					Trig_SetRestart(HorseRestarts[GHorseRestart]);
 				else
 					Trig_SetRestart((char *)pCommands);
 
 				pCommands = (ushort *)SkipString((char *)pCommands);
 
-				if (OldRestart != 0xffff && DAT_800d19e4 != OldRestart) {
+				if (OldRestart != 0xffff && RestartNode != OldRestart) {
 					if (Command != 0xb0)
 						Mess_DeleteAll();
 
@@ -248,9 +248,9 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 			}
 
 			case 0xb2:
-				if (DAT_800d1780 == 2) {
-					if (DAT_800d16a4 == 7)
-						Trig_SetRestart(DAT_800a87d8[DAT_800d17ac]);
+				if (GNumberOfPlayers == 2) {
+					if (GGame == 7)
+						Trig_SetRestart(HorseRestarts[GHorseRestart]);
 					else
 						Trig_SetRestart((char *)pCommands);
 				}
@@ -293,9 +293,9 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				break;
 
 			case 0x8e:
-				DAT_800d19f0 = (char *)pCommands;
+				pCurrentObjFile = (char *)pCommands;
 				pCommands = (ushort *)SkipString((char *)pCommands);
-				DAT_800d1a14 = Spool_FindRegion(DAT_800d19f0);
+				DAT_800d1a14 = Spool_FindRegion(pCurrentObjFile);
 				break;
 
 			case 0x85: {
@@ -386,7 +386,7 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				uint fadecolor = *pCommands++ << 16;
 
 				fadecolor += *pCommands++;
-				DAT_800d2174 = fadecolor;
+				M3d_FadeColour = fadecolor;
 				break;
 			}
 
@@ -394,7 +394,7 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				uint skycolor = *pCommands++ << 16;
 
 				skycolor += *pCommands++;
-				DAT_800d1a3c = skycolor;
+				Db_SkyColor = skycolor;
 				Db_UpdateSky();
 				break;
 			}
@@ -407,19 +407,19 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				pCommands = (ushort *)pChecksum;
 				GapType = *pCommands++;
 
-				if (DAT_800bf318[0] != 2) {
+				if (GVInfo1[0] != 2) {
 					int i;
 
-					for (i = 0; i < DAT_800d199c->mGaps; i++) {
-						if (DAT_800d199c->mGapChecksum[i] &&
-						    DAT_800d199c->mGapChecksum[i] == pCommandPoint->Checksum) {
-							DAT_800d199c->mGapChecksum[i] = 0;
+					for (i = 0; i < pCurrentPlayer->mGaps; i++) {
+						if (pCurrentPlayer->mGapChecksum[i] &&
+						    pCurrentPlayer->mGapChecksum[i] == pCommandPoint->Checksum) {
+							pCurrentPlayer->mGapChecksum[i] = 0;
 
-							if (!DAT_800d199c->mInBail) {
-								SGapTrick *pGapTrick = DAT_800a8258;
+							if (!pCurrentPlayer->mInBail) {
+								SGapTrick *pGapTrick = GapTricks;
 
 								while (pGapTrick->Type != -1) {
-									if (pGapTrick->Type == DAT_800d199c->mGapType[i])
+									if (pGapTrick->Type == pCurrentPlayer->mGapType[i])
 										break;
 
 									pGapTrick++;
@@ -427,21 +427,21 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 
 								if (pGapTrick->Type != -1) {
 									if (pGapTrick->Type < 20000) {
-										DAT_800d199c->Trick(77, pGapTrick->Name, -pGapTrick->Score,
+										pCurrentPlayer->Trick(77, pGapTrick->Name, -pGapTrick->Score,
 										                    0);
 										SFX_PlayX(161, 0x2000, 0);
 									} else {
-										DAT_800d199c->mpGrindGapTrick = pGapTrick;
+										pCurrentPlayer->mpGrindGapTrick = pGapTrick;
 									}
 								}
 							}
 						}
 					}
 
-					if (Checksum && DAT_800d199c->mGaps < 10) {
-						DAT_800d199c->mGapChecksum[DAT_800d199c->mGaps] = Checksum;
-						DAT_800d199c->mGapType[DAT_800d199c->mGaps] = GapType;
-						DAT_800d199c->mGaps++;
+					if (Checksum && pCurrentPlayer->mGaps < 10) {
+						pCurrentPlayer->mGapChecksum[pCurrentPlayer->mGaps] = Checksum;
+						pCurrentPlayer->mGapType[pCurrentPlayer->mGaps] = GapType;
+						pCurrentPlayer->mGaps++;
 					}
 				}
 
@@ -477,14 +477,14 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				break;
 
 			case 0xa3:
-				if (DAT_800d19a4)
-					DAT_800d19a4->mIgnoreBruceInputTimer = *pCommands++;
+				if (MechList)
+					MechList->mIgnoreBruceInputTimer = *pCommands++;
 
 				break;
 
 			case 0xb1:
-				if (DAT_800d19a4)
-					DAT_800d19a4->mIgnoreBruceInputFreezeTimer = *pCommands++;
+				if (MechList)
+					MechList->mIgnoreBruceInputFreezeTimer = *pCommands++;
 
 				break;
 
@@ -502,17 +502,17 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				} else {
 					int n;
 
-					for (n = 0; n < DAT_800d19dc; n++) {
+					for (n = 0; n < NumHorseRestarts; n++) {
 						int i;
 
-						for (i = 0; i < DAT_800d19ec; i++) {
+						for (i = 0; i < NumNodes; i++) {
 							CVector Dummy;
 
-							if (*DAT_800d19e8[i] == 8 &&
+							if (*OffsetList[i] == 8 &&
 							    Utils_CompareStrings((char *)(Trig_GetPosition(Dummy, i) + 1),
-							                         DAT_800a87d8[n], -1)) {
+							                         HorseRestarts[n], -1)) {
 								CSVector *pAngles = Trig_GetPosition(StartPos, i);
-								int Dist = (StartPos - DAT_800d199c->m1DC).Length();
+								int Dist = (StartPos - pCurrentPlayer->m1DC).Length();
 
 								if (Dist < BestDist) {
 									BestDist = Dist;
@@ -525,7 +525,7 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				}
 
 				if (BestDist != 10000000) {
-					pBruce = DAT_800d199c;
+					pBruce = pCurrentPlayer;
 					pBruce->mPos = BestStartPos;
 					pBruce->mVel.vx = 0;
 					pBruce->mVel.vy = -16384;
@@ -618,170 +618,170 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				break;
 
 			case 0xaa:
-				DAT_800d19c0 = *pCommands++;
+				SuspendDistance = *pCommands++;
 				break;
 
 			case 0xa6:
-				DAT_800d214c = *pCommands++;
+				M3d_OTPushback = *pCommands++;
 				break;
 
 			case 0xa9:
-				DAT_800d214e = *pCommands++;
+				M3d_OTPushback2 = *pCommands++;
 				break;
 
 			case 0xad:
-				if (DAT_800d2044)
-					DAT_800d2044->mFocus = DAT_800d2044->mTripod;
+				if (CameraList)
+					CameraList->mFocus = CameraList->mTripod;
 
 				break;
 
 			case 0xa7:
-				if (DAT_800d2044) {
+				if (CameraList) {
 					ushort a = pCommands[0];
 					ushort b = pCommands[1];
 
 					pCommands += 2;
-					DAT_800d2044->SetZoom(a, b);
+					CameraList->SetZoom(a, b);
 				} else
 					pCommands += 2;
 
 				break;
 
 			case 0xa8:
-				if (DAT_800d2044)
-					DAT_800d2044->SetPitchDamper(*pCommands);
+				if (CameraList)
+					CameraList->SetPitchDamper(*pCommands);
 
 				pCommands++;
 				break;
 
 			case 0xac:
-				if (DAT_800d2044)
-					DAT_800d2044->SetTripodPosYDamper(*pCommands);
+				if (CameraList)
+					CameraList->SetTripodPosYDamper(*pCommands);
 
 				pCommands++;
 				break;
 
 			case 0x82:
-				if (DAT_800d2044) {
+				if (CameraList) {
 					short a = pCommands[0];
 					ushort b = pCommands[1];
 
 					pCommands += 2;
-					DAT_800d2044->SetCamAngle(a, b);
+					CameraList->SetCamAngle(a, b);
 				} else
 					pCommands += 2;
 
 				break;
 
 			case 0x87:
-				if (DAT_800d2044) {
+				if (CameraList) {
 					ushort a = pCommands[0];
 					ushort b = pCommands[1];
 
 					pCommands += 2;
-					DAT_800d2044->SetCamXZDistance(a, b);
+					CameraList->SetCamXZDistance(a, b);
 				} else
 					pCommands += 2;
 
 				break;
 
 			case 0x8f:
-				if (DAT_800d2044) {
+				if (CameraList) {
 					short a = pCommands[0];
 					ushort b = pCommands[1];
 
 					pCommands += 2;
-					DAT_800d2044->SetCamYDistance(a, b);
+					CameraList->SetCamYDistance(a, b);
 				} else
 					pCommands += 2;
 
 				break;
 
 			case 0x90:
-				if (DAT_800d2044) {
+				if (CameraList) {
 					short a = pCommands[0];
 					ushort b = pCommands[1];
 
 					pCommands += 2;
-					DAT_800d2044->SetCamXOffset(a, b);
+					CameraList->SetCamXOffset(a, b);
 				} else
 					pCommands += 2;
 
 				break;
 
 			case 0x91:
-				if (DAT_800d2044) {
+				if (CameraList) {
 					short a = pCommands[0];
 					ushort b = pCommands[1];
 
 					pCommands += 2;
-					DAT_800d2044->SetCamYOffset(a, b);
+					CameraList->SetCamYOffset(a, b);
 				} else
 					pCommands += 2;
 
 				break;
 
 			case 0x92:
-				if (DAT_800d2044) {
+				if (CameraList) {
 					short a = pCommands[0];
 					ushort b = pCommands[1];
 
 					pCommands += 2;
-					DAT_800d2044->SetCamZOffset(a, b);
+					CameraList->SetCamZOffset(a, b);
 				} else
 					pCommands += 2;
 
 				break;
 
 			case 0x99:
-				if (DAT_800d2044)
-					DAT_800d2044->SetCollisionRayLR((short)*pCommands++);
+				if (CameraList)
+					CameraList->SetCollisionRayLR((short)*pCommands++);
 				else
 					pCommands++;
 
 				break;
 
 			case 0x9a:
-				if (DAT_800d2044)
-					DAT_800d2044->SetCollisionRayBack((short)*pCommands++);
+				if (CameraList)
+					CameraList->SetCollisionRayBack((short)*pCommands++);
 				else
 					pCommands++;
 
 				break;
 
 			case 0xa4:
-				if (DAT_800d2044)
-					DAT_800d2044->SetCollisionAngLR(*pCommands++);
+				if (CameraList)
+					CameraList->SetCollisionAngLR(*pCommands++);
 				else
 					pCommands++;
 
 				break;
 
 			case 0xa5:
-				if (DAT_800d2044)
-					DAT_800d2044->SetCollisionAngBack(*pCommands++);
+				if (CameraList)
+					CameraList->SetCollisionAngBack(*pCommands++);
 				else
 					pCommands++;
 
 				break;
 
 			case 0xa0:
-				if (DAT_800d2044)
-					DAT_800d2044->mCameraMode = *pCommands;
+				if (CameraList)
+					CameraList->mCameraMode = *pCommands;
 
 				pCommands++;
 				break;
 
 			case 0xa1:
-				if (DAT_800d2044)
-					DAT_800d2044->SetComplexMode(*pCommands++);
+				if (CameraList)
+					CameraList->SetComplexMode(*pCommands++);
 				else
 					pCommands++;
 
 				break;
 
 			case 0x93:
-				DAT_800d1764 = *pCommands++;
+				CurrentGameLevel = *pCommands++;
 				break;
 
 			case 0x88:
@@ -793,15 +793,15 @@ void ExecuteCommandList(ushort *pCommands, int Node, int WaitForSpooling) {
 				break;
 
 			case 0xae:
-				if (DAT_800d19a4)
-					DAT_800d19a4->SetM8A4(pCommands[0], pCommands[1]);
+				if (MechList)
+					MechList->SetM8A4(pCommands[0], pCommands[1]);
 			case 0x8b:
 				pCommands += 2;
 				break;
 
 			case 0xaf:
-				if (DAT_800d19a4)
-					DAT_800d19a4->m8A4 = 0;
+				if (MechList)
+					MechList->m8A4 = 0;
 
 				break;
 		}

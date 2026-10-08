@@ -39,13 +39,13 @@ typedef struct B {
 	unsigned char f56;
 } B;
 
-extern TE DAT_800bf7a8[];
-extern A *DAT_800d1eec;
-extern A *DAT_800d1618;
-extern A *DAT_800d19b4;
-extern A *DAT_800d19b0;
-extern B *DAT_800d18cc;
-extern int DAT_800d199c, DAT_800d1780, DAT_800d16a4, DAT_800d19a4;
+extern TE PSXRegion[];
+extern A *EnviroList;
+extern A *PowerUpList;
+extern A *SuspendedList;
+extern A *EnvironmentalObjectList;
+extern B *NonRenderedBitList;
+extern int pCurrentPlayer, GNumberOfPlayers, GGame, MechList;
 
 #define INSIDE(v, w, u)  (v >= t8 && t5 >= v && w >= t6 && t3 >= w && u >= t7 && t4 >= u)
 #define OUTSIDE(v, w, u) ((v < t8 || t5 < v) && (w < t6 || t3 < w) && (u < t7 || t4 < u))
@@ -57,12 +57,12 @@ void Utils_SetVisibilityInBox(V *a, V *b, int arg2, int arg3) {
 	A *o;
 	B *q;
 
-	if (DAT_800d199c == 0 || DAT_800d1780 == 1 || DAT_800d16a4 == 7)
+	if (pCurrentPlayer == 0 || GNumberOfPlayers == 1 || GGame == 7)
 		t1 = 0x41;
 	else {
 		t1 = 1;
 
-		if (DAT_800d199c == DAT_800d19a4)
+		if (pCurrentPlayer == MechList)
 			t1 = 0x40;
 	}
 
@@ -73,11 +73,11 @@ void Utils_SetVisibilityInBox(V *a, V *b, int arg2, int arg3) {
 	else
 		t2 = -1;
 
-	o = DAT_800d1eec;
+	o = EnviroList;
 
 	if (o) {
 		do {
-			TE *e = &DAT_800bf7a8[o->f1b];
+			TE *e = &PSXRegion[o->f1b];
 
 			if (e->fa != 0) {
 				int x = o->x, y = o->y, z = o->z;
@@ -95,7 +95,7 @@ void Utils_SetVisibilityInBox(V *a, V *b, int arg2, int arg3) {
 		} while (o);
 	}
 
-	o = DAT_800d1618;
+	o = PowerUpList;
 
 	if (o) {
 		do {
@@ -111,7 +111,7 @@ void Utils_SetVisibilityInBox(V *a, V *b, int arg2, int arg3) {
 		} while (o);
 	}
 
-	o = DAT_800d19b4;
+	o = SuspendedList;
 
 	if (o) {
 		do {
@@ -127,7 +127,7 @@ void Utils_SetVisibilityInBox(V *a, V *b, int arg2, int arg3) {
 		} while (o);
 	}
 
-	o = DAT_800d19b0;
+	o = EnvironmentalObjectList;
 
 	if (o) {
 		do {
@@ -143,7 +143,7 @@ void Utils_SetVisibilityInBox(V *a, V *b, int arg2, int arg3) {
 		} while (o);
 	}
 
-	q = DAT_800d18cc;
+	q = NonRenderedBitList;
 
 	if (q) {
 		do {
@@ -152,14 +152,14 @@ void Utils_SetVisibilityInBox(V *a, V *b, int arg2, int arg3) {
 					if (INSIDE(q->x, q->z, q->y)) {
 						if (arg2)
 							q->f56 = 1;
-						else if (DAT_800d1780 == 1)
+						else if (GNumberOfPlayers == 1)
 							q->f56 = 0;
 					}
 				} else {
 					if (OUTSIDE(q->x, q->z, q->y)) {
 						if (arg2)
 							q->f56 = 1;
-						else if (DAT_800d1780 == 1)
+						else if (GNumberOfPlayers == 1)
 							q->f56 = 0;
 					}
 				}

@@ -1,6 +1,6 @@
 /* FUN_8004b0e4 (0x8004b0e4) */
 int DAT_800d1a98;
-char DAT_800d1ad4[8];
+char pLevelSpecificSFXVABHeader[8];
 
 int FUN_8004b188(char *, char *);
 
@@ -31,5 +31,5 @@ done:
 		p[i] = 0;
 	} while (0);
 
-	DAT_800d1a98 = FUN_8004b188(buf, DAT_800d1ad4);
+	DAT_800d1a98 = FUN_8004b188(buf, pLevelSpecificSFXVABHeader);
 }

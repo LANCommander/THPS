@@ -1,12 +1,12 @@
 /* strInit__Fv (0x80023cb8) */
 #include "names.h"
-int DAT_800d222c;
-int DAT_800d1668;
-unsigned char DAT_800d167c;
+int pRingBuffer;
+int GameFMV_RingBufferSectors;
+unsigned char GameFMV_Is24Bit;
 
-extern int DAT_800d1698;
+extern int Redbook_XACheckSectorOnVSync;
 extern int DAT_800d169c;
-extern int DAT_800d16a0;
+extern int Redbook_XAModeSet;
 
 void FUN_80023d3c(void);
 void FUN_8009028c(int a);
@@ -19,12 +19,12 @@ void FUN_8008f3a0(int a, int b);
 void strInit(void) {
 	FUN_8009028c(0);
 	FUN_8009035c(FUN_80023d3c);
-	FUN_800911cc(DAT_800d222c, DAT_800d1668);
-	FUN_800907cc(DAT_800d167c, 0, -1, 0, 0);
+	FUN_800911cc(pRingBuffer, GameFMV_RingBufferSectors);
+	FUN_800907cc(GameFMV_Is24Bit, 0, -1, 0, 0);
 
-	DAT_800d1698 = 0;
+	Redbook_XACheckSectorOnVSync = 0;
 	DAT_800d169c = 1;
-	DAT_800d16a0 = 0;
+	Redbook_XAModeSet = 0;
 	strKickCD();
 	FUN_8008f3a0(12, 0);
 }

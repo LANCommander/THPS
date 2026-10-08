@@ -2,11 +2,11 @@
 #include "names.h"
 /* Panel: the current combo/score readout (PANEL.CPP), as C. Sums the pending trick scores, works out
    the multiplier, and draws the score and x-multiplier text. */
-extern int DAT_800a71fc[];
-extern int DAT_800bf318[];
+extern int GCareer_9b8[];
+extern int GVInfo1[];
 extern char DAT_800d1e88[], DAT_800d1e8c[], DAT_800d1e94[];
 
-unsigned DAT_800d1ec8;
+unsigned LastHoldingScore;
 
 extern void Mess_SetTextJustify(int);
 extern void FUN_8001e0a4(void *, int);
@@ -28,9 +28,9 @@ void FUN_8006d0c8(char *o, int x0, int y0) {
 	s3 = 0;
 	x = x0 & 0xffff;
 	y = y0 & 0xffff;
-	s5 = DAT_800bf318[0] != 2;
+	s5 = GVInfo1[0] != 2;
 
-	if (DAT_800a71fc[0]) {
+	if (GCareer_9b8[0]) {
 		n = *(int *)(o + 0xcac);
 
 		if (n > 0) {
@@ -55,7 +55,7 @@ void FUN_8006d0c8(char *o, int x0, int y0) {
 			s2 = *(unsigned *)(o + 0xa64);
 
 		if (s2 || *(int *)(o + 0xa70) == 5) {
-			FUN_8008b900(b1, DAT_800d1e88, *(int *)(o + 0xa70) == 5 ? DAT_800d1ec8 : s2);
+			FUN_8008b900(b1, DAT_800d1e88, *(int *)(o + 0xa70) == 5 ? LastHoldingScore : s2);
 			Mess_SetRGB(128, 128, 128, 0);
 			GraffitiColor(o);
 
@@ -93,7 +93,7 @@ void FUN_8006d0c8(char *o, int x0, int y0) {
 			}
 
 			if (s2)
-				DAT_800d1ec8 = (s2 * s3) >> 1;
+				LastHoldingScore = (s2 * s3) >> 1;
 		}
 
 		if (*(int *)(o + 0xcac)) {

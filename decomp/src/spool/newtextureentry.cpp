@@ -14,7 +14,7 @@ struct Texture {
 	Texture *pPrev; /* 36 */
 };
 
-extern Texture *DAT_800c01a8[];
+extern Texture *TextureChecksumHashTable[];
 
 extern "C" Texture *Mem_NewX__FUiii(int, int, int);
 
@@ -22,9 +22,9 @@ Texture *NewTextureEntry(uint checksum) {
 	Texture *pNew = Mem_NewX__FUiii(40, 0, 1);
 	uint Lower = checksum & 511;
 
-	pNew->pNext = DAT_800c01a8[Lower];
+	pNew->pNext = TextureChecksumHashTable[Lower];
 	pNew->pPrev = 0;
-	DAT_800c01a8[Lower] = pNew;
+	TextureChecksumHashTable[Lower] = pNew;
 
 	if (pNew->pNext)
 		pNew->pNext->pPrev = pNew;

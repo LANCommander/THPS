@@ -1,7 +1,7 @@
 /* Front_SetSaveAction__F11ESaveAction (0x80011634) */
 #include "names.h"
-int DAT_800d1148;
+int GSaveAction;
 
 void Front_SetSaveAction(int v) {
-	DAT_800d1148 = v;
+	GSaveAction = v;
 }

@@ -1,6 +1,6 @@
 /* FUN_80023528 (0x80023528) */
 #include "names.h"
-short DAT_800d1658;
+short GameFMV_StartX;
 
 struct S {
 	int a, b, c;
@@ -23,5 +23,5 @@ void FUN_80023528(void) {
 	s->c = 0;
 	FUN_80023168(2);
 	FUN_80022aec(s);
-	GameFMV_StartFMV(DAT_800d1658 != -1);
+	GameFMV_StartFMV(GameFMV_StartX != -1);
 }

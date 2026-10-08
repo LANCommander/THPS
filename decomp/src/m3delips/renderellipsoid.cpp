@@ -45,11 +45,11 @@ struct SCamera {
 
 #define Box ((short *)&pModel->Box)
 
-extern SCamera *DAT_800d217c;
-extern SVECTOR *DAT_800d2160;
-extern u_long *DAT_800d21a0;
-extern char *DAT_800d1a54;
-extern char *DAT_800d177c;
+extern SCamera *pCurrentCamera;
+extern SVECTOR *ProjectedVertices;
+extern u_long *CurrentOrderingTable;
+extern char *pPoly;
+extern char *PolyBufferEnd;
 
 void M3dMaths_ZeroMat(ushort *);
 void M3dMaths_CopyMat(ushort *, ushort *);
@@ -86,9 +86,9 @@ void M3dElips_RenderEllipsoid(SModel *pModel, MATRIX *pTransform, uint Rgb, int 
 	t.vx += pTransform->t[0];
 	t.vy += pTransform->t[1];
 	t.vz += pTransform->t[2];
-	t.vx -= DAT_800d217c->Pos.vx;
-	t.vy -= DAT_800d217c->Pos.vy;
-	t.vz -= DAT_800d217c->Pos.vz;
+	t.vx -= pCurrentCamera->Pos.vx;
+	t.vy -= pCurrentCamera->Pos.vy;
+	t.vz -= pCurrentCamera->Pos.vz;
 	gte_ldsv(&t);
 	M3dMaths_NormaliseLastVec();
 	gte_stsv(&l);
@@ -142,7 +142,7 @@ void M3dElips_RenderEllipsoid(SModel *pModel, MATRIX *pTransform, uint Rgb, int 
 	M3dMaths_ScaleLastVec12(k);
 	gte_stsv(&f);
 
-	gte_SetRotMatrix(&DAT_800d217c->View);
+	gte_SetRotMatrix(&pCurrentCamera->View);
 	__asm__ volatile("ctc2 $0, $5; ctc2 $0, $6; ctc2 $0, $7");
 
 	Vertex.vx = t.vx - e.vx - f.vx;
@@ -164,12 +164,12 @@ void M3dElips_RenderEllipsoid(SModel *pModel, MATRIX *pTransform, uint Rgb, int 
 	Vertex.vx = t.vx + e.vx + f.vx;
 	Vertex.vy = t.vy + e.vy + f.vy;
 	Vertex.vz = t.vz + e.vz + f.vz;
-	gte_stsxy0(&DAT_800d2160[0]);
-	gte_stsxy1(&DAT_800d2160[1]);
-	gte_stsxy2(&DAT_800d2160[2]);
+	gte_stsxy0(&ProjectedVertices[0]);
+	gte_stsxy1(&ProjectedVertices[1]);
+	gte_stsxy2(&ProjectedVertices[2]);
 	gte_ldv0(&Vertex);
 	gte_rtps();
-	gte_stsxy(&DAT_800d2160[3]);
+	gte_stsxy(&ProjectedVertices[3]);
 	gte_avsz4();
 	gte_stotz(&OTPos);
 
@@ -178,11 +178,11 @@ void M3dElips_RenderEllipsoid(SModel *pModel, MATRIX *pTransform, uint Rgb, int 
 	if (OTPos >= 4096)
 		OTPos = 4095;
 
-	pQuad = (POLY_FT4 *)DAT_800d1a54;
-	DAT_800d1a54 += sizeof(POLY_FT4);
+	pQuad = (POLY_FT4 *)pPoly;
+	pPoly += sizeof(POLY_FT4);
 
-	if (DAT_800d1a54 > DAT_800d177c) {
-		DAT_800d1a54 = (char *)pQuad;
+	if (pPoly > PolyBufferEnd) {
+		pPoly = (char *)pQuad;
 		return;
 	}
 
@@ -191,7 +191,7 @@ void M3dElips_RenderEllipsoid(SModel *pModel, MATRIX *pTransform, uint Rgb, int 
 	setSemiTrans(pQuad, 1);
 
 	{
-		SVECTOR *sc = DAT_800d2160;
+		SVECTOR *sc = ProjectedVertices;
 
 		pQuad->x0 = sc[0].vx;
 		pQuad->y0 = sc[0].vy;
@@ -215,7 +215,7 @@ void M3dElips_RenderEllipsoid(SModel *pModel, MATRIX *pTransform, uint Rgb, int 
 	pQuad->tpage = (pTex->tpage & ~0x60) | 0x20;
 
 	{
-		u_long *ot = (u_long *)(OTPos * 4 + (uint)DAT_800d21a0);
+		u_long *ot = (u_long *)(OTPos * 4 + (uint)CurrentOrderingTable);
 
 		addPrim(ot, pQuad);
 	}

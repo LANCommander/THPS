@@ -153,21 +153,21 @@ class CBruce : public CSuper {
 	MATRIX mRotMatrix; /* 0x78c */
 };
 
-extern SControl DAT_800c0a48[];
-extern SCareer DAT_800a6844;
+extern SControl Pad[];
+extern SCareer GCareer;
 extern SSkater DAT_800a44fc[];
-extern SCompetition DAT_800a5398[];
+extern SCompetition Levels[];
 extern int DAT_800d37b4[];
 extern int DAT_800d37e4[];
 extern int DAT_800d1cb8;
-extern int DAT_800d16a4;
+extern int GGame;
 extern int DAT_800d1724;
-extern int DAT_800d1afc;
-extern int DAT_800d2120;
-extern int DAT_800d2130;
-extern char *DAT_800d19a4;
-extern char *DAT_800d1a48;
-extern char DAT_800c119c[];
+extern int Loading;
+extern int GHeadPart;
+extern int GHeadUp;
+extern char *MechList;
+extern char *pDoubleBuffer;
+extern char MikeCamera[];
 extern PREManager *DAT_800d1b10;
 
 static int DAT_800d232c;
@@ -263,10 +263,10 @@ extern "C" int FUN_80059794() {
 	int result = 0;
 	int numSkaters = 10;
 	DAT_800d1c60 = 0;
-	DAT_800d1c40 = DAT_800a6844.LastSkater[0];
+	DAT_800d1c40 = GCareer.LastSkater[0];
 
 	for (i = 0; i < 11; i++) {
-		if (DAT_800a6844.Skater[i].NumTapes >= 30) {
+		if (GCareer.Skater[i].NumTapes >= 30) {
 			DAT_800d1c60 = 1;
 			numSkaters = 11;
 		}
@@ -278,8 +278,8 @@ extern "C" int FUN_80059794() {
 		DAT_800d1c40 = 0;
 	DAT_800d1c64 = DAT_800d1c60;
 
-	Pad_ClearTriggers(&DAT_800c0a48[0]);
-	Pad_ClearTriggers(&DAT_800c0a48[1]);
+	Pad_ClearTriggers(&Pad[0]);
+	Pad_ClearTriggers(&Pad[1]);
 	FUN_8005c97c(1);
 	Mem_Delete__FPv(FUN_8005ca3c("select2p.bmp"));
 	FUN_8005ca64();
@@ -365,7 +365,7 @@ extern "C" int FUN_80059794() {
 	viewport[1] = 480;
 
 	for (int k = 0; k < 11; k++) {
-		if (DAT_800a6844.Skater[k].NumTapes) {
+		if (GCareer.Skater[k].NumTapes) {
 			noTapes = 0;
 			break;
 		}
@@ -387,7 +387,7 @@ extern "C" int FUN_80059794() {
 	hintY[0] = 193;
 	hintY[1] = 213;
 
-	if (DAT_800d16a4 == 1) {
+	if (GGame == 1) {
 		itemBox = new Sprite("itembox1.bmp", 1, 32, 128);
 		itemBoxBack = new Sprite(395, 313, 240, 102, 0, 32, 128);
 	}
@@ -465,13 +465,13 @@ extern "C" int FUN_80059794() {
 						FUN_8006ed2c(DAT_800d37b4[DAT_800d1c40]);
 
 						if (DAT_800d1724) {
-							DAT_800d2120 = DAT_800a44fc[DAT_800d1c40].m13;
-							DAT_800d2130 = DAT_800a44fc[DAT_800d1c40].m14;
+							GHeadPart = DAT_800a44fc[DAT_800d1c40].m13;
+							GHeadUp = DAT_800a44fc[DAT_800d1c40].m14;
 						}
 
 						ProcessNewPSX__Fi(DAT_800d37b4[DAT_800d1c40]);
 
-						DAT_800d2120 = -1;
+						GHeadPart = -1;
 					}
 
 					pBruce = FUN_8005933c();
@@ -627,13 +627,13 @@ extern "C" int FUN_80059794() {
 						FUN_8006ed2c(DAT_800d37b4[DAT_800d1c40]);
 
 						if (DAT_800d1724) {
-							DAT_800d2130 = DAT_800a44fc[DAT_800d1c40].m14;
-							DAT_800d2120 = DAT_800a44fc[DAT_800d1c40].m13;
+							GHeadUp = DAT_800a44fc[DAT_800d1c40].m14;
+							GHeadPart = DAT_800a44fc[DAT_800d1c40].m13;
 						}
 
 						ProcessNewPSX__Fi(DAT_800d37b4[DAT_800d1c40]);
 
-						DAT_800d2120 = -1;
+						GHeadPart = -1;
 					}
 
 					pBruce = FUN_8005933c();
@@ -674,16 +674,16 @@ extern "C" int FUN_80059794() {
 			if (pBruce->mX >= DAT_800d2334 && pBruce->mX <= DAT_800d2330) {
 				M3d_BuildTransform(pBruce);
 				FUN_80043f70(pBruce);
-				M3d_RenderSetup__FP7SCameraP9SViewportPUi(DAT_800c119c, viewport, DAT_800d1a48 + 140);
-				M3d_Render__FPv(DAT_800d19a4);
+				M3d_RenderSetup__FP7SCameraP9SViewportPUi(MikeCamera, viewport, pDoubleBuffer + 140);
+				M3d_Render__FPv(MechList);
 				FUN_80083774();
 			}
 
 			if (--blink == 0)
 				blink = 96;
 
-			if (!noTapes && !state && !DAT_800a6844.Skater[DAT_800d1c40].NumTapes && blink >= 23 &&
-			    DAT_800d16a4 == 1) {
+			if (!noTapes && !state && !GCareer.Skater[DAT_800d1c40].NumTapes && blink >= 23 &&
+			    GGame == 1) {
 				Mess_SetCurrentFont("stats1.fnt");
 				Mess_SetRGB(250, 190, 60, 0);
 				Mess_SetTextJustify__FUc(0);
@@ -721,7 +721,7 @@ extern "C" int FUN_80059794() {
 				arrow[3]->draw(585, 95, 0, -1, -1, -1);
 		}
 
-		if (medalTimer && DAT_800d16a4 == 1 && DAT_800a6844.Skater[DAT_800d1c40].NumTapes) {
+		if (medalTimer && GGame == 1 && GCareer.Skater[DAT_800d1c40].NumTapes) {
 			itemBox->draw(395, 313, 0, -1, -1, -1);
 			Mess_SetCurrentFont("tapes1.fnt");
 			Mess_SetTextJustify__FUc(1);
@@ -734,7 +734,7 @@ extern "C" int FUN_80059794() {
 
 				my += 24;
 			}
-		} else if (DAT_800d16a4 == 1 && state == 6) {
+		} else if (GGame == 1 && state == 6) {
 			itemBoxBack->draw(395, 313, 0, -1, -1, -1);
 		}
 
@@ -749,7 +749,7 @@ extern "C" int FUN_80059794() {
 			int best = 0;
 
 			while (best < 7) {
-				if (DAT_800a6844.Skater[DAT_800d1c40].NumTapes <
+				if (GCareer.Skater[DAT_800d1c40].NumTapes <
 				    DAT_800a44fc[DAT_800d1c40].Boards[best + 1].Req)
 					break;
 
@@ -820,7 +820,7 @@ extern "C" int FUN_80059794() {
 				medalTimer = 3;
 		} else if (medalTimer) {
 			Mess_SetCurrentFont("tapes1.fnt");
-			SSkaterCareer *pCareer = &DAT_800a6844.Skater[DAT_800d1c40];
+			SSkaterCareer *pCareer = &GCareer.Skater[DAT_800d1c40];
 
 			*flags = pCareer->NumTapes;
 			uint n = *flags;
@@ -834,7 +834,7 @@ extern "C" int FUN_80059794() {
 			for (int c = 0; c < 3; c++) {
 				int j = 0;
 
-				while (FUN_8008f6fc(DAT_800a5398[j].Name, comps[c]))
+				while (FUN_8008f6fc(Levels[j].Name, comps[c]))
 					j++;
 
 				*flags = pCareer->Medals[j];
@@ -914,30 +914,30 @@ extern "C" int FUN_80059794() {
 		FUN_8005948c();
 		FUN_8006b2f4();
 
-		if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered ||
-		    DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered) {
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+		if (Pad[0].Start.Triggered || Pad[1].Start.Triggered ||
+		    Pad[0].X.Triggered || Pad[1].X.Triggered) {
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 
 			result = DAT_800d1c40;
 			SFX_PlayX__FUisi(145, 0x2000, 0);
 
-			if (DAT_800a6844.LastSkater[0] != DAT_800d1c40) {
-				DAT_800a6844.LastSkater[0] = 0;
-				DAT_800a6844.LastDeck[0] = 0;
-				DAT_800a6844.LastWheel[0] = 0;
-				DAT_800a6844.LastTrucks[0] = 1;
-				DAT_800a6844.m82c = 0;
+			if (GCareer.LastSkater[0] != DAT_800d1c40) {
+				GCareer.LastSkater[0] = 0;
+				GCareer.LastDeck[0] = 0;
+				GCareer.LastWheel[0] = 0;
+				GCareer.LastTrucks[0] = 1;
+				GCareer.m82c = 0;
 			}
 
-			DAT_800a6844.LastSkater[0] = DAT_800d1c40;
+			GCareer.LastSkater[0] = DAT_800d1c40;
 			goto done;
 		}
 
-		if (DAT_800c0a48[0].Triangle.Triggered || DAT_800c0a48[1].Triangle.Triggered) {
+		if (Pad[0].Triangle.Triggered || Pad[1].Triangle.Triggered) {
 			result = -1;
-			DAT_800c0a48[0].Triangle.Triggered = 0;
-			DAT_800c0a48[1].Triangle.Triggered = 0;
+			Pad[0].Triangle.Triggered = 0;
+			Pad[1].Triangle.Triggered = 0;
 			SFX_PlayX__FUisi(147, 0x2000, 0);
 			goto done;
 		}
@@ -946,7 +946,7 @@ extern "C" int FUN_80059794() {
 done:
 
 	FUN_8006af64();
-	if (DAT_800d1afc)
+	if (Loading)
 		FileIO_Sync__Fv();
 	Mem_Delete__FPv(flags);
 

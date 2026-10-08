@@ -50,7 +50,7 @@ class PadBuffer : public CItem {
 	void update();
 };
 
-extern SControl DAT_800c0a48[2];
+extern SControl Pad[2];
 extern PadBuffer DAT_800bf104;
 extern int DAT_800bf0d4[]; /* picture x by screen */
 extern int DAT_800bf0e0[]; /* picture y by screen */
@@ -60,7 +60,7 @@ extern int DAT_800d1cb8;  /* START+SELECT quit */
 
 int DAT_800d1ce8;
 int DAT_800d1cec;     /* loading finished */
-int DAT_800d1cf0;     /* backed out */
+int BackOut;     /* backed out */
 int DAT_800d1cf8;     /* screen type */
 Sprite *DAT_800d1d00; /* got-tape marker */
 Sprite *DAT_800d1d04; /* "Press X" */
@@ -93,7 +93,7 @@ extern "C" void FUN_8005d73c(void) {
 		FUN_8006b240();
 		FUN_80061ea0();
 		FUN_800242cc();
-		if (DAT_800d1cf0) {
+		if (BackOut) {
 			DrawColoredBox__FiiiiUcUcUc(0, 0, 512, 240, 0, 0, 0);
 			return;
 		}
@@ -114,25 +114,25 @@ extern "C" void FUN_8005d73c(void) {
 		FUN_8005c68c();
 		if (DAT_800d1cb8) {
 			DAT_800d1ce8 = 0;
-			DAT_800d1cf0 = 1;
+			BackOut = 1;
 			break;
 		}
-		if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered ||
-		    DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered) {
+		if (Pad[0].Start.Triggered || Pad[1].Start.Triggered ||
+		    Pad[0].X.Triggered || Pad[1].X.Triggered) {
 			SFX_PlayX(6, 8192, 0);
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 			DAT_800d1a1c = 64;
 			DAT_800d1d80 = 1;
 			break;
 		}
-		if (DAT_800c0a48[0].Triangle.Triggered || DAT_800c0a48[1].Triangle.Triggered) {
+		if (Pad[0].Triangle.Triggered || Pad[1].Triangle.Triggered) {
 			SFX_PlayX(2, 8192, 0);
 			Pause(20);
-			DAT_800c0a48[0].Triangle.Triggered = 0;
-			DAT_800c0a48[1].Triangle.Triggered = 0;
+			Pad[0].Triangle.Triggered = 0;
+			Pad[1].Triangle.Triggered = 0;
 			DAT_800d1ce8 = 0;
-			DAT_800d1cf0 = 1;
+			BackOut = 1;
 		}
 	} while (DAT_800d1cec);
 

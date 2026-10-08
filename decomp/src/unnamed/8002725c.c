@@ -9,9 +9,9 @@ typedef struct {
 	int w;
 } E;
 
-extern char DAT_8009f658[];
-extern V DAT_800a824c;
-extern char DAT_800d18f8[8];
+extern char __vt_10CGPolyLine[];
+extern V ZeroVector;
+extern char GPolyLineList[8];
 
 void CBit_ctor(char *p);
 char *Mem_NewX(int a, int b, int c);
@@ -22,16 +22,16 @@ char *CGPolyLine_ctor(char *p, int n) {
 
 	CBit_ctor(p);
 
-	*(char **)(p + 68) = DAT_8009f658;
+	*(char **)(p + 68) = __vt_10CGPolyLine;
 	*(char **)(p + 76) = Mem_NewX(n << 4, 0, 1);
 
 	for (i = 0; i < n; i++) {
 		(*(E **)(p + 76))[i].w = 0x50ffffff;
-		(*(E **)(p + 76))[i].v = DAT_800a824c;
+		(*(E **)(p + 76))[i].v = ZeroVector;
 	}
 
 	*(int *)(p + 72) = n;
-	CBit_AttachTo(p, DAT_800d18f8);
+	CBit_AttachTo(p, GPolyLineList);
 
 	p[92] = 255;
 	p[93] = 255;

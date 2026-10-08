@@ -8,10 +8,10 @@ typedef struct B {
 
 B *DAT_800d1b48;
 B *DAT_800d1b4c;
-int DAT_800d1b50;
-unsigned DAT_800d1b54;
-int DAT_800d1b5c[2];
-unsigned DAT_800d1b60;
+int LowMemory;
+unsigned CriticalBigHeapUsage;
+int Used[2];
+unsigned Used_4;
 
 void AddToFreeList(B *b, int i);
 
@@ -32,14 +32,14 @@ void Mem_Delete(char *p) {
 	}
 
 	if ((unsigned)f < 2) {
-		DAT_800d1b5c[f] -= 8 + b->len;
+		Used[f] -= 8 + b->len;
 		AddToFreeList(b, f);
 
 		if (f == 1) {
-			if (DAT_800d1b60 >= DAT_800d1b54)
-				DAT_800d1b50 = f;
+			if (Used_4 >= CriticalBigHeapUsage)
+				LowMemory = f;
 			else
-				DAT_800d1b50 = 0;
+				LowMemory = 0;
 		}
 	}
 }

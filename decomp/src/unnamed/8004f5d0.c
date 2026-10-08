@@ -10,17 +10,17 @@ struct O {
 	struct VT *vt;
 };
 
-struct O *DAT_800d1b94;
+struct O *RailList;
 
 void FUN_8004f5d0(void) {
-	struct O *p = DAT_800d1b94;
+	struct O *p = RailList;
 	struct O *q;
 
 	if (p) {
 		for (;;) {
 			p->vt->fn((char *)p + p->vt->off, 3);
 
-			q = DAT_800d1b94;
+			q = RailList;
 
 			if (!q)
 				break;
@@ -29,5 +29,5 @@ void FUN_8004f5d0(void) {
 		}
 	}
 
-	DAT_800d1b94 = 0;
+	RailList = 0;
 }

@@ -6,7 +6,7 @@ typedef struct Message {
 	struct Message *prev;
 } Message;
 
-Message *DAT_800d15ec;
+Message *pMessages;
 
 extern void Mem_Delete(void *);
 
@@ -17,8 +17,8 @@ void Mess_DeleteMessage(Message *m) {
 	if (m->prev)
 		m->prev->next = m->next;
 
-	if (m == DAT_800d15ec)
-		DAT_800d15ec = m->next;
+	if (m == pMessages)
+		pMessages = m->next;
 
 	Mem_Delete(m);
 }

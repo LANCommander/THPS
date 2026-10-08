@@ -34,34 +34,34 @@ struct SMovie {
 	char pad1c[32 - 28];
 };
 
-int DAT_800d162c;
-int DAT_800d1630;
-int DAT_800d1634;
-int DAT_800d163c;
-int DAT_800d1640;
-int DAT_800d1644;
-short DAT_800d1658;
-int DAT_800d1664;
-int DAT_800d1668;
-uchar DAT_800d166c;
-short DAT_800d166e;
-short DAT_800d1670;
-ushort DAT_800d1672;
-ushort DAT_800d1674;
-uchar DAT_800d167c;
-uchar DAT_800d167d;
-short DAT_800d1684;
-short DAT_800d1686;
-short DAT_800d1688;
-short DAT_800d168a;
-u_long *DAT_800d168c[2];
-u_long *DAT_800d222c;
+int GameFMV_IsMovie;
+int GameFMV_RewindSwitch;
+int GameFMV_Active;
+int currentDecodeBuffer;
+int currentVlcBuffer;
+int sendVLC;
+short GameFMV_StartX;
+int GameFMV_VLCBufferSize;
+int GameFMV_RingBufferSectors;
+uchar GameFMV_SliceBuffers;
+short GameFMV_StartY;
+short GameFMV_EndX;
+ushort GameFMV_Width;
+ushort GameFMV_Height;
+uchar GameFMV_Is24Bit;
+uchar GameFMV_CurrentTrack;
+short decodeSlice;
+short decodeSlice_2;
+short decodeSlice_4;
+short decodeSlice_6;
+u_long *vlcBuffer[2];
+u_long *pRingBuffer;
 
-extern SMovie DAT_800a63e8[];
-extern short DAT_800a8984[];
-extern int DAT_800d13c8;
-extern u_long *DAT_800a6748[];
-extern SControl DAT_800c0a48[];
+extern SMovie movieDetails[];
+extern short DoubleBuffer_68[];
+extern int MIDILEVEL;
+extern u_long *decodeSliceBuffer[];
+extern SControl Pad[];
 
 int strNextVlc(int);
 void Front_ClearScreen(void);
@@ -92,51 +92,51 @@ void GameFMV_PlayMovie(int track) {
 	short old_screen_w;
 	CdlATV atv;
 
-	if (DAT_800d1634)
+	if (GameFMV_Active)
 		return;
 
-	DAT_800d162c = 1;
+	GameFMV_IsMovie = 1;
 	FUN_80023168(track);
 
-	DAT_800d1658 = (320 - DAT_800d1672) / 2;
-	DAT_800d1670 = DAT_800d1658 + (DAT_800d167c ? (DAT_800d1672 * 3) / 2 : DAT_800d1672);
-	DAT_800d166e = (240 - DAT_800d1674) / 2;
-	DAT_800d1630 = 0;
+	GameFMV_StartX = (320 - GameFMV_Width) / 2;
+	GameFMV_EndX = GameFMV_StartX + (GameFMV_Is24Bit ? (GameFMV_Width * 3) / 2 : GameFMV_Width);
+	GameFMV_StartY = (240 - GameFMV_Height) / 2;
+	GameFMV_RewindSwitch = 0;
 
-	if (!DAT_800a63e8[DAT_800d167d].pName)
+	if (!movieDetails[GameFMV_CurrentTrack].pName)
 		return;
 
-	DAT_800d1684 = DAT_800d1658;
-	DAT_800d1686 = DAT_800d166e;
-	DAT_800d168a = DAT_800d1674;
-	DAT_800d1688 = DAT_800d167c ? 24 : 16;
-	DAT_800d163c = 0;
-	DAT_800d1640 = 0;
-	DAT_800d1644 = 0;
-	old_screen_w = DAT_800a8984[0];
+	decodeSlice = GameFMV_StartX;
+	decodeSlice_2 = GameFMV_StartY;
+	decodeSlice_6 = GameFMV_Height;
+	decodeSlice_4 = GameFMV_Is24Bit ? 24 : 16;
+	currentDecodeBuffer = 0;
+	currentVlcBuffer = 0;
+	sendVLC = 0;
+	old_screen_w = DoubleBuffer_68[0];
 
 	{
 		int i;
 
 		for (i = 0; i < 2; i++)
-			if (!(DAT_800d168c[i] = (u_long *)Mem_NewX__FUiii(DAT_800d1664, 1, 0)))
+			if (!(vlcBuffer[i] = (u_long *)Mem_NewX__FUiii(GameFMV_VLCBufferSize, 1, 0)))
 				goto InsufficientMemory;
 	}
 
-	DAT_800d222c = (u_long *)Mem_NewX__FUiii(DAT_800d1668 << 11, 1, 0);
+	pRingBuffer = (u_long *)Mem_NewX__FUiii(GameFMV_RingBufferSectors << 11, 1, 0);
 
-	if (!DAT_800d222c)
+	if (!pRingBuffer)
 		goto InsufficientMemory;
 
-	DAT_800d166c = 2;
+	GameFMV_SliceBuffers = 2;
 
 	{
 		int i;
 
-		for (i = 0; i < DAT_800d166c; i++) {
-			int h = DAT_800d1674;
+		for (i = 0; i < GameFMV_SliceBuffers; i++) {
+			int h = GameFMV_Height;
 
-			if (!(DAT_800a6748[i] = (u_long *)Mem_NewX__FUiii(DAT_800d167c ? h * 48 : h * 32, 1, 0)))
+			if (!(decodeSliceBuffer[i] = (u_long *)Mem_NewX__FUiii(GameFMV_Is24Bit ? h * 48 : h * 32, 1, 0)))
 				goto InsufficientMemory;
 		}
 	}
@@ -144,7 +144,7 @@ void GameFMV_PlayMovie(int track) {
 	{
 		DecDCTvlcBuild3();
 
-		DAT_800d1634 = 1;
+		GameFMV_Active = 1;
 		Front_ClearScreen();
 		FUN_800914fc(&disp, 0, 256, 320, 240);
 		FUN_8008eebc(0);
@@ -159,10 +159,10 @@ void GameFMV_PlayMovie(int track) {
 		} else {
 			int fmv_level;
 
-			if (DAT_800d13c8 < 64)
-				fmv_level = DAT_800d13c8 * 3;
+			if (MIDILEVEL < 64)
+				fmv_level = MIDILEVEL * 3;
 			else
-				fmv_level = (DAT_800d13c8 - 64) * 63 / 64 + 192;
+				fmv_level = (MIDILEVEL - 64) * 63 / 64 + 192;
 
 			atv.val0 = fmv_level;
 			atv.val1 = fmv_level;
@@ -174,15 +174,15 @@ void GameFMV_PlayMovie(int track) {
 	strInit__Fv();
 	FUN_80070ff4();
 
-	DAT_800c0a48[0].b[14].Triggered = 0;
-	DAT_800c0a48[0].b[3].Triggered = 0;
+	Pad[0].b[14].Triggered = 0;
+	Pad[0].b[3].Triggered = 0;
 
 	while (!strNextVlc(1))
 		;
 
 	for (;;) {
-		FUN_800902c0(DAT_800d168c[DAT_800d1640], DAT_800d167c ? 3 : 2);
-		FUN_8009033c(DAT_800a6748[DAT_800d163c], DAT_800d1688 * DAT_800d168a / 2);
+		FUN_800902c0(vlcBuffer[currentVlcBuffer], GameFMV_Is24Bit ? 3 : 2);
+		FUN_8009033c(decodeSliceBuffer[currentDecodeBuffer], decodeSlice_4 * decodeSlice_6 / 2);
 
 		{
 			uchar result[8];
@@ -209,7 +209,7 @@ void GameFMV_PlayMovie(int track) {
 
 			count = 0x800000;
 
-			while (DAT_800d1684 != DAT_800d1658) {
+			while (decodeSlice != GameFMV_StartX) {
 				if (!count)
 					goto end;
 
@@ -220,9 +220,9 @@ void GameFMV_PlayMovie(int track) {
 				break;
 		}
 
-		FUN_800914fc(&disp, 0, (DAT_800d1686 < 256) << 8, DAT_800d167c ? 480 : 320, 240);
+		FUN_800914fc(&disp, 0, (decodeSlice_2 < 256) << 8, GameFMV_Is24Bit ? 480 : 320, 240);
 
-		if (DAT_800d167c) {
+		if (GameFMV_Is24Bit) {
 			disp.isrgb24 = 1;
 			disp.disp.w = disp.disp.w * 2 / 3;
 		}
@@ -230,21 +230,21 @@ void GameFMV_PlayMovie(int track) {
 		FUN_8008eebc(0);
 		FUN_8008ca0c(&disp);
 
-		if (DAT_800d1630)
+		if (GameFMV_RewindSwitch)
 			break;
 
 		FUN_80070ff4();
 
-		if (DAT_800c0a48[0].b[14].Triggered)
+		if (Pad[0].b[14].Triggered)
 			break;
 
-		if (DAT_800c0a48[0].b[3].Triggered)
+		if (Pad[0].b[3].Triggered)
 			break;
 	}
 end:
-	Pad_ClearTriggers(DAT_800c0a48);
+	Pad_ClearTriggers(Pad);
 
-	DAT_800d1634 = 0;
+	GameFMV_Active = 0;
 	Front_ClearScreen();
 
 	disp.isrgb24 = 0;
@@ -262,20 +262,20 @@ end:
 	FUN_8009074c();
 	FUN_8008f4d4(9, 0, 0);
 InsufficientMemory:
-	if (DAT_800d222c) {
-		Mem_Delete__FPv(DAT_800d222c);
+	if (pRingBuffer) {
+		Mem_Delete__FPv(pRingBuffer);
 
-		DAT_800d222c = 0;
+		pRingBuffer = 0;
 	}
 
 	{
 		int i;
 
 		for (i = 0; i < 2; i++) {
-			if (DAT_800d168c[i]) {
-				Mem_Delete__FPv(DAT_800d168c[i]);
+			if (vlcBuffer[i]) {
+				Mem_Delete__FPv(vlcBuffer[i]);
 
-				DAT_800d168c[i] = 0;
+				vlcBuffer[i] = 0;
 			}
 		}
 	}
@@ -283,11 +283,11 @@ InsufficientMemory:
 	{
 		int i;
 
-		for (i = 0; i < DAT_800d166c; i++) {
-			if (DAT_800a6748[i]) {
-				Mem_Delete__FPv(DAT_800a6748[i]);
+		for (i = 0; i < GameFMV_SliceBuffers; i++) {
+			if (decodeSliceBuffer[i]) {
+				Mem_Delete__FPv(decodeSliceBuffer[i]);
 
-				DAT_800a6748[i] = 0;
+				decodeSliceBuffer[i] = 0;
 			}
 		}
 	}

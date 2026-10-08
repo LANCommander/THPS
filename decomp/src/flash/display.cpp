@@ -15,29 +15,29 @@ struct SDB {
 	u_long OT[1];
 };
 
-int DAT_800d160c;
+int FlashCountdown;
 
-extern const int DAT_800d1610;
+extern const int Fading;
 
-int DAT_800d1608;
+int FlashSort;
 
-extern SDB *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
-extern uchar *DAT_800d177c;
+extern SDB *pDoubleBuffer;
+extern uchar *pPoly;
+extern uchar *PolyBufferEnd;
 
 volatile ushort DAT_800d220a;
 volatile ushort DAT_800d220e;
 volatile ushort DAT_800d2212;
 
 void Flash_Display() {
-	if (DAT_800d160c || DAT_800d1610) {
-		u_long *OTPos = &DAT_800d1a48->OT[DAT_800d1608];
-		POLY_F4 *aPoly = (POLY_F4 *)DAT_800d1a54;
-		uchar *newppoly = DAT_800d1a54 + sizeof(POLY_F4) + sizeof(DR_TPAGE);
+	if (FlashCountdown || Fading) {
+		u_long *OTPos = &pDoubleBuffer->OT[FlashSort];
+		POLY_F4 *aPoly = (POLY_F4 *)pPoly;
+		uchar *newppoly = pPoly + sizeof(POLY_F4) + sizeof(DR_TPAGE);
 		DR_TPAGE *ptpage = (DR_TPAGE *)(aPoly + 1);
 
-		if (newppoly <= DAT_800d177c) {
-			DAT_800d1a54 = newppoly;
+		if (newppoly <= PolyBufferEnd) {
+			pPoly = newppoly;
 			setPolyF4(aPoly);
 			setSemiTrans(aPoly, 1);
 			setRGB0(aPoly, DAT_800d220a, DAT_800d220e, DAT_800d2212);
@@ -54,7 +54,7 @@ void Flash_Display() {
 
 			((u_long *)ptpage)[0] = 0x01000000;
 
-			if (DAT_800d1610)
+			if (Fading)
 				((u_long *)ptpage)[1] = 0xe1000640;
 			else
 				((u_long *)ptpage)[1] = 0xe1000620;
@@ -64,4 +64,4 @@ void Flash_Display() {
 	}
 }
 
-extern const int DAT_800d1610 = 0;
+extern const int Fading = 0;

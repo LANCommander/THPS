@@ -1,6 +1,6 @@
 /* __15CTexturedRibbonii (0x8002e1e0) */
 #include "names.h"
-extern char DAT_8009f6e8[];
+extern char __vt_15CTexturedRibbon[];
 
 struct E {
 	char pad[16];
@@ -28,7 +28,7 @@ struct D *CTexturedRibbon_ctor(struct D *p, int n, int c) {
 
 	CTOR(p);
 
-	p->vt = DAT_8009f6e8;
+	p->vt = __vt_15CTexturedRibbon;
 	p->n = n;
 	p->e = Mem_NewX(n * 36, 0, 1);
 

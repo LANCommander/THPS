@@ -51,7 +51,7 @@ class CChunkBit : public CBit {
 int Redbook_Rnd(int);
 void Utils_CalcUnit(CVector &, const CVector &);
 
-char DAT_800d18e4[8];
+char ChunkBitList[8];
 
 static inline void VI(V *p, int x, int y, int z) {
 	p->x = x;
@@ -85,5 +85,5 @@ CChunkBit::CChunkBit(const CSVector &a, const CSVector &b, const CSVector &c) {
 	mD.vx = (norm.x * mul) >> 12;
 	mD.vy = (norm.y * mul) >> 12;
 	mD.vz = (norm.z * mul) >> 12;
-	AttachTo(DAT_800d18e4);
+	AttachTo(ChunkBitList);
 }

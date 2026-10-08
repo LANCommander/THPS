@@ -67,16 +67,16 @@ struct Item {
 	uchar Region; /* 27 */
 };
 
-extern SPSXRegion DAT_800bf7a8[];
+extern SPSXRegion PSXRegion[];
 extern CVector DAT_800d2574;
-extern int DAT_800d1b50;
+extern int LowMemory;
 
-int DAT_800d2220;
-int DAT_800d2224;
-SVECTOR *DAT_800d1624;
-uchar DAT_800d2228;
-uchar DAT_800d2229;
-uchar DAT_800d222a;
+int VRAMClut;
+int VRAMTPage;
+SVECTOR *pNormal;
+uchar AverageR;
+uchar AverageG;
+uchar AverageB;
 
 void TransformVertex(CVector &, SVECTOR *, uchar *, int);
 void CalcRGB(int, uint, int, uint *);
@@ -105,7 +105,7 @@ int Shatter_Face(Item *pItem, uint *pFace, int NumSplits, int MakeFlash, int Use
 	int retval;
 	SFace *f = (SFace *)pFace;
 
-	pModel = DAT_800bf7a8[pItem->Region].pModels[pItem->ModelIndex];
+	pModel = PSXRegion[pItem->Region].pModels[pItem->ModelIndex];
 	pVertices = pModel->Vertices;
 	pNormals = pVertices + pModel->NumVerts;
 	pVertexNums = (uchar *)(pFace + 1);
@@ -137,12 +137,12 @@ int Shatter_Face(Item *pItem, uint *pFace, int NumSplits, int MakeFlash, int Use
 			int clut = pTexture->Clut;
 			int tpage = pTexture->TPage;
 
-			DAT_800d2220 = clut;
-			DAT_800d2224 = tpage;
+			VRAMClut = clut;
+			VRAMTPage = tpage;
 		}
 	}
 
-	DAT_800d1624 = (SVECTOR *)((char *)pNormals + (f->NormalOffset & ~7));
+	pNormal = (SVECTOR *)((char *)pNormals + (f->NormalOffset & ~7));
 	FUN_8008b3d4((SVECTOR *)pItem->Angles, &Transform);
 	FUN_8008f76c(&Transform);
 	FUN_80089f54(&pItem->Pos);
@@ -153,18 +153,18 @@ int Shatter_Face(Item *pItem, uint *pFace, int NumSplits, int MakeFlash, int Use
 	retval = 1;
 
 	if (f->Flags & 16) {
-		CalcRGB(f->Flags & 0x800, f->Colour, 3, DAT_800bf7a8[pItem->Region].pColours);
+		CalcRGB(f->Flags & 0x800, f->Colour, 3, PSXRegion[pItem->Region].pColours);
 
 		DAT_800d2574.vx = ((a.vx >> 12) + (b.vx >> 12) + (c.vx >> 12)) / 3 << 12;
 		DAT_800d2574.vy = ((a.vy >> 12) + (b.vy >> 12) + (c.vy >> 12)) / 3 << 12;
 		DAT_800d2574.vz = ((a.vz >> 12) + (b.vz >> 12) + (c.vz >> 12)) / 3 << 12;
 
 		if ((f->Flags & 0x40) || !(f->Flags & 1)) {
-			if (!DAT_800d1b50) {
+			if (!LowMemory) {
 				CVector norm;
 
-				SetV(&norm, DAT_800d1624->vx, DAT_800d1624->vy, DAT_800d1624->vz);
-				Shatter_Glass(15, a, b, c, norm, DAT_800d2228, DAT_800d2229, DAT_800d222a);
+				SetV(&norm, pNormal->vx, pNormal->vy, pNormal->vz);
+				Shatter_Glass(15, a, b, c, norm, AverageR, AverageG, AverageB);
 
 				retval = 2;
 			}
@@ -179,7 +179,7 @@ int Shatter_Face(Item *pItem, uint *pFace, int NumSplits, int MakeFlash, int Use
 			else
 				TextureWindow = 0;
 
-			if (!DAT_800d1b50)
+			if (!LowMemory)
 				Split(a, b, c, pTexture->u0, pTexture->v0, pTexture->u1, pTexture->v1, pTexture->u2,
 				      pTexture->v2, TextureWindow, NumSplits);
 		}
@@ -187,18 +187,18 @@ int Shatter_Face(Item *pItem, uint *pFace, int NumSplits, int MakeFlash, int Use
 		CVector d;
 
 		TransformVertex(d, pVertices, pVertexNums, 3);
-		CalcRGB(f->Flags & 0x800, f->Colour, 4, DAT_800bf7a8[pItem->Region].pColours);
+		CalcRGB(f->Flags & 0x800, f->Colour, 4, PSXRegion[pItem->Region].pColours);
 
 		DAT_800d2574.vx = ((a.vx >> 12) + (b.vx >> 12) + (c.vx >> 12) + (d.vx >> 12)) >> 2 << 12;
 		DAT_800d2574.vy = ((a.vy >> 12) + (b.vy >> 12) + (c.vy >> 12) + (d.vy >> 12)) >> 2 << 12;
 		DAT_800d2574.vz = ((a.vz >> 12) + (b.vz >> 12) + (c.vz >> 12) + (d.vz >> 12)) >> 2 << 12;
 
 		if ((f->Flags & 0x40) || !(f->Flags & 1)) {
-			if (!DAT_800d1b50) {
+			if (!LowMemory) {
 				CVector norm;
 
-				SetV(&norm, DAT_800d1624->vx, DAT_800d1624->vy, DAT_800d1624->vz);
-				Shatter_Glass(30, a, b, c, norm, DAT_800d2228, DAT_800d222a, DAT_800d222a);
+				SetV(&norm, pNormal->vx, pNormal->vy, pNormal->vz);
+				Shatter_Glass(30, a, b, c, norm, AverageR, AverageB, AverageB);
 
 				retval = 2;
 			}
@@ -213,7 +213,7 @@ int Shatter_Face(Item *pItem, uint *pFace, int NumSplits, int MakeFlash, int Use
 			else
 				TextureWindow = 0;
 
-			if (!DAT_800d1b50) {
+			if (!LowMemory) {
 				Split(a, b, c, pTexture->u0, pTexture->v0, pTexture->u1, pTexture->v1, pTexture->u2,
 				      pTexture->v2, TextureWindow, NumSplits);
 				Split(b, c, d, pTexture->u1, pTexture->v1, pTexture->u2, pTexture->v2, pTexture->u3,

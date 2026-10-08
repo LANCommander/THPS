@@ -1,11 +1,11 @@
-unsigned DAT_800d1aa4, DAT_800d1ab8, DAT_800d1ab0, DAT_800d1aa8, DAT_800d1aac;
+unsigned nko_flag, loop_flag, voiceon_flag, keyon_queue, keyoff_queue;
 
 void SFX_Stop(unsigned m) {
 	unsigned inv = ~m;
 
-	DAT_800d1aa4 &= inv;
-	DAT_800d1ab8 &= inv;
-	DAT_800d1ab0 &= inv;
-	DAT_800d1aa8 &= inv;
-	DAT_800d1aac |= m;
+	nko_flag &= inv;
+	loop_flag &= inv;
+	voiceon_flag &= inv;
+	keyon_queue &= inv;
+	keyoff_queue |= m;
 }

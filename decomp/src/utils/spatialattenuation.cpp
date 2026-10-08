@@ -35,18 +35,18 @@ struct SSinCos {
 	short s, c;
 };
 
-extern SMikeCam DAT_800c119c[];
-extern SSinCos DAT_800c9670;
-extern int DAT_800d2048;
+extern SMikeCam MikeCamera[];
+extern SSinCos rcossin_tbl;
+extern int Camera_CurrentMikeCamera;
 
 int Utils_CrapDist(const CVector &, const CVector &);
 extern "C" int FUN_800936d4(int, int);
 
 int Utils_CalculateSpatialAttenuation(const CVector &pos, int near, int far) {
 	int vol;
-	CVector cam_pos(DAT_800c119c[DAT_800d2048].Pos.vx << 12,
-	                DAT_800c119c[DAT_800d2048].Pos.vy << 12,
-	                DAT_800c119c[DAT_800d2048].Pos.vz << 12);
+	CVector cam_pos(MikeCamera[Camera_CurrentMikeCamera].Pos.vx << 12,
+	                MikeCamera[Camera_CurrentMikeCamera].Pos.vy << 12,
+	                MikeCamera[Camera_CurrentMikeCamera].Pos.vz << 12);
 	int d = Utils_CrapDist(pos, cam_pos);
 	CVector centre;
 	short heading;
@@ -61,11 +61,11 @@ int Utils_CalculateSpatialAttenuation(const CVector &pos, int near, int far) {
 		return 0;
 
 	vol = (((far - d) << 12) - (far - d)) / far;
-	gte_SetRotMatrix(&DAT_800c119c[DAT_800d2048].Rot);
+	gte_SetRotMatrix(&MikeCamera[Camera_CurrentMikeCamera].Rot);
 
-	centre.vx = (pos.vx >> 12) - DAT_800c119c[DAT_800d2048].Pos.vx;
-	centre.vy = (pos.vy >> 12) - DAT_800c119c[DAT_800d2048].Pos.vy;
-	centre.vz = (pos.vz >> 12) - DAT_800c119c[DAT_800d2048].Pos.vz;
+	centre.vx = (pos.vx >> 12) - MikeCamera[Camera_CurrentMikeCamera].Pos.vx;
+	centre.vy = (pos.vy >> 12) - MikeCamera[Camera_CurrentMikeCamera].Pos.vy;
+	centre.vz = (pos.vz >> 12) - MikeCamera[Camera_CurrentMikeCamera].Pos.vz;
 	gte_ldlvl(&centre);
 	gte_rtir();
 	gte_stlvl(&centre);
@@ -82,11 +82,11 @@ int Utils_CalculateSpatialAttenuation(const CVector &pos, int near, int far) {
 	}
 
 	if (heading < 2048) {
-		left = vol - ((vol * (&DAT_800c9670)[heading].s) >> 12);
+		left = vol - ((vol * (&rcossin_tbl)[heading].s) >> 12);
 		right = vol;
 	} else {
 		left = vol;
-		right = left + ((vol * (&DAT_800c9670)[heading].s) >> 12);
+		right = left + ((vol * (&rcossin_tbl)[heading].s) >> 12);
 	}
 
 	return left | (right << 16) | behind;

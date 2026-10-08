@@ -26,8 +26,8 @@ struct TE {
 	short x, y;
 };
 
-extern TE DAT_800c9670[2];
-extern int DAT_800d16e4;
+extern TE rcossin_tbl[2];
+extern int TTime;
 
 int Utils_GetGroundHeight(const CVector &, int, int);
 
@@ -66,7 +66,7 @@ void CPowerUp::DoPhysics() {
 
 	if (mFalling) {
 		if (!mLanded && mGroundY < 0 && mGroundY >= -4) {
-			if (DAT_800d16e4 & 1) {
+			if (TTime & 1) {
 				int ground = Utils_GetGroundHeight(mWorld, 0, 8000);
 
 				if (ground == -1) {
@@ -101,7 +101,7 @@ void CPowerUp::DoPhysics() {
 		int idx = mBobAngle & 4095;
 		TE *b;
 
-		b = DAT_800c9670;
+		b = rcossin_tbl;
 		mPos.y += ((mBobRadius * b[idx].x) / 4096) << 12;
 		mBobAngle += mBobSpeed;
 	}

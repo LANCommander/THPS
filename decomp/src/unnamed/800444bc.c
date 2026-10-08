@@ -31,10 +31,10 @@ typedef struct {
 	O *f1c;
 } P;
 
-extern P *DAT_800d19a4;
-extern int DAT_800d1780;
+extern P *MechList;
+extern int GNumberOfPlayers;
 
-unsigned DAT_800d19c0;
+unsigned SuspendDistance;
 
 void CItem_FlashUpdate(O *);
 void CBody_Suspend(O *, O **);
@@ -66,10 +66,10 @@ void Ob_AI(O **a) {
 				m->f52 = m->f52 | 0x80;
 		} else {
 			v = &m->pos;
-			d = Utils_CrapDist(&DAT_800d19a4->pos, v);
+			d = Utils_CrapDist(&MechList->pos, v);
 
-			if (DAT_800d1780 == 2) {
-				t = Utils_CrapDist(&DAT_800d19a4->f1c->pos, v);
+			if (GNumberOfPlayers == 2) {
+				t = Utils_CrapDist(&MechList->f1c->pos, v);
 
 				if (t < d)
 					d = t;
@@ -77,7 +77,7 @@ void Ob_AI(O **a) {
 
 			m->fe8 = d;
 
-			if ((m->f52 & 2) && DAT_800d19c0 < d) {
+			if ((m->f52 & 2) && SuspendDistance < d) {
 				CBody_Suspend(m, a);
 			} else {
 				FUN_800440ec(m);

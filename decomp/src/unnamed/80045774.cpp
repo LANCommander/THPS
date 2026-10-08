@@ -17,7 +17,7 @@ struct CSVector {
 
 struct SLight;
 
-extern char DAT_800a824c[];
+extern char ZeroVector[];
 
 class CItem {
   public:
@@ -72,7 +72,7 @@ extern "C" void FUN_80045774(int id, CBody *pBody, int mode) {
 				pBody->Virtual2();
 				break;
 			case 1:
-				pBody->Virtual6(pBody->mE6, DAT_800a824c, 0);
+				pBody->Virtual6(pBody->mE6, ZeroVector, 0);
 				break;
 		}
 	}

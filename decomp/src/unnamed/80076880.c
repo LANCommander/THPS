@@ -32,7 +32,7 @@ struct S {
 	char q[104];
 };
 
-extern struct J DAT_800c0fdc;
+extern struct J theCompetition;
 
 struct G {
 	char pad[0x984];
@@ -52,16 +52,16 @@ struct L {
 	char pad2[0x78 - 0x54];
 };
 
-extern struct G DAT_800a6844;
-extern struct B DAT_800a891c;
-extern struct L DAT_800a5398[];
-extern char DAT_800c0a48[];
-extern char *DAT_800d17c8;
-extern int DAT_800d1e28;
-extern int DAT_800d1780;
-extern int DAT_800d13d8;
-extern char *DAT_800d1428;
-extern char *DAT_800a5f10[];
+extern struct G GCareer;
+extern struct B DoubleBuffer;
+extern struct L Levels[];
+extern char Pad[];
+extern char *GSkater;
+extern int GLevel;
+extern int GNumberOfPlayers;
+extern int GRollCredits;
+extern char *pYesNoMenu;
+extern char *GameText_1b4[];
 
 void Flash_Update(void);
 int Flash_FadeFinished(void);
@@ -85,80 +85,80 @@ void Competition_EndGameLogic(int *a, int *b) {
 	char *g;
 	int e;
 
-	if (DAT_800c0fdc.f) {
+	if (theCompetition.f) {
 		Flash_Update();
 
 		if (Flash_FadeFinished()) {
-			DAT_800c0fdc.f = 0;
+			theCompetition.f = 0;
 
-			if (DAT_800c0fdc.o1)
-				DAT_800c0fdc.o1->vt->fn((char *)DAT_800c0fdc.o1 + DAT_800c0fdc.o1->vt->off, 3);
+			if (theCompetition.o1)
+				theCompetition.o1->vt->fn((char *)theCompetition.o1 + theCompetition.o1->vt->off, 3);
 
-			if (DAT_800c0fdc.o2)
-				DAT_800c0fdc.o2->vt->fn((char *)DAT_800c0fdc.o2 + DAT_800c0fdc.o2->vt->off, 3);
+			if (theCompetition.o2)
+				theCompetition.o2->vt->fn((char *)theCompetition.o2 + theCompetition.o2->vt->off, 3);
 
-			if (DAT_800c0fdc.o3)
-				DAT_800c0fdc.o3->vt->fn((char *)DAT_800c0fdc.o3 + DAT_800c0fdc.o3->vt->off, 3);
+			if (theCompetition.o3)
+				theCompetition.o3->vt->fn((char *)theCompetition.o3 + theCompetition.o3->vt->off, 3);
 
-			e = DAT_800d1e28;
-			g = DAT_800d17c8;
-			DAT_800c0fdc.o1 = 0;
-			DAT_800c0fdc.o2 = 0;
-			DAT_800c0fdc.o3 = 0;
-			DAT_800a6844.arr[*(int *)(g + 744)] |= 1 << e;
+			e = GLevel;
+			g = GSkater;
+			theCompetition.o1 = 0;
+			theCompetition.o2 = 0;
+			theCompetition.o3 = 0;
+			GCareer.arr[*(int *)(g + 744)] |= 1 << e;
 			GameFMV_StopFMV();
 			Pad_ClearAll();
-			Pad_ClearTriggers(DAT_800c0a48);
-			Pad_ClearTriggers(DAT_800c0a48 + 364);
+			Pad_ClearTriggers(Pad);
+			Pad_ClearTriggers(Pad + 364);
 			Pad_ActuatorOff(0, 0);
 			Pad_ActuatorOff(0, 1);
 			Mess_DeleteAll();
 			FUN_8008f4d4(8, 0, 0);
 			Pause__Fi(10);
-			Mem_Delete(DAT_800a891c.a);
-			GameFMV_PlayMovie(-(*(int *)(DAT_800d17c8 + 744) + 12));
+			Mem_Delete(DoubleBuffer.a);
+			GameFMV_PlayMovie(-(*(int *)(GSkater + 744) + 12));
 			Flash_Reset();
 
-			DAT_800a891c.a =
-			    Mem_NewX((DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
-			DAT_800a891c.b =
-			    DAT_800a891c.a + 0x17c00 + DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1];
+			DoubleBuffer.a =
+			    Mem_NewX((Levels[GLevel].x[GNumberOfPlayers - 1] + 0x17c00) * 2, 1, 1);
+			DoubleBuffer.b =
+			    DoubleBuffer.a + 0x17c00 + Levels[GLevel].x[GNumberOfPlayers - 1];
 			*a = 7;
 		}
 	} else if (*b) {
 		int v = 1;
 
-		if (DAT_800c0fdc.o1) {
-			int c = DAT_800c0fdc.o1->u160 < 40;
+		if (theCompetition.o1) {
+			int c = theCompetition.o1->u160 < 40;
 
 			v = c == 0;
 		}
 
 		if (v) {
-			DAT_800d13d8 = 1;
-			CMenu_SetLine(DAT_800d1428, CMenu_FindEntry(DAT_800d1428, DAT_800a5f10[0]));
+			GRollCredits = 1;
+			CMenu_SetLine(pYesNoMenu, CMenu_FindEntry(pYesNoMenu, GameText_1b4[0]));
 
 			if (FUN_8007401c()) {
-				DAT_800c0fdc.f = 1;
+				theCompetition.f = 1;
 				Flash_Fade(32, 0);
 				return;
 			}
 
 			*a = 7;
 
-			if (DAT_800c0fdc.o1)
-				DAT_800c0fdc.o1->vt->fn((char *)DAT_800c0fdc.o1 + DAT_800c0fdc.o1->vt->off, 3);
+			if (theCompetition.o1)
+				theCompetition.o1->vt->fn((char *)theCompetition.o1 + theCompetition.o1->vt->off, 3);
 
-			if (DAT_800c0fdc.o2)
-				DAT_800c0fdc.o2->vt->fn((char *)DAT_800c0fdc.o2 + DAT_800c0fdc.o2->vt->off, 3);
+			if (theCompetition.o2)
+				theCompetition.o2->vt->fn((char *)theCompetition.o2 + theCompetition.o2->vt->off, 3);
 
-			if (DAT_800c0fdc.o3)
-				DAT_800c0fdc.o3->vt->fn((char *)DAT_800c0fdc.o3 + DAT_800c0fdc.o3->vt->off, 3);
+			if (theCompetition.o3)
+				theCompetition.o3->vt->fn((char *)theCompetition.o3 + theCompetition.o3->vt->off, 3);
 
-			DAT_800c0fdc.o1 = 0;
-			DAT_800c0fdc.o2 = 0;
-			DAT_800c0fdc.o3 = 0;
-			DAT_800a6844.arr[*(int *)(DAT_800d17c8 + 744)] |= 1 << DAT_800d1e28;
+			theCompetition.o1 = 0;
+			theCompetition.o2 = 0;
+			theCompetition.o3 = 0;
+			GCareer.arr[*(int *)(GSkater + 744)] |= 1 << GLevel;
 		}
 	}
 }

@@ -12,10 +12,10 @@ typedef struct {
 	E v[1];
 } P;
 
-int DAT_800d21c0;
-int DAT_800d21b8;
-int DAT_800d21b4;
-int DAT_800d2140;
+int Dewibble;
+int TestTheWater;
+int SubObjectMasked;
+int WaterClipValue;
 
 int FUN_800860cc(E *, int);
 int FUN_80085e98(E *, int);
@@ -27,16 +27,16 @@ void FUN_80084ebc(P *p) {
 	E *v = p->v;
 	int r;
 
-	if (DAT_800d21c0)
+	if (Dewibble)
 		r = FUN_800860cc(v, n);
 	else
 		r = FUN_80085e98(v, n);
 
-	if (DAT_800d21b8)
-		FUN_80086500(n, DAT_800d2140);
+	if (TestTheWater)
+		FUN_80086500(n, WaterClipValue);
 
 	v += n;
 
-	if (!DAT_800d21b4 && !(r & 0xbf))
+	if (!SubObjectMasked && !(r & 0xbf))
 		FUN_80086f40(v + p->i, v, p->m);
 }

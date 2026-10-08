@@ -1,1 +1,1 @@
-{"DAT_800d1e20":"0x800d1e20","DAT_800a891c":"0x800a891c","SetDispMask":"0x8008c3d0","ClearImage":"0x8008c67c","DrawSync":"0x8008c468","PutDrawEnv":"0x8008c94c"}
+{"DAT_800d1e20":"0x800d1e20","DoubleBuffer":"0x800a891c","SetDispMask":"0x8008c3d0","ClearImage":"0x8008c67c","DrawSync":"0x8008c468","PutDrawEnv":"0x8008c94c"}

@@ -112,17 +112,17 @@ class PREManager {
 	void unloadPRE(char *);
 };
 
-extern SControl DAT_800c0a48[];
-extern SCareer DAT_800a6844;
-extern SLevel DAT_800a5398[];
+extern SControl Pad[];
+extern SCareer GCareer;
+extern SLevel Levels[];
 extern SHighScore DAT_800a68e8[][8];
 extern int DAT_800bf2a0[]; /* unlocked (this visit) */
 extern int DAT_800bf2c8[]; /* unlocked (saved) */
 extern SlicedImage *DAT_800bf2f0[];
 extern int DAT_800d3810[];
-extern int DAT_800d16a4; /* game mode */
+extern int GGame; /* game mode */
 extern int DAT_800d1cb8;
-extern int DAT_800d1afc;
+extern int Loading;
 extern int DAT_800d1708;
 extern PREManager *DAT_800d1b10;
 extern char DAT_800a21c0[]; /* "mainf.fnt" */
@@ -187,16 +187,16 @@ extern "C" void FUN_80066d7c() {
 	FUN_80066aa8();
 
 	for (DAT_800d237c = 0; DAT_800d237c < 10; DAT_800d237c++)
-		if (!*DAT_800a5398[DAT_800d237c].Name)
+		if (!*Levels[DAT_800d237c].Name)
 			break;
-	if (DAT_800d16a4 == 5 || DAT_800d16a4 == 6 || DAT_800d16a4 == 8 || DAT_800d16a4 == 7)
+	if (GGame == 5 || GGame == 6 || GGame == 8 || GGame == 7)
 		DAT_800d2370 = 1;
 	else
 		DAT_800d2370 = 0;
 	char *comps[3] = { "Skate Park", "Burnside", "Roswell" };
-	int cur = DAT_800a6844.LastLevel;
+	int cur = GCareer.LastLevel;
 
-	if (DAT_800d16a4 == 1) {
+	if (GGame == 1) {
 		for (int i = 0; i < DAT_800d237c; i++)
 			DAT_800bf2a0[i] = 0;
 	} else {
@@ -207,7 +207,7 @@ extern "C" void FUN_80066d7c() {
 	int first;
 	int last;
 
-	if (DAT_800d16a4 == 1) {
+	if (GGame == 1) {
 		first = DAT_800d2368;
 		last = first + 1;
 	} else {
@@ -221,31 +221,31 @@ extern "C" void FUN_80066d7c() {
 		for (int k = 0; k < 3; k++) {
 			int j = 0;
 
-			while (strcmp(DAT_800a5398[j].Name, comps[k]))
+			while (strcmp(Levels[j].Name, comps[k]))
 				j++;
 
-			uchar f = DAT_800a6844.Skater[s].Medals[j];
+			uchar f = GCareer.Skater[s].Medals[j];
 
 			if (f & 0x20) {
 				medal[k] = 0;
 				DAT_800d236c++;
-				DAT_800a6844.Skater[s].Gold++;
+				GCareer.Skater[s].Gold++;
 			} else if (f & 0x40) {
 				medal[k] = 1;
 				DAT_800d236c++;
-				DAT_800a6844.Skater[s].Silver++;
+				GCareer.Skater[s].Silver++;
 			} else if (f & 0x80) {
 				medal[k] = 2;
 				DAT_800d236c++;
-				DAT_800a6844.Skater[s].Bronze++;
+				GCareer.Skater[s].Bronze++;
 			} else {
 				medal[k] = -1;
 			}
 		}
 
 		for (int i = 0; i < DAT_800d237c; i++) {
-			if ((DAT_800a6844.Skater[s].NumTapes >= DAT_800a5398[i].Tapes &&
-			     DAT_800d236c >= DAT_800a5398[i].Medals) ||
+			if ((GCareer.Skater[s].NumTapes >= Levels[i].Tapes &&
+			     DAT_800d236c >= Levels[i].Medals) ||
 			    (DAT_800d2370 && i < 5)) {
 				DAT_800bf2a0[i] = 1;
 				DAT_800bf2c8[i] = 1;
@@ -253,8 +253,8 @@ extern "C" void FUN_80066d7c() {
 		}
 	}
 
-	int ax = DAT_800a5398[cur].X - 16;
-	int ay = DAT_800a5398[cur].Y - 16;
+	int ax = Levels[cur].X - 16;
+	int ay = Levels[cur].Y - 16;
 	int arrowTimer[2];
 	int arrowX[2];
 	int arrowY[2];
@@ -289,7 +289,7 @@ extern "C" void FUN_80066d7c() {
 	int lineX[2];
 	int lineY[2];
 
-	if (DAT_800d16a4 == 1) {
+	if (GGame == 1) {
 		strcpy(line2, "needed to unlock");
 	} else {
 		strcpy(line1, "play career mode");
@@ -316,13 +316,13 @@ extern "C" void FUN_80066d7c() {
 	Mess_SetFontScale(255);
 
 	char tapes[3];
-	uchar n = DAT_800a6844.Skater[DAT_800d2368].NumTapes;
+	uchar n = GCareer.Skater[DAT_800d2368].NumTapes;
 	tapes[2] = 0;
 	tapes[0] = n / 10 + '0';
 	tapes[1] = n % 10 + '0';
 	int tapesY = (Mess_TextHeight(tapes) >> 1) + 359 - Mess_TextHeightBelowBaseline__FPCc(tapes);
 
-	if (DAT_800d16a4 == 1) {
+	if (GGame == 1) {
 		for (int i = 0; i < 2; i++) {
 			int y = 307;
 
@@ -349,7 +349,7 @@ extern "C" void FUN_80066d7c() {
 		FUN_8006b240();
 		FUN_80061ea0();
 
-		if (DAT_800d16a4 == 3)
+		if (GGame == 3)
 			scoreBox->draw(375, 287, 0, -1, -1, -1);
 
 		FUN_8006b26c();
@@ -370,8 +370,8 @@ extern "C" void FUN_80066d7c() {
 	int ttarget[2];
 	int tstep[2];
 
-	strcpy(text[0], DAT_800a5398[cur].Name);
-	strcpy(text[1], DAT_800a5398[cur].Name2);
+	strcpy(text[0], Levels[cur].Name);
+	strcpy(text[1], Levels[cur].Name2);
 	Mess_SetCurrentFont(DAT_800a21c0);
 
 	tw[0] = Mess_TextWidth__FPCc(text[0]);
@@ -417,8 +417,8 @@ extern "C" void FUN_80066d7c() {
 	char unused188[64]; /* unused; keeps the frame layout */
 
 	PadBuffer input(-1);
-	Pad_ClearTriggers(&DAT_800c0a48[0]);
-	Pad_ClearTriggers(&DAT_800c0a48[1]);
+	Pad_ClearTriggers(&Pad[0]);
+	Pad_ClearTriggers(&Pad[1]);
 
 	while (1) {
 		FUN_8005c780();
@@ -443,10 +443,10 @@ extern "C" void FUN_80066d7c() {
 		arrow->draw(ax, ay, 0, -1, -1, -1);
 		topBar->draw(0, 55, 0, -1, -1, -1);
 
-		if (DAT_800d16a4 == 1 && state == 0) {
-			if (!DAT_800a5398[sel].Competition) {
+		if (GGame == 1 && state == 0) {
+			if (!Levels[sel].Competition) {
 				int x = 266;
-				uchar f = DAT_800a6844.Skater[DAT_800d2368].Medals[sel];
+				uchar f = GCareer.Skater[DAT_800d2368].Medals[sel];
 
 				for (int k = 0; k < 5; k++) {
 					tapeBox->draw(x, 93, 0, -1, -1, -1);
@@ -457,7 +457,7 @@ extern "C" void FUN_80066d7c() {
 					x += 36;
 				}
 			} else {
-				uchar f = DAT_800a6844.Skater[DAT_800d2368].Medals[sel];
+				uchar f = GCareer.Skater[DAT_800d2368].Medals[sel];
 
 				if (f & 0x20)
 					goalSpr[0]->draw(335, 88, 0, -1, -1, -1);
@@ -468,7 +468,7 @@ extern "C" void FUN_80066d7c() {
 			}
 		}
 
-		if (DAT_800d16a4 == 3 && state == 0) {
+		if (GGame == 3 && state == 0) {
 			char score[16];
 
 			scoreBack->draw(409, 320, 0, -1, -1, -1);
@@ -497,28 +497,28 @@ extern "C" void FUN_80066d7c() {
 			plural[3] = 0;
 			Mess_SetCurrentFont("goalf.fnt");
 
-			if (DAT_800d16a4 == 1) {
-				if (DAT_800a6844.Skater[DAT_800d2368].NumTapes < DAT_800a5398[sel].Tapes) {
-					if (DAT_800d236c < DAT_800a5398[sel].Medals) {
-						if (DAT_800a5398[sel].Tapes >= 2)
+			if (GGame == 1) {
+				if (GCareer.Skater[DAT_800d2368].NumTapes < Levels[sel].Tapes) {
+					if (DAT_800d236c < Levels[sel].Medals) {
+						if (Levels[sel].Tapes >= 2)
 							plural[0] = 's';
 
-						if (DAT_800a5398[sel].Medals >= 2)
+						if (Levels[sel].Medals >= 2)
 							plural[2] = 's';
 
-						sprintf(line1, "%d tape%s, %d medal%s", DAT_800a5398[sel].Tapes, &plural[0],
-						        DAT_800a5398[sel].Medals, &plural[2]);
+						sprintf(line1, "%d tape%s, %d medal%s", Levels[sel].Tapes, &plural[0],
+						        Levels[sel].Medals, &plural[2]);
 					} else {
-						if (DAT_800a5398[sel].Tapes >= 2)
+						if (Levels[sel].Tapes >= 2)
 							plural[0] = 's';
 
-						sprintf(line1, "%d tape%s", DAT_800a5398[sel].Tapes, plural);
+						sprintf(line1, "%d tape%s", Levels[sel].Tapes, plural);
 					}
-				} else if (DAT_800d236c < DAT_800a5398[sel].Medals) {
-					if (DAT_800a5398[sel].Medals >= 2)
+				} else if (DAT_800d236c < Levels[sel].Medals) {
+					if (Levels[sel].Medals >= 2)
 						plural[0] = 's';
 
-					sprintf(line1, "%d medal%s", DAT_800a5398[sel].Medals, plural);
+					sprintf(line1, "%d medal%s", Levels[sel].Medals, plural);
 				}
 			}
 
@@ -608,12 +608,12 @@ extern "C" void FUN_80066d7c() {
 			tx[1] += tstep[1];
 
 			if (anim == 8) {
-				if (!strcmp(DAT_800a5398[sel].Name, "Roswell") && !DAT_800bf2a0[sel]) {
+				if (!strcmp(Levels[sel].Name, "Roswell") && !DAT_800bf2a0[sel]) {
 					strcpy(text[0], "unknown");
 					strcpy(text[1], "unknown");
 				} else {
-					strcpy(text[0], DAT_800a5398[sel].Name);
-					strcpy(text[1], DAT_800a5398[sel].Name2);
+					strcpy(text[0], Levels[sel].Name);
+					strcpy(text[1], Levels[sel].Name2);
 				}
 
 				Mess_SetCurrentFont(DAT_800a21c0);
@@ -682,8 +682,8 @@ extern "C" void FUN_80066d7c() {
 				SFX_PlayX__FUisi(144, 0x2000, 0);
 				save->restore(ax, ay);
 
-				ax = DAT_800a5398[sel].X - 16;
-				ay = DAT_800a5398[sel].Y - 16;
+				ax = Levels[sel].X - 16;
+				ay = Levels[sel].Y - 16;
 				FUN_8008c468(0);
 				FUN_80066bb4(-1);
 				delete save;
@@ -701,32 +701,32 @@ extern "C" void FUN_80066d7c() {
 		if (DAT_800d1cb8)
 			break;
 
-		if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered ||
-		    DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered) {
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+		if (Pad[0].Start.Triggered || Pad[1].Start.Triggered ||
+		    Pad[0].X.Triggered || Pad[1].X.Triggered) {
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 
 			DAT_800d1dc4 = sel;
 
 			if (DAT_800bf2a0[sel]) {
 				SFX_PlayX__FUisi(145, 0x2000, 0);
 
-				DAT_800a6844.LastLevel = sel;
+				GCareer.LastLevel = sel;
 				break;
 			}
 
 			SFX_PlayX__FUisi(146, 0x2000, 0);
 
 			if (DAT_800d1708) {
-				DAT_800a6844.LastLevel = sel;
+				GCareer.LastLevel = sel;
 				break;
 			}
 		}
 
-		if (DAT_800c0a48[0].Triangle.Triggered || DAT_800c0a48[1].Triangle.Triggered) {
+		if (Pad[0].Triangle.Triggered || Pad[1].Triangle.Triggered) {
 			SFX_PlayX__FUisi(147, 0x2000, 0);
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 
 			DAT_800d1dc4 = -1;
 			break;
@@ -735,7 +735,7 @@ extern "C" void FUN_80066d7c() {
 		input.update();
 	}
 
-	if (DAT_800d1afc)
+	if (Loading)
 		FileIO_Sync__Fv();
 	FUN_8006af64();
 

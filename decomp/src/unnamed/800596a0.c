@@ -4,7 +4,7 @@ struct Q {
 	int a, b, c, d, e;
 };
 
-extern struct Q *DAT_800d1a60;
+extern struct Q *Pack_pFree;
 
 struct Q *DAT_800d1c80;
 
@@ -18,17 +18,17 @@ void FUN_800596a0(void) {
 
 	FUN_80059618(0);
 
-	if (DAT_800d1a60) {
+	if (Pack_pFree) {
 		do {
-			n = (struct Q *)DAT_800d1a60->c;
-			Mem_Delete(DAT_800d1a60);
+			n = (struct Q *)Pack_pFree->c;
+			Mem_Delete(Pack_pFree);
 
-			DAT_800d1a60 = n;
+			Pack_pFree = n;
 		} while (n);
 	}
 
-	DAT_800d1a60 = Mem_NewX(20, 1, 1);
-	*DAT_800d1a60 = *DAT_800d1c80;
-	DAT_800d1a60->c = 0;
+	Pack_pFree = Mem_NewX(20, 1, 1);
+	*Pack_pFree = *DAT_800d1c80;
+	Pack_pFree->c = 0;
 	FUN_80059618(0);
 }

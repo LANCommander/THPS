@@ -65,14 +65,14 @@ struct SColl {
 
 extern SSkater DAT_800a44fc[];
 
-int DAT_800d1924;
+int Cheat_StatsOverride;
 
-extern int DAT_800d172c;
+extern int Cheat_Fire;
 extern int DAT_800d1704;
-extern int DAT_800d1774;
-extern int DAT_800d1778;
-extern int DAT_800d1868;
-extern int DAT_800d186c;
+extern int TimeScale;
+extern int TimeScaleSquared;
+extern int BitCount;
+extern int UseCacheForBits;
 extern ushort DAT_800a7edc[];
 
 class CBruce {
@@ -144,8 +144,8 @@ class CBruce {
 };
 
 #define GetStat(n)                                                                                 \
-	(DAT_800d1924 ? DAT_800d1924                                                                   \
-	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	(Cheat_StatsOverride ? Cheat_StatsOverride                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || Cheat_Fire) ? 3 : 0)) +     \
 	                    mpStatBonus[n])
 
 short PingPong(int, int, int);
@@ -267,7 +267,7 @@ void CBruce::DoOnRailPhysics() {
 				}
 		}
 
-		if (DAT_800d1868 < 200) {
+		if (BitCount < 200) {
 			SetAnglesFromHeading();
 			Bit_SetSparkTrajectory(mAngles);
 
@@ -279,7 +279,7 @@ void CBruce::DoOnRailPhysics() {
 				Cone.Set(450, 900, 0);
 				Bit_SetSparkTrajectoryCone__FRC8CSVector(&Cone);
 
-				DAT_800d186c = 0;
+				UseCacheForBits = 0;
 				Pos.vx = Pos.vz = 0;
 				Pos.vy = 0x19000;
 
@@ -290,7 +290,7 @@ void CBruce::DoOnRailPhysics() {
 						__11CGrindSparkP5CBodyR7CVectoriii(p, this, &Pos, -40, 4096, 5);
 				}
 
-				DAT_800d186c = 1;
+				UseCacheForBits = 1;
 			}
 		}
 	}
@@ -373,7 +373,7 @@ NoSparks:
 		LastSpeed = Speed;
 
 		if (t >= 0 && t <= Length) {
-			mPos += ((mVel * DAT_800d1774) >> 8) + ((mKick * DAT_800d1778) >> 8) / 2;
+			mPos += ((mVel * TimeScale) >> 8) + ((mKick * TimeScaleSquared) >> 8) / 2;
 			RemainingSpeed = 0;
 		} else if (t < 0) {
 			int PreviousSegment = -1;

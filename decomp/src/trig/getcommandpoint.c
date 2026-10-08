@@ -9,14 +9,14 @@ typedef struct CP {
 	struct CP *next;
 } CP;
 
-short **DAT_800d19e8;
-CP *DAT_800d19f8;
+short **OffsetList;
+CP *CommandPoints;
 
 CP *GetCommandPoint(int n) {
 	CP *p;
 
-	if (n != 0xffff && *DAT_800d19e8[n] == 6) {
-		for (p = DAT_800d19f8; p; p = p->next)
+	if (n != 0xffff && *OffsetList[n] == 6) {
+		for (p = CommandPoints; p; p = p->next)
 			if (p->id == n)
 				return p;
 	}

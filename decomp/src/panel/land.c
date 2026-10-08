@@ -37,8 +37,8 @@ typedef struct {
 	int i4f4;
 } B;
 
-extern int DAT_800a71fc[];
-extern int DAT_800d16a4;
+extern int GCareer_9b8[];
+extern int GGame;
 
 int FUN_8008e904(char *, char *);
 void Video_HighlightEnd(struct Q *, int);
@@ -80,10 +80,10 @@ void CPanelData_Land(B *p) {
 		p->n = 0;
 		p->i4f4 = 40;
 
-		if (DAT_800a71fc[0] == 0)
+		if (GCareer_9b8[0] == 0)
 			p->i4f4 = 0;
 
-		if (DAT_800d16a4 == 2 && p->i144 != 0)
+		if (GGame == 2 && p->i144 != 0)
 			p->i4 = 0;
 	}
 

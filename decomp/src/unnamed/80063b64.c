@@ -10,7 +10,7 @@ struct O {
 	struct VT *vt;
 };
 
-extern char DAT_800a2190[];
+extern char __vt_6Sprite[];
 extern char DAT_800a21b0[];
 
 void __dl__6CClassPv(void *p);
@@ -18,7 +18,7 @@ void __dl__6CClassPv(void *p);
 void FUN_80063b64(char **p, int f) {
 	struct O *o = (struct O *)p[5];
 
-	*p = DAT_800a2190;
+	*p = __vt_6Sprite;
 
 	if (o)
 		o->vt->fn((char *)o + o->vt->off, 3);

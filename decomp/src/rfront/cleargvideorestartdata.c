@@ -1,10 +1,10 @@
 /* Front_ClearGVideoRestartData__Fv (0x80013918) */
-extern int DAT_800a42f4[];
+extern int GVideoRestart[];
 
 void Front_ClearGVideoRestartData(void) {
-	DAT_800a42f4[0] = 0;
-	DAT_800a42f4[1] = -1;
-	DAT_800a42f4[2] = -1;
-	DAT_800a42f4[3] = -1;
-	DAT_800a42f4[4] = -1;
+	GVideoRestart[0] = 0;
+	GVideoRestart[1] = -1;
+	GVideoRestart[2] = -1;
+	GVideoRestart[3] = -1;
+	GVideoRestart[4] = -1;
 }

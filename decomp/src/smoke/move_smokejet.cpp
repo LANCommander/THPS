@@ -111,10 +111,10 @@ class CSmokeJet : public CTexturedRibbon {
 	void Move();
 };
 
-extern STrig DAT_800c9670[1];
-extern int DAT_800d16e4;
-extern CBody *DAT_800d19a4;
-extern CBody *DAT_800d1998;
+extern STrig rcossin_tbl[1];
+extern int TTime;
+extern CBody *MechList;
+extern CBody *BaddyList;
 
 int Redbook_Rnd(int);
 void Utils_CalcUnit(CVector &, const CVector &);
@@ -128,12 +128,12 @@ void CSmokeJet::Move() {
 			int dz;
 			int Dist;
 
-			dx = (mpPoints[0].Pos.vx - DAT_800d19a4->mPos.vx) >> 12;
+			dx = (mpPoints[0].Pos.vx - MechList->mPos.vx) >> 12;
 
 			if (dx < 0)
 				dx = -dx;
 
-			dz = (mpPoints[0].Pos.vz - DAT_800d19a4->mPos.vz) >> 12;
+			dz = (mpPoints[0].Pos.vz - MechList->mPos.vz) >> 12;
 
 			if (dz < 0)
 				dz = -dz;
@@ -154,7 +154,7 @@ void CSmokeJet::Move() {
 	}
 
 	mDontDisplay = 0;
-	mU = DAT_800c9670[(DAT_800d16e4 * 16) & 4080].s / 128;
+	mU = rcossin_tbl[(TTime * 16) & 4080].s / 128;
 	mV += mScrollSpeed;
 
 	{
@@ -163,7 +163,7 @@ void CSmokeJet::Move() {
 		for (i = 0; i < 10; i++)
 			mpPoints[i].Pos.vx =
 			    mOrgX[i] +
-			    (mAmp[i] * DAT_800c9670[(mFreq[i] * DAT_800d16e4 + mPhase[i]) & 4095].s / 4096
+			    (mAmp[i] * rcossin_tbl[(mFreq[i] * TTime + mPhase[i]) & 4095].s / 4096
 			     << 12);
 	}
 
@@ -178,7 +178,7 @@ void CSmokeJet::Move() {
 			mpPoints[i].Width += (mWidthWobble[i].TargetWidth - mpPoints[i].Width) / 8;
 			mpPoints[i].WidthB = mpPoints[i].Width + 40;
 
-			if ((DAT_800d16e4 & 15) == mWidthWobble[i].TChange) {
+			if ((TTime & 15) == mWidthWobble[i].TChange) {
 				mWidthWobble[i].TChange = Redbook_Rnd(16);
 				mWidthWobble[i].TargetWidth = mWidthWobble[i - 1].TargetWidth * 148 / 128;
 			}
@@ -195,7 +195,7 @@ void CSmokeJet::Move() {
 
 			Utils_CalcUnit(Unit, Unit);
 
-			pBody = M3dColij_LineToSphere(Start, End, dummy, DAT_800d19a4, 0);
+			pBody = M3dColij_LineToSphere(Start, End, dummy, MechList, 0);
 
 			if (pBody) {
 				pBody->Hit(mDamage, Unit, 31);
@@ -204,7 +204,7 @@ void CSmokeJet::Move() {
 			}
 
 			if (mDamageBaddies) {
-				CBody *pBody = M3dColij_LineToSphere(Start, End, dummy, DAT_800d1998, 0);
+				CBody *pBody = M3dColij_LineToSphere(Start, End, dummy, BaddyList, 0);
 
 				if (pBody) {
 					pBody->Hit(mDamage, Unit, 31);

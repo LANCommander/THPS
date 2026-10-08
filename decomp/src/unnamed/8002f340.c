@@ -12,14 +12,14 @@ typedef struct {
 	int f760;
 } B;
 
-extern int DAT_800d16a4;
+extern int GGame;
 
 int FUN_8002f290(B *, int, int);
 void FUN_8006e19c(void *, int, int, int);
 
 void CBruce_Trick_Trick(B *p, int a1, int a2, int a3) {
 	if (p->f760) {
-		if (DAT_800d16a4 == 7)
+		if (GGame == 7)
 			p->f330 = 0;
 
 		p->a428[a1]++;

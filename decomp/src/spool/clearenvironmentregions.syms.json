@@ -1,1 +1,1 @@
-{"gp":"0x800d1080","DAT_800d1ed0":"0x800d1ed0","DAT_800d1ed4":"0x800d1ed4","DAT_800d1ef0":"0x800d1ef0","ClearRegion__Fiii":"0x8006fde4","Spool_RemoveUnusedTextures__Fv":"0x8006f1f8"}
+{"gp":"0x800d1080","EnvRegions":"0x800d1ed0","EnvRegions_4":"0x800d1ed4","OtherEnvIndex":"0x800d1ef0","ClearRegion__Fiii":"0x8006fde4","Spool_RemoveUnusedTextures__Fv":"0x8006f1f8"}

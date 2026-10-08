@@ -22,8 +22,8 @@ typedef struct {
 	short s342, s344, s346;
 } Medal;
 
-extern char *DAT_800d217c;
-extern char DAT_800a824c[];
+extern char *pCurrentCamera;
+extern char ZeroVector[];
 
 Medal *__nw__5CItemUi(int);
 Medal *CPowerUp_ctor(Medal *, int, int *, char *, int, int);
@@ -39,41 +39,41 @@ Medal *Medal_Create(int type, int x, int y, int z, int a, int b) {
 	v.vx = x;
 	v.vy = y;
 	v.vz = z;
-	CTC2(0, *(int *)(DAT_800d217c + 0x34));
-	CTC2(1, *(int *)(DAT_800d217c + 0x38));
-	CTC2(2, *(int *)(DAT_800d217c + 0x3c));
-	CTC2(3, *(int *)(DAT_800d217c + 0x40));
-	CTC2(4, *(int *)(DAT_800d217c + 0x44));
+	CTC2(0, *(int *)(pCurrentCamera + 0x34));
+	CTC2(1, *(int *)(pCurrentCamera + 0x38));
+	CTC2(2, *(int *)(pCurrentCamera + 0x3c));
+	CTC2(3, *(int *)(pCurrentCamera + 0x40));
+	CTC2(4, *(int *)(pCurrentCamera + 0x44));
 	MTC2(0, *(int *)&v.vx);
 	MTC2(1, *(int *)&v.vz);
 	__asm__ volatile("nop; nop; cop2 0x406012");
 
 	STLVNL(&o);
 
-	pos[0] = o.vx + (*(int *)(DAT_800d217c + 4) << 12);
-	pos[1] = o.vy + (*(int *)(DAT_800d217c + 8) << 12);
-	pos[2] = o.vz + (*(int *)(DAT_800d217c + 12) << 12);
+	pos[0] = o.vx + (*(int *)(pCurrentCamera + 4) << 12);
+	pos[1] = o.vy + (*(int *)(pCurrentCamera + 8) << 12);
+	pos[2] = o.vz + (*(int *)(pCurrentCamera + 12) << 12);
 
 	switch (type) {
 		case 5:
 			p = __nw__5CItemUi(356);
 
 			if (p)
-				p = CPowerUp_ctor(p, 1636, pos, DAT_800a824c, 0, 0xffff);
+				p = CPowerUp_ctor(p, 1636, pos, ZeroVector, 0, 0xffff);
 
 			break;
 		case 6:
 			p = __nw__5CItemUi(356);
 
 			if (p)
-				p = CPowerUp_ctor(p, 1637, pos, DAT_800a824c, 0, 0xffff);
+				p = CPowerUp_ctor(p, 1637, pos, ZeroVector, 0, 0xffff);
 
 			break;
 		case 7:
 			p = __nw__5CItemUi(356);
 
 			if (p)
-				p = CPowerUp_ctor(p, 1638, pos, DAT_800a824c, 0, 0xffff);
+				p = CPowerUp_ctor(p, 1638, pos, ZeroVector, 0, 0xffff);
 
 			break;
 	}

@@ -6,13 +6,13 @@ typedef struct {
 	unsigned char heat;
 } SComp;
 
-extern SComp DAT_800c0fdc;
+extern SComp theCompetition;
 
 int Competition_NewHeat(void) {
-	DAT_800c0fdc.b = 0;
-	DAT_800c0fdc.a = 0;
-	DAT_800c0fdc.c = 0;
-	DAT_800c0fdc.d = 0;
-	DAT_800c0fdc.e = 0;
-	return ++DAT_800c0fdc.heat < 3;
+	theCompetition.b = 0;
+	theCompetition.a = 0;
+	theCompetition.c = 0;
+	theCompetition.d = 0;
+	theCompetition.e = 0;
+	return ++theCompetition.heat < 3;
 }

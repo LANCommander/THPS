@@ -36,22 +36,22 @@ typedef struct CC {
 	int m1412;
 } CC;
 
-extern L DAT_800a5398[];
-extern SP DAT_800a44fc[];
-extern int DAT_800a42f4[];
+extern L Levels[];
+extern SP Stats[];
+extern int GVideoRestart[];
 extern char DAT_800a8240[];
 extern char DAT_800a8245[];
-extern int DAT_800d1114;
+extern int SelectedSkater;
 
-int DAT_800d16a4;
-int DAT_800d16d8;
-int DAT_800d1780;
-int DAT_800d179c;
-CB *DAT_800d17c8;
+int GGame;
+int SelectedSkater2;
+int GNumberOfPlayers;
+int GHorsePlayer;
+CB *GSkater;
 CB *DAT_800d17cc;
 
-extern int DAT_800d1de8;
-extern int DAT_800d1e28;
+extern int GVideoReplay;
+extern int GLevel;
 
 void *__nw__5CItemUi(int);
 CB *CBruce_ctor(void *);
@@ -72,7 +72,7 @@ void FUN_80025a88(void) {
 	if (pBruce)
 		pBruce = CBruce_ctor(pBruce);
 
-	DAT_800d17c8 = pBruce;
+	GSkater = pBruce;
 	DAT_800d17cc = 0;
 	pBruce->m2160 = 0;
 	pCam = __nw__5CItemUi(1712);
@@ -83,32 +83,32 @@ void FUN_80025a88(void) {
 	pCam->m1412 = 1;
 	TrickTips_Init();
 
-	if (DAT_800a5398[DAT_800d1e28].f && DAT_800d16a4 == 1 && DAT_800a42f4[0] == 0 &&
-	    DAT_800d1de8 == 0)
+	if (Levels[GLevel].f && GGame == 1 && GVideoRestart[0] == 0 &&
+	    GVideoReplay == 0)
 		CCamera_StartCompetitionIntro(pCam);
 
-	if (DAT_800d16a4 != 7 || DAT_800d179c == 0)
-		pBruce->m744 = DAT_800d1114;
+	if (GGame != 7 || GHorsePlayer == 0)
+		pBruce->m744 = SelectedSkater;
 	else
-		pBruce->m744 = DAT_800d16d8;
+		pBruce->m744 = SelectedSkater2;
 
 	pBruce->m472 = pCam;
 
-	if (DAT_800d1780 == 2 && DAT_800d16a4 != 7)
-		CBruce_InitItem(pBruce, DAT_800a44fc[pBruce->m744].b);
+	if (GNumberOfPlayers == 2 && GGame != 7)
+		CBruce_InitItem(pBruce, Stats[pBruce->m744].b);
 	else
-		CBruce_InitItem(pBruce, DAT_800a44fc[pBruce->m744].a);
+		CBruce_InitItem(pBruce, Stats[pBruce->m744].a);
 
-	if (*DAT_800a44fc[pBruce->m744].s == 'R' || *DAT_800a44fc[pBruce->m744].s == 'r')
+	if (*Stats[pBruce->m744].s == 'R' || *Stats[pBruce->m744].s == 'r')
 		pBruce->m308 |= 2;
 
 	pBruce->m408 = DAT_800a8240;
 	CBruce_GetStats(pBruce, 0);
 
-	if (DAT_800a44fc[pBruce->m744].c == 16384)
+	if (Stats[pBruce->m744].c == 16384)
 		pBruce->m404 |= 4096;
 
-	if (DAT_800d1780 == 2 && DAT_800d16a4 != 7) {
+	if (GNumberOfPlayers == 2 && GGame != 7) {
 		p2 = __nw__5CItemUi(3612);
 
 		if (p2)
@@ -121,10 +121,10 @@ void FUN_80025a88(void) {
 			c2 = CCamera_ctor(c2, p2, 0);
 
 		c2->m1412 = 1;
-		p2->m744 = DAT_800d16d8;
-		CBruce_InitItem(p2, DAT_800a44fc[DAT_800d16d8].b);
+		p2->m744 = SelectedSkater2;
+		CBruce_InitItem(p2, Stats[SelectedSkater2].b);
 
-		if (*DAT_800a44fc[p2->m744].s == 'R' || *DAT_800a44fc[p2->m744].s == 'r')
+		if (*Stats[p2->m744].s == 'R' || *Stats[p2->m744].s == 'r')
 			p2->m308 |= 2;
 
 		pBruce->m468 = p2;

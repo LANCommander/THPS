@@ -1,11 +1,11 @@
 /* GotoStartOfTextureList__Fv (0x8006f094) */
 #include "names.h"
-int DAT_800d23c4;
-int DAT_800d23c8;
+int HashIndex;
+int pCurrentTex;
 
-extern int DAT_800c01a8[];
+extern int TextureChecksumHashTable[];
 
 void GotoStartOfTextureList(void) {
-	DAT_800d23c4 = 0;
-	DAT_800d23c8 = DAT_800c01a8[0];
+	HashIndex = 0;
+	pCurrentTex = TextureChecksumHashTable[0];
 }

@@ -16,28 +16,28 @@ typedef struct {
 	u_long OT[4096];
 } SOT;
 
-SBox *DAT_800d2178;
-SOT *DAT_800d21a0;
+SBox *pCurrentViewport;
+SOT *CurrentOrderingTable;
 
-extern SDispBuf *DAT_800d1a48;
-extern u_char *DAT_800d1a54;
+extern SDispBuf *pDoubleBuffer;
+extern u_char *pPoly;
 
 void FUN_80083774(void) {
 	RECT r;
 	DR_AREA *p;
 
-	r.x = DAT_800d2178->x0;
-	r.y = DAT_800d2178->y0 + DAT_800d1a48->y;
-	p = (DR_AREA *)DAT_800d1a54;
-	r.w = DAT_800d2178->x1 - DAT_800d2178->x0;
-	r.h = DAT_800d2178->y1 - DAT_800d2178->y0;
+	r.x = pCurrentViewport->x0;
+	r.y = pCurrentViewport->y0 + pDoubleBuffer->y;
+	p = (DR_AREA *)pPoly;
+	r.w = pCurrentViewport->x1 - pCurrentViewport->x0;
+	r.h = pCurrentViewport->y1 - pCurrentViewport->y0;
 	SetDrawArea(p, &r);
 
 	{
-		u_long *ot = &DAT_800d21a0->OT[4095];
+		u_long *ot = &CurrentOrderingTable->OT[4095];
 
 		addPrim(ot, p);
 	}
 
-	DAT_800d1a54 = (u_char *)(p + 1);
+	pPoly = (u_char *)(p + 1);
 }

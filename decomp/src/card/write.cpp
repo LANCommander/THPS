@@ -4,8 +4,8 @@ enum EFileType { FILETYPE_A, FILETYPE_B, FILETYPE_C, FILETYPE_D };
 struct SCardHead;
 struct SVideoHead;
 
-extern char DAT_800a5848[];
-extern char DAT_800a5864[];
+extern char CARD_FNAME[];
+extern char CARD_VNAME[];
 
 struct SReplay {
 	char pad[2094];
@@ -15,11 +15,11 @@ struct SReplay {
 	}
 };
 
-extern SReplay DAT_800a6844;
-extern char DAT_8009e16c[];
-extern char DAT_8009e18c[];
-extern char DAT_8009e20c[];
-extern char DAT_8009e22c[];
+extern SReplay GCareer;
+extern char Tape01IconPalette[];
+extern char Tape01IconTexture[];
+extern char Tony01IconPalette[];
+extern char Tony01IconTexture[];
 
 struct SVideoInfo {
 	int VideoMode;
@@ -27,13 +27,13 @@ struct SVideoInfo {
 	char pad[0xc0 - 8];
 };
 
-extern SVideoInfo DAT_800bf318;
-extern SVideoInfo DAT_800bf3d8;
-extern int DAT_800d1148;
+extern SVideoInfo GVInfo1;
+extern SVideoInfo GVInfo2;
+extern int GSaveAction;
 
-int DAT_800d1380;
-int DAT_800d1390;
-unsigned short DAT_800d1398;
+int CardStatus;
+int CardStatusTemp;
+unsigned short TimeStamp;
 
 int SyncToGoodState(void);
 void _clear_event(void);
@@ -74,29 +74,29 @@ int Card_Write(EFileType FileType, int NumBlocks) {
 	switch (FileType) {
 		case 0:
 			FUN_8001571c();
-			DAT_800a6844.SetTime(DAT_800d1398);
+			GCareer.SetTime(TimeStamp);
 
-			FName = DAT_800a5848;
+			FName = CARD_FNAME;
 			DataSize = 2560;
-			pHeaderBuf = DAT_800bf318.pBlockStart;
+			pHeaderBuf = GVInfo1.pBlockStart;
 			HeaderSize = 640;
-			pDataBuf = (ulong *)&DAT_800a6844;
+			pDataBuf = (ulong *)&GCareer;
 			pHeaderBuf2 = 0;
 			HeaderSize2 = 0;
 			pDataBuf2 = 0;
 			DataSize2 = 0;
-			pClut = DAT_8009e20c;
-			pIcon = DAT_8009e22c;
+			pClut = Tony01IconPalette;
+			pIcon = Tony01IconTexture;
 			break;
 		case 1:
-			FName = DAT_800a5864;
-			pHeaderBuf = DAT_800bf318.pBlockStart;
+			FName = CARD_VNAME;
+			pHeaderBuf = GVInfo1.pBlockStart;
 			HeaderSize = 640;
 			pDataBuf = pHeaderBuf + 160;
 			DataSize = 23936;
-			pClut = DAT_8009e16c;
-			pIcon = DAT_8009e18c;
-			pHeaderBuf2 = DAT_800bf3d8.pBlockStart;
+			pClut = Tape01IconPalette;
+			pIcon = Tape01IconTexture;
+			pHeaderBuf2 = GVInfo2.pBlockStart;
 			HeaderSize2 = 640;
 			pDataBuf2 = pHeaderBuf2 + 160;
 			DataSize2 = 23936;
@@ -112,7 +112,7 @@ int Card_Write(EFileType FileType, int NumBlocks) {
 
 	Card_SetHeader((SCardHead *)pHeaderBuf, NumBlocks, pClut, pIcon);
 
-	if (DAT_800d1148 == 1)
+	if (GSaveAction == 1)
 		Front_SetSJISName__FPc((char *)pHeaderBuf + 32);
 	else
 		Front_SetSJISName__FPc((char *)pHeaderBuf + 30);
@@ -135,7 +135,7 @@ int Card_Write(EFileType FileType, int NumBlocks) {
 	}
 
 	for (i = 0; i < 16; i++) {
-		if (DAT_800d1380 != 2 || DAT_800d1390 != 2) {
+		if (CardStatus != 2 || CardStatusTemp != 2) {
 			if (FileType == 1)
 				erase(FName);
 

@@ -15,10 +15,10 @@ struct SSkaterCareer {
 	uchar Tapes[2]; /* 12 (indexed by level, runs into the next record) */
 };
 
-extern CBruce *DAT_800d17c8;
-extern SSkaterCareer DAT_800a6844[];
-extern int DAT_800d1e28;
+extern CBruce *GSkater;
+extern SSkaterCareer GCareer[];
+extern int GLevel;
 
 extern "C" int Career_Got__Fi(int Goal) {
-	return (DAT_800a6844[DAT_800d17c8->mSkaterIndex].Tapes[DAT_800d1e28] >> Goal) & 1;
+	return (GCareer[GSkater->mSkaterIndex].Tapes[GLevel] >> Goal) & 1;
 }

@@ -8,11 +8,11 @@ typedef struct {
 	char pad[0x2c];
 } SRegion;
 
-extern SRegion DAT_800bf7a8[];
+extern SRegion PSXRegion[];
 
 int Spool_GetModel(unsigned id, int region) {
-	unsigned n = DAT_800bf7a8[region].f10[-1];
-	unsigned *m = DAT_800bf7a8[region].models;
+	unsigned n = PSXRegion[region].f10[-1];
+	unsigned *m = PSXRegion[region].models;
 	unsigned i;
 
 	for (i = 0; i < n; i++) {

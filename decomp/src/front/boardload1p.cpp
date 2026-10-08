@@ -51,7 +51,7 @@ class SlicedImage : public CItem {
 	void pack();
 };
 
-extern SCareer DAT_800a6844;
+extern SCareer GCareer;
 extern SSkater DAT_800a44fc[];
 extern int DAT_800d3394[3];          /* load offset from the start entry (-1: not started) */
 extern int DAT_800d33a4[3];          /* start entry */
@@ -88,12 +88,12 @@ extern "C" void FUN_80053dbc(void) {
 	DAT_800d33c4[2] = 15;
 	DAT_800d33b4[2] = 0;
 	DAT_800d22e8 = 1;
-	DAT_800d33a4[0] = DAT_800a6844.LastDeck[0];
-	DAT_800d33a4[1] = DAT_800a6844.LastTrucks[0];
-	DAT_800d33a4[2] = DAT_800a6844.LastWheel[0];
+	DAT_800d33a4[0] = GCareer.LastDeck[0];
+	DAT_800d33a4[1] = GCareer.LastTrucks[0];
+	DAT_800d33a4[2] = GCareer.LastWheel[0];
 
 	for (int i = 0; i < DAT_800d33c4[0]; i++) {
-		if (DAT_800a6844.Skater[DAT_800d22f0].NumTapes >= DAT_800a44fc[DAT_800d22f0].Boards[i].Req)
+		if (GCareer.Skater[DAT_800d22f0].NumTapes >= DAT_800a44fc[DAT_800d22f0].Boards[i].Req)
 			strcpy(DAT_800d33d4[0][i], DAT_800a44fc[DAT_800d22f0].Boards[i].File);
 		else
 			strcpy(DAT_800d33d4[0][i], "b1lock01.bmp");

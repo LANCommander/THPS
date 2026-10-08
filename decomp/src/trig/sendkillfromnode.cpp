@@ -50,12 +50,12 @@ class CBit {
 	uchar Type; /* 0x43 */
 };
 
-short **DAT_800d19e8;
+short **OffsetList;
 
-extern CBody *DAT_800d19b0;
-extern CBody *DAT_800d1998;
-extern CBruce *DAT_800d199c;
-extern CBit *DAT_800d18cc;
+extern CBody *EnvironmentalObjectList;
+extern CBody *BaddyList;
+extern CBruce *pCurrentPlayer;
+extern CBit *NonRenderedBitList;
 
 ushort *Trig_GetLinksPointer(int);
 void Trig_SendPulse(ushort *);
@@ -78,14 +78,14 @@ void SendKillFromNode(int Node, int How) {
 
 	for (i = 0; i < NumLinks; i++) {
 		ushort KillNode = *pNodes++;
-		short *pKillNode = DAT_800d19e8[KillNode];
+		short *pKillNode = OffsetList[KillNode];
 		CBody *pList;
 
 		Bounced = 0;
 
 		switch (*pKillNode) {
 			case 1:
-				for (pList = DAT_800d19b0; pList; pList = pList->mNextItem) {
+				for (pList = EnvironmentalObjectList; pList; pList = pList->mNextItem) {
 					if (pList->mNodeId == KillNode && (pList->mFlags & 0x100) &&
 					    (pList->m1AC & 0x10)) {
 						pList->mFlags |= 0x20;
@@ -94,15 +94,15 @@ void SendKillFromNode(int Node, int How) {
 							Trig_SendPulse(Trig_GetLinksPointer(pList->mNodeId));
 
 							pList->m1A1 = 1;
-							((CPlatform *)pList)->Bounce(DAT_800d199c, DAT_800d199c->m6C);
+							((CPlatform *)pList)->Bounce(pCurrentPlayer, pCurrentPlayer->m6C);
 							Bounced = 1;
 						}
 					}
 				}
 
 				if (!Bounced) {
-					FUN_80045774(KillNode, DAT_800d1998, How);
-					FUN_80045774(KillNode, DAT_800d19b0, How);
+					FUN_80045774(KillNode, BaddyList, How);
+					FUN_80045774(KillNode, EnvironmentalObjectList, How);
 				}
 
 				break;
@@ -144,7 +144,7 @@ void SendKillFromNode(int Node, int How) {
 			case 501: {
 				CBit *pBit;
 
-				for (pBit = DAT_800d18cc; pBit; pBit = pBit->pNext) {
+				for (pBit = NonRenderedBitList; pBit; pBit = pBit->pNext) {
 					if (pBit->Type == 2 && pBit->Node == KillNode) {
 						Die__4CBit(pBit);
 						break;

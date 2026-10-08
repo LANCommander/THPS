@@ -3,7 +3,7 @@
    block locals UpDown, FileType, WriteError, save_name, WantedFileType/Vids/m/CardHead/p, pTmp).
    The memory-card front-end state machine; returns the next front-end screen (18 = stay).
    Levers: case bodies of the CardStatus sub-switches in demo source order (case 1 first); the
-   string table pointers are fields of the front-end string struct DAT_800a5d5c (lui of the struct
+   string table pointers are fields of the front-end string struct GameText (lui of the struct
    first); the SaveFile/LoadFile name copy is an if/else of two calls; `if (!WriteError)` first; the
    video-header copy in case 1 reads NumFrames/Highlights through VH; "demoX.rec" is a 10-byte
    word-aligned block copy (strcpy of a literal), done as memcpy from the aligned extern. */
@@ -97,26 +97,26 @@ class VerticalMenu {
 };
 
 extern "C" {
-	extern int DAT_800d16e4;
+	extern int TTime;
 	extern int DAT_800d1380;
-	extern CMenu *DAT_800d1428;
-	extern int DAT_800d1780;
-	extern int DAT_800d13e4;
-	extern int DAT_800d1a34;
-	extern SControl DAT_800c0a48[2];
-	extern SVideoInfo DAT_800bf318;
-	extern SVideoSettings DAT_800a42f4;
-	extern SReplay DAT_800a6844;
-	extern unsigned char DAT_800a42d0[];
+	extern CMenu *pYesNoMenu;
+	extern int GNumberOfPlayers;
+	extern int GSoftResetEnabled;
+	extern int VblankUpdateBar;
+	extern SControl Pad[2];
+	extern SVideoInfo GVInfo1;
+	extern SVideoSettings GVideoRestart;
+	extern SReplay GCareer;
+	extern unsigned char SaveGameName[];
 	extern char DAT_800a42dc[];
 	extern char DAT_800a42e8[];
-	extern char DAT_800a4308[];
-	extern char DAT_800a4314[][11];
-	extern char *DAT_800a43bc[];
-	extern int DAT_800a43f8[];
+	extern char StoredCareerName[];
+	extern char ASCIIName[][11];
+	extern char *VertMenuItem[];
+	extern int VertMenuItemIndex[];
 	extern int DAT_800a5880[];
-	extern char DAT_800a58bc[][40];
-	extern SFrontStrings DAT_800a5d5c;
+	extern char SLOT_DIR[][40];
+	extern SFrontStrings GameText;
 
 	extern char DAT_8009d154[] __attribute__((aligned(4)));
 
@@ -136,11 +136,11 @@ extern "C" {
 	char *FUN_8008e904(char *, char *);
 }
 
-VerticalMenu *DAT_800d1104;
-int DAT_800d10f0, DAT_800d10f4, DAT_800d10f8, DAT_800d10fc, DAT_800d1100;
-int DAT_800d1108, DAT_800d110c, DAT_800d1110, DAT_800d111c, DAT_800d1124;
-int DAT_800d1144, DAT_800d1148;
-int DAT_800d21c8, DAT_800d21cc, DAT_800d21d8, DAT_800d21dc, DAT_800d21e0;
+VerticalMenu *pVertMenu;
+int VideoToDisk, GHasCareerLoaded, GLoadedCareerIsSaved, CursorPos, SizeUp;
+int NumVertMenuItems, VertMenuTopIndex, VertMenuTopChanged, MCState, CheckingCardPause;
+int GLoadAction, GSaveAction;
+int DAT_800d21c8, DAT_800d21cc, SaveNeedBlocks, SaveFreeBlocks, GReturnToState;
 
 int Card_CheckStatus(int, int);
 int Card_GetDirAndFreeBlocks(int, int);
@@ -159,75 +159,75 @@ int Front_MemCardUpdate() {
 	int AnyButton;
 	int Start;
 
-	if (++DAT_800d16e4 & 1)
+	if (++TTime & 1)
 		Card_CheckStatus(0, 0);
 
 	Front_GetButtons(Activated, GoBack, AnyButton, Start);
 
-	switch (DAT_800d111c) {
+	switch (MCState) {
 		case 0:
-			if (DAT_800d1124) {
-				if (--DAT_800d1124 == 0)
-					DAT_800d111c = 1;
+			if (CheckingCardPause) {
+				if (--CheckingCardPause == 0)
+					MCState = 1;
 			} else {
-				DAT_800d1124 = 10;
+				CheckingCardPause = 10;
 			}
 
 			break;
 		case 1:
-			if (DAT_800d10f0) {
-				DAT_800d111c = 2;
+			if (VideoToDisk) {
+				MCState = 2;
 				break;
 			}
 
 			switch (DAT_800d1380) {
 				case 1:
-					DAT_800d21dc = Card_GetDirAndFreeBlocks(0, 0);
+					SaveFreeBlocks = Card_GetDirAndFreeBlocks(0, 0);
 
-					if (DAT_800d1148 == 1) {
-						DAT_800d21d8 = 1;
+					if (GSaveAction == 1) {
+						SaveNeedBlocks = 1;
 
-						if (DAT_800d21dc < 1 && !DAT_800d10f4) {
-							DAT_800d111c = 8;
+						if (SaveFreeBlocks < 1 && !GHasCareerLoaded) {
+							MCState = 8;
 							break;
 						}
 
-						if (DAT_800d10f4) {
+						if (GHasCareerLoaded) {
 							{
 								int i;
 
 								for (i = 0; i < 10; i++)
-									DAT_800a42d0[i] = DAT_800a4308[i];
+									SaveGameName[i] = StoredCareerName[i];
 							}
 
-							DAT_800d111c = 4;
+							MCState = 4;
 							DAT_800d21c8 = 4;
 							DAT_800d21cc = 4;
 						} else {
-							DAT_800d111c = 2;
+							MCState = 2;
 							FUN_800117b4();
 						}
 					} else {
-						DAT_800d21d8 = 3;
+						SaveNeedBlocks = 3;
 
-						if (DAT_800d1780 == 2)
-							DAT_800d21d8 = 6;
+						if (GNumberOfPlayers == 2)
+							SaveNeedBlocks = 6;
 
-						if (DAT_800d21dc < DAT_800d21d8) {
-							DAT_800d111c = 8;
+						if (SaveFreeBlocks < SaveNeedBlocks) {
+							MCState = 8;
 						} else {
-							DAT_800d111c = 2;
+							MCState = 2;
 							FUN_800117b4();
 						}
 					}
 
 					break;
 				case -1:
-					DAT_800d111c = 9;
+					MCState = 9;
 					break;
 				case -2:
-					DAT_800d111c = 10;
-					DAT_800d1428->SetLine(DAT_800d1428->FindEntry(DAT_800a5d5c.f1b8));
+					MCState = 10;
+					pYesNoMenu->SetLine(pYesNoMenu->FindEntry(GameText.f1b8));
 					break;
 			}
 
@@ -235,11 +235,11 @@ int Front_MemCardUpdate() {
 		case 8:
 			switch (DAT_800d1380) {
 				case -1:
-					DAT_800d111c = 9;
+					MCState = 9;
 					break;
 				case -2:
 				case 2:
-					DAT_800d111c = 0;
+					MCState = 0;
 					break;
 			}
 
@@ -253,75 +253,75 @@ int Front_MemCardUpdate() {
 			int UpDown = GetUpDown();
 
 			if (UpDown == -1) {
-				DAT_800d1100 = 16;
+				SizeUp = 16;
 				SFX_PlayX__FUisi(17, 0x2000, 0);
 
-				if (DAT_800a42d0[DAT_800d10fc] == ' ' || DAT_800a42d0[DAT_800d10fc] == 0) {
-					DAT_800a42d0[DAT_800d10fc] = 'A';
+				if (SaveGameName[CursorPos] == ' ' || SaveGameName[CursorPos] == 0) {
+					SaveGameName[CursorPos] = 'A';
 				} else {
-					DAT_800a42d0[DAT_800d10fc]++;
+					SaveGameName[CursorPos]++;
 
-					if (DAT_800a42d0[DAT_800d10fc] >= 91)
-						DAT_800a42d0[DAT_800d10fc] = ' ';
+					if (SaveGameName[CursorPos] >= 91)
+						SaveGameName[CursorPos] = ' ';
 				}
 			}
 
 			if (UpDown == 1) {
-				DAT_800d1100 = 16;
+				SizeUp = 16;
 				SFX_PlayX__FUisi(17, 0x2000, 0);
 
-				if (DAT_800a42d0[DAT_800d10fc] == ' ' || DAT_800a42d0[DAT_800d10fc] == 0) {
-					DAT_800a42d0[DAT_800d10fc] = 'Z';
+				if (SaveGameName[CursorPos] == ' ' || SaveGameName[CursorPos] == 0) {
+					SaveGameName[CursorPos] = 'Z';
 				} else {
-					DAT_800a42d0[DAT_800d10fc]--;
+					SaveGameName[CursorPos]--;
 
-					if (DAT_800a42d0[DAT_800d10fc] < 65)
-						DAT_800a42d0[DAT_800d10fc] = ' ';
+					if (SaveGameName[CursorPos] < 65)
+						SaveGameName[CursorPos] = ' ';
 				}
 			}
 
-			if (DAT_800c0a48[0].Left.Triggered || DAT_800c0a48[1].Left.Triggered) {
-				DAT_800d1100 = 16;
+			if (Pad[0].Left.Triggered || Pad[1].Left.Triggered) {
+				SizeUp = 16;
 				SFX_PlayX__FUisi(5, 0x2000, 0);
 
-				DAT_800c0a48[0].Left.Triggered = 0;
-				DAT_800c0a48[1].Left.Triggered = 0;
-				DAT_800d10fc--;
+				Pad[0].Left.Triggered = 0;
+				Pad[1].Left.Triggered = 0;
+				CursorPos--;
 
-				if (DAT_800d10fc < 0)
-					DAT_800d10fc = 9;
+				if (CursorPos < 0)
+					CursorPos = 9;
 			}
 
-			if (DAT_800c0a48[0].Right.Triggered || DAT_800c0a48[1].Right.Triggered) {
-				DAT_800d1100 = 16;
+			if (Pad[0].Right.Triggered || Pad[1].Right.Triggered) {
+				SizeUp = 16;
 				SFX_PlayX__FUisi(5, 0x2000, 0);
 
-				DAT_800c0a48[0].Right.Triggered = 0;
-				DAT_800c0a48[1].Right.Triggered = 0;
-				DAT_800d10fc++;
+				Pad[0].Right.Triggered = 0;
+				Pad[1].Right.Triggered = 0;
+				CursorPos++;
 
-				if (DAT_800d10fc >= 10)
-					DAT_800d10fc = 0;
+				if (CursorPos >= 10)
+					CursorPos = 0;
 			}
 
-			if (DAT_800d1148 == 0)
-				FUN_8008e904(DAT_800a42e8, (char *)DAT_800a42d0);
+			if (GSaveAction == 0)
+				FUN_8008e904(DAT_800a42e8, (char *)SaveGameName);
 			else
-				FUN_8008e904(DAT_800a42dc, (char *)DAT_800a42d0);
+				FUN_8008e904(DAT_800a42dc, (char *)SaveGameName);
 
 			if (GoBack) {
 				SFX_PlayX__FUisi(2, 0x2000, 0);
 				return SaveReturnState();
 			}
 
-			if (DAT_800d1380 == -1 && !DAT_800d10f0)
-				DAT_800d111c = 9;
+			if (DAT_800d1380 == -1 && !VideoToDisk)
+				MCState = 9;
 
-			if (Activated && !DAT_800d10f0) {
+			if (Activated && !VideoToDisk) {
 				SFX_PlayX__FUisi(5, 0x2000, 0);
 
 				{
-					int FileType = DAT_800d1148 == 0;
+					int FileType = GSaveAction == 0;
 
 					if (FUN_80012600()) {
 						do
@@ -330,38 +330,38 @@ int Front_MemCardUpdate() {
 						while (FUN_800144a8(FileType));
 					}
 
-					if (FUN_800144a8(FileType) && !(DAT_800d1148 == 1 && DAT_800d10f4)) {
-						DAT_800d111c = 3;
-						DAT_800d1428->SetLine(DAT_800d1428->FindEntry(DAT_800a5d5c.f1b8));
-						DAT_800d1428->CentreY();
+					if (FUN_800144a8(FileType) && !(GSaveAction == 1 && GHasCareerLoaded)) {
+						MCState = 3;
+						pYesNoMenu->SetLine(pYesNoMenu->FindEntry(GameText.f1b8));
+						pYesNoMenu->CentreY();
 					} else {
-						DAT_800d111c = 4;
+						MCState = 4;
 						DAT_800d21c8 = 4;
 						DAT_800d21cc = 4;
 					}
 				}
 			}
 
-			if (Activated && DAT_800d10f0) {
+			if (Activated && VideoToDisk) {
 				SFX_PlayX__FUisi(5, 0x2000, 0);
 
-				DAT_800d111c = 5;
+				MCState = 5;
 			}
 		} break;
 		case 3:
-			DAT_800d1428->Update();
+			pYesNoMenu->Update();
 
 			if (Activated) {
-				if (DAT_800d1428->ChoiceIs(DAT_800a5d5c.f1b4)) {
+				if (pYesNoMenu->ChoiceIs(GameText.f1b4)) {
 					SFX_PlayX__FUisi(5, 0x2000, 0);
 
-					DAT_800d111c = 4;
+					MCState = 4;
 					DAT_800d21c8 = 4;
 					DAT_800d21cc = 4;
 				} else {
 					SFX_PlayX__FUisi(2, 0x2000, 0);
 
-					DAT_800d111c = 2;
+					MCState = 2;
 					FUN_800117b4();
 				}
 			}
@@ -369,7 +369,7 @@ int Front_MemCardUpdate() {
 			if (GoBack) {
 				SFX_PlayX__FUisi(2, 0x2000, 0);
 
-				DAT_800d111c = 2;
+				MCState = 2;
 				FUN_800117b4();
 			}
 
@@ -379,7 +379,7 @@ int Front_MemCardUpdate() {
 				case -2:
 				case 1:
 				case 2:
-					DAT_800d111c = 0;
+					MCState = 0;
 					break;
 			}
 
@@ -391,7 +391,7 @@ int Front_MemCardUpdate() {
 			break;
 		case 18:
 			if (DAT_800d1380 == -1)
-				DAT_800d111c = 17;
+				MCState = 17;
 
 			if (AnyButton) {
 				SFX_PlayX__FUisi(GoBack ? 147 : 145, 0x2000, 0);
@@ -400,23 +400,23 @@ int Front_MemCardUpdate() {
 
 			break;
 		case 10:
-			DAT_800d1428->Update();
+			pYesNoMenu->Update();
 
 			switch (DAT_800d1380) {
 				case 1:
 				case 2:
-					DAT_800d111c = 0;
+					MCState = 0;
 					break;
 				case -1:
-					DAT_800d111c = 9;
+					MCState = 9;
 					break;
 			}
 
 			if (Activated) {
-				if (DAT_800d1428->ChoiceIs(DAT_800a5d5c.f1b4)) {
+				if (pYesNoMenu->ChoiceIs(GameText.f1b4)) {
 					SFX_PlayX__FUisi(5, 0x2000, 0);
 
-					DAT_800d111c = 11;
+					MCState = 11;
 					DAT_800d21c8 = 4;
 					DAT_800d21cc = 4;
 				} else {
@@ -428,25 +428,25 @@ int Front_MemCardUpdate() {
 			if (GoBack) {
 				SFX_PlayX__FUisi(2, 0x2000, 0);
 
-				DAT_800d111c = 0;
+				MCState = 0;
 			}
 
 			break;
 		case 11:
-			DAT_800d13e4 = 0;
+			GSoftResetEnabled = 0;
 
 			if (DAT_800d1380 == 2 || DAT_800d1380 == -1) {
-				DAT_800d111c = 12;
+				MCState = 12;
 				DAT_800d21c8 = 75;
 				break;
 			}
 
 			if (--DAT_800d21c8 < 0 && DAT_800d1380) {
 				if (Card_FormatCard(0, 0) == 1) {
-					DAT_800d111c = 13;
+					MCState = 13;
 					DAT_800d21c8 = 75;
 				} else if (--DAT_800d21cc < 0) {
-					DAT_800d111c = 12;
+					MCState = 12;
 					DAT_800d21c8 = 75;
 				} else {
 					DAT_800d21c8 = (4 - DAT_800d21cc) * 60;
@@ -466,73 +466,73 @@ int Front_MemCardUpdate() {
 		case 13:
 			if (--DAT_800d21c8 < 0) {
 				if (DAT_800d1380 == -1)
-					DAT_800d111c = 9;
+					MCState = 9;
 				else
-					DAT_800d111c = 0;
+					MCState = 0;
 			}
 
 			if (AnyButton) {
 				SFX_PlayX__FUisi(GoBack ? 2 : 5, 0x2000, 0);
 
-				DAT_800d111c = 0;
+				MCState = 0;
 			}
 
 			break;
 		case 4:
-			DAT_800d13e4 = 0;
+			GSoftResetEnabled = 0;
 
 			if (DAT_800d1380 == -1) {
-				DAT_800d111c = 6;
+				MCState = 6;
 				DAT_800d21c8 = 75;
 			}
 
 			if (--DAT_800d21c8 < 0 && DAT_800d1380) {
 				int WriteError;
 
-				switch (DAT_800d1148) {
+				switch (GSaveAction) {
 					case 0:
-						DAT_800d21d8 = 3;
+						SaveNeedBlocks = 3;
 
-						if (DAT_800d1780 == 2)
-							DAT_800d21d8 = 6;
+						if (GNumberOfPlayers == 2)
+							SaveNeedBlocks = 6;
 
-						WriteError = Card_Write__F9EFileTypei(1, DAT_800d21d8);
+						WriteError = Card_Write__F9EFileTypei(1, SaveNeedBlocks);
 						break;
 					case 1:
-						DAT_800d21d8 = 1;
-						WriteError = Card_Write__F9EFileTypei(0, DAT_800d21d8);
+						SaveNeedBlocks = 1;
+						WriteError = Card_Write__F9EFileTypei(0, SaveNeedBlocks);
 						break;
 				}
 
 				if (!WriteError) {
-					DAT_800d111c = 7;
+					MCState = 7;
 
-					if (DAT_800d1148 == 1) {
-						DAT_800d10f4 = 1;
-						DAT_800d10f8 = 1;
+					if (GSaveAction == 1) {
+						GHasCareerLoaded = 1;
+						GLoadedCareerIsSaved = 1;
 
 						{
 							int i;
 
 							for (i = 0; i < 10; i++)
-								DAT_800a4308[i] = DAT_800a42d0[i];
+								StoredCareerName[i] = SaveGameName[i];
 						}
 					}
 				} else {
-					DAT_800d111c = 6;
+					MCState = 6;
 					DAT_800d21c8 = 75;
 				}
 			}
 
 			break;
 		case 5:
-			DAT_800d13e4 = 0;
+			GSoftResetEnabled = 0;
 
-			if (DAT_800a42d0[0] < 'A' || DAT_800a42d0[0] > 'Z')
-				DAT_800a42d0[0] = 'A';
+			if (SaveGameName[0] < 'A' || SaveGameName[0] > 'Z')
+				SaveGameName[0] = 'A';
 
-			if (DAT_800a42d0[0] >= 'K') {
-				DAT_800d111c = 2;
+			if (SaveGameName[0] >= 'K') {
+				MCState = 2;
 				Activated = 0;
 				GoBack = 0;
 				break;
@@ -543,11 +543,11 @@ int Front_MemCardUpdate() {
 
 				memcpy(save_name, DAT_8009d154, 10);
 
-				save_name[4] = DAT_800a42d0[0];
+				save_name[4] = SaveGameName[0];
 				FUN_8008c190(DAT_8009d160, save_name);
 				FUN_80014868(1, save_name);
 
-				DAT_800d111c = 7;
+				MCState = 7;
 			}
 
 			break;
@@ -557,11 +557,11 @@ int Front_MemCardUpdate() {
 
 			break;
 		case 15:
-			if (DAT_800d1124) {
-				if (--DAT_800d1124 == 0)
-					DAT_800d111c = 16;
+			if (CheckingCardPause) {
+				if (--CheckingCardPause == 0)
+					MCState = 16;
 			} else {
-				DAT_800d1124 = 10;
+				CheckingCardPause = 10;
 			}
 
 			break;
@@ -572,11 +572,11 @@ int Front_MemCardUpdate() {
 					int Vids;
 					int Offset;
 
-					DAT_800d21dc = Card_GetDirAndFreeBlocks(0, 0);
+					SaveFreeBlocks = Card_GetDirAndFreeBlocks(0, 0);
 					WantedFileType = 1;
 					Offset = 26;
 
-					if (DAT_800d1144 == 2) {
+					if (GLoadAction == 2) {
 						WantedFileType = 0;
 						Offset = 28;
 					}
@@ -601,9 +601,9 @@ int Front_MemCardUpdate() {
 									SCardHead CardHead;
 									char *p;
 
-									Card_ReadFileHeader(DAT_800a58bc[i], &CardHead);
+									Card_ReadFileHeader(SLOT_DIR[i], &CardHead);
 
-									p = DAT_800a4314[m];
+									p = ASCIIName[m];
 
 									{
 										int j;
@@ -622,25 +622,25 @@ int Front_MemCardUpdate() {
 									}
 
 									*p = 0;
-									DAT_800a43bc[m] = DAT_800a4314[m];
-									DAT_800a43f8[m] = i;
+									VertMenuItem[m] = ASCIIName[m];
+									VertMenuItemIndex[m] = i;
 									m++;
 								}
 							}
 						}
 
-						DAT_800d1108 = m;
-						DAT_800d110c = 0;
-						DAT_800d111c = 20;
+						NumVertMenuItems = m;
+						VertMenuTopIndex = 0;
+						MCState = 20;
 					} else {
-						DAT_800d111c = 19;
+						MCState = 19;
 					}
 				} break;
 				case -1:
-					DAT_800d111c = 17;
+					MCState = 17;
 					break;
 				case -2:
-					DAT_800d111c = 18;
+					MCState = 18;
 					break;
 			}
 
@@ -650,7 +650,7 @@ int Front_MemCardUpdate() {
 				case -2:
 				case 1:
 				case 2:
-					DAT_800d111c = 15;
+					MCState = 15;
 					break;
 			}
 		case 19:
@@ -661,95 +661,95 @@ int Front_MemCardUpdate() {
 
 			break;
 		case 20:
-			DAT_800d1110 = 0;
+			VertMenuTopChanged = 0;
 
-			if (DAT_800c0a48[0].Up.Triggered || DAT_800c0a48[1].Up.Triggered) {
-				DAT_800c0a48[0].Up.Triggered = 0;
-				DAT_800c0a48[1].Up.Triggered = 0;
+			if (Pad[0].Up.Triggered || Pad[1].Up.Triggered) {
+				Pad[0].Up.Triggered = 0;
+				Pad[1].Up.Triggered = 0;
 
-				if (DAT_800d1104->getSelected() > 0) {
-					DAT_800d1104->up();
-				} else if (DAT_800d110c > 0) {
-					DAT_800d110c--;
-					DAT_800d1110 = 1;
+				if (pVertMenu->getSelected() > 0) {
+					pVertMenu->up();
+				} else if (VertMenuTopIndex > 0) {
+					VertMenuTopIndex--;
+					VertMenuTopChanged = 1;
 				}
 			}
 
-			if (DAT_800c0a48[0].Down.Triggered || DAT_800c0a48[1].Down.Triggered) {
-				DAT_800c0a48[0].Down.Triggered = 0;
-				DAT_800c0a48[1].Down.Triggered = 0;
+			if (Pad[0].Down.Triggered || Pad[1].Down.Triggered) {
+				Pad[0].Down.Triggered = 0;
+				Pad[1].Down.Triggered = 0;
 
-				if (DAT_800d110c < DAT_800d1108 - 5) {
-					DAT_800d110c++;
-					DAT_800d1110 = 1;
-				} else if (DAT_800d1104->getSelected() < 4) {
-					DAT_800d1104->down();
+				if (VertMenuTopIndex < NumVertMenuItems - 5) {
+					VertMenuTopIndex++;
+					VertMenuTopChanged = 1;
+				} else if (pVertMenu->getSelected() < 4) {
+					pVertMenu->down();
 				}
 			}
 
 			if (GoBack || DAT_800d1380 == -1) {
 				SFX_PlayX__FUisi(147, 0x2000, 0);
-				return DAT_800d21e0;
+				return GReturnToState;
 			}
 
 			if (Activated) {
 				Card_SetSelectedFile(
-				    DAT_800a58bc[DAT_800a43f8[DAT_800d110c + DAT_800d1104->getSelected()]]);
+				    SLOT_DIR[VertMenuItemIndex[VertMenuTopIndex + pVertMenu->getSelected()]]);
 				SFX_PlayX__FUisi(145, 0x2000, 0);
 
-				DAT_800d111c = 21;
+				MCState = 21;
 			}
 
 			break;
 		case 21:
-			DAT_800d13e4 = 0;
+			GSoftResetEnabled = 0;
 
-			switch (DAT_800d1144) {
+			switch (GLoadAction) {
 				case 0: {
 					int Error;
 
-					DAT_800d1a34 = 1;
-					Error = Card_Load(FILETYPE_B, DAT_800bf318.pBlockStart, 0);
-					DAT_800d1a34 = 0;
+					VblankUpdateBar = 1;
+					Error = Card_Load(FILETYPE_B, GVInfo1.pBlockStart, 0);
+					VblankUpdateBar = 0;
 
 					if (Error) {
-						DAT_800d111c = 22;
+						MCState = 22;
 					} else {
 						int i;
-						SVideoHead *VH = (SVideoHead *)(DAT_800bf318.pBlockStart + 128);
+						SVideoHead *VH = (SVideoHead *)(GVInfo1.pBlockStart + 128);
 
-						DAT_800bf318.NumFrames = VH->NumFrames;
+						GVInfo1.NumFrames = VH->NumFrames;
 
 						for (i = 0; i < 5; i++)
-							DAT_800bf318.Highlights[i] = VH->Highlights[i];
+							GVInfo1.Highlights[i] = VH->Highlights[i];
 
-						DAT_800d111c = 23;
+						MCState = 23;
 					}
 				} break;
 				case 1:
-					if (Card_Load(FILETYPE_C, DAT_800bf318.pBlockStart, 0)) {
-						DAT_800d111c = 22;
+					if (Card_Load(FILETYPE_C, GVInfo1.pBlockStart, 0)) {
+						MCState = 22;
 					} else {
 						{
-							SVideoHead *VH = (SVideoHead *)(DAT_800bf318.pBlockStart + 128);
+							SVideoHead *VH = (SVideoHead *)(GVInfo1.pBlockStart + 128);
 
-							DAT_800a42f4.NumSkaters = VH->NumSkaters;
-							DAT_800a42f4.Skater = VH->Skater;
-							DAT_800a42f4.Skater2 = VH->Skater2;
-							DAT_800a42f4.Level = VH->Level;
-							DAT_800a42f4.GGame = VH->GGame;
+							GVideoRestart.NumSkaters = VH->NumSkaters;
+							GVideoRestart.Skater = VH->Skater;
+							GVideoRestart.Skater2 = VH->Skater2;
+							GVideoRestart.Level = VH->Level;
+							GVideoRestart.GGame = VH->GGame;
 
 							{
 								int i;
 
-								DAT_800bf318.NumFrames = VH->NumFrames;
+								GVInfo1.NumFrames = VH->NumFrames;
 
 								for (i = 0; i < 5; i++)
-									DAT_800bf318.Highlights[i] = VH->Highlights[i];
+									GVInfo1.Highlights[i] = VH->Highlights[i];
 							}
 						}
 
-						DAT_800d111c = 23;
+						MCState = 23;
 					}
 
 					break;
@@ -757,14 +757,14 @@ int Front_MemCardUpdate() {
 					ulong *pTmp = (ulong *)Mem_NewX__FUiii(3200, 1, 1);
 
 					if (Card_Load(FILETYPE_A, pTmp, 0)) {
-						DAT_800d111c = 22;
+						MCState = 22;
 					} else {
-						DAT_800a6844 = *(SReplay *)(pTmp + 160);
-						DAT_800d10f4 = 1;
-						DAT_800d10f8 = 0;
-						Front_ExtractASCIINameFromSJIS((char *)pTmp + 32, DAT_800a4308);
+						GCareer = *(SReplay *)(pTmp + 160);
+						GHasCareerLoaded = 1;
+						GLoadedCareerIsSaved = 0;
+						Front_ExtractASCIINameFromSJIS((char *)pTmp + 32, StoredCareerName);
 
-						DAT_800d111c = 23;
+						MCState = 23;
 					}
 
 					Mem_Delete__FPv(pTmp);

@@ -23,16 +23,16 @@ struct SPSXRegion {
 	char pad35[64 - 0x35];
 };
 
-extern SQueue DAT_800bf654[];
-extern SPSXRegion DAT_800bf7a8[];
+extern SQueue SpoolQ[];
+extern SPSXRegion PSXRegion[];
 
-int DAT_800d1ef4;
+int SpoolPos;
 int DAT_800d1f08;
-int DAT_800d1ed0[2];
-int DAT_800d1ef0;
-uint *DAT_800d1f0c[2];
+int EnvRegions[2];
+int OtherEnvIndex;
+uint *EnvModelChecksums[2];
 
-extern int DAT_800d1afc;
+extern int Loading;
 
 void ClearRegion(int, int, int);
 void AttachNewEnviro(int);
@@ -47,7 +47,7 @@ extern "C" {
 }
 
 void Spool_Continue() {
-	SQueue *Q = &DAT_800bf654[DAT_800d1ef4];
+	SQueue *Q = &SpoolQ[SpoolPos];
 
 	if (!Q->Occupied)
 		return;
@@ -62,41 +62,41 @@ void Spool_Continue() {
 					char *pDest;
 					int c;
 
-					if (DAT_800d1ed0[0] != -1 && DAT_800d1ed0[1] != -1) {
-						Q->Region = DAT_800d1ed0[DAT_800d1ef0];
+					if (EnvRegions[0] != -1 && EnvRegions[1] != -1) {
+						Q->Region = EnvRegions[OtherEnvIndex];
 						ClearRegion(Q->Region, 0, 0);
 
-						DAT_800d1ed0[DAT_800d1ef0] = Q->Region;
-					} else if (DAT_800d1ed0[0] == -1) {
-						DAT_800d1ed0[0] = Q->Region;
+						EnvRegions[OtherEnvIndex] = Q->Region;
+					} else if (EnvRegions[0] == -1) {
+						EnvRegions[0] = Q->Region;
 					} else {
-						DAT_800d1ed0[1] = Q->Region;
+						EnvRegions[1] = Q->Region;
 					}
 
 					pNew = Q->Name;
-					pDest = DAT_800bf7a8[Q->Region].Name;
+					pDest = PSXRegion[Q->Region].Name;
 
 					for (c = 0; *pNew != '.' && c < 9; c++)
 						*pDest++ = *pNew++;
 
 					*pDest = 0;
-					DAT_800bf7a8[Q->Region].pPSX = Mem_NewX__FUiii(FileSize, 1, 1);
-					FileIO_Load__FPv(DAT_800bf7a8[Q->Region].pPSX);
+					PSXRegion[Q->Region].pPSX = Mem_NewX__FUiii(FileSize, 1, 1);
+					FileIO_Load__FPv(PSXRegion[Q->Region].pPSX);
 					break;
 				}
 				case 0:
 				case 2:
-					DAT_800bf7a8[Q->Region].pPSX = Mem_NewX__FUiii(FileSize, 1, 1);
-					FileIO_Load__FPv(DAT_800bf7a8[Q->Region].pPSX);
+					PSXRegion[Q->Region].pPSX = Mem_NewX__FUiii(FileSize, 1, 1);
+					FileIO_Load__FPv(PSXRegion[Q->Region].pPSX);
 					break;
 			}
 
 			DAT_800d1f08 = 1;
-			DAT_800bf7a8[Q->Region].KeepTextures = Q->KeepTextures;
+			PSXRegion[Q->Region].KeepTextures = Q->KeepTextures;
 			break;
 		}
 		case 1:
-			if (!DAT_800d1afc)
+			if (!Loading)
 				DAT_800d1f08 = 2;
 
 			break;
@@ -109,7 +109,7 @@ void Spool_Continue() {
 					{
 						int e = Spool_GetEnvIndex(Q->Region);
 
-						DAT_800d1f0c[e] = Spool_SkipPackets(DAT_800bf7a8[Q->Region].pPSX);
+						EnvModelChecksums[e] = Spool_SkipPackets(PSXRegion[Q->Region].pPSX);
 					}
 
 					break;
@@ -122,7 +122,7 @@ void Spool_Continue() {
 
 			Q->Occupied = 0;
 			DAT_800d1f08 = 0;
-			DAT_800d1ef4 = (DAT_800d1ef4 + 1) % 20;
+			SpoolPos = (SpoolPos + 1) % 20;
 			break;
 	}
 }

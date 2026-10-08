@@ -6,20 +6,20 @@ struct L {
 	struct L *next;
 };
 
-struct L *DAT_800d1b94;
+struct L *RailList;
 
-extern char DAT_800a1340[];
+extern char __vt_5CRail[];
 extern char DAT_800a1350[];
 
 void __dl__6CClassPv(void *p);
 
 void FUN_8004f814(struct L *p, int f) {
-	struct L *h = DAT_800d1b94;
+	struct L *h = RailList;
 
-	p->vt = DAT_800a1340;
+	p->vt = __vt_5CRail;
 
 	if (h == p)
-		DAT_800d1b94 = p->next;
+		RailList = p->next;
 
 	if (p->prev)
 		p->prev->next = p->next;

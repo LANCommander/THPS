@@ -1,6 +1,6 @@
 /* __nw__4CBitUi (0x80027d08) */
 #include "names.h"
-int DAT_800d186c;
+int UseCacheForBits;
 
 void *Mem_NewX(unsigned int, int, int);
 
@@ -8,7 +8,7 @@ void *__nw__4CBitUi(unsigned int size) {
 	int *p;
 	unsigned int i, n;
 
-	if (DAT_800d186c)
+	if (UseCacheForBits)
 		p = Mem_NewX(size, 0, 1);
 	else
 		p = Mem_NewX(size, 0, 1);

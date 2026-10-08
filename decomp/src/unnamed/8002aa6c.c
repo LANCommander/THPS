@@ -1,32 +1,32 @@
 /* FUN_8002aa6c (0x8002aa6c) */
-void *DAT_800d18d8;
-void *DAT_800d18d0;
-void *DAT_800d18ec;
-void *DAT_800d18e0;
-void *DAT_800d18e4;
-void *DAT_800d18dc;
-void *DAT_800d18e8;
-void *DAT_800d18cc;
-void *DAT_800d18d4;
-void *DAT_800d18f4;
-void *DAT_800d18f8;
-void *DAT_800d18fc;
-void *DAT_800d18f0;
+void *PixelList;
+void *FlatBitList;
+void *GlassList;
+void *GenPolyList;
+void *ChunkBitList;
+void *QuadBitList;
+void *GlowList;
+void *NonRenderedBitList;
+void *Linked2EndedBitList;
+void *PolyLineList;
+void *GPolyLineList;
+void *GLineList;
+void *SpecialDisplayList;
 
 void FUN_8002aa0c(void *p);
 
 void FUN_8002aa6c(void) {
-	FUN_8002aa0c(DAT_800d18d8);
-	FUN_8002aa0c(DAT_800d18d0);
-	FUN_8002aa0c(DAT_800d18ec);
-	FUN_8002aa0c(DAT_800d18e0);
-	FUN_8002aa0c(DAT_800d18e4);
-	FUN_8002aa0c(DAT_800d18dc);
-	FUN_8002aa0c(DAT_800d18e8);
-	FUN_8002aa0c(DAT_800d18cc);
-	FUN_8002aa0c(DAT_800d18d4);
-	FUN_8002aa0c(DAT_800d18f4);
-	FUN_8002aa0c(DAT_800d18f8);
-	FUN_8002aa0c(DAT_800d18fc);
-	FUN_8002aa0c(DAT_800d18f0);
+	FUN_8002aa0c(PixelList);
+	FUN_8002aa0c(FlatBitList);
+	FUN_8002aa0c(GlassList);
+	FUN_8002aa0c(GenPolyList);
+	FUN_8002aa0c(ChunkBitList);
+	FUN_8002aa0c(QuadBitList);
+	FUN_8002aa0c(GlowList);
+	FUN_8002aa0c(NonRenderedBitList);
+	FUN_8002aa0c(Linked2EndedBitList);
+	FUN_8002aa0c(PolyLineList);
+	FUN_8002aa0c(GPolyLineList);
+	FUN_8002aa0c(GLineList);
+	FUN_8002aa0c(SpecialDisplayList);
 }

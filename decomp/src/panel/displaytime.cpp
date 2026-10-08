@@ -18,12 +18,12 @@ struct SVideoInfo {
 	char pad4[0xc0 - 4];
 };
 
-extern int DAT_800d16a4;
-extern CBruce *DAT_800d19a4;
-extern CBruce *DAT_800d17c8;
-extern SVideoInfo DAT_800bf318[];
-extern int DAT_800d1770;
-extern uint DAT_800d1a24;
+extern int GGame;
+extern CBruce *MechList;
+extern CBruce *GSkater;
+extern SVideoInfo GVInfo1[];
+extern int XFrames;
+extern uint Xblanks;
 extern int DAT_800d1790;
 extern int DAT_800d1794;
 extern char DAT_800a2394[];
@@ -47,10 +47,10 @@ void DisplayTime(CBruce *pBruce, ushort xpos, ushort ypos) {
 	int mins;
 	int secs;
 
-	if (DAT_800d16a4 == 2)
+	if (GGame == 2)
 		return;
 
-	if (DAT_800d16a4 == 7 && !pBruce->mTime)
+	if (GGame == 7 && !pBruce->mTime)
 		return;
 
 	FUN_8001f138(DAT_800d1794);
@@ -58,13 +58,13 @@ void DisplayTime(CBruce *pBruce, ushort xpos, ushort ypos) {
 	{
 		SVideoInfo *VInfo;
 
-		if (pBruce == DAT_800d19a4)
-			VInfo = &DAT_800bf318[0];
+		if (pBruce == MechList)
+			VInfo = &GVInfo1[0];
 		else
-			VInfo = &DAT_800bf318[1];
+			VInfo = &GVInfo1[1];
 
 		if (VInfo->Mode != 2) {
-			ticks = pBruce->mTime - DAT_800d1770;
+			ticks = pBruce->mTime - XFrames;
 			mins = ticks / 3600;
 			secs = (ticks - mins * 3600) / 60;
 
@@ -78,14 +78,14 @@ void DisplayTime(CBruce *pBruce, ushort xpos, ushort ypos) {
 			Mess_SetTextJustify(0);
 			Mess_SetScale(256);
 
-			if (DAT_800d16a4 == 7) {
-				if (mins || secs >= 4 || DAT_800d1a24 % 30 >= 15)
+			if (GGame == 7) {
+				if (mins || secs >= 4 || Xblanks % 30 >= 15)
 					Mess_DrawPanelText(xpos, ypos, time, 0, 0, 256);
 			} else {
-				if (mins || secs >= 11 || DAT_800d1a24 % 60 >= 30)
+				if (mins || secs >= 11 || Xblanks % 60 >= 30)
 					Mess_DrawPanelText(xpos, ypos, time, 0, 0, 256);
 
-				if (pBruce == DAT_800d17c8) {
+				if (pBruce == GSkater) {
 					if (ticks >= 1 && ticks < 600) {
 						if (ticks < DAT_800d23c0) {
 							int sub;

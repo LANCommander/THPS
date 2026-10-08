@@ -21,14 +21,14 @@ typedef struct {
 	unsigned short ar, dr, sr, rr, sl, adsr1, adsr2;
 } VATTR;
 
-int DAT_800d1a9c;
+int SFXPaused;
 
 extern void FUN_80094f70(VATTR *);
 
 int SFX_GetVoicePitch(unsigned v) {
 	VATTR a;
 
-	if (DAT_800d1a9c)
+	if (SFXPaused)
 		return 1000;
 
 	if (v) {

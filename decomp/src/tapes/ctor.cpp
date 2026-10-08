@@ -118,11 +118,11 @@ int Career_Got(int);
 
 extern char DAT_800d1fb0[];
 extern char DAT_800a3050[];
-extern STapeMessage DAT_800c0da4[];
-extern CBody *DAT_800d1618;
-extern int DAT_800d16a4;
-extern uchar DAT_800d1a15;
-extern uchar DAT_800d1a16;
+extern STapeMessage TapeMessage[];
+extern CBody *PowerUpList;
+extern int GGame;
+extern uchar CurrentItemsFileRegion;
+extern uchar CurrentMedalsFileRegion;
 
 CTape::CTape(ushort PowerupType, const CVector &Pos, const CVector &Pos2, int Size1, int Size2,
              const CVector &Vel, uint Flags, int Lifetime) {
@@ -156,30 +156,30 @@ CTape::CTape(ushort PowerupType, const CVector &Pos, const CVector &Pos2, int Si
 			InitItem(DAT_800a3050);
 
 			mIs3d = 1;
-			mModel = Spool_GetModel(0x54636518, DAT_800d1a16);
+			mModel = Spool_GetModel(0x54636518, CurrentMedalsFileRegion);
 			break;
 		case 0x665:
 			InitItem(DAT_800a3050);
 
 			mIs3d = 1;
-			mModel = Spool_GetModel(0xba6d0434, DAT_800d1a16);
+			mModel = Spool_GetModel(0xba6d0434, CurrentMedalsFileRegion);
 			break;
 		case 0x666:
 			InitItem(DAT_800a3050);
 
 			mIs3d = 1;
-			mModel = Spool_GetModel(0x2364558e, DAT_800d1a16);
+			mModel = Spool_GetModel(0x2364558e, CurrentMedalsFileRegion);
 			break;
 		case 0x10:
 		case 0x12:
-			mMessageTable = DAT_800c0da4;
+			mMessageTable = TapeMessage;
 			m8a = 150;
 			mIs3d = 1;
-			mModel = Spool_GetModel(0xd5108e8c, DAT_800d1a15);
+			mModel = Spool_GetModel(0xd5108e8c, CurrentItemsFileRegion);
 			break;
 	}
 
-	if (DAT_800d16a4 != 1) {
+	if (GGame != 1) {
 		switch (mType) {
 			case 4:
 			case 5:
@@ -209,7 +209,7 @@ CTape::CTape(ushort PowerupType, const CVector &Pos, const CVector &Pos2, int Si
 		}
 	}
 
-	AttachTo(&DAT_800d1618);
+	AttachTo(&PowerUpList);
 
 	if (!mIs3d)
 		DontDisplay();

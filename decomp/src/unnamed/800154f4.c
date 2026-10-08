@@ -4,16 +4,16 @@ struct B {
 	int w[628];
 };
 
-extern int DAT_800a5880[];
+extern int FileType[];
 
 typedef struct {
 	char n[40];
 } E;
 
-extern E DAT_800a58bc[];
-extern struct B DAT_800a6844;
-extern char DAT_800a4308[];
-extern int DAT_800d10f4, DAT_800d10f8;
+extern E SLOT_DIR[];
+extern struct B GCareer;
+extern char StoredCareerName[];
+extern int GHasCareerLoaded, GLoadedCareerIsSaved;
 
 void Career_Init(void);
 int SyncToGoodState(void);
@@ -46,9 +46,9 @@ int FUN_800154f4(void) {
 		i = 0;
 
 		do {
-			if (DAT_800a5880[i] == 0) {
+			if (FileType[i] == 0) {
 				p = Mem_NewX(3200, 1, 1);
-				Card_SetSelectedFile(&DAT_800a58bc[i]);
+				Card_SetSelectedFile(&SLOT_DIR[i]);
 
 				if (Card_Load(0, p, 0) == 0) {
 					if (s2 == 0)
@@ -56,16 +56,16 @@ int FUN_800154f4(void) {
 
 					FUN_80061270(1);
 
-					DAT_800d10f4 = 1;
-					DAT_800d10f8 = 0;
+					GHasCareerLoaded = 1;
+					GLoadedCareerIsSaved = 0;
 					r = 1;
 					buf = *(struct B *)(p + 640);
-					d = &DAT_800a6844;
+					d = &GCareer;
 
 					if (((unsigned short *)&buf)[1047] >= ((unsigned short *)d)[1047]) {
 						*d = buf;
 						s4 = i;
-						Front_ExtractASCIINameFromSJIS((char *)(p + 32), DAT_800a4308);
+						Front_ExtractASCIINameFromSJIS((char *)(p + 32), StoredCareerName);
 					}
 				}
 
@@ -76,7 +76,7 @@ int FUN_800154f4(void) {
 		} while (i < 15);
 
 		if (s4 >= 0) {
-			Card_SetSelectedFile(&DAT_800a58bc[s4]);
+			Card_SetSelectedFile(&SLOT_DIR[s4]);
 			FUN_800103a4();
 			Options_SetPreferences();
 		}

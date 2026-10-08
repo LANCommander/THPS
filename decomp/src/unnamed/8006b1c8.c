@@ -24,7 +24,7 @@ typedef struct {
 	short m;
 } SViewport;
 
-extern SCamera DAT_800c119c;
+extern SCamera MikeCamera;
 extern SViewport DAT_800bf614;
 
 void FUN_8008b238(MATRIX *);
@@ -33,12 +33,12 @@ void M3dInit_SetFoggingParams(int, int, unsigned int);
 
 SViewport *FUN_8006b1c8(void) {
 	DAT_800bf614.m = 3413;
-	FUN_8008b238(&DAT_800c119c.Transform);
+	FUN_8008b238(&MikeCamera.Transform);
 
-	DAT_800c119c.Position.vx = 0;
-	DAT_800c119c.Position.vy = 0;
-	DAT_800c119c.Position.vz = -200;
-	FUN_80093100(&DAT_800c119c.Transform, &DAT_800c119c.Position);
+	MikeCamera.Position.vx = 0;
+	MikeCamera.Position.vy = 0;
+	MikeCamera.Position.vz = -200;
+	FUN_80093100(&MikeCamera.Transform, &MikeCamera.Position);
 	M3dInit_SetFoggingParams(10, 6000, 2048);
 	return &DAT_800bf614;
 }

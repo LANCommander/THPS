@@ -28,9 +28,9 @@ struct SStats {
 };
 
 extern SSkater DAT_800a44fc[];
-extern SSkaterCareer DAT_800a6844[];
+extern SSkaterCareer GCareer[];
 extern SStats DAT_800a8240[];
-extern int DAT_800d1780;
+extern int GNumberOfPlayers;
 
 struct CBruce {
 	char pad0[0x2e8];
@@ -39,11 +39,11 @@ struct CBruce {
 };
 
 void CBruce::GetStats(int Skater) {
-	if (DAT_800d1780 == 1) {
+	if (GNumberOfPlayers == 1) {
 		int highest_board = 0;
 
 		while (highest_board < 7) {
-			if (DAT_800a6844[mSkaterIndex].NumTapes <
+			if (GCareer[mSkaterIndex].NumTapes <
 			    DAT_800a44fc[mSkaterIndex].Boards[highest_board + 1].Req)
 				break;
 

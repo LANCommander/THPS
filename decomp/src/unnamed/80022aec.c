@@ -3,20 +3,20 @@ struct V {
 	int x, y, z;
 };
 
-int DAT_800d1634;
-int DAT_800d1678;
+int GameFMV_Active;
+int GameFMV_NumSoundSources;
 
 extern struct V DAT_800a6388[];
 
 void FUN_80022aec(struct V *s) {
 	int n;
 
-	if (DAT_800d1634 == 0) {
-		n = DAT_800d1678;
+	if (GameFMV_Active == 0) {
+		n = GameFMV_NumSoundSources;
 
 		if (n < 8) {
 			DAT_800a6388[n] = *s;
-			DAT_800d1678 = n + 1;
+			GameFMV_NumSoundSources = n + 1;
 		}
 	}
 }

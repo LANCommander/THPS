@@ -11,7 +11,7 @@ typedef struct {
 	char pad2[0xa8 - 0x6c];
 } SLineInfo;
 
-extern int DAT_800d20dc;
+extern int LineOfSightCheck;
 
 void M3dColij_InitLineInfo(SLineInfo *li);
 void M3dZone_LineToItemNotSCached(SLineInfo *li, int n);
@@ -25,10 +25,10 @@ int Utils_LineOfSight(V *a, V *b) {
 	li.end.x = b->x;
 	li.end.y = b->y;
 	li.end.z = b->z;
-	DAT_800d20dc = 1;
+	LineOfSightCheck = 1;
 	M3dColij_InitLineInfo(&li);
 	M3dZone_LineToItemNotSCached(&li, 1);
 
-	DAT_800d20dc = 0;
+	LineOfSightCheck = 0;
 	return li.hit == 0;
 }

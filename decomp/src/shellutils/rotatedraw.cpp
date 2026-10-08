@@ -35,7 +35,7 @@ extern "C" {
 	int DrawSync(int);
 }
 
-extern int DAT_800d1a6c;
+extern int Pack_NoBottom;
 
 void SlicedImage::rotateDraw(int x, int y) {
 	RECT *tab = sliceTab;
@@ -70,7 +70,7 @@ void SlicedImage::rotateDraw(int x, int y) {
 	r.y = tab->y;
 	data_col = slicedBuffer;
 	xt = x;
-	DAT_800d1a6c = 1;
+	Pack_NoBottom = 1;
 	remx = w - numx * sw;
 	int remy = h - numy * sh;
 
@@ -129,5 +129,5 @@ void SlicedImage::rotateDraw(int x, int y) {
 		}
 	}
 
-	DAT_800d1a6c = 0;
+	Pack_NoBottom = 0;
 }

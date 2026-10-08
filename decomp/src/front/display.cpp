@@ -1,6 +1,6 @@
 /* Front_Display__Fv (0x80017d70) flags=-fstructure-noalias */
 /* C++ (FRONT.CPP). Fuzzy demo twin (0.55); locals and statics from its MAIN.SYM. Draws whatever
-   the front end is showing, by DAT_800d13e8 (the current screen): the pause and quit menus, the
+   the front end is showing, by Status (the current screen): the pause and quit menus, the
    tapes-got screen (creating the spinning tapes the first time round), the yes/no menus, the
    name entry, the H.O.R.S.E. turn screens, the level's high-score table and the end-of-run
    statistics (career totals, two-player result, graffiti tallies or the H.O.R.S.E. letters).
@@ -96,34 +96,34 @@ struct SSkaterInfo {
 	char pad[0x154 - 4];
 };
 
-extern int DAT_800d1714;
-extern int DAT_800d16e4;
-extern int DAT_800d1780;
-extern int DAT_800d16a4;
-extern int DAT_800d1e28;
-extern int DAT_800d1100;
-extern int DAT_800d17b8;
-extern int DAT_800d179c;
-extern int DAT_800d17a0;
-extern int DAT_800d17a4;
-extern int DAT_800d17ac;
-extern int DAT_800d17b0[2];
-extern int DAT_800d17bc;
-extern int DAT_800d19dc;
-extern int DAT_800d1954, DAT_800d1958, DAT_800d195c, DAT_800d1960;
-extern int DAT_800d1964, DAT_800d1968, DAT_800d196c, DAT_800d1970;
-extern CBruce *DAT_800d17c8;
+extern int Cheat_GameInfo;
+extern int TTime;
+extern int GNumberOfPlayers;
+extern int GGame;
+extern int GLevel;
+extern int SizeUp;
+extern int GHorseCursorPos;
+extern int GHorsePlayer;
+extern int GHorseMode;
+extern int GHorseScore;
+extern int GHorseRestart;
+extern int GHorseLetters[2];
+extern int GHorseWaitTime;
+extern int NumHorseRestarts;
+extern int GWins1, GLosses1, GStreak1, GHighTags1;
+extern int GWins2, GLosses2, GStreak2, GHighTags2;
+extern CBruce *GSkater;
 extern CBruce *DAT_800d17cc;
-extern CBruce *DAT_800d19a4;
-extern STrig DAT_800c9670[1];
-extern char *DAT_800a5d5c[];
-extern CTape *DAT_800a5b14[];
-extern char DAT_800a7204[];
-extern int DAT_800a5cec[];
-extern int DAT_800a5d0c[];
-extern SCareer DAT_800a6844;
-extern SLevelInfo DAT_800a5398[];
-extern SSkaterInfo DAT_800a4528[];
+extern CBruce *MechList;
+extern STrig rcossin_tbl[1];
+extern char *GameText[];
+extern CTape *GTape[];
+extern char GCareer_9c0[];
+extern int StatsLeft[];
+extern int StatsRight[];
+extern SCareer GCareer;
+extern SLevelInfo Levels[];
+extern SSkaterInfo Stats_2c[];
 extern char DAT_800a5b28[];
 extern char DAT_8009e3d4[], DAT_8009e3e8[], DAT_8009e3fc[], DAT_8009e40c[];
 extern char DAT_8009e41c[], DAT_8009e428[], DAT_8009e434[], DAT_8009e440[], DAT_8009e450[];
@@ -132,31 +132,31 @@ extern char DAT_8009e4a4[], DAT_8009e4b0[], DAT_8009e4bc[], DAT_8009e4cc[];
 extern char DAT_800d14ac[], DAT_800d14b0[], DAT_800d14b4[], DAT_800d14b8[];
 extern char DAT_800d14bc[], DAT_800d14c0[], DAT_800d14c8[], DAT_800d14d0[];
 
-int DAT_800d13e8;
-int DAT_800d140c;
-int DAT_800d1410;
-int DAT_800d1414;
-CMenu *DAT_800d1474;
-CMenu *DAT_800d1478;
-CMenu *DAT_800d1428;
-CMenu *DAT_800d142c;
-CMenu *DAT_800d1430;
-CMenu *DAT_800d1434;
-CMenu *DAT_800d1438;
-CMenu *DAT_800d143c;
-CMenu *DAT_800d1440;
-int DAT_800d13d8;
-int DAT_800d1514;
-int DAT_800d13dc;
-int DAT_800d13e0;
-int DAT_800d13c4;
-int DAT_800d14f4;
-int DAT_800d14f8;
-int DAT_800d14fc;
-int DAT_800d1500;
-int DAT_800d1504;
-int DAT_800d1508;
-int DAT_800d150c[2];
+int Status;
+int GamePaused;
+int WobbleAmplitude;
+int WobbleT;
+CMenu *pPausedMenu;
+CMenu *pRestartsMenu;
+CMenu *pYesNoMenu;
+CMenu *pESMenu;
+CMenu *pVSMenu;
+CMenu *pVS2Menu;
+CMenu *pVS3Menu;
+CMenu *pEHMenu;
+CMenu *pSoundMenu;
+int GRollCredits;
+int Front_OnTime;
+int GHighScoreLineIndex;
+int GHighScoreInitialCursorPos;
+int GHorseContinue;
+int GHorseSounded;
+int GHorseScale;
+int NextHorseMode;
+int NextHorsePlayer;
+int NextHorseScore;
+int NextHorseRestart;
+int NextHorseLetters[2];
 
 void Mess_SetScale(int);
 void Mess_SetRGB(uchar, uchar, uchar, int);
@@ -197,94 +197,94 @@ void Front_Display() {
 	static char BestCombo[40];
 	int Line;
 
-	if (DAT_800d1714)
+	if (Cheat_GameInfo)
 		Panel_DrawFlatShadedPoly__FiiiiUcUcUci(19, 190, 194, 42, 0, 0, 0, 0);
 
-	if (DAT_800d140c)
+	if (GamePaused)
 		FUN_800785c4();
 
 	Mess_SetTextJustify__FUc(0);
 	Mess_SetScale(256);
 
-	switch (DAT_800d13e8) {
+	switch (Status) {
 		case 18:
 			Front_MemCardDisplay();
 			break;
 		case 1:
 			FUN_80017898();
 
-			if (DAT_800d1714)
+			if (Cheat_GameInfo)
 				Front_PrintSelect();
 			else
 				Front_PrintGoBackSelect();
 
-			if (DAT_800d1410) {
-				DAT_800d1410 -= 2;
-				DAT_800d1414 += 690;
+			if (WobbleAmplitude) {
+				WobbleAmplitude -= 2;
+				WobbleT += 690;
 
-				if (DAT_800d1410 < 0) {
-					DAT_800d1410 = 0;
-					DAT_800d1414 = 0;
+				if (WobbleAmplitude < 0) {
+					WobbleAmplitude = 0;
+					WobbleT = 0;
 				}
 			}
 
-			DAT_800d1474->mX =
-			    DAT_800d1410 * (DAT_800c9670 + (DAT_800d1414 & 4095))->c / 4096 + 256;
-			DAT_800d1474->Display();
+			pPausedMenu->mX =
+			    WobbleAmplitude * (rcossin_tbl + (WobbleT & 4095))->c / 4096 + 256;
+			pPausedMenu->Display();
 			break;
 		case 2:
-			if (DAT_800d1478)
-				DAT_800d1478->Display();
+			if (pRestartsMenu)
+				pRestartsMenu->Display();
 
 			break;
 		case 3:
 			FUN_80017898();
 			Front_PrintGoBackSelect();
 			Mess_SetRGB(150, 100, 25, 0);
-			Mess_DrawText__FiiPCciUiib(256, 95, DAT_800a5d5c[111], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 95, GameText[111], 0, 0, 256, 0);
 
-			DAT_800d1428->mY = 135;
-			DAT_800d1428->Display();
+			pYesNoMenu->mY = 135;
+			pYesNoMenu->Display();
 			break;
 		case 4:
 			FUN_80017898();
 			Mess_SetRGB(180, 10, 10, 0);
 
-			if ((DAT_800d16e4 / 10) & 1)
-				Mess_DrawText__FiiPCciUiib(256, 184, DAT_800a5d5c[99], 0, 0, 256, 0);
+			if ((TTime / 10) & 1)
+				Mess_DrawText__FiiPCciUiib(256, 184, GameText[99], 0, 0, 256, 0);
 
 			break;
 		case 11: {
-			int NumTapes = DAT_800d17c8->mNumTapes;
+			int NumTapes = GSkater->mNumTapes;
 
-			if (!DAT_800a5b14[0]) {
+			if (!GTape[0]) {
 				SFX_PlayX(19, 8192, 0);
 
 				switch (NumTapes) {
 					case 1:
-						DAT_800a5b14[0] = Tape_Create(0, 0, 140, 2304, -80, 0, 140, 1024);
+						GTape[0] = Tape_Create(0, 0, 140, 2304, -80, 0, 140, 1024);
 						break;
 					case 2:
-						DAT_800a5b14[0] = Tape_Create(-50, 0, 140, 2176, -80, -25, 140, 1024);
-						DAT_800a5b14[1] = Tape_Create(50, 0, 140, 2176, -80, 25, 140, 1024);
+						GTape[0] = Tape_Create(-50, 0, 140, 2176, -80, -25, 140, 1024);
+						GTape[1] = Tape_Create(50, 0, 140, 2176, -80, 25, 140, 1024);
 						break;
 					case 3:
-						DAT_800a5b14[0] = Tape_Create(0, 0, 140, 2304, -80, -40, 140, 1024);
-						DAT_800a5b14[1] = Tape_Create(-60, 0, 140, 1792, -80, 0, 140, 1024);
-						DAT_800a5b14[2] = Tape_Create(60, 0, 140, 1792, -80, 40, 140, 1024);
+						GTape[0] = Tape_Create(0, 0, 140, 2304, -80, -40, 140, 1024);
+						GTape[1] = Tape_Create(-60, 0, 140, 1792, -80, 0, 140, 1024);
+						GTape[2] = Tape_Create(60, 0, 140, 1792, -80, 40, 140, 1024);
 						break;
 					case 4:
-						DAT_800a5b14[0] = Tape_Create(-45, -25, 140, 1792, -80, -50, 140, 1024);
-						DAT_800a5b14[1] = Tape_Create(45, -25, 140, 1792, -70, -20, 140, 1024);
-						DAT_800a5b14[2] = Tape_Create(-45, 25, 140, 1792, -80, 10, 140, 1024);
-						DAT_800a5b14[3] = Tape_Create(45, 25, 140, 1792, -70, 40, 140, 1024);
+						GTape[0] = Tape_Create(-45, -25, 140, 1792, -80, -50, 140, 1024);
+						GTape[1] = Tape_Create(45, -25, 140, 1792, -70, -20, 140, 1024);
+						GTape[2] = Tape_Create(-45, 25, 140, 1792, -80, 10, 140, 1024);
+						GTape[3] = Tape_Create(45, 25, 140, 1792, -70, 40, 140, 1024);
 						break;
 					case 5:
-						DAT_800a5b14[0] = Tape_Create(0, 0, 140, 2304, -80, -50, 140, 1024);
-						DAT_800a5b14[1] = Tape_Create(-55, -25, 140, 1536, -70, -25, 140, 1024);
-						DAT_800a5b14[2] = Tape_Create(55, -25, 140, 1536, -80, 0, 140, 1024);
-						DAT_800a5b14[3] = Tape_Create(-55, 25, 140, 1536, -70, 25, 140, 1024);
-						DAT_800a5b14[4] = Tape_Create(55, 25, 140, 1536, -80, 50, 140, 1024);
+						GTape[0] = Tape_Create(0, 0, 140, 2304, -80, -50, 140, 1024);
+						GTape[1] = Tape_Create(-55, -25, 140, 1536, -70, -25, 140, 1024);
+						GTape[2] = Tape_Create(55, -25, 140, 1536, -80, 0, 140, 1024);
+						GTape[3] = Tape_Create(-55, 25, 140, 1536, -70, 25, 140, 1024);
+						GTape[4] = Tape_Create(55, 25, 140, 1536, -80, 50, 140, 1024);
 						break;
 				}
 			}
@@ -293,10 +293,10 @@ void Front_Display() {
 				int i;
 
 				for (i = 0; i < 5; i++) {
-					if (DAT_800a5b14[i]) {
-						DAT_800a5b14[i]->mTapeNum =
-						    DAT_800a6844.LevelTapes[DAT_800d17c8->mSkaterIndex][0] - (NumTapes - i);
-						DAT_800a5b14[i]->mSessionTapeNum = i;
+					if (GTape[i]) {
+						GTape[i]->mTapeNum =
+						    GCareer.LevelTapes[GSkater->mSkaterIndex][0] - (NumTapes - i);
+						GTape[i]->mSessionTapeNum = i;
 					}
 				}
 			}
@@ -305,8 +305,8 @@ void Front_Display() {
 				int i;
 
 				for (i = 0; i < 5; i++) {
-					if (DAT_800a5b14[i])
-						DAT_800a5b14[i]->AI(DAT_800a6844.LevelTapes[DAT_800d17c8->mSkaterIndex][0] -
+					if (GTape[i])
+						GTape[i]->AI(GCareer.LevelTapes[GSkater->mSkaterIndex][0] -
 						                    (NumTapes - i));
 				}
 			}
@@ -318,63 +318,63 @@ void Front_Display() {
 				static char GotATape[25];
 
 				if (NumTapes == 1) {
-					Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a5d5c[35], 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 40, GameText[35], 0, 0, 256, 0);
 				} else {
-					FUN_8008b900(GotATape, DAT_800a5d5c[36], NumTapes);
+					FUN_8008b900(GotATape, GameText[36], NumTapes);
 					Mess_DrawText__FiiPCciUiib(256, 40, GotATape, 0, 0, 256, 0);
 				}
 			}
 
 			if (CTape::DisplayContinueButton())
-				Front_PrintCentredPrompt(DAT_800a5d5c[96]);
+				Front_PrintCentredPrompt(GameText[96]);
 		} break;
 		case 6:
 		case 7:
 		case 12:
 			Mess_SetRGB(150, 100, 25, 0);
-			Mess_DrawText__FiiPCciUiib(256, 80, DAT_800a5d5c[5], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 80, GameText[5], 0, 0, 256, 0);
 
-			DAT_800d1428->mY = 130;
-			DAT_800d1428->Display();
-			Front_PrintCentredPrompt(DAT_800a5d5c[102]);
+			pYesNoMenu->mY = 130;
+			pYesNoMenu->Display();
+			Front_PrintCentredPrompt(GameText[102]);
 			break;
 		case 17:
 			Mess_SetRGB(150, 100, 25, 0);
-			Mess_DrawText__FiiPCciUiib(256, 80, DAT_800a5d5c[47], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 80, GameText[47], 0, 0, 256, 0);
 
-			DAT_800d1428->mY = 130;
-			DAT_800d1428->Display();
-			Front_PrintCentredPrompt(DAT_800a5d5c[102]);
+			pYesNoMenu->mY = 130;
+			pYesNoMenu->Display();
+			Front_PrintCentredPrompt(GameText[102]);
 			break;
 		case 14:
-			if (!DAT_800d13d8 && DAT_800d1514 >= 11) {
-				DAT_800d142c->Display();
-				Front_PrintCentredPrompt(DAT_800a5d5c[102]);
+			if (!GRollCredits && Front_OnTime >= 11) {
+				pESMenu->Display();
+				Front_PrintCentredPrompt(GameText[102]);
 			}
 
 			break;
 		case 15:
-			if (DAT_800d1514 >= 11) {
-				if (DAT_800d1780 == 2)
-					DAT_800d1430->EntryOff(DAT_800a5d5c[24]);
+			if (Front_OnTime >= 11) {
+				if (GNumberOfPlayers == 2)
+					pVSMenu->EntryOff(GameText[24]);
 				else
-					DAT_800d1430->EntryOn(DAT_800a5d5c[24]);
+					pVSMenu->EntryOn(GameText[24]);
 
-				DAT_800d1430->CentreY();
-				DAT_800d1430->Display();
+				pVSMenu->CentreY();
+				pVSMenu->Display();
 				Front_PrintGoBackSelect();
 			}
 
 			break;
 		case 16:
-			if (DAT_800d1514 >= 11) {
-				if (DAT_800d1780 == 2)
-					DAT_800d1434->EntryOff(DAT_800a5d5c[24]);
+			if (Front_OnTime >= 11) {
+				if (GNumberOfPlayers == 2)
+					pVS2Menu->EntryOff(GameText[24]);
 				else
-					DAT_800d1434->EntryOn(DAT_800a5d5c[24]);
+					pVS2Menu->EntryOn(GameText[24]);
 
-				DAT_800d1434->CentreY();
-				DAT_800d1434->Display();
+				pVS2Menu->CentreY();
+				pVS2Menu->Display();
 				Front_PrintGoBackSelect();
 			}
 
@@ -386,24 +386,24 @@ void Front_Display() {
 
 			Mess_SetTextJustify__FUc(0);
 			Mess_SetRGB(122, 122, 122, 0);
-			Mess_DrawText__FiiPCciUiib(256, 80, DAT_800a5d5c[81], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 80, GameText[81], 0, 0, 256, 0);
 
 			horseBuf[1] = 0;
 
 			for (i = 0; i < 10; i++) {
-				char *pWord = DAT_800a7204;
+				char *pWord = GCareer_9c0;
 
-				if (DAT_800d1100 > 0)
-					DAT_800d1100--;
+				if (SizeUp > 0)
+					SizeUp--;
 
 				if (!pWord[i])
 					termFound = 1;
 
 				horseBuf[0] = pWord[i];
 
-				if (i == DAT_800d17b8) {
+				if (i == GHorseCursorPos) {
 					Mess_SetRGB(182, 132, 36, 0);
-					Mess_SetScale(DAT_800d1100 * 6 + 256);
+					Mess_SetScale(SizeUp * 6 + 256);
 				} else {
 					Mess_SetRGB(122, 122, 122, 0);
 					Mess_SetScale(256);
@@ -417,112 +417,112 @@ void Front_Display() {
 				Mess_DrawText__FiiPCciUiib(i * 20 + 156, 130, horseBuf, 0, 0, 256, 0);
 			}
 
-			Front_PrintCentredPrompt(DAT_800a5d5c[103]);
+			Front_PrintCentredPrompt(GameText[103]);
 		} break;
 		case 33: {
 			char Score[10];
 
 			Mess_SetScale(256);
 
-			if (DAT_800d179c == 0)
+			if (GHorsePlayer == 0)
 				Mess_SetRGB(80, 80, 128, 0);
 			else
 				Mess_SetRGB(128, 80, 80, 0);
 
-			if (DAT_800d17a0 == 0) {
-				if (DAT_800d179c == 0)
+			if (GHorseMode == 0) {
+				if (GHorsePlayer == 0)
 					Mess_DrawText__FiiPCciUiib(256, 120, DAT_8009e3d4, 0, 0, 256, 0);
 				else
 					Mess_DrawText__FiiPCciUiib(256, 120, DAT_8009e3e8, 0, 0, 256, 0);
 			} else {
-				if (DAT_800d179c == 0)
+				if (GHorsePlayer == 0)
 					Mess_DrawText__FiiPCciUiib(256, 120, DAT_8009e3fc, 0, 0, 256, 0);
 				else
 					Mess_DrawText__FiiPCciUiib(256, 120, DAT_8009e40c, 0, 0, 256, 0);
 
-				FUN_8008b900(Score, DAT_800d14ac, DAT_800d17a4);
+				FUN_8008b900(Score, DAT_800d14ac, GHorseScore);
 				Mess_DrawText__FiiPCciUiib(256, 140, Score, 0, 0, 256, 0);
 			}
 
-			Horse_DisplayWords(DAT_800d17b0);
-			Front_PrintCentredPrompt(DAT_800a5d5c[96]);
+			Horse_DisplayWords(GHorseLetters);
+			Front_PrintCentredPrompt(GameText[96]);
 		} break;
 		case 37: {
 			static char highScoreBuf[64];
 			int i;
 
 			Mess_SetScale(256);
-			FUN_8008b900(highScoreBuf, DAT_800a5d5c[80], DAT_800a5398[DAT_800d1e28].pName);
+			FUN_8008b900(highScoreBuf, GameText[80], Levels[GLevel].pName);
 			Mess_SetRGB(182, 132, 36, 0);
 			Mess_DrawText__FiiPCciUiib(256, 40, highScoreBuf, 0, 0, 256, 0);
 			Mess_SetRGB(122, 122, 122, 0);
 
 			for (i = 0; i < 8; i++) {
-				DAT_800a5cec[i] += 30;
+				StatsLeft[i] += 30;
 
-				if (DAT_800a5cec[i] > 180)
-					DAT_800a5cec[i] = 180;
+				if (StatsLeft[i] > 180)
+					StatsLeft[i] = 180;
 
-				DAT_800a5d0c[i] -= 30;
+				StatsRight[i] -= 30;
 
-				if (DAT_800a5d0c[i] < 412)
-					DAT_800a5d0c[i] = 412;
+				if (StatsRight[i] < 412)
+					StatsRight[i] = 412;
 
-				if (i == DAT_800d13dc)
+				if (i == GHighScoreLineIndex)
 					Mess_SetRGB(182, 132, 36, 0);
 				else
 					Mess_SetRGB(122, 122, 122, 0);
 
-				if (DAT_800d1100 > 0)
-					DAT_800d1100--;
+				if (SizeUp > 0)
+					SizeUp--;
 
 				highScoreBuf[1] = 0;
-				highScoreBuf[0] = DAT_800a6844.HighScores[DAT_800d1e28][i].Name[0];
+				highScoreBuf[0] = GCareer.HighScores[GLevel][i].Name[0];
 				Mess_SetTextJustify__FUc(0);
 
-				if (i == DAT_800d13dc && DAT_800d13e0 == 0)
-					Mess_SetScale(DAT_800d1100 * 6 + 256);
+				if (i == GHighScoreLineIndex && GHighScoreInitialCursorPos == 0)
+					Mess_SetScale(SizeUp * 6 + 256);
 				else
 					Mess_SetScale(256);
 
-				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i] - 80, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsLeft[i] - 80, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 				Mess_SetScale(256);
 
-				highScoreBuf[0] = DAT_800a6844.HighScores[DAT_800d1e28][i].Name[1];
+				highScoreBuf[0] = GCareer.HighScores[GLevel][i].Name[1];
 				Mess_SetTextJustify__FUc(0);
 
-				if (i == DAT_800d13dc && DAT_800d13e0 == 1)
-					Mess_SetScale(DAT_800d1100 * 6 + 256);
+				if (i == GHighScoreLineIndex && GHighScoreInitialCursorPos == 1)
+					Mess_SetScale(SizeUp * 6 + 256);
 				else
 					Mess_SetScale(256);
 
-				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i] - 60, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsLeft[i] - 60, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 				Mess_SetScale(256);
 
-				highScoreBuf[0] = DAT_800a6844.HighScores[DAT_800d1e28][i].Name[2];
+				highScoreBuf[0] = GCareer.HighScores[GLevel][i].Name[2];
 				Mess_SetTextJustify__FUc(0);
 
-				if (i == DAT_800d13dc && DAT_800d13e0 == 2)
-					Mess_SetScale(DAT_800d1100 * 6 + 256);
+				if (i == GHighScoreLineIndex && GHighScoreInitialCursorPos == 2)
+					Mess_SetScale(SizeUp * 6 + 256);
 				else
 					Mess_SetScale(256);
 
-				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i] - 40, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsLeft[i] - 40, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 				Mess_SetScale(256);
 
-				if (i == DAT_800d13dc && (DAT_800d16e4 / 10) & 1) {
+				if (i == GHighScoreLineIndex && (TTime / 10) & 1) {
 					int x;
 
 					FUN_8008b900(highScoreBuf, DAT_800d14b0);
 					Mess_SetTextJustify__FUc(0);
 
-					x = DAT_800d13e0 * 20 - 80;
-					Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i] + x, (i + 1) * 19 + 48, highScoreBuf, 0, 0, 256,
+					x = GHighScoreInitialCursorPos * 20 - 80;
+					Mess_DrawText__FiiPCciUiib(StatsLeft[i] + x, (i + 1) * 19 + 48, highScoreBuf, 0, 0, 256,
 					             0);
 				}
 
 				FUN_8008b900(highScoreBuf, DAT_800d14b4,
-				             DAT_800a4528[DAT_800a6844.HighScores[DAT_800d1e28][i].Skater].pName);
+				             Stats_2c[GCareer.HighScores[GLevel][i].Skater].pName);
 
 				{
 					char *p = highScoreBuf;
@@ -538,25 +538,25 @@ void Front_Display() {
 				}
 
 				Mess_SetTextJustify__FUc(1);
-				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i], (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsLeft[i], (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 				FUN_8008b900(highScoreBuf, DAT_800d14ac,
-				             DAT_800a6844.HighScores[DAT_800d1e28][i].Score);
+				             GCareer.HighScores[GLevel][i].Score);
 				Mess_SetTextJustify__FUc(2);
-				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[i], (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsRight[i], (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 			}
 
-			Front_PrintCentredPrompt(DAT_800a5d5c[103]);
+			Front_PrintCentredPrompt(GameText[103]);
 		} break;
 		case 13:
 			Mess_SetScale(256);
 
-			if (DAT_800d1780 == 1) {
+			if (GNumberOfPlayers == 1) {
 				Mess_SetRGB(182, 132, 36, 0);
-				Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a5d5c[37], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(256, 40, GameText[37], 0, 0, 256, 0);
 			} else {
 				Mess_SetRGB(182, 132, 36, 0);
 
-				if (DAT_800d16a4 == 7)
+				if (GGame == 7)
 					Mess_DrawText__FiiPCciUiib(256, 40, DAT_8009e41c, 0, 0, 256, 0);
 				else
 					Mess_DrawText__FiiPCciUiib(256, 40, DAT_8009e428, 0, 0, 256, 0);
@@ -565,71 +565,71 @@ void Front_Display() {
 			Mess_SetRGB(122, 122, 122, 0);
 			Mess_SetScale(256);
 
-			if (DAT_800d1780 == 1) {
+			if (GNumberOfPlayers == 1) {
 				int Line;
 				int i;
 
 				Mess_SetTextJustify__FUc(1);
 
 				for (i = 0; i < 5; i++) {
-					DAT_800a5cec[i] += 30;
+					StatsLeft[i] += 30;
 
-					if (DAT_800a5cec[i] > 90)
-						DAT_800a5cec[i] = 90;
+					if (StatsLeft[i] > 90)
+						StatsLeft[i] = 90;
 				}
 
 				Line = 0;
-				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[0], Line++ * 18 + 60, DAT_800a5d5c[38], 0, 0, 256, 0);
-				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[1], Line++ * 18 + 60, DAT_800a5d5c[39], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsLeft[0], Line++ * 18 + 60, GameText[38], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsLeft[1], Line++ * 18 + 60, GameText[39], 0, 0, 256, 0);
 
-				if (DAT_800d16a4 == 1) {
-					Mess_DrawText__FiiPCciUiib(DAT_800a5cec[2], Line++ * 18 + 60, DAT_800a5d5c[40], 0, 0, 256, 0);
+				if (GGame == 1) {
+					Mess_DrawText__FiiPCciUiib(StatsLeft[2], Line++ * 18 + 60, GameText[40], 0, 0, 256, 0);
 				}
 
-				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[3], Line++ * 18 + 60, DAT_800a5d5c[41], 0, 0, 256, 0);
-				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[4], Line * 18 + 60, DAT_800a5d5c[42], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsLeft[3], Line++ * 18 + 60, GameText[41], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsLeft[4], Line * 18 + 60, GameText[42], 0, 0, 256, 0);
 				Mess_SetTextJustify__FUc(0);
 
-				pMan = DAT_800d19a4;
+				pMan = MechList;
 				Mess_SetTextJustify__FUc(2);
 
 				for (i = 0; i < 5; i++) {
-					DAT_800a5d0c[i] -= 30;
+					StatsRight[i] -= 30;
 
-					if (DAT_800a5d0c[i] < 410)
-						DAT_800a5d0c[i] = 410;
+					if (StatsRight[i] < 410)
+						StatsRight[i] = 410;
 				}
 
 				Line = 0;
 				FUN_8008b900(Score1, DAT_800d14ac, pMan->mScore);
-				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[0], Line++ * 18 + 60, Score1, 0, 0, 256, 0);
-				FUN_8008b900(Score2, DAT_800d14ac, DAT_800a6844.HighScores[DAT_800d1e28][0].Score);
-				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[1], Line++ * 18 + 60, Score2, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsRight[0], Line++ * 18 + 60, Score1, 0, 0, 256, 0);
+				FUN_8008b900(Score2, DAT_800d14ac, GCareer.HighScores[GLevel][0].Score);
+				Mess_DrawText__FiiPCciUiib(StatsRight[1], Line++ * 18 + 60, Score2, 0, 0, 256, 0);
 
-				if (DAT_800d16a4 == 1) {
-					FUN_8008b900(Tapes, DAT_8009e434, Career_LevelTapes(DAT_800d1e28), 5);
-					Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[2], Line++ * 18 + 60, Tapes, 0, 0, 256, 0);
+				if (GGame == 1) {
+					FUN_8008b900(Tapes, DAT_8009e434, Career_LevelTapes(GLevel), 5);
+					Mess_DrawText__FiiPCciUiib(StatsRight[2], Line++ * 18 + 60, Tapes, 0, 0, 256, 0);
 				}
 
 				FUN_8008b900(Tricks, DAT_800d14b8, pMan->mTricksLanded);
-				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[3], Line++ * 18 + 60, Tricks, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsRight[3], Line++ * 18 + 60, Tricks, 0, 0, 256, 0);
 				FUN_8008b900(Bails, DAT_800d14b8, pMan->mBails);
-				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[4], Line * 18 + 60, Bails, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(StatsRight[4], Line * 18 + 60, Bails, 0, 0, 256, 0);
 
-				if (DAT_800a5cec[0] == 90) {
+				if (StatsLeft[0] == 90) {
 					Mess_SetTextJustify__FUc(0);
 
 					if (!pMan->mBestComboScore) {
 						Mess_SetScale(220);
-						Mess_DrawText__FiiPCciUiib(256, 151, DAT_800a5d5c[43], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 151, GameText[43], 0, 0, 256, 0);
 						Mess_SetScale(256);
-						Mess_DrawText__FiiPCciUiib(256, 168, DAT_800a5d5c[44], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 168, GameText[44], 0, 0, 256, 0);
 					} else {
 						if (pMan->mBestComboTricks == 1)
-							FUN_8008b900(BestCombo, DAT_800a5d5c[46], pMan->mBestComboTricks,
+							FUN_8008b900(BestCombo, GameText[46], pMan->mBestComboTricks,
 							             pMan->mBestComboScore);
 						else
-							FUN_8008b900(BestCombo, DAT_800a5d5c[45], pMan->mBestComboTricks,
+							FUN_8008b900(BestCombo, GameText[45], pMan->mBestComboTricks,
 							             pMan->mBestComboScore);
 
 						Mess_SetScale(220);
@@ -645,100 +645,100 @@ void Front_Display() {
 
 				Mess_SetScale(256);
 
-				s1 = DAT_800d17c8->mScore;
+				s1 = GSkater->mScore;
 				s2 = 0;
 
 				if (DAT_800d17cc)
 					s2 = DAT_800d17cc->mScore;
 
-				switch (DAT_800d16a4) {
+				switch (GGame) {
 					case 8:
-						if (DAT_800d17cc->mGraffitiCount == DAT_800d17c8->mGraffitiCount)
+						if (DAT_800d17cc->mGraffitiCount == GSkater->mGraffitiCount)
 							Mess_DrawText__FiiPCciUiib(256, 64, DAT_800d14bc, 0, 0, 256, 0);
-						else if (DAT_800d17c8->mGraffitiCount < DAT_800d17cc->mGraffitiCount)
+						else if (GSkater->mGraffitiCount < DAT_800d17cc->mGraffitiCount)
 							Mess_DrawText__FiiPCciUiib(256, 64, DAT_8009e440, 0, 0, 256, 0);
 						else
 							Mess_DrawText__FiiPCciUiib(256, 64, DAT_8009e450, 0, 0, 256, 0);
 
 						Mess_SetScale(224);
-						Graffiti_Stats(DAT_800d17c8, 30, 86, 32, 32, 128, DAT_800d1954,
-						               DAT_800d1958, DAT_800d195c, DAT_800d1960);
-						Graffiti_Stats(DAT_800d17cc, 286, 86, 128, 32, 32, DAT_800d1964,
-						               DAT_800d1968, DAT_800d196c, DAT_800d1970);
+						Graffiti_Stats(GSkater, 30, 86, 32, 32, 128, GWins1,
+						               GLosses1, GStreak1, GHighTags1);
+						Graffiti_Stats(DAT_800d17cc, 286, 86, 128, 32, 32, GWins2,
+						               GLosses2, GStreak2, GHighTags2);
 						break;
 					case 7: {
 						char Score[40];
 
-						DAT_800d14fc = DAT_800d17a0;
-						DAT_800d1500 = DAT_800d179c;
-						DAT_800d1504 = DAT_800d17a4;
-						DAT_800d1508 = DAT_800d17ac;
-						DAT_800d150c[0] = DAT_800d17b0[0];
-						DAT_800d150c[1] = DAT_800d17b0[1];
+						NextHorseMode = GHorseMode;
+						NextHorsePlayer = GHorsePlayer;
+						NextHorseScore = GHorseScore;
+						NextHorseRestart = GHorseRestart;
+						NextHorseLetters[0] = GHorseLetters[0];
+						NextHorseLetters[1] = GHorseLetters[1];
 						Line = 0;
 
-						if (DAT_800d179c == 0)
+						if (GHorsePlayer == 0)
 							Mess_SetRGB(80, 80, 128, 0);
 						else
 							Mess_SetRGB(128, 80, 80, 0);
 
-						if (DAT_800d17a0 == 0) {
-							DAT_800d17a4 = DAT_800d17c8->mHorseScore;
+						if (GHorseMode == 0) {
+							GHorseScore = GSkater->mHorseScore;
 
-							if (DAT_800d17a4) {
-								FUN_8008b900(Score, DAT_8009e460, DAT_800d17a4);
+							if (GHorseScore) {
+								FUN_8008b900(Score, DAT_8009e460, GHorseScore);
 								Mess_DrawText__FiiPCciUiib(256, Line * 24 + 80, Score, 0, 0, 256, 0);
 
-								DAT_800d14fc ^= 1;
-								DAT_800d1500 ^= 1;
+								NextHorseMode ^= 1;
+								NextHorsePlayer ^= 1;
 							} else {
 								Mess_DrawText__FiiPCciUiib(256, Line * 24 + 80, DAT_8009e470, 0, 0, 256, 0);
 
-								DAT_800d1500 ^= 1;
+								NextHorsePlayer ^= 1;
 							}
 						} else {
-							FUN_8008b900(Score, DAT_8009e484, DAT_800d17a4);
+							FUN_8008b900(Score, DAT_8009e484, GHorseScore);
 							Mess_DrawText__FiiPCciUiib(256, Line++ * 24 + 80, Score, 0, 0, 256, 0);
-							FUN_8008b900(Score, DAT_8009e494, DAT_800d17c8->mHorseScore);
+							FUN_8008b900(Score, DAT_8009e494, GSkater->mHorseScore);
 							Mess_DrawText__FiiPCciUiib(256, Line++ * 24 + 80, Score, 0, 0, 256, 0);
 
-							if (DAT_800d17c8->mHorseScore == (uint)DAT_800d17a4) {
+							if (GSkater->mHorseScore == (uint)GHorseScore) {
 								Mess_DrawText__FiiPCciUiib(256, Line * 24 + 80, DAT_800d14c0, 0, 0, 256, 0);
 
-								DAT_800d1500 ^= 1;
-							} else if (DAT_800d17c8->mHorseScore < (uint)DAT_800d17a4) {
+								NextHorsePlayer ^= 1;
+							} else if (GSkater->mHorseScore < (uint)GHorseScore) {
 								char YouAre[40];
-								int Letters = DAT_800d150c[DAT_800d179c]++;
+								int Letters = NextHorseLetters[GHorsePlayer]++;
 
-								if (Letters + 1 == DAT_800a6844.HorseLength) {
-									char c = DAT_800a6844.HorseWord[0];
+								if (Letters + 1 == GCareer.HorseLength) {
+									char c = GCareer.HorseWord[0];
 
 									if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
 										FUN_8008b900(YouAre, DAT_8009e4a4);
 									else
 										FUN_8008b900(YouAre, DAT_8009e4b0);
 
-									if (!DAT_800d13c4) {
-										DAT_800d14f8 += 32;
+									if (!GHorseContinue) {
+										GHorseScale += 32;
 
-										if (DAT_800d14f8 > 512) {
+										if (GHorseScale > 512) {
 											Mess_SetRGB(255, 48, 48, 0);
 
-											DAT_800d14f8 = 512;
+											GHorseScale = 512;
 										}
 
-										Mess_SetScale(DAT_800d14f8);
+										Mess_SetScale(GHorseScale);
 										Mess_DrawText__FiiPCciUiib(256, 152, YouAre, 0, 0, 256, 0);
-										Mess_SetScale(DAT_800d14f8 <= 512 ? DAT_800d14f8 : 512);
-										Mess_DrawText__FiiPCciUiib(256, 188, DAT_800a7204, 0, 0, 256, 0);
+										Mess_SetScale(GHorseScale <= 512 ? GHorseScale : 512);
+										Mess_DrawText__FiiPCciUiib(256, 188, GCareer_9c0, 0, 0, 256, 0);
 
-										DAT_800d17bc = 45;
-										Front_PrintCentredPrompt(DAT_800a5d5c[96]);
+										GHorseWaitTime = 45;
+										Front_PrintCentredPrompt(GameText[96]);
 									} else {
-										if (!DAT_800d14f4) {
+										if (!GHorseSounded) {
 											SFX_PlayX(42, 8192, 0);
 
-											DAT_800d14f4 = 1;
+											GHorseSounded = 1;
 										}
 
 										FUN_8001e07c(DAT_800a5b28);
@@ -747,45 +747,45 @@ void Front_Display() {
 										Mess_DrawText__FiiPCciUiib(256, 152, YouAre, 0, 0, 256, 0);
 
 										if (FUN_8001e108(DAT_800a5b28))
-											DAT_800d17bc = 45;
+											GHorseWaitTime = 45;
 
 										FUN_8001e0a4(DAT_800a5b28, 0);
 										FUN_8001e0a4(DAT_800a5b28, 1);
-										Mess_DrawText__FiiPCciUiib(256, 188, DAT_800a7204, 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 188, GCareer_9c0, 0, 0, 256, 0);
 										FUN_8001e0a4(DAT_800a5b28, 0);
 									}
 
-									DAT_800d14fc = 2;
+									NextHorseMode = 2;
 								} else {
 									YouAre[1] = 0;
-									YouAre[0] = DAT_800a6844.HorseWord[Letters];
+									YouAre[0] = GCareer.HorseWord[Letters];
 
-									if (DAT_800d14f8 < 512) {
-										DAT_800d14f8 += 32;
+									if (GHorseScale < 512) {
+										GHorseScale += 32;
 
-										if (DAT_800d14f8 > 512)
-											DAT_800d14f8 = 512;
+										if (GHorseScale > 512)
+											GHorseScale = 512;
 
-										Mess_SetScale(DAT_800d14f8 <= 384 ? DAT_800d14f8 : 384);
-										Mess_DrawText__FiiPCciUiib(256, 152, DAT_800a5d5c[88], 0, 0, 256, 0);
-										Mess_SetScale(DAT_800d14f8 <= 512 ? DAT_800d14f8 : 512);
+										Mess_SetScale(GHorseScale <= 384 ? GHorseScale : 384);
+										Mess_DrawText__FiiPCciUiib(256, 152, GameText[88], 0, 0, 256, 0);
+										Mess_SetScale(GHorseScale <= 512 ? GHorseScale : 512);
 										Mess_DrawText__FiiPCciUiib(256, 188, YouAre, 0, 0, 256, 0);
 
-										DAT_800d17bc = 45;
+										GHorseWaitTime = 45;
 									} else {
-										if (!DAT_800d14f4) {
+										if (!GHorseSounded) {
 											SFX_PlayX(42, 8192, 0);
 
-											DAT_800d14f4 = 1;
+											GHorseSounded = 1;
 										}
 
 										FUN_8001e07c(DAT_800a5b28);
 										FUN_8001e0f8(DAT_800a5b28, 384);
 										FUN_8001e0a4(DAT_800a5b28, 1);
-										Mess_DrawText__FiiPCciUiib(256, 152, DAT_800a5d5c[88], 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 152, GameText[88], 0, 0, 256, 0);
 
 										if (FUN_8001e108(DAT_800a5b28))
-											DAT_800d17bc = 45;
+											GHorseWaitTime = 45;
 
 										FUN_8001e0a4(DAT_800a5b28, 0);
 										FUN_8001e0f8(DAT_800a5b28, 512);
@@ -794,21 +794,21 @@ void Front_Display() {
 										FUN_8001e0a4(DAT_800a5b28, 0);
 									}
 
-									if (++DAT_800d1508 == DAT_800d19dc)
-										DAT_800d1508 = 0;
+									if (++NextHorseRestart == NumHorseRestarts)
+										NextHorseRestart = 0;
 
-									DAT_800d1500 ^= 1;
-									DAT_800d14fc ^= 1;
+									NextHorsePlayer ^= 1;
+									NextHorseMode ^= 1;
 								}
 							} else {
 								Mess_DrawText__FiiPCciUiib(256, Line * 24 + 80, DAT_800d14c8, 0, 0, 256, 0);
 
-								DAT_800d1500 ^= 1;
-								DAT_800d1504 = DAT_800d17c8->mHorseScore;
+								NextHorsePlayer ^= 1;
+								NextHorseScore = GSkater->mHorseScore;
 							}
 						}
 
-						Horse_DisplayWords(DAT_800d150c);
+						Horse_DisplayWords(NextHorseLetters);
 					} break;
 					case 6:
 					default:
@@ -828,34 +828,34 @@ void Front_Display() {
 				}
 			}
 
-			if (DAT_800d16a4 != 7 && DAT_800d1514 >= 11)
-				Front_PrintCentredPrompt(DAT_800a5d5c[96]);
+			if (GGame != 7 && Front_OnTime >= 11)
+				Front_PrintCentredPrompt(GameText[96]);
 
 			break;
 		case 5:
 			Mess_SetRGB(150, 100, 25, 0);
-			Mess_DrawText__FiiPCciUiib(256, 103, DAT_800a5d5c[97], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 103, GameText[97], 0, 0, 256, 0);
 
-			DAT_800d1428->mY = 143;
-			DAT_800d1428->Display();
-			Front_PrintCentredPrompt(DAT_800a5d5c[102]);
+			pYesNoMenu->mY = 143;
+			pYesNoMenu->Display();
+			Front_PrintCentredPrompt(GameText[102]);
 			break;
 		case 24:
-			if (DAT_800d1514 >= 11) {
-				DAT_800d143c->Display();
-				Front_PrintCentredPrompt(DAT_800a5d5c[102]);
+			if (Front_OnTime >= 11) {
+				pEHMenu->Display();
+				Front_PrintCentredPrompt(GameText[102]);
 			}
 
 			break;
 		case 25:
-			if (DAT_800d1514 >= 11) {
-				if (DAT_800d1780 == 2)
-					DAT_800d1438->EntryOff(DAT_800a5d5c[24]);
+			if (Front_OnTime >= 11) {
+				if (GNumberOfPlayers == 2)
+					pVS3Menu->EntryOff(GameText[24]);
 				else
-					DAT_800d1438->EntryOn(DAT_800a5d5c[24]);
+					pVS3Menu->EntryOn(GameText[24]);
 
-				DAT_800d1438->CentreY();
-				DAT_800d1438->Display();
+				pVS3Menu->CentreY();
+				pVS3Menu->Display();
 				Front_PrintGoBackSelect();
 			}
 
@@ -873,8 +873,8 @@ void Front_Display() {
 			Competition_JudgeDisplay();
 			break;
 		case 38:
-			DAT_800d1440->Display();
-			Front_PrintCentredPrompt(DAT_800a5d5c[102]);
+			pSoundMenu->Display();
+			Front_PrintCentredPrompt(GameText[102]);
 			break;
 	}
 }

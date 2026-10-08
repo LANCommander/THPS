@@ -23,57 +23,57 @@ struct CBruce {
 	int z;
 };
 
-extern SVideoInfo DAT_800bf318[2];
-extern CBruce *DAT_800d19a4;
+extern SVideoInfo GVInfo1[2];
+extern CBruce *MechList;
 
-int DAT_800d1dec;
-int DAT_800d1e0c;
-int DAT_800d1e10;
-int DAT_800d1e14;
-int DAT_800d1e18;
+int HLStartCalled;
+int HighlightStartFrame;
+int HighlightEndFrame;
+int HighlightStartY;
+int HighlightEndY;
 
 void Video_HighlightEnd(CBruce *pSkater, int Score) {
 	SVideoInfo *VInfo;
 	int WasABail;
 
-	if (pSkater == DAT_800d19a4)
-		VInfo = &DAT_800bf318[0];
+	if (pSkater == MechList)
+		VInfo = &GVInfo1[0];
 	else
-		VInfo = &DAT_800bf318[1];
+		VInfo = &GVInfo1[1];
 
-	DAT_800d1dec = 0;
-	DAT_800d1e10 = VInfo->NumFrames;
-	DAT_800d1e18 = pSkater->y;
+	HLStartCalled = 0;
+	HighlightEndFrame = VInfo->NumFrames;
+	HighlightEndY = pSkater->y;
 	WasABail = (Score < 0);
 
 	if (Score < 0)
 		Score = -Score;
 
 	if (Score == 0)
-		Score = (ABS(DAT_800d1e18 - DAT_800d1e14) * 2) >> 12;
+		Score = (ABS(HighlightEndY - HighlightStartY) * 2) >> 12;
 	else
-		Score += ABS(DAT_800d1e18 - DAT_800d1e14) >> 13;
+		Score += ABS(HighlightEndY - HighlightStartY) >> 13;
 
 	for (int i = 0; i < 5; i++) {
 		if (VInfo->Highlights[i].Score < Score) {
 			for (int j = 4; j > i; j--)
 				VInfo->Highlights[j] = VInfo->Highlights[j - 1];
 
-			DAT_800d1e0c -= 15;
+			HighlightStartFrame -= 15;
 
-			if (DAT_800d1e0c < 0)
-				DAT_800d1e0c = 0;
+			if (HighlightStartFrame < 0)
+				HighlightStartFrame = 0;
 
 			if (WasABail)
-				DAT_800d1e10 += 30;
+				HighlightEndFrame += 30;
 			else
-				DAT_800d1e10 += 8;
+				HighlightEndFrame += 8;
 
-			if (DAT_800d1e10 >= 3600)
-				DAT_800d1e10 = 3599;
+			if (HighlightEndFrame >= 3600)
+				HighlightEndFrame = 3599;
 
-			VInfo->Highlights[i].FromFrame = DAT_800d1e0c;
-			VInfo->Highlights[i].ToFrame = DAT_800d1e10;
+			VInfo->Highlights[i].FromFrame = HighlightStartFrame;
+			VInfo->Highlights[i].ToFrame = HighlightEndFrame;
 			VInfo->Highlights[i].Score = Score;
 			break;
 		}

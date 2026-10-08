@@ -13,10 +13,10 @@ typedef struct {
 	int cells[20][20];
 } SGrid;
 
-extern SGrid DAT_800c4e0c[2];
-extern int DAT_800d2100, DAT_800d20fc, DAT_800d20dc, DAT_800d20d4, DAT_800d20d0, DAT_800d20cc,
-    DAT_800d20d8;
-extern int DAT_800d19b0;
+extern SGrid Zones[2];
+extern int M3dColij_OneMask, M3dColij_ZeroMask, LineOfSightCheck, BulletCollisionCheck, BaddyCollisionCheck, CameraCollisionCheck,
+    TriggerCollisionCheck;
+extern int EnvironmentalObjectList;
 
 int FUN_8008b62c(int, int, int);
 void M3dColij_LineToItemZoned(int, SLine *);
@@ -30,40 +30,40 @@ void M3dZone_LineToItemNotSCached(SLine *line, int items) {
 	int ox0, oz0, ox1, oz1, x, z, t, e;
 	int i;
 
-	DAT_800d2100 = 0;
-	DAT_800d20fc = -1;
+	M3dColij_OneMask = 0;
+	M3dColij_ZeroMask = -1;
 
-	if (DAT_800d20dc)
-		DAT_800d2100 = 0x400000;
+	if (LineOfSightCheck)
+		M3dColij_OneMask = 0x400000;
 
-	if (DAT_800d20d4)
-		DAT_800d2100 ^= 0x400000;
+	if (BulletCollisionCheck)
+		M3dColij_OneMask ^= 0x400000;
 
-	if (!DAT_800d20d0)
-		DAT_800d2100 ^= 0x200000;
+	if (!BaddyCollisionCheck)
+		M3dColij_OneMask ^= 0x200000;
 
-	if (DAT_800d20cc)
-		DAT_800d20fc = 0xffefffff;
+	if (CameraCollisionCheck)
+		M3dColij_ZeroMask = 0xffefffff;
 
-	if (DAT_800d20d8)
-		DAT_800d20fc ^= 0x20000;
+	if (TriggerCollisionCheck)
+		M3dColij_ZeroMask ^= 0x20000;
 
 	if (items)
-		M3dColij_LineToItem(DAT_800d19b0, line);
+		M3dColij_LineToItem(EnvironmentalObjectList, line);
 
 	for (i = 0; i < 2; i++) {
-		if (!DAT_800c4e0c[i].active)
+		if (!Zones[i].active)
 			continue;
 
 		x0 = line->x0;
 		x1 = line->x1;
 		z0 = line->z0;
 		z1 = line->z1;
-		minx = DAT_800c4e0c[i].minx;
-		maxx = DAT_800c4e0c[i].maxx;
-		minz = DAT_800c4e0c[i].minz;
-		maxz = DAT_800c4e0c[i].maxz;
-		cell = DAT_800c4e0c[i].cell;
+		minx = Zones[i].minx;
+		maxx = Zones[i].maxx;
+		minz = Zones[i].minz;
+		maxz = Zones[i].maxz;
+		cell = Zones[i].cell;
 
 		if (x0 < minx && x1 < minx)
 			continue;
@@ -81,13 +81,13 @@ void M3dZone_LineToItemNotSCached(SLine *line, int items) {
 			cx = (x0 - minx) / cell;
 			cz = (z0 - minz) / cell;
 
-			if (cx == DAT_800c4e0c[i].nx)
+			if (cx == Zones[i].nx)
 				cx--;
 
-			if (cz == DAT_800c4e0c[i].nz)
+			if (cz == Zones[i].nz)
 				cz--;
 
-			M3dColij_LineToItemZoned(DAT_800c4e0c[i].cells[cx][cz], line);
+			M3dColij_LineToItemZoned(Zones[i].cells[cx][cz], line);
 			continue;
 		}
 
@@ -164,20 +164,20 @@ void M3dZone_LineToItemNotSCached(SLine *line, int items) {
 		rz = (z0 - minz) % cell;
 		ez = oz1 / cell;
 
-		if (cx == DAT_800c4e0c[i].nx) {
+		if (cx == Zones[i].nx) {
 			cx--;
 			rx += cell;
 		}
 
-		if (cz == DAT_800c4e0c[i].nz) {
+		if (cz == Zones[i].nz) {
 			cz--;
 			rz += cell;
 		}
 
-		if (ex == DAT_800c4e0c[i].nx)
+		if (ex == Zones[i].nx)
 			ex--;
 
-		if (ez == DAT_800c4e0c[i].nz)
+		if (ez == Zones[i].nz)
 			ez--;
 
 		a = FUN_8008b62c(dx, rz, cell);
@@ -192,9 +192,9 @@ void M3dZone_LineToItemNotSCached(SLine *line, int items) {
 		x = cx;
 		z = cz;
 
-		while ((x != ex || z != ez) && x >= 0 && x < DAT_800c4e0c[i].nx && z >= 0 &&
-		       z < DAT_800c4e0c[i].nz) {
-			M3dColij_LineToItemZoned(DAT_800c4e0c[i].cells[x][z], line);
+		while ((x != ex || z != ez) && x >= 0 && x < Zones[i].nx && z >= 0 &&
+		       z < Zones[i].nz) {
+			M3dColij_LineToItemZoned(Zones[i].cells[x][z], line);
 
 			if (err >= 0) {
 				err -= dz;
@@ -205,8 +205,8 @@ void M3dZone_LineToItemNotSCached(SLine *line, int items) {
 			}
 		}
 
-		if (x >= 0 && x < DAT_800c4e0c[i].nx && z >= 0 && z < DAT_800c4e0c[i].nz)
-			M3dColij_LineToItemZoned(DAT_800c4e0c[i].cells[x][z], line);
+		if (x >= 0 && x < Zones[i].nx && z >= 0 && z < Zones[i].nz)
+			M3dColij_LineToItemZoned(Zones[i].cells[x][z], line);
 	}
 
 	M3dColij_GetLineInfo(line);

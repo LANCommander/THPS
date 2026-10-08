@@ -5,7 +5,7 @@ typedef struct {
 	unsigned f80a8;
 } B;
 
-extern char DAT_800c0a48[];
+extern char Pad[];
 
 typedef struct {
 	char pad[14];
@@ -21,17 +21,17 @@ extern char DAT_800a67f4[];
 extern char DAT_800a6808[];
 extern char DAT_800a681c[];
 extern char DAT_800a6830[];
-extern int DAT_800d13e8;
-extern int DAT_800d140c;
-extern B *DAT_800d1a48;
-extern unsigned DAT_800d1a54;
-extern int DAT_800d2044;
-extern int DAT_800d1ff4;
-extern int DAT_800d1ff8;
-extern int DAT_800d1ffc;
+extern int Status;
+extern int GamePaused;
+extern B *pDoubleBuffer;
+extern unsigned pPoly;
+extern int CameraList;
+extern int camDist;
+extern int camPitch;
+extern int camYOffset;
 
-int DAT_800d16a4, DAT_800d16dc, DAT_800d16fc, DAT_800d1728, DAT_800d1730, DAT_800d1738,
-    DAT_800d173c, DAT_800d1748, DAT_800d1780, DAT_800d1830;
+int GGame, DAT_800d16dc, GameFrozen, Cheat_ScreenShots, DAT_800d1730, Mick_Darkness,
+    ViewportMode, DAT_800d1748, GNumberOfPlayers, CloseCam;
 
 void BlackOut(int, int, int, int);
 void Front_Display(void);
@@ -58,68 +58,68 @@ void FUN_80024fa4(void) {
 		Mess_DrawText(256, 60, DAT_800d16dc, 0, 0, 256, 0);
 	}
 
-	DAT_800a6790.f0e = FUN_8007b0fc(DAT_800d2044);
+	DAT_800a6790.f0e = FUN_8007b0fc(CameraList);
 
-	if (!(DAT_800d16fc && DAT_800d1728 == 0)) {
-		Ob_AI(&DAT_800d2044, DAT_800d16fc);
+	if (!(GameFrozen && Cheat_ScreenShots == 0)) {
+		Ob_AI(&CameraList, GameFrozen);
 
-		if (DAT_800d1728)
+		if (Cheat_ScreenShots)
 			goto L90;
 	}
 
-	if (DAT_800c0a48[240]) {
+	if (Pad[240]) {
 		if (DAT_800d1748) {
 			DAT_800d1748 = 0;
 
-			if (DAT_800d1780 == 2 && DAT_800d16a4 != 7) {
-				if (++DAT_800d173c >= 4)
-					DAT_800d173c = 0;
+			if (GNumberOfPlayers == 2 && GGame != 7) {
+				if (++ViewportMode >= 4)
+					ViewportMode = 0;
 			} else
-				DAT_800d1830 ^= 1;
+				CloseCam ^= 1;
 		}
 	} else
 		DAT_800d1748 = 1;
 
-	if (DAT_800c0a48[605]) {
-		DAT_800c0a48[605] = 0;
+	if (Pad[605]) {
+		Pad[605] = 0;
 
-		if (++DAT_800d173c >= 4)
-			DAT_800d173c = 0;
+		if (++ViewportMode >= 4)
+			ViewportMode = 0;
 	}
 L90:
-	if (DAT_800d1780 == 2 && DAT_800d173c == 0 && DAT_800d16a4 != 7)
-		DAT_800d173c = 1;
+	if (GNumberOfPlayers == 2 && ViewportMode == 0 && GGame != 7)
+		ViewportMode = 1;
 
-	switch (DAT_800d173c) {
+	switch (ViewportMode) {
 		case 0:
-			f = DAT_800d16fc;
+			f = GameFrozen;
 
 			if (f == 0) {
-				if (DAT_800d1830) {
+				if (CloseCam) {
 					c = 386;
 					a = 30;
-					DAT_800d1ff4 = c;
+					camDist = c;
 					b = -160;
 				} else {
 					c = 290;
 					a = 150;
-					DAT_800d1ff4 = c;
+					camDist = c;
 					b = -108;
 				}
 
-				DAT_800d1ff8 = a;
-				DAT_800d1ffc = b;
+				camPitch = a;
+				camYOffset = b;
 			}
 
 			Display_Viewport((char *)&DAT_800a6790, 0);
 			break;
 		case 1:
-			f = DAT_800d16fc;
+			f = GameFrozen;
 
 			if (f == 0) {
-				DAT_800d1ff4 = 286;
-				DAT_800d1ff8 = 118;
-				DAT_800d1ffc = -140;
+				camDist = 286;
+				camPitch = 118;
+				camYOffset = -140;
 			}
 
 			BlackOut(254, 0, 4, 240);
@@ -127,12 +127,12 @@ L90:
 			Display_Viewport(DAT_800a67b8, 1);
 			break;
 		case 2:
-			f = DAT_800d16fc;
+			f = GameFrozen;
 
 			if (f == 0) {
-				DAT_800d1ff4 = 450;
-				DAT_800d1ff8 = 60;
-				DAT_800d1ffc = -120;
+				camDist = 450;
+				camPitch = 60;
+				camYOffset = -120;
 			}
 
 			BlackOut(0, 118, 512, 4);
@@ -140,12 +140,12 @@ L90:
 			Display_Viewport(DAT_800a67e0, 1);
 			break;
 		case 3:
-			f = DAT_800d16fc;
+			f = GameFrozen;
 
 			if (f == 0) {
-				DAT_800d1ff4 = 642;
-				DAT_800d1ff8 = 32;
-				DAT_800d1ffc = -172;
+				camDist = 642;
+				camPitch = 32;
+				camYOffset = -172;
 			}
 
 			BlackOut(256, 0, 256, 120);
@@ -154,12 +154,12 @@ L90:
 			Display_Viewport(DAT_800a6808, 1);
 			break;
 		case 4:
-			f = DAT_800d16fc;
+			f = GameFrozen;
 
 			if (f == 0) {
-				DAT_800d1ff4 = 610;
-				DAT_800d1ff8 = 0;
-				DAT_800d1ffc = -200;
+				camDist = 610;
+				camPitch = 0;
+				camYOffset = -200;
 			}
 
 			BlackOut(304, 0, 208, 88);
@@ -174,12 +174,12 @@ L90:
 	Front_Display();
 	Mess_Display();
 
-	if (DAT_800d140c && DAT_800d13e8 != 33)
+	if (GamePaused && Status != 33)
 		Mick_Darken();
 	else
-		DAT_800d1738 = 0;
+		Mick_Darkness = 0;
 
 	Flash_Display();
 
-	DAT_800d1730 = (DAT_800d1a54 & 0x7fffffff) - (DAT_800d1a48->f80a8 & 0x7fffffff);
+	DAT_800d1730 = (pPoly & 0x7fffffff) - (pDoubleBuffer->f80a8 & 0x7fffffff);
 }

@@ -6,22 +6,22 @@ struct S {
 	char q[40];
 };
 
-extern struct S DAT_800a5398[];
-extern int DAT_800d1e28;
-extern int DAT_800d16a4;
+extern struct S Levels[];
+extern int GLevel;
+extern int GGame;
 
-int DAT_800d10ec;
+int Crowd_Bored;
 
 void SFX_PlayX(int a, int b, int c);
 
 void FUN_80010f70(int a) {
 	int s;
 
-	if (DAT_800a5398[DAT_800d1e28].f && DAT_800d16a4 == 1) {
+	if (Levels[GLevel].f && GGame == 1) {
 		if (a < 100)
-			DAT_800d10ec += 2;
+			Crowd_Bored += 2;
 		else
-			DAT_800d10ec = 0;
+			Crowd_Bored = 0;
 
 		s = (a << 14) / 1000;
 

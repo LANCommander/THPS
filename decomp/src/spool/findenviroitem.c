@@ -9,7 +9,7 @@ typedef struct {
 	char pad[0x28];
 } SRegion;
 
-extern SRegion DAT_800bf7a8[];
+extern SRegion PSXRegion[];
 
 typedef struct SEnviro {
 	char pad[0x16];
@@ -19,17 +19,17 @@ typedef struct SEnviro {
 	struct SEnviro *next;
 } SEnviro;
 
-SEnviro *DAT_800d1eec;
+SEnviro *EnviroList;
 
 SEnviro *Spool_FindEnviroItem(unsigned id) {
-	SEnviro *e = DAT_800d1eec;
+	SEnviro *e = EnviroList;
 	int cur = -1;
 	unsigned *tbl;
 
 	while (e) {
 		if (e->region != cur) {
 			cur = e->region;
-			tbl = DAT_800bf7a8[cur].models;
+			tbl = PSXRegion[cur].models;
 		}
 
 		if (tbl[e->model] == id)

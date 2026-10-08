@@ -35,12 +35,12 @@ typedef struct B {
 	int f924;
 } B;
 
-N *DAT_800d1b70;
+N *TrickObList;
 
-extern B *DAT_800d17c8;
-extern int DAT_800d16a4;
+extern B *GSkater;
+extern int GGame;
 
-int DAT_800d1b8c, DAT_800d1b90;
+int TrickPlayer, TrickScore;
 
 int FUN_8006ef00(B *);
 int FUN_8004eed8(unsigned short);
@@ -57,12 +57,12 @@ int FUN_8004f000(B *a, B *b, int c) {
 
 	s5 = 2;
 
-	if (b == DAT_800d17c8)
+	if (b == GSkater)
 		s5 = 1;
 
 	v = FUN_8006ef00(a);
 	s3 = 0;
-	s0 = DAT_800d1b70;
+	s0 = TrickObList;
 
 	while (s0 && s0->f4 != v) {
 		s0 = s0->f10;
@@ -80,7 +80,7 @@ int FUN_8004f000(B *a, B *b, int c) {
 	}
 
 	if (s0->cA) {
-		if (DAT_800d16a4 != 8)
+		if (GGame != 8)
 			return 3;
 
 		if (s0->cB == s5)
@@ -90,7 +90,7 @@ int FUN_8004f000(B *a, B *b, int c) {
 	s1 = 0;
 
 	if (FUN_8004eed8(s0->s8)) {
-		if (DAT_800d16a4 == 1) {
+		if (GGame == 1) {
 			SFX_PlayX(20, 0x2000, 0);
 
 			a->f20 = 0x202020;
@@ -100,7 +100,7 @@ int FUN_8004f000(B *a, B *b, int c) {
 		}
 	}
 
-	if (DAT_800d16a4 == 8 && c >= s0->sC) {
+	if (GGame == 8 && c >= s0->sC) {
 		s0->sC = c;
 		a->f20 = 0x202020;
 		a->f0 |= 0x400;
@@ -119,8 +119,8 @@ int FUN_8004f000(B *a, B *b, int c) {
 	}
 L122:
 	if (s1) {
-		DAT_800d1b8c = s5;
-		DAT_800d1b90 = c;
+		TrickPlayer = s5;
+		TrickScore = c;
 		FUN_80068f40(s5, s3);
 		Trig_SendPulse(Trig_GetLinksPointer(s0->s8));
 

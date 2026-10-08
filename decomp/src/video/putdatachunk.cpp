@@ -40,12 +40,12 @@ struct CBruce {
 	MATRIX Matrix;
 };
 
-extern SVideoInfo DAT_800bf318, DAT_800bf3d8;
-extern int DAT_800bf498[], DAT_800bf4b4[], DAT_800bf4d0[], DAT_800bf4ec[], DAT_800bf508[];
-extern CBruce *DAT_800d19a4;
-extern volatile int DAT_800d1a24;
+extern SVideoInfo GVInfo1, GVInfo2;
+extern int PosBits[], EulerBits[], FlipAngleBits[], PrefixCode[], PrefixBits[];
+extern CBruce *MechList;
+extern volatile int Xblanks;
 
-int DAT_800d1dfc, DAT_800d1e00, DAT_800d1e04, DAT_800d1e08;
+int Splat1, Splat2, TrickOb1, TrickOb2;
 
 int BitsRequired(long);
 void PutNBits(SVideoInfo *, long, int);
@@ -61,10 +61,10 @@ void PutDataChunk(CBruce *pSkater) {
 	CVector PredPos, DeltaPos;
 	SVideoInfo *VInfo;
 
-	if (pSkater == DAT_800d19a4)
-		VInfo = &DAT_800bf318;
+	if (pSkater == MechList)
+		VInfo = &GVInfo1;
 	else
-		VInfo = &DAT_800bf3d8;
+		VInfo = &GVInfo2;
 
 	if (VInfo->pStream + 6 >= VInfo->pStreamStart + 6000) {
 		Video_Stop(pSkater);
@@ -92,13 +92,13 @@ void PutDataChunk(CBruce *pSkater) {
 		bx = bz;
 
 	for (i = 0; i < 6; i++)
-		if (DAT_800bf498[i] >= bx)
+		if (PosBits[i] >= bx)
 			break;
 
-	PutNBits(VInfo, DAT_800bf4ec[i], DAT_800bf508[i]);
-	PutNBits(VInfo, DeltaX, DAT_800bf498[i]);
-	PutNBits(VInfo, DeltaY, DAT_800bf498[i]);
-	PutNBits(VInfo, DeltaZ, DAT_800bf498[i]);
+	PutNBits(VInfo, PrefixCode[i], PrefixBits[i]);
+	PutNBits(VInfo, DeltaX, PosBits[i]);
+	PutNBits(VInfo, DeltaY, PosBits[i]);
+	PutNBits(VInfo, DeltaZ, PosBits[i]);
 
 	Matrix2Euler(&pSkater->Matrix, &VInfo->Euler);
 
@@ -130,13 +130,13 @@ void PutDataChunk(CBruce *pSkater) {
 		bx = bz;
 
 	for (i = 0; i < 6; i++)
-		if (DAT_800bf4b4[i] >= bx)
+		if (EulerBits[i] >= bx)
 			break;
 
-	PutNBits(VInfo, DAT_800bf4ec[i], DAT_800bf508[i]);
-	PutNBits(VInfo, DeltaX, DAT_800bf4b4[i]);
-	PutNBits(VInfo, DeltaY, DAT_800bf4b4[i]);
-	PutNBits(VInfo, DeltaZ, DAT_800bf4b4[i]);
+	PutNBits(VInfo, PrefixCode[i], PrefixBits[i]);
+	PutNBits(VInfo, DeltaX, EulerBits[i]);
+	PutNBits(VInfo, DeltaY, EulerBits[i]);
+	PutNBits(VInfo, DeltaZ, EulerBits[i]);
 
 	if (pSkater->PhysicsState == VInfo->OldPhysicsState)
 		PutNBits(VInfo, 0, 1);
@@ -179,24 +179,24 @@ void PutDataChunk(CBruce *pSkater) {
 				Bits = BitsRequired(Delta);
 
 			for (i = 0; i < 6; i++)
-				if (DAT_800bf4d0[i] >= Bits)
+				if (FlipAngleBits[i] >= Bits)
 					break;
 
-			PutNBits(VInfo, DAT_800bf4ec[i], DAT_800bf508[i]);
-			PutNBits(VInfo, Delta, DAT_800bf4d0[i]);
+			PutNBits(VInfo, PrefixCode[i], PrefixBits[i]);
+			PutNBits(VInfo, Delta, FlipAngleBits[i]);
 
 			VInfo->OldFlipAngle = pSkater->FlipAngle;
 			VInfo->FlipAngleDelta = Delta;
 		}
 	}
 
-	DeltaX = DAT_800d1a24 - VInfo->OldXblanks;
+	DeltaX = Xblanks - VInfo->OldXblanks;
 
 	if (DeltaX >= 6) {
-		VInfo->OldXblanks = DAT_800d1a24 - (DeltaX - 5);
+		VInfo->OldXblanks = Xblanks - (DeltaX - 5);
 		DeltaX = 5;
 	} else
-		VInfo->OldXblanks = DAT_800d1a24;
+		VInfo->OldXblanks = Xblanks;
 
 	PutNBits(VInfo, DeltaX - 2, 2);
 
@@ -220,46 +220,46 @@ void PutDataChunk(CBruce *pSkater) {
 	} else
 		PutNBits(VInfo, 0, 1);
 
-	if (DAT_800d1dfc == -1 && DAT_800d1e00 == DAT_800d1dfc && DAT_800d1e04 == DAT_800d1e00 &&
-	    DAT_800d1e08 == DAT_800d1e04) {
+	if (Splat1 == -1 && Splat2 == Splat1 && TrickOb1 == Splat2 &&
+	    TrickOb2 == TrickOb1) {
 		PutNBits(VInfo, 0, 1);
 		return;
 	}
 
 	PutNBits(VInfo, 1, 1);
 
-	if (pSkater == DAT_800d19a4) {
-		if (DAT_800d1dfc != -1) {
+	if (pSkater == MechList) {
+		if (Splat1 != -1) {
 			PutNBits(VInfo, 1, 1);
-			PutNBits(VInfo, DAT_800d1dfc, 2);
+			PutNBits(VInfo, Splat1, 2);
 
-			DAT_800d1dfc = -1;
+			Splat1 = -1;
 		} else
 			PutNBits(VInfo, 0, 1);
 	} else {
-		if (DAT_800d1e00 != -1) {
+		if (Splat2 != -1) {
 			PutNBits(VInfo, 1, 1);
-			PutNBits(VInfo, DAT_800d1e00, 2);
+			PutNBits(VInfo, Splat2, 2);
 
-			DAT_800d1e00 = -1;
+			Splat2 = -1;
 		} else
 			PutNBits(VInfo, 0, 1);
 	}
 
-	if (pSkater == DAT_800d19a4) {
-		if (DAT_800d1e04 != -1) {
+	if (pSkater == MechList) {
+		if (TrickOb1 != -1) {
 			PutNBits(VInfo, 1, 1);
-			PutNBits(VInfo, DAT_800d1e04, 8);
+			PutNBits(VInfo, TrickOb1, 8);
 
-			DAT_800d1e04 = -1;
+			TrickOb1 = -1;
 			return;
 		}
 	} else {
-		if (DAT_800d1e08 != -1) {
+		if (TrickOb2 != -1) {
 			PutNBits(VInfo, 1, 1);
-			PutNBits(VInfo, DAT_800d1e08, 8);
+			PutNBits(VInfo, TrickOb2, 8);
 
-			DAT_800d1e08 = -1;
+			TrickOb2 = -1;
 			return;
 		}
 	}

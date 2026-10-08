@@ -69,10 +69,10 @@ class VerticalMenu {
 };
 
 extern SControl DAT_800c0a48[2]; /* Pad */
-extern SOptions DAT_800a4118;
+extern SOptions GPreferences;
 extern SPadMap DAT_800bf260[2]; /* edited mapping */
 extern SPadMap DAT_800bf280[2]; /* mapping before the last change */
-extern SText DAT_800a5d5c;
+extern SText GameText;
 extern char DAT_800d1d40[]; /* "%s %s" */
 
 int DAT_800d1d28;   /* player being configured */
@@ -244,22 +244,22 @@ void FUN_8005eb78(VerticalMenu *menu) {
 		}
 
 		if (menu->getSelected() == 4) {
-			if (left != DAT_800a4118.VibrationEnabled[pl])
+			if (left != GPreferences.VibrationEnabled[pl])
 				SFX_PlayX(144, 8192, 0);
 
-			DAT_800a4118.VibrationEnabled[pl] = left != 0;
-			FUN_8008b900(buf, DAT_800d1d40, DAT_800a5d5c.Vibration,
-			             DAT_800a4118.VibrationEnabled[pl] ? DAT_800a5d5c.On : DAT_800a5d5c.Off);
+			GPreferences.VibrationEnabled[pl] = left != 0;
+			FUN_8008b900(buf, DAT_800d1d40, GameText.Vibration,
+			             GPreferences.VibrationEnabled[pl] ? GameText.On : GameText.Off);
 			menu->setString(4, buf);
 		}
 
 		if (menu->getSelected() == 5) {
-			if (left != DAT_800a4118.AutoKickEnabled[pl])
+			if (left != GPreferences.AutoKickEnabled[pl])
 				SFX_PlayX(144, 8192, 0);
 
-			DAT_800a4118.AutoKickEnabled[pl] = left != 0;
-			FUN_8008b900(buf, DAT_800d1d40, DAT_800a5d5c.Autokick,
-			             DAT_800a4118.AutoKickEnabled[pl] ? DAT_800a5d5c.On : DAT_800a5d5c.Off);
+			GPreferences.AutoKickEnabled[pl] = left != 0;
+			FUN_8008b900(buf, DAT_800d1d40, GameText.Autokick,
+			             GPreferences.AutoKickEnabled[pl] ? GameText.On : GameText.Off);
 			menu->setString(5, buf);
 			menu->setString(0, FUN_8005ea74(DAT_800bf260[pl].Function[0]));
 			menu->setString(1, FUN_8005ea74(DAT_800bf260[pl].Function[1]));
@@ -281,12 +281,12 @@ void FUN_8005eb78(VerticalMenu *menu) {
 			DAT_800bf260[pl].Function[3] = 3;
 			FUN_8005eb28(pl);
 
-			DAT_800a4118.VibrationEnabled[pl] = 1;
-			FUN_8008b900(buf, DAT_800d1d40, DAT_800a5d5c.Vibration, DAT_800a5d5c.On);
+			GPreferences.VibrationEnabled[pl] = 1;
+			FUN_8008b900(buf, DAT_800d1d40, GameText.Vibration, GameText.On);
 			menu->setString(4, buf);
 
-			DAT_800a4118.AutoKickEnabled[pl] = 1;
-			FUN_8008b900(buf, DAT_800d1d40, DAT_800a5d5c.Autokick, DAT_800a5d5c.On);
+			GPreferences.AutoKickEnabled[pl] = 1;
+			FUN_8008b900(buf, DAT_800d1d40, GameText.Autokick, GameText.On);
 			menu->setString(5, buf);
 			menu->setString(0, FUN_8005ea74(DAT_800bf260[pl].Function[0]));
 			menu->setString(1, FUN_8005ea74(DAT_800bf260[pl].Function[1]));

@@ -4,7 +4,7 @@
    table. Each entry is {name, pad to 4, sector, size}; an end-of-block marker byte of 255 flashes
    the screen. Sets up the sector count and returns the size rounded to whole sectors.
    153/155 (S29). Two levers moved it from 149:
-   - An unsized `extern uchar DAT_800c0a98[]` gives retail's split `lui v0` / `lbu a0`.
+   - An unsized `extern uchar Pad_50[]` gives retail's split `lui v0` / `lbu a0`.
    - Reusing `len` for the byte count (`len = sectors << 11`). That makes the sll's dest
      set twice, which defeats sched1's set-once boost (birthing_insn_p).
    Residue: retail's sll result is in a1, separate from len (v0, as the demo SYM says),
@@ -27,21 +27,21 @@ class PREManager {
 	char *getFile(char *, int *);
 };
 
-int DAT_800d1af8;
-int DAT_800d1b04;
+int CurrentPos;
+int FileOpen;
 PREManager *DAT_800d1b10;
-int DAT_800d1b14;
-char *DAT_800d1b18;
-int DAT_800d1b1c;
-const char *DAT_800d1b30;
-int DAT_800d224c;
-int DAT_800d2264;
-int DAT_800d2268;
+int LoadFromPRE;
+char *ThePREFile;
+int ThePREFileSize;
+const char *Opening;
+int FileSize;
+int NumSectors;
+int Start;
 
 extern RECT DAT_800d1b20[];
 extern char DAT_800d1b28[];
-extern uchar DAT_800c0a98[];
-extern uchar DAT_800ba09c[];
+extern uchar Pad_50[];
+extern uchar Directory[];
 extern char DAT_800a12bc[];
 
 extern "C" {
@@ -55,25 +55,25 @@ int FileIO_Open(const char *filename) {
 	char *scan;
 	int len;
 
-	DAT_800d1af8 = 0;
+	CurrentPos = 0;
 	FUN_80047774(filename, 299, DAT_800a12bc);
 
-	DAT_800d1b14 = 0;
+	LoadFromPRE = 0;
 
 	if (DAT_800d1b10) {
-		DAT_800d1b18 = DAT_800d1b10->getFile((char *)filename, &DAT_800d1b1c);
+		ThePREFile = DAT_800d1b10->getFile((char *)filename, &ThePREFileSize);
 
-		if (DAT_800d1b18) {
-			DAT_800d1b14 = 1;
-			DAT_800d1b04 = 1;
-			return DAT_800d1b1c;
+		if (ThePREFile) {
+			LoadFromPRE = 1;
+			FileOpen = 1;
+			return ThePREFileSize;
 		}
 	}
 
 	FUN_80047774(filename, 323, DAT_800a12bc);
 
-	header = (char *)DAT_800ba09c;
-	DAT_800d1b30 = filename;
+	header = (char *)Directory;
+	Opening = filename;
 	scan = (char *)filename;
 
 	while (*scan) {
@@ -125,22 +125,22 @@ int FileIO_Open(const char *filename) {
 	}
 
 	header = (char *)(((int)header + 4) & ~3);
-	DAT_800d2268 = ((int *)header)[0];
+	Start = ((int *)header)[0];
 	len = ((int *)header)[1];
 
 	{
 		int sectors = (len + 2047) / 2048;
 
-		DAT_800d2264 = sectors;
+		NumSectors = sectors;
 		len = sectors << 11;
-		DAT_800d224c = len;
+		FileSize = len;
 	}
 
-	DAT_800d1b04 = 1;
+	FileOpen = 1;
 
-	if (DAT_800c0a98[0])
+	if (Pad_50[0])
 		FUN_8008c190(DAT_800d1b28);
 
 	FUN_80047774(filename, 495, DAT_800a12bc);
-	return DAT_800d224c;
+	return FileSize;
 }

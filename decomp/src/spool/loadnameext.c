@@ -1,11 +1,11 @@
 /* LoadNameExt__FPcT0 (0x80070140) */
 #include "names.h"
-extern char DAT_800bf654[][17];
+extern char SpoolQ[][17];
 
-int DAT_800d1ef8;
+int FreePos;
 
 void LoadNameExt(char *a, char *b) {
-	char *d = DAT_800bf654[DAT_800d1ef8];
+	char *d = SpoolQ[FreePos];
 	char *s = a;
 	char *t = b;
 

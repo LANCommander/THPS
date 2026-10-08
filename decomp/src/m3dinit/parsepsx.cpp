@@ -62,15 +62,15 @@ struct SRegion {
 	char pad33[0x40 - 0x33];
 };
 
-extern SRegion DAT_800bf7a8[];
+extern SRegion PSXRegion[];
 
-int DAT_800d2120;
-int DAT_800d2124;
-int DAT_800d2128;
-int DAT_800d212c;
+int GHeadPart;
+int GBoardPart;
+int GWheel1Part;
+int GWheel2Part;
 
-extern const int DAT_800d2130;
-extern ushort DAT_800d2158;
+extern const int GHeadUp;
+extern ushort M3d_DefaultLODDistance;
 
 void M3dInit_ParsePSX(int Region) {
 	SModel *pModel;
@@ -98,23 +98,23 @@ void M3dInit_ParsePSX(int Region) {
 	uint OrOfFlags;
 	uint AndOfFUFlags;
 
-	if (DAT_800d2120 != -1) {
-		if (DAT_800d2120 == 18) {
-			DAT_800d2124 = 0;
-			DAT_800d2128 = 1;
-			DAT_800d212c = 2;
+	if (GHeadPart != -1) {
+		if (GHeadPart == 18) {
+			GBoardPart = 0;
+			GWheel1Part = 1;
+			GWheel2Part = 2;
 		} else {
-			DAT_800d2124 = 16;
-			DAT_800d2128 = 17;
-			DAT_800d212c = 18;
+			GBoardPart = 16;
+			GWheel1Part = 17;
+			GWheel2Part = 18;
 		}
 	}
 
 	NumStitchVertices = 0;
 	Fastable = 1;
 	NumParts = 0;
-	NumModels = (int)DAT_800bf7a8[Region].ppModels[-1];
-	pModel = DAT_800bf7a8[Region].ppModels[0];
+	NumModels = (int)PSXRegion[Region].ppModels[-1];
+	pModel = PSXRegion[Region].ppModels[0];
 
 	for (i = 0; i < NumModels; i++) {
 		OrOfFlags = 0;
@@ -127,16 +127,16 @@ void M3dInit_ParsePSX(int Region) {
 			NumParts++;
 
 		if (pModel->zMax == -1)
-			pModel->zMax = DAT_800d2158;
+			pModel->zMax = M3d_DefaultLODDistance;
 
 		for (j = 0, pVertex = pModel->Vertices; j < NumVertices; j++, pVertex++) {
-			if (i == DAT_800d2120 && !(pVertex->pad & 0x12)) {
+			if (i == GHeadPart && !(pVertex->pad & 0x12)) {
 				pVertex->vx *= 3;
 				pVertex->vy *= 2;
 				pVertex->vz *= 3;
-				pVertex->vy += DAT_800d2130 * 16;
+				pVertex->vy += GHeadUp * 16;
 
-				if (DAT_800d2130 < 0)
+				if (GHeadUp < 0)
 					pVertex->vz -= 240;
 			}
 
@@ -233,10 +233,10 @@ void M3dInit_ParsePSX(int Region) {
 		pModel = (SModel *)pFace;
 	}
 
-	DAT_800bf7a8[Region].Fastable = Fastable;
-	DAT_800bf7a8[Region].NumParts = NumParts;
-	NumItems = DAT_800bf7a8[Region].pItems[2];
-	pItem = (Item *)(DAT_800bf7a8[Region].pItems + 3);
+	PSXRegion[Region].Fastable = Fastable;
+	PSXRegion[Region].NumParts = NumParts;
+	NumItems = PSXRegion[Region].pItems[2];
+	pItem = (Item *)(PSXRegion[Region].pItems + 3);
 
 	for (i = 0; i < NumItems; i++) {
 		if (i < NumItems - 1)
@@ -246,14 +246,14 @@ void M3dInit_ParsePSX(int Region) {
 
 		pItem->Region = Region;
 
-		if (DAT_800bf7a8[pItem->Region].ppModels[pItem->Model]->Flags & 0x10)
+		if (PSXRegion[pItem->Region].ppModels[pItem->Model]->Flags & 0x10)
 			pItem->Flags |= 0x20;
 
-		if (DAT_800bf7a8[pItem->Region].ppModels[pItem->Model]->Flags & 0x20)
+		if (PSXRegion[pItem->Region].ppModels[pItem->Model]->Flags & 0x20)
 			pItem->Flags |= 0x1000;
 
 		pItem++;
 	}
 }
 
-extern const int DAT_800d2130 = 0;
+extern const int GHeadUp = 0;

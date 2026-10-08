@@ -7,7 +7,7 @@ typedef unsigned short ushort;
 typedef unsigned char uchar;
 struct Item;
 
-extern int DAT_800d16a4;
+extern int GGame;
 extern char DAT_8009fc44[], DAT_8009fc50[], DAT_8009fc5c[], DAT_8009fc68[], DAT_8009fc74[],
     DAT_8009fc80[], DAT_8009fc8c[], DAT_8009fc98[];
 
@@ -116,7 +116,7 @@ void CBruce::Trick_Land() {
 			m418 = 0;
 		}
 
-		if (m364 && DAT_800d16a4 == 7) {
+		if (m364 && GGame == 7) {
 			FUN_8008c190(DAT_8009fc98);
 
 			m330 = 0;

@@ -25,11 +25,11 @@ static inline void Set(struct V *v, int _x, int _y, int _z) {
 	v->z = _z;
 }
 
-extern struct E DAT_800a44fc[];
+extern struct E Stats[];
 extern char DAT_800be3f8[];
 
 int DAT_800d1ba8;
-int DAT_800d22a4;
+int SKATER_Y_POS;
 
 char *__nw__5CItemUi(int n);
 char *CBruce_ctor(char *p);
@@ -46,7 +46,7 @@ char *FUN_800506d0(int idx) {
 		p = CBruce_ctor(p);
 
 	*(int *)(p + 744) = idx;
-	CBruce_InitItem(p, DAT_800a44fc[idx].n8);
+	CBruce_InitItem(p, Stats[idx].n8);
 
 	*(int *)(p + 336) = 0x10000;
 	CSuper_CycleAnim(p, 0, 1);
@@ -55,12 +55,12 @@ char *FUN_800506d0(int idx) {
 		struct B *b = (struct B *)p;
 
 		b->col = 0x404040;
-		Set(&b->pos, DAT_800d1ba8, DAT_800d22a4, 0x30000);
+		Set(&b->pos, DAT_800d1ba8, SKATER_Y_POS, 0x30000);
 	}
 
 	FUN_8008b238(p + 1932);
 
-	if (DAT_800a44fc[idx].name[0] == 82 || DAT_800a44fc[idx].name[0] == 114)
+	if (Stats[idx].name[0] == 82 || Stats[idx].name[0] == 114)
 		*(int *)(p + 308) |= 2;
 
 	*(char **)(p + 60) = DAT_800be3f8;

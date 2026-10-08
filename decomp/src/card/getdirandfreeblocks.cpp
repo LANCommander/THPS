@@ -25,10 +25,10 @@ extern "C" {
 
 int Utils_CompareStrings(const char *, const char *, unsigned int);
 
-extern long DAT_800a5880[];
-extern char DAT_800a584d[];
-extern char DAT_800a5869[];
-extern struct DIRENTRY DAT_800a58bc[];
+extern long FileType[];
+extern char CARD_FNAME_5[];
+extern char CARD_VNAME_5[];
+extern struct DIRENTRY SLOT_DIR[];
 extern char DAT_8009e118[];
 
 int Card_GetDirAndFreeBlocks(int cnct, int slot) {
@@ -38,21 +38,21 @@ int Card_GetDirAndFreeBlocks(int cnct, int slot) {
 	struct DIRENTRY *d;
 
 	for (i = 0; i < 15; i++)
-		DAT_800a5880[i] = 3;
+		FileType[i] = 3;
 
 	sprintf(key, DAT_8009e118, cnct, slot);
 
-	d = DAT_800a58bc;
+	d = SLOT_DIR;
 	i = 0;
 
 	if (firstfile(key, d) == d) {
 		do {
 			size += d->size;
 
-			if (Utils_CompareStrings(d->name, DAT_800a584d, 17))
-				DAT_800a5880[i] = 0;
-			else if (Utils_CompareStrings(d->name, DAT_800a5869, 17))
-				DAT_800a5880[i] = 1;
+			if (Utils_CompareStrings(d->name, CARD_FNAME_5, 17))
+				FileType[i] = 0;
+			else if (Utils_CompareStrings(d->name, CARD_VNAME_5, 17))
+				FileType[i] = 1;
 
 			i++;
 			d++;

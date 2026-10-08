@@ -6,8 +6,8 @@ typedef struct {
 	unsigned short w, h;
 } STexEntry;
 
-extern int DAT_800d1a90;
-extern int DAT_800d1a8c;
+extern int Pal256Y;
+extern int Pal256X;
 
 STexEntry *Spool_FindTextureEntry(unsigned);
 void *FileIO_Open(char *);
@@ -22,14 +22,14 @@ void ReplaceTexture(unsigned id, char *name) {
 
 	if (e) {
 		unsigned char *info = e->info;
-		int pal = DAT_800d1a90;
+		int pal = Pal256Y;
 		int w = e->w;
 		int h = e->h;
 		int k;
 		char *bmp;
 
 		pal += info[2];
-		k = DAT_800d1a8c;
+		k = Pal256X;
 		bmp = Mem_NewX(FileIO_Open(name), 1, 1);
 		FileIO_Load(bmp);
 		FileIO_Sync();

@@ -48,14 +48,14 @@ extern FontInfo DAT_800a6110[10];
 
 int DAT_800d15e4;
 SWobble *DAT_800d15e8;
-uchar DAT_800d15f0;
-u_int DAT_800d15f4;
-u_short DAT_800d15fa;
-u_int DAT_800d2204;
+uchar TextJustification;
+u_int FlagsBGR;
+u_short Sort;
+u_int LastFlagsBGR;
 
-extern SDB *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
-extern uchar *DAT_800d177c;
+extern SDB *pDoubleBuffer;
+extern uchar *pPoly;
+extern uchar *PolyBufferEnd;
 
 #define Font_table   DAT_800a6110
 #define Current_font DAT_800d15e4
@@ -84,7 +84,7 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 	currentScale = Mess_GetScale();
 	useCurrentScale = 1;
 
-	switch (DAT_800d15f0) {
+	switch (TextJustification) {
 		case 0:
 			Off = -length / 2;
 			break;
@@ -142,14 +142,14 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 
 		if (n == 254) {
 			if (!DAT_800d15e8)
-				DAT_800d15f4 = DAT_800d2204;
+				FlagsBGR = LastFlagsBGR;
 
 			continue;
 		}
 
 		if (n == 253) {
 			if (!DAT_800d15e8) {
-				DAT_800d2204 = DAT_800d15f4;
+				LastFlagsBGR = FlagsBGR;
 				Mess_SetRGB(0, 128, 255, 0);
 			}
 
@@ -158,7 +158,7 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 
 		if (n == 252) {
 			if (!DAT_800d15e8) {
-				DAT_800d2204 = DAT_800d15f4;
+				LastFlagsBGR = FlagsBGR;
 				Mess_SetRGB(255, 128, 0, 0);
 			}
 
@@ -167,7 +167,7 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 
 		if (n == 251) {
 			if (!DAT_800d15e8) {
-				DAT_800d2204 = DAT_800d15f4;
+				LastFlagsBGR = FlagsBGR;
 				Mess_SetRGB(64, 64, 64, 0);
 			}
 
@@ -198,21 +198,21 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 			u_short u3;
 			uchar LargestRGB;
 
-			apoly = (POLY_GT4 *)DAT_800d1a54;
+			apoly = (POLY_GT4 *)pPoly;
 			shadow = (POLY_FT4 *)(apoly + 1);
 			anothershadow = shadow + 1;
 			newppoly = (uchar *)(anothershadow + 1);
 
-			if (newppoly > DAT_800d177c)
+			if (newppoly > PolyBufferEnd)
 				break;
 
-			DAT_800d1a54 = newppoly;
+			pPoly = newppoly;
 
 			apoly->tag = 0x0c000000;
-			*(u_long *)&apoly->r0 = (DAT_800d15f4 & 0xffffff) + 0x3e000000;
-			*(u_long *)&apoly->r1 = DAT_800d15f4;
-			*(u_long *)&apoly->r2 = DAT_800d15f4;
-			*(u_long *)&apoly->r3 = DAT_800d15f4;
+			*(u_long *)&apoly->r0 = (FlagsBGR & 0xffffff) + 0x3e000000;
+			*(u_long *)&apoly->r1 = FlagsBGR;
+			*(u_long *)&apoly->r2 = FlagsBGR;
+			*(u_long *)&apoly->r3 = FlagsBGR;
 
 			u0 = *(u_int *)&Font_table[Current_font].mChar_table[n].u0;
 			u1 = *(u_int *)&Font_table[Current_font].mChar_table[n].u1;
@@ -264,7 +264,7 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 			}
 
 			shadow->tag = 0x09000000;
-			*(u_long *)&shadow->r0 = DAT_800d15f4;
+			*(u_long *)&shadow->r0 = FlagsBGR;
 			*(u_int *)&shadow->u0 = u0;
 			*(u_int *)&shadow->u1 = u1;
 			*(u_short *)&shadow->u2 = u2;
@@ -332,9 +332,9 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 				continue;
 			}
 
-			addPrim(&DAT_800d1a48->OT[DAT_800d15fa], apoly);
-			addPrim(&DAT_800d1a48->OT[DAT_800d15fa], anothershadow);
-			addPrim(&DAT_800d1a48->OT[DAT_800d15fa], shadow);
+			addPrim(&pDoubleBuffer->OT[Sort], apoly);
+			addPrim(&pDoubleBuffer->OT[Sort], anothershadow);
+			addPrim(&pDoubleBuffer->OT[Sort], shadow);
 		}
 	}
 

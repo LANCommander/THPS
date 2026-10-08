@@ -1,8 +1,8 @@
 /* __15CSpecialDisplay (0x80027ec4) */
 #include "names.h"
-extern char DAT_8009f890[];
+extern char __vt_15CSpecialDisplay[];
 
-void *DAT_800d18f0;
+void *SpecialDisplayList;
 
 char *CBit_ctor(char *);
 void CBit_AttachTo(char *, void *);
@@ -10,7 +10,7 @@ void CBit_AttachTo(char *, void *);
 char *CSpecialDisplay_ctor(char *t) {
 	CBit_ctor(t);
 
-	*(char **)(t + 0x44) = DAT_8009f890;
-	CBit_AttachTo(t, &DAT_800d18f0);
+	*(char **)(t + 0x44) = __vt_15CSpecialDisplay;
+	CBit_AttachTo(t, &SpecialDisplayList);
 	return t;
 }

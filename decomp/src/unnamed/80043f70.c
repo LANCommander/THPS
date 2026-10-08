@@ -13,7 +13,7 @@ typedef struct {
 	int f150;
 } O;
 
-extern int DAT_800d1774;
+extern int TimeScale;
 
 void FUN_80043f70(O *o) {
 	int v, a, c, d, s;
@@ -35,7 +35,7 @@ void FUN_80043f70(O *o) {
 
 	v = (o->f144 << 16) | o->f14c;
 	d = o->f149;
-	a = (o->f150 * DAT_800d1774) >> 8;
+	a = (o->f150 * TimeScale) >> 8;
 
 	if (d == 1)
 		v += a;

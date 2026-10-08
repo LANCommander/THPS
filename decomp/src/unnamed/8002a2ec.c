@@ -8,7 +8,7 @@ typedef struct {
 	int *arr;
 } B;
 
-extern char DAT_8009f6a0[];
+extern char __vt_11CSmokeTrail[];
 extern char DAT_800d18c4[];
 
 void CRibbon_ctor(B *, int, int, int, char *, char *, int, int);
@@ -25,7 +25,7 @@ B *CSmokeTrail_ctor(B *p, int a1, int a2, int r, int g, int b) {
 	dg = g / n;
 	i = 0;
 	db = b / n;
-	p->vt = DAT_8009f6a0;
+	p->vt = __vt_11CSmokeTrail;
 
 	if (n > 0) {
 		do {

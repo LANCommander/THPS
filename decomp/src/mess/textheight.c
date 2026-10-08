@@ -4,10 +4,10 @@ extern int Mess_TextHeight2(const char *);
 extern int Mess_TextHeightAboveBaseline(void);
 extern int Mess_TextHeightBelowBaseline(const char *);
 
-char DAT_800d1602;
+char NewFont;
 
 int Mess_TextHeight(const char *s) {
-	if (DAT_800d1602 == 0)
+	if (NewFont == 0)
 		return Mess_TextHeight2(s);
 
 	return Mess_TextHeightAboveBaseline() + Mess_TextHeightBelowBaseline(s);

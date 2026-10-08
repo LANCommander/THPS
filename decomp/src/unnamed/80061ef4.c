@@ -10,7 +10,7 @@ typedef struct {
 	int f2c, f30;
 } S;
 
-extern char DAT_800a21a0[];
+extern char __vt_11SlicedImage[];
 
 extern unsigned short *Mem_NewX(int, int, int);
 extern void Mem_Delete(void *);
@@ -20,7 +20,7 @@ S *SlicedImage_ctor(S *s, unsigned short *src, int w, int h, int cw, int ch, int
 	unsigned short *d, *p, *u;
 	int i, j, k, r, k2, j2;
 
-	s->f0 = DAT_800a21a0;
+	s->f0 = __vt_11SlicedImage;
 	s->f2c = 0;
 	s->f24 = bpp;
 	s->f28 = fl;

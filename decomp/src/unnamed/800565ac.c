@@ -7,13 +7,13 @@ typedef struct {
 	char q[0x154 - 0x15];
 } E;
 
-extern E DAT_800a44fc[];
+extern E Stats[];
 
 int DAT_800d2304[2];
 int DAT_800d231c[2];
 
 extern int DAT_800d3758[];
-extern int DAT_800d1724, DAT_800d2120, DAT_800d2130;
+extern int DAT_800d1724, GHeadPart, GHeadUp;
 
 void FUN_80059618(int);
 void Pack_Pack(int, int, int, short *, short *, int, int, int);
@@ -45,14 +45,14 @@ void FUN_800565ac(void) {
 			FUN_8006ed2c(DAT_800d3758[DAT_800d2304[i]]);
 
 			if (DAT_800d1724) {
-				e = DAT_800a44fc + DAT_800d2304[i];
-				DAT_800d2130 = e->b14;
-				DAT_800d2120 = e->b13;
+				e = Stats + DAT_800d2304[i];
+				GHeadUp = e->b14;
+				GHeadPart = e->b13;
 			}
 
 			ProcessNewPSX(DAT_800d3758[DAT_800d2304[i]]);
 
-			DAT_800d2120 = -1;
+			GHeadPart = -1;
 		}
 	}
 }

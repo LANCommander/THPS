@@ -1,0 +1,22 @@
+# Names in functions.tsv that are NOT a demo MAIN.SYM function name verbatim: THPS1 code the demo
+# lacks or renamed. Class names here are SYM-backed (demo type definitions); method names marked
+# "descriptive" are our own. Re-check these first if better evidence turns up.
+# addr	name	basis
+0x80063d48	__11EraseSpriteiiii	class: writes RECT mR (+4) and mData (+0xc) as in the SYM's EraseSprite (size 0x10); StoreImage
+0x80063db4	_._11EraseSprite	class layout; 0.95 opcode match with the demo dtor
+0x80063e10	restore__11EraseSpriteii	class layout (LoadImage(&mR, mData)); method name descriptive; (int,int) from callers
+0x80063e34	__9PadBufferi	class: entries/down/first/last/mWhich_pad at 4/8/0x10c/0x110/0x118, as in the SYM's PadBuffer
+0x80063f58	update__9PadBuffer	class layout; method name descriptive
+0x80064274	getPress__9PadBuffer	class layout (pops buffer[first]); method name descriptive
+0x800642c0	reset__9PadBuffer	class layout; method name descriptive
+0x80063cb4	pack__6Sprite	Sprite.m_packed (+0xc) / m_image (+0x14); calls pack__11SlicedImage
+0x80063cec	unpack__6Sprite	Sprite.m_packed / m_image; calls unpack__11SlicedImage
+0x80063d24	removeFromMemory__6Sprite	forwards to SlicedImage::removeFromMemory (demo: removeFromMemory__12SlicedImage2)
+0x80062de8	removeFromMemory__11SlicedImage	sets SlicedImage.m_removed_from_memory (+0x30), frees slicedBuffer
+0x80063c6c	drawFaded__6Spriteiiiiii	Sprite method: m_image->draw(..., Trans=1, DrawStraight=0); method name descriptive
+0x8006e7c0	TrickMessage__10CPanelData	slot between TrickMessageRefresh and Trick (PANEL.CPP order); ends in TrickMessageRefresh like the demo
+0x8001dfc4	__17FallingTextEffect	constructor of 0x8001e014
+0x8001e014	init__17FallingTextEffect	Rnd(30)+15 per character, as the demo init; THPS1 per-char info is one short
+0x800316cc	SetTrickFlags__6CBruceP6STrick	no demo counterpart; method name descriptive (copies trick flag bits into CBruce)
+0x8002f340	Trick_Trick__6CBruceiPcii	PHYSICS.CPP slot of Trick_Trick__6CBrucePcii; THPS1 has an extra int
+0x8006e514	Set__6CTrickP7MessagePcii	demo Set__6CTrickP7MessagePci; THPS1 body takes one more stack arg

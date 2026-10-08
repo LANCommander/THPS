@@ -18,7 +18,7 @@ struct ControllerBuffer {
 };
 
 extern ControllerBuffer DAT_800c0d20[2];
-extern ControllerData DAT_800c0d64[8];
+extern ControllerData theControllers[8];
 
 void ReadController(ControllerData *, uchar *);
 
@@ -27,20 +27,20 @@ void ReadControllers() {
 
 	for (controller_port = 0; controller_port < 2; controller_port++) {
 		if (DAT_800c0d20[controller_port].pad[1] == 0x80) {
-			ReadController(&DAT_800c0d64[controller_port * 4 + 0],
+			ReadController(&theControllers[controller_port * 4 + 0],
 			               &DAT_800c0d20[controller_port].pad[2]);
-			ReadController(&DAT_800c0d64[controller_port * 4 + 1],
+			ReadController(&theControllers[controller_port * 4 + 1],
 			               &DAT_800c0d20[controller_port].pad[10]);
-			ReadController(&DAT_800c0d64[controller_port * 4 + 2],
+			ReadController(&theControllers[controller_port * 4 + 2],
 			               &DAT_800c0d20[controller_port].pad[18]);
-			ReadController(&DAT_800c0d64[controller_port * 4 + 3],
+			ReadController(&theControllers[controller_port * 4 + 3],
 			               &DAT_800c0d20[controller_port].pad[26]);
 		} else {
-			ReadController(&DAT_800c0d64[controller_port * 4], DAT_800c0d20[controller_port].pad);
+			ReadController(&theControllers[controller_port * 4], DAT_800c0d20[controller_port].pad);
 
-			DAT_800c0d64[controller_port * 4 + 1].type = 0;
-			DAT_800c0d64[controller_port * 4 + 2].type = 0;
-			DAT_800c0d64[controller_port * 4 + 3].type = 0;
+			theControllers[controller_port * 4 + 1].type = 0;
+			theControllers[controller_port * 4 + 2].type = 0;
+			theControllers[controller_port * 4 + 3].type = 0;
 		}
 	}
 }

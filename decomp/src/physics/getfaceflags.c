@@ -12,17 +12,17 @@ typedef struct {
 	SFace *face;
 } SLineInfo;
 
-int DAT_800d1974, DAT_800d1978, DAT_800d197c, DAT_800d1980, DAT_800d1984;
+int Face_Air, Face_Skateable, Face_WallRide, Face_Visible, Face_Terrain;
 
 void GetFaceFlags(SLineInfo *li) {
 	if (li->hit) {
 		SFace *f = li->face;
 		unsigned fl = f->flags;
 
-		DAT_800d1974 = (fl >> 16) & 0x40;
-		DAT_800d1978 = !(fl & 0x1000000);
-		DAT_800d197c = !(fl & 0x800000);
-		DAT_800d1980 = f->flags0 & 0x80;
-		DAT_800d1984 = ((fl >> 16) & 0x1e00) >> 9;
+		Face_Air = (fl >> 16) & 0x40;
+		Face_Skateable = !(fl & 0x1000000);
+		Face_WallRide = !(fl & 0x800000);
+		Face_Visible = f->flags0 & 0x80;
+		Face_Terrain = ((fl >> 16) & 0x1e00) >> 9;
 	}
 }

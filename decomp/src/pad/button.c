@@ -5,7 +5,7 @@ typedef struct {
 	int held, released, count;
 } SButton;
 
-int DAT_800d1f68;
+int Pad_IdleTime;
 
 extern void ResetMainDemoTimer(void);
 
@@ -18,7 +18,7 @@ void Pad_Button(SButton *b, int pressed) {
 	}
 
 	if (pressed) {
-		DAT_800d1f68 = 0;
+		Pad_IdleTime = 0;
 		ResetMainDemoTimer();
 
 		b->down = 1;

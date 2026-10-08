@@ -14,7 +14,7 @@ typedef struct {
 	struct VT *vt;
 } O;
 
-extern unsigned char DAT_800c0a48[];
+extern unsigned char Pad[];
 
 void Pad_ClearTriggers(unsigned char *);
 O *__nw__6CClassUi(int);
@@ -35,8 +35,8 @@ int FUN_8005e4ec(int a, int b, int c) {
 	O *n;
 
 	r = 0;
-	Pad_ClearTriggers(DAT_800c0a48);
-	Pad_ClearTriggers(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(Pad);
+	Pad_ClearTriggers(Pad + 364);
 
 	m = __nw__6CClassUi(820);
 
@@ -57,10 +57,10 @@ int FUN_8005e4ec(int a, int b, int c) {
 		m->vt->fn2((char *)m + m->vt->off2);
 		FUN_8006b26c();
 
-		if (DAT_800c0a48[0xe1] || DAT_800c0a48[0x24d] || DAT_800c0a48[0x31] ||
-		    DAT_800c0a48[0x19d] || DAT_800c0a48[1] || DAT_800c0a48[0x16d]) {
-			Pad_ClearTriggers(DAT_800c0a48);
-			Pad_ClearTriggers(DAT_800c0a48 + 364);
+		if (Pad[0xe1] || Pad[0x24d] || Pad[0x31] ||
+		    Pad[0x19d] || Pad[1] || Pad[0x16d]) {
+			Pad_ClearTriggers(Pad);
+			Pad_ClearTriggers(Pad + 364);
 			SFX_PlayX(145, 0x2000, 0);
 
 			r = -1;

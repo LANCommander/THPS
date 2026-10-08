@@ -5,20 +5,20 @@ typedef struct {
 	int l[5];
 } CBruce;
 
-int DAT_800d1e64;
+int SKATE_Display;
 
-extern CBruce *DAT_800d19a4;
+extern CBruce *MechList;
 
 void Panel_Tape(int);
 
 int Panel_Letter(int n) {
-	DAT_800d1e64 = 40;
+	SKATE_Display = 40;
 
 	if ((unsigned)n < 5)
-		DAT_800d19a4->l[n] = 1;
+		MechList->l[n] = 1;
 
-	if (DAT_800d19a4->l[0] == 1 && DAT_800d19a4->l[1] == 1 && DAT_800d19a4->l[2] == 1 &&
-	    DAT_800d19a4->l[3] == 1 && DAT_800d19a4->l[4] == 1) {
+	if (MechList->l[0] == 1 && MechList->l[1] == 1 && MechList->l[2] == 1 &&
+	    MechList->l[3] == 1 && MechList->l[4] == 1) {
 		Panel_Tape(2);
 		return 1;
 	}

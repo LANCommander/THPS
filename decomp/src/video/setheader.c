@@ -27,9 +27,9 @@ typedef struct CBruce {
 	unsigned short f2e8;
 } CBruce;
 
-extern SVideoInfo DAT_800bf318[];
-extern CBruce *DAT_800d19a4;
-extern unsigned short DAT_800d1780, DAT_800d1e28, DAT_800d16a4;
+extern SVideoInfo GVInfo1[];
+extern CBruce *MechList;
+extern unsigned short GNumberOfPlayers, GLevel, GGame;
 
 void Video_SetHeader(SVideoHead *h, int which) {
 	SVideoInfo v;
@@ -40,9 +40,9 @@ void Video_SetHeader(SVideoHead *h, int which) {
 		SVideoInfo *p;
 
 		if (which)
-			p = &DAT_800bf318[1];
+			p = &GVInfo1[1];
 		else
-			p = &DAT_800bf318[0];
+			p = &GVInfo1[0];
 
 		v = *p;
 	}
@@ -53,9 +53,9 @@ void Video_SetHeader(SVideoHead *h, int which) {
 		h->marks[i] = v.marks[i];
 
 	{
-		unsigned short t = DAT_800d1780;
+		unsigned short t = GNumberOfPlayers;
 
-		b = DAT_800d19a4;
+		b = MechList;
 		h->f2c = t;
 	}
 
@@ -79,7 +79,7 @@ void Video_SetHeader(SVideoHead *h, int which) {
 	}
 
 	{
-		unsigned short x = DAT_800d1e28, y = DAT_800d16a4;
+		unsigned short x = GLevel, y = GGame;
 
 		h->f36 = 0;
 		h->f32 = x;

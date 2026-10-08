@@ -13,24 +13,24 @@ typedef struct {
 	char pad[0xa0];
 } SVideoInfo;
 
-extern SVideoInfo DAT_800bf318[];
-extern CBruce *DAT_800d19a4;
+extern SVideoInfo GVInfo1[];
+extern CBruce *MechList;
 
-int DAT_800d1dec, DAT_800d1e0c, DAT_800d1e14;
+int HLStartCalled, HighlightStartFrame, HighlightStartY;
 
 void Video_HighlightStart(CBruce *b) {
 	SVideoInfo *v;
 
-	if (b == DAT_800d19a4)
-		v = &DAT_800bf318[0];
+	if (b == MechList)
+		v = &GVInfo1[0];
 	else
-		v = &DAT_800bf318[1];
+		v = &GVInfo1[1];
 
-	if (!DAT_800d1dec) {
+	if (!HLStartCalled) {
 		int t = v->f1c, x = b->f8;
 
-		DAT_800d1dec = 1;
-		DAT_800d1e0c = t;
-		DAT_800d1e14 = x;
+		HLStartCalled = 1;
+		HighlightStartFrame = t;
+		HighlightStartY = x;
 	}
 }

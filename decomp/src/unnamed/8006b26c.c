@@ -1,7 +1,7 @@
 /* FUN_8006b26c (0x8006b26c) */
-extern char DAT_800a891c[];
-extern char *DAT_800d1a48;
-extern int DAT_800d1a54;
+extern char DoubleBuffer[];
+extern char *pDoubleBuffer;
+extern int pPoly;
 
 void FUN_80059018(void);
 int FUN_8008c1a0(int a);
@@ -13,14 +13,14 @@ void FUN_8006b26c(void) {
 
 	FUN_80059018();
 	FUN_8008c1a0(1);
-	FUN_8008c8dc(DAT_800d1a48 + 16524);
+	FUN_8008c8dc(pDoubleBuffer + 16524);
 
-	a = DAT_800a891c;
+	a = DoubleBuffer;
 
-	if (DAT_800d1a48 == a)
+	if (pDoubleBuffer == a)
 		a = a + 32940;
 
-	DAT_800d1a48 = a;
-	DAT_800d1a54 = *(int *)(a + 32768 + 168) & 0x7fffffff;
+	pDoubleBuffer = a;
+	pPoly = *(int *)(a + 32768 + 168) & 0x7fffffff;
 	FUN_800242cc();
 }

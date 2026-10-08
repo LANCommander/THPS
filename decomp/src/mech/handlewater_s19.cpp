@@ -16,11 +16,11 @@ extern "C" {
 	                                        int);
 }
 
-extern int DAT_800d1780;
-extern int DAT_800d16f0;
-extern int DAT_800d16f4;
-extern const int DAT_800d16e4;
-extern TE DAT_800c9670[];
+extern int GNumberOfPlayers;
+extern int CurrentWaterLevel;
+extern int CurrentWaterLevel2;
+extern const int TTime;
+extern TE rcossin_tbl[];
 
 void SFX_PlayX(unsigned int, short, int);
 int Rnd(int);
@@ -34,17 +34,17 @@ struct CBruce {
 	void HandleWater();
 };
 
-CBruce *DAT_800d19a4;
+CBruce *MechList;
 
 void CBruce::HandleWater() {
 	int WaterLevel;
 	int bottom;
 
-	if (DAT_800d1780 != 2) {
-		if (this == DAT_800d19a4)
-			WaterLevel = DAT_800d16f0;
+	if (GNumberOfPlayers != 2) {
+		if (this == MechList)
+			WaterLevel = CurrentWaterLevel;
 		else
-			WaterLevel = DAT_800d16f4;
+			WaterLevel = CurrentWaterLevel2;
 
 		bottom = mPos.y + 0x19000;
 
@@ -54,7 +54,7 @@ void CBruce::HandleWater() {
 
 			mFlags |= 8;
 
-			if (!(DAT_800d16e4 & 3)) {
+			if (!(TTime & 3)) {
 				CVector p;
 				int offset;
 
@@ -66,7 +66,7 @@ void CBruce::HandleWater() {
 					TE *b;
 					int idx = Rnd(4096) & 4095;
 
-					b = DAT_800c9670;
+					b = rcossin_tbl;
 					TE *e = b + idx;
 
 					p.x += offset * e->x;

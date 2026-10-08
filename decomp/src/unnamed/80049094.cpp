@@ -27,10 +27,10 @@ struct SDoubleBuffer {
 	unsigned char *Polys; /* 0x80a8 */
 };
 
-extern SDoubleBuffer DAT_800a891c[2];
+extern SDoubleBuffer DoubleBuffer[2];
 
-SDoubleBuffer *DAT_800d1a48;
-SDoubleBuffer *DAT_800d1a4c;
+SDoubleBuffer *pDoubleBuffer;
+SDoubleBuffer *pOtherBuffer;
 
 void Pause(int);
 extern "C" void FUN_8008cf34(DR_AREA *, RECT *);
@@ -45,29 +45,29 @@ extern "C" int FUN_80089ddc(unsigned long *, int);
 #define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 
 void Db_Render() {
-	if (DAT_800d1a4c->RenderNow)
+	if (pOtherBuffer->RenderNow)
 		Pause(1);
 
-	setRECT(&DAT_800d1a48->Window, 0, DAT_800d1a48->Top, 512, 240);
-	FUN_8008cf34(&DAT_800d1a48->Clip, &DAT_800d1a48->Window);
+	setRECT(&pDoubleBuffer->Window, 0, pDoubleBuffer->Top, 512, 240);
+	FUN_8008cf34(&pDoubleBuffer->Clip, &pDoubleBuffer->Window);
 
-	DAT_800d1a48->Clip.tag =
-	    (DAT_800d1a48->Clip.tag & 0xff000000) | (DAT_800d1a48->OrderingTable[1] & 0xffffff);
-	DAT_800d1a48->OrderingTable[1] = (DAT_800d1a48->OrderingTable[1] & 0xff000000) |
-	                                 ((unsigned long)&DAT_800d1a48->Clip & 0xffffff);
-	FUN_80089ddc(DAT_800d1a48->OrderingTable, FUN_80048c74());
+	pDoubleBuffer->Clip.tag =
+	    (pDoubleBuffer->Clip.tag & 0xff000000) | (pDoubleBuffer->OrderingTable[1] & 0xffffff);
+	pDoubleBuffer->OrderingTable[1] = (pDoubleBuffer->OrderingTable[1] & 0xff000000) |
+	                                 ((unsigned long)&pDoubleBuffer->Clip & 0xffffff);
+	FUN_80089ddc(pDoubleBuffer->OrderingTable, FUN_80048c74());
 
-	DAT_800d1a48->RenderNow = 1;
-	SDoubleBuffer *q = DAT_800a891c;
+	pDoubleBuffer->RenderNow = 1;
+	SDoubleBuffer *q = DoubleBuffer;
 	SDoubleBuffer *p = q;
 
-	if (DAT_800d1a48 == q)
+	if (pDoubleBuffer == q)
 		p++;
 
-	DAT_800d1a48 = p;
+	pDoubleBuffer = p;
 
 	if (p == q)
 		q++;
 
-	DAT_800d1a4c = q;
+	pOtherBuffer = q;
 }

@@ -50,16 +50,16 @@ struct SFront {
 };
 
 extern SSkater DAT_800a44fc[];
-extern SLevel DAT_800a5398[];
-extern int DAT_800d1e28;
-extern int DAT_800d16a4;
-extern int DAT_800d1924;
-extern int DAT_800d172c;
-extern int DAT_800d1780;
-extern SFront *DAT_800d2044;
+extern SLevel Levels[];
+extern int GLevel;
+extern int GGame;
+extern int Cheat_StatsOverride;
+extern int Cheat_Fire;
+extern int GNumberOfPlayers;
+extern SFront *CameraList;
 extern int DAT_800a8118[];
-extern int DAT_800c0a48[];
-extern int DAT_800c0bb4[];
+extern int Pad[];
+extern int Pad_16c[];
 
 class CBruce;
 
@@ -222,23 +222,23 @@ class CBruce : public CSuper {
 };
 
 #define GetStat(n)                                                                                 \
-	(DAT_800d1924 ? DAT_800d1924                                                                   \
-	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	(Cheat_StatsOverride ? Cheat_StatsOverride                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || Cheat_Fire) ? 3 : 0)) +     \
 	                    mpStatBonus[n])
 
 void *Mem_New(uint, int, int);
 
 int DAT_800d19a0;
-CBody *DAT_800d19a4;
+CBody *MechList;
 
 CBruce::CBruce() : mPanel(this) {
 	int i;
 
 	m150 = 0x10000;
 
-	if (DAT_800a5398[DAT_800d1e28].mC && DAT_800d16a4 == 1)
+	if (Levels[GLevel].mC && GGame == 1)
 		m330 = 3630;
-	else if (DAT_800d16a4 != 7)
+	else if (GGame != 7)
 		m330 = 7230;
 	else
 		m330 = 630;
@@ -311,19 +311,19 @@ CBruce::CBruce() : mPanel(this) {
 	mAngles.vx = x;
 	mAngles.vy = y;
 	mAngles.vz = z;
-	AttachTo(&DAT_800d19a4);
+	AttachTo(&MechList);
 
 	DAT_800d19a0++;
 	m52 &= ~2;
 
 	if (DAT_800d19a0 == 1)
-		mpColl = DAT_800c0a48;
+		mpColl = Pad;
 	else
-		mpColl = DAT_800c0bb4;
+		mpColl = Pad_16c;
 
 	m94.Set(5, 1, 5);
 
-	if (DAT_800d1780 == 1) {
+	if (GNumberOfPlayers == 1) {
 		m15A = 1;
 		mpShadowPos = (short *)Mem_New(32, 0, 1);
 		mpShadowCol = (uchar *)Mem_New(16, 0, 1);
@@ -338,6 +338,6 @@ CBruce::CBruce() : mPanel(this) {
 		UpdateShadow();
 	}
 
-	DAT_800d2044->m584 = 1;
+	CameraList->m584 = 1;
 	mp3C = DAT_800a8118;
 }

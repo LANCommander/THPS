@@ -1,8 +1,8 @@
 /* SFX_ProcessingPerFrame__Fv (0x8004bf30) */
 #include "names.h"
-int DAT_800d1aa8, DAT_800d1aac, DAT_800d1ac8;
-unsigned char DAT_800d1ac0;
-unsigned DAT_800d1abc, DAT_800d1aa4, DAT_800d1ab8, DAT_800d1ab0, DAT_800d1ab4;
+int keyon_queue, keyoff_queue, reverb_queue;
+unsigned char reverb_changed;
+unsigned voicefree_flag, nko_flag, loop_flag, voiceon_flag, exp_flag;
 
 void FUN_800947e4(int, int);
 void FUN_80094c74(int, int);
@@ -13,50 +13,50 @@ void SFX_ProcessingPerFrame(void) {
 	int i;
 	unsigned m;
 
-	DAT_800d1abc = 0;
+	voicefree_flag = 0;
 
-	if (DAT_800d1aa8) {
-		FUN_800947e4(1, DAT_800d1aa8);
+	if (keyon_queue) {
+		FUN_800947e4(1, keyon_queue);
 
-		DAT_800d1aa8 = 0;
+		keyon_queue = 0;
 	}
 
-	if (DAT_800d1aac) {
-		FUN_800947e4(0, DAT_800d1aac);
+	if (keyoff_queue) {
+		FUN_800947e4(0, keyoff_queue);
 
-		DAT_800d1aac = 0;
+		keyoff_queue = 0;
 	}
 
-	if (DAT_800d1ac0) {
-		FUN_80094c74(8, DAT_800d1ac8);
+	if (reverb_changed) {
+		FUN_80094c74(8, reverb_queue);
 
-		DAT_800d1ac0 = 0;
+		reverb_changed = 0;
 	}
 
 	for (i = 0; i < 24; i++) {
 		m = 1 << i;
 
-		if (DAT_800d1aa4 & m)
+		if (nko_flag & m)
 			continue;
 
-		if (DAT_800d1ab8 & m)
+		if (loop_flag & m)
 			continue;
 
 		FUN_800947c4(i, st);
 
-		if (DAT_800d1ab0 & m) {
+		if (voiceon_flag & m) {
 			if (st[0])
 				continue;
 
-			if (DAT_800d1ab4 & m)
-				DAT_800d1ab0 &= ~m;
+			if (exp_flag & m)
+				voiceon_flag &= ~m;
 			else
-				DAT_800d1ab4 |= m;
+				exp_flag |= m;
 		} else {
 			if (st[0] == 0)
-				DAT_800d1abc |= m;
+				voicefree_flag |= m;
 		}
 	}
 
-	DAT_800d1aa4 = 0;
+	nko_flag = 0;
 }

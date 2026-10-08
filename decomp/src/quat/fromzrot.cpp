@@ -23,11 +23,11 @@ struct SSinCos {
 	short s, c;
 };
 
-extern SSinCos DAT_800c9670[1]; /* declared <= 8 bytes: one la, as retail */
+extern SSinCos rcossin_tbl[1]; /* declared <= 8 bytes: one la, as retail */
 
 CQuat QFromZRot(short angle) {
-	int cos2 = (DAT_800c9670 + ((angle >> 1) & 4095))->c;
-	int sin2 = (DAT_800c9670 + ((angle >> 1) & 4095))->s;
+	int cos2 = (rcossin_tbl + ((angle >> 1) & 4095))->c;
+	int sin2 = (rcossin_tbl + ((angle >> 1) & 4095))->s;
 
 	return CQuat(0, 0, sin2, cos2);
 }

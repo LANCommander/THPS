@@ -12,11 +12,11 @@ typedef struct P {
 } P;
 
 extern int DAT_800d1700;
-extern int DAT_800d140c;
-extern int DAT_800d173c;
-extern P *DAT_800d19a4;
+extern int GamePaused;
+extern int ViewportMode;
+extern P *MechList;
 
-int DAT_800d1e5c, DAT_800d1e64;
+int TAPES_Display, SKATE_Display;
 
 void DisplayTapesSkate(void);
 void FUN_8001e07c(char *);
@@ -35,7 +35,7 @@ void FUN_8006dc78(void) {
 	char *s3;
 
 	if (DAT_800d1700) {
-		s2 = DAT_800d19a4;
+		s2 = MechList;
 		Panel_ReplayInstructions();
 
 		if (s2) {
@@ -46,13 +46,13 @@ void FUN_8006dc78(void) {
 				DisplayOutOfBounds(s2, 256, 90);
 				DisplayTapesSkate();
 
-				if (DAT_800d140c) {
-					DAT_800d1e64 = 30;
-					DAT_800d1e5c = 30;
+				if (GamePaused) {
+					SKATE_Display = 30;
+					TAPES_Display = 30;
 					return;
 				}
 
-				switch (DAT_800d173c * 2 + s2->sel) {
+				switch (ViewportMode * 2 + s2->sel) {
 					case 0:
 					case 1:
 						TrickTips_Display();

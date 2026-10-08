@@ -1,5 +1,5 @@
 /* FUN_8004f578 (0x8004f578) */
-extern short **DAT_800d19e8;
+extern short **OffsetList;
 
 int FUN_8004f578(unsigned short *p) {
 	unsigned a;
@@ -7,7 +7,7 @@ int FUN_8004f578(unsigned short *p) {
 	if (p[-1] == 11) {
 		a = p[1];
 
-		if (*DAT_800d19e8[a] == 10)
+		if (*OffsetList[a] == 10)
 			return a;
 
 		return p[2];

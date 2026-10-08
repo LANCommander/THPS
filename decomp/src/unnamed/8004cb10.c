@@ -6,24 +6,24 @@ typedef struct {
 
 extern R DAT_800be09c[];
 extern char DAT_800a12c8[];
-extern char DAT_800c0a98[];
-extern int DAT_800d1b60;
-extern int DAT_800d1b5c;
-extern int DAT_800d1698;
+extern char Pad_50[];
+extern int Used_4;
+extern int Used;
+extern int Redbook_XACheckSectorOnVSync;
 extern int DAT_800d169c;
-extern int DAT_800d16a0;
+extern int Redbook_XAModeSet;
 
 int DAT_800d1b10;
-int DAT_800d1b14;
-int DAT_800d1b18;
-int DAT_800d1b1c;
-int DAT_800d1b04;
-int DAT_800d2260;
-int DAT_800d2268;
-int DAT_800d2258;
-char DAT_800d225c[8];
-int DAT_800d1afc;
-int DAT_800d1af8;
+int LoadFromPRE;
+int ThePREFile;
+int ThePREFileSize;
+int FileOpen;
+int Dest;
+int Start;
+int WadStart;
+char FileStart[8];
+int Loading;
+int CurrentPos;
 
 void Mem_Copy(void *a, void *b, int c);
 void FUN_8008c190(char *a, int b, int c);
@@ -34,28 +34,28 @@ void FileIO_Continue(void);
 void FileIO_Load(char *p) {
 	int a3, a2;
 
-	if (DAT_800d1b10 && DAT_800d1b14) {
-		Mem_Copy(p, (void *)DAT_800d1b18, DAT_800d1b1c);
+	if (DAT_800d1b10 && LoadFromPRE) {
+		Mem_Copy(p, (void *)ThePREFile, ThePREFileSize);
 
-		DAT_800d1b04 = 0;
+		FileOpen = 0;
 		return;
 	}
 
-	a3 = DAT_800be09c[0].b - DAT_800be09c[0].a - DAT_800d1b5c;
-	a2 = DAT_800be09c[1].b - DAT_800be09c[1].a - DAT_800d1b60;
+	a3 = DAT_800be09c[0].b - DAT_800be09c[0].a - Used;
+	a2 = DAT_800be09c[1].b - DAT_800be09c[1].a - Used_4;
 
-	if (DAT_800c0a98[0])
+	if (Pad_50[0])
 		FUN_8008c190(DAT_800a12c8, a3, a2);
 
 	GameFMV_StopFMV();
 
-	DAT_800d2260 = (int)p;
-	FUN_800912bc(DAT_800d2268 / 2048 + DAT_800d2258, DAT_800d225c);
+	Dest = (int)p;
+	FUN_800912bc(Start / 2048 + WadStart, FileStart);
 
-	DAT_800d1afc = 1;
-	DAT_800d1698 = 0;
+	Loading = 1;
+	Redbook_XACheckSectorOnVSync = 0;
 	DAT_800d169c = 1;
-	DAT_800d16a0 = 0;
-	DAT_800d1af8 = 0;
+	Redbook_XAModeSet = 0;
+	CurrentPos = 0;
 	FileIO_Continue();
 }

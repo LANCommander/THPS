@@ -26,7 +26,7 @@ typedef struct {
 	int i70;
 } B;
 
-extern char DAT_800a1308[];
+extern char __vt_11CFlatRipple[];
 
 int FUN_800270e0(B *, int);
 int Redbook_Rnd(int);
@@ -38,7 +38,7 @@ B *CFlatRipple_ctor(B *p, V *pos, int a2, int a3, unsigned char r, unsigned char
 
 	FUN_800270e0(p, a6);
 
-	p->vt = DAT_800a1308;
+	p->vt = __vt_11CFlatRipple;
 	p->v18 = *pos;
 	p->i64 = a2;
 	p->i6c = a7;

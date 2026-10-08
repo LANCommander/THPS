@@ -4,17 +4,17 @@ typedef struct {
 	unsigned char b, c, d, e, f, g, h;
 } E;
 
-extern unsigned char DAT_800b9d9c[];
-extern E *DAT_800d1adc;
+extern unsigned char BigFont_Mapping[];
+extern E *BigFontAnim;
 
-unsigned short DAT_800d15f8;
+unsigned short Scale;
 
 int FUN_8001d340(unsigned char *s) {
 	int w = 0;
 	int n = 0;
 
 	while (*s) {
-		int v = DAT_800b9d9c[*s];
+		int v = BigFont_Mapping[*s];
 
 		if (v == 254)
 			v = -1;
@@ -36,13 +36,13 @@ int FUN_8001d340(unsigned char *s) {
 
 		if (v >= 0) {
 			n++;
-			w += DAT_800d1adc[v].c + DAT_800d1adc[v].a;
+			w += BigFontAnim[v].c + BigFontAnim[v].a;
 		} else
 			w += 10;
 
 		s++;
 	}
 
-	w = (w * DAT_800d15f8) >> 8;
+	w = (w * Scale) >> 8;
 	return w + n * 3;
 }

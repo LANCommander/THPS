@@ -1,1 +1,1 @@
-{"gp":"0x800d1080","DAT_800bf7a8":"0x800bf7a8","DAT_800d2120":"0x800d2120","DAT_800d2124":"0x800d2124","DAT_800d2128":"0x800d2128","DAT_800d212c":"0x800d212c","DAT_800d2130":"0x800d2130","DAT_800d2158":"0x800d2158"}
+{"gp":"0x800d1080","PSXRegion":"0x800bf7a8","GHeadPart":"0x800d2120","GBoardPart":"0x800d2124","GWheel1Part":"0x800d2128","GWheel2Part":"0x800d212c","GHeadUp":"0x800d2130","M3d_DefaultLODDistance":"0x800d2158"}

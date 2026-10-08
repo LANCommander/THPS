@@ -10,7 +10,7 @@ typedef struct {
 	char rest[0x2c];
 } Mdl;
 
-extern Mdl DAT_800bf7a8[];
+extern Mdl PSXRegion[];
 
 int Redbook_Rnd(int);
 int Shatter_Face(char *, char *, int, int, int, int, int);
@@ -22,7 +22,7 @@ int Shatter_Item(char *it, int a, int b) {
 	unsigned short n0, n1, n;
 	int r;
 
-	m = DAT_800bf7a8[*(unsigned char *)(it + 0x1b)].arr[*(unsigned short *)(it + 0x16)];
+	m = PSXRegion[*(unsigned char *)(it + 0x1b)].arr[*(unsigned short *)(it + 0x16)];
 	n0 = *(unsigned short *)(m + 2);
 	n1 = *(unsigned short *)(m + 4);
 	n = *(unsigned short *)(m + 6);

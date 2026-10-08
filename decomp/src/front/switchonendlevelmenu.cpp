@@ -45,24 +45,24 @@ class FallingTextEffect {
 	void init();
 };
 
-extern SVideoInfo DAT_800bf318;
-extern SVideoInfo DAT_800bf3d8;
-extern SLevelInfo DAT_800a5398[];
-extern SCareer DAT_800a6844;
+extern SVideoInfo GVInfo1;
+extern SVideoInfo GVInfo2;
+extern SLevelInfo Levels[];
+extern SCareer GCareer;
 extern FallingTextEffect DAT_800a5b28[];
-extern CBruce *DAT_800d19a4;
-extern CBruce *DAT_800d17c8;
-extern int DAT_800d1784;
-extern int DAT_800d1780;
-extern int DAT_800d16a4;
-extern int DAT_800d1e28;
-extern int DAT_800d17bc;
+extern CBruce *MechList;
+extern CBruce *GSkater;
+extern int GState;
+extern int GNumberOfPlayers;
+extern int GGame;
+extern int GLevel;
+extern int GHorseWaitTime;
 
-int DAT_800d13e8;
-int DAT_800d13dc;
-int DAT_800d13e0;
-int DAT_800d14f8;
-int DAT_800d13c4;
+int Status;
+int GHighScoreLineIndex;
+int GHighScoreInitialCursorPos;
+int GHorseScale;
+int GHorseContinue;
 
 void Video_Stop(CBruce *);
 void InitStatsSwisch();
@@ -77,74 +77,74 @@ void Front_SwitchOnEndLevelMenu() {
 	CBruce *pSkater;
 	CBruce *pSkater2;
 
-	DAT_800d1784 = 0;
+	GState = 0;
 
-	if (DAT_800d13e8 == 11 || DAT_800d13e8 == 13)
+	if (Status == 11 || Status == 13)
 		return;
 
-	pSkater = DAT_800d19a4;
+	pSkater = MechList;
 	pSkater2 = pSkater->mpNext;
 
-	if (DAT_800bf318.Mode)
+	if (GVInfo1.Mode)
 		Video_Stop(pSkater);
 
-	if (pSkater2 && DAT_800bf3d8.Mode)
+	if (pSkater2 && GVInfo2.Mode)
 		Video_Stop(pSkater2);
 
-	if (DAT_800d17c8->mGotSomething && DAT_800d1780 == 1) {
+	if (GSkater->mGotSomething && GNumberOfPlayers == 1) {
 		SFX_PlayX(19, 8192, 0);
 
-		DAT_800d13e8 = 11;
-	} else if (DAT_800d16a4 == 2) {
-		DAT_800d13e8 = 14;
+		Status = 11;
+	} else if (GGame == 2) {
+		Status = 14;
 	} else {
-		DAT_800d13e8 = 13;
+		Status = 13;
 	}
 
-	if ((DAT_800d16a4 == 1 && !DAT_800a5398[DAT_800d1e28].mNoHighScores) || DAT_800d16a4 == 3) {
+	if ((GGame == 1 && !Levels[GLevel].mNoHighScores) || GGame == 3) {
 		int i;
 
-		DAT_800d13dc = -1;
-		DAT_800d13e0 = 0;
+		GHighScoreLineIndex = -1;
+		GHighScoreInitialCursorPos = 0;
 
 		for (i = 0; i < 8; i++) {
-			if (pSkater->mScore >= DAT_800a6844.HighScores[DAT_800d1e28][i].Score) {
+			if (pSkater->mScore >= GCareer.HighScores[GLevel][i].Score) {
 				int j;
 
 				for (j = 7; j > i; j--) {
-					DAT_800a6844.HighScores[DAT_800d1e28][j].Score =
-					    DAT_800a6844.HighScores[DAT_800d1e28][j - 1].Score;
-					DAT_800a6844.HighScores[DAT_800d1e28][j].Skater =
-					    DAT_800a6844.HighScores[DAT_800d1e28][j - 1].Skater;
+					GCareer.HighScores[GLevel][j].Score =
+					    GCareer.HighScores[GLevel][j - 1].Score;
+					GCareer.HighScores[GLevel][j].Skater =
+					    GCareer.HighScores[GLevel][j - 1].Skater;
 
 					{
 						/* the counter is initialised between the two pointers (retail's t0/a3 order) */
-						char *d = DAT_800a6844.HighScores[DAT_800d1e28][j].Name;
+						char *d = GCareer.HighScores[GLevel][j].Name;
 						int k = 3;
-						char *s = DAT_800a6844.HighScores[DAT_800d1e28][j - 1].Name;
+						char *s = GCareer.HighScores[GLevel][j - 1].Name;
 
 						for (; k != -1; k--)
 							*d++ = *s++;
 					}
 				}
 
-				DAT_800a6844.HighScores[DAT_800d1e28][i].Score = pSkater->mScore;
-				DAT_800a6844.HighScores[DAT_800d1e28][i].Skater = DAT_800d17c8->mSkaterIndex;
-				FUN_8008b900(DAT_800a6844.HighScores[DAT_800d1e28][i].Name,
-				             DAT_800a6844.PlayerName);
+				GCareer.HighScores[GLevel][i].Score = pSkater->mScore;
+				GCareer.HighScores[GLevel][i].Skater = GSkater->mSkaterIndex;
+				FUN_8008b900(GCareer.HighScores[GLevel][i].Name,
+				             GCareer.PlayerName);
 
-				DAT_800d13dc = i;
+				GHighScoreLineIndex = i;
 				i = 8;
 			}
 		}
 	}
 
-	if (DAT_800d16a4 == 7) {
+	if (GGame == 7) {
 		DAT_800a5b28[0].init();
 
-		DAT_800d14f8 = 0;
-		DAT_800d17bc = 45;
-		DAT_800d13c4 = 0;
+		GHorseScale = 0;
+		GHorseWaitTime = 45;
+		GHorseContinue = 0;
 	}
 
 	CommonSwitchOnMenuCode__Fv();

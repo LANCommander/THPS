@@ -31,4 +31,4 @@ class X : public CClass {
 	}
 };
 
-X DAT_800c0fdc;
+X theCompetition;

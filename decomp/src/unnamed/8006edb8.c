@@ -6,13 +6,13 @@ typedef struct {
 	char q[64 - 24];
 } S;
 
-extern S DAT_800bf7a8[];
+extern S PSXRegion[];
 extern int *DAT_800c09a8[];
 
 void Mem_Delete(int *);
 
 void FUN_8006edb8(int i) {
-	int *d = DAT_800bf7a8[i].p14;
+	int *d = PSXRegion[i].p14;
 	int *s = DAT_800c09a8[i];
 
 	do {

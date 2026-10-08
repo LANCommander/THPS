@@ -9,8 +9,8 @@ struct S {
 	int l, m;
 };
 
-int DAT_800d1ad0;
-int DAT_800d1ad4;
+int pSFXVABHeader;
+int pLevelSpecificSFXVABHeader;
 int DAT_800d1a94;
 int DAT_800d1a98;
 
@@ -31,8 +31,8 @@ void SFX_InitAtStart(void) {
 	s.k = 1;
 	FUN_80094444(&s);
 
-	DAT_800d1ad0 = 0;
-	DAT_800d1ad4 = 0;
+	pSFXVABHeader = 0;
+	pLevelSpecificSFXVABHeader = 0;
 	DAT_800d1a94 = -1;
 	DAT_800d1a98 = -1;
 }

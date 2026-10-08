@@ -36,9 +36,9 @@ struct SSinCos {
 	short sin, cos;
 };
 
-extern SSinCos DAT_800c9670[1];
+extern SSinCos rcossin_tbl[1];
 
-#define SIN(a) (((short *)DAT_800c9670)[((a) & 4095) * 2])
+#define SIN(a) (((short *)rcossin_tbl)[((a) & 4095) * 2])
 
 int Utils_ArcCos(int);
 

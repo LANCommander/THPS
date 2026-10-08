@@ -31,10 +31,10 @@ class CCar {
 	void AI(void);
 };
 
-extern int DAT_800d1770;
-extern int DAT_800d13cc;
+extern int XFrames;
+extern int SFXLEVEL;
 
-int DAT_800d1e44;
+int CarVol;
 
 unsigned short *Trig_GetLinksPointer(int);
 void *Trig_GetPosition(CVector &, int); /* returns the node data past the position */
@@ -59,15 +59,15 @@ void CCar::AI(void) {
 	unsigned int snd;
 
 	if (mLoopingSoundUpdate != -1 && (snd = mLoopingSound)) {
-		int m = DAT_800d1770 % mLoopingSoundUpdate;
-		int t = DAT_800d13cc;
+		int m = XFrames % mLoopingSoundUpdate;
+		int t = SFXLEVEL;
 
-		DAT_800d13cc = t * DAT_800d1e44 / 100;
+		SFXLEVEL = t * CarVol / 100;
 
 		if (!m)
 			SFX_ModifyPos(snd, mPos, 0);
 
-		DAT_800d13cc = t;
+		SFXLEVEL = t;
 	}
 
 	FirstTimeThroughLoop = 1;

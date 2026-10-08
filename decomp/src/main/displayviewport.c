@@ -9,17 +9,17 @@ typedef struct {
 	int f734;
 } B;
 
-extern char DAT_800c119c[];
+extern char MikeCamera[];
 
-int DAT_800d16d0, DAT_800d16d4;
+int Mick_MapMode, Mick_MapDoit;
 
-extern int DAT_800d1618, DAT_800d1eec, DAT_800d1fe4, DAT_800d2048, DAT_800d1998, DAT_800d19a4,
-    DAT_800d19b0;
+extern int PowerUpList, EnviroList, BackgroundList, Camera_CurrentMikeCamera, BaddyList, MechList,
+    EnvironmentalObjectList;
 
-int DAT_800d173c;
+int ViewportMode;
 B *DAT_800d17cc;
 
-extern short DAT_800d214c, DAT_800d214e;
+extern short M3d_OTPushback, M3d_OTPushback2;
 
 typedef struct {
 	char pad[140];
@@ -27,9 +27,9 @@ typedef struct {
 	unsigned long *pCurrent;
 } OTB;
 
-extern OTB *DAT_800d1a48;
+extern OTB *pDoubleBuffer;
 
-B *DAT_800d17c8;
+B *GSkater;
 
 void FUN_8002ab20(void);
 void FUN_8002efa4(B *);
@@ -42,45 +42,45 @@ void CBruce_TempRestore(B *);
 void Display_Viewport(int a, int b) {
 	short s1, s0;
 
-	DAT_800d2048 = b;
-	M3d_RenderSetup(DAT_800c119c + b * 164, a,
-	             (char *)(DAT_800d1a48->pCurrent = &DAT_800d1a48->Layer[b * 4096]));
+	Camera_CurrentMikeCamera = b;
+	M3d_RenderSetup(MikeCamera + b * 164, a,
+	             (char *)(pDoubleBuffer->pCurrent = &pDoubleBuffer->Layer[b * 4096]));
 
-	DAT_800d16d4 = DAT_800d16d0;
-	M3d_Render(DAT_800d1eec);
+	Mick_MapDoit = Mick_MapMode;
+	M3d_Render(EnviroList);
 
-	DAT_800d16d4 = 0;
-	M3d_Render(DAT_800d19b0);
-	FUN_8002efa4(DAT_800d17c8);
+	Mick_MapDoit = 0;
+	M3d_Render(EnvironmentalObjectList);
+	FUN_8002efa4(GSkater);
 
 	if (DAT_800d17cc)
 		FUN_8002efa4(DAT_800d17cc);
 
-	s1 = DAT_800d214c;
-	s0 = DAT_800d214e;
+	s1 = M3d_OTPushback;
+	s0 = M3d_OTPushback2;
 
-	if (DAT_800d17c8->f734 && DAT_800d17c8->f358 == 0) {
-		DAT_800d214c = 128;
-		DAT_800d214e = 128;
+	if (GSkater->f734 && GSkater->f358 == 0) {
+		M3d_OTPushback = 128;
+		M3d_OTPushback2 = 128;
 	} else {
-		DAT_800d214c = 0;
-		DAT_800d214e = 0;
+		M3d_OTPushback = 0;
+		M3d_OTPushback2 = 0;
 	}
 
-	M3d_Render(DAT_800d19a4);
-	CBruce_TempRestore(DAT_800d17c8);
+	M3d_Render(MechList);
+	CBruce_TempRestore(GSkater);
 
 	if (DAT_800d17cc)
 		CBruce_TempRestore(DAT_800d17cc);
 
-	DAT_800d214c = s1;
-	DAT_800d214e = s0;
+	M3d_OTPushback = s1;
+	M3d_OTPushback2 = s0;
 	FUN_8002ab20();
-	M3d_Render(DAT_800d1998);
-	M3d_Render(DAT_800d1618);
+	M3d_Render(BaddyList);
+	M3d_Render(PowerUpList);
 
-	if (DAT_800d173c == 0)
-		M3d_RenderBackground(DAT_800d1fe4);
+	if (ViewportMode == 0)
+		M3d_RenderBackground(BackgroundList);
 
 	FUN_80083774();
 }

@@ -33,8 +33,8 @@ struct SEnv {
 	char pad3[0x40 - 0x32];
 };
 
-extern SEnv DAT_800bf7a8[];
-extern SMatrix DAT_800c4b3c[];
+extern SEnv PSXRegion[];
+extern SMatrix TweenBuffer[];
 
 struct CSuper {
 	ushort mFlags;
@@ -66,10 +66,10 @@ void M3dUtils_GetHookPosition(VECTOR *pResult, CSuper *pSuper, int Hook) {
 	uint *pAnimFile;
 	SHook *pHook;
 
-	pHook = DAT_800bf7a8[pSuper->mRegion].pHooks + Hook;
+	pHook = PSXRegion[pSuper->mRegion].pHooks + Hook;
 	Anim = pSuper->mAnim;
 	Part = pHook->Part;
-	pAnimFile = DAT_800bf7a8[pSuper->mRegion].pAnimFile;
+	pAnimFile = PSXRegion[pSuper->mRegion].pAnimFile;
 
 	if (pSuper->mExtraFlags & 2) {
 		pSuper->mat[0][0] = -pSuper->mat[0][0];
@@ -84,9 +84,9 @@ void M3dUtils_GetHookPosition(VECTOR *pResult, CSuper *pSuper, int Hook) {
 
 		if (Interval) {
 			M3dUtils_InterpolateVectors(4, Interval + 1, pAnimFile, (Item *)pSuper, Part,
-			                            DAT_800bf7a8[pSuper->mRegion].NumParts);
+			                            PSXRegion[pSuper->mRegion].NumParts);
 
-			pAnimTransform = DAT_800c4b3c + Part;
+			pAnimTransform = TweenBuffer + Part;
 		} else {
 			pAnimTransform = Decomp_GetAnimTransform(pSuper) + Part;
 		}

@@ -1,6 +1,6 @@
 /* DumpAutoTest__Fv (0x800240d8) */
-int DAT_800d16c4, DAT_800d16bc, DAT_800d16c0, DAT_800d16c8;
-int DAT_800d16b4, DAT_800d16ac, DAT_800d16b0, DAT_800d16b8;
+int GAutoLevela, GAutoPlayer1a, GAutoPlayer2a, GAutoGamea;
+int GAutoLevel, GAutoPlayer1, GAutoPlayer2, GAutoGame;
 
 extern char DAT_8009f424[];
 
@@ -29,12 +29,12 @@ void DumpAutoTest(void) {
 	FUN_8008c468(0);
 	FUN_80092e70(env, 0, 0, 512, 240);
 	FUN_8008c94c(env);
-	FUN_8008b900(buf, DAT_8009f424, DAT_800d16c4, DAT_800d16bc, DAT_800d16c0, DAT_800d16c8);
+	FUN_8008b900(buf, DAT_8009f424, GAutoLevela, GAutoPlayer1a, GAutoPlayer2a, GAutoGamea);
 	FUN_80091bb0(buf);
 	FUN_80091894(id);
 
-	DAT_800d16c4 = DAT_800d16b4;
-	DAT_800d16bc = DAT_800d16ac;
-	DAT_800d16c0 = DAT_800d16b0;
-	DAT_800d16c8 = DAT_800d16b8;
+	GAutoLevela = GAutoLevel;
+	GAutoPlayer1a = GAutoPlayer1;
+	GAutoPlayer2a = GAutoPlayer2;
+	GAutoGamea = GAutoGame;
 }

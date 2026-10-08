@@ -11,13 +11,13 @@ typedef struct {
 	struct VT *vt;
 } O;
 
-extern unsigned char DAT_800c0a48[];
+extern unsigned char Pad[];
 extern char DAT_800c0a79[];
 extern int DAT_800bf0dc[], DAT_800bf0e8[];
 extern char DAT_800a1b84[], DAT_800bf220[];
-extern int DAT_800d1a1c, DAT_800d1cb0;
+extern int GameFade, DemoTimer;
 
-int DAT_800d1ce8, DAT_800d1cec, DAT_800d1cf0, DAT_800d1d14;
+int DAT_800d1ce8, DAT_800d1cec, BackOut, DAT_800d1d14;
 O *DAT_800d1d0c;
 
 void FUN_8008c468(int);
@@ -58,22 +58,22 @@ void FUN_8005da40(void) {
 	if (FUN_800718d0())
 		DAT_800c0a79[0] = 1;
 
-	if (DAT_800c0a48[0x31] && DAT_800d1cb0 == 0) {
+	if (Pad[0x31] && DemoTimer == 0) {
 		SFX_PlayX(2, 0x2000, 0);
 		Pause__Fi(20);
-		Pad_ClearTriggers(DAT_800c0a48);
-		Pad_ClearTriggers(DAT_800c0a48 + 364);
+		Pad_ClearTriggers(Pad);
+		Pad_ClearTriggers(Pad + 364);
 
 		DAT_800d1ce8 = 0;
-		DAT_800d1cf0 = 1;
+		BackOut = 1;
 	}
 
 	if (DAT_800d1cec) {
 		if (DAT_800d1d0c)
 			DAT_800d1d0c->vt->fn((char *)DAT_800d1d0c + DAT_800d1d0c->vt->off, 3);
 
-		if (DAT_800d1cb0 == 0) {
-			DAT_800d1a1c = 64;
+		if (DemoTimer == 0) {
+			GameFade = 64;
 			return;
 		}
 

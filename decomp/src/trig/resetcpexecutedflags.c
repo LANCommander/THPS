@@ -6,12 +6,12 @@ typedef struct CP {
 	struct CP *next;
 } CP;
 
-CP *DAT_800d19f8;
+CP *CommandPoints;
 
 void Trig_ResetCPExecutedFlags(int m) {
 	CP *p;
 
-	for (p = DAT_800d19f8; p; p = p->next)
+	for (p = CommandPoints; p; p = p->next)
 		if ((p->exec & m) && !(p->coll & m))
 			p->exec &= ~m;
 }

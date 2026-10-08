@@ -4,11 +4,11 @@ typedef struct {
 	char p[20];
 } H;
 
-extern H DAT_800a814c[] __attribute__((section(".data")));
+extern H SkaterHooks[] __attribute__((section(".data")));
 void CItem_InitItem(char *, char *);
 void M3dUtils_ReadHooksPacket(char *, void *);
 
 void CBruce_InitItem(char *t, char *name) {
 	CItem_InitItem(t, name);
-	M3dUtils_ReadHooksPacket(t, &DAT_800a814c[*(int *)(t + 0x2e8)]);
+	M3dUtils_ReadHooksPacket(t, &SkaterHooks[*(int *)(t + 0x2e8)]);
 }

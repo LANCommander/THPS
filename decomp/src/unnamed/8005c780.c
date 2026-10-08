@@ -1,6 +1,6 @@
 /* FUN_8005c780 (0x8005c780) */
 #include "names.h"
-extern int DAT_800d13cc;
+extern int SFXLEVEL;
 
 int DAT_800d1cc0;
 int DAT_800d1cc4;
@@ -13,9 +13,9 @@ void SFX_Stop(int a);
 int SFX_PlayX(int a, int b, int c);
 
 void FUN_8005c780(void) {
-	int s = DAT_800d13cc;
+	int s = SFXLEVEL;
 
-	DAT_800d13cc = DAT_800d1cc0;
+	SFXLEVEL = DAT_800d1cc0;
 
 	if (DAT_800d1cc4) {
 		SFX_ModifyVol(DAT_800d1ca4, DAT_800d1ca0, DAT_800d1ca0);
@@ -41,5 +41,5 @@ void FUN_8005c780(void) {
 			DAT_800d1ca0 = 16383;
 	}
 
-	DAT_800d13cc = s;
+	SFXLEVEL = s;
 }

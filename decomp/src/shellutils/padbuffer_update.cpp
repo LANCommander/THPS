@@ -45,35 +45,35 @@ class PadBuffer : public CItem {
 	void reset();
 };
 
-extern SControl DAT_800c0a48[];
+extern SControl Pad[];
 
 void PadBuffer::update() {
 	if (!mHeld) {
 		mLast = 0;
 
 		if (mPad < 2) {
-			if (DAT_800c0a48[mPad].Left.Pressed)
+			if (Pad[mPad].Left.Pressed)
 				mLast = 1;
 
-			if (DAT_800c0a48[mPad].Right.Pressed)
+			if (Pad[mPad].Right.Pressed)
 				mLast = 2;
 
-			if (DAT_800c0a48[mPad].Up.Pressed)
+			if (Pad[mPad].Up.Pressed)
 				mLast = 3;
 
-			if (DAT_800c0a48[mPad].Down.Pressed)
+			if (Pad[mPad].Down.Pressed)
 				mLast = 4;
 		} else {
-			if (DAT_800c0a48[0].Left.Pressed || DAT_800c0a48[1].Left.Pressed)
+			if (Pad[0].Left.Pressed || Pad[1].Left.Pressed)
 				mLast = 1;
 
-			if (DAT_800c0a48[0].Right.Pressed || DAT_800c0a48[1].Right.Pressed)
+			if (Pad[0].Right.Pressed || Pad[1].Right.Pressed)
 				mLast = 2;
 
-			if (DAT_800c0a48[0].Up.Pressed || DAT_800c0a48[1].Up.Pressed)
+			if (Pad[0].Up.Pressed || Pad[1].Up.Pressed)
 				mLast = 3;
 
-			if (DAT_800c0a48[0].Down.Pressed || DAT_800c0a48[1].Down.Pressed)
+			if (Pad[0].Down.Pressed || Pad[1].Down.Pressed)
 				mLast = 4;
 		}
 
@@ -88,14 +88,14 @@ void PadBuffer::update() {
 		}
 	} else {
 		if (mPad < 2) {
-			if (!DAT_800c0a48[mPad].Left.Pressed && !DAT_800c0a48[mPad].Right.Pressed &&
-			    !DAT_800c0a48[mPad].Up.Pressed && !DAT_800c0a48[mPad].Down.Pressed)
+			if (!Pad[mPad].Left.Pressed && !Pad[mPad].Right.Pressed &&
+			    !Pad[mPad].Up.Pressed && !Pad[mPad].Down.Pressed)
 				mHeld = 0;
 		} else {
-			if (!DAT_800c0a48[0].Left.Pressed && !DAT_800c0a48[0].Right.Pressed &&
-			    !DAT_800c0a48[0].Up.Pressed && !DAT_800c0a48[0].Down.Pressed &&
-			    !DAT_800c0a48[1].Left.Pressed && !DAT_800c0a48[1].Right.Pressed &&
-			    !DAT_800c0a48[1].Up.Pressed && !DAT_800c0a48[1].Down.Pressed)
+			if (!Pad[0].Left.Pressed && !Pad[0].Right.Pressed &&
+			    !Pad[0].Up.Pressed && !Pad[0].Down.Pressed &&
+			    !Pad[1].Left.Pressed && !Pad[1].Right.Pressed &&
+			    !Pad[1].Up.Pressed && !Pad[1].Down.Pressed)
 				mHeld = 0;
 		}
 	}

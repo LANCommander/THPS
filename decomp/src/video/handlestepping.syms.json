@@ -1,1 +1,1 @@
-{"gp":"0x800d1080","DAT_800c0a48":"0x800c0a48","DAT_800c0a48b":"0x800c0a48","DAT_800bf318":"0x800bf318","DAT_800d1cb0":"0x800d1cb0","DAT_800d13e8":"0x800d13e8","DAT_800d1780":"0x800d1780","DAT_800d16fc":"0x800d16fc","DAT_800d1734":"0x800d1734","DAT_800d1df0":"0x800d1df0"}
+{"gp":"0x800d1080","DAT_800c0a48":"0x800c0a48","DAT_800c0a48b":"0x800c0a48","GVInfo1":"0x800bf318","DemoTimer":"0x800d1cb0","Status":"0x800d13e8","GNumberOfPlayers":"0x800d1780","GameFrozen":"0x800d16fc","MusicStopped":"0x800d1734","DAT_800d1df0":"0x800d1df0"}

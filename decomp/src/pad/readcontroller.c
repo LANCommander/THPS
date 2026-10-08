@@ -3,7 +3,7 @@ typedef struct {
 	unsigned char b[8];
 } ControllerData;
 
-extern char DAT_800c0a48[];
+extern char Pad[];
 
 void FUN_80096070(void);
 void FUN_80096050(void);
@@ -26,7 +26,7 @@ void ReadController(ControllerData *d, unsigned char *s) {
 		FUN_80096070();
 		FUN_80096050();
 
-		DAT_800c0a48[0x157] = 0;
-		DAT_800c0a48[0x2c3] = 0;
+		Pad[0x157] = 0;
+		Pad[0x2c3] = 0;
 	}
 }

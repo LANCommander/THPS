@@ -9,7 +9,7 @@ struct CdlATV {
 	unsigned char val0, val1, val2, val3;
 };
 
-extern int DAT_800d13d0;
+extern int XALEVEL;
 
 unsigned int Utils_CalculateSpatialAttenuation(const CVector &, int, int);
 
@@ -21,7 +21,7 @@ extern "C" {
 extern "C" void FUN_80024010(const CVector &pos) {
 	CdlATV atv;
 	unsigned int att = Utils_CalculateSpatialAttenuation(pos, 1024, 16384);
-	int vol = FUN_80023fb0(DAT_800d13d0);
+	int vol = FUN_80023fb0(XALEVEL);
 	int l = ((att & 0xfff) * vol) >> 18;
 	int r = (((att >> 16) & 0xfff) * vol) >> 18;
 	int base;

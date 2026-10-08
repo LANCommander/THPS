@@ -85,17 +85,17 @@ struct STerrain {
 	char pad10[0x154 - 0x10];
 };
 
-extern SVideoInfo DAT_800bf318, DAT_800bf3d8;
-extern int DAT_800bf498[], DAT_800bf4b4[], DAT_800bf4d0[];
-extern CBruce *DAT_800d19a4, *DAT_800d17c8;
+extern SVideoInfo GVInfo1, GVInfo2;
+extern int PosBits[], EulerBits[], FlipAngleBits[];
+extern CBruce *MechList, *GSkater;
 extern volatile int DAT_800d1a24;
-extern CTrickOb *DAT_800d1b70;
-extern int DAT_800d1b8c;
-extern CBruce *DAT_800d199c;
-extern int DAT_800d1618;
-extern STerrain DAT_800a44fc[];
+extern CTrickOb *TrickObList;
+extern int TrickPlayer;
+extern CBruce *pCurrentPlayer;
+extern int PowerUpList;
+extern STerrain Stats[];
 
-int DAT_800d1de4;
+int ReplaySoundLockout;
 
 int GetBit(SVideoInfo *);
 int GetNBitsSigned(SVideoInfo *, int);
@@ -123,10 +123,10 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 	int DeltaX, DeltaY, DeltaZ;
 	SVideoInfo *VInfo;
 
-	if (pSkater == DAT_800d19a4)
-		VInfo = &DAT_800bf318;
+	if (pSkater == MechList)
+		VInfo = &GVInfo1;
 	else
-		VInfo = &DAT_800bf3d8;
+		VInfo = &GVInfo2;
 
 	pSkater->OldPos = pSkater->Pos;
 
@@ -135,11 +135,11 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 			break;
 
 	pSkater->Pos.vx =
-	    VInfo->OldPos.vx * 2 - VInfo->OldPos2.vx + GetNBitsSigned(VInfo, DAT_800bf498[i]);
+	    VInfo->OldPos.vx * 2 - VInfo->OldPos2.vx + GetNBitsSigned(VInfo, PosBits[i]);
 	pSkater->Pos.vy =
-	    VInfo->OldPos.vy * 2 - VInfo->OldPos2.vy + GetNBitsSigned(VInfo, DAT_800bf498[i]);
+	    VInfo->OldPos.vy * 2 - VInfo->OldPos2.vy + GetNBitsSigned(VInfo, PosBits[i]);
 	pSkater->Pos.vz =
-	    VInfo->OldPos.vz * 2 - VInfo->OldPos2.vz + GetNBitsSigned(VInfo, DAT_800bf498[i]);
+	    VInfo->OldPos.vz * 2 - VInfo->OldPos2.vz + GetNBitsSigned(VInfo, PosBits[i]);
 	VInfo->OldPos2 = VInfo->OldPos;
 	VInfo->OldPos = pSkater->Pos;
 	pSkater->Pos <<= 12;
@@ -149,9 +149,9 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 		if (!GetBit(VInfo))
 			break;
 
-	DeltaX = GetNBitsSigned(VInfo, DAT_800bf4b4[i]) & 0xfff;
-	DeltaY = GetNBitsSigned(VInfo, DAT_800bf4b4[i]) & 0xfff;
-	DeltaZ = GetNBitsSigned(VInfo, DAT_800bf4b4[i]) & 0xfff;
+	DeltaX = GetNBitsSigned(VInfo, EulerBits[i]) & 0xfff;
+	DeltaY = GetNBitsSigned(VInfo, EulerBits[i]) & 0xfff;
+	DeltaZ = GetNBitsSigned(VInfo, EulerBits[i]) & 0xfff;
 	VInfo->Euler.vx = (VInfo->OldEuler.vx + DeltaX + 0x4000) & 0xfff;
 	VInfo->Euler.vy = (VInfo->OldEuler.vy + DeltaY + 0x4000) & 0xfff;
 	VInfo->Euler.vz = (VInfo->OldEuler.vz + DeltaZ + 0x4000) & 0xfff;
@@ -199,8 +199,8 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 			if (!GetBit(VInfo))
 				break;
 
-		if (DAT_800bf4d0[i]) {
-			int Delta = GetNBitsSigned(VInfo, DAT_800bf4d0[i]);
+		if (FlipAngleBits[i]) {
+			int Delta = GetNBitsSigned(VInfo, FlipAngleBits[i]);
 
 			pSkater->FlipAngle = VInfo->OldFlipAngle + VInfo->FlipAngleDelta + Delta;
 			VInfo->OldFlipAngle = pSkater->FlipAngle;
@@ -221,12 +221,12 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 		if (GetBit(VInfo)) {
 			int SoundNum = GetNBitsUnsigned(VInfo, 8);
 
-			if (!DAT_800d1de4)
+			if (!ReplaySoundLockout)
 				SFX_PlayX(SoundNum, 0x2000, 0);
 		} else {
 			int SoundNum = GetNBitsUnsigned(VInfo, 8);
 
-			if (!DAT_800d1de4)
+			if (!ReplaySoundLockout)
 				SFX_Stop(SoundNum);
 		}
 	}
@@ -237,7 +237,7 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 
 		if (GetBit(VInfo)) {
 			int TrickObIndex = GetNBitsUnsigned(VInfo, 8);
-			CTrickOb *pTrickOb = DAT_800d1b70;
+			CTrickOb *pTrickOb = TrickObList;
 
 			for (int i = 0; i < TrickObIndex; i++)
 				pTrickOb = pTrickOb->mpNext;
@@ -247,12 +247,12 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 			pTrickOb->mpItem->Colour = 0x202020;
 			pTrickOb->mState = 1;
 
-			if (pSkater == DAT_800d19a4)
+			if (pSkater == MechList)
 				pTrickOb->mPlayer = 1;
 			else
 				pTrickOb->mPlayer = 2;
 
-			DAT_800d1b8c = pTrickOb->mPlayer;
+			TrickPlayer = pTrickOb->mPlayer;
 			Trig_SendPulse(Trig_GetLinksPointer(pTrickOb->mNode));
 		}
 	}
@@ -275,15 +275,15 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 		LInfo.RecordTriggerZoneHits = 1;
 		Player = 2;
 
-		if (pSkater == DAT_800d17c8)
+		if (pSkater == GSkater)
 			Player = 1;
 
 		Trig_ResetCPCollisionFlags(Player);
 
-		DAT_800d199c = pSkater;
+		pCurrentPlayer = pSkater;
 		M3dZone_LineToItem(&LInfo, 1);
 
-		DAT_800d199c = 0;
+		pCurrentPlayer = 0;
 		Trig_ResetCPExecutedFlags(Player);
 
 		Start.vx = VInfo->OldPos2.vx << 12;
@@ -292,7 +292,7 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 		End.vx = VInfo->OldPos.vx << 12;
 		End.vy = VInfo->OldPos.vy << 12;
 		End.vz = VInfo->OldPos.vz << 12;
-		CBody *pBody = M3dColij_LineToSphere(Start, End, nearest, DAT_800d1618, 0);
+		CBody *pBody = M3dColij_LineToSphere(Start, End, nearest, PowerUpList, 0);
 
 		if (pBody)
 			pBody->Hit();
@@ -312,7 +312,7 @@ void GetDataChunk(CBruce *pSkater, int NChunks) {
 			BoardOn__6CBruce(pSkater);
 	}
 
-	if (DAT_800a44fc[pSkater->Terrain].Type == 0x4000) {
+	if (Stats[pSkater->Terrain].Type == 0x4000) {
 		if (pSkater->Anim != 0x3f)
 			pSkater->Flags2 |= 0x1000;
 		else

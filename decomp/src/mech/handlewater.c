@@ -9,15 +9,15 @@ typedef struct {
 	V pos;
 } B;
 
-extern int DAT_800d1780, DAT_800d16f0, DAT_800d16f4, DAT_800d16e4;
+extern int GNumberOfPlayers, CurrentWaterLevel, CurrentWaterLevel2, TTime;
 
 typedef struct {
 	short a, b;
 } T;
 
-extern T DAT_800c9670[] __attribute__((section(".data")));
+extern T rcossin_tbl[] __attribute__((section(".data")));
 
-int DAT_800d19a4;
+int MechList;
 
 int Redbook_Rnd(int);
 void SFX_PlayX(int, int, int);
@@ -30,11 +30,11 @@ void CBruce_HandleWater(B *t) {
 	char *o;
 	T *e;
 
-	if (DAT_800d1780 != 2) {
-		if ((int)t == DAT_800d19a4)
-			s1 = DAT_800d16f0;
+	if (GNumberOfPlayers != 2) {
+		if ((int)t == MechList)
+			s1 = CurrentWaterLevel;
 		else
-			s1 = DAT_800d16f4;
+			s1 = CurrentWaterLevel2;
 
 		if (s1 < t->pos.y + 0x19000) {
 			if (!(*(unsigned short *)t & 8))
@@ -42,14 +42,14 @@ void CBruce_HandleWater(B *t) {
 
 			*(unsigned short *)t |= 8;
 
-			if (!(DAT_800d16e4 & 3)) {
+			if (!(TTime & 3)) {
 				v = t->pos;
 				v.y = s1;
 				Redbook_Rnd(24);
 
 				r = Redbook_Rnd(24) + 16;
 				idx = Redbook_Rnd(4096) & 0xfff;
-				e = &DAT_800c9670[idx];
+				e = &rcossin_tbl[idx];
 				v.x += r * e->a;
 				v.z += r * e->b;
 				o = __nw__4CBitUi(116);

@@ -48,10 +48,10 @@ typedef struct Q {
 	V *f1c;
 } Q;
 
-extern int DAT_800d1780;
-extern Q *DAT_800d19a4;
-extern int DAT_800d16e4;
-extern char DAT_800c9670[];
+extern int GNumberOfPlayers;
+extern Q *MechList;
+extern int TTime;
+extern char rcossin_tbl[];
 
 void CPowerUp_DoPhysics(P *);
 void CPowerUp_CreateBit(P *);
@@ -79,7 +79,7 @@ void FUN_800206ac(P *p) {
 
 	FUN_800201c8();
 
-	if (DAT_800d1780 == 1) {
+	if (GNumberOfPlayers == 1) {
 		if (p->fl & 1)
 			return;
 
@@ -88,7 +88,7 @@ void FUN_800206ac(P *p) {
 	} else if ((p->fl & 0x41) == 0x41) {
 		return;
 	} else if (p->e8 >= 8001) {
-		v = Utils_CrapDist((V *)((char *)DAT_800d19a4->f1c + 4), &p->v) < 8001;
+		v = Utils_CrapDist((V *)((char *)MechList->f1c + 4), &p->v) < 8001;
 	test:
 		if (!v) {
 			p->vt->fn((char *)p + p->vt->off);
@@ -212,7 +212,7 @@ void FUN_800206ac(P *p) {
 
 	CBit_SetPos(p->g, s3);
 
-	s0 = p->w138 + (p->w13a * ((short *)DAT_800c9670)[((DAT_800d16e4 * 600) & 0x3ff8) >> 1]) / 4096;
+	s0 = p->w138 + (p->w13a * ((short *)rcossin_tbl)[((TTime * 600) & 0x3ff8) >> 1]) / 4096;
 	CGlow_SetFringeWidth(p->g, 0, s0);
 	CGlow_SetFringeWidth(p->g, 1, s0);
 }

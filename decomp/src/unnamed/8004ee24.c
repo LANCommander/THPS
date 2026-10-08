@@ -10,17 +10,17 @@ struct O {
 	struct VT *vt;
 };
 
-struct O *DAT_800d1b70;
+struct O *TrickObList;
 
 void FUN_8004ee24(void) {
-	struct O *p = DAT_800d1b70;
+	struct O *p = TrickObList;
 	struct O *q;
 
 	if (p) {
 		for (;;) {
 			p->vt->fn((char *)p + p->vt->off, 3);
 
-			q = DAT_800d1b70;
+			q = TrickObList;
 
 			if (!q)
 				break;

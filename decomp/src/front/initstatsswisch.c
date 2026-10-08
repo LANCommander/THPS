@@ -1,6 +1,6 @@
 /* InitStatsSwisch__Fv (0x8001648c) */
-extern int DAT_800a5d0c[];
-extern int DAT_800a5cec[];
+extern int StatsRight[];
+extern int StatsLeft[];
 
 void InitStatsSwisch(void) {
 	int i;
@@ -8,7 +8,7 @@ void InitStatsSwisch(void) {
 	for (i = 0; i < 8; i++) {
 		int v = (4 - i) * 30;
 
-		DAT_800a5cec[i] = -100 - v;
-		DAT_800a5d0c[i] = v + 612;
+		StatsLeft[i] = -100 - v;
+		StatsRight[i] = v + 612;
 	}
 }

@@ -1,6 +1,6 @@
 /* FUN_80023260 (0x80023260) */
-int DAT_800d1638;
+int GameFMV_FrameBufferCopyActive;
 
 void FUN_80023260(void) {
-	DAT_800d1638 = 1;
+	GameFMV_FrameBufferCopyActive = 1;
 }

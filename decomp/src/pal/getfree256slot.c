@@ -1,17 +1,17 @@
 /* GetFree256Slot__Fv (0x8004ad9c) */
 #include "names.h"
-extern unsigned char DAT_800d2b10[];
+extern unsigned char Free256Slots[];
 
 int GetFree256Slot(void) {
 	int i = 0;
 
-	while (!DAT_800d2b10[i]) {
+	while (!Free256Slots[i]) {
 		i++;
 
 		if (i >= 75)
 			break;
 	}
 
-	DAT_800d2b10[i] = 0;
+	Free256Slots[i] = 0;
 	return i;
 }

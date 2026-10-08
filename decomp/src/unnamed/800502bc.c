@@ -20,9 +20,9 @@ typedef struct P {
 int DAT_800d2274, DAT_800d2278, DAT_800d227c, DAT_800d226c, DAT_800d2270;
 P *DAT_800d2280;
 
-extern int DAT_800d1630;
-extern short DAT_800d1658, DAT_800d166e, DAT_800d1670;
-extern int DAT_800d1a48, DAT_800d1d94;
+extern int GameFMV_RewindSwitch;
+extern short GameFMV_StartX, GameFMV_StartY, GameFMV_EndX;
+extern int pDoubleBuffer, OT_entry;
 extern int DAT_800be3d0[];
 
 void FUN_80023168(int);
@@ -62,9 +62,9 @@ void FUN_800502bc(int a) {
 				if (DAT_800d2278 == 0) {
 					FUN_80023168(DAT_800be3d0[DAT_800d227c]);
 
-					DAT_800d1658 = 512;
-					DAT_800d1670 = 608;
-					DAT_800d166e = 0;
+					GameFMV_StartX = 512;
+					GameFMV_EndX = 608;
+					GameFMV_StartY = 0;
 					GameFMV_StartFMV(1);
 
 					DAT_800d226c = (FUN_8008eebc(1) + FUN_8008eebc(-1)) % 320;
@@ -107,7 +107,7 @@ void FUN_800502bc(int a) {
 
 			FUN_8002357c(1);
 
-			if (DAT_800d1630) {
+			if (GameFMV_RewindSwitch) {
 				DAT_800d2274 = 0;
 				DAT_800d2278 = 0;
 			}
@@ -117,7 +117,7 @@ void FUN_800502bc(int a) {
 				unsigned short x = DAT_800d226c, y = DAT_800d2270;
 				unsigned *ot;
 
-				ot = (unsigned *)(DAT_800d1d94 * 4 + DAT_800d1a48);
+				ot = (unsigned *)(OT_entry * 4 + pDoubleBuffer);
 				q->x0 = x;
 				q->y0 = y;
 				q->x1 = x + 192;

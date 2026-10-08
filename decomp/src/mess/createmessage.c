@@ -6,16 +6,16 @@ typedef struct Message {
 	struct Message *prev;
 } Message;
 
-Message *DAT_800d15ec;
+Message *pMessages;
 
 extern Message *Mem_NewX(int, int, int);
 
 void CreateMessage(void) {
 	Message *m = Mem_NewX(0x1c, 0, 1);
-	Message *h = DAT_800d15ec;
+	Message *h = pMessages;
 
 	m->prev = 0;
-	DAT_800d15ec = m;
+	pMessages = m;
 	m->next = h;
 
 	if (h)

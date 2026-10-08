@@ -1,8 +1,8 @@
 /* Trig_GetLinksPointer__Fi (0x8004754c) */
-unsigned short **DAT_800d19e8;
+unsigned short **OffsetList;
 
 unsigned short *Trig_GetLinksPointer(int n) {
-	unsigned short *p = DAT_800d19e8[n];
+	unsigned short *p = OffsetList[n];
 
 	switch (*p) {
 		case 1:

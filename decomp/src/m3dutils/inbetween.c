@@ -19,7 +19,7 @@ typedef struct {
 	unsigned short frame;
 } CSuper;
 
-extern Hook DAT_800bf7a8[];
+extern Hook PSXRegion[];
 
 typedef struct {
 	char _0[0xa];
@@ -30,12 +30,12 @@ extern void M3dUtils_InterpolateVectors(int, int, unsigned *, CSuper *, int, int
 
 void M3dUtils_InBetween(CSuper *s) {
 	int i = s->idx;
-	Frame *f = DAT_800bf7a8[i].frames;
+	Frame *f = PSXRegion[i].frames;
 	int c = ((FrameX *)&f[s->frame])->count;
 	unsigned _t5683 = c + 1;
 
 	if (c) {
-		int n = DAT_800bf7a8[i].n;
+		int n = PSXRegion[i].n;
 
 		M3dUtils_InterpolateVectors(4 * n, _t5683, (unsigned *)f, s, 0, n);
 	}

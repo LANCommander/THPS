@@ -11,7 +11,7 @@ struct O {
 	struct VT *vt;
 };
 
-extern char DAT_800a05b4[];
+extern char __vt_5CBody[];
 
 void FUN_80043584(char *p, int a);
 void __dl__5CItemPv(void *p);
@@ -19,7 +19,7 @@ void __dl__5CItemPv(void *p);
 void FUN_80043860(char *p, int f) {
 	struct O *o = *(struct O **)(p + 208);
 
-	*(char **)(p + 72) = DAT_800a05b4;
+	*(char **)(p + 72) = __vt_5CBody;
 
 	if (o)
 		o->vt->fn((char *)o + o->vt->off, 3);

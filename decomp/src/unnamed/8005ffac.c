@@ -14,9 +14,9 @@ typedef struct {
 	int fc;
 } Z;
 
-extern unsigned char DAT_800c0a48[];
-extern G DAT_800a4118;
-extern Z DAT_800a5d5c;
+extern unsigned char Pad[];
+extern G GPreferences;
+extern Z GameText;
 extern char DAT_800d1d40[];
 
 void FUN_800648c0(int, int, int);
@@ -32,49 +32,49 @@ int FUN_8005ffac(int a) {
 	unsigned char *v;
 	unsigned char *s0;
 
-	s0 = DAT_800c0a48;
+	s0 = Pad;
 	FUN_800648c0(a, 1, *(int *)(s0 + 0x2b8) == 0);
 
 	if (s0[0x81] || s0[0x1ed] || s0[0x91] || s0[0x1fd]) {
 		s3 = 0;
 
-		if (DAT_800c0a48[0x81] || DAT_800c0a48[0x1ed])
+		if (Pad[0x81] || Pad[0x1ed])
 			s3 = 1;
 
-		Pad_ClearTriggers(DAT_800c0a48);
-		Pad_ClearTriggers(DAT_800c0a48 + 364);
+		Pad_ClearTriggers(Pad);
+		Pad_ClearTriggers(Pad + 364);
 
 		if (VerticalMenu_getSelected(a) == 3) {
-			if (s3 != DAT_800a4118.f184)
+			if (s3 != GPreferences.f184)
 				SFX_PlayX(144, 0x2000, 0);
 
 			s1 = s3 != 0;
-			DAT_800a4118.f184 = s1;
-			FUN_8008b900(buf, DAT_800d1d40, DAT_800a5d5c.f8,
-			             s1 ? DAT_800a5d5c.f0 : DAT_800a5d5c.f4);
+			GPreferences.f184 = s1;
+			FUN_8008b900(buf, DAT_800d1d40, GameText.f8,
+			             s1 ? GameText.f0 : GameText.f4);
 			VerticalMenu_setString(a, 3, buf);
 		}
 
 		if (VerticalMenu_getSelected(a) == 4) {
 			s1 = s3 != 0;
 
-			if (s3 != DAT_800a4118.f188)
+			if (s3 != GPreferences.f188)
 				SFX_PlayX(144, 0x2000, 0);
 
-			DAT_800a4118.f188 = s1;
-			FUN_8008b900(buf, DAT_800d1d40, DAT_800a5d5c.fc,
-			             s1 ? DAT_800a5d5c.f0 : DAT_800a5d5c.f4);
+			GPreferences.f188 = s1;
+			FUN_8008b900(buf, DAT_800d1d40, GameText.fc,
+			             s1 ? GameText.f0 : GameText.f4);
 			VerticalMenu_setString(a, 4, buf);
 		}
 	}
 
-	if (DAT_800c0a48[0xe1] || DAT_800c0a48[0x24d] || DAT_800c0a48[0x31] || DAT_800c0a48[0x19d]) {
+	if (Pad[0xe1] || Pad[0x24d] || Pad[0x31] || Pad[0x19d]) {
 		t = VerticalMenu_getSelected(a);
 
 		if (t < 5) {
 			if (t >= 3) {
-				Pad_ClearTriggers(DAT_800c0a48);
-				Pad_ClearTriggers(DAT_800c0a48 + 364);
+				Pad_ClearTriggers(Pad);
+				Pad_ClearTriggers(Pad + 364);
 			}
 		}
 	}

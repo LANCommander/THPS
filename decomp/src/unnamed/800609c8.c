@@ -1,9 +1,9 @@
 /* FUN_800609c8 (0x800609c8) */
 #include "names.h"
-extern int DAT_800bf318[];
-extern int DAT_800a42f4[];
-extern char DAT_800c0a48[];
-extern int DAT_800d1104;
+extern int GVInfo1[];
+extern int GVideoRestart[];
+extern char Pad[];
+extern int pVertMenu;
 
 int DAT_800d2358, DAT_800d235c;
 
@@ -39,9 +39,9 @@ int FUN_800609c8(void) {
 	Front_InitMemCardMenus(640, 15, 39);
 	FUN_80011628(1);
 
-	DAT_800bf318[1] = Mem_NewX(640, 0, 1);
-	DAT_800a42f4[0] = 0;
-	i = (int)DAT_800c0a48;
+	GVInfo1[1] = Mem_NewX(640, 0, 1);
+	GVideoRestart[0] = 0;
+	i = (int)Pad;
 
 	do {
 		FUN_8005c780();
@@ -50,8 +50,8 @@ int FUN_800609c8(void) {
 		FUN_8006b240();
 		FUN_80061ea0();
 
-		if (DAT_800d1104 != 0)
-			FUN_80064890(DAT_800d1104, DAT_800d2358, DAT_800d235c);
+		if (pVertMenu != 0)
+			FUN_80064890(pVertMenu, DAT_800d2358, DAT_800d235c);
 
 		Front_MemCardHiResDisplay();
 		FUN_8006b26c();
@@ -69,8 +69,8 @@ int FUN_800609c8(void) {
 		FUN_80061ea0();
 		Front_RestoreBackground();
 
-		if (DAT_800d1104 != 0)
-			VerticalMenu_erase(DAT_800d1104);
+		if (pVertMenu != 0)
+			VerticalMenu_erase(pVertMenu);
 
 		i++;
 		FUN_8006b26c();
@@ -79,12 +79,12 @@ int FUN_800609c8(void) {
 	FUN_8008c468(0);
 	FUN_80011570();
 
-	if (DAT_800d1104 != 0)
+	if (pVertMenu != 0)
 		FUN_80011150();
 
-	Mem_Delete(DAT_800bf318[1]);
+	Mem_Delete(GVInfo1[1]);
 
-	switch (DAT_800a42f4[0]) {
+	switch (GVideoRestart[0]) {
 		case 1:
 			return 0x611;
 		case 2:

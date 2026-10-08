@@ -4,10 +4,10 @@ struct B {
 	int w[628];
 };
 
-extern int DAT_800a5880[];
-extern char DAT_800a58bc[];
+extern int FileType[];
+extern char SLOT_DIR[];
 
-int DAT_800d1398;
+int TimeStamp;
 
 int SyncToGoodState(void);
 int Mem_NewX(int, int, int);
@@ -21,12 +21,12 @@ void FUN_8001571c(void) {
 	char *name;
 	int *flag;
 
-	DAT_800d1398 = 0;
+	TimeStamp = 0;
 
 	if (SyncToGoodState() == 0) {
 		i = 0;
-		name = DAT_800a58bc;
-		flag = DAT_800a5880;
+		name = SLOT_DIR;
+		flag = FileType;
 
 		do {
 			if (*flag == 0) {
@@ -36,8 +36,8 @@ void FUN_8001571c(void) {
 				if (Card_Load(0, p, 0) == 0) {
 					buf = *(struct B *)(p + 640);
 
-					if (((unsigned short *)&buf)[1047] >= DAT_800d1398)
-						DAT_800d1398 = ((unsigned short *)&buf)[1047] + 1;
+					if (((unsigned short *)&buf)[1047] >= TimeStamp)
+						TimeStamp = ((unsigned short *)&buf)[1047] + 1;
 				}
 
 				Mem_Delete(p);

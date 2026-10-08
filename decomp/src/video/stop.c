@@ -11,24 +11,24 @@ typedef struct {
 	char pad[0xa0];
 } SVideoInfo;
 
-extern SVideoInfo DAT_800bf318[];
-extern CBruce *DAT_800d19a4;
+extern SVideoInfo GVInfo1[];
+extern CBruce *MechList;
 
-int DAT_800d1de8;
+int GVideoReplay;
 
 void FlushBits(SVideoInfo *);
 
 void Video_Stop(CBruce *b) {
 	SVideoInfo *v;
 
-	if (b == DAT_800d19a4)
-		v = &DAT_800bf318[0];
+	if (b == MechList)
+		v = &GVInfo1[0];
 	else
-		v = &DAT_800bf318[1];
+		v = &GVInfo1[1];
 
 	if (v->state == 1)
 		FlushBits(v);
 
 	v->state = 0;
-	DAT_800d1de8 = 0;
+	GVideoReplay = 0;
 }

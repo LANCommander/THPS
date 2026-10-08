@@ -1,11 +1,11 @@
 /* Bit_SetSparkFadeRGB__FUcUcUc (0x80029670) */
 #include "names.h"
-char DAT_800d18c0;
-char DAT_800d18c1;
-char DAT_800d18c2;
+char SparkFadeRGB;
+char SparkFadeRGB_1;
+char SparkFadeRGB_2;
 
 void Bit_SetSparkFadeRGB(char a, char b, char c) {
-	DAT_800d18c0 = a;
-	DAT_800d18c1 = b;
-	DAT_800d18c2 = c;
+	SparkFadeRGB = a;
+	SparkFadeRGB_1 = b;
+	SparkFadeRGB_2 = c;
 }

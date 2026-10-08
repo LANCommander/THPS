@@ -7,10 +7,10 @@ typedef struct STexture {
 	struct STexture *next;
 } STexture;
 
-extern STexture *DAT_800c01a8[];
+extern STexture *TextureChecksumHashTable[];
 
 STexture *Spool_FindTextureEntry(unsigned id) {
-	STexture *t = DAT_800c01a8[id & 511];
+	STexture *t = TextureChecksumHashTable[id & 511];
 
 	while (t && t->id != id)
 		t = t->next;

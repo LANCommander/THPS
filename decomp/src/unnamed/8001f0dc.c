@@ -5,9 +5,9 @@ struct S {
 	char r[32];
 };
 
-extern struct S DAT_800a6124[];
+extern struct S Font_table_14[];
 
-int DAT_800d15e4;
+int Current_font;
 
 void Mess_UnloadFont(void);
 
@@ -15,8 +15,8 @@ void FUN_8001f0dc(void) {
 	int i;
 
 	for (i = 0; i < 10; i++) {
-		if (DAT_800a6124[i].a) {
-			DAT_800d15e4 = i;
+		if (Font_table_14[i].a) {
+			Current_font = i;
 			Mess_UnloadFont();
 		}
 	}

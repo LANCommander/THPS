@@ -2,7 +2,7 @@
 #include "names.h"
 extern char DAT_800a1b64[];
 extern char DAT_800a1b74[];
-extern char DAT_800c0a48[];
+extern char Pad[];
 
 char *DAT_800d1d0c;
 int DAT_800d1cec;
@@ -36,8 +36,8 @@ void FUN_8005d28c(void) {
 	}
 
 	DAT_800d1d0c = p;
-	DAT_800c0a48[225] = 0;
-	DAT_800c0a48[589] = 0;
+	Pad[225] = 0;
+	Pad[589] = 0;
 	DAT_800d1cec = 0;
 	DAT_800d1d14 = 0;
 	Pack_DefragmentFully();

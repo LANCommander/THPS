@@ -1,6 +1,6 @@
 /* FUN_80063a5c (0x80063a5c) */
 #include "names.h"
-extern char DAT_800a2190[];
+extern char __vt_6Sprite[];
 
 int Load8BitBMP2(char *name, char **a, int *b, int *c, unsigned short *d);
 char *__nw__6CClassUi(unsigned n);
@@ -14,7 +14,7 @@ char *FUN_80063a5c(char *p, int f16, char *name, int a3, int x, int mw, int mh) 
 	int h;
 	char *v;
 
-	*(char **)p = DAT_800a2190;
+	*(char **)p = __vt_6Sprite;
 	Load8BitBMP2(name, &data, &w, &h, &pal);
 
 	*(int *)(p + 16) = f16;

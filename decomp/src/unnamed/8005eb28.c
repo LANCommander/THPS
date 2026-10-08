@@ -8,12 +8,12 @@ typedef struct {
 	Q q[1];
 } D;
 
-extern D DAT_800a4118;
+extern D GPreferences;
 extern Q DAT_800bf260[];
 
 void FUN_8005eb28(int i) {
-	DAT_800a4118.q[i].a = DAT_800bf260[i].a;
-	DAT_800a4118.q[i].c = DAT_800bf260[i].c;
-	DAT_800a4118.q[i].b = DAT_800bf260[i].b;
-	DAT_800a4118.q[i].d = DAT_800bf260[i].d;
+	GPreferences.q[i].a = DAT_800bf260[i].a;
+	GPreferences.q[i].c = DAT_800bf260[i].c;
+	GPreferences.q[i].b = DAT_800bf260[i].b;
+	GPreferences.q[i].d = DAT_800bf260[i].d;
 }

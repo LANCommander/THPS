@@ -10,16 +10,16 @@ typedef struct {
 	short v[3];
 } SLineInfo;
 
-extern char DAT_800c13cc[];
-extern SVECTOR *DAT_800c130c[];
+extern char Tfm[];
+extern SVECTOR *NearestHit_8[];
 
 void FUN_8008b3d4(char *, char *);
 
 int M3dColij_GetLineInfo(SLineInfo *li) {
 	if (li->obj) {
-		FUN_8008b3d4(li->obj + 16, DAT_800c13cc);
-		gte_SetRotMatrix(DAT_800c13cc);
-		gte_ldv0(DAT_800c130c[0]);
+		FUN_8008b3d4(li->obj + 16, Tfm);
+		gte_SetRotMatrix(Tfm);
+		gte_ldv0(NearestHit_8[0]);
 		gte_rtv0();
 		gte_stsv(li->v);
 		return 1;

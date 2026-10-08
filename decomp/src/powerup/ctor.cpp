@@ -57,17 +57,17 @@ class CPowerUp : public CBody {
 
 extern char DAT_8009f0c8[];
 extern char DAT_800d161c[];
-extern int DAT_800d16a4;
-extern CPowerUp *DAT_800d17d0;
-extern CPowerUp *DAT_800d17d4;
-extern CPowerUp *DAT_800d17d8;
-extern CPowerUp *DAT_800d17dc;
-extern CPowerUp *DAT_800d17e0;
-extern CPowerUp *DAT_800d17e4;
-extern unsigned char DAT_800d1a15;
-extern unsigned char DAT_800d1a16;
+extern int GGame;
+extern CPowerUp *GPowS;
+extern CPowerUp *GPowK;
+extern CPowerUp *GPowA;
+extern CPowerUp *GPowT;
+extern CPowerUp *GPowE;
+extern CPowerUp *GPowTape;
+extern unsigned char CurrentItemsFileRegion;
+extern unsigned char CurrentMedalsFileRegion;
 
-char DAT_800d1618[8];
+char PowerUpList[8];
 
 extern "C" void DontDisplay__8CPowerUp(CPowerUp *);
 extern "C" void AttachTo__5CBodyPP5CBody(CPowerUp *, char *);
@@ -124,64 +124,64 @@ CPowerUp::CPowerUp(unsigned short a1, const V &a2_, const V &a3_, unsigned int a
 			InitItem__5CItemPc(this, DAT_8009f0c8);
 
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x54636518, DAT_800d1a16);
+			this->model = Spool_GetModel__FUii(0x54636518, CurrentMedalsFileRegion);
 			break;
 		case 0x665:
 			InitItem__5CItemPc(this, DAT_8009f0c8);
 
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0xba6d0434, DAT_800d1a16);
+			this->model = Spool_GetModel__FUii(0xba6d0434, CurrentMedalsFileRegion);
 			break;
 		case 0x666:
 			InitItem__5CItemPc(this, DAT_8009f0c8);
 
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x2364558e, DAT_800d1a16);
+			this->model = Spool_GetModel__FUii(0x2364558e, CurrentMedalsFileRegion);
 			break;
 		case 5:
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x311d55d4, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0x311d55d4, CurrentItemsFileRegion);
 			break;
 		case 4:
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x2328a71c, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0x2328a71c, CurrentItemsFileRegion);
 			break;
 		case 6:
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x2ebf22ca, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0x2ebf22ca, CurrentItemsFileRegion);
 			break;
 		case 15:
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x34524351, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0x34524351, CurrentItemsFileRegion);
 			break;
 		case 10:
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x29b68a16, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0x29b68a16, CurrentItemsFileRegion);
 			break;
 		case 18:
 		case 16:
 			this->f8a = 150;
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0xd5108e8c, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0xd5108e8c, CurrentItemsFileRegion);
 			break;
 		case 21:
 			this->f8a = 200;
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x6f0f6b9f, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0x6f0f6b9f, CurrentItemsFileRegion);
 			break;
 		case 22:
 			this->f8a = 200;
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0xf6063a25, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0xf6063a25, CurrentItemsFileRegion);
 			break;
 		case 23:
 			this->f8a = 200;
 			this->b13d = 1;
-			this->model = Spool_GetModel__FUii(0x81010ab3, DAT_800d1a15);
+			this->model = Spool_GetModel__FUii(0x81010ab3, CurrentItemsFileRegion);
 			break;
 	}
 
-	if (DAT_800d16a4 != 1) {
+	if (GGame != 1) {
 		switch (this->type) {
 			case 4:
 			case 5:
@@ -195,27 +195,27 @@ CPowerUp::CPowerUp(unsigned short a1, const V &a2_, const V &a3_, unsigned int a
 	} else {
 		switch (this->type) {
 			case 5:
-				DAT_800d17d0 = this;
+				GPowS = this;
 				break;
 			case 4:
-				DAT_800d17d4 = this;
+				GPowK = this;
 				break;
 			case 6:
-				DAT_800d17d8 = this;
+				GPowA = this;
 				break;
 			case 15:
-				DAT_800d17dc = this;
+				GPowT = this;
 				break;
 			case 10:
-				DAT_800d17e0 = this;
+				GPowE = this;
 				break;
 			case 16:
-				DAT_800d17e4 = this;
+				GPowTape = this;
 				break;
 		}
 	}
 
-	AttachTo__5CBodyPP5CBody(this, DAT_800d1618);
+	AttachTo__5CBodyPP5CBody(this, PowerUpList);
 
 	if (this->b13d == 0)
 		DontDisplay__8CPowerUp(this);

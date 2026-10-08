@@ -19,7 +19,7 @@ typedef struct SAnimNode {
 	struct SAnimNode *next;
 } SAnimNode;
 
-SAnimNode *DAT_800d1efc;
+SAnimNode *AnimPackets;
 
 unsigned *Spool_SkipPackets(unsigned *);
 void *Mem_NewX(int, int, int);
@@ -29,9 +29,9 @@ void PreProcessAnimPacket(unsigned *packet, unsigned *data) {
 	SAnimNode *node = Mem_NewX(8, 0, 1);
 	unsigned n, i;
 
-	node->next = DAT_800d1efc;
+	node->next = AnimPackets;
 	node->data = data;
-	DAT_800d1efc = node;
+	AnimPackets = node;
 	n = *data++;
 
 	for (i = 0; i < n; i++) {

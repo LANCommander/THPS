@@ -8,15 +8,15 @@ typedef struct {
 	char q[0x78 - 0x38];
 } E;
 
-extern E DAT_800a5398[];
+extern E Levels[];
 
 typedef struct {
 	char pad0[12];
 	unsigned char Tapes[2];
 } SC;
 
-extern SC DAT_800a6844[];
-extern char DAT_800a1b4c[], DAT_800a1b58[], DAT_800c0a48[];
+extern SC GCareer[];
+extern char DAT_800a1b4c[], DAT_800a1b58[], Pad[];
 
 int DAT_800d1cf4, DAT_800d234c;
 int DAT_800d1d0c, DAT_800d1d04, DAT_800d1d00;
@@ -49,13 +49,13 @@ void FUN_8005d00c(void) {
 	FUN_8005c97c(4);
 	FUN_8005ca64();
 
-	s1 = Mem_NewX(FileIO_Open(DAT_800a5398[DAT_800d1cf4].f30), 1, 1);
+	s1 = Mem_NewX(FileIO_Open(Levels[DAT_800d1cf4].f30), 1, 1);
 	FileIO_Load(s1);
 	FileIO_Sync();
 	FUN_80061a10(s1);
 	FUN_8005dc58(6);
 
-	s1 = Mem_NewX(FileIO_Open(DAT_800a5398[DAT_800d1cf4].f34), 1, 1);
+	s1 = Mem_NewX(FileIO_Open(Levels[DAT_800d1cf4].f34), 1, 1);
 	FileIO_Load(s1);
 	FileIO_Sync();
 
@@ -71,7 +71,7 @@ void FUN_8005d00c(void) {
 		o2 = FUN_80063a5c(o2, 8, FUN_8005ca3c(DAT_800a1b4c), 0, 440, 64, 128);
 
 	DAT_800d1d04 = o2;
-	DAT_800d1d18 = DAT_800a6844[DAT_800d234c].Tapes[DAT_800d1cf4];
+	DAT_800d1d18 = GCareer[DAT_800d234c].Tapes[DAT_800d1cf4];
 	o3 = __nw__6CClassUi(24);
 
 	if (o3)
@@ -92,8 +92,8 @@ void FUN_8005d00c(void) {
 
 	FUN_8006b26c();
 
-	DAT_800c0a48[0xe1] = 0;
-	DAT_800c0a48[0x24d] = 0;
+	Pad[0xe1] = 0;
+	Pad[0x24d] = 0;
 	DAT_800d1cec = 0;
 	DAT_800d1d14 = 0;
 	Pack_DefragmentFully();

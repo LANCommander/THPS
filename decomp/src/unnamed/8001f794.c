@@ -21,8 +21,8 @@ typedef struct {
 	struct VT *f44;
 } O;
 
-extern C *DAT_800d19a4;
-extern int DAT_800d186c;
+extern C *MechList;
+extern int UseCacheForBits;
 
 char *__nw__4CBitUi(int, C *);
 char *CWobblyGlow_ctor(char *, char *, int, int, int, int, int, int, int, int, int);
@@ -34,7 +34,7 @@ void FUN_8001f794(char *t) {
 	C *cam;
 
 	if (t[0x56]) {
-		cam = DAT_800d19a4;
+		cam = MechList;
 		dx = (*(int *)(t + 0x18) - cam->f4) >> 12;
 
 		if (dx < 0)
@@ -52,7 +52,7 @@ void FUN_8001f794(char *t) {
 
 		if (d < *(int *)(t + 0x5c)) {
 			if (*(char **)(t + 0x60) == 0) {
-				DAT_800d186c = 0;
+				UseCacheForBits = 0;
 				o = __nw__4CBitUi(176, cam);
 
 				if (o)
@@ -63,7 +63,7 @@ void FUN_8001f794(char *t) {
 					                 *(unsigned char *)(t + 0x55));
 
 				*(char **)(t + 0x60) = o;
-				DAT_800d186c = 1;
+				UseCacheForBits = 1;
 				((O *)o)->f42 = 1;
 			}
 

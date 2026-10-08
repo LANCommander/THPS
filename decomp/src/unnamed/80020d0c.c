@@ -12,7 +12,7 @@ typedef struct {
 	int fc8;
 } B;
 
-short *DAT_800d1624;
+short *pNormal;
 
 extern V DAT_800d2574;
 
@@ -55,7 +55,7 @@ void CShatterBit_SetPos(B *p, V *a) {
 	}
 
 	t = Redbook_Rnd(45);
-	q = DAT_800d1624;
+	q = pNormal;
 	p->v24.x += t * q[0];
 	p->v24.y += t * q[1];
 	p->v24.z += t * q[2];

@@ -217,7 +217,7 @@ extern int DAT_800d16e0;           /* EndCode */
 extern int DAT_800d16fc;           /* GameFrozen */
 extern int DAT_800d1780;           /* GNumberOfPlayers */
 extern int DAT_800d1cb0;           /* DemoTimer */
-extern int DAT_800d1770;
+extern int XFrames;
 extern int DAT_800d1e28; /* GLevel */
 extern int DAT_800d16a4; /* GGame */
 extern int DAT_800d1710; /* Cheat_RestartSkip */
@@ -227,16 +227,16 @@ extern int DAT_800d1788; /* GSpin */
 extern int DAT_800d17c0; /* GHorseClearInput2 */
 extern int DAT_800d19d8; /* NumCheatRestarts */
 extern int DAT_800d10f8; /* GLoadedCareerIsSaved */
-extern int DAT_800d1c9c;
+extern int StartScreen;
 extern int DAT_800d1de8; /* GVideoReplay */
-extern int DAT_800d1100;
+extern int SizeUp;
 extern int DAT_800d17b8; /* GHorseCursorPos */
 extern int DAT_800d17bc; /* GHorseWaitTime */
 extern int DAT_800d17a0; /* GHorseMode */
 extern int DAT_800d17ac; /* GHorseRestart */
 extern int DAT_800d17a4; /* GHorseScore */
 extern int DAT_800d17b0; /* GHorseLetters[0] */
-extern int DAT_800d17b4; /* GHorseLetters[1] */
+extern int GHorseLetters_4; /* GHorseLetters[1] */
 extern int DAT_800d179c; /* GHorsePlayer */
 extern int DAT_800d16cc; /* GHorseWordChosen */
 extern int DAT_800d17a8; /* GHorseDoneStart */
@@ -272,9 +272,9 @@ int DAT_800d1500;           /* NextHorsePlayer */
 int DAT_800d1504;           /* NextHorseScore */
 int DAT_800d1508;           /* NextHorseRestart */
 int DAT_800d150c;           /* NextHorseLetters[0] */
-int DAT_800d1510;           /* NextHorseLetters[1] */
+int NextHorseLetters_4;           /* NextHorseLetters[1] */
 int DAT_800d13cc;           /* SFXLEVEL */
-int DAT_800d13d0;
+int XALEVEL;
 int DAT_800d21fc; /* soundVol */
 int DAT_800d2200; /* musicVol */
 
@@ -387,15 +387,15 @@ void Front_Update() {
 			if ((Start || !DAT_800c0a48[0].Type || (DAT_800d1780 == 2 && !DAT_800c0a48[1].Type)) &&
 			    DAT_800d1cb0) {
 				DAT_800d140c = 1;
-				DAT_800d17c8->m310 = DAT_800d1770;
+				DAT_800d17c8->m310 = XFrames;
 
 				if (DAT_800d17cc)
-					DAT_800d17cc->m310 = DAT_800d1770;
+					DAT_800d17cc->m310 = XFrames;
 
-				DAT_800d17c8->m314 = DAT_800d1770;
+				DAT_800d17c8->m314 = XFrames;
 
 				if (DAT_800d17cc)
-					DAT_800d17cc->m314 = DAT_800d1770;
+					DAT_800d17cc->m314 = XFrames;
 
 				Mess_DeleteAll();
 				Pad_ClearTriggers(&DAT_800c0a48[0]);
@@ -701,13 +701,13 @@ void Front_Update() {
 
 						DAT_800d13e8 = STATUS_SAVEGAME;
 					} else if (DAT_800d142c->ChoiceIs(DAT_800a5d5c[31])) {
-						DAT_800d1c9c = 1;
+						StartScreen = 1;
 						DAT_800d13e8 = STATUS_ENDLEVELFADESCREEN;
 					} else if (DAT_800d142c->ChoiceIs(DAT_800a5d5c[32])) {
-						DAT_800d1c9c = 2;
+						StartScreen = 2;
 						DAT_800d13e8 = STATUS_ENDLEVELFADESCREEN;
 					} else if (DAT_800d142c->ChoiceIs(DAT_800a5d5c[0])) {
-						DAT_800d1c9c = 6;
+						StartScreen = 6;
 						DAT_800d13e8 = STATUS_ENDLEVELFADESCREEN;
 					}
 				}
@@ -888,7 +888,7 @@ void Front_Update() {
 			}
 
 			if (UpDown == -1) {
-				DAT_800d1100 = 16;
+				SizeUp = 16;
 				SFX_PlayX(17, 8192, 0);
 
 				if (DAT_800a6844.HorseWord[DAT_800d17b8] == ' ' ||
@@ -903,7 +903,7 @@ void Front_Update() {
 			}
 
 			if (UpDown == 1) {
-				DAT_800d1100 = 16;
+				SizeUp = 16;
 				SFX_PlayX(17, 8192, 0);
 
 				if (DAT_800a6844.HorseWord[DAT_800d17b8] == ' ' ||
@@ -931,7 +931,7 @@ void Front_Update() {
 			}
 
 			if (DAT_800c0a48[0].Left.Triggered || DAT_800c0a48[1].Left.Triggered) {
-				DAT_800d1100 = 16;
+				SizeUp = 16;
 				SFX_PlayX(5, 8192, 0);
 
 				DAT_800c0a48[0].Left.Triggered = 0;
@@ -946,7 +946,7 @@ void Front_Update() {
 			}
 
 			if (DAT_800c0a48[0].Right.Triggered || DAT_800c0a48[1].Right.Triggered) {
-				DAT_800d1100 = 16;
+				SizeUp = 16;
 				SFX_PlayX(5, 8192, 0);
 
 				DAT_800c0a48[0].Right.Triggered = 0;
@@ -983,7 +983,7 @@ void Front_Update() {
 
 		case STATUS_STARTHORSE:
 			DAT_800d17c0 = 1;
-			DAT_800d17c8->m310 = DAT_800d1770;
+			DAT_800d17c8->m310 = XFrames;
 
 			if (Activated)
 				SwitchOffPauseMode = 1;
@@ -1021,7 +1021,7 @@ void Front_Update() {
 					int UpDown = GetUpDown();
 
 					if (UpDown == -1) {
-						DAT_800d1100 = 16;
+						SizeUp = 16;
 						SFX_PlayX(17, 8192, 0);
 
 						if (DAT_800a6844.HighScores[DAT_800d1e28][DAT_800d13dc]
@@ -1042,7 +1042,7 @@ void Front_Update() {
 					}
 
 					if (UpDown == 1) {
-						DAT_800d1100 = 16;
+						SizeUp = 16;
 						SFX_PlayX(17, 8192, 0);
 
 						if (DAT_800a6844.HighScores[DAT_800d1e28][DAT_800d13dc]
@@ -1063,7 +1063,7 @@ void Front_Update() {
 					}
 
 					if (DAT_800c0a48[0].Left.Triggered || DAT_800c0a48[1].Left.Triggered) {
-						DAT_800d1100 = 16;
+						SizeUp = 16;
 						SFX_PlayX(5, 8192, 0);
 
 						DAT_800c0a48[0].Left.Triggered = 0;
@@ -1075,7 +1075,7 @@ void Front_Update() {
 					}
 
 					if (DAT_800c0a48[0].Right.Triggered || DAT_800c0a48[1].Right.Triggered) {
-						DAT_800d1100 = 16;
+						SizeUp = 16;
 						SFX_PlayX(5, 8192, 0);
 
 						DAT_800c0a48[0].Right.Triggered = 0;
@@ -1129,7 +1129,7 @@ void Front_Update() {
 							DAT_800d17a0 = DAT_800d14fc;
 							DAT_800d179c = DAT_800d1500;
 							DAT_800d17b0 = DAT_800d150c;
-							DAT_800d17b4 = DAT_800d1510;
+							GHorseLetters_4 = NextHorseLetters_4;
 							SwitchOffPauseMode = 1;
 							Trig_SetRestart(DAT_800a87d8[DAT_800d17ac]);
 
@@ -1333,7 +1333,7 @@ void Front_Update() {
 		case STATUS_SETSOUNDLEVELS:
 			DAT_800d1440->Update();
 
-			DAT_800d13d0 =
+			XALEVEL =
 			    (DAT_800d1440->ChoiceIs(DAT_800a5d44) || DAT_800d1440->ChoiceIs(DAT_800a5d5c[86]))
 			        ? DAT_800a4118.MusicVol * 0x555
 			        : 0;
@@ -1393,7 +1393,7 @@ void Front_Update() {
 				SFX_PlayX(2, 8192, 0);
 
 				DAT_800d13e8 = STATUS_PAUSEDMENU;
-				DAT_800d13d0 = DAT_800a6844.MusicVol * 0x555;
+				XALEVEL = DAT_800a6844.MusicVol * 0x555;
 				FUN_8008f19c(1, 0, -1);
 				FUN_8008f4d4(9, 0, 0);
 			}

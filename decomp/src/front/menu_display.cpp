@@ -2,7 +2,7 @@
 /* C++ (FRONT.CPP). Demo twin (0.97); members, locals and blocks from its MAIN.SYM. Draws each
    visible menu line at its current scale: the selected line in its highlight colour, the others
    fading up from half brightness; then, for the cursor line of a left-justified menu, a pair of
-   red arrowheads either side of the text. Needs -fstructure-noalias: retail loads DAT_800d1a48
+   red arrowheads either side of the text. Needs -fstructure-noalias: retail loads pDoubleBuffer
    (the OT) above the right arrow's halfword stores. */
 #pragma interface
 
@@ -53,9 +53,9 @@ struct SOTBuffer {
 	u_long OT2D;
 };
 
-extern uchar *DAT_800d1a54;
-extern uchar *DAT_800d177c;
-extern SOTBuffer *DAT_800d1a48;
+extern uchar *pPoly;
+extern uchar *PolyBufferEnd;
+extern SOTBuffer *pDoubleBuffer;
 
 void Mess_SetScale(int);
 void Mess_SetRGB(uchar, uchar, uchar, int);
@@ -114,12 +114,12 @@ void CMenu::Display() {
 						if (mHasCursor && i == mCursorLine && !mJustification) {
 							int off = length * mEntry[i].CurrentScale / 512 +
 							          mEntry[i].CurrentScale * 14 / 256;
-							POLY_F3 *leftpoly = (POLY_F3 *)DAT_800d1a54;
+							POLY_F3 *leftpoly = (POLY_F3 *)pPoly;
 							POLY_F3 *rightpoly = leftpoly + 1;
 							uchar *newppoly = (uchar *)(rightpoly + 1);
 
-							if (newppoly <= DAT_800d177c) {
-								DAT_800d1a54 = newppoly;
+							if (newppoly <= PolyBufferEnd) {
+								pPoly = newppoly;
 								setPolyF3(leftpoly);
 								setPolyF3(rightpoly);
 								setRGB0(leftpoly, 255, 0, 0);
@@ -140,7 +140,7 @@ void CMenu::Display() {
 								rightpoly->y2 = y + 6;
 
 								{
-									u_long *ot = &DAT_800d1a48->OT2D;
+									u_long *ot = &pDoubleBuffer->OT2D;
 
 									addPrim(ot, leftpoly);
 									addPrim(ot, rightpoly);

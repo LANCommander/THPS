@@ -14,17 +14,17 @@ struct SString {
 	int Pos[3];
 };
 
-SString *DAT_800d1aec;
-uint DAT_800d1ae0;
+SString *BufferPos;
+uint CodeVal;
 
 void Font_String(ushort X, ushort Y, char *pString, uchar r, uchar g, uchar b, uchar BigText) {
-	DAT_800d1aec->End = 0;
-	DAT_800d1aec->X = X;
-	DAT_800d1aec->Y = Y;
-	DAT_800d1aec->Is3d = 0;
-	DAT_800d1aec->BigText = BigText;
-	DAT_800d1aec->pString = pString;
-	DAT_800d1aec->CodeBGR = DAT_800d1ae0 | (b << 16) | (g << 8) | r;
-	DAT_800d1aec++;
-	DAT_800d1aec->End = 1;
+	BufferPos->End = 0;
+	BufferPos->X = X;
+	BufferPos->Y = Y;
+	BufferPos->Is3d = 0;
+	BufferPos->BigText = BigText;
+	BufferPos->pString = pString;
+	BufferPos->CodeBGR = CodeVal | (b << 16) | (g << 8) | r;
+	BufferPos++;
+	BufferPos->End = 1;
 }

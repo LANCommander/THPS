@@ -6,9 +6,9 @@ struct S {
 	char pad[42];
 };
 
-int DAT_800d1a9c;
+int SFXPaused;
 
-extern unsigned short DAT_800d2b8c[];
+extern unsigned short pitchPriorToPause[];
 
 void FUN_80094424(int a, unsigned short *b);
 void FUN_80093e54(int a, struct S *s);
@@ -19,10 +19,10 @@ void SFX_Pause(void) {
 	int i;
 	unsigned short *q;
 
-	if (!DAT_800d1a9c) {
+	if (!SFXPaused) {
 		i = 0;
-		q = DAT_800d2b8c;
-		DAT_800d1a9c = 1;
+		q = pitchPriorToPause;
+		SFXPaused = 1;
 		s.b = 16;
 		s.f = 0;
 

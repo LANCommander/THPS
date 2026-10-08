@@ -7,10 +7,10 @@ struct CVector {
 	int vx, vy, vz;
 };
 
-ushort **DAT_800d19e8;
+ushort **OffsetList;
 
 int *Trig_GetPosition(CVector &pos, int node) {
-	ushort *pNode = DAT_800d19e8[node];
+	ushort *pNode = OffsetList[node];
 	ushort *pPos;
 	int *pLong;
 

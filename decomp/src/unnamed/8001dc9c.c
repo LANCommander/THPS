@@ -13,11 +13,11 @@ typedef struct {
 	char pad3[8];
 } B;
 
-extern A DAT_800a6124[];
-extern B DAT_800a6110[];
+extern A Font_table_14[];
+extern B Font_table[];
 
-unsigned char DAT_800d1602;
-int DAT_800d15e4;
+unsigned char NewFont;
+int Current_font;
 
 int CBruce_Trick_HoldTrick(unsigned char *s, int a);
 int GetCharIndex(int c);
@@ -28,7 +28,7 @@ int Mess_TextHeightAboveBaseline(unsigned char *s, int a1) {
 	int c;
 	unsigned char *p;
 
-	if (!DAT_800d1602)
+	if (!NewFont)
 		return CBruce_Trick_HoldTrick(s, a1);
 
 	m = 0;
@@ -42,7 +42,7 @@ int Mess_TextHeightAboveBaseline(unsigned char *s, int a1) {
 		else if (c == 255)
 			v = 0;
 		else
-			v = *(int *)((char *)(DAT_800a6124[DAT_800d15e4].p) + c * 36 + 16);
+			v = *(int *)((char *)(Font_table_14[Current_font].p) + c * 36 + 16);
 
 		if (m < v)
 			m = v;
@@ -50,5 +50,5 @@ int Mess_TextHeightAboveBaseline(unsigned char *s, int a1) {
 		p++;
 	}
 
-	return (m * DAT_800a6110[DAT_800d15e4].h) >> 8;
+	return (m * Font_table[Current_font].h) >> 8;
 }

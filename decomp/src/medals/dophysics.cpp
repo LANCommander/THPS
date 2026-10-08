@@ -13,9 +13,9 @@ struct SSinCos {
 	short s, c;
 };
 
-extern SSinCos DAT_800c9670[];
+extern SSinCos rcossin_tbl[];
 
-#define SIN(a) (DAT_800c9670[(a) & 4095].s)
+#define SIN(a) (rcossin_tbl[(a) & 4095].s)
 
 class CMedal {
   public:

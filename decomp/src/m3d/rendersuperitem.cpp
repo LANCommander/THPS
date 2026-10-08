@@ -85,19 +85,19 @@ struct Item {
 	uint HiddenParts; /* 0x194 */
 };
 
-extern SPSXRegion DAT_800bf7a8[];
-extern SAnimFrame *DAT_800a7238[];
-extern int DAT_800d16f0;
+extern SPSXRegion PSXRegion[];
+extern SAnimFrame *QuickAnimLookup[];
+extern int CurrentWaterLevel;
 
-int DAT_800d21bc;
-SCamera *DAT_800d217c;
-int DAT_800d21c0;
-uint DAT_800d2150;
-char *DAT_800d2160;
-char *DAT_800d2198;
-SAnimFrame *DAT_800d219c;
-int DAT_800d21b4;
-int DAT_800d21b8;
+int Fast;
+SCamera *pCurrentCamera;
+int Dewibble;
+uint FrameNo;
+char *ProjectedVertices;
+char *FreeStitchVertex;
+SAnimFrame *pColourTable;
+int SubObjectMasked;
+int TestTheWater;
 
 void RenderModelInSuperFast(SModel *);
 void M3dElips_RenderEllipsoid(SModel *, MATRIX *, uint, int, int, Texture *);
@@ -136,10 +136,10 @@ void RenderSuperItem(Item *pItem) {
 
 	ItemFlags = pItem->Flags;
 
-	if (!DAT_800bf7a8[pItem->Region].m32 || (ItemFlags & 0xc80))
-		DAT_800d21bc = 0;
+	if (!PSXRegion[pItem->Region].m32 || (ItemFlags & 0xc80))
+		Fast = 0;
 	else
-		DAT_800d21bc = 1;
+		Fast = 1;
 
 	if (pItem->SuperFlags & 2) {
 		pItem->Matrix.m[0][0] = -pItem->Matrix.m[0][0];
@@ -150,30 +150,30 @@ void RenderSuperItem(Item *pItem) {
 		*(short *)0x1f8002d4 = 0;
 	}
 
-	gte_SetRotMatrix(&DAT_800d217c->View);
+	gte_SetRotMatrix(&pCurrentCamera->View);
 	FUN_8008b254(&pItem->Matrix, &SuperTransform);
 
-	Position.vx = (pItem->Pos.vx >> 12) - DAT_800d217c->Pos.vx;
-	Position.vy = (pItem->Pos.vy >> 12) - DAT_800d217c->Pos.vy;
-	Position.vz = (pItem->Pos.vz >> 12) - DAT_800d217c->Pos.vz;
+	Position.vx = (pItem->Pos.vx >> 12) - pCurrentCamera->Pos.vx;
+	Position.vy = (pItem->Pos.vy >> 12) - pCurrentCamera->Pos.vy;
+	Position.vz = (pItem->Pos.vz >> 12) - pCurrentCamera->Pos.vz;
 	gte_ldlvl(&Position);
 	gte_rtir();
 	gte_stlvnl(&SuperTransform.t[0]);
 
 	if (*(short *)&SuperTransform.t[2] < 1000) {
-		DAT_800d21c0 = 1;
-		Position.vx = (pItem->Pos.vx >> 8) - (DAT_800d217c->Pos.vx << 4);
-		Position.vy = (pItem->Pos.vy >> 8) - (DAT_800d217c->Pos.vy << 4);
-		Position.vz = (pItem->Pos.vz >> 8) - (DAT_800d217c->Pos.vz << 4);
+		Dewibble = 1;
+		Position.vx = (pItem->Pos.vx >> 8) - (pCurrentCamera->Pos.vx << 4);
+		Position.vy = (pItem->Pos.vy >> 8) - (pCurrentCamera->Pos.vy << 4);
+		Position.vz = (pItem->Pos.vz >> 8) - (pCurrentCamera->Pos.vz << 4);
 		gte_ldlvl(&Position);
 		gte_rtir();
 		gte_stlvnl(&SuperTransform.t[0]);
 	} else {
-		DAT_800d21c0 = 0;
+		Dewibble = 0;
 	}
 
-	ppModels = DAT_800bf7a8[pItem->Region].ppModels;
-	NumParts = DAT_800bf7a8[pItem->Region].NumParts;
+	ppModels = PSXRegion[pItem->Region].ppModels;
+	NumParts = PSXRegion[pItem->Region].NumParts;
 
 	if (ItemFlags & 4)
 		pAnimTransform = pItem->pAnimTransform;
@@ -193,22 +193,22 @@ void RenderSuperItem(Item *pItem) {
 		if (Lookup < 0)
 			Lookup = 0;
 
-		pAnimTex = DAT_800a7238[Lookup];
-		pAnimTex += DAT_800d2150 % ((uint *)pAnimTex)[-1];
+		pAnimTex = QuickAnimLookup[Lookup];
+		pAnimTex += FrameNo % ((uint *)pAnimTex)[-1];
 		Rgb = pItem->EllipsoidRGB & 0xffffff;
 		Scale = pItem->EllipsoidScale;
 		OTPushback = pItem->EllipsoidOTPushback;
 	}
 
-	DAT_800d2198 = DAT_800d21bc ? (char *)0x1f8003f8 : DAT_800d2160 + 3192;
-	DAT_800d219c = DAT_800bf7a8[pItem->Region].pAnimTex;
+	FreeStitchVertex = Fast ? (char *)0x1f8003f8 : ProjectedVertices + 3192;
+	pColourTable = PSXRegion[pItem->Region].pAnimTex;
 
 	for (i = 0; i < NumParts; i++, pAnimTransform++) {
-		DAT_800d21b4 = (pItem->HiddenParts & (1 << i)) != 0;
+		SubObjectMasked = (pItem->HiddenParts & (1 << i)) != 0;
 		pModel = ppModels[i];
 		FUN_8009738c(&pItem->Matrix, (MATRIX *)pAnimTransform, &WorldTransform);
 
-		if (DAT_800d21c0)
+		if (Dewibble)
 			FUN_80089fc8(&SuperTransform, &SuperLightTransform, pAnimTransform);
 		else
 			FUN_8008a1c8(&SuperTransform, &SuperLightTransform, pAnimTransform);
@@ -222,13 +222,13 @@ void RenderSuperItem(Item *pItem) {
 		}
 
 		if (!(Type & 128)) {
-			if (DAT_800d21bc)
+			if (Fast)
 				RenderModelInSuperFast(pModel);
 			else
 				FUN_80084ebc(pModel);
 		}
 
-		if (!DAT_800d21b4) {
+		if (!SubObjectMasked) {
 			int DoEllipsoids = Type & 127;
 			int DoShadows = pItem->NumShadows != 0;
 
@@ -244,7 +244,7 @@ void RenderSuperItem(Item *pItem) {
 				WorldTransform.t[2] += pItem->Pos.vz >> 12;
 			}
 
-			if (DoEllipsoids && (!DAT_800d21b8 || WorldTransform.t[1] < (DAT_800d16f0 >> 12) - 40))
+			if (DoEllipsoids && (!TestTheWater || WorldTransform.t[1] < (CurrentWaterLevel >> 12) - 40))
 				M3dElips_RenderEllipsoid(pModel, &WorldTransform, Rgb, Scale, OTPushback,
 				                         pAnimTex->pTexture);
 

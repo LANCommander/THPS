@@ -1,6 +1,6 @@
 /* CalcRGB__FiUiiPUi (0x8002172c) */
 #include "names.h"
-unsigned char DAT_800d2228, DAT_800d2229, DAT_800d222a;
+unsigned char AverageR, AverageG, AverageB;
 
 void CalcRGB(int f, unsigned c, int mode, unsigned *t) {
 	unsigned a, b, d;
@@ -20,17 +20,17 @@ void CalcRGB(int f, unsigned c, int mode, unsigned *t) {
 			r += e & 255;
 			g += (e >> 8) & 255;
 			bl += (e >> 16) & 255;
-			DAT_800d2228 = r / 4;
-			DAT_800d2229 = g / 4;
-			DAT_800d222a = bl / 4;
+			AverageR = r / 4;
+			AverageG = g / 4;
+			AverageB = bl / 4;
 		} else {
-			DAT_800d2228 = r / 3;
-			DAT_800d2229 = g / 3;
-			DAT_800d222a = bl / 3;
+			AverageR = r / 3;
+			AverageG = g / 3;
+			AverageB = bl / 3;
 		}
 	} else {
-		DAT_800d2228 = c;
-		DAT_800d2229 = c >> 8;
-		DAT_800d222a = c >> 16;
+		AverageR = c;
+		AverageG = c >> 8;
+		AverageB = c >> 16;
 	}
 }

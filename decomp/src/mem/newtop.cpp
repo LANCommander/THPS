@@ -13,12 +13,12 @@ struct SBlockHeader {
 	uint Size : 28;
 };
 
-int DAT_800d1b50;
-uint DAT_800d1b54;
-uint DAT_800d1b58;
-int DAT_800d1b5c[2];
-uint DAT_800d1b60;
-SBlockHeader *DAT_800d1b64[2];
+int LowMemory;
+uint CriticalBigHeapUsage;
+uint UniqueIndentifier;
+int Used[2];
+uint Used_4;
+SBlockHeader *FirstFreeBlock[2];
 
 void Bang(unsigned char, unsigned char, unsigned char);
 
@@ -30,9 +30,9 @@ void *Mem_NewTop(uint size) {
 	SBlockHeader *pChoice;
 	SBlockHeader *pChoiceLast;
 
-	DAT_800d1b58 = (DAT_800d1b58 + 1) & 0x7fffffff;
+	UniqueIndentifier = (UniqueIndentifier + 1) & 0x7fffffff;
 	size = (size + 3) & ~3;
-	pBlock = DAT_800d1b64[Heap];
+	pBlock = FirstFreeBlock[Heap];
 	pLast = 0;
 	pChoice = pBlock;
 	pChoiceLast = 0;
@@ -65,15 +65,15 @@ void *Mem_NewTop(uint size) {
 		pChoice->Size = pChoice->Size - size - 8;
 		pBlock = (SBlockHeader *)pMem - 1;
 		pBlock->Size = size;
-		pBlock->pNext = (SBlockHeader *)DAT_800d1b58;
+		pBlock->pNext = (SBlockHeader *)UniqueIndentifier;
 		pBlock->Flags = 1;
-		DAT_800d1b5c[Heap] += pBlock->Size + 8;
+		Used[Heap] += pBlock->Size + 8;
 
 		if (Heap == 1) {
-			if (DAT_800d1b60 >= DAT_800d1b54)
-				DAT_800d1b50 = Heap;
+			if (Used_4 >= CriticalBigHeapUsage)
+				LowMemory = Heap;
 			else
-				DAT_800d1b50 = 0;
+				LowMemory = 0;
 		}
 
 		return pBlock + 1;
@@ -84,17 +84,17 @@ void *Mem_NewTop(uint size) {
 	if (pLast)
 		pLast->pNext = pChoice->pNext;
 	else
-		DAT_800d1b64[Heap] = pChoice->pNext;
+		FirstFreeBlock[Heap] = pChoice->pNext;
 
 	pChoice->Flags = 1;
-	pChoice->pNext = (SBlockHeader *)DAT_800d1b58;
-	DAT_800d1b5c[Heap] += pChoice->Size + 8;
+	pChoice->pNext = (SBlockHeader *)UniqueIndentifier;
+	Used[Heap] += pChoice->Size + 8;
 
 	if (Heap == 1) {
-		if (DAT_800d1b60 >= DAT_800d1b54)
-			DAT_800d1b50 = Heap;
+		if (Used_4 >= CriticalBigHeapUsage)
+			LowMemory = Heap;
 		else
-			DAT_800d1b50 = 0;
+			LowMemory = 0;
 	}
 
 	return pChoice + 1;

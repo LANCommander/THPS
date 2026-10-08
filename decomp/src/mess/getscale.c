@@ -1,13 +1,13 @@
 /* Mess_GetScale__Fv (0x8001d290) */
 #include "names.h"
-unsigned char DAT_800d1602;
-unsigned short DAT_800d15f8;
+unsigned char NewFont;
+unsigned short Scale;
 
 extern int Mess_GetFontScale(void);
 
 int Mess_GetScale(void) {
-	if (DAT_800d1602)
+	if (NewFont)
 		return Mess_GetFontScale();
 
-	return DAT_800d15f8;
+	return Scale;
 }

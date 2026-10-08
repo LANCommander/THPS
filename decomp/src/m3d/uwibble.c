@@ -4,17 +4,17 @@ typedef struct {
 	unsigned char wib;
 } STexWibVertInfo;
 
-int DAT_800d21c4;
+int BasePhase;
 
-extern short DAT_800c7400[][64];
+extern short WibbleTables[][64];
 
 int uWibble(STexWibVertInfo *v) {
 	int t = v->wib >> 4;
 	int o = v->wib & 15;
 
 	if (t != 0) {
-		int i = (DAT_800d21c4 + o * 4) & 63;
-		short *row = DAT_800c7400[t];
+		int i = (BasePhase + o * 4) & 63;
+		short *row = WibbleTables[t];
 
 		return row[i];
 	}

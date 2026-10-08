@@ -13,10 +13,10 @@ typedef struct {
 	int idx;
 } P;
 
-extern T DAT_800a44fc[];
+extern T Stats[];
 
 void CBruce_BoardOff(P *p) {
-	T *base = DAT_800a44fc;
+	T *base = Stats;
 	T *t = &base[p->idx];
 
 	p->flags |= (1 << t->a) | (1 << t->b) | (1 << t->c);

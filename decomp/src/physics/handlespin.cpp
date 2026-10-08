@@ -40,9 +40,9 @@ struct SControl {
 	char padc0[0x16c - 0xc0];
 };
 
-extern SControl DAT_800c0a48[];
-extern int DAT_800d1770;
-extern int DAT_800d1774;
+extern SControl Pad[];
+extern int XFrames;
+extern int TimeScale;
 
 class CBruce {
   public:
@@ -125,9 +125,9 @@ void CBruce::HandleSpin() {
 		}
 
 		if (mTapTurn > 0) {
-			RotateHeadingAndVelocity((DAT_800d1774 * 150) >> 8, 0, 0);
+			RotateHeadingAndVelocity((TimeScale * 150) >> 8, 0, 0);
 
-			mTallyAngles += (DAT_800d1774 * 150) >> 8;
+			mTallyAngles += (TimeScale * 150) >> 8;
 
 			if (mTallyAngles >= 2048) {
 				mTallyAngles -= 2048;
@@ -139,9 +139,9 @@ void CBruce::HandleSpin() {
 		}
 
 		if (mTapTurn < 0) {
-			RotateHeadingAndVelocity(-((DAT_800d1774 * 150) >> 8), 0, 0);
+			RotateHeadingAndVelocity(-((TimeScale * 150) >> 8), 0, 0);
 
-			mTallyAngles -= (DAT_800d1774 * 150) >> 8;
+			mTallyAngles -= (TimeScale * 150) >> 8;
 
 			if (mTallyAngles <= -2048) {
 				mTallyAngles += 2048;
@@ -162,7 +162,7 @@ void CBruce::HandleSpin() {
 	mTurning = 0;
 
 	if (mPhysicsState == 0) {
-		DeltaAngle = (DAT_800d1774 * (mpStatBonus[4] == 1   ? 10240
+		DeltaAngle = (TimeScale * (mpStatBonus[4] == 1   ? 10240
 		                              : mpStatBonus[4] == 3 ? 15872
 		                                                    : 30720)) >>
 		             8;
@@ -185,22 +185,22 @@ void CBruce::HandleSpin() {
 			}
 		}
 	} else {
-		if (DAT_800c0a48[0].LeftOne.Pressed || DAT_800c0a48[0].RightOne.Pressed)
-			DeltaAngle = (DAT_800d1774 * 0x64000) >> 8;
+		if (Pad[0].LeftOne.Pressed || Pad[0].RightOne.Pressed)
+			DeltaAngle = (TimeScale * 0x64000) >> 8;
 		else
-			DeltaAngle = (DAT_800d1774 * 0xa000) >> 8;
+			DeltaAngle = (TimeScale * 0xa000) >> 8;
 
 		MaxLeanAngle = 0xa0000;
 		LeftPressed = mPad->Left.Pressed || mPad->LeftOne.Pressed;
 		RightPressed = mPad->Right.Pressed || mPad->RightOne.Pressed;
 
 		if (LeftPressed || RightPressed) {
-			if (mFirstLeftRightPressed > 0 && DAT_800d1770 - mFirstLeftRightPressed < 8) {
+			if (mFirstLeftRightPressed > 0 && XFrames - mFirstLeftRightPressed < 8) {
 				LeftPressed = 0;
 				RightPressed = 0;
 			}
 		} else
-			mFirstLeftRightPressed = DAT_800d1770;
+			mFirstLeftRightPressed = XFrames;
 
 		LeftPressed |= mPad->LeftOne.Pressed;
 		RightPressed |= mPad->RightOne.Pressed;
@@ -480,9 +480,9 @@ void CBruce::HandleSpin() {
 
 	if (mPhysicsState == 1 && !mPad->Square.Pressed && !mPad->Circle.Pressed) {
 		if (mPad->Up.Pressed || mAY < -40)
-			mPitchAngle = -((DAT_800d1774 * 20) >> 8);
+			mPitchAngle = -((TimeScale * 20) >> 8);
 
 		if (mPad->Down.Pressed || mAY > 40)
-			mPitchAngle = (DAT_800d1774 * 20) >> 8;
+			mPitchAngle = (TimeScale * 20) >> 8;
 	}
 }

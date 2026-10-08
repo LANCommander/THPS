@@ -8,9 +8,9 @@ typedef struct {
 	char r[0x78 - 0x38];
 } E;
 
-extern E DAT_800a5398[];
+extern E Levels[];
 extern char DAT_800a1b0c[], DAT_800a1b1c[], DAT_800a1b2c[], DAT_800a1b3c[], DAT_800a1b4c[],
-    DAT_800c0a48[];
+    Pad[];
 
 int DAT_800d1cf4, DAT_800d1cf8, DAT_800d1d04, DAT_800d1d0c, DAT_800d1cec, DAT_800d1d14;
 
@@ -60,12 +60,12 @@ void FUN_8005cd14(void) {
 			o = FUN_80063a5c(o, 8, FUN_8005ca3c(DAT_800a1b3c), 0, 458, 64, 128);
 
 		DAT_800d1d0c = o;
-	} else if (DAT_800a5398[DAT_800d1cf4].fc != 0) {
+	} else if (Levels[DAT_800d1cf4].fc != 0) {
 		FUN_8005c8dc(6);
 		FUN_8005c97c(6);
 		FUN_8005ca64();
 
-		s0 = Mem_NewX(FileIO_Open(DAT_800a5398[DAT_800d1cf4].f34), 1, 1);
+		s0 = Mem_NewX(FileIO_Open(Levels[DAT_800d1cf4].f34), 1, 1);
 
 		if (s0) {
 			FileIO_Load(s0);
@@ -78,7 +78,7 @@ void FUN_8005cd14(void) {
 			o2 = FUN_80063a5c(o2, 8, s0, 0, 458, 64, 128);
 
 		DAT_800d1d0c = o2;
-		s0 = Mem_NewX(FileIO_Open(DAT_800a5398[DAT_800d1cf4].f30), 1, 1);
+		s0 = Mem_NewX(FileIO_Open(Levels[DAT_800d1cf4].f30), 1, 1);
 
 		if (s0) {
 			FileIO_Load(s0);
@@ -97,8 +97,8 @@ void FUN_8005cd14(void) {
 		s0 = FUN_80063a5c(s0, 8, FUN_8005ca3c(DAT_800a1b4c), 0, 440, 64, 128);
 
 	DAT_800d1d04 = s0;
-	DAT_800c0a48[0xe1] = 0;
-	DAT_800c0a48[0x24d] = 0;
+	Pad[0xe1] = 0;
+	Pad[0x24d] = 0;
 	DAT_800d1cec = 0;
 	DAT_800d1d14 = 0;
 	Pack_DefragmentFully();

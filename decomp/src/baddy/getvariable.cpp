@@ -79,8 +79,8 @@ class CBaddy : public CBody {
 
 class CBruce : public CItem {};
 
-extern short DAT_800d1654;
-extern CBruce *DAT_800d19a4;
+extern short GameFMV_CurrentFrame;
+extern CBruce *MechList;
 
 uint Utils_XZDist(const CVector &, const CVector &);
 int Utils_LineOfSight(const CVector &, const CVector &);
@@ -90,10 +90,10 @@ ushort *Trig_GetLinksPointer(int);
 short CBaddy::GetVariable(ushort variable) {
 	switch (variable) {
 		case 0x2136:
-			return DAT_800d1654;
+			return GameFMV_CurrentFrame;
 		case 0x2132:
-			if (DAT_800d19a4) {
-				uint dist = Utils_XZDist(mPos, DAT_800d19a4->mPos);
+			if (MechList) {
+				uint dist = Utils_XZDist(mPos, MechList->mPos);
 
 				if (dist >= 0x2000)
 					dist = 0x1fff;
@@ -103,11 +103,11 @@ short CBaddy::GetVariable(ushort variable) {
 
 			return 0x1fff;
 		case 0x2133:
-			if (DAT_800d19a4) {
+			if (MechList) {
 				CVector eye_pos = mPos;
 
 				eye_pos.vy -= mEyeHeight << 12;
-				return Utils_LineOfSight(eye_pos, DAT_800d19a4->mPos);
+				return Utils_LineOfSight(eye_pos, MechList->mPos);
 			}
 
 			break;
@@ -124,18 +124,18 @@ short CBaddy::GetVariable(ushort variable) {
 		case 0x2142:
 			return mPos.vz >> 12;
 		case 0x2150:
-			if (DAT_800d19a4)
-				return DAT_800d19a4->mPos.vx >> 12;
+			if (MechList)
+				return MechList->mPos.vx >> 12;
 
 			break;
 		case 0x2151:
-			if (DAT_800d19a4)
-				return DAT_800d19a4->mPos.vy >> 12;
+			if (MechList)
+				return MechList->mPos.vy >> 12;
 
 			break;
 		case 0x2152:
-			if (DAT_800d19a4)
-				return DAT_800d19a4->mPos.vz >> 12;
+			if (MechList)
+				return MechList->mPos.vz >> 12;
 
 			break;
 		case 0x2100:

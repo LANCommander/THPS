@@ -6,9 +6,9 @@ struct E {
 	char q[324];
 };
 
-extern struct E DAT_800a44fc[];
-extern int DAT_800d1984;
-extern int DAT_800d1e28;
+extern struct E Stats[];
+extern int Face_Terrain;
+extern int GLevel;
 
 int Redbook_Rnd(int);
 void SFX_PlayX(int, int, int);
@@ -16,14 +16,14 @@ void SFX_PlayX(int, int, int);
 void SFX_Grunt(char *p) {
 	int a;
 
-	switch (DAT_800d1984) {
+	switch (Face_Terrain) {
 		case 7:
 			a = 53;
 			break;
 		case 9:
 			a = 40;
 
-			if (DAT_800d1e28 == 8)
+			if (GLevel == 8)
 				a = 137;
 
 			break;
@@ -33,7 +33,7 @@ void SFX_Grunt(char *p) {
 
 	SFX_PlayX(a, 8192, 0);
 out:
-	a = DAT_800a44fc[*(int *)(p + 744)].f;
+	a = Stats[*(int *)(p + 744)].f;
 
 	if (a == 0x9000 || a == 0xb000)
 		a = 31;

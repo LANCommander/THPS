@@ -11,13 +11,13 @@ struct AnimPacket {
 	AnimPacket *pNext;
 };
 
-AnimPacket *DAT_800d1efc;
+AnimPacket *AnimPackets;
 
 SAnimFrame *Spool_FindAnim(char *pName) {
 	SAnimFrame *pAnim = 0;
 	AnimPacket *pPacketInfo;
 
-	for (pPacketInfo = DAT_800d1efc; pPacketInfo; pPacketInfo = pPacketInfo->pNext) {
+	for (pPacketInfo = AnimPackets; pPacketInfo; pPacketInfo = pPacketInfo->pNext) {
 		uint NumAnims = *pPacketInfo->pData;
 		char *pAnimName = (char *)(pPacketInfo->pData + 1);
 		int found = 0;

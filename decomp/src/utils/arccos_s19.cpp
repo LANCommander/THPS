@@ -4,7 +4,7 @@ struct TE {
 	short y;
 };
 
-extern TE DAT_800c9670[2];
+extern TE rcossin_tbl[2];
 
 int Utils_ArcCos(int a) {
 	int flag;
@@ -22,7 +22,7 @@ int Utils_ArcCos(int a) {
 	t = 512;
 
 	for (;;) {
-		TE *p = &DAT_800c9670[t];
+		TE *p = &rcossin_tbl[t];
 		int c = p->y;
 
 		if (a < c) {

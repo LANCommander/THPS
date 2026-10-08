@@ -15,32 +15,32 @@ struct SOTBuffer {
 	u_long OT;
 };
 
-extern SOTBuffer *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
+extern SOTBuffer *pDoubleBuffer;
+extern uchar *pPoly;
 
-uchar *DAT_800d177c;
-int DAT_800d1738;
+uchar *PolyBufferEnd;
+int Mick_Darkness;
 
 void Mick_Darken() {
 	POLY_F4 *aPoly;
 	DR_TPAGE *ptpage;
 	uchar *newppoly;
-	u_long *ot = &DAT_800d1a48->OT;
+	u_long *ot = &pDoubleBuffer->OT;
 
-	if (DAT_800d1738 < 40)
-		DAT_800d1738 += 4;
+	if (Mick_Darkness < 40)
+		Mick_Darkness += 4;
 
-	aPoly = (POLY_F4 *)DAT_800d1a54;
+	aPoly = (POLY_F4 *)pPoly;
 	newppoly = (uchar *)aPoly + sizeof(POLY_F4) + sizeof(DR_TPAGE);
 	ptpage = (DR_TPAGE *)(aPoly + 1);
 
-	if (newppoly > DAT_800d177c)
+	if (newppoly > PolyBufferEnd)
 		return;
 
-	DAT_800d1a54 = newppoly;
+	pPoly = newppoly;
 	setPolyF4(aPoly);
 	setSemiTrans(aPoly, 1);
-	setRGB0(aPoly, DAT_800d1738, DAT_800d1738, DAT_800d1738);
+	setRGB0(aPoly, Mick_Darkness, Mick_Darkness, Mick_Darkness);
 
 	aPoly->x0 = 0;
 	aPoly->x1 = 512;

@@ -5,7 +5,7 @@ typedef struct {
 	int w, h, f0c, f10, f14;
 } S;
 
-extern char DAT_800a2190[];
+extern char __vt_6Sprite[];
 
 int Mem_NewX(int, int, int);
 int SlicedImage_ctor(int, int, int, int, int, int, int, int);
@@ -19,7 +19,7 @@ S *__6Spriteiiiiiii(S *p, short a1, short a2, int w, int h, int f, int x, int y)
 	short r[4];
 	int buf, v;
 
-	p->vt = DAT_800a2190;
+	p->vt = __vt_6Sprite;
 	p->f10 = 16;
 	p->w = w;
 	r[0] = a1;

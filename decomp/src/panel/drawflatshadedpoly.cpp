@@ -14,21 +14,21 @@ struct SDB {
 	u_long OT[1];
 };
 
-extern SDB *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
-extern uchar *DAT_800d177c;
+extern SDB *pDoubleBuffer;
+extern uchar *pPoly;
+extern uchar *PolyBufferEnd;
 
 POLY_F4 *Panel_DrawFlatShadedPoly(int x, int y, int w, int h, uchar r, uchar g, uchar b, int sort) {
-	POLY_F4 *apoly = (POLY_F4 *)DAT_800d1a54;
-	uchar *newppoly = DAT_800d1a54 + sizeof(POLY_F4);
+	POLY_F4 *apoly = (POLY_F4 *)pPoly;
+	uchar *newppoly = pPoly + sizeof(POLY_F4);
 
-	if (newppoly > DAT_800d177c)
+	if (newppoly > PolyBufferEnd)
 		return 0;
 
-	DAT_800d1a54 = newppoly;
+	pPoly = newppoly;
 	setPolyF4(apoly);
 	setRGB0(apoly, r, g, b);
 	setXY4(apoly, x, y, x + w, y, x, y + h, x + w, y + h);
-	addPrim(&DAT_800d1a48->OT[sort], apoly);
+	addPrim(&pDoubleBuffer->OT[sort], apoly);
 	return apoly;
 }

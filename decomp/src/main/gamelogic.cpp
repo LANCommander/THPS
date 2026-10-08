@@ -25,27 +25,27 @@ struct CSkater {
 };
 
 extern "C" {
-	extern SControl DAT_800c0a48[2];
-	extern int DAT_800d140c[1];
+	extern SControl Pad[2];
+	extern int GamePaused[1];
 
-	int DAT_800d16e8;
+	int EveryOther;
 	int DAT_800d183c;
-	int DAT_800d16e4;
-	int DAT_800d16fc;
-	int DAT_800d16a4;
-	int DAT_800d1784;
+	int TTime;
+	int GameFrozen;
+	int GGame;
+	int GState;
 	int DAT_800d1788;
-	int DAT_800d178c;
-	int DAT_800d179c;
-	CSkater *DAT_800d17c8;
+	int GSpinSpeed;
+	int GHorsePlayer;
+	CSkater *GSkater;
 	CSkater *DAT_800d17cc;
 
-	extern CBody *DAT_800d1998;
-	extern CBody *DAT_800d19b0;
-	extern CBody *DAT_800d19a4;
-	extern CBody *DAT_800d1618;
-	extern CBody *DAT_800d1fe4;
-	extern CBody *DAT_800d2044;
+	extern CBody *BaddyList;
+	extern CBody *EnvironmentalObjectList;
+	extern CBody *MechList;
+	extern CBody *PowerUpList;
+	extern CBody *BackgroundList;
+	extern CBody *CameraList;
 
 	void Front_Update__Fv(void);
 	void Bit_RemoveDeadBits__Fv(void);
@@ -74,68 +74,68 @@ void Game_Logic(void) {
 
 	DAT_800d183c++;
 
-	if (DAT_800d16e8++ & 1)
+	if (EveryOther++ & 1)
 		return;
 
-	DAT_800d16e4++;
+	TTime++;
 	Font_Reset__Fv();
 
 	Frozen = 0;
 
-	if (DAT_800d140c[0] || DAT_800d16fc)
+	if (GamePaused[0] || GameFrozen)
 		Frozen = 1;
 
 	if (!Frozen) {
 		Flash_Update__Fv();
 		FUN_80048044();
-		Ob_ClearInputFlags__FP5CBody(DAT_800d1998);
-		Ob_ClearInputFlags__FP5CBody(DAT_800d19b0);
-		Ob_AI__FPP5CBody(&DAT_800d19a4);
+		Ob_ClearInputFlags__FP5CBody(BaddyList);
+		Ob_ClearInputFlags__FP5CBody(EnvironmentalObjectList);
+		Ob_AI__FPP5CBody(&MechList);
 
-		if (!DAT_800d140c[0]) {
+		if (!GamePaused[0]) {
 			FUN_8002aa6c();
 			FUN_8004f8a0();
-			Ob_AI__FPP5CBody(&DAT_800d1618);
+			Ob_AI__FPP5CBody(&PowerUpList);
 			TrickOb_Update__Fv();
-			Ob_QuickAI__FPP5CBody(&DAT_800d19b0);
-			Ob_QuickAI__FPP5CBody(&DAT_800d1fe4);
+			Ob_QuickAI__FPP5CBody(&EnvironmentalObjectList);
+			Ob_QuickAI__FPP5CBody(&BackgroundList);
 			Ob_MaybeUnSuspendOrCull__Fv();
-			Ob_AI__FPP5CBody(&DAT_800d1998);
+			Ob_AI__FPP5CBody(&BaddyList);
 			Bit_RemoveDeadBits__Fv();
 
-			if (DAT_800d16a4 != 7)
-				if (DAT_800d1784 == 1 && DAT_800d1788 < 40 && !DAT_800d17c8->Dead &&
+			if (GGame != 7)
+				if (GState == 1 && DAT_800d1788 < 40 && !GSkater->Dead &&
 				    (!DAT_800d17cc || !DAT_800d17cc->Dead)) {
-					DAT_800d17c8->pCareer->Money += DAT_800d178c;
+					GSkater->pCareer->Money += GSpinSpeed;
 
 					if (DAT_800d17cc)
-						DAT_800d17cc->pCareer->Money += DAT_800d178c;
+						DAT_800d17cc->pCareer->Money += GSpinSpeed;
 				}
 		}
 	} else {
-		if (DAT_800d1784 == 1)
-			Ob_AI__FPP5CBody(&DAT_800d2044);
+		if (GState == 1)
+			Ob_AI__FPP5CBody(&CameraList);
 	}
 
 	Shatter_MaybeMakeGlassShatterSound__Fv();
 	FUN_8006c4e8();
 
-	if (DAT_800d16a4 == 7 && DAT_800d179c == 1) {
-		SControl t = DAT_800c0a48[0];
+	if (GGame == 7 && GHorsePlayer == 1) {
+		SControl t = Pad[0];
 
-		DAT_800c0a48[0] = DAT_800c0a48[1];
-		DAT_800c0a48[1] = t;
+		Pad[0] = Pad[1];
+		Pad[1] = t;
 	}
 
 	Pad_Remap__Fv();
 	Front_Update__Fv();
 	Pad_Restore__Fv();
 
-	if (DAT_800d16a4 == 7 && DAT_800d179c == 1) {
-		SControl t = DAT_800c0a48[0];
+	if (GGame == 7 && GHorsePlayer == 1) {
+		SControl t = Pad[0];
 
-		DAT_800c0a48[0] = DAT_800c0a48[1];
-		DAT_800c0a48[1] = t;
+		Pad[0] = Pad[1];
+		Pad[1] = t;
 	}
 
 	TrickTips_Update__Fv();

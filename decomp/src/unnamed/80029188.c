@@ -1,6 +1,6 @@
 /* __11CWobblyGlowRC7CVectoriiiUcUcUcUcUcUc (0x80029188) */
 #include "names.h"
-extern char DAT_8009f7e8[];
+extern char __vt_11CWobblyGlow[];
 
 void __5CGlowRC7CVectoriiUcUcUcUcUcUc(char *p, int a, int b, int c, unsigned char b1, unsigned char b2,
                   unsigned char b3, unsigned char b4, unsigned char b5, unsigned char b6);
@@ -12,7 +12,7 @@ char *CWobblyGlow_ctor(char *p, int a, int s, int c, int e, unsigned char b1, un
 
 	__5CGlowRC7CVectoriiUcUcUcUcUcUc(p, a, s, c, b1, b2, b3, b4, b5, b6);
 
-	*(char **)(p + 68) = DAT_8009f7e8;
+	*(char **)(p + 68) = __vt_11CWobblyGlow;
 	*(int *)(p + 172) = s;
 	*(int *)(p + 168) = (s * e) / 256;
 

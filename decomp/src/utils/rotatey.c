@@ -7,14 +7,14 @@ typedef struct {
 	short s, c;
 } SC;
 
-extern SC DAT_800c9670[];
+extern SC rcossin_tbl[];
 
 void Utils_RotateY(V *out, V *in, int a) {
 	SC *b;
 	SC *t;
 
 	a &= 4095;
-	b = DAT_800c9670;
+	b = rcossin_tbl;
 	t = b + a;
 	out->x = ((in->x >> 3) * t->c + (in->z >> 3) * t->s) >> 9;
 	out->y = in->y;

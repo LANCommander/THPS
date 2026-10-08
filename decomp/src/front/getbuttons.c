@@ -5,14 +5,14 @@ typedef struct {
 } Pad;
 
 extern Pad DAT_800c0a48[];
-extern int DAT_800d1728, DAT_800d16fc;
+extern int Cheat_ScreenShots, GameFrozen;
 
-int DAT_800d151c, DAT_800d1520;
+int GStart1, GStart2;
 
 void Front_GetButtons(int *a, int *b, int *c, int *d) {
 	int v, w, e;
 
-	if (DAT_800d1728 == 0 || DAT_800d16fc == 0) {
+	if (Cheat_ScreenShots == 0 || GameFrozen == 0) {
 		v = 0;
 
 		if (DAT_800c0a48[0].b[0xe1] || DAT_800c0a48[1].b[0xe1])
@@ -20,12 +20,12 @@ void Front_GetButtons(int *a, int *b, int *c, int *d) {
 
 		*d = v;
 		e = DAT_800c0a48[0].b[0xe1];
-		DAT_800d151c = e;
+		GStart1 = e;
 
 		if (!e)
-			DAT_800d1520 = DAT_800c0a48[1].b[0xe1];
+			GStart2 = DAT_800c0a48[1].b[0xe1];
 		else
-			DAT_800d1520 = 0;
+			GStart2 = 0;
 
 		DAT_800c0a48[0].b[0xe1] = 0;
 		DAT_800c0a48[1].b[0xe1] = 0;

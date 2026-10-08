@@ -5,9 +5,9 @@ typedef struct {
 	unsigned short f0, f2, f4, f6;
 } H;
 
-extern int DAT_800d1ed0[2];
-extern char *DAT_800bf7b8[][16];
-extern char *DAT_800d19b0;
+extern int EnvRegions[2];
+extern char *PSXRegion_10[][16];
+extern char *EnvironmentalObjectList;
 
 void FUN_800237b4(int arg0, char *a1) {
 	unsigned short t9 = arg0;
@@ -19,13 +19,13 @@ void FUN_800237b4(int arg0, char *a1) {
 
 	do {
 
-		m = DAT_800d1ed0[i];
+		m = EnvRegions[i];
 
 		if (m != -1) {
 			char **lst;
 			unsigned t8, t6;
 
-			lst = (char **)DAT_800bf7b8[m][0];
+			lst = (char **)PSXRegion_10[m][0];
 			t8 = ((unsigned *)lst)[-1];
 			t6 = 0;
 
@@ -89,7 +89,7 @@ void FUN_800237b4(int arg0, char *a1) {
 		i++;
 	} while (i < 2);
 
-	o = DAT_800d19b0;
+	o = EnvironmentalObjectList;
 
 	if (o) {
 		do {
@@ -100,7 +100,7 @@ void FUN_800237b4(int arg0, char *a1) {
 				char **lst;
 				unsigned t8, t6;
 
-				lst = (char **)DAT_800bf7b8[m2][0];
+				lst = (char **)PSXRegion_10[m2][0];
 				t8 = ((unsigned *)lst)[-1];
 				t6 = 0;
 

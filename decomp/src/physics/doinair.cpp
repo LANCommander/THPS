@@ -150,21 +150,21 @@ class CBruce {
 	void DoInAirPhysics();
 };
 
-extern int DAT_800d1770;
-extern int DAT_800d1774;
-extern int DAT_800d1778;
-extern int DAT_800d1e28;
-extern int DAT_800d20d4;
-extern CVector DAT_800a824c;
-extern CVector DAT_800a7f1c;
-extern STrickInfo DAT_800a7358[];
+extern int XFrames;
+extern int TimeScale;
+extern int TimeScaleSquared;
+extern int GLevel;
+extern int BulletCollisionCheck;
+extern CVector ZeroVector;
+extern CVector WorldUp;
+extern STrickInfo Group[];
 extern char DAT_8009fe10[];
 
-int DAT_800d1974;
-int DAT_800d1978;
-int DAT_800d197c;
-int DAT_800d1980;
-int DAT_800d1984;
+int Face_Air;
+int Face_Skateable;
+int Face_WallRide;
+int Face_Visible;
+int Face_Terrain;
 
 void Platform_HandleBounce();
 void ProjectCVectorToPlane(CVector *, SVECTOR);
@@ -208,7 +208,7 @@ void CBruce::DoInAirPhysics() {
 	CVector Gravity;
 
 	Gravity = mGravity;
-	mPos += ((mVel * DAT_800d1774) >> 8) + ((mKick * DAT_800d1778) >> 8) / 2;
+	mPos += ((mVel * TimeScale) >> 8) + ((mKick * TimeScaleSquared) >> 8) / 2;
 	Platform_HandleBounce();
 
 	if (m834) {
@@ -242,7 +242,7 @@ void CBruce::DoInAirPhysics() {
 	TurnAngle = m838 >> 12;
 	Mips_FixMul__Fii(TurnAngle, 3072);
 
-	if (TurnAngle && m814 == DAT_800a824c) {
+	if (TurnAngle && m814 == ZeroVector) {
 		RotAngle.vz = 0;
 		RotAngle.vx = 0;
 		RotAngle.vy = TurnAngle & 4095;
@@ -286,17 +286,17 @@ void CBruce::DoInAirPhysics() {
 	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 	GetFaceFlags(&line_info);
 
-	if (DAT_800d1974 && !DAT_800d1980 && m734 != 3) {
-		DAT_800d20d4 = 1;
+	if (Face_Air && !Face_Visible && m734 != 3) {
+		BulletCollisionCheck = 1;
 		M3dColij_InitLineInfo(&line_info);
 		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 		GetFaceFlags(&line_info);
 
-		DAT_800d20d4 = 0;
+		BulletCollisionCheck = 0;
 	}
 
 	if (line_info.pItem) {
-		if ((!DAT_800d1978 || (DAT_800d1974 && DAT_800d1980)) && DAT_800d197c && !mInAir &&
+		if ((!Face_Skateable || (Face_Air && Face_Visible)) && Face_WallRide && !mInAir &&
 		    (mpColl->b0 || mpColl->x8 < 20)) {
 			CVector UnitVel;
 			CVector FaceNormal;
@@ -315,14 +315,14 @@ void CBruce::DoInAirPhysics() {
 			VelNormal = Mips_CVecDotProd__FP7CVectorT0(&FaceNormal, &UnitVel);
 
 			if (!Steep && ((VelNormal ^ (VelNormal >> 31)) - (VelNormal >> 31)) < 3547 &&
-			    DAT_800d1770 - m208 >= 41) {
+			    XFrames - m208 >= 41) {
 				int Limit = 10000;
 				int Trick = m368 & 255;
 
 				if (m368 & 0x4000)
-					Limit = m14E - DAT_800a7358[Trick].f18;
+					Limit = m14E - Group[Trick].f18;
 				else if (m368 & 0x2000)
-					Limit = m14E - DAT_800a7358[Trick].f18;
+					Limit = m14E - Group[Trick].f18;
 
 				if (m35C && !m360 && mFrame < Limit) {
 					Bail__6CBrucei13ELimitBailVel(this, 0);
@@ -335,7 +335,7 @@ void CBruce::DoInAirPhysics() {
 					FUN_8003036c(this);
 					StateTransition(5, 5197);
 
-					m208 = DAT_800d1770;
+					m208 = XFrames;
 					mPos.vx = line_info.HitPoint.vx + line_info.Normal.vx * 30;
 					mPos.vy = line_info.HitPoint.vy + line_info.Normal.vy * 30;
 					mPos.vz = line_info.HitPoint.vz + line_info.Normal.vz * 30;
@@ -356,7 +356,7 @@ void CBruce::DoInAirPhysics() {
 					ProjectCVectorToPlane(&mVel, line_info.Normal);
 					CVector WallRight;
 
-					gte_ldopv1(&DAT_800a7f1c);
+					gte_ldopv1(&WorldUp);
 					gte_ldopv2(&mUp);
 					gte_op12();
 					gte_stlvnl(&WallRight);
@@ -383,13 +383,13 @@ void CBruce::DoInAirPhysics() {
 				printf(DAT_8009fe10);
 				Bail__6CBrucei13ELimitBailVel(this, 0);
 			}
-		} else if (!DAT_800d1978 && (!DAT_800d1974 || m734 != 3)) {
-			switch (DAT_800d1984) {
+		} else if (!Face_Skateable && (!Face_Air || m734 != 3)) {
+			switch (Face_Terrain) {
 				case 7:
 					SFX_PlayX(53, 0x2000, 0);
 					break;
 				case 9:
-					if (DAT_800d1e28 == 8)
+					if (GLevel == 8)
 						SFX_PlayX(137, 0x2000, 0);
 					else
 						SFX_PlayX(40, 0x2000, 0);
@@ -426,8 +426,8 @@ void CBruce::DoInAirPhysics() {
 			mPos.vy = line_info.HitPoint.vy + line_info.Normal.vy * 30;
 			mPos.vz = line_info.HitPoint.vz + line_info.Normal.vz * 30;
 
-			if (!mInAir && DAT_800d1974) {
-				if (m764 && (!m1F8 || DAT_800d1770 - m1F8 < 5 || DAT_800d1980)) {
+			if (!mInAir && Face_Air) {
+				if (m764 && (!m1F8 || XFrames - m1F8 < 5 || Face_Visible)) {
 					StateTransition(2, 5428);
 				} else {
 					StateTransition(1, 5435);
@@ -452,10 +452,10 @@ void CBruce::DoInAirPhysics() {
 						m740 = 1;
 					}
 				}
-			} else if (m734 != 3 || DAT_800d1770 - m2FC >= 31) {
+			} else if (m734 != 3 || XFrames - m2FC >= 31) {
 				StateTransition(0, 5487);
 
-				m72C = DAT_800d1984;
+				m72C = Face_Terrain;
 
 				if (!mInAir) {
 					HandleBailPerpendicular__6CBruceG7SVECTOR(this, line_info.Normal);

@@ -20,22 +20,22 @@ struct CTrickOb {
 	Item *mpItem;
 };
 
-CTrickOb *DAT_800d1b70;
+CTrickOb *TrickObList;
 
-extern const int DAT_800d16a4;
-extern uint DAT_800d1a24;
+extern const int GGame;
+extern uint Xblanks;
 
 void TrickOb_Update(void) {
 	CTrickOb *pTrickOb;
 
-	for (pTrickOb = DAT_800d1b70; pTrickOb; pTrickOb = pTrickOb->mpNext) {
+	for (pTrickOb = TrickObList; pTrickOb; pTrickOb = pTrickOb->mpNext) {
 		if (pTrickOb->mState) {
 			Item *pItem = pTrickOb->mpItem;
 
 			if (pItem) {
-				if (DAT_800d16a4 == 8) {
+				if (GGame == 8) {
 					int Red;
-					uint t = DAT_800d1a24 << 2;
+					uint t = Xblanks << 2;
 
 					if (pTrickOb->mScore <= 2000)
 						Red = t % ((((pTrickOb->mScore << 6) / 2000) + 1) * 2);
@@ -60,7 +60,7 @@ void TrickOb_Update(void) {
 					else
 						pItem->mRGB = (pItem->mRGB & 0xffffff00) | (Red + 64);
 				} else {
-					int Red = (DAT_800d1a24 >> 1) & 63;
+					int Red = (Xblanks >> 1) & 63;
 
 					if (Red > 32)
 						Red = 64 - Red;

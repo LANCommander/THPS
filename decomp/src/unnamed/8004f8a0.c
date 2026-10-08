@@ -46,9 +46,9 @@ typedef struct Box {
 	int f28;
 } Box;
 
-extern Obj *DAT_800d19a4;
+extern Obj *MechList;
 
-Box *DAT_800d1b94;
+Box *RailList;
 
 unsigned short *Trig_GetLinksPointer(int);
 void Trig_GetPosition(V *, int);
@@ -71,7 +71,7 @@ void FUN_8004f8a0(void) {
 	int s7, s6, flag, nxt;
 	unsigned short *lp;
 
-	o = DAT_800d19a4;
+	o = MechList;
 
 	if (o) {
 		R = 0x64000;
@@ -113,7 +113,7 @@ void FUN_8004f8a0(void) {
 				by += R;
 				az -= R;
 				bz += R;
-				b = DAT_800d1b94;
+				b = RailList;
 
 				if (b) {
 					do {

@@ -1,10 +1,10 @@
 /* SFX_PlayLR__FUissi (0x8004b364) */
 /* C++ (PAL). Stereo variant of FUN_8004b250: plays sound effect id with separate left/right
-   volumes (each clamped to 16384), scaled by the global percentage DAT_800d13cc. */
+   volumes (each clamped to 16384), scaled by the global percentage SFXLEVEL. */
 extern int DAT_800b8a9c[];
-extern int DAT_800d13cc;
+extern int SFXLEVEL;
 
-int DAT_800d1acc;
+int SFX_v;
 
 extern "C" int playSFX__FUiUcssiUs(int, unsigned char, short, short, int);
 
@@ -24,8 +24,8 @@ extern "C" int SFX_PlayLR__FUissi(int id, short l, short r, int pan) {
 		p &= 0xffff;
 	}
 
-	DAT_800d1acc = p;
-	p = DAT_800d13cc * p / 100;
+	SFX_v = p;
+	p = SFXLEVEL * p / 100;
 
 	return playSFX__FUiUcssiUs(DAT_800b8a9c[id * 2], note, (l * p * 4) >> 16, (r * p * 4) >> 16, pan);
 }

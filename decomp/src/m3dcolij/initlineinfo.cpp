@@ -43,7 +43,7 @@ struct SLineInfo {
 	uint NormalOffset;
 };
 
-extern MATRIX DAT_800c13cc;
+extern MATRIX Tfm;
 
 ushort DAT_800d20c8;
 
@@ -89,7 +89,7 @@ void M3dColij_InitLineInfo(SLineInfo *pInfo) {
 		Sin = (L.vx << (Shift1 + 12)) / r1Norm;
 		short Cos = (L.vz << (Shift1 + 12)) / r1Norm;
 
-		pShort = (short *)&DAT_800c13cc;
+		pShort = (short *)&Tfm;
 		*pShort++ = Cos;
 		*pShort++ = 0;
 		*pShort++ = -Sin;
@@ -121,7 +121,7 @@ void M3dColij_InitLineInfo(SLineInfo *pInfo) {
 		pInfo->WorldCst.m[2][0] = 0;
 		pInfo->WorldCst.m[2][1] = Sin;
 		pInfo->WorldCst.m[2][2] = Cos2;
-		MulMatrix(&pInfo->WorldCst, &DAT_800c13cc);
+		MulMatrix(&pInfo->WorldCst, &Tfm);
 	} else {
 		Sin = 4096;
 

@@ -15,19 +15,19 @@ struct SDB {
 	u_long OT[1];
 };
 
-extern SDB *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
-extern uchar *DAT_800d177c;
+extern SDB *pDoubleBuffer;
+extern uchar *pPoly;
+extern uchar *PolyBufferEnd;
 
 POLY_G4 *DrawGouraudPoly(int x, int y, int w, int h, uchar rtop, uchar gtop, uchar btop,
                          uchar rbottom, uchar gbottom, uchar bbottom, int sort) {
-	POLY_G4 *apoly = (POLY_G4 *)DAT_800d1a54;
-	uchar *newppoly = DAT_800d1a54 + sizeof(POLY_G4);
+	POLY_G4 *apoly = (POLY_G4 *)pPoly;
+	uchar *newppoly = pPoly + sizeof(POLY_G4);
 
-	if (newppoly > DAT_800d177c)
+	if (newppoly > PolyBufferEnd)
 		return 0;
 
-	DAT_800d1a54 = newppoly;
+	pPoly = newppoly;
 	setPolyG4(apoly);
 
 	apoly->r0 = rbottom;
@@ -50,6 +50,6 @@ POLY_G4 *DrawGouraudPoly(int x, int y, int w, int h, uchar rtop, uchar gtop, uch
 	apoly->x3 = x + w;
 	apoly->y2 = y + h;
 	apoly->y3 = y + h;
-	addPrim(&DAT_800d1a48->OT[sort], apoly);
+	addPrim(&pDoubleBuffer->OT[sort], apoly);
 	return apoly;
 }

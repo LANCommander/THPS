@@ -2,7 +2,7 @@
 #include "names.h"
 /* Maps a raw analog axis reading to -127..127 given its calibrated min/max and centre, with a
    dead zone of 32 either side of the centre. Movement outside it marks the pad active. */
-int DAT_800d1f68;
+int Pad_IdleTime;
 
 void ResetMainDemoTimer(void);
 
@@ -16,7 +16,7 @@ int FUN_80070f18(int v, int min, int max, int centre) {
 	if (v < centre - 32) {
 		int a, n, b;
 
-		DAT_800d1f68 = 0;
+		Pad_IdleTime = 0;
 		ResetMainDemoTimer();
 
 		a = v + 32;
@@ -28,7 +28,7 @@ int FUN_80070f18(int v, int min, int max, int centre) {
 	if (centre + 32 < v) {
 		int a, n, b;
 
-		DAT_800d1f68 = 0;
+		Pad_IdleTime = 0;
 		ResetMainDemoTimer();
 
 		a = v - 32;

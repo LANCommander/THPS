@@ -12,7 +12,7 @@ int DAT_800d2304[2];
 int DAT_800d231c[2];
 
 extern int DAT_800d3758[];
-extern N *DAT_800d1a60;
+extern N *Pack_pFree;
 extern N *DAT_800d1c80;
 
 void FUN_80059618(int);
@@ -39,16 +39,16 @@ void FUN_80056428(void) {
 		}
 	}
 
-	if (DAT_800d1a60) {
+	if (Pack_pFree) {
 		do {
-			t = DAT_800d1a60->next;
-			Pack_KillSlot(DAT_800d1a60);
+			t = Pack_pFree->next;
+			Pack_KillSlot(Pack_pFree);
 
-			DAT_800d1a60 = t;
+			Pack_pFree = t;
 		} while (t);
 	}
 
-	DAT_800d1a60 = Mem_NewX(20, 1, 1);
-	*DAT_800d1a60 = *DAT_800d1c80;
-	DAT_800d1a60->next = 0;
+	Pack_pFree = Mem_NewX(20, 1, 1);
+	*Pack_pFree = *DAT_800d1c80;
+	Pack_pFree->next = 0;
 }

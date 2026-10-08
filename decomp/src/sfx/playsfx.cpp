@@ -68,11 +68,11 @@ typedef unsigned int uint;
 int Redbook_Rnd(int);
 int allocateVoice(void);
 
-char *DAT_800d1ad0;
-char *DAT_800d1ad4;
-unsigned DAT_800d1aa4, DAT_800d1aa8, DAT_800d1aac, DAT_800d1ab0, DAT_800d1ab8, DAT_800d1abc;
+char *pSFXVABHeader;
+char *pLevelSpecificSFXVABHeader;
+unsigned nko_flag, keyon_queue, keyoff_queue, voiceon_flag, loop_flag, voicefree_flag;
 
-extern ushort DAT_800d2b5c[];
+extern ushort SFXFalloffArray[];
 
 int playSFX(uint sfx, uchar pitch, short vl, short vr, int pitch_offset, ushort volMod) {
 	int looping;
@@ -130,9 +130,9 @@ int playSFX(uint sfx, uchar pitch, short vl, short vr, int pitch_offset, ushort 
 			gte_ldlzc(voice_bf);
 
 			if (!(sfx & 0x40000000))
-				p_vab_hdr = DAT_800d1ad0;
+				p_vab_hdr = pSFXVABHeader;
 			else
-				p_vab_hdr = DAT_800d1ad4;
+				p_vab_hdr = pLevelSpecificSFXVABHeader;
 
 			gte_stlzc(&lzc);
 
@@ -175,7 +175,7 @@ int playSFX(uint sfx, uchar pitch, short vl, short vr, int pitch_offset, ushort 
 								attr.volume.right = vr;
 								attr.pitch =
 								    FUN_80094e44(pitch, 0, p_vagatr->center, p_vagatr->shift);
-								DAT_800d2b5c[v] = attr.pitch;
+								SFXFalloffArray[v] = attr.pitch;
 
 								{
 									uint addr = *(uint *)(p_vab_hdr + 12);
@@ -195,14 +195,14 @@ int playSFX(uint sfx, uchar pitch, short vl, short vr, int pitch_offset, ushort 
 								FUN_80093e54(v, &attr);
 
 								if (looping)
-									DAT_800d1ab8 |= 1 << v;
+									loop_flag |= 1 << v;
 
 								tones &= ~(1 << t);
-								DAT_800d1abc &= ~(1 << v);
-								DAT_800d1aa4 |= 1 << v;
-								DAT_800d1ab0 |= 1 << v;
-								DAT_800d1aa8 |= 1 << v;
-								DAT_800d1aac &= ~(1 << v);
+								voicefree_flag &= ~(1 << v);
+								nko_flag |= 1 << v;
+								voiceon_flag |= 1 << v;
+								keyon_queue |= 1 << v;
+								keyoff_queue &= ~(1 << v);
 								break;
 							}
 						}

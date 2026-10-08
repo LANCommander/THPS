@@ -3,8 +3,8 @@
 typedef unsigned long ulong;
 enum EFileType { FILETYPE_A, FILETYPE_B, FILETYPE_C, FILETYPE_D };
 
-extern char DAT_800a5848[];
-extern char DAT_800a5864[];
+extern char CARD_FNAME[];
+extern char CARD_VNAME[];
 
 int SyncToGoodState(void);
 void _clear_event(void);
@@ -23,15 +23,15 @@ int Card_Load(EFileType FileType, ulong *pBuf, ulong *pBuf2) {
 
 	switch (FileType) {
 		case 0:
-			FName = DAT_800a5848;
+			FName = CARD_FNAME;
 			ReadSize = 3200;
 			break;
 		case 1:
-			FName = DAT_800a5864;
+			FName = CARD_VNAME;
 			ReadSize = 24576;
 			break;
 		case 2:
-			FName = DAT_800a5864;
+			FName = CARD_VNAME;
 			ReadSize = 640;
 			break;
 		case 3:

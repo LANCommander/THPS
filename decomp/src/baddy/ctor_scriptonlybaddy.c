@@ -1,10 +1,10 @@
 /* __16CScriptOnlyBaddyPsi (0x800411ac) */
 #include "names.h"
-extern char DAT_800a0218[];
+extern char __vt_16CScriptOnlyBaddy[];
 
-extern int DAT_800d199c __attribute__((section(".data")));
+extern int pCurrentPlayer __attribute__((section(".data")));
 
-void *DAT_800d1998;
+void *BaddyList;
 
 void CBaddy_ctor(char *);
 void CBody_AttachTo(char *, void *);
@@ -16,8 +16,8 @@ char *CScriptOnlyBaddy_ctor(char *t, short *p, int id) {
 
 	CBaddy_ctor(t);
 
-	x = DAT_800d199c;
-	*(char **)(t + 0x48) = DAT_800a0218;
+	x = pCurrentPlayer;
+	*(char **)(t + 0x48) = __vt_16CScriptOnlyBaddy;
 	*(int *)(t + 0x218) = x;
 	p = CBody_SquirtPos(t, p);
 	*(short **)(t + 0x1b0) = CBody_SquirtAngles(t, p);
@@ -26,7 +26,7 @@ char *CScriptOnlyBaddy_ctor(char *t, short *p, int id) {
 	*(unsigned short *)(t + 0xe2) = id;
 	*(unsigned short *)t |= 0x41;
 	*(unsigned short *)(t + 0x52) &= ~0x10;
-	CBody_AttachTo(t, &DAT_800d1998);
+	CBody_AttachTo(t, &BaddyList);
 
 	*(short *)(t + 0xe0) = 0;
 	*(short *)(t + 0x3a) = 203;

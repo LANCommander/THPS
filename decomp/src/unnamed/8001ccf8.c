@@ -1,6 +1,6 @@
 /* FUN_8001ccf8 (0x8001ccf8) */
 #include "names.h"
-extern char *DAT_800d1f84;
+extern char *TrigFileName;
 extern char DAT_8009e4ec[];
 extern char DAT_8009e4f8[];
 extern char DAT_8009e504[];
@@ -17,14 +17,14 @@ typedef struct {
 	char pad2[319];
 } E;
 
-extern E DAT_800a44fc[];
+extern E Stats[];
 
 typedef struct {
 	int p0, p1, f8, fc;
 	char pad[104];
 } T;
 
-extern T DAT_800a5398[];
+extern T Levels[];
 
 typedef struct {
 	char pad[11];
@@ -32,24 +32,24 @@ typedef struct {
 	char pad2[52];
 } B;
 
-extern B DAT_800bf7a8[];
-extern int DAT_800d1114;
+extern B PSXRegion[];
+extern int SelectedSkater;
 extern char DAT_800d14e4[];
 extern char DAT_800d14ec[];
-extern int DAT_800d16a4;
-extern int DAT_800d16d8;
+extern int GGame;
+extern int SelectedSkater2;
 extern int DAT_800d1724;
-extern int DAT_800d1780;
-extern int DAT_800d184c;
+extern int GNumberOfPlayers;
+extern int pScoreSprite;
 extern int DAT_800d1850;
-extern int DAT_800d1854;
+extern int pBarSprite;
 extern int DAT_800d1858;
-extern char DAT_800d1a15;
-extern char DAT_800d1a16;
-extern int DAT_800d1cf0;
-extern int DAT_800d1e28;
-extern int DAT_800d2120;
-extern int DAT_800d2130;
+extern char CurrentItemsFileRegion;
+extern char CurrentMedalsFileRegion;
+extern int BackOut;
+extern int GLevel;
+extern int GHeadPart;
+extern int GHeadUp;
 
 void Bit_Init(void);
 void FUN_80025a88(void);
@@ -81,11 +81,11 @@ void FUN_8001ccf8(char *p) {
 	char *bp, *bp2;
 	B *tb, *tb2;
 
-	DAT_800d1f84 = p + 4;
+	TrigFileName = p + 4;
 	Redbook_InitialRand(0x12a6cc58);
 	FUN_8004c740(2000);
 	FUN_8004b09c(DAT_8009e4ec);
-	FUN_8004b0e4(DAT_800a5398[DAT_800d1e28].f8);
+	FUN_8004b0e4(Levels[GLevel].f8);
 	SFX_SetReverbType(0);
 
 	a = __nw__6CClassUi(24);
@@ -93,7 +93,7 @@ void FUN_8001ccf8(char *p) {
 	if (a)
 		a = __6SpritePciii(a, DAT_8009e4f8, 1, 256, 256);
 
-	DAT_800d184c = a;
+	pScoreSprite = a;
 	a = __nw__6CClassUi(24);
 
 	if (a)
@@ -105,7 +105,7 @@ void FUN_8001ccf8(char *p) {
 	if (a)
 		a = __6SpritePciii(a, DAT_8009e510, 1, 256, 256);
 
-	DAT_800d1854 = a;
+	pBarSprite = a;
 	b = __nw__6CClassUi(24);
 
 	if (b)
@@ -113,13 +113,13 @@ void FUN_8001ccf8(char *p) {
 
 	DAT_800d1858 = b;
 	i1 = Spool_PSX(DAT_800d14e4, 0, 0);
-	bt = (char *)DAT_800bf7a8;
+	bt = (char *)PSXRegion;
 	tb = (B *)(bt + i1 * 64);
 	tb->f = 1;
 	s2 = Spool_PSX(DAT_800d14ec, 0, 0);
 	tb2 = (B *)(bt + s2 * 64);
 	tb2->f = 1;
-	DAT_800d1a15 = s2;
+	CurrentItemsFileRegion = s2;
 	Spool_Sync();
 	FUN_8004c740(4);
 	FUN_8006c4c4();
@@ -127,60 +127,60 @@ void FUN_8001ccf8(char *p) {
 	Bit_Init();
 	Spool_ClearAllPSXs();
 
-	if (DAT_800a5398[DAT_800d1e28].fc && DAT_800d16a4 == 1)
+	if (Levels[GLevel].fc && GGame == 1)
 		s2 = Spool_PSX(DAT_8009e52c, 0, 0);
 
-	DAT_800d1a16 = s2;
+	CurrentMedalsFileRegion = s2;
 
 	if (DAT_800d1724) {
-		bp = (char *)DAT_800a44fc;
-		q = (E *)(bp + DAT_800d1114 * 340);
+		bp = (char *)Stats;
+		q = (E *)(bp + SelectedSkater * 340);
 		t1 = q->c13;
 		t2 = q->c14;
-		DAT_800d2120 = t1;
-		DAT_800d2130 = t2;
+		GHeadPart = t1;
+		GHeadUp = t2;
 	}
 
-	if (DAT_800d1780 == 2 && DAT_800d16a4 != 7)
-		Spool_PSX(DAT_800a44fc[DAT_800d1114].b, 0, 0);
+	if (GNumberOfPlayers == 2 && GGame != 7)
+		Spool_PSX(Stats[SelectedSkater].b, 0, 0);
 	else
-		Spool_PSX(DAT_800a44fc[DAT_800d1114].a, 0, 0);
+		Spool_PSX(Stats[SelectedSkater].a, 0, 0);
 
 	Spool_Sync();
 
-	DAT_800d2120 = -1;
+	GHeadPart = -1;
 
-	if (DAT_800d1780 == 2) {
+	if (GNumberOfPlayers == 2) {
 		if (DAT_800d1724) {
-			bp2 = (char *)DAT_800a44fc;
-			q = (E *)(bp2 + DAT_800d16d8 * 340);
+			bp2 = (char *)Stats;
+			q = (E *)(bp2 + SelectedSkater2 * 340);
 			u1 = q->c14;
 			u2 = q->c13;
-			DAT_800d2130 = u1;
-			DAT_800d2120 = u2;
+			GHeadUp = u1;
+			GHeadPart = u2;
 		}
 
-		if (DAT_800d16a4 != 7)
-			Spool_PSX(DAT_800a44fc[DAT_800d16d8].b, 0, 0);
+		if (GGame != 7)
+			Spool_PSX(Stats[SelectedSkater2].b, 0, 0);
 		else
-			Spool_PSX(DAT_800a44fc[DAT_800d16d8].a, 0, 0);
+			Spool_PSX(Stats[SelectedSkater2].a, 0, 0);
 
 		Spool_Sync();
 
-		DAT_800d2120 = -1;
+		GHeadPart = -1;
 	}
 
-	if (Front_FindLevel(DAT_800d1f84)) {
+	if (Front_FindLevel(TrigFileName)) {
 		FUN_8004bb5c();
 		FUN_8004b180();
 	}
 
 	FUN_8004c740(2000);
-	Trig_InitialParseTRGFile(DAT_800d1f84);
+	Trig_InitialParseTRGFile(TrigFileName);
 	FUN_8005dc8c();
 	FUN_8004c740(4);
 
-	if (DAT_800d1cf0 == 0) {
+	if (BackOut == 0) {
 		FUN_80025a88();
 
 		if (p[13])

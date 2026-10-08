@@ -11,9 +11,9 @@ typedef struct {
 } Pad;
 
 extern Pad DAT_800c0a48[];
-extern char DAT_800c0d20[];
+extern char controllers[];
 
-int DAT_800d1f68, DAT_800d1f74;
+int Pad_IdleTime, ControlSystemInitialised;
 
 extern void Pad_ClearAll(void);
 extern void FUN_80096304(char *, char *);
@@ -31,11 +31,11 @@ void Pad_InitAtStart(void) {
 	}
 
 	Pad_ClearAll();
-	FUN_80096304(DAT_800c0d20, DAT_800c0d20 + 34);
+	FUN_80096304(controllers, controllers + 34);
 	FUN_80096050();
 
-	DAT_800d1f68 = 0;
+	Pad_IdleTime = 0;
 	ResetMainDemoTimer();
 
-	DAT_800d1f74 = 1;
+	ControlSystemInitialised = 1;
 }

@@ -219,15 +219,15 @@ struct SIntroCam {
 	char pad118[120 - 118];
 };
 
-extern SControl DAT_800c0a48[2];
-extern SIntroCam DAT_800a5398[];
-extern CVector DAT_800c1154;
-extern CBruce *DAT_800d17c8;
-extern CBruce *DAT_800d19a4;
-extern int DAT_800d1e28;
+extern SControl Pad[2];
+extern SIntroCam Levels[];
+extern CVector Camera_CamOffset;
+extern CBruce *GSkater;
+extern CBruce *MechList;
+extern int GLevel;
 
-int DAT_800d203c;
-CBody *DAT_800d2044;
+int Camera_CamDist;
+CBody *CameraList;
 
 enum EVideoMode { VIDEO_0, VIDEO_1 };
 
@@ -254,22 +254,22 @@ void CCamera::CM_CompetitionIntro() {
 		MATRIX m;
 
 		mCameraMode = 1;
-		DAT_800d17c8->mVel.vx = DAT_800d17c8->mSpeedVec.vx * 20;
-		DAT_800d17c8->mVel.vy = DAT_800d17c8->mSpeedVec.vy * 20;
-		DAT_800d17c8->mVel.vz = DAT_800d17c8->mSpeedVec.vz * 20;
+		GSkater->mVel.vx = GSkater->mSpeedVec.vx * 20;
+		GSkater->mVel.vy = GSkater->mSpeedVec.vy * 20;
+		GSkater->mVel.vz = GSkater->mSpeedVec.vz * 20;
 
 		{
 			int i;
 
 			for (i = 0; i < 10; i++)
-				Ob_AI(&DAT_800d2044);
+				Ob_AI(&CameraList);
 		}
 
-		DAT_800d17c8->mVel.vx = 0;
-		DAT_800d17c8->mVel.vy = 0;
-		DAT_800d17c8->mVel.vz = 0;
+		GSkater->mVel.vx = 0;
+		GSkater->mVel.vy = 0;
+		GSkater->mVel.vz = 0;
 		mCameraMode = 23;
-		speed_lag_dist = DAT_800d203c >> 1;
+		speed_lag_dist = Camera_CamDist >> 1;
 		prev_speed_lag_dist = speed_lag_dist;
 		v1.vx = 0;
 		v1.vy = 0;
@@ -277,9 +277,9 @@ void CCamera::CM_CompetitionIntro() {
 		QToM(mO, m);
 		FUN_80092f60(&m, &v1, &v2);
 
-		v1.vx = DAT_800c1154.vx;
-		v1.vy = DAT_800c1154.vy;
-		v1.vz = DAT_800c1154.vz;
+		v1.vx = Camera_CamOffset.vx;
+		v1.vy = Camera_CamOffset.vy;
+		v1.vz = Camera_CamOffset.vz;
 		FUN_80092f60(&m, &v1, &real_cam_offset);
 
 		mPos.vx = mTripodPos.vx + v2.vx;
@@ -294,9 +294,9 @@ void CCamera::CM_CompetitionIntro() {
 	CQuat end_o;
 
 	end_o = mDesiredO;
-	begin_o = Quat_FromYRot(DAT_800a5398[DAT_800d1e28].Angles.vy) *
-	          Quat_FromXRot(DAT_800a5398[DAT_800d1e28].Angles.vx) *
-	          Quat_FromZRot(DAT_800a5398[DAT_800d1e28].Angles.vz);
+	begin_o = Quat_FromYRot(Levels[GLevel].Angles.vy) *
+	          Quat_FromXRot(Levels[GLevel].Angles.vx) *
+	          Quat_FromZRot(Levels[GLevel].Angles.vz);
 
 	{
 		int t = (uint)(mCompIntroTimer << 12) / 130;
@@ -305,7 +305,7 @@ void CCamera::CM_CompetitionIntro() {
 	}
 
 	if ((uint)mCompIntroTimer > 130) {
-		Video_Start(DAT_800d19a4, VIDEO_1, 1, 0x7fffffff);
+		Video_Start(MechList, VIDEO_1, 1, 0x7fffffff);
 
 		mCameraMode = 1;
 		return;
@@ -315,9 +315,9 @@ void CCamera::CM_CompetitionIntro() {
 	CVector begin_pos;
 	CVector offset_inc;
 
-	begin_pos.vx = DAT_800a5398[DAT_800d1e28].Pos[0] << 12;
-	begin_pos.vy = DAT_800a5398[DAT_800d1e28].Pos[1] << 12;
-	begin_pos.vz = DAT_800a5398[DAT_800d1e28].Pos[2] << 12;
+	begin_pos.vx = Levels[GLevel].Pos[0] << 12;
+	begin_pos.vy = Levels[GLevel].Pos[1] << 12;
+	begin_pos.vz = Levels[GLevel].Pos[2] << 12;
 	offset_inc = (begin_pos - mCompIntroEndPos) / 130;
 	CVector offset = offset_inc * 130 - mCompIntroTimer * offset_inc;
 	int activated;
@@ -325,7 +325,7 @@ void CCamera::CM_CompetitionIntro() {
 	mPos.vx = mCompIntroEndPos.vx + offset.vx;
 	mPos.vy = mCompIntroEndPos.vy + offset.vy;
 	mPos.vz = mCompIntroEndPos.vz + offset.vz;
-	activated = DAT_800c0a48[0].X.Pressed || DAT_800c0a48[1].X.Pressed;
+	activated = Pad[0].X.Pressed || Pad[1].X.Pressed;
 
 	if (activated)
 		mSpeedUpIntro = 1;

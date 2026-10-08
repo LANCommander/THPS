@@ -33,10 +33,10 @@ struct SLabels {
 	char *Name[8];
 };
 
-extern SOptions DAT_800a4118;
+extern SOptions GPreferences;
 extern SPadMap DAT_800bf260[2];
 extern SPadMap DAT_800bf280[2];
-extern SText DAT_800a5d5c;
+extern SText GameText;
 extern SLabels DAT_800a1d0c;
 extern char DAT_800a1cb8[];
 extern char DAT_800a1d2c[];
@@ -94,22 +94,22 @@ extern "C" int FUN_8005f6bc(int a) {
 	ys[6] = 375;
 	xs[7] = 350;
 	ys[7] = 405;
-	DAT_800bf260[pl].Function[0] = DAT_800a4118.ControllerFunction[pl][0];
-	DAT_800bf260[pl].Function[1] = DAT_800a4118.ControllerFunction[pl][1];
-	DAT_800bf260[pl].Function[2] = DAT_800a4118.ControllerFunction[pl][2];
-	DAT_800bf260[pl].Function[3] = DAT_800a4118.ControllerFunction[pl][3];
+	DAT_800bf260[pl].Function[0] = GPreferences.ControllerFunction[pl][0];
+	DAT_800bf260[pl].Function[1] = GPreferences.ControllerFunction[pl][1];
+	DAT_800bf260[pl].Function[2] = GPreferences.ControllerFunction[pl][2];
+	DAT_800bf260[pl].Function[3] = GPreferences.ControllerFunction[pl][3];
 	labels.Name[0] = FUN_8005ea74(DAT_800bf260[pl].Function[0]);
 	labels.Name[1] = FUN_8005ea74(DAT_800bf260[pl].Function[1]);
 	labels.Name[2] = FUN_8005ea74(DAT_800bf260[pl].Function[2]);
 	labels.Name[3] = FUN_8005ea74(DAT_800bf260[pl].Function[3]);
 
-	FUN_8008b900(vib, DAT_800d1d40, DAT_800a5d5c.Vibration,
-	             DAT_800a4118.VibrationEnabled[pl] ? DAT_800a5d5c.On : DAT_800a5d5c.Off);
+	FUN_8008b900(vib, DAT_800d1d40, GameText.Vibration,
+	             GPreferences.VibrationEnabled[pl] ? GameText.On : GameText.Off);
 
 	labels.Name[4] = vib;
 
-	FUN_8008b900(ak, DAT_800d1d40, DAT_800a5d5c.Autokick,
-	             DAT_800a4118.AutoKickEnabled[pl] ? DAT_800a5d5c.On : DAT_800a5d5c.Off);
+	FUN_8008b900(ak, DAT_800d1d40, GameText.Autokick,
+	             GPreferences.AutoKickEnabled[pl] ? GameText.On : GameText.Off);
 
 	labels.Name[5] = ak;
 	DAT_800bf280[pl].Function[0] = DAT_800bf260[pl].Function[0];

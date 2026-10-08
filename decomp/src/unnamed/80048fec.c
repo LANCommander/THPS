@@ -9,9 +9,9 @@ typedef struct {
 	unsigned long Prims; /* 0x80a8 */
 } SBuffer;
 
-SBuffer *DAT_800d1a48;
-SBuffer *DAT_800d1a58;
-unsigned long DAT_800d1a54;
+SBuffer *pDoubleBuffer;
+SBuffer *pVB;
+unsigned long pPoly;
 
 void Pause__Fi(int);
 void FUN_8008c468(int);
@@ -20,17 +20,17 @@ int FUN_80048c74(void);
 void FUN_8008c7d4(unsigned long *, int);
 
 void FUN_80048fec(void) {
-	DAT_800d1a58 = DAT_800d1a48;
+	pVB = pDoubleBuffer;
 
-	while (DAT_800d1a58->Busy)
+	while (pVB->Busy)
 		Pause__Fi(1);
 
-	if (DAT_800d1a48->Flag78) {
+	if (pDoubleBuffer->Flag78) {
 		FUN_8008c468(0);
 		Db_CallBack();
 	}
 
-	FUN_8008c7d4(DAT_800d1a48->OT, FUN_80048c74());
+	FUN_8008c7d4(pDoubleBuffer->OT, FUN_80048c74());
 
-	DAT_800d1a54 = DAT_800d1a48->Prims & 0x7fffffff;
+	pPoly = pDoubleBuffer->Prims & 0x7fffffff;
 }

@@ -19,9 +19,9 @@ typedef struct {
 	char _14[0x2c];
 } Slot;
 
-extern Item *DAT_800d1eec __attribute__((section(".data")));
+extern Item *EnviroList __attribute__((section(".data")));
 
-extern Slot DAT_800bf7a8[];
+extern Slot PSXRegion[];
 
 void Shatter_Item(Item *, int, int);
 void Shatter_Face(Item *, unsigned *, int, int, int, int, int);
@@ -33,7 +33,7 @@ void Exp_HitEnvItem(Item *pItem, unsigned *pFace, int Damage) {
 	if (!pItem)
 		return;
 
-	pScan = DAT_800d1eec;
+	pScan = EnviroList;
 
 	while (pScan) {
 		if (pScan == pItem)
@@ -45,7 +45,7 @@ void Exp_HitEnvItem(Item *pItem, unsigned *pFace, int Damage) {
 	if (!pScan)
 		return;
 
-	pModel = DAT_800bf7a8[pItem->slot].models[pItem->model];
+	pModel = PSXRegion[pItem->slot].models[pItem->model];
 
 	if (pModel->Flags & 2) {
 		unsigned char Life =

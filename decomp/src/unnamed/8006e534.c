@@ -5,14 +5,14 @@ struct E {
 	char q[272];
 };
 
-extern struct E DAT_800a44fc[];
+extern struct E Stats[];
 extern char DAT_800d1ea4[];
 extern char DAT_800d1e9c[];
 
 char *FUN_8006e534(char *p) {
 	int r = 0;
 	unsigned w = *(unsigned *)(p + 308);
-	char c = *DAT_800a44fc[*(int *)(p + 744)].name;
+	char c = *Stats[*(int *)(p + 744)].name;
 	unsigned b = w >> 1;
 
 	b &= 1;

@@ -228,7 +228,7 @@ class CCamera : public CBody {
 	void ReactToCollision();
 };
 
-extern MATRIX DAT_800c12e4;
+extern MATRIX tm;
 
 void MToQ(const MATRIX &, CQuat &);
 extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
@@ -297,16 +297,16 @@ void CCamera::CM_NoBigAir() {
 	N.vx >>= 12;
 	N.vy >>= 12;
 	N.vz >>= 12;
-	DAT_800c12e4.m[0][0] = U.vx;
-	DAT_800c12e4.m[1][0] = U.vy;
-	DAT_800c12e4.m[2][0] = U.vz;
-	DAT_800c12e4.m[0][1] = V.vx;
-	DAT_800c12e4.m[1][1] = V.vy;
-	DAT_800c12e4.m[2][1] = V.vz;
-	DAT_800c12e4.m[0][2] = N.vx;
-	DAT_800c12e4.m[1][2] = N.vy;
-	DAT_800c12e4.m[2][2] = N.vz;
-	MToQ(DAT_800c12e4, mDesiredO);
+	tm.m[0][0] = U.vx;
+	tm.m[1][0] = U.vy;
+	tm.m[2][0] = U.vz;
+	tm.m[0][1] = V.vx;
+	tm.m[1][1] = V.vy;
+	tm.m[2][1] = V.vz;
+	tm.m[0][2] = N.vx;
+	tm.m[1][2] = N.vy;
+	tm.m[2][2] = N.vz;
+	MToQ(tm, mDesiredO);
 
 	mDesiredO = mDesiredO * Quat_FromYRot(extra_YRot);
 	big_air = 0;

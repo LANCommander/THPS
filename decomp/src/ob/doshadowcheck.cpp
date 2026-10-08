@@ -43,7 +43,7 @@ struct SShadowRGB {
 	uchar r, g, b;
 };
 
-extern int DAT_800d1780;
+extern int GNumberOfPlayers;
 
 void M3dColij_InitLineInfo(SLineInfo *);
 int M3dZone_LineToItem(SLineInfo *, int);
@@ -72,7 +72,7 @@ void CBruce::DoShadowCheck() {
 
 	FRUVectorsFromRotMatrix();
 
-	if (DAT_800d1780 == 1) {
+	if (GNumberOfPlayers == 1) {
 		line_info.StartCoords.vx = mPos.vx + mUp.vx * 50;
 		line_info.StartCoords.vy = mPos.vy + mUp.vy * 50;
 		line_info.StartCoords.vz = mPos.vz + mUp.vz * 50;
@@ -109,7 +109,7 @@ void CBruce::DoShadowCheck() {
 			mShadowNormal[2] = _z;
 		}
 
-		if (DAT_800d1780 == 1) {
+		if (GNumberOfPlayers == 1) {
 			mShadowOn = 1;
 			mpShadow->r = mpShadow->g = mpShadow->b = ((4300 - line_info.Distance) << 7) / 4000;
 		}

@@ -49,7 +49,7 @@ class CTape {
 	void CreateBit(void);
 };
 
-extern CTape *DAT_800a5b14[5];
+extern CTape *GTape[5];
 
 int DAT_800d1fbc, DAT_800d1fb8;
 
@@ -99,18 +99,18 @@ void CTape::AI(int tape_no) {
 	mScale.Set(mSize, mSize, mSize);
 
 	for (int i = 0; i < 5; i++) {
-		if (DAT_800a5b14[i]) {
+		if (GTape[i]) {
 			if (i == 4) {
-				messages[4] = &mMessageTable[DAT_800a5b14[4]->mTapeNum];
+				messages[4] = &mMessageTable[GTape[4]->mTapeNum];
 			} else {
 				STapeMessage *m =
-				    (STapeMessage *)((DAT_800a5b14[i]->mTapeNum << 4) + (int)mMessageTable);
+				    (STapeMessage *)((GTape[i]->mTapeNum << 4) + (int)mMessageTable);
 
 				if (m->essential == 1)
 					messages[i] = m;
 			}
 		} else {
-			messages[i - 1] = &mMessageTable[DAT_800a5b14[i - 1]->mTapeNum];
+			messages[i - 1] = &mMessageTable[GTape[i - 1]->mTapeNum];
 			break;
 		}
 	}

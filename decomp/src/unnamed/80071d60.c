@@ -5,7 +5,7 @@ typedef struct {
 } R;
 
 extern char DAT_800c5b00[];
-extern char *DAT_800d2160;
+extern char *ProjectedVertices;
 extern char *DAT_800d2164;
 extern R DAT_800d1f8c[];
 
@@ -28,7 +28,7 @@ void FUN_80022b4c(void);
 void FUN_80071d60(void) {
 	R r;
 
-	DAT_800d2160 = DAT_800c5b00;
+	ProjectedVertices = DAT_800c5b00;
 	DAT_800d2164 = DAT_800c5b00 + 3200;
 	FUN_80096b84();
 	FUN_80014d5c(1);

@@ -25,7 +25,7 @@ extern "C" long FUN_8008b5dc(long);
 extern CVector operator*(const CVector &, const int &);
 extern CVector operator/(const CVector &, const int &);
 
-extern "C" char DAT_800a824c[];
+extern "C" char ZeroVector[];
 
 void RotateHeadingAndVelocity__6CBruceiii(char *t, int a, int c, int b) {
 	MATRIX m;
@@ -39,7 +39,7 @@ void RotateHeadingAndVelocity__6CBruceiii(char *t, int a, int c, int b) {
 
 	if (a) {
 		if (*(int *)(t + 856) == 0) {
-			if (!((*(V *)(t + 2068)).operator!=(*(V *)DAT_800a824c))) {
+			if (!((*(V *)(t + 2068)).operator!=(*(V *)ZeroVector))) {
 				ang.vz = 0;
 				ang.vx = 0;
 				ang.vy = a & 4095;

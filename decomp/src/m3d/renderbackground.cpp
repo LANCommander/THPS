@@ -48,11 +48,11 @@ struct SCamera {
 	MATRIX Matrix; /* 116 */
 };
 
-extern SPSXRegion DAT_800bf7a8[];
+extern SPSXRegion PSXRegion[];
 
-SCamera *DAT_800d217c;
-int DAT_800d219c;
-ushort DAT_800d216c;
+SCamera *pCurrentCamera;
+int pColourTable;
+ushort DpqMin;
 
 void RenderBackgroundModel(SModel *);
 void RenderBackgroundModelNonRotated(SModel *);
@@ -82,9 +82,9 @@ void M3d_RenderBackground(void *p) {
 	GlobalFaceFlags = 0xffff0000;
 
 	do {
-		if (!(pItem->Flags & 0x8001) && DAT_800bf7a8[pItem->Region].Loaded) {
+		if (!(pItem->Flags & 0x8001) && PSXRegion[pItem->Region].Loaded) {
 			*(uint *)0x1f8003f4 = GlobalFaceFlags;
-			gte_SetRotMatrix(&DAT_800d217c->Matrix);
+			gte_SetRotMatrix(&pCurrentCamera->Matrix);
 
 			if (*(int *)&pItem->Angles || pItem->Angles.vz) {
 				FUN_8008b3d4(&pItem->Angles, &WorldTransform);
@@ -94,8 +94,8 @@ void M3d_RenderBackground(void *p) {
 				FUN_8008b238(&WorldTransform);
 			}
 
-			DAT_800d219c = DAT_800bf7a8[pItem->Region].m24;
-			pModel = DAT_800bf7a8[pItem->Region].pModels[pItem->Model];
+			pColourTable = PSXRegion[pItem->Region].m24;
+			pModel = PSXRegion[pItem->Region].pModels[pItem->Model];
 
 			if (!*(int *)&pItem->Angles && !pItem->Angles.vz)
 				RenderBackgroundModelNonRotated(pModel);
@@ -106,5 +106,5 @@ void M3d_RenderBackground(void *p) {
 		pItem = pItem->NextItem;
 	} while (pItem);
 
-	*(short *)0x1f800284 = DAT_800d216c;
+	*(short *)0x1f800284 = DpqMin;
 }

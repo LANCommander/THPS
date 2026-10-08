@@ -1,6 +1,6 @@
 /* UnSuspend__5CBody (0x80043a80) */
 #include "names.h"
-void *DAT_800d19b4;
+void *SuspendedList;
 
 void CBody_DeleteFrom(char *, void *);
 void CBody_AttachTo(char *, int);
@@ -12,7 +12,7 @@ void CBody_UnSuspend(char *t) {
 	if (notSuspended)
 		return;
 
-	CBody_DeleteFrom(t, &DAT_800d19b4);
+	CBody_DeleteFrom(t, &SuspendedList);
 	CBody_AttachTo(t, *(int *)(t + 0x4c));
 
 	*(unsigned short *)(t + 0x52) &= ~1;

@@ -19,7 +19,7 @@ typedef struct {
 	int i5c;
 } B;
 
-extern char DAT_8009f0b0[];
+extern char __vt_6CLight[];
 
 int CNonRenderedBit_ctor(B *);
 
@@ -28,7 +28,7 @@ B *CLight_ctor(B *p, V *pos, int a2, int a3, int a4, int a5, int a6, unsigned ch
                 unsigned char c5) {
 	CNonRenderedBit_ctor(p);
 
-	p->vt = DAT_8009f0b0;
+	p->vt = __vt_6CLight;
 	p->v18 = *pos;
 	p->i5c = a3;
 	p->b43 = 2;

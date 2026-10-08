@@ -36,10 +36,10 @@ class CBaddy : public CSuper {
 	virtual ~CBaddy();
 };
 
-int DAT_800d1988;
+int NumBaddies;
 
 CBaddy::CBaddy() {
-	DAT_800d1988++;
+	NumBaddies++;
 	mE2 = 0xffff;
 	mE0 = 128;
 	m1FC = 0;

@@ -7,7 +7,7 @@ struct VT {
 	void (*fn)(char *);
 };
 
-char DAT_800d19b4[8];
+char SuspendedList[8];
 
 void CBody_DeleteFrom(char *p, char *q);
 void CBody_AttachTo(char *p, char *q);
@@ -19,7 +19,7 @@ void CBody_Suspend(char *p, char *a) {
 
 	*(char **)(p + 76) = a;
 	CBody_DeleteFrom(p, a);
-	CBody_AttachTo(p, DAT_800d19b4);
+	CBody_AttachTo(p, SuspendedList);
 
 	*(unsigned short *)(p + 82) |= 1;
 }

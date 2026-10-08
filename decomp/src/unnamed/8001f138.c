@@ -1,6 +1,6 @@
 /* FUN_8001f138 (0x8001f138) */
-int DAT_800d15e4;
+int Current_font;
 
 void FUN_8001f138(int v) {
-	DAT_800d15e4 = v;
+	Current_font = v;
 }

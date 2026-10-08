@@ -6,7 +6,7 @@
    options, clamps the volumes and copies the pad mapping. Returns -1 (39: cancelled), 19 (35)
    or 0. Called by FUN_800601fc and FUN_8005e8e0.
    Codegen: the exit code is inside the for(;;) as `if (r != 18) { ...; break; }`, which is why
-   retail hoists &DAT_800c0a48 and the 35 into s-registers before the loop. */
+   retail hoists &Pad and the 35 into s-registers before the loop. */
 typedef unsigned long ulong;
 typedef unsigned int uint;
 enum EMemCardState { MEMCARD_STATE_15 = 15 };
@@ -58,13 +58,13 @@ class VerticalMenu {
 	void erase();
 };
 
-extern SCareer DAT_800a6844;
-extern SControl DAT_800c0a48[2];
-extern SVideoInfo DAT_800bf318;
-extern SVideoSettings DAT_800a42f4;
-extern SOptions DAT_800a4118;
+extern SCareer GCareer;
+extern SControl Pad[2];
+extern SVideoInfo GVInfo1;
+extern SVideoSettings GVideoRestart;
+extern SOptions GPreferences;
 extern SPadMap DAT_800bf260[2];
-extern VerticalMenu *DAT_800d1104;
+extern VerticalMenu *pVertMenu;
 
 int DAT_800d2358;
 int DAT_800d235c;
@@ -103,13 +103,13 @@ int FUN_80060ba0() {
 	int i;
 
 	scale = Mess_GetFontScale();
-	DAT_800a6844.Version = 0xdeadbeef;
+	GCareer.Version = 0xdeadbeef;
 	Pack_DefragmentFully();
 	Front_InitMemCardMenus(640, MEMCARD_STATE_15, PAUSED_STATUS_39);
 	FUN_80011628(2);
 
-	DAT_800bf318.pBlockStart = (ulong *)Mem_NewX__FUiii(640, 0, 1);
-	DAT_800a42f4.NumSkaters = 0;
+	GVInfo1.pBlockStart = (ulong *)Mem_NewX__FUiii(640, 0, 1);
+	GVideoRestart.NumSkaters = 0;
 
 	for (;;) {
 		FUN_8005c780();
@@ -118,8 +118,8 @@ int FUN_80060ba0() {
 		FUN_8006b240();
 		FUN_80061ea0();
 
-		if (DAT_800d1104)
-			FUN_80064890(DAT_800d1104, DAT_800d2358, DAT_800d235c);
+		if (pVertMenu)
+			FUN_80064890(pVertMenu, DAT_800d2358, DAT_800d235c);
 
 		Front_MemCardHiResDisplay();
 		FUN_8006b26c();
@@ -127,8 +127,8 @@ int FUN_80060ba0() {
 		r = Front_MemCardUpdate();
 
 		if (r != 18) {
-			Pad_ClearTriggers(&DAT_800c0a48[0]);
-			Pad_ClearTriggers(&DAT_800c0a48[1]);
+			Pad_ClearTriggers(&Pad[0]);
+			Pad_ClearTriggers(&Pad[1]);
 			SFX_PlayX(145, 8192, 0);
 			Mess_SetFontScale(scale);
 
@@ -148,8 +148,8 @@ int FUN_80060ba0() {
 		FUN_80061ea0();
 		Front_RestoreBackground();
 
-		if (DAT_800d1104)
-			DAT_800d1104->erase();
+		if (pVertMenu)
+			pVertMenu->erase();
 
 		FUN_8006b26c();
 	}
@@ -157,23 +157,23 @@ int FUN_80060ba0() {
 	DrawSync(0);
 	FUN_80011570();
 
-	if (DAT_800d1104)
+	if (pVertMenu)
 		FUN_80011150();
 
-	Mem_Delete__FPv(DAT_800bf318.pBlockStart);
+	Mem_Delete__FPv(GVInfo1.pBlockStart);
 	FUN_800103a4();
 
-	if (DAT_800a4118.SFXVolume > 12)
-		DAT_800a4118.SFXVolume = 12;
+	if (GPreferences.SFXVolume > 12)
+		GPreferences.SFXVolume = 12;
 
-	if (DAT_800a4118.MusicVolume > 12)
-		DAT_800a4118.MusicVolume = 12;
+	if (GPreferences.MusicVolume > 12)
+		GPreferences.MusicVolume = 12;
 
 	for (int p = 0; p < 2; p++) {
-		DAT_800bf260[p].Function[0] = DAT_800a4118.ControllerFunction[p][0];
-		DAT_800bf260[p].Function[2] = DAT_800a4118.ControllerFunction[p][2];
-		DAT_800bf260[p].Function[1] = DAT_800a4118.ControllerFunction[p][1];
-		DAT_800bf260[p].Function[3] = DAT_800a4118.ControllerFunction[p][3];
+		DAT_800bf260[p].Function[0] = GPreferences.ControllerFunction[p][0];
+		DAT_800bf260[p].Function[2] = GPreferences.ControllerFunction[p][2];
+		DAT_800bf260[p].Function[1] = GPreferences.ControllerFunction[p][1];
+		DAT_800bf260[p].Function[3] = GPreferences.ControllerFunction[p][3];
 	}
 
 	return ret;

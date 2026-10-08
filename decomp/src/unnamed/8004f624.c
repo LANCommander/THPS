@@ -15,10 +15,10 @@ struct O {
 	struct O *next2;
 };
 
-struct O *DAT_800d1b94;
+struct O *RailList;
 
 void Rail_DeleteAll(void) {
-	struct O *p = DAT_800d1b94;
+	struct O *p = RailList;
 	struct O *n;
 
 	while (p) {

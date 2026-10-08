@@ -55,35 +55,35 @@ class CSpark : public CPixel {
 	virtual ~CSpark();
 };
 
-uint DAT_800d18b4;
-int DAT_800d18b8;
-uchar DAT_800d18bc;
-uchar DAT_800d18bd;
-uchar DAT_800d18be;
-uchar DAT_800d18c0;
-uchar DAT_800d18c1;
-uchar DAT_800d18c2;
+uint SparkSize;
+int SparkSemiTrans;
+uchar SparkRGB;
+uchar SparkRGB_1;
+uchar SparkRGB_2;
+uchar SparkFadeRGB;
+uchar SparkFadeRGB_1;
+uchar SparkFadeRGB_2;
 
 short Redbook_Rnd(int);
 void Bit_CalculateSparkVelocity(CVector &, int);
 
 CSpark::CSpark(CVector &pos, int vel, int gravity, int life) {
-	if ((DAT_800d18b4 & 15) == 1) {
+	if ((SparkSize & 15) == 1) {
 		code = 0x68;
 		tag = 0x02000000;
 		mWidthHeight = 1;
 	} else {
 		code = 0x60;
-		mWidthHeight = DAT_800d18b4;
+		mWidthHeight = SparkSize;
 		tag = 0x03000000;
 	}
 
-	r0 = DAT_800d18bc;
-	g0 = DAT_800d18bd;
-	b0 = DAT_800d18be;
-	mFadeR = DAT_800d18c0;
-	mFadeG = DAT_800d18c1;
-	mFadeB = DAT_800d18c2;
+	r0 = SparkRGB;
+	g0 = SparkRGB_1;
+	b0 = SparkRGB_2;
+	mFadeR = SparkFadeRGB;
+	mFadeG = SparkFadeRGB_1;
+	mFadeB = SparkFadeRGB_2;
 	mPos = pos;
 	Bit_CalculateSparkVelocity(mVel, vel);
 
@@ -92,6 +92,6 @@ CSpark::CSpark(CVector &pos, int vel, int gravity, int life) {
 
 	mLifetime = Redbook_Rnd(life);
 
-	if (DAT_800d18b8)
+	if (SparkSemiTrans)
 		code |= 2;
 }

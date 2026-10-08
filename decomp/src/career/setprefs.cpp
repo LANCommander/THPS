@@ -22,50 +22,50 @@ struct SCareer {
 	SOptions Options; /* 0x830 */
 };
 
-extern SOptions DAT_800a4118;
-extern SCareer DAT_800a6844;
-extern int DAT_800d13cc, DAT_800d13d0;
+extern SOptions GPreferences;
+extern SCareer GCareer;
+extern int SFXLEVEL, XALEVEL;
 
 extern "C" int FUN_8008b900(char *, const char *, ...); /* sprintf (demo twin) */
 void Options_RemapControllers();
 
 void Options_SetPreferences() {
-	DAT_800a6844.Options.SFXVolume = DAT_800a4118.SFXVolume;
-	DAT_800a6844.Options.MusicVolume = DAT_800a4118.MusicVolume;
-	DAT_800a6844.Options.TrickTipsEnabled = DAT_800a4118.TrickTipsEnabled;
-	DAT_800a6844.Options.ScoreDisplayEnabled = DAT_800a4118.ScoreDisplayEnabled;
+	GCareer.Options.SFXVolume = GPreferences.SFXVolume;
+	GCareer.Options.MusicVolume = GPreferences.MusicVolume;
+	GCareer.Options.TrickTipsEnabled = GPreferences.TrickTipsEnabled;
+	GCareer.Options.ScoreDisplayEnabled = GPreferences.ScoreDisplayEnabled;
 
 	{
 		int padNum;
 
 		for (padNum = 0; padNum < 2; padNum++) {
-			DAT_800a6844.Options.AutoKickEnabled[padNum] = DAT_800a4118.AutoKickEnabled[padNum];
-			DAT_800a6844.Options.VibrationEnabled[padNum] = DAT_800a4118.VibrationEnabled[padNum];
-			DAT_800a6844.Options.ControllerFunction[padNum][0] =
-			    DAT_800a4118.ControllerFunction[padNum][0];
-			DAT_800a6844.Options.ControllerFunction[padNum][1] =
-			    DAT_800a4118.ControllerFunction[padNum][1];
-			DAT_800a6844.Options.ControllerFunction[padNum][2] =
-			    DAT_800a4118.ControllerFunction[padNum][2];
-			DAT_800a6844.Options.ControllerFunction[padNum][3] =
-			    DAT_800a4118.ControllerFunction[padNum][3];
+			GCareer.Options.AutoKickEnabled[padNum] = GPreferences.AutoKickEnabled[padNum];
+			GCareer.Options.VibrationEnabled[padNum] = GPreferences.VibrationEnabled[padNum];
+			GCareer.Options.ControllerFunction[padNum][0] =
+			    GPreferences.ControllerFunction[padNum][0];
+			GCareer.Options.ControllerFunction[padNum][1] =
+			    GPreferences.ControllerFunction[padNum][1];
+			GCareer.Options.ControllerFunction[padNum][2] =
+			    GPreferences.ControllerFunction[padNum][2];
+			GCareer.Options.ControllerFunction[padNum][3] =
+			    GPreferences.ControllerFunction[padNum][3];
 		}
 	}
 
 	{
 		int i;
 
-		DAT_800d13cc = DAT_800a6844.Options.SFXVolume * 1365;
-		DAT_800d13d0 = DAT_800a6844.Options.MusicVolume * 1365;
-		FUN_8008b900(DAT_800a6844.Options.HorseWord, DAT_800a4118.HorseWord);
+		SFXLEVEL = GCareer.Options.SFXVolume * 1365;
+		XALEVEL = GCareer.Options.MusicVolume * 1365;
+		FUN_8008b900(GCareer.Options.HorseWord, GPreferences.HorseWord);
 
-		DAT_800a6844.Options.HorseLen = DAT_800a4118.HorseLen;
+		GCareer.Options.HorseLen = GPreferences.HorseLen;
 
-		for (i = DAT_800a4118.HorseLen; i < 11; i++)
-			DAT_800a6844.Options.HorseWord[i] = 0;
+		for (i = GPreferences.HorseLen; i < 11; i++)
+			GCareer.Options.HorseWord[i] = 0;
 
-		FUN_8008b900(DAT_800a6844.Options.LastHighScoreInitials,
-		             DAT_800a4118.LastHighScoreInitials);
+		FUN_8008b900(GCareer.Options.LastHighScoreInitials,
+		             GPreferences.LastHighScoreInitials);
 	}
 
 	Options_RemapControllers();

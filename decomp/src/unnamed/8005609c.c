@@ -6,7 +6,7 @@ struct E {
 	char q[328];
 };
 
-extern struct E DAT_800a44fc[];
+extern struct E Stats[];
 
 int DAT_800d2304[2];
 int DAT_800d231c[2];
@@ -53,7 +53,7 @@ void FUN_8005609c(void) {
 	for (j = 0; j < 11; j++) {
 		if (DAT_800d3788[j]) {
 			ProcessNewPSX(DAT_800d3758[j]);
-			Spool_ClearPSX(DAT_800a44fc[j].n8);
+			Spool_ClearPSX(Stats[j].n8);
 		}
 	}
 

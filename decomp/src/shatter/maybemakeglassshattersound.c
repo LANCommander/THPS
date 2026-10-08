@@ -1,26 +1,26 @@
 /* Shatter_MaybeMakeGlassShatterSound__Fv (0x80022440) */
 #include "names.h"
-int DAT_800d1628;
+int ShatterSound;
 
-extern int DAT_800d1e28;
+extern int GLevel;
 
 void SFX_PlayX(int, int, int);
 
 void Shatter_MaybeMakeGlassShatterSound(void) {
 	int s;
 
-	if (DAT_800d1628) {
-		if (DAT_800d1e28 == 1)
+	if (ShatterSound) {
+		if (GLevel == 1)
 			s = 0x3a;
 		else {
 			s = 0x3a;
 
-			if (DAT_800d1e28 != 4)
+			if (GLevel != 4)
 				s = 0x2a;
 		}
 
 		SFX_PlayX(s, 0x2000, 0);
 	}
 
-	DAT_800d1628 = 0;
+	ShatterSound = 0;
 }

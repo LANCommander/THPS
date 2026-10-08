@@ -28,9 +28,9 @@ extern char DAT_800a1fb8[];
 extern char DAT_800a1fc4[];
 extern struct C30 DAT_800a1fd0;
 extern struct C28 DAT_800a1ff0;
-extern struct X DAT_800a5d5c;
-extern char DAT_800c0a48[];
-extern int DAT_800d1cb0;
+extern struct X GameText;
+extern char Pad[];
+extern int DemoTimer;
 extern int DAT_800d1cb4;
 extern int DAT_800d1cb8;
 extern int DAT_800d1d80;
@@ -89,8 +89,8 @@ void FUN_80060e98(void) {
 	}
 
 	FUN_80061714(v);
-	Pad_ClearTriggers(DAT_800c0a48);
-	Pad_ClearTriggers(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(Pad);
+	Pad_ClearTriggers(Pad + 364);
 
 	DAT_800d1d8c = 0;
 	DAT_800d1d8e = 293;
@@ -118,15 +118,15 @@ void FUN_80060e98(void) {
 
 		FUN_8005c8dc(0);
 
-		DAT_800d1cb0 = 1600;
+		DemoTimer = 1600;
 
 		while (1) {
 			FUN_8005c780();
 
-			if (!DAT_800d1cb0)
+			if (!DemoTimer)
 				break;
 
-			DAT_800d1cb0--;
+			DemoTimer--;
 			s0--;
 			FUN_8006b240();
 			FUN_80061ea0();
@@ -138,7 +138,7 @@ void FUN_80060e98(void) {
 				Sprite_draw(DAT_800d1d88, DAT_800d1d8c, DAT_800d1d8e, 0, -1, -1, -1);
 			else if (s0 < 128) {
 				FUN_8001f1b4(4);
-				Mess_DrawText(320, 357, DAT_800a5d5c.s, 1, 0, 256, 0);
+				Mess_DrawText(320, 357, GameText.s, 1, 0, 256, 0);
 			}
 
 			if (!s0)
@@ -154,11 +154,11 @@ void FUN_80060e98(void) {
 			Mess_Display();
 			FUN_8006b26c();
 
-			if (s0 > 128 || !(DAT_800c0a48[0xe1] || DAT_800c0a48[0x24d]))
+			if (s0 > 128 || !(Pad[0xe1] || Pad[0x24d]))
 				continue;
 
-			DAT_800c0a48[0xe1] = 0;
-			DAT_800c0a48[0x24d] = 0;
+			Pad[0xe1] = 0;
+			Pad[0x24d] = 0;
 			SFX_PlayX(145, 8192, 0);
 			break;
 		}

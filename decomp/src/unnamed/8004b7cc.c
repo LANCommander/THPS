@@ -6,7 +6,7 @@ typedef struct {
 	char pad[48];
 } S;
 
-extern int DAT_800d13cc;
+extern int SFXLEVEL;
 
 void FUN_80093e54(int a, S *s);
 
@@ -21,8 +21,8 @@ void SFX_ModifyVol(unsigned mask, int a, int b) {
 		if (!(b < 16384))
 			b = 16383;
 
-		a = (a * DAT_800d13cc) >> 14;
-		b = (b * DAT_800d13cc) >> 14;
+		a = (a * SFXLEVEL) >> 14;
+		b = (b * SFXLEVEL) >> 14;
 
 		if (a < -16383)
 			a = -16383;

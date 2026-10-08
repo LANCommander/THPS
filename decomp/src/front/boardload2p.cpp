@@ -52,7 +52,7 @@ class SlicedImage : public CItem {
 	void pack();
 };
 
-extern SCareer DAT_800a6844;
+extern SCareer GCareer;
 extern SSkater DAT_800a44fc[];
 extern int DAT_800d2c1c[3];             /* pictures per column */
 extern char DAT_800d2c2c[2][3][15][16]; /* picture file names */
@@ -88,17 +88,17 @@ extern "C" void FUN_80050c5c(void) {
 
 	for (int p = 0; p < 2; p++) {
 		DAT_800d337c[p][0] = 0;
-		DAT_800d335c[p][0] = DAT_800a6844.LastDeck[0];
+		DAT_800d335c[p][0] = GCareer.LastDeck[0];
 		DAT_800d333c[p][1] = 0;
 		DAT_800d337c[p][1] = 0;
-		DAT_800d335c[p][1] = DAT_800a6844.LastTrucks[0];
+		DAT_800d335c[p][1] = GCareer.LastTrucks[0];
 		DAT_800d333c[p][2] = 0;
 		DAT_800d337c[p][2] = 0;
-		DAT_800d335c[p][2] = DAT_800a6844.LastWheel[0];
+		DAT_800d335c[p][2] = GCareer.LastWheel[0];
 		DAT_800d22c8 = 1;
 
 		for (int i = 0; i < DAT_800d2c1c[0]; i++) {
-			if (DAT_800a6844.Skater[DAT_800d22d0[p]].NumTapes >=
+			if (GCareer.Skater[DAT_800d22d0[p]].NumTapes >=
 			    DAT_800a44fc[DAT_800d22d0[p]].Boards[i].Req) {
 				strcpy(DAT_800d2c2c[p][0][i], DAT_800a44fc[DAT_800d22d0[p]].Boards[i].File);
 

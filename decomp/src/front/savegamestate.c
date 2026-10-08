@@ -15,10 +15,10 @@ typedef struct {
 	char x70[1];
 } SSaveGame;
 
-extern char *DAT_800d1f84;
-extern int DAT_800d19e4;
-extern char *DAT_800d19a4;
-extern SSaveGame DAT_800a5bdc;
+extern char *TrigFileName;
+extern int RestartNode;
+extern char *MechList;
+extern SSaveGame LastGameState;
 
 char *Trig_GetPosition(CVector *, int);
 void Front_SavePreferences(char *);
@@ -26,26 +26,26 @@ unsigned Front_CalculateGameChecksum(SSaveGame *);
 
 void Front_SaveGameState(void) {
 	CVector v;
-	char *s = DAT_800d1f84, *d = DAT_800a5bdc.name;
+	char *s = TrigFileName, *d = LastGameState.name;
 
 	while (*s)
 		*d++ = *s++;
 
 	*d = 0;
-	s = Trig_GetPosition(&v, DAT_800d19e4) + 6;
-	d = DAT_800a5bdc.level;
+	s = Trig_GetPosition(&v, RestartNode) + 6;
+	d = LastGameState.level;
 
 	while (*s)
 		*d++ = *s++;
 
 	*d = 0;
 
-	if (DAT_800d19a4) {
-		DAT_800a5bdc.x64 = *(short *)(DAT_800d19a4 + 0xe6);
-		DAT_800a5bdc.x42 = 0;
+	if (MechList) {
+		LastGameState.x64 = *(short *)(MechList + 0xe6);
+		LastGameState.x42 = 0;
 	}
 
-	Front_SavePreferences(DAT_800a5bdc.x70);
+	Front_SavePreferences(LastGameState.x70);
 
-	DAT_800a5bdc.checksum = Front_CalculateGameChecksum(&DAT_800a5bdc);
+	LastGameState.checksum = Front_CalculateGameChecksum(&LastGameState);
 }

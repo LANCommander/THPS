@@ -6,7 +6,7 @@ struct E {
 	char pad2[328];
 };
 
-extern struct E DAT_800a44fc[];
+extern struct E Stats[];
 extern int DAT_800d37e4[];
 extern int DAT_800d37b4[];
 
@@ -57,6 +57,6 @@ void FUN_80059094(void) {
 	if (!(DAT_800d2324 < 11))
 		DAT_800d2324 = DAT_800d2324 - 11;
 
-	if (*DAT_800a44fc[DAT_800d2324].n8)
-		DAT_800d37b4[DAT_800d2324] = Spool_PSX(DAT_800a44fc[DAT_800d2324].n8, 2, 1);
+	if (*Stats[DAT_800d2324].n8)
+		DAT_800d37b4[DAT_800d2324] = Spool_PSX(Stats[DAT_800d2324].n8, 2, 1);
 }

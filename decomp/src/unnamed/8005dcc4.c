@@ -13,27 +13,27 @@ extern unsigned short DAT_800bf0f8[];
 extern unsigned short DAT_800bf0f4[];
 extern unsigned short DAT_800bf100[];
 
-int DAT_800d1cf0;
+int BackOut;
 int DAT_800d1ce4;
 int DAT_800d1cd8;
 unsigned DAT_800d1ce0;
 unsigned DAT_800d1cdc;
 int DAT_800d1cf8;
 
-extern unsigned DAT_800d1a20;
+extern unsigned Vblanks;
 
 int FUN_8008c5ec(R *r, int red, int green, int blue);
 
 void FUN_8005dcc4(void) {
 	R r;
 
-	if (DAT_800d1cf0)
+	if (BackOut)
 		return;
 
 	if (!DAT_800d1ce4)
 		return;
 
-	DAT_800d1cdc = DAT_800d1a20 - DAT_800d1cd8;
+	DAT_800d1cdc = Vblanks - DAT_800d1cd8;
 
 	if (DAT_800d1ce0 < DAT_800d1cdc)
 		DAT_800d1cdc = DAT_800d1ce0;

@@ -12,11 +12,11 @@ typedef struct {
 	E v[1];
 } P;
 
-short DAT_800d2144;
-short DAT_800d2146;
-short DAT_800d2148;
-int DAT_800d21b8;
-int DAT_800d2140;
+short FarColor;
+short FarColor_2;
+short FarColor_4;
+int TestTheWater;
+int WaterClipValue;
 
 int FUN_80086d2c(E *, int, int);
 void FUN_80086500(int, int);
@@ -29,15 +29,15 @@ void FUN_80085018(P *p, int c) {
 	int r = FUN_80086d2c(v, n, c);
 	E *w;
 
-	if (DAT_800d21b8)
-		FUN_80086500(n, DAT_800d2140);
+	if (TestTheWater)
+		FUN_80086500(n, WaterClipValue);
 
 	v += n;
 
 	if (!(r & 0xbf)) {
 		n = p->m;
 		w = v + p->i;
-		FUN_8009736c(DAT_800d2144, DAT_800d2146, DAT_800d2148);
+		FUN_8009736c(FarColor, FarColor_2, FarColor_4);
 		FUN_80086f40(w, v, n);
 	}
 }

@@ -10,8 +10,8 @@ typedef struct {
 	int fad4[1];
 } B;
 
-extern int DAT_800a5ec4[], DAT_800a5ec8[], DAT_800a5ecc[], DAT_800a5ed0[];
-extern int DAT_800d173c;
+extern int GameText_168[], GameText_16c[], GameText_170[], GameText_174[];
+extern int ViewportMode;
 
 void Panel_GetViewportMessOffset(int, short *, short *);
 void FUN_8001e07c(int *);
@@ -29,20 +29,20 @@ void DisplayOutOfBounds(B *p, int a, int b) {
 	b &= 0xffff;
 
 	if (p->fad0) {
-		Panel_GetViewportMessOffset(DAT_800d173c * 2 + p->f92c, &x, &y);
+		Panel_GetViewportMessOffset(ViewportMode * 2 + p->f92c, &x, &y);
 
 		switch (p->fad0) {
 			case 1:
-				s0 = (char *)DAT_800a5ec4[0];
+				s0 = (char *)GameText_168[0];
 				break;
 			case 2:
-				s0 = (char *)DAT_800a5ec8[0];
+				s0 = (char *)GameText_16c[0];
 				break;
 			case 3:
-				s0 = (char *)DAT_800a5ecc[0];
+				s0 = (char *)GameText_170[0];
 				break;
 			default:
-				s0 = (char *)DAT_800a5ed0[0];
+				s0 = (char *)GameText_174[0];
 				break;
 		}
 

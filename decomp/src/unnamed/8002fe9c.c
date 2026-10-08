@@ -48,7 +48,7 @@ typedef struct {
 	char q[0x154 - 0x10];
 } E;
 
-extern E DAT_800a44fc[];
+extern E Stats[];
 
 void CBruce_Trick_Bail(void);
 void CBruce_StateTransition(B *, int, int);
@@ -88,8 +88,8 @@ void CBruce_Bail(B *p, int a) {
 
 	CBruce_FlipToVelocity(p);
 
-	if (DAT_800a44fc[*(int *)((char *)p + 0x2e8)].fc == 0x9000 ||
-	    DAT_800a44fc[*(int *)((char *)p + 0x2e8)].fc == 0xb000) {
+	if (Stats[*(int *)((char *)p + 0x2e8)].fc == 0x9000 ||
+	    Stats[*(int *)((char *)p + 0x2e8)].fc == 0xb000) {
 		SFX_PlayX(8, 0x2000, 0);
 		SFX_PlayX(2, 0x2000, 0);
 	} else {

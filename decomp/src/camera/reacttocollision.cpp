@@ -133,12 +133,12 @@ class CCamera {
 	void ReactToCollision();
 };
 
-extern int DAT_800d140c;
-extern int DAT_800d16fc;
-extern int DAT_800d20cc;
-extern int DAT_800d1784;
+extern int GamePaused;
+extern int GameFrozen;
+extern int CameraCollisionCheck;
+extern int GState;
 
-int DAT_800d203c;
+int Camera_CamDist;
 
 void QToM(const CQuat &, MATRIX &);
 void M3dColij_InitLineInfo(SLineInfo *);
@@ -174,7 +174,7 @@ void CCamera::ReactToCollision() {
 	CVector vColCheck;
 	VECTOR vOffset;
 
-	if (DAT_800d140c || DAT_800d16fc)
+	if (GamePaused || GameFrozen)
 		return;
 
 	if (mTimer < 13)
@@ -225,7 +225,7 @@ void CCamera::ReactToCollision() {
 
 		if (mTripod->m734 == 2) {
 			vTemp.vx = 0;
-			vTemp.vy = DAT_800d203c << 13;
+			vTemp.vy = Camera_CamDist << 13;
 			vTemp.vz = 0;
 			FUN_80092f60(&m, &vTemp, &vBack);
 
@@ -238,10 +238,10 @@ void CCamera::ReactToCollision() {
 			M3dColij_InitLineInfo(&line_info);
 
 			line_info.RecordTriggerZoneHits = 0;
-			DAT_800d20cc = 1;
+			CameraCollisionCheck = 1;
 			M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
-			DAT_800d20cc = 0;
+			CameraCollisionCheck = 0;
 			mColAngBuffer[2] = 0;
 
 			if (line_info.pItem) {
@@ -259,7 +259,7 @@ void CCamera::ReactToCollision() {
 				mColAngBuffer[2] += ang;
 				mDownDist = line_info.Distance;
 			} else {
-				mDownDist = DAT_800d203c;
+				mDownDist = Camera_CamDist;
 			}
 		}
 	}
@@ -267,7 +267,7 @@ void CCamera::ReactToCollision() {
 	do {
 		vTemp.vz = 0;
 		vTemp.vy = 0;
-		vTemp.vx = -(DAT_800d203c << 13);
+		vTemp.vx = -(Camera_CamDist << 13);
 	} while (0);
 
 	FUN_80092f60(&m, &vTemp, &vLeft);
@@ -299,10 +299,10 @@ void CCamera::ReactToCollision() {
 			M3dColij_InitLineInfo(&line_info);
 
 			line_info.RecordTriggerZoneHits = 0;
-			DAT_800d20cc = 1;
+			CameraCollisionCheck = 1;
 			M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
-			DAT_800d20cc = 0;
+			CameraCollisionCheck = 0;
 			mColAngBuffer[0] = 0;
 
 			if (line_info.pItem) {
@@ -341,10 +341,10 @@ void CCamera::ReactToCollision() {
 			M3dColij_InitLineInfo(&line_info);
 
 			line_info.RecordTriggerZoneHits = 0;
-			DAT_800d20cc = 1;
+			CameraCollisionCheck = 1;
 			M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
-			DAT_800d20cc = 0;
+			CameraCollisionCheck = 0;
 			mColAngBuffer[1] = 0;
 
 			if (line_info.pItem) {
@@ -364,7 +364,7 @@ void CCamera::ReactToCollision() {
 
 	vTemp.vx = 0;
 	vTemp.vy = 0;
-	vTemp.vz = -(DAT_800d203c << 12);
+	vTemp.vz = -(Camera_CamDist << 12);
 	FUN_80092f60(&m, &vTemp, &vBack);
 
 	vTemp.vx = 0x64000;
@@ -387,10 +387,10 @@ void CCamera::ReactToCollision() {
 		M3dColij_InitLineInfo(&line_info);
 
 		line_info.RecordTriggerZoneHits = 0;
-		DAT_800d20cc = 1;
+		CameraCollisionCheck = 1;
 		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
-		DAT_800d20cc = 0;
+		CameraCollisionCheck = 0;
 		ratioL = 0;
 
 		if (line_info.pItem) {
@@ -411,10 +411,10 @@ void CCamera::ReactToCollision() {
 		M3dColij_InitLineInfo(&line_info);
 
 		line_info.RecordTriggerZoneHits = 0;
-		DAT_800d20cc = 1;
+		CameraCollisionCheck = 1;
 		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
-		DAT_800d20cc = 0;
+		CameraCollisionCheck = 0;
 
 		if (line_info.pItem) {
 			if (!line_info.Length)
@@ -458,7 +458,7 @@ void CCamera::ReactToCollision() {
 
 	if (mColCheckIndex == 4) {
 		mPrevColAngBuffer[4] = mColAngBuffer[4];
-		vVel *= DAT_800d203c;
+		vVel *= Camera_CamDist;
 		line_info.EndCoords.vx = mPos.vx + vVel.vx;
 		line_info.EndCoords.vy = mPos.vy + vVel.vy;
 		line_info.EndCoords.vz = mPos.vz + vVel.vz;
@@ -468,10 +468,10 @@ void CCamera::ReactToCollision() {
 		M3dColij_InitLineInfo(&line_info);
 
 		line_info.RecordTriggerZoneHits = 0;
-		DAT_800d20cc = 1;
+		CameraCollisionCheck = 1;
 		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
-		DAT_800d20cc = 0;
+		CameraCollisionCheck = 0;
 		Utils_CalcUnit(vVel, mVel);
 		Utils_CalcUnit(vStick, mTripod->mPos - mPos);
 
@@ -556,7 +556,7 @@ void CCamera::ReactToCollision() {
 			mStoppedOValid = 1;
 		}
 
-		if (!DAT_800d1784 && mStoppedOValid) {
+		if (!GState && mStoppedOValid) {
 			if (!ColAng(0) && !ColAng(1) && !ColAng(3))
 				Quat_Slerp(mO, mDesiredO, 1511, mStoppedO);
 

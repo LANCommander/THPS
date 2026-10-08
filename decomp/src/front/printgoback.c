@@ -4,9 +4,9 @@ typedef struct {
 	int pad[2];
 } SAnimFrame;
 
-SAnimFrame *DAT_800d1420;
+SAnimFrame *ButtonsAnim;
 
-extern const char *DAT_800a5ef0[];
+extern const char *GameText_194[];
 
 void Mess_SetTextJustify(int);
 void Mess_SetScale(int);
@@ -21,11 +21,11 @@ void Front_PrintGoBack(void) {
 	Mess_SetTextJustify(1);
 	Mess_SetScale(192);
 	Mess_SetRGB(150, 100, 25, 0);
-	Mess_DrawText(92, 214, DAT_800a5ef0[0], 0, 0, 256, 0);
+	Mess_DrawText(92, 214, GameText_194[0], 0, 0, 256, 0);
 	Mess_SetTextJustify(0);
 
-	p = Panel_DrawTexturedPoly(DAT_800d1420 + 1);
+	p = Panel_DrawTexturedPoly(ButtonsAnim + 1);
 
 	if (p)
-		Panel_SetStretchedScreenCoords(64, 211, p, DAT_800d1420 + 1);
+		Panel_SetStretchedScreenCoords(64, 211, p, ButtonsAnim + 1);
 }

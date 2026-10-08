@@ -7,7 +7,7 @@ typedef struct {
 	int w[7];
 } T;
 
-extern R DAT_800a6850[];
+extern R GCareer_c[];
 extern T DAT_800a1eb4;
 
 int FUN_8005e0e0(T *, int *, int, int, int *, int, int, int, int);
@@ -23,7 +23,7 @@ int FUN_800605c0(int a) {
 		cnt[i] = 0;
 
 		for (j = 0; j < 9; j++) {
-			cnt[i] += (DAT_800a6850[i].b[j] >> 5) & 1;
+			cnt[i] += (GCareer_c[i].b[j] >> 5) & 1;
 		}
 	}
 

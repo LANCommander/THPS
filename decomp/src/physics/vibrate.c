@@ -10,22 +10,22 @@ struct S {
 	int v;
 };
 
-extern int DAT_800d16a4 __attribute__((section(".data"))),
-    DAT_800d179c __attribute__((section(".data")));
+extern int GGame __attribute__((section(".data"))),
+    GHorsePlayer __attribute__((section(".data")));
 
-extern int DAT_800a6844[];
-extern int DAT_800bf318[], DAT_800bf3d8[];
+extern int GCareer[];
+extern int GVInfo1[], GVInfo2[];
 
 extern void Pad_ActuatorOn(unsigned char, unsigned short, unsigned char, unsigned char);
 
 void Vibrate(CBruce *b, int a, int c, int d) {
 	int p = b->pad;
 
-	if (DAT_800d16a4 == 7)
-		p ^= DAT_800d179c;
+	if (GGame == 7)
+		p ^= GHorsePlayer;
 
 	{
-		int *q = DAT_800a6844;
+		int *q = GCareer;
 		int *r = q + 0x252;
 
 		r = r + p;
@@ -34,10 +34,10 @@ void Vibrate(CBruce *b, int a, int c, int d) {
 			return;
 	}
 
-	if (DAT_800bf318[0] == 2)
+	if (GVInfo1[0] == 2)
 		return;
 
-	if (DAT_800bf3d8[0] == 2)
+	if (GVInfo2[0] == 2)
 		return;
 
 	Pad_ActuatorOn(p, a, c, d);

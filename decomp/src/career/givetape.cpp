@@ -23,14 +23,14 @@ struct SSkaterCareer {
 	uchar Tapes[2]; /* 12 (indexed by level, runs into the next record) */
 };
 
-extern CBruce *DAT_800d17c8;
-extern SLevelInfo DAT_800a53a4[];
-extern SSkaterCareer DAT_800a6844[];
+extern CBruce *GSkater;
+extern SLevelInfo Levels_c[];
+extern SSkaterCareer GCareer[];
 
 void Career_GiveTape(int Level, int Goal) {
 	int t = 0;
 
-	DAT_800a6844[DAT_800d17c8->mSkaterIndex].Tapes[Level] |= 1 << Goal;
+	GCareer[GSkater->mSkaterIndex].Tapes[Level] |= 1 << Goal;
 
 	{
 		int j;
@@ -39,13 +39,13 @@ void Career_GiveTape(int Level, int Goal) {
 			int i;
 
 			for (i = 0; i < 5; i++) {
-				if (!DAT_800a53a4[j].NotCareer &&
-				    ((DAT_800a6844[DAT_800d17c8->mSkaterIndex].Tapes[j] >> i) & 1))
+				if (!Levels_c[j].NotCareer &&
+				    ((GCareer[GSkater->mSkaterIndex].Tapes[j] >> i) & 1))
 					t++;
 			}
 		}
 	}
 
-	DAT_800a6844[DAT_800d17c8->mSkaterIndex].NumTapes = t;
-	DAT_800d17c8->mGotSomething++;
+	GCareer[GSkater->mSkaterIndex].NumTapes = t;
+	GSkater->mGotSomething++;
 }

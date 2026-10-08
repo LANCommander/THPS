@@ -1,11 +1,11 @@
 /* SFX_PlayX__FUisi (0x8004b250) */
 /* C++ (PAL). Plays sound effect id at a volume (clamped to 16384): records it for replays, then
    keys the VAB voice. Each table entry is {voice, note:16 | pitch:16}. A note of 0 means 60
-   (middle C). The pitch is scaled by the global percentage DAT_800d13cc. */
+   (middle C). The pitch is scaled by the global percentage SFXLEVEL. */
 extern int DAT_800b8a9c[];
-extern int DAT_800d13cc;
+extern int SFXLEVEL;
 
-int DAT_800d1acc;
+int SFX_v;
 
 void Video_SFXPlay(int, short, int);
 extern "C" int playSFX__FUiUcssiUs(int, unsigned char, short, short, int);
@@ -29,8 +29,8 @@ extern "C" int SFX_PlayX__FUisi(int id, short vol, int pan) {
 		p &= 0xffff;
 	}
 
-	DAT_800d1acc = p;
-	p = DAT_800d13cc * p / 100;
+	SFX_v = p;
+	p = SFXLEVEL * p / 100;
 	v = (vol * p * 4) >> 16;
 
 	return playSFX__FUiUcssiUs(DAT_800b8a9c[i], note, v, v, pan);

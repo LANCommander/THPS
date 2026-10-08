@@ -15,21 +15,21 @@ typedef struct {
 	SVideoMark marks[14];
 } SVideoInfo;
 
-extern SVideoInfo DAT_800bf318[];
+extern SVideoInfo GVInfo1[];
 
-int DAT_800d1de8;
+int GVideoReplay;
 
 void Video_SyncObs(int);
 
 void Video_SyncObsIfNeeded(void) {
-	int n = DAT_800d1de8;
+	int n = GVideoReplay;
 
 	if (n == 1) {
-		if (DAT_800bf318[0].marks[0].a == 1)
+		if (GVInfo1[0].marks[0].a == 1)
 			return;
 
-		Video_SyncObs(DAT_800bf318[0].marks[0].a - 1);
+		Video_SyncObs(GVInfo1[0].marks[0].a - 1);
 	} else {
-		Video_SyncObs(DAT_800bf318[0].marks[n - 1].a - DAT_800bf318[0].marks[n - 2].b - 2);
+		Video_SyncObs(GVInfo1[0].marks[n - 1].a - GVInfo1[0].marks[n - 2].b - 2);
 	}
 }

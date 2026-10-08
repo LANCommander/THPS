@@ -1,0 +1,4 @@
+# verdict	retail	size	candidate	demo_size	opcode_sim	syms_refs	candidates_at_addr	note
+NOT-IN-SYM	0x80063c48	36	prepare__6Sprite	0		2	1	
+NOT-IN-SYM	0x80065e04	280	unload__10FileLoaderi	0		1	1	
+REVIEW	0x8001e108	12	handleComplete__17FallingTextEffect	24	0.22	1	1	

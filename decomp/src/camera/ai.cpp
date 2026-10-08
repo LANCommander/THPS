@@ -121,25 +121,25 @@ struct SSinCos {
 	short s, c;
 };
 
-extern SSinCos DAT_800c9670;
+extern SSinCos rcossin_tbl;
 
-#define SIN(a) ((&DAT_800c9670)[(a) & 4095].s)
+#define SIN(a) ((&rcossin_tbl)[(a) & 4095].s)
 
 extern SControl DAT_800c0a48[2];
-extern CVector DAT_800c1154;
-extern int DAT_800d1728;
-extern int DAT_800d16fc;
-extern int DAT_800d140c;
-extern SViewport *DAT_800d2178;
-extern int DAT_800d16e4;
+extern CVector Camera_CamOffset;
+extern int Cheat_ScreenShots;
+extern int GameFrozen;
+extern int GamePaused;
+extern SViewport *pCurrentViewport;
+extern int TTime;
 
-int DAT_800d2048;
-int DAT_800d1ff4;
-int DAT_800d1ff8;
-int DAT_800d1ffc;
-int DAT_800d2038;
-int DAT_800d203c;
-int DAT_800d2080;
+int Camera_CurrentMikeCamera;
+int camDist;
+int camPitch;
+int camYOffset;
+int Camera_CamPitch;
+int Camera_CamDist;
+int Mick_CameraTweak;
 int DAT_800d2084;
 int DAT_800d2088;
 int DAT_800d208c;
@@ -164,7 +164,7 @@ void CCamera::AI() {
 	{
 		int calc = mCalcTripod;
 
-		DAT_800d2048 = mMikeIndex;
+		Camera_CurrentMikeCamera = mMikeIndex;
 
 		if (calc) {
 			mOldTripodPos = mTripodPos;
@@ -194,7 +194,7 @@ void CCamera::AI() {
 		DAT_800d2090 = 1;
 	}
 
-	if (DAT_800d1728 && DAT_800d208c && DAT_800c0a48[0].Select.Pressed) {
+	if (Cheat_ScreenShots && DAT_800d208c && DAT_800c0a48[0].Select.Pressed) {
 		DAT_800c0a48[1].RightOne.Triggered = 0;
 		DAT_800c0a48[1].RightTwo.Triggered = 0;
 		DAT_800d2084 = 0;
@@ -202,13 +202,13 @@ void CCamera::AI() {
 		DAT_800d208c = 0;
 		DAT_800c0a48[0].Select.Triggered = 0;
 		DAT_800c0a48[0].Start.Triggered = 0;
-		DAT_800d2080 ^= 1;
-		DAT_800d16fc = DAT_800d2080;
+		Mick_CameraTweak ^= 1;
+		GameFrozen = Mick_CameraTweak;
 
-		if (DAT_800d2080) {
-			int y = DAT_800d1ffc;
-			int d = DAT_800d1ff4;
-			int p = DAT_800d1ff8;
+		if (Mick_CameraTweak) {
+			int y = camYOffset;
+			int d = camDist;
+			int p = camPitch;
 			int z = mZoom;
 
 			DAT_800d240c = y;
@@ -218,11 +218,11 @@ void CCamera::AI() {
 		}
 	}
 
-	if (DAT_800d2080) {
+	if (Mick_CameraTweak) {
 		if (DAT_800c0a48[1].Start.Pressed) {
-			DAT_800d1ffc = DAT_800d240c;
-			DAT_800d1ff4 = DAT_800d2410;
-			DAT_800d1ff8 = DAT_800d2414;
+			camYOffset = DAT_800d240c;
+			camDist = DAT_800d2410;
+			camPitch = DAT_800d2414;
 			mZoom = DAT_800d2088;
 		}
 
@@ -243,63 +243,63 @@ void CCamera::AI() {
 
 		if (DAT_800c0a48[1].Left.Pressed) {
 			if (DAT_800c0a48[1].Select.Pressed)
-				DAT_800d1ff4 -= 32;
+				camDist -= 32;
 			else
-				DAT_800d1ff4 -= 8;
+				camDist -= 8;
 		}
 
 		if (DAT_800c0a48[1].Right.Pressed) {
 			if (DAT_800c0a48[1].Select.Pressed)
-				DAT_800d1ff4 += 32;
+				camDist += 32;
 			else
-				DAT_800d1ff4 += 8;
+				camDist += 8;
 		}
 
 		if (DAT_800c0a48[1].Up.Pressed) {
 			if (DAT_800c0a48[1].Select.Pressed)
-				DAT_800d1ff8 -= 32;
+				camPitch -= 32;
 			else
-				DAT_800d1ff8 -= 8;
+				camPitch -= 8;
 		}
 
 		if (DAT_800c0a48[1].Down.Pressed) {
 			if (DAT_800c0a48[1].Select.Pressed)
-				DAT_800d1ff8 += 32;
+				camPitch += 32;
 			else
-				DAT_800d1ff8 += 8;
+				camPitch += 8;
 		}
 
-		DAT_800d1ff8 &= 4095;
+		camPitch &= 4095;
 
 		if (DAT_800c0a48[1].LeftOne.Pressed) {
 			if (DAT_800c0a48[1].Select.Pressed)
-				DAT_800d1ffc -= 32;
+				camYOffset -= 32;
 			else
-				DAT_800d1ffc -= 8;
+				camYOffset -= 8;
 		}
 
 		if (DAT_800c0a48[1].LeftTwo.Pressed) {
 			if (DAT_800c0a48[1].Select.Pressed)
-				DAT_800d1ffc += 32;
+				camYOffset += 32;
 			else
-				DAT_800d1ffc += 8;
+				camYOffset += 8;
 		}
 	}
 
 	{
-		int dist = DAT_800d1ff4;
-		int pitch = DAT_800d1ff8;
-		int yoff = DAT_800d1ffc;
+		int dist = camDist;
+		int pitch = camPitch;
+		int yoff = camYOffset;
 
-		DAT_800c1154.vx = 0;
-		DAT_800c1154.vz = 0;
-		DAT_800d203c = dist;
-		DAT_800d2038 = pitch;
-		DAT_800c1154.vy = yoff << 12;
+		Camera_CamOffset.vx = 0;
+		Camera_CamOffset.vz = 0;
+		Camera_CamDist = dist;
+		Camera_CamPitch = pitch;
+		Camera_CamOffset.vy = yoff << 12;
 	}
 
-	if (DAT_800d140c) {
-		if (DAT_800d2080) {
+	if (GamePaused) {
+		if (Mick_CameraTweak) {
 			CM_Normal();
 			MoveToDesiredPos(311);
 		}
@@ -311,7 +311,7 @@ void CCamera::AI() {
 			mZoom += mZoomIncrement;
 		}
 
-		DAT_800d2178->mZoom = mZoom;
+		pCurrentViewport->mZoom = mZoom;
 		Utils_CalcAim(mAngles, mPos, mFocusPos);
 
 		if (mTripod->m8fe && mTripodPosYDamper) {
@@ -335,12 +335,12 @@ void CCamera::AI() {
 			int vy = mTripod->mVelY;
 
 			if (vy < 0)
-				DAT_800d2038 -= damp;
+				Camera_CamPitch -= damp;
 
 			if (vy > 0)
-				DAT_800d2038 -= damp >> 1;
+				Camera_CamPitch -= damp >> 1;
 
-			DAT_800d2038 &= 4095;
+			Camera_CamPitch &= 4095;
 		}
 
 		switch (mCameraMode) {
@@ -372,10 +372,10 @@ void CCamera::AI() {
 		Utils_CalcAim(mAngles, mPos, mFocusPos);
 
 		if (mShakeAmplitude.vx || *(int *)&mShakeAmplitude.vy) {
-			mO = Quat_FromYRot(mShakeAmplitude.vy * SIN(mShakeSpeed.vy * DAT_800d16e4) / 4096) *
+			mO = Quat_FromYRot(mShakeAmplitude.vy * SIN(mShakeSpeed.vy * TTime) / 4096) *
 			     mO *
-			     Quat_FromXRot(mShakeAmplitude.vx * SIN(mShakeSpeed.vx * DAT_800d16e4) / 4096) *
-			     Quat_FromZRot(mShakeAmplitude.vz * SIN(mShakeSpeed.vz * DAT_800d16e4) / 4096);
+			     Quat_FromXRot(mShakeAmplitude.vx * SIN(mShakeSpeed.vx * TTime) / 4096) *
+			     Quat_FromZRot(mShakeAmplitude.vz * SIN(mShakeSpeed.vz * TTime) / 4096);
 
 			{
 				CSVector oldamp = mShakeAmplitude;

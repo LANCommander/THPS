@@ -114,20 +114,20 @@ struct CTrickTipMonitor {
 	void Update();
 };
 
-extern CTrickTipMonitor DAT_800d38c8;
-extern SCareer DAT_800a6844;
-extern SLevel DAT_800a5398[];
-extern STip DAT_800a28c4[];
-extern SVideoInfo DAT_800bf318[];
-extern SVideoInfo DAT_800bf3d8[];
-extern SControl DAT_800c0a48[2];
-extern int DAT_800d1cb0;
-extern int DAT_800d16a4;
-extern CBruce *DAT_800d19a4;
-extern int DAT_800d1e28;
+extern CTrickTipMonitor TrickTipMonitor;
+extern SCareer GCareer;
+extern SLevel Levels[];
+extern STip TRICKTIP[];
+extern SVideoInfo GVInfo1[];
+extern SVideoInfo GVInfo2[];
+extern SControl Pad[2];
+extern int DemoTimer;
+extern int GGame;
+extern CBruce *MechList;
+extern int GLevel;
 
-char *DAT_800d1fa0;
-char *DAT_800d1fa4;
+char *TEXT_TIP;
+char *TEXT_REMEMBER;
 
 static inline int TipBank(int tip) {
 	int tip_bank;
@@ -144,10 +144,10 @@ inline int CTrickTipMonitor::FindTip() {
 	int i;
 
 	for (i = 0; i < 26; i++) {
-		if (DAT_800a28c4[i].Flag)
+		if (TRICKTIP[i].Flag)
 			continue;
 
-		if ((DAT_800a6844.TipsSeen[TipBank(i)] >> (i - TipBank(i) * 32)) & 1)
+		if ((GCareer.TipsSeen[TipBank(i)] >> (i - TipBank(i) * 32)) & 1)
 			continue;
 
 		return i;
@@ -161,27 +161,27 @@ inline void CTrickTipMonitor::ShowTip(int tip) {
 		mLastTipTime = mTimer;
 		int tip_bank = TipBank(tip);
 
-		if (DAT_800a6844.TipsOn) {
-			if (((DAT_800a5398[DAT_800d1e28].DisabledTips[tip_bank] >> (tip - tip_bank * 32)) &
+		if (GCareer.TipsOn) {
+			if (((Levels[GLevel].DisabledTips[tip_bank] >> (tip - tip_bank * 32)) &
 			     1) == 0) {
-				int &seen = DAT_800a6844.TipsSeen[tip_bank];
-				int tip_mask = DAT_800a6844.TipsShown[tip_bank] & (1 << (tip - tip_bank * 32));
+				int &seen = GCareer.TipsSeen[tip_bank];
+				int tip_mask = GCareer.TipsShown[tip_bank] & (1 << (tip - tip_bank * 32));
 				int tip_used = seen & (1 << (tip - tip_bank * 32));
 
 				seen |= (1 << (tip - tip_bank * 32));
 
 				if (!tip_mask) {
 					if (tip_used) {
-						mTipLine1 = DAT_800d1fa4;
-						DAT_800a6844.TipsShown[tip_bank] |= 1 << (tip - tip_bank * 32);
+						mTipLine1 = TEXT_REMEMBER;
+						GCareer.TipsShown[tip_bank] |= 1 << (tip - tip_bank * 32);
 					} else {
-						mTipLine1 = DAT_800d1fa0;
+						mTipLine1 = TEXT_TIP;
 					}
 
 					mTipTimer = 200;
-					mTipLine2 = DAT_800a28c4[tip].Line1;
-					mTipLine3 = DAT_800a28c4[tip].Line2;
-					mTipLine4 = DAT_800a28c4[tip].Line3;
+					mTipLine2 = TRICKTIP[tip].Line1;
+					mTipLine3 = TRICKTIP[tip].Line2;
+					mTipLine4 = TRICKTIP[tip].Line3;
 				}
 			}
 		}
@@ -197,27 +197,27 @@ inline void CTrickTipMonitor::ShowFoundTip(int tip) {
 		mLastTipTime = mTimer;
 		tip_bank = TipBank(tip);
 
-		if (DAT_800a6844.TipsOn) {
-			if (((DAT_800a5398[DAT_800d1e28].DisabledTips[tip_bank] >> (tip - tip_bank * 32)) &
+		if (GCareer.TipsOn) {
+			if (((Levels[GLevel].DisabledTips[tip_bank] >> (tip - tip_bank * 32)) &
 			     1) == 0) {
-				tip_mask = DAT_800a6844.TipsShown[tip_bank];
-				tip_used = DAT_800a6844.TipsSeen[tip_bank];
+				tip_mask = GCareer.TipsShown[tip_bank];
+				tip_used = GCareer.TipsSeen[tip_bank];
 				tip_mask &= (1 << (tip - tip_bank * 32));
-				DAT_800a6844.TipsSeen[tip_bank] |= (1 << (tip - tip_bank * 32));
+				GCareer.TipsSeen[tip_bank] |= (1 << (tip - tip_bank * 32));
 				tip_used &= (1 << (tip - tip_bank * 32));
 
 				if (!tip_mask) {
 					if (tip_used) {
-						mTipLine1 = DAT_800d1fa4;
-						DAT_800a6844.TipsShown[tip_bank] |= 1 << (tip - tip_bank * 32);
+						mTipLine1 = TEXT_REMEMBER;
+						GCareer.TipsShown[tip_bank] |= 1 << (tip - tip_bank * 32);
 					} else {
-						mTipLine1 = DAT_800d1fa0;
+						mTipLine1 = TEXT_TIP;
 					}
 
 					mTipTimer = 200;
-					mTipLine2 = DAT_800a28c4[tip].Line1;
-					mTipLine3 = DAT_800a28c4[tip].Line2;
-					mTipLine4 = DAT_800a28c4[tip].Line3;
+					mTipLine2 = TRICKTIP[tip].Line1;
+					mTipLine3 = TRICKTIP[tip].Line2;
+					mTipLine4 = TRICKTIP[tip].Line3;
 				}
 			}
 		}
@@ -225,16 +225,16 @@ inline void CTrickTipMonitor::ShowFoundTip(int tip) {
 }
 
 inline void CTrickTipMonitor::Update() {
-	if (DAT_800a5398[DAT_800d1e28].NoTips)
+	if (Levels[GLevel].NoTips)
 		return;
 
-	if (DAT_800bf318[0].VideoMode == 2 || DAT_800bf3d8[0].VideoMode == 2)
+	if (GVInfo1[0].VideoMode == 2 || GVInfo2[0].VideoMode == 2)
 		return;
 
-	if (!DAT_800d1cb0 || DAT_800d16a4 != 1)
+	if (!DemoTimer || GGame != 1)
 		return;
 
-	pSkater = DAT_800d19a4;
+	pSkater = MechList;
 
 	if (!mTimer) {
 		int tip = FindTip();
@@ -252,8 +252,8 @@ inline void CTrickTipMonitor::Update() {
 	if (mOldGrinds < pSkater->mGrinds) {
 		mOldGrinds = pSkater->mGrinds;
 		mGrindCounter++;
-		DAT_800a6844.TipsSeen[0] |= 0x100;
-		DAT_800a6844.TipsShown[0] |= 0x100;
+		GCareer.TipsSeen[0] |= 0x100;
+		GCareer.TipsShown[0] |= 0x100;
 	}
 
 	if (mOldJumps < pSkater->mJumps) {
@@ -265,7 +265,7 @@ inline void CTrickTipMonitor::Update() {
 	if (mJumpTimer > 600)
 		mJumpTimer = 0;
 
-	if (DAT_800c0a48[0].b[10].Pressed || DAT_800c0a48[1].b[10].Pressed)
+	if (Pad[0].b[10].Pressed || Pad[1].b[10].Pressed)
 		mHoldingForwardCounter++;
 	else
 		mHoldingForwardCounter = 0;
@@ -339,5 +339,5 @@ inline void CTrickTipMonitor::Update() {
 }
 
 void TrickTips_Update() {
-	DAT_800d38c8.Update();
+	TrickTipMonitor.Update();
 }

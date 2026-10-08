@@ -93,35 +93,35 @@ struct SLineInfo {
 };
 
 extern SSkater DAT_800a44fc[];
-extern SCareer DAT_800a6844;
-extern SLevel DAT_800a5398[];
+extern SCareer GCareer;
+extern SLevel Levels[];
 extern STrickInfo DAT_800a7250, DAT_800a727c, DAT_800a72a8, DAT_800a72d4, DAT_800a7300,
     DAT_800a732c;
 extern STrickInfo DAT_800a7460, DAT_800a74e4, DAT_800a7510;
-extern short DAT_800a8228[];
-extern CVector DAT_800a7f1c;
+extern short HeadBloodAtFrame[];
+extern CVector WorldUp;
 extern CVector DAT_800d25e4;
 extern char DAT_8009fe50[];
 
-int DAT_800d1924;
+int Cheat_StatsOverride;
 int DAT_800d1950;
 
-extern int DAT_800d172c;
-extern int DAT_800d16a4;
-extern int DAT_800d16a8;
-extern int DAT_800d16e0;
-extern int DAT_800d1770;
-extern int DAT_800d1774;
-extern int DAT_800d1784;
-extern int DAT_800d179c;
-extern int DAT_800d1e28;
-extern int DAT_800d20d0;
-extern int DAT_800d20d4;
+extern int Cheat_Fire;
+extern int GGame;
+extern int GAutoTest;
+extern int EndCode;
+extern int XFrames;
+extern int TimeScale;
+extern int GState;
+extern int GHorsePlayer;
+extern int GLevel;
+extern int BaddyCollisionCheck;
+extern int BulletCollisionCheck;
 
 class CBruce;
 
-extern CBruce *DAT_800d17c8;
-extern CBruce *DAT_800d199c;
+extern CBruce *GSkater;
+extern CBruce *pCurrentPlayer;
 
 class CBruce {
   public:
@@ -229,8 +229,8 @@ class CBruce {
 };
 
 #define GetStat(n)                                                                                 \
-	(DAT_800d1924 ? DAT_800d1924                                                                   \
-	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	(Cheat_StatsOverride ? Cheat_StatsOverride                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || Cheat_Fire) ? 3 : 0)) +     \
 	                    mpStatBonus[n])
 #define MAXSPEED(k) (((GetStat(1) + (k)) << 12) * 3 * 15 / 28)
 
@@ -261,12 +261,12 @@ void CBruce::DoPhysics() {
 	int AutoKickEnabled;
 	int Spd;
 
-	if (DAT_800d16a4 != 7)
-		AutoKickEnabled = DAT_800a6844.AutoKick[m870];
+	if (GGame != 7)
+		AutoKickEnabled = GCareer.AutoKick[m870];
 	else
-		AutoKickEnabled = DAT_800a6844.AutoKick[m870 ^ DAT_800d179c];
+		AutoKickEnabled = GCareer.AutoKick[m870 ^ GHorsePlayer];
 
-	DAT_800a7f1c.Set(0, -4096, 0);
+	WorldUp.Set(0, -4096, 0);
 	CVector Gravity;
 
 	Gravity.vx = 0;
@@ -327,29 +327,29 @@ void CBruce::DoPhysics() {
 
 	if ((mPad->Up.Pressed || mAY < -40) && !mPad->Left.Pressed && !mPad->Right.Pressed && !mAX) {
 		if (!m1F8)
-			m1F8 = DAT_800d1770;
+			m1F8 = XFrames;
 	} else
 		m1F8 = 0;
 
 	m1A4 = mVel;
-	DAT_800d20d0 = 1;
-	DAT_800d20d4 = 0;
+	BaddyCollisionCheck = 1;
+	BulletCollisionCheck = 0;
 	Trick_PlayerInit(0);
 
 	/* HandleTimer */
-	if (DAT_800d16a4 != 2) {
+	if (GGame != 2) {
 		int ticks;
 
-		if (DAT_800d16a8)
-			ticks = 100 - DAT_800d1770;
+		if (GAutoTest)
+			ticks = 100 - XFrames;
 		else
-			ticks = m330 - DAT_800d1770;
+			ticks = m330 - XFrames;
 
-		if (ticks < 0 && !DAT_800d1784) {
-			if (DAT_800d16a8)
-				DAT_800d16e0 = 8;
+		if (ticks < 0 && !GState) {
+			if (GAutoTest)
+				EndCode = 8;
 			else {
-				if (DAT_800d16a4 == 1 && DAT_800a5398[DAT_800d1e28].f0C)
+				if (GGame == 1 && Levels[GLevel].f0C)
 					SFX_PlayX(160, 0x2000, 0);
 
 				Game_Over__Fv();
@@ -361,7 +361,7 @@ void CBruce::DoPhysics() {
 	if (m720) {
 		int old = m724;
 
-		m724 = old + ((m728 * DAT_800d1774) >> 8);
+		m724 = old + ((m728 * TimeScale) >> 8);
 
 		if ((m724 ^ old) & 0x1000) {
 			m720--;
@@ -434,13 +434,13 @@ void CBruce::DoPhysics() {
 				if (mAY > 0) {
 					int b = mAY >> 4;
 
-					mVel.vx -= ((mVel.vx * b / 128) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy * b / 128) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz * b / 128) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx * b / 128) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy * b / 128) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz * b / 128) * TimeScale) >> 8;
 				} else {
-					mVel.vx -= ((mVel.vx >> 4) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 4) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 4) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 4) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 4) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 4) * TimeScale) >> 8;
 				}
 			} else if (BrakeVal <= 0xa000) {
 				StateTransition(7, 7943);
@@ -521,7 +521,7 @@ void CBruce::DoPhysics() {
 	if (mPhysicsState != 8)
 		HandleStickToRail();
 
-	if (m358 && mAnim == 46 && mFrame == DAT_800a8228[mSkaterIndex])
+	if (m358 && mAnim == 46 && mFrame == HeadBloodAtFrame[mSkaterIndex])
 		BloodSplat(0, 50);
 
 	/* HandlePhysicsStates */
@@ -574,7 +574,7 @@ void CBruce::DoPhysics() {
 		case 3:
 			DoInAirPhysics();
 
-			if (mPhysicsState == 3 && DAT_800d1770 - m1E8 >= 26)
+			if (mPhysicsState == 3 && XFrames - m1E8 >= 26)
 				StateTransition(1, 8263);
 
 			break;
@@ -601,15 +601,15 @@ void CBruce::DoPhysics() {
 					BloodSplat(0, 50);
 
 					m71C = 1;
-					mVel.vx -= ((mVel.vx >> 2) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 2) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 2) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 2) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 2) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 2) * TimeScale) >> 8;
 				}
 
 				if (mFrame >= 16 && !mPhysicsState) {
-					mVel.vx -= ((mVel.vx >> 5) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 5) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 5) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 5) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 5) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 5) * TimeScale) >> 8;
 				}
 
 				if (m14F && !mPhysicsState) {
@@ -627,15 +627,15 @@ void CBruce::DoPhysics() {
 					BloodSplat(0, 50);
 
 					m71C = 1;
-					mVel.vx -= ((mVel.vx >> 2) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 2) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 2) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 2) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 2) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 2) * TimeScale) >> 8;
 				}
 
 				if (mFrame >= 16 && !mPhysicsState) {
-					mVel.vx -= ((mVel.vx >> 5) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 5) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 5) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 5) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 5) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 5) * TimeScale) >> 8;
 				}
 
 				if (m14F && !mPhysicsState) {
@@ -664,9 +664,9 @@ void CBruce::DoPhysics() {
 				break;
 			case 2:
 				if (!mPhysicsState) {
-					mVel.vx -= ((mVel.vx >> 5) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 5) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 5) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 5) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 5) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 5) * TimeScale) >> 8;
 				}
 
 				m150 = 0x10000;
@@ -676,9 +676,9 @@ void CBruce::DoPhysics() {
 				break;
 			case 5:
 				if (mFrame >= 26 && !mPhysicsState) {
-					mVel.vx -= ((mVel.vx >> 2) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 2) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 2) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 2) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 2) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 2) * TimeScale) >> 8;
 				} else if (mFrame >= 34 && !mPhysicsState) {
 					mVel.vx = 0;
 					mVel.vy = 0;
@@ -691,9 +691,9 @@ void CBruce::DoPhysics() {
 				break;
 			case 3:
 				if (mFrame >= 51 && !mPhysicsState) {
-					mVel.vx -= ((mVel.vx >> 2) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 2) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 2) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 2) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 2) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 2) * TimeScale) >> 8;
 				}
 
 				if (m14F && !mPhysicsState)
@@ -703,9 +703,9 @@ void CBruce::DoPhysics() {
 			case 8:
 				if (mFrame < 18) {
 					mKick.vy = 0;
-					mVel.vx -= ((mVel.vx >> 4) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 4) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 4) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 4) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 4) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 4) * TimeScale) >> 8;
 				}
 
 				if (m14F && !mPhysicsState) {
@@ -717,9 +717,9 @@ void CBruce::DoPhysics() {
 				break;
 			case 9:
 				if (mFrame >= 29 && !mPhysicsState) {
-					mVel.vx -= ((mVel.vx >> 2) * DAT_800d1774) >> 8;
-					mVel.vy -= ((mVel.vy >> 2) * DAT_800d1774) >> 8;
-					mVel.vz -= ((mVel.vz >> 2) * DAT_800d1774) >> 8;
+					mVel.vx -= ((mVel.vx >> 2) * TimeScale) >> 8;
+					mVel.vy -= ((mVel.vy >> 2) * TimeScale) >> 8;
+					mVel.vz -= ((mVel.vz >> 2) * TimeScale) >> 8;
 				}
 
 				if (m14F && !mPhysicsState) {
@@ -781,14 +781,14 @@ void CBruce::DoPhysics() {
 		M3dColij_InitLineInfo(&LInfo);
 
 		LInfo.Flag88 = 1;
-		n = this == DAT_800d17c8 ? 1 : 2;
+		n = this == GSkater ? 1 : 2;
 		Trig_ResetCPCollisionFlags(n);
 
-		DAT_800d199c = this;
+		pCurrentPlayer = this;
 		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&LInfo, 1);
 		Trig_ResetCPExecutedFlags(n);
 
-		DAT_800d199c = 0;
+		pCurrentPlayer = 0;
 	}
 
 	switch (mPhysicsState) {
@@ -796,7 +796,7 @@ void CBruce::DoPhysics() {
 		case 2:
 		case 3:
 			if (!m300)
-				m300 = DAT_800d1770;
+				m300 = XFrames;
 
 			break;
 		default:
@@ -804,7 +804,7 @@ void CBruce::DoPhysics() {
 			break;
 	}
 
-	mVel += (mKick * DAT_800d1774) >> 8;
+	mVel += (mKick * TimeScale) >> 8;
 
 	/* LimitFinalSpeed */
 	Spd = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;

@@ -1,8 +1,8 @@
 /* __15CNonRenderedBit (0x80027f64) */
 #include "names.h"
-extern char DAT_8009f878[];
+extern char __vt_15CNonRenderedBit[];
 
-char DAT_800d18cc[8];
+char NonRenderedBitList[8];
 
 char *CBit_ctor(char *p);
 void CBit_AttachTo(char *p, char *q);
@@ -10,7 +10,7 @@ void CBit_AttachTo(char *p, char *q);
 char *CNonRenderedBit_ctor(char *p) {
 	CBit_ctor(p);
 
-	*(char **)(p + 68) = DAT_8009f878;
-	CBit_AttachTo(p, DAT_800d18cc);
+	*(char **)(p + 68) = __vt_15CNonRenderedBit;
+	CBit_AttachTo(p, NonRenderedBitList);
 	return p;
 }

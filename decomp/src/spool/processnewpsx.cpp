@@ -42,12 +42,12 @@ struct SPSXRegion {
 	char pad35[64 - 0x35];
 };
 
-extern SPSXRegion DAT_800bf7a8[];
+extern SPSXRegion PSXRegion[];
 
-uint *DAT_800d1ee0;
+uint *pCurrentTexWibPacket;
 
-extern int DAT_800d1a6c;
-extern int DAT_800d1a70;
+extern int Pack_NoBottom;
+extern int Pack_NoRight;
 
 uint *Spool_SkipPackets(uint *);
 Texture *Spool_FindTextureEntry(uint);
@@ -81,10 +81,10 @@ void ProcessNewPSX(int region) {
 	int AnimPacketFound;
 	int PacketType;
 
-	pPSX = DAT_800bf7a8[region].pPSX;
+	pPSX = PSXRegion[region].pPSX;
 	ppModels = (SModel **)(pPSX[2] * 36 + (int)pPSX) + 4;
 	NumModels = ((uint *)ppModels)[-1];
-	DAT_800d1ee0 = 0;
+	pCurrentTexWibPacket = 0;
 
 	{
 		int i;
@@ -93,9 +93,9 @@ void ProcessNewPSX(int region) {
 			ppModels[i] = (SModel *)((uint)ppModels[i] + (uint)pPSX);
 	}
 
-	DAT_800bf7a8[region].ppModels = ppModels;
-	DAT_800bf7a8[region].pChecksums = Spool_SkipPackets(pPSX);
-	ChecksumTable = DAT_800bf7a8[region].pChecksums + NumModels + 1;
+	PSXRegion[region].ppModels = ppModels;
+	PSXRegion[region].pChecksums = Spool_SkipPackets(pPSX);
+	ChecksumTable = PSXRegion[region].pChecksums + NumModels + 1;
 	NumChecksums = ChecksumTable[-1];
 
 	{
@@ -169,34 +169,34 @@ void ProcessNewPSX(int region) {
 		}
 	}
 
-	DAT_800d1a6c = 0;
-	DAT_800d1a70 = 0;
+	Pack_NoBottom = 0;
+	Pack_NoRight = 0;
 
-	if (DAT_800bf7a8[region].Name[0] == 'b' && DAT_800bf7a8[region].Name[1] == 'i' &&
-	    DAT_800bf7a8[region].Name[2] == 't' && DAT_800bf7a8[region].Name[3] == 's' &&
-	    !DAT_800bf7a8[region].Name[4]) {
-		DAT_800d1a6c = 1;
-		DAT_800d1a70 = 1;
+	if (PSXRegion[region].Name[0] == 'b' && PSXRegion[region].Name[1] == 'i' &&
+	    PSXRegion[region].Name[2] == 't' && PSXRegion[region].Name[3] == 's' &&
+	    !PSXRegion[region].Name[4]) {
+		Pack_NoBottom = 1;
+		Pack_NoRight = 1;
 	}
 
-	DAT_800bf7a8[region].InMemory = 1;
+	PSXRegion[region].InMemory = 1;
 	Spool_LoadTexturesToVRAM__Fii(region, 0);
 
-	DAT_800d1a6c = 0;
-	DAT_800d1a70 = 0;
+	Pack_NoBottom = 0;
+	Pack_NoRight = 0;
 
-	if (!DAT_800bf7a8[region].KeepTextures) {
+	if (!PSXRegion[region].KeepTextures) {
 		FUN_8004d6a0(pPSX, GeometryAndTableSize);
 
-		DAT_800bf7a8[region].InMemory = 0;
+		PSXRegion[region].InMemory = 0;
 	}
 
 	AnimPacketFound = 0;
 	M3dInit_ParsePSX(region);
 
-	DAT_800bf7a8[region].m9 = 0;
-	DAT_800bf7a8[region].pTrig = 0;
-	DAT_800bf7a8[region].pPack7 = 0;
+	PSXRegion[region].m9 = 0;
+	PSXRegion[region].pTrig = 0;
+	PSXRegion[region].pPack7 = 0;
 	pPacket = (uint *)((char *)pPSX + pPSX[1]);
 	PacketType = *pPacket;
 
@@ -215,21 +215,21 @@ void ProcessNewPSX(int region) {
 				break;
 			case 0x2a:
 			case 0x2c:
-				DAT_800bf7a8[region].pRails = pPacket;
-				DAT_800bf7a8[region].m9 = 1;
+				PSXRegion[region].pRails = pPacket;
+				PSXRegion[region].m9 = 1;
 				break;
 			case 0x73424752:
-				DAT_800bf7a8[region].pRGBs = pPacket;
+				PSXRegion[region].pRGBs = pPacket;
 				break;
 			case 6:
-				DAT_800bf7a8[region].pTrig = pPacket;
-				DAT_800d1ee0 = pPacket - 2;
+				PSXRegion[region].pTrig = pPacket;
+				pCurrentTexWibPacket = pPacket - 2;
 				break;
 			case 7:
-				DAT_800bf7a8[region].pPack7 = pPacket;
+				PSXRegion[region].pPack7 = pPacket;
 				break;
 			case 0x52454948:
-				DAT_800bf7a8[region].pHier = pPacket;
+				PSXRegion[region].pHier = pPacket;
 				break;
 		}
 
@@ -242,5 +242,5 @@ void ProcessNewPSX(int region) {
 	if (AnimPacketFound)
 		FUN_8004d6a0(pPSX, (char *)pPacket - (char *)pPSX);
 
-	DAT_800bf7a8[region].Loaded = 1;
+	PSXRegion[region].Loaded = 1;
 }

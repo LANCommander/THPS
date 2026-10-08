@@ -8,18 +8,18 @@ typedef struct {
 	int type;
 } SBg;
 
-int DAT_800d1118;
+int FreeSprite;
 
-extern SBg DAT_800a4434[];
+extern SBg BGCache[];
 
 void Sprite_draw(void *, int, int, int, int, int, int);
 
 void Front_RestoreBackground(void) {
 	int i;
 
-	for (i = 0; i < DAT_800d1118; i++) {
-		if (DAT_800a4434[i].type == 2)
-			Sprite_draw(DAT_800a4434[i].spr, DAT_800a4434[i].x, DAT_800a4434[i].y, 0, -1,
+	for (i = 0; i < FreeSprite; i++) {
+		if (BGCache[i].type == 2)
+			Sprite_draw(BGCache[i].spr, BGCache[i].x, BGCache[i].y, 0, -1,
 			                    -1, -1);
 	}
 }

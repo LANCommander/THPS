@@ -9,32 +9,32 @@ typedef struct {
 	char pad[0x28];
 } SRegion;
 
-extern SRegion DAT_800bf7a8[];
+extern SRegion PSXRegion[];
 
 typedef struct SEnviro {
 	char pad[0x1c];
 	struct SEnviro *next;
 } SEnviro;
 
-SEnviro *DAT_800d1eec;
-int DAT_800d1ee0;
-int DAT_800d1ee4[2];
+SEnviro *EnviroList;
+int pCurrentTexWibPacket;
+int pTexWibPacket[2];
 
 int Spool_GetEnvIndex(int);
 
 void AttachNewEnviro(int region) {
-	if (!DAT_800d1eec) {
-		DAT_800d1eec = (SEnviro *)(DAT_800bf7a8[region].f14 + 12);
+	if (!EnviroList) {
+		EnviroList = (SEnviro *)(PSXRegion[region].f14 + 12);
 	} else {
-		SEnviro *head = (SEnviro *)(DAT_800bf7a8[region].f14 + 12);
+		SEnviro *head = (SEnviro *)(PSXRegion[region].f14 + 12);
 		SEnviro *p = head;
 
 		while (p->next)
 			p = p->next;
 
-		p->next = DAT_800d1eec;
-		DAT_800d1eec = head;
+		p->next = EnviroList;
+		EnviroList = head;
 	}
 
-	DAT_800d1ee4[Spool_GetEnvIndex(region)] = DAT_800d1ee0;
+	pTexWibPacket[Spool_GetEnvIndex(region)] = pCurrentTexWibPacket;
 }

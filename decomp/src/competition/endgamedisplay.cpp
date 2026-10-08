@@ -37,12 +37,12 @@ struct SCareerRecord {
 	uchar Flags[14];
 };
 
-extern SCompetition DAT_800c0fdc;
-extern CBruce *DAT_800d17c8;
-extern SCareerRecord DAT_800a6850[];
+extern SCompetition theCompetition;
+extern CBruce *GSkater;
+extern SCareerRecord GCareer_c[];
 extern char DAT_800a3250[], DAT_800a3268[], DAT_800a318c[], DAT_800a3288[], DAT_800a32a8[];
 extern char DAT_800a32bc[], DAT_800a32dc[], DAT_800a32f4[], DAT_800a3308[];
-extern char *DAT_800a5edc[];
+extern char *GameText_180[];
 
 void Mess_DeleteAll();
 void Mess_SetScale(int);
@@ -57,7 +57,7 @@ extern "C" {
 }
 
 void Competition_EndGameDisplay() {
-	SCompetition *pComp = &DAT_800c0fdc;
+	SCompetition *pComp = &theCompetition;
 
 	Mess_DeleteAll();
 	Mess_SetScale(256);
@@ -91,7 +91,7 @@ void Competition_EndGameDisplay() {
 			int i;
 
 			for (i = 0; i < 10; i++) {
-				short f = DAT_800a6850[DAT_800d17c8->mSkaterIndex].Flags[i];
+				short f = GCareer_c[GSkater->mSkaterIndex].Flags[i];
 
 				if (f & 0x20)
 					m[n++] = (EMedalType)5;
@@ -126,6 +126,6 @@ void Competition_EndGameDisplay() {
 		}
 
 		if (Done && !pComp->mWaitPrompt)
-			Front_PrintCentredPrompt(DAT_800a5edc[0]);
+			Front_PrintCentredPrompt(GameText_180[0]);
 	}
 }

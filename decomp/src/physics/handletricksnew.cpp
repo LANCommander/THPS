@@ -57,9 +57,9 @@ struct STrick {
 	int w10;      /* 0x28 */
 };
 
-extern SSkater DAT_800a44fc[];
-extern STrick DAT_800a7358[];
-extern int DAT_800d1770;
+extern SSkater Stats[];
+extern STrick Group[];
+extern int XFrames;
 
 class CBruce {
   public:
@@ -181,17 +181,17 @@ void CBruce::HandleTricksNew() {
 			if (!m274) {
 				m278 = Dir;
 				m27C = 0;
-				m274 = DAT_800d1770;
+				m274 = XFrames;
 			}
 		}
 
 		m378[m370] = Dir;
-		m3C8[m370] = DAT_800d1770;
+		m3C8[m370] = XFrames;
 
-		if (m3A0[m370] && DAT_800d1770 - m3F0[m370] > 20)
+		if (m3A0[m370] && XFrames - m3F0[m370] > 20)
 			m3A0[m370] = 0;
 	} else if (m274 && !m27C) {
-		m27C = DAT_800d1770;
+		m27C = XFrames;
 	} else {
 		m280 = 1;
 	}
@@ -205,9 +205,9 @@ void CBruce::HandleTricksNew() {
 
 	if (Button) {
 		m3A0[m370] = Button;
-		m3F0[m370] = DAT_800d1770;
+		m3F0[m370] = XFrames;
 
-		if (m378[m370] && DAT_800d1770 - m3C8[m370] > 20)
+		if (m378[m370] && XFrames - m3C8[m370] > 20)
 			m378[m370] = 0;
 	}
 
@@ -252,11 +252,11 @@ void CBruce::HandleTricksNew() {
 			Combo = 0;
 
 		if (Combo) {
-			int Key = DAT_800a44fc[mSkaterIndex].Style + (Combo << 8) + (Dir << 4) + Button;
+			int Key = Stats[mSkaterIndex].Style + (Combo << 8) + (Dir << 4) + Button;
 			int i;
 			STrick *p;
 
-			for (p = &DAT_800a7358[32], i = 32; p->Flags > 0; i++, p++) {
+			for (p = &Group[32], i = 32; p->Flags > 0; i++, p++) {
 				if ((p->Flags & 0xfffff) == Key) {
 					m150 = p->w2;
 
@@ -296,7 +296,7 @@ void CBruce::HandleTricksNew() {
 					m35C = 1;
 					m364 = 0;
 					m360 = 0;
-					m348 = DAT_800d1770;
+					m348 = XFrames;
 					m378[m36C] = m3A0[m36C] = 0;
 
 					if (++m36C == 10)
@@ -310,17 +310,17 @@ void CBruce::HandleTricksNew() {
 				Combo = 0;
 		}
 
-		if (!Combo && (Button & 1) && DAT_800a7358[Dir].Anim != 78) {
+		if (!Combo && (Button & 1) && Group[Dir].Anim != 78) {
 			Dir += 16;
-			m150 = DAT_800a7358[Dir].w2;
+			m150 = Group[Dir].w2;
 			m368 = Dir | 0x4000;
 
-			if (DAT_800a7358[Dir].Frames) {
-				Debug_RunAnim2__6CBruceiiii(this, DAT_800a7358[Dir].Anim, 0, DAT_800a7358[Dir].Frames, 2396);
+			if (Group[Dir].Frames) {
+				Debug_RunAnim2__6CBruceiiii(this, Group[Dir].Anim, 0, Group[Dir].Frames, 2396);
 
 				m368 |= 0x40000000;
 			} else {
-				Debug_RunAnim__6CBruceii(this, DAT_800a7358[Dir].Anim, 2401);
+				Debug_RunAnim__6CBruceii(this, Group[Dir].Anim, 2401);
 
 				m368 |= 0x20000000;
 			}
@@ -328,23 +328,23 @@ void CBruce::HandleTricksNew() {
 			m35C = 1;
 			m364 = 0;
 			m360 = 0;
-			m348 = DAT_800d1770;
+			m348 = XFrames;
 			m378[m36C] = m3A0[m36C] = 0;
 
 			if (++m36C == 10)
 				m36C = 0;
 
-			SetTrickFlags(&DAT_800a7358[Dir]);
-		} else if (!Combo && (Button & 2) && DAT_800a7358[Dir].Anim != 78) {
-			m150 = DAT_800a7358[Dir].w2;
+			SetTrickFlags(&Group[Dir]);
+		} else if (!Combo && (Button & 2) && Group[Dir].Anim != 78) {
+			m150 = Group[Dir].w2;
 			m368 = Dir | 0x2000;
 
-			if (DAT_800a7358[Dir].Frames) {
-				Debug_RunAnim2__6CBruceiiii(this, DAT_800a7358[Dir].Anim, 0, DAT_800a7358[Dir].Frames, 2423);
+			if (Group[Dir].Frames) {
+				Debug_RunAnim2__6CBruceiiii(this, Group[Dir].Anim, 0, Group[Dir].Frames, 2423);
 
 				m368 |= 0x40000000;
 			} else {
-				Debug_RunAnim__6CBruceii(this, DAT_800a7358[Dir].Anim, 2428);
+				Debug_RunAnim__6CBruceii(this, Group[Dir].Anim, 2428);
 
 				m368 |= 0x80000000;
 			}
@@ -352,13 +352,13 @@ void CBruce::HandleTricksNew() {
 			m35C = 1;
 			m364 = 0;
 			m360 = 0;
-			m348 = DAT_800d1770;
+			m348 = XFrames;
 			m378[m36C] = m3A0[m36C] = 0;
 
 			if (++m36C == 10)
 				m36C = 0;
 
-			SetTrickFlags(&DAT_800a7358[Dir]);
+			SetTrickFlags(&Group[Dir]);
 		}
 	}
 
@@ -377,11 +377,11 @@ void CBruce::HandleTricksNew() {
 	if (m149 == -1)
 		m360 = 1;
 	else {
-		if ((m368 & 0x4000) && DAT_800a7358[Trick].Frames &&
-		    mFrame >= m14E - DAT_800a7358[Trick].w5 - 1)
+		if ((m368 & 0x4000) && Group[Trick].Frames &&
+		    mFrame >= m14E - Group[Trick].w5 - 1)
 			m360 = 1;
 
-		if ((m368 & 0x2000) && mFrame >= m14E - DAT_800a7358[Trick].w5 - 1)
+		if ((m368 & 0x2000) && mFrame >= m14E - Group[Trick].w5 - 1)
 			m360 = 1;
 	}
 
@@ -410,8 +410,8 @@ void CBruce::HandleTricksNew() {
 					m368 &= ~0x800;
 
 				if (!(m368 & 0x800)) {
-					if (DAT_800a7358[Trick].Frames >= mFrame)
-						Debug_RunAnim2__6CBruceiiii(this, mAnim, DAT_800a7358[Trick].Frames, -1, 2529);
+					if (Group[Trick].Frames >= mFrame)
+						Debug_RunAnim2__6CBruceiiii(this, mAnim, Group[Trick].Frames, -1, 2529);
 					else if (!m6DC) {
 						m150 = 0x10000;
 						Debug_RunAnim__6CBruceii(this, 14, 2535);
@@ -427,8 +427,8 @@ void CBruce::HandleTricksNew() {
 					m368 &= ~0x800;
 
 				if (!(m368 & 0x800)) {
-					if (DAT_800a7358[Trick].Frames >= mFrame)
-						Debug_RunAnim2__6CBruceiiii(this, mAnim, DAT_800a7358[Trick].Frames, -1, 2553);
+					if (Group[Trick].Frames >= mFrame)
+						Debug_RunAnim2__6CBruceiiii(this, mAnim, Group[Trick].Frames, -1, 2553);
 					else if (!m6DC) {
 						m150 = 0x10000;
 						Debug_RunAnim__6CBruceii(this, 14, 2559);

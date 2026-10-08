@@ -25,18 +25,18 @@ struct G {
 	int f12c;
 };
 
-extern struct G DAT_800c0fdc;
-extern int DAT_800a5f10[];
-extern int DAT_800d1428;
-extern int DAT_800d1780;
-extern int DAT_800d1e28;
+extern struct G theCompetition;
+extern int GameText_1b4[];
+extern int pYesNoMenu;
+extern int GNumberOfPlayers;
+extern int GLevel;
 
 struct GA {
 	char pad[0x984];
 	int arr[4];
 };
 
-extern struct GA DAT_800a6844;
+extern struct GA GCareer;
 
 struct L {
 	char pad[0x50];
@@ -44,7 +44,7 @@ struct L {
 	char pad2[0x78 - 0x54];
 };
 
-extern struct L DAT_800a5398[];
+extern struct L Levels[];
 
 struct H {
 	char p[0x80a8];
@@ -53,15 +53,15 @@ struct H {
 	int b;
 };
 
-extern struct H DAT_800a891c;
-extern char DAT_800c0a48[];
+extern struct H DoubleBuffer;
+extern char Pad[];
 
 struct W {
 	char p[0x2e8];
 	int i;
 };
 
-extern struct W *DAT_800d17c8;
+extern struct W *GSkater;
 
 void FUN_80010ac0(void);
 void Flash_Reset(void);
@@ -90,42 +90,42 @@ void CMenu_SetLine(int, int);
 void Competition_WinLoseLogic(int *a0, int *a1) {
 	int v, e;
 	struct W *gg;
-	struct G *g = &DAT_800c0fdc;
+	struct G *g = &theCompetition;
 
 	if (g->f12c) {
 		Flash_Update();
 
 		if (Flash_FadeFinished()) {
 			g->f12c = 0;
-			CMenu_SetLine(DAT_800d1428,
-			                  CMenu_FindEntry(DAT_800d1428, DAT_800a5f10[0]) & 0xff);
+			CMenu_SetLine(pYesNoMenu,
+			                  CMenu_FindEntry(pYesNoMenu, GameText_1b4[0]) & 0xff);
 			DEL(g->a);
 			DEL(g->b);
 			DEL(g->c);
 
-			gg = DAT_800d17c8;
-			e = DAT_800d1e28;
+			gg = GSkater;
+			e = GLevel;
 			g->a = 0;
 			g->b = 0;
 			g->c = 0;
-			DAT_800a6844.arr[gg->i] |= 1 << e;
+			GCareer.arr[gg->i] |= 1 << e;
 			GameFMV_StopFMV();
 			Pad_ClearAll();
-			Pad_ClearTriggers(DAT_800c0a48);
-			Pad_ClearTriggers(DAT_800c0a48 + 364);
+			Pad_ClearTriggers(Pad);
+			Pad_ClearTriggers(Pad + 364);
 			Pad_ActuatorOff(0, 0);
 			Pad_ActuatorOff(0, 1);
 			Mess_DeleteAll();
 			FUN_8008f4d4(8, 0, 0);
 			Pause__Fi(10);
-			Mem_Delete(DAT_800a891c.a);
+			Mem_Delete(DoubleBuffer.a);
 			GameFMV_PlayMovie(-11);
 			Flash_Reset();
 
-			DAT_800a891c.a =
-			    Mem_NewX((DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
-			DAT_800a891c.b =
-			    DAT_800a891c.a + 0x17c00 + DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1];
+			DoubleBuffer.a =
+			    Mem_NewX((Levels[GLevel].x[GNumberOfPlayers - 1] + 0x17c00) * 2, 1, 1);
+			DoubleBuffer.b =
+			    DoubleBuffer.a + 0x17c00 + Levels[GLevel].x[GNumberOfPlayers - 1];
 			*a0 = 27;
 		}
 	} else {
@@ -149,8 +149,8 @@ void Competition_WinLoseLogic(int *a0, int *a1) {
 					}
 
 					*a0 = 7;
-					CMenu_SetLine(DAT_800d1428,
-					                  CMenu_FindEntry(DAT_800d1428, DAT_800a5f10[0]) & 0xff);
+					CMenu_SetLine(pYesNoMenu,
+					                  CMenu_FindEntry(pYesNoMenu, GameText_1b4[0]) & 0xff);
 				} else
 					return;
 			} else {
@@ -164,7 +164,7 @@ void Competition_WinLoseLogic(int *a0, int *a1) {
 			g->a = 0;
 			g->b = 0;
 			g->c = 0;
-			DAT_800a6844.arr[DAT_800d17c8->i] |= 1 << DAT_800d1e28;
+			GCareer.arr[GSkater->i] |= 1 << GLevel;
 		}
 	}
 }

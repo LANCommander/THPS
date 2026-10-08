@@ -20,7 +20,7 @@ typedef struct {
 	int f160;
 } B;
 
-extern int DAT_800d16e4;
+extern int TTime;
 
 void CPowerUp_DontDisplay(B *);
 
@@ -36,14 +36,14 @@ void FUN_800201c8(B *p) {
 		}
 
 		if ((unsigned short)(p->f15c - 31) < 29) {
-			if (DAT_800d16e4 & 2)
+			if (TTime & 2)
 				p->f0 &= 0xfffe;
 			else
 				CPowerUp_DontDisplay(p);
 		}
 
 		if (p->f15c < 31) {
-			if (DAT_800d16e4 & 1)
+			if (TTime & 1)
 				p->f0 &= 0xfffe;
 			else
 				CPowerUp_DontDisplay(p);

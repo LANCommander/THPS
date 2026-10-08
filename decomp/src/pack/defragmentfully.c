@@ -5,8 +5,8 @@ typedef struct TSPack {
 	struct TSPack *next;
 } TSPack;
 
-TSPack *DAT_800d1a60;
-int DAT_800d1a74, DAT_800d1a7c;
+TSPack *Pack_pFree;
+int Pack_Width, ZapCalls;
 
 void Pack_KillSlot(TSPack *);
 void Pack_Zap(int, int, int, int);
@@ -17,9 +17,9 @@ void Pack_DefragmentFully(void) {
 	TSPack *n;
 	int m;
 
-	if (DAT_800d1a60) {
-		DAT_800d1a7c = 0;
-		p = DAT_800d1a60;
+	if (Pack_pFree) {
+		ZapCalls = 0;
+		p = Pack_pFree;
 
 		do {
 			n = p->next;
@@ -28,31 +28,31 @@ void Pack_DefragmentFully(void) {
 			p = n;
 		} while (p);
 
-		DAT_800d1a60 = 0;
+		Pack_pFree = 0;
 
-		switch (DAT_800d1a74) {
+		switch (Pack_Width) {
 			case 320:
 				Pack_Zap(320, 256, 64, 256);
-				Pack_Zap(DAT_800d1a74 + 64, 256, 128, 256);
-				Pack_Zap(DAT_800d1a74 + 192, 256, 512, 256);
-				Pack_Zap(DAT_800d1a74, 0, 64, 256);
-				Pack_Zap(DAT_800d1a74 + 64, 0, 128, 256);
-				Pack_Zap(DAT_800d1a74 + 192, 0, 512, 256);
+				Pack_Zap(Pack_Width + 64, 256, 128, 256);
+				Pack_Zap(Pack_Width + 192, 256, 512, 256);
+				Pack_Zap(Pack_Width, 0, 64, 256);
+				Pack_Zap(Pack_Width + 64, 0, 128, 256);
+				Pack_Zap(Pack_Width + 192, 0, 512, 256);
 				break;
 			case 640:
 				Pack_Zap(640, 256, 128, 256);
-				Pack_Zap(DAT_800d1a74 + 128, 256, 256, 256);
-				Pack_Zap(DAT_800d1a74, 0, 128, 256);
-				Pack_Zap(DAT_800d1a74 + 128, 0, 256, 256);
+				Pack_Zap(Pack_Width + 128, 256, 256, 256);
+				Pack_Zap(Pack_Width, 0, 128, 256);
+				Pack_Zap(Pack_Width + 128, 0, 256, 256);
 				break;
 			default:
-				Pack_Zap(DAT_800d1a74, 256, 1024 - DAT_800d1a74, 256);
-				Pack_Zap(DAT_800d1a74, 0, 1024 - DAT_800d1a74, 256);
+				Pack_Zap(Pack_Width, 256, 1024 - Pack_Width, 256);
+				Pack_Zap(Pack_Width, 0, 1024 - Pack_Width, 256);
 				break;
 		}
 
 		do {
-			p = DAT_800d1a60;
+			p = Pack_pFree;
 			m = 0;
 
 			while (p) {

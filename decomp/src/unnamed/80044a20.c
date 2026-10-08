@@ -14,20 +14,20 @@ typedef struct STrig {
 	struct STrig *pNextAll;
 } STrig;
 
-extern STrig *DAT_800d2610[];
-extern int DAT_800d199c;
-extern int DAT_800d17c8;
+extern STrig *HashTable[];
+extern int pCurrentPlayer;
+extern int GSkater;
 
 void ExecuteCommandList(char *, int, int);
 
 STrig *FUN_80044a20(int id) {
 	STrig *t;
 
-	for (t = DAT_800d2610[id & 0xff]; t; t = t->pNext) {
+	for (t = HashTable[id & 0xff]; t; t = t->pNext) {
 		if (t->Id == id) {
 			int bit = 2;
 
-			if (DAT_800d199c == DAT_800d17c8)
+			if (pCurrentPlayer == GSkater)
 				bit = 1;
 
 			t->Hit |= bit;

@@ -1,7 +1,7 @@
 /* CreateBit__5CTape (0x800732d0) */
 #include "names.h"
-extern int DAT_800d186c;
+extern int UseCacheForBits;
 
 void CTape_CreateBit(void) {
-	DAT_800d186c = 1;
+	UseCacheForBits = 1;
 }

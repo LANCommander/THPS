@@ -67,11 +67,11 @@ class CGlassBit : public CBit {
 	CGlassBit(const CVector &, const CVector &, int, uchar, uchar, uchar, int, int, int);
 };
 
-int DAT_800d1628;
+int ShatterSound;
 
-extern int DAT_800d2048;
-extern CVector DAT_800d2564;
-extern SCamera DAT_800c119c[];
+extern int Camera_CurrentMikeCamera;
+extern CVector ShatterSoundPos;
+extern SCamera MikeCamera[];
 
 void M3dColij_InitLineInfo(SLineInfo *);
 extern "C" int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
@@ -126,16 +126,16 @@ void Shatter_Glass(int n, const CVector &p0, const CVector &p1, const CVector &p
 		}
 	}
 
-	if (!DAT_800d1628) {
-		DAT_800d2564 = middle;
-		DAT_800d1628 = 1;
+	if (!ShatterSound) {
+		ShatterSoundPos = middle;
+		ShatterSound = 1;
 	} else {
-		CVector CamPos(DAT_800c119c[DAT_800d2048].Pos.vx, DAT_800c119c[DAT_800d2048].Pos.vy,
-		               DAT_800c119c[DAT_800d2048].Pos.vz);
+		CVector CamPos(MikeCamera[Camera_CurrentMikeCamera].Pos.vx, MikeCamera[Camera_CurrentMikeCamera].Pos.vy,
+		               MikeCamera[Camera_CurrentMikeCamera].Pos.vz);
 
 		CamPos <<= 12;
 
-		if (Utils_CrapDist(CamPos, middle) < Utils_CrapDist(CamPos, DAT_800d2564))
-			DAT_800d2564 = middle;
+		if (Utils_CrapDist(CamPos, middle) < Utils_CrapDist(CamPos, ShatterSoundPos))
+			ShatterSoundPos = middle;
 	}
 }

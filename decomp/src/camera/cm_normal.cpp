@@ -79,8 +79,8 @@ int Mips_CVecDotProd(CVector *, CVector *);
 void Utils_CalcAim(CSVector &, const CVector &, const CVector &);
 void Utils_GetVecFromMagDir(CVector &, int, const CSVector &);
 
-extern char *DAT_800d17c8;
-extern MATRIX DAT_800c12e4;
+extern char *GSkater;
+extern MATRIX tm;
 
 #define ABS(x) (((x) ^ ((x) >> 31)) - ((x) >> 31))
 
@@ -141,7 +141,7 @@ void CCamera::CM_Normal() {
 		mVFront = (mOldVFront + vFront) >> 1;
 
 	if (mTimer < 12) {
-		mVFront = (-*(CVector *)(DAT_800d17c8 + 0x7d8)) << 12;
+		mVFront = (-*(CVector *)(GSkater + 0x7d8)) << 12;
 		mOldVFront = mVFront;
 		vFront = mOldVFront;
 	}
@@ -170,16 +170,16 @@ void CCamera::CM_Normal() {
 	N.vx >>= 12;
 	N.vy >>= 12;
 	N.vz >>= 12;
-	DAT_800c12e4.m[0][0] = U.vx;
-	DAT_800c12e4.m[1][0] = U.vy;
-	DAT_800c12e4.m[2][0] = U.vz;
-	DAT_800c12e4.m[0][1] = V.vx;
-	DAT_800c12e4.m[1][1] = V.vy;
-	DAT_800c12e4.m[2][1] = V.vz;
-	DAT_800c12e4.m[0][2] = N.vx;
-	DAT_800c12e4.m[1][2] = N.vy;
-	DAT_800c12e4.m[2][2] = N.vz;
-	MToQ(DAT_800c12e4, mDesiredO);
+	tm.m[0][0] = U.vx;
+	tm.m[1][0] = U.vy;
+	tm.m[2][0] = U.vz;
+	tm.m[0][1] = V.vx;
+	tm.m[1][1] = V.vy;
+	tm.m[2][1] = V.vz;
+	tm.m[0][2] = N.vx;
+	tm.m[1][2] = N.vy;
+	tm.m[2][2] = N.vz;
+	MToQ(tm, mDesiredO);
 
 	mDesiredO = mDesiredO * Quat_FromYRot(extra_YRot);
 }

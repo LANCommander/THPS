@@ -1,6 +1,6 @@
 /* __6SpritePciii (0x80063830) */
 #include "names.h"
-extern char DAT_800a2190[];
+extern char __vt_6Sprite[];
 
 int Load8BitBMP(char *name, char **a, int *b, int *c, unsigned short *d);
 char *__nw__6CClassUi(unsigned n);
@@ -14,7 +14,7 @@ char *__6SpritePciii(char *p, char *name, int pk, int mw, int mh) {
 	int h;
 	char *v;
 
-	*(char **)p = DAT_800a2190;
+	*(char **)p = __vt_6Sprite;
 	Load8BitBMP(name, &data, &w, &h, &pal);
 
 	*(int *)(p + 16) = 8;

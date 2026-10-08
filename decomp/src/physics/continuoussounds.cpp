@@ -21,10 +21,10 @@ struct SSkater {
 
 extern SSkater DAT_800a44fc[];
 
-int DAT_800d1924;
+int Cheat_StatsOverride;
 
-extern int DAT_800d172c;
-extern int DAT_800d1e28;
+extern int Cheat_Fire;
+extern int GLevel;
 
 class CBruce {
   public:
@@ -59,8 +59,8 @@ class CBruce {
 };
 
 #define GetStat(n)                                                                                 \
-	(DAT_800d1924 ? DAT_800d1924                                                                   \
-	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	(Cheat_StatsOverride ? Cheat_StatsOverride                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || Cheat_Fire) ? 3 : 0)) +     \
 	                    mpStatBonus[n])
 #define MaxSpeed (((GetStat(1) + 50) << 12) * 3 * 15 / 28)
 
@@ -93,7 +93,7 @@ void CBruce::HandleContinuousSounds() {
 				Snd = 11;
 			else if (!m2EC && (m210 == 0 || m210 == 2))
 				Snd = 13;
-			else if (DAT_800d1e28 == 8)
+			else if (GLevel == 8)
 				Snd = 170;
 			else
 				Snd = 12;
@@ -136,7 +136,7 @@ void CBruce::HandleContinuousSounds() {
 					mRollPitchScale = 100;
 					break;
 				case 4:
-					if (DAT_800d1e28 == 7) {
+					if (GLevel == 7) {
 						mRollSnd = SFX_PlayX(169, 0x2000, 0);
 						mRollVolScale = 50;
 						mRollPitchScale = 110;
@@ -161,7 +161,7 @@ void CBruce::HandleContinuousSounds() {
 					mRollPitchScale = 70;
 					break;
 				case 1:
-					if (DAT_800d1e28 == 8) {
+					if (GLevel == 8) {
 						mRollSnd = SFX_PlayX(171, 0x2000, 0);
 						mRollVolScale = 150;
 						mRollPitchScale = 100;
@@ -170,7 +170,7 @@ void CBruce::HandleContinuousSounds() {
 
 					break;
 				case 12:
-					if (DAT_800d1e28 == 8) {
+					if (GLevel == 8) {
 						mRollSnd = SFX_PlayX(143, 0x2000, 0);
 						mRollVolScale = 50;
 						mRollPitchScale = 100;

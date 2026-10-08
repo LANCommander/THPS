@@ -4,7 +4,7 @@
    world (snapping to the wall and re-orienting if it was hit), then probes along -mUp for the
    wall: on it, the skater is stuck to it and gravity projected into its plane is added; off it,
    the skater drops back into the air.
-   Levers: DAT_800d1774/1778 are plain `extern int` (one `la`/`lw` macro insn each, so the HIGH
+   Levers: TimeScale/1778 are plain `extern int` (one `la`/`lw` macro insn each, so the HIGH
    part isn't CSE'd into a saved reg); SetVector is a macro with block locals _x/_y/_z (as in the
    demo's MAIN.SYM blocks); `CheckDist` as a variable gives retail's `slt` with 116 in a register;
    the `Steep` int gives the slti/xori scc; the unused SquareRoot0 call goes through a void cast. */
@@ -131,14 +131,14 @@ class CBruce {
 	void DoWallRidePhysics();
 };
 
-extern int DAT_800d1774;
-extern int DAT_800d1778;
-extern CVector DAT_800a824c;
-extern SItemType DAT_800bf7a8[];
+extern int TimeScale;
+extern int TimeScaleSquared;
+extern CVector ZeroVector;
+extern SItemType PSXRegion[];
 
-int DAT_800d1974;
-int DAT_800d1978;
-int DAT_800d1980;
+int Face_Air;
+int Face_Skateable;
+int Face_Visible;
 
 short PingPong(int, int, int);
 void ProjectCVectorToPlane(CVector *, SVECTOR);
@@ -183,7 +183,7 @@ void CBruce::DoWallRidePhysics() {
 			mFrame = PingPong(7, 9, 15);
 	}
 
-	mPos += ((mVel * DAT_800d1774) >> 8) + ((mKick * DAT_800d1778) >> 8) / 2;
+	mPos += ((mVel * TimeScale) >> 8) + ((mKick * TimeScaleSquared) >> 8) / 2;
 	vMovement = mPos - mOldPos;
 	/* result unused; called as void so v0 isn't reserved (retail's register choice) */
 	((void (*)(int))FUN_8008b5dc)(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement));
@@ -196,12 +196,12 @@ void CBruce::DoWallRidePhysics() {
 	}
 
 	Mips_FixMul__Fii(TurnAngle, 3072);
-	RotateHeadingAndVelocity((TurnAngle * DAT_800d1774) >> 8, !OnInvisible, 0);
+	RotateHeadingAndVelocity((TurnAngle * TimeScale) >> 8, !OnInvisible, 0);
 
 	SetVector(&line_info.StartCoords, mOldPos.vx, mOldPos.vy, mOldPos.vz)
 	    SetVector(&line_info.EndCoords, mPos.vx, mPos.vy, mPos.vz) vMovement = mPos - mOldPos;
 
-	if (vMovement != DAT_800a824c) {
+	if (vMovement != ZeroVector) {
 		Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement)) << 6;
 
 		if (mInAir ? Speed < 0x64000 : Speed < 0x1e000) {
@@ -221,14 +221,14 @@ void CBruce::DoWallRidePhysics() {
 		GetFaceFlags(&line_info);
 
 		if (line_info.pItem) {
-			if (DAT_800d1980 || !DAT_800d1974) {
+			if (Face_Visible || !Face_Air) {
 				mPos.vx = line_info.HitPoint.vx + mUp.vx * 30;
 				mPos.vy = line_info.HitPoint.vy + mUp.vy * 30;
 				mPos.vz = line_info.HitPoint.vz + mUp.vz * 30;
 
 				if (!OnInvisible) {
 					mpWallItem = line_info.pItem;
-					mWallHandle = FUN_8004d7ac(DAT_800bf7a8[line_info.pItem->Type].p14);
+					mWallHandle = FUN_8004d7ac(PSXRegion[line_info.pItem->Type].p14);
 				}
 
 				if (*(int *)&line_info.Normal == *(int *)&mLastNormal &&
@@ -242,7 +242,7 @@ void CBruce::DoWallRidePhysics() {
 
 				OrientToNormal();
 
-				if (DAT_800d1978) {
+				if (Face_Skateable) {
 					StateTransition(0, 5840);
 					ProjectCVectorToPlane(&mFront, line_info.Normal);
 					M3dUtils_NormaliseVector(&mFront);
@@ -293,7 +293,7 @@ void CBruce::DoWallRidePhysics() {
 
 			if (!OnInvisible) {
 				mpWallItem = line_info.pItem;
-				mWallHandle = FUN_8004d7ac(DAT_800bf7a8[line_info.pItem->Type].p14);
+				mWallHandle = FUN_8004d7ac(PSXRegion[line_info.pItem->Type].p14);
 			}
 
 			if (*(int *)&line_info.Normal == *(int *)&mLastNormal &&
@@ -307,7 +307,7 @@ void CBruce::DoWallRidePhysics() {
 
 			OrientToNormal();
 
-			if (DAT_800d1978) {
+			if (Face_Skateable) {
 				StateTransition(0, 5949);
 				ProjectCVectorToPlane(&mFront, line_info.Normal);
 				M3dUtils_NormaliseVector(&mFront);

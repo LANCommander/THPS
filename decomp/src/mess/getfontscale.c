@@ -5,14 +5,14 @@ typedef struct {
 	char pad2[8];
 } Font;
 
-unsigned char DAT_800d1602;
-int DAT_800d15e4;
+unsigned char NewFont;
+int Current_font;
 
-extern Font DAT_800a6110[];
+extern Font Font_table[];
 
 int Mess_GetFontScale(void) {
-	if (!DAT_800d1602)
+	if (!NewFont)
 		return 0;
 
-	return (DAT_800d15e4 + DAT_800a6110)->scale;
+	return (Current_font + Font_table)->scale;
 }

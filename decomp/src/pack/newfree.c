@@ -5,12 +5,12 @@ typedef struct TSPack {
 	struct TSPack *next;
 } TSPack;
 
-TSPack *DAT_800d1a60;
+TSPack *Pack_pFree;
 
 TSPack *Pack_New(TSPack **);
 
 TSPack *Pack_NewFree(int x, int y, int w, int h) {
-	TSPack *p = Pack_New(&DAT_800d1a60);
+	TSPack *p = Pack_New(&Pack_pFree);
 
 	p->x = x;
 	p->y = y;

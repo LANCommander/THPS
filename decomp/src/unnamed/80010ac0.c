@@ -11,23 +11,23 @@ struct A {
 	char pad[20];
 };
 
-extern struct S DAT_800a5398[];
-extern int DAT_800d1e28;
-extern int DAT_800d16a4;
-extern struct A DAT_800a42b8[];
+extern struct S Levels[];
+extern int GLevel;
+extern int GGame;
+extern struct A Crowd[];
 
 void SFX_Stop(unsigned a);
 
 void FUN_80010ac0(void) {
 	int i;
 
-	if (DAT_800a5398[DAT_800d1e28].f) {
-		if (DAT_800d16a4 == 1) {
+	if (Levels[GLevel].f) {
+		if (GGame == 1) {
 			for (i = 0; i < 1; i++) {
-				if (DAT_800a42b8[i].v)
-					SFX_Stop(DAT_800a42b8[i].v);
+				if (Crowd[i].v)
+					SFX_Stop(Crowd[i].v);
 
-				DAT_800a42b8[i].v = 0;
+				Crowd[i].v = 0;
 			}
 		}
 	}

@@ -35,9 +35,9 @@ struct SPad {
 	uchar b[364];
 };
 
-extern SPad DAT_800c0a48[];
+extern SPad Pad[];
 
-int DAT_800d1418;
+int UpDownAutoRepeatTimer;
 
 int SFX_PlayX(unsigned int, short, int);
 
@@ -54,10 +54,10 @@ void CMenu::Update() {
 		mEntry[mLine].CurrentScale = mEntry[mLine].LowScale;
 	}
 
-	if (DAT_800c0a48[0].b[0xa0] || DAT_800c0a48[0].b[0xb0] || DAT_800c0a48[1].b[0xa0] ||
-	    DAT_800c0a48[1].b[0xb0]) {
-		if (DAT_800d1418 == 0 || (DAT_800d1418 >= 16 && (DAT_800d1418 & 3) == 0)) {
-			if (DAT_800c0a48[0].b[0xa0] || DAT_800c0a48[1].b[0xa0]) {
+	if (Pad[0].b[0xa0] || Pad[0].b[0xb0] || Pad[1].b[0xa0] ||
+	    Pad[1].b[0xb0]) {
+		if (UpDownAutoRepeatTimer == 0 || (UpDownAutoRepeatTimer >= 16 && (UpDownAutoRepeatTimer & 3) == 0)) {
+			if (Pad[0].b[0xa0] || Pad[1].b[0xa0]) {
 				mEntry[mLine].TargetScale = mEntry[mLine].LowScale;
 
 				do {
@@ -71,7 +71,7 @@ void CMenu::Update() {
 				SFX_PlayX(6, 8192, 0);
 			}
 
-			if (DAT_800c0a48[0].b[0xb0] || DAT_800c0a48[1].b[0xb0]) {
+			if (Pad[0].b[0xb0] || Pad[1].b[0xb0]) {
 				mEntry[mLine].TargetScale = mEntry[mLine].LowScale;
 
 				do {
@@ -86,9 +86,9 @@ void CMenu::Update() {
 			}
 		}
 
-		DAT_800d1418++;
+		UpDownAutoRepeatTimer++;
 	} else {
-		DAT_800d1418 = 0;
+		UpDownAutoRepeatTimer = 0;
 	}
 
 	for (int i = 0; i < mNumLines; i++) {

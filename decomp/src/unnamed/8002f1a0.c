@@ -1,6 +1,6 @@
 /* FUN_8002f1a0 (0x8002f1a0) */
 #include "names.h"
-extern int DAT_800d16a4;
+extern int GGame;
 
 void CBruce_ResetTrickBuffers(char *p);
 int FUN_8004d83c(char *p);
@@ -37,7 +37,7 @@ void FUN_8002f1a0(char *p) {
 	for (i = 0; i < 80; i++)
 		*(int *)(p + 1384 + i * 4) = 0;
 
-	if (DAT_800d16a4 == 2) {
+	if (GGame == 2) {
 		int j;
 
 		for (j = 0; j < 80; j++)

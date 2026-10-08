@@ -1,8 +1,8 @@
 /* FUN_80082054 (0x80082054) */
 #include "names.h"
-extern short DAT_800c7400[];
-extern short DAT_800c9670;
-extern int DAT_800d2174;
+extern short WibbleTables[];
+extern short rcossin_tbl;
+extern int M3d_FadeColour;
 
 void M3dInit_SetResolution(unsigned int, unsigned int);
 void M3dInit_SetFoggingParams(int, int, unsigned int);
@@ -14,9 +14,9 @@ void FUN_80082054(void) {
 	M3dInit_SetResolution(512, 240);
 	M3dInit_SetFoggingParams(10, 6000, 2048);
 
-	for (i = 0, out = DAT_800c7400; i < 16; i++)
+	for (i = 0, out = WibbleTables; i < 16; i++)
 		for (j = 0; j < 4096; j += 64)
-			*out++ = ((&DAT_800c9670)[j * 2] * i) >> 4;
+			*out++ = ((&rcossin_tbl)[j * 2] * i) >> 4;
 
-	DAT_800d2174 = 0x80000000;
+	M3d_FadeColour = 0x80000000;
 }

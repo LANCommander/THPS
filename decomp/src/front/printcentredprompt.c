@@ -4,7 +4,7 @@ typedef struct {
 	int pad[2];
 } SAnimFrame;
 
-SAnimFrame *DAT_800d1420;
+SAnimFrame *ButtonsAnim;
 
 void Mess_SetTextJustify(int);
 void Mess_SetScale(int);
@@ -21,8 +21,8 @@ void Front_PrintCentredPrompt(const char *s) {
 	Mess_SetRGB(150, 100, 25, 0);
 	Mess_DrawText(227, 214, s, 0, 0, 256, 0);
 
-	p = Panel_DrawTexturedPoly(DAT_800d1420);
+	p = Panel_DrawTexturedPoly(ButtonsAnim);
 
 	if (p)
-		Panel_SetStretchedScreenCoords(192, 211, p, DAT_800d1420);
+		Panel_SetStretchedScreenCoords(192, 211, p, ButtonsAnim);
 }

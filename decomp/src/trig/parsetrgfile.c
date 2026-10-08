@@ -9,12 +9,12 @@ typedef struct {
 	unsigned char b8, _9, b10, _b, b12, _d, b14, _f, b16, _11, b18;
 } Q;
 
-unsigned short **DAT_800d19e8;
-int DAT_800d19ec, DAT_800d19f4;
+unsigned short **OffsetList;
+int NumNodes, NumTrigMenuEntries;
 char DAT_800d1a10[8];
 
-extern int DAT_800d186c;
-extern unsigned short *DAT_800a8828[];
+extern int UseCacheForBits;
+extern unsigned short *MenuFilenamePointers[];
 
 int GetFlag(unsigned char, unsigned char *);
 int *Trig_GetPosition(V *, int);
@@ -40,8 +40,8 @@ void Trig_ParseTRGFile(void) {
 	void *w;
 	void *it;
 
-	for (i = 0; i < DAT_800d19ec; i++) {
-		b = DAT_800d19e8[i];
+	for (i = 0; i < NumNodes; i++) {
+		b = OffsetList[i];
 
 		switch (*(short *)b) {
 			case 7:
@@ -81,14 +81,14 @@ void Trig_ParseTRGFile(void) {
 				break;
 			case 500:
 				q = (Q *)Trig_GetPosition(&v, i);
-				DAT_800d186c = 0;
+				UseCacheForBits = 0;
 				w = __nw__4CBitUi(100);
 
 				if (w)
 					CLight_ctor(w, &v, i, q->us0, q->us2, q->us4, q->us6, q->b8, q->b10, q->b12,
 					             q->b14, q->b16, q->b18);
 
-				DAT_800d186c = 1;
+				UseCacheForBits = 1;
 				break;
 			case 12:
 			case 14:
@@ -106,13 +106,13 @@ void Trig_ParseTRGFile(void) {
 
 	Trig_ClearTrigMenu();
 
-	for (j = 0; j < DAT_800d19ec; j++) {
-		short *pNode = (short *)DAT_800d19e8[j];
+	for (j = 0; j < NumNodes; j++) {
+		short *pNode = (short *)OffsetList[j];
 
 		if (*pNode == 8) {
 			char *pNodeName = (char *)Trig_GetPosition(&v, j) + 6;
 
-			DAT_800a8828[DAT_800d19f4++] = (unsigned short *)pNodeName;
+			MenuFilenamePointers[NumTrigMenuEntries++] = (unsigned short *)pNodeName;
 		}
 	}
 }

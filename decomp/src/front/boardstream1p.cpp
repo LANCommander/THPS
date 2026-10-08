@@ -21,7 +21,7 @@ class SlicedImage : public CItem {
 	void pack();
 };
 
-extern int DAT_800d1afc;
+extern int Loading;
 extern int DAT_800d3394[3];          /* load offset from the start entry (-1: not started) */
 extern int DAT_800d33a4[3];          /* start entry */
 extern int DAT_800d33b4[3];          /* column fully loaded */
@@ -52,7 +52,7 @@ extern "C" void FUN_80054134(void) {
 	if (DAT_800d22ec)
 		DAT_800d22e8 = 1;
 
-	if (DAT_800d22e8 == 1 && !DAT_800d1afc && !DAT_800d22ec) {
+	if (DAT_800d22e8 == 1 && !Loading && !DAT_800d22ec) {
 		if (DAT_800d3394[col] >= 0) {
 			ushort clut;
 			char *data;

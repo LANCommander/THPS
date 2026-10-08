@@ -15,7 +15,7 @@ struct SLineSeg {
 	uchar r, g, b, code;
 };
 
-extern TE DAT_800c9670[2];
+extern TE rcossin_tbl[2];
 
 struct CBit {
 	char pad[0x18];
@@ -51,7 +51,7 @@ void CFlatRipple::Move() {
 	intensity = ((mMaxRadius - mRadius) << 8) / mMaxRadius;
 	a = mAngle;
 	step = 4096 / mNumSegs;
-	TE *e = &DAT_800c9670[a & 4095];
+	TE *e = &rcossin_tbl[a & 4095];
 
 	mStart.x = mPos.x + (((mRadius * e->y) / 4096) << 12);
 	mStart.z = mPos.z + (((mRadius * e->x) / 4096) << 12);
@@ -65,7 +65,7 @@ void CFlatRipple::Move() {
 		if (i == mNumSegs - 1) {
 			mSegs[i].End = mStart;
 		} else {
-			TE *f = &DAT_800c9670[a & 4095];
+			TE *f = &rcossin_tbl[a & 4095];
 
 			mSegs[i].End.x = mPos.x + (((mRadius * f->y) / 4096) << 12);
 			mSegs[i].End.z = mPos.z + (((mRadius * f->x) / 4096) << 12);

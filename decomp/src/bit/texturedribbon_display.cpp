@@ -78,15 +78,15 @@ class CTexturedRibbon {
 	void Display();
 };
 
-extern SCamera *DAT_800d2178;
-extern SOTBuffer *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
-extern uchar *DAT_800d177c;
-extern int DAT_800d16e4;
+extern SCamera *pCurrentViewport;
+extern SOTBuffer *pDoubleBuffer;
+extern uchar *pPoly;
+extern uchar *PolyBufferEnd;
+extern int TTime;
 extern STrig
-    DAT_800c9670[1]; /* declared <= 8 bytes: cc1 then emits one la (as retail), not a hi/lo split */
+    rcossin_tbl[1]; /* declared <= 8 bytes: cc1 then emits one la (as retail), not a hi/lo split */
 
-u_long DAT_800d1900[2];
+u_long StoredTPagePrim[2];
 
 int Transform(const CVector &, int &);
 void CalcScreenNormal(SCalcBuffer *, int &, int &, int);
@@ -122,7 +122,7 @@ void CTexturedRibbon::Display() {
 		for (i = 0; i < mNumPoints; i++) {
 			pBuf->Zed = Transform(pPoint->Pos, pBuf->Pos);
 
-			if (pBuf->Zed < DAT_800d2178->Near || DAT_800d2178->Far < pBuf->Zed) {
+			if (pBuf->Zed < pCurrentViewport->Near || pCurrentViewport->Far < pBuf->Zed) {
 				pBuf->Bad = 1;
 			} else {
 				pBuf->Bad = 0;
@@ -220,22 +220,22 @@ void CTexturedRibbon::Display() {
 				y = pBuf->Pos >> 16;
 				NewTop = ((y + dy) << 16) | ((x + dx) & 0xffff);
 				NewBottom = ((y - dy) << 16) | ((x - dx) & 0xffff);
-				pOTPos = (uint *)(DAT_800d1a48->pOT + (MinZ & 0x3ffc));
+				pOTPos = (uint *)(pDoubleBuffer->pOT + (MinZ & 0x3ffc));
 				NewTopB = ((y + dyB) << 16) | ((x + dxB) & 0xffff);
 				NewBottomB = ((y - dyB) << 16) | ((x - dxB) & 0xffff);
 
 				if (mWibble && i >= mNumPoints / 2) {
-					NewTop = ((y + dy + DAT_800c9670[(DAT_800d16e4 * 200 + 130) & 4095].s / 2048)
+					NewTop = ((y + dy + rcossin_tbl[(TTime * 200 + 130) & 4095].s / 2048)
 					          << 16) |
 					         ((x + dx) & 0xffff);
-					y += DAT_800c9670[(DAT_800d16e4 * 250) & 4094].s * 3 / 4096;
+					y += rcossin_tbl[(TTime * 250) & 4094].s * 3 / 4096;
 					pBuf->Pos = (pBuf->Pos & 0xffff) | (y << 16);
-					NewBottom = ((y - dy + DAT_800c9670[(DAT_800d16e4 * 150 + 100) & 4095].s / 2048)
+					NewBottom = ((y - dy + rcossin_tbl[(TTime * 150 + 100) & 4095].s / 2048)
 					             << 16) |
 					            ((x - dx) & 0xffff);
 				}
 
-				pTopPoly = (POLY_GT4 *)DAT_800d1a54;
+				pTopPoly = (POLY_GT4 *)pPoly;
 				pBottomPoly = pTopPoly + 1;
 				pTopPolyB = pBottomPoly + 1;
 				pBottomPolyB = pTopPolyB + 1;
@@ -244,10 +244,10 @@ void CTexturedRibbon::Display() {
 				ptpage = (DR_TPAGE *)(pWinOff + 1);
 				newppoly = (uchar *)(ptpage + 1);
 
-				if (newppoly > DAT_800d177c)
+				if (newppoly > PolyBufferEnd)
 					return;
 
-				DAT_800d1a54 = newppoly;
+				pPoly = newppoly;
 				win.x = win.y = win.w = win.h = 0;
 				setTexWindow(pWinOff, &win);
 
@@ -341,8 +341,8 @@ void CTexturedRibbon::Display() {
 				addPrim(pOTPos, pWinOn);
 
 				LastTopB = NewTopB;
-				a = DAT_800d1900[0];
-				b = DAT_800d1900[1];
+				a = StoredTPagePrim[0];
+				b = StoredTPagePrim[1];
 				ptpage->tag = a;
 				ptpage->code[0] = b;
 				addPrim(pOTPos, ptpage);

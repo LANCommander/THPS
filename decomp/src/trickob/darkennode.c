@@ -18,29 +18,29 @@ typedef struct Item {
 	unsigned c;
 } Item;
 
-extern int DAT_800d16a4;
+extern int GGame;
 
-Node *DAT_800d1b70;
-unsigned char DAT_800d1b8c;
-unsigned short DAT_800d1b90;
+Node *TrickObList;
+unsigned char TrickPlayer;
+unsigned short TrickScore;
 
 Item *Spool_FindEnviroItem(unsigned);
 
 void TrickOb_DarkenNode(int id) {
 	Node *n;
 
-	if (DAT_800d16a4 == 8) {
-		for (n = DAT_800d1b70; n; n = n->next) {
+	if (GGame == 8) {
+		for (n = TrickObList; n; n = n->next) {
 			if (n->id == id) {
 				Item *it;
 
-				if (n->used && DAT_800d16a4 != 8)
+				if (n->used && GGame != 8)
 					return;
 
 				it = Spool_FindEnviroItem(n->key);
-				n->w = DAT_800d1b90;
+				n->w = TrickScore;
 				n->it = it;
-				n->b = DAT_800d1b8c;
+				n->b = TrickPlayer;
 				it->c = 0x202020;
 				it->flags |= 0x400;
 				n->used = 1;

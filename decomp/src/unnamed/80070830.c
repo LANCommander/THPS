@@ -5,16 +5,16 @@ struct T {
 	char q[3];
 };
 
-extern int DAT_800d1afc;
+extern int Loading;
 
-int DAT_800d1ef4;
+int SpoolPos;
 
-extern struct T DAT_800bf654[];
+extern struct T SpoolQ[];
 
 int FUN_80070830(void) {
 	int r = 0;
 
-	if (DAT_800d1afc || DAT_800bf654[DAT_800d1ef4].f)
+	if (Loading || SpoolQ[SpoolPos].f)
 		r = 1;
 
 	return r;

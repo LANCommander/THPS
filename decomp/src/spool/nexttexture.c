@@ -5,29 +5,29 @@ typedef struct STexture {
 	struct STexture *next;
 } STexture;
 
-extern STexture *DAT_800c01a8[];
+extern STexture *TextureChecksumHashTable[];
 
-int DAT_800d23c4;
-STexture *DAT_800d23c8;
+int HashIndex;
+STexture *pCurrentTex;
 
 STexture *NextTexture(void) {
 	STexture *t;
 
-	if (DAT_800d23c4 >= 512)
+	if (HashIndex >= 512)
 		return 0;
 
-	t = DAT_800d23c8;
+	t = pCurrentTex;
 
 	if (t) {
 	again:
-		DAT_800d23c8 = t->next;
+		pCurrentTex = t->next;
 		return t;
 	}
 
 	do {
-		DAT_800d23c8 = t = DAT_800c01a8[++DAT_800d23c4];
+		pCurrentTex = t = TextureChecksumHashTable[++HashIndex];
 
-		if (DAT_800d23c4 >= 512)
+		if (HashIndex >= 512)
 			return 0;
 	} while (!t);
 

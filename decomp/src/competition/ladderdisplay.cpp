@@ -42,13 +42,13 @@ struct SSkaterInfo {
 	char pad[0x154 - 4];
 };
 
-extern CCompetition DAT_800c0fdc;
-extern SSkaterInfo DAT_800a4528[];
+extern CCompetition theCompetition;
+extern SSkaterInfo Stats_2c[];
 extern char DAT_800a33a0[], DAT_800a33b8[], DAT_800a33c8[];
 extern char DAT_800d1fd4[];
 extern char DAT_800d1fd8[];
 extern char DAT_800d1fe0[];
-extern char *DAT_800a5edc[];
+extern char *GameText_180[];
 
 void Mess_DeleteAll();
 void Mess_SetScale(int);
@@ -64,7 +64,7 @@ void Competition_LadderDisplay() {
 	uchar a;
 	uchar i;
 	char text_buf[45];
-	CCompetition *pComp = &DAT_800c0fdc;
+	CCompetition *pComp = &theCompetition;
 
 	Mess_DeleteAll();
 	Mess_SetScale(256);
@@ -82,7 +82,7 @@ void Competition_LadderDisplay() {
 
 	for (i = 0; i < 10; i++) {
 		FUN_8008b900(text_buf, DAT_800d1fd4,
-		             DAT_800a4528[pComp->mCompetitorList[pComp->mOrdering[i]]].pName);
+		             Stats_2c[pComp->mCompetitorList[pComp->mOrdering[i]]].pName);
 
 		if (pComp->mOrdering[i] == pComp->our_skater_num)
 			Mess_SetRGB(182, 132, 36, 0);
@@ -223,5 +223,5 @@ void Competition_LadderDisplay() {
 	Mess_SetScale(256);
 
 	if (pComp->mLadderFullyDisplayed)
-		Front_PrintCentredPrompt(DAT_800a5edc[0]);
+		Front_PrintCentredPrompt(GameText_180[0]);
 }

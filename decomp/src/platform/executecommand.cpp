@@ -92,8 +92,8 @@ class CPlatform : public CBaddy {
 	void MoveTo(CVector &);
 };
 
-extern SPSXRegion DAT_800bf7a8[];
-extern CBruce *DAT_800d19a4;
+extern SPSXRegion PSXRegion[];
+extern CBruce *MechList;
 
 void SFX_Stop(uint);
 ushort *Trig_GetPosition(CVector &, int);
@@ -118,7 +118,7 @@ int CPlatform::ExecuteCommand(ushort command) {
 			else
 				m1AC &= ~16;
 
-			m = DAT_800bf7a8[mRegion].pModels[mModel];
+			m = PSXRegion[mRegion].pModels[mModel];
 			pBox = m->Box;
 			mSize[0] = pBox[0] - pBox[1];
 			mSize[1] = pBox[2] - pBox[3];
@@ -296,8 +296,8 @@ int CPlatform::ExecuteCommand(ushort command) {
 			Virtual2();
 			return 0;
 		case 17153:
-			if (DAT_800d19a4->m868 == this)
-				DAT_800d19a4->m868 = 0;
+			if (MechList->m868 == this)
+				MechList->m868 = 0;
 
 			mFlags |= 1;
 			Virtual2();

@@ -14,22 +14,22 @@ typedef struct STrig {
 	struct STrig *pNextAll;
 } STrig;
 
-extern STrig *DAT_800d2610[];
+extern STrig *HashTable[];
 
-STrig *DAT_800d19f8;
+STrig *CommandPoints;
 
 void *Mem_NewX(int, int, int);
 
 void CreateCommandPoint(int id, unsigned short line, char *script) {
 	STrig *t = Mem_NewX(sizeof(STrig), 0, 1);
 
-	t->pNextAll = DAT_800d19f8;
-	t->pNext = DAT_800d2610[id & 0xff];
-	DAT_800d2610[id & 0xff] = t;
+	t->pNextAll = CommandPoints;
+	t->pNext = HashTable[id & 0xff];
+	HashTable[id & 0xff] = t;
 	t->Line = line;
 	t->pScript = script;
 	t->Id = id;
-	DAT_800d19f8 = t;
+	CommandPoints = t;
 	t->Hit = 0;
 	t->Done = 0;
 	t->f7 = 0;

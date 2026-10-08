@@ -48,10 +48,10 @@ class CPlatform : public Item {
 	void Bounce(CBruce *, const CVector &);
 };
 
-extern SPSXRegion DAT_800bf7a8[];
-extern CBruce *DAT_800d19a4;
+extern SPSXRegion PSXRegion[];
+extern CBruce *MechList;
 extern int DAT_800d19a0;
-extern Item *DAT_800d19b0;
+extern Item *EnvironmentalObjectList;
 
 void Platform_HandleBounce() {
 	Item *pItem;
@@ -60,9 +60,9 @@ void Platform_HandleBounce() {
 	int LP2, RP2, FP2, BP2, UP2, DP2;
 	CBruce *pSkater2;
 
-	LP1 = DAT_800d19a4->mOldPos.vx;
-	RP1 = DAT_800d19a4->mPos.vx;
-	pSkater2 = DAT_800d19a4->mpNext;
+	LP1 = MechList->mOldPos.vx;
+	RP1 = MechList->mPos.vx;
+	pSkater2 = MechList->mpNext;
 
 	if (RP1 < LP1) {
 		tmp = LP1;
@@ -72,8 +72,8 @@ void Platform_HandleBounce() {
 
 	LP1 -= 0x14000;
 	RP1 += 0x14000;
-	UP1 = DAT_800d19a4->mOldPos.vy;
-	DP1 = DAT_800d19a4->mPos.vy;
+	UP1 = MechList->mOldPos.vy;
+	DP1 = MechList->mPos.vy;
 
 	if (DP1 < UP1) {
 		tmp = UP1;
@@ -83,8 +83,8 @@ void Platform_HandleBounce() {
 
 	UP1 -= 0x14000;
 	DP1 += 0x14000;
-	FP1 = DAT_800d19a4->mOldPos.vz;
-	BP1 = DAT_800d19a4->mPos.vz;
+	FP1 = MechList->mOldPos.vz;
+	BP1 = MechList->mPos.vz;
 
 	if (BP1 < FP1) {
 		tmp = FP1;
@@ -131,13 +131,13 @@ void Platform_HandleBounce() {
 		BP2 += 0x14000;
 	}
 
-	for (pItem = DAT_800d19b0; pItem; pItem = pItem->pNext) {
+	for (pItem = EnvironmentalObjectList; pItem; pItem = pItem->pNext) {
 		if (pItem->Flags & 0x100) {
 			if (((CPlatform *)pItem)->mBounceFlags & 16) {
 				pItem->Flags |= 32;
 
 				if (!(((CPlatform *)pItem)->mBounceFlags & 32)) {
-					SModel *m = DAT_800bf7a8[pItem->Region].ppModels[pItem->ModelIndex];
+					SModel *m = PSXRegion[pItem->Region].ppModels[pItem->ModelIndex];
 					short *pBox = (short *)((char *)m + 12);
 
 					if (RP1 >= pItem->Pos.vx + (pBox[1] << 12) &&
@@ -146,7 +146,7 @@ void Platform_HandleBounce() {
 					    pItem->Pos.vz + (pBox[4] << 12) >= FP1 &&
 					    DP1 >= pItem->Pos.vy + (pBox[3] << 12) &&
 					    pItem->Pos.vy + (pBox[2] << 12) >= UP1)
-						((CPlatform *)pItem)->Bounce(DAT_800d19a4, DAT_800d19a4->mVel);
+						((CPlatform *)pItem)->Bounce(MechList, MechList->mVel);
 					else if (DAT_800d19a0 >= 2 && RP2 >= pItem->Pos.vx + (pBox[1] << 12) &&
 					         pItem->Pos.vx + (pBox[0] << 12) >= LP2 &&
 					         BP2 >= pItem->Pos.vz + (pBox[5] << 12) &&

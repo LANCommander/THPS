@@ -17,11 +17,11 @@ struct SPSXCache {
 	uchar Heap;   /* 16 */
 };
 
-extern SRegion DAT_800bf7a8[40];
-extern SPSXCache DAT_800bf654[20];
+extern SRegion PSXRegion[40];
+extern SPSXCache SpoolQ[20];
 extern char DAT_800d1f00[];
 
-int DAT_800d1ef8;
+int FreePos;
 
 int Utils_CompareStrings(const char *, const char *, unsigned int);
 void LoadNameExt(char *, char *);
@@ -33,7 +33,7 @@ int Spool_PSX(char *Name, int IsEnviro, int WhichHeap) {
 		int i;
 
 		for (i = 0; i < 40; i++)
-			if (DAT_800bf7a8[i].Name[0] && Utils_CompareStrings(Name, DAT_800bf7a8[i].Name, -1))
+			if (PSXRegion[i].Name[0] && Utils_CompareStrings(Name, PSXRegion[i].Name, -1))
 				return i;
 	}
 
@@ -41,8 +41,8 @@ int Spool_PSX(char *Name, int IsEnviro, int WhichHeap) {
 		int i;
 
 		for (i = 0; i < 20; i++) {
-			if (DAT_800bf654[i].Used) {
-				char *pQName = DAT_800bf654[i].Name;
+			if (SpoolQ[i].Used) {
+				char *pQName = SpoolQ[i].Name;
 				char *pPSXName = Name;
 				int Identical = 1;
 
@@ -60,7 +60,7 @@ int Spool_PSX(char *Name, int IsEnviro, int WhichHeap) {
 					Identical = 0;
 
 				if (Identical)
-					return DAT_800bf654[i].Region;
+					return SpoolQ[i].Region;
 			}
 		}
 	}
@@ -71,7 +71,7 @@ int Spool_PSX(char *Name, int IsEnviro, int WhichHeap) {
 		int i;
 
 		for (i = 0; i < 40; i++) {
-			if (!DAT_800bf7a8[i].Name[0]) {
+			if (!PSXRegion[i].Name[0]) {
 				freeregion = i;
 				break;
 			}
@@ -80,7 +80,7 @@ int Spool_PSX(char *Name, int IsEnviro, int WhichHeap) {
 
 	if (IsEnviro == 0 || IsEnviro == 2) {
 		char *pNew = Name;
-		char *pDest = DAT_800bf7a8[freeregion].Name;
+		char *pDest = PSXRegion[freeregion].Name;
 		int c;
 
 		for (c = 0; *pNew && c < 9; c++)
@@ -92,13 +92,13 @@ int Spool_PSX(char *Name, int IsEnviro, int WhichHeap) {
 	LoadNameExt(Name, DAT_800d1f00);
 
 	if (IsEnviro != 2)
-		DAT_800bf654[DAT_800d1ef8].Type = IsEnviro != 0;
+		SpoolQ[FreePos].Type = IsEnviro != 0;
 	else
-		DAT_800bf654[DAT_800d1ef8].Type = IsEnviro;
+		SpoolQ[FreePos].Type = IsEnviro;
 
-	DAT_800bf654[DAT_800d1ef8].Region = freeregion;
-	DAT_800bf654[DAT_800d1ef8].Used = 1;
-	DAT_800bf654[DAT_800d1ef8].Heap = WhichHeap;
-	DAT_800d1ef8 = (DAT_800d1ef8 + 1) % 20;
+	SpoolQ[FreePos].Region = freeregion;
+	SpoolQ[FreePos].Used = 1;
+	SpoolQ[FreePos].Heap = WhichHeap;
+	FreePos = (FreePos + 1) % 20;
 	return freeregion;
 }

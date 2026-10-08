@@ -1,7 +1,7 @@
 /* Competition_IsOver__Fv (0x8007409c) */
 #include "names.h"
-extern unsigned char DAT_800c109c[];
+extern unsigned char theCompetition_c0[];
 
 int Competition_IsOver(void) {
-	return DAT_800c109c[0] >= 3;
+	return theCompetition_c0[0] >= 3;
 }

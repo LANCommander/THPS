@@ -31,15 +31,15 @@ struct SZone {
 	Item *Cells[20][20];
 };
 
-extern SZone DAT_800c4e0c[2];
-extern Item *DAT_800d19b0;
-extern int DAT_800d20cc;
-extern int DAT_800d20d0;
-extern int DAT_800d20d4;
-extern int DAT_800d20d8;
-extern int DAT_800d20dc;
-extern int DAT_800d20fc;
-extern int DAT_800d2100;
+extern SZone Zones[2];
+extern Item *EnvironmentalObjectList;
+extern int CameraCollisionCheck;
+extern int BaddyCollisionCheck;
+extern int BulletCollisionCheck;
+extern int TriggerCollisionCheck;
+extern int LineOfSightCheck;
+extern int M3dColij_ZeroMask;
+extern int M3dColij_OneMask;
 
 void M3dColij_LineToItem(Item *, SLineInfo *);
 int M3dColij_GetLineInfo(SLineInfo *);
@@ -56,43 +56,43 @@ int M3dZone_LineToItemNotSCached(SLineInfo *pInfo, int CheckEnviroObs) {
 	int w, h, l, d;
 	int qh, qw;
 
-	DAT_800d2100 = 0;
-	DAT_800d20fc = -1;
+	M3dColij_OneMask = 0;
+	M3dColij_ZeroMask = -1;
 
-	if (DAT_800d20dc)
-		DAT_800d2100 = 0x400000;
+	if (LineOfSightCheck)
+		M3dColij_OneMask = 0x400000;
 
-	if (DAT_800d20d4)
-		DAT_800d2100 ^= 0x400000;
+	if (BulletCollisionCheck)
+		M3dColij_OneMask ^= 0x400000;
 
-	if (!DAT_800d20d0)
-		DAT_800d2100 ^= 0x200000;
+	if (!BaddyCollisionCheck)
+		M3dColij_OneMask ^= 0x200000;
 
-	if (DAT_800d20cc)
-		DAT_800d20fc = 0xffefffff;
+	if (CameraCollisionCheck)
+		M3dColij_ZeroMask = 0xffefffff;
 
-	if (DAT_800d20d8)
-		DAT_800d20fc ^= 0x20000;
+	if (TriggerCollisionCheck)
+		M3dColij_ZeroMask ^= 0x20000;
 
 	if (CheckEnviroObs)
-		M3dColij_LineToItem(DAT_800d19b0, pInfo);
+		M3dColij_LineToItem(EnvironmentalObjectList, pInfo);
 
 	{
 		int EnvIndex;
 
 		for (EnvIndex = 0; EnvIndex < 2; EnvIndex++) {
-			if (!DAT_800c4e0c[EnvIndex].Active)
+			if (!Zones[EnvIndex].Active)
 				continue;
 
 			x0 = pInfo->StartCoords.vx;
 			x1 = pInfo->EndCoords.vx;
 			z0 = pInfo->StartCoords.vz;
 			z1 = pInfo->EndCoords.vz;
-			xL = DAT_800c4e0c[EnvIndex].xL;
-			xH = DAT_800c4e0c[EnvIndex].xH;
-			zL = DAT_800c4e0c[EnvIndex].zL;
-			zH = DAT_800c4e0c[EnvIndex].zH;
-			l = DAT_800c4e0c[EnvIndex].CellSize;
+			xL = Zones[EnvIndex].xL;
+			xH = Zones[EnvIndex].xH;
+			zL = Zones[EnvIndex].zL;
+			zH = Zones[EnvIndex].zH;
+			l = Zones[EnvIndex].CellSize;
 
 			if ((x0 < xL && x1 < xL) || (x0 > xH && x1 > xH) || (z0 < zL && z1 < zL) ||
 			    (z0 > zH && z1 > zH))
@@ -102,13 +102,13 @@ int M3dZone_LineToItemNotSCached(SLineInfo *pInfo, int CheckEnviroObs) {
 				X = (x0 - xL) / l;
 				Z = (z0 - zL) / l;
 
-				if (X == DAT_800c4e0c[EnvIndex].NumX)
+				if (X == Zones[EnvIndex].NumX)
 					X--;
 
-				if (Z == DAT_800c4e0c[EnvIndex].NumZ)
+				if (Z == Zones[EnvIndex].NumZ)
 					Z--;
 
-				M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(DAT_800c4e0c[EnvIndex].Cells[X][Z], pInfo);
+				M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(Zones[EnvIndex].Cells[X][Z], pInfo);
 				continue;
 			}
 
@@ -183,20 +183,20 @@ int M3dZone_LineToItemNotSCached(SLineInfo *pInfo, int CheckEnviroObs) {
 			r0 = (x0 - xL) % l;
 			s0 = (z0 - zL) % l;
 
-			if (X0 == DAT_800c4e0c[EnvIndex].NumX) {
+			if (X0 == Zones[EnvIndex].NumX) {
 				X0--;
 				r0 += l;
 			}
 
-			if (Z0 == DAT_800c4e0c[EnvIndex].NumZ) {
+			if (Z0 == Zones[EnvIndex].NumZ) {
 				Z0--;
 				s0 += l;
 			}
 
-			if (X1 == DAT_800c4e0c[EnvIndex].NumX)
+			if (X1 == Zones[EnvIndex].NumX)
 				X1--;
 
-			if (Z1 == DAT_800c4e0c[EnvIndex].NumZ)
+			if (Z1 == Zones[EnvIndex].NumZ)
 				Z1--;
 
 			qw = FUN_8008b62c(w, s0, l);
@@ -205,9 +205,9 @@ int M3dZone_LineToItemNotSCached(SLineInfo *pInfo, int CheckEnviroObs) {
 			Z = Z0;
 			d = (x0 < x1 ? qh - h : -qh) + (z0 < z1 ? w - qw : qw);
 
-			while ((X != X1 || Z != Z1) && X >= 0 && X < DAT_800c4e0c[EnvIndex].NumX && Z >= 0 &&
-			       Z < DAT_800c4e0c[EnvIndex].NumZ) {
-				M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(DAT_800c4e0c[EnvIndex].Cells[X][Z], pInfo);
+			while ((X != X1 || Z != Z1) && X >= 0 && X < Zones[EnvIndex].NumX && Z >= 0 &&
+			       Z < Zones[EnvIndex].NumZ) {
+				M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(Zones[EnvIndex].Cells[X][Z], pInfo);
 
 				if (d >= 0) {
 					d -= h;
@@ -218,9 +218,9 @@ int M3dZone_LineToItemNotSCached(SLineInfo *pInfo, int CheckEnviroObs) {
 				}
 			}
 
-			if (X >= 0 && X < DAT_800c4e0c[EnvIndex].NumX && Z >= 0 &&
-			    Z < DAT_800c4e0c[EnvIndex].NumZ)
-				M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(DAT_800c4e0c[EnvIndex].Cells[X][Z], pInfo);
+			if (X >= 0 && X < Zones[EnvIndex].NumX && Z >= 0 &&
+			    Z < Zones[EnvIndex].NumZ)
+				M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(Zones[EnvIndex].Cells[X][Z], pInfo);
 		}
 	}
 

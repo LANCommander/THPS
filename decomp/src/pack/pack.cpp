@@ -24,9 +24,9 @@ struct TSPack {
 	short ReqH;    /* 18 */
 };
 
-TSPack *DAT_800d1a60;
-int DAT_800d1a6c;
-int DAT_800d1a70;
+TSPack *Pack_pFree;
+int Pack_NoBottom;
+int Pack_NoRight;
 
 TSPack *Pack_NewFree(int, int, int, int);
 void Pack_Merge(TSPack *);
@@ -131,7 +131,7 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 		pPack->BPP = BPP;
 		pPack->Aligned = Aligned;
 		pPack->Type = Type;
-		pPack->Pass = DAT_800d1a6c;
+		pPack->Pass = Pack_NoBottom;
 		return pPack;
 	}
 
@@ -143,7 +143,7 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 
 	pBest = 0;
 
-	for (pPack = DAT_800d1a60; pPack; pPack = pPack->pNext) {
+	for (pPack = Pack_pFree; pPack; pPack = pPack->pNext) {
 		int RightEdge;
 
 		if (BPP == 16)
@@ -160,10 +160,10 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 				Over = 1;
 		}
 
-		if (DAT_800d1a6c && !((pPack->Y + H) & 255))
+		if (Pack_NoBottom && !((pPack->Y + H) & 255))
 			continue;
 
-		if (DAT_800d1a70 && pPack->X + W == RightEdge)
+		if (Pack_NoRight && pPack->X + W == RightEdge)
 			continue;
 
 		if (Type >= 0 && Over)
@@ -182,7 +182,7 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 	}
 
 	if (!pBest) {
-		for (pPack = DAT_800d1a60; pPack; pPack = pPack->pNext) {
+		for (pPack = Pack_pFree; pPack; pPack = pPack->pNext) {
 			int RightEdge;
 
 			if (BPP == 16)
@@ -199,10 +199,10 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 					Over = 1;
 			}
 
-			if (DAT_800d1a6c && !((pPack->Y + H) & 255))
+			if (Pack_NoBottom && !((pPack->Y + H) & 255))
 				continue;
 
-			if (DAT_800d1a70 && pPack->X + pPack->W == RightEdge)
+			if (Pack_NoRight && pPack->X + pPack->W == RightEdge)
 				continue;
 
 			if (Type >= 0 && Over)
@@ -228,11 +228,11 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 			if (Aligned == -1)
 				return 0;
 
-			for (pPack = DAT_800d1a60; pPack; pPack = pPack->pNext) {
-				if (DAT_800d1a6c && !((pPack->Y + H) & 255))
+			for (pPack = Pack_pFree; pPack; pPack = pPack->pNext) {
+				if (Pack_NoBottom && !((pPack->Y + H) & 255))
 					continue;
 
-				if (DAT_800d1a70 && WW == 256)
+				if (Pack_NoRight && WW == 256)
 					continue;
 
 				if (pBest && (pBest->W == W || pBest->H == H) && pPack->W != W && pPack->H != H)
@@ -264,7 +264,7 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 			pPack->BPP = BPP;
 			pPack->Aligned = Aligned;
 			pPack->Type = Type;
-			pPack->Pass = DAT_800d1a6c;
+			pPack->Pass = Pack_NoBottom;
 			return pPack;
 		}
 
@@ -272,7 +272,7 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 		OY = pBest->Y;
 		OW = pBest->W;
 		OH = pBest->H;
-		Pack_Remove(&DAT_800d1a60, pBest);
+		Pack_Remove(&Pack_pFree, pBest);
 
 		pBest = FUN_800496b0(OX + OW - W, OY, W, H);
 
@@ -295,7 +295,7 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 		OY = pBest->Y;
 		OW = pBest->W;
 		OH = pBest->H;
-		Pack_Remove(&DAT_800d1a60, pBest);
+		Pack_Remove(&Pack_pFree, pBest);
 
 		pBest = FUN_800496b0(OX, OY, W, H);
 
@@ -320,6 +320,6 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 	pBest->BPP = BPP;
 	pBest->Aligned = Aligned;
 	pBest->Type = Type;
-	pBest->Pass = DAT_800d1a6c;
+	pBest->Pass = Pack_NoBottom;
 	return pBest;
 }

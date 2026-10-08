@@ -13,16 +13,16 @@ struct CVector {
 };
 
 extern char DAT_800d1a04[];
-extern char *DAT_800a8788[];
-extern char *DAT_800a87d8[];
-extern int DAT_800d1780;
+extern char *CheatRestarts[];
+extern char *HorseRestarts[];
+extern int GNumberOfPlayers;
 
-char *DAT_800d19e0;
-short **DAT_800d19e8;
-int DAT_800d19ec;
-int DAT_800d19d8;
-int DAT_800d19dc;
-int DAT_800d19e4;
+char *TrigFile;
+short **OffsetList;
+int NumNodes;
+int NumCheatRestarts;
+int NumHorseRestarts;
+int RestartNode;
 
 char *Trig_GetPosition(CVector &, int);
 void Trig_ParseTRGFile();
@@ -53,55 +53,55 @@ void Trig_InitialParseTRGFile(char *pName) {
 		*pDest = 0;
 	}
 
-	DAT_800d19e0 = Mem_NewX__FUiii(FileIO_Open__FPCc(Name), 0, 1);
-	FileIO_Load__FPv(DAT_800d19e0);
+	TrigFile = Mem_NewX__FUiii(FileIO_Open__FPCc(Name), 0, 1);
+	FileIO_Load__FPv(TrigFile);
 	FileIO_Sync__Fv();
 
 	{
-		short **pTable = (short **)DAT_800d19e0;
+		short **pTable = (short **)TrigFile;
 		int i;
 
-		DAT_800d19ec = ((ushort *)pTable)[4];
+		NumNodes = ((ushort *)pTable)[4];
 		pTable += 3;
-		DAT_800d19e8 = pTable;
+		OffsetList = pTable;
 
-		for (i = 0; i < DAT_800d19ec; i++) {
-			*pTable = (short *)((int)*pTable + (int)DAT_800d19e0);
+		for (i = 0; i < NumNodes; i++) {
+			*pTable = (short *)((int)*pTable + (int)TrigFile);
 			pTable++;
 		}
 	}
 
 	{
-		short *pLast = DAT_800d19e8[DAT_800d19ec - 1];
+		short *pLast = OffsetList[NumNodes - 1];
 
 		if (*pLast == 255)
-			FUN_8004d6a0(DAT_800d19e0, ((char *)pLast - DAT_800d19e0 + 5) & ~3);
+			FUN_8004d6a0(TrigFile, ((char *)pLast - TrigFile + 5) & ~3);
 	}
 
-	DAT_800d19d8 = 0;
+	NumCheatRestarts = 0;
 
 	{
 		int i;
 
-		for (i = 0; i < DAT_800d19ec; i++) {
-			short *pNode = DAT_800d19e8[i];
+		for (i = 0; i < NumNodes; i++) {
+			short *pNode = OffsetList[i];
 
 			if (*pNode == 8) {
 				CVector Dummy;
 				char *pNodeName = Trig_GetPosition(Dummy, i) + 6;
 
-				DAT_800a8788[DAT_800d19d8++] = pNodeName;
+				CheatRestarts[NumCheatRestarts++] = pNodeName;
 			}
 		}
 	}
 
-	DAT_800d19dc = 0;
+	NumHorseRestarts = 0;
 
 	{
 		int i;
 
-		for (i = 0; i < DAT_800d19ec; i++) {
-			short *pNode = DAT_800d19e8[i];
+		for (i = 0; i < NumNodes; i++) {
+			short *pNode = OffsetList[i];
 
 			if (*pNode == 8) {
 				CVector Dummy;
@@ -111,19 +111,19 @@ void Trig_InitialParseTRGFile(char *pName) {
 
 				if (*pNodeName == 'H')
 
-					DAT_800a87d8[DAT_800d19dc++] = pNodeName;
+					HorseRestarts[NumHorseRestarts++] = pNodeName;
 			}
 		}
 	}
 
-	DAT_800d19e4 = 0xffff;
+	RestartNode = 0xffff;
 	Found = 0;
 
-	if (DAT_800d1780 == 2) {
+	if (GNumberOfPlayers == 2) {
 		int i;
 
-		for (i = 0; i < DAT_800d19ec; i++) {
-			short *pNode = DAT_800d19e8[i];
+		for (i = 0; i < NumNodes; i++) {
+			short *pNode = OffsetList[i];
 
 			if (*pNode == 15) {
 				Found = 1;
@@ -135,8 +135,8 @@ void Trig_InitialParseTRGFile(char *pName) {
 	if (!Found) {
 		int i;
 
-		for (i = 0; i < DAT_800d19ec; i++) {
-			short *pNode = DAT_800d19e8[i];
+		for (i = 0; i < NumNodes; i++) {
+			short *pNode = OffsetList[i];
 
 			if (*pNode == 4)
 				ExecuteCommandList__FPUsii((ushort *)(pNode + 1), i, 1);

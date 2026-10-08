@@ -22,16 +22,16 @@ typedef struct {
 	int i300;
 } Comp;
 
-extern Comp DAT_800c0fdc;
-extern int DAT_800d1a20, DAT_800d1114, DAT_800d1e28;
+extern Comp theCompetition;
+extern int Vblanks, SelectedSkater, GLevel;
 
-short DAT_800d1fc0, DAT_800d1fc2, DAT_800d1fc4, DAT_800d1fc6, DAT_800d1fc8;
+short HOLYCOW_PLACE, FIRST_PLACE, SECOND_PLACE, THIRD_PLACE, LAST_PLACE;
 
 void Redbook_InitialRand(int);
 int Redbook_Rnd(int);
 
 void Competition_Init(void) {
-	Comp *c = &DAT_800c0fdc;
+	Comp *c = &theCompetition;
 	unsigned char *p;
 	unsigned char *q;
 	int i, j, r, cnt, idx, t;
@@ -41,12 +41,12 @@ void Competition_Init(void) {
 	c->i20 = 0;
 	c->i24 = 0;
 	c->i300 = 0;
-	Redbook_InitialRand(DAT_800d1a20);
+	Redbook_InitialRand(Vblanks);
 
 	for (i = 0; i < 10; i++)
 		c->order[i] = i;
 
-	t = DAT_800d1114;
+	t = SelectedSkater;
 	c->cur = t;
 
 	if (t == 10) {
@@ -54,18 +54,18 @@ void Competition_Init(void) {
 		c->order[c->cur] = t;
 	}
 
-	if (DAT_800d1e28 == 8) {
-		DAT_800d1fc0 = 975;
-		DAT_800d1fc2 = 935;
-		DAT_800d1fc4 = 910;
-		DAT_800d1fc6 = 860;
-		DAT_800d1fc8 = 770;
+	if (GLevel == 8) {
+		HOLYCOW_PLACE = 975;
+		FIRST_PLACE = 935;
+		SECOND_PLACE = 910;
+		THIRD_PLACE = 860;
+		LAST_PLACE = 770;
 	} else {
-		DAT_800d1fc0 = 975;
-		DAT_800d1fc2 = 920;
-		DAT_800d1fc4 = 870;
-		DAT_800d1fc6 = 820;
-		DAT_800d1fc8 = 520;
+		HOLYCOW_PLACE = 975;
+		FIRST_PLACE = 920;
+		SECOND_PLACE = 870;
+		THIRD_PLACE = 820;
+		LAST_PLACE = 520;
 	}
 
 	for (u = 0; u < 5; u++) {

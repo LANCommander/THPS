@@ -31,11 +31,17 @@ if os.path.exists("build/matches.json"):
     # label-only symbols (asm entry points, library code, data) go in as D: a label, never a
     # created function, since the span may be data
     labels = mj.get("label_matches", [])
+    # globals named from their demo twins (tools/data_names.py)
+    data = []
+    if os.path.exists("decomp/data_names.tsv"):
+        data = [l.split("\t")[:2] for l in open("decomp/data_names.tsv", encoding="utf-8") if l.startswith("0x")]
     with open("build/retail_names.tsv", "w") as fh:
         for e in m:
             if e.get("retail_addr"):
                 fh.write(f"0x{e['retail_addr']:08x}\t{e['size']}\tF\t{e['name']}\n")
         for e in labels:
             fh.write(f"0x{e['retail_addr']:08x}\t0\tD\t{e['name']}\n")
+        for a, n in data:
+            fh.write(f"{a}\t0\tD\t{n}\n")
     print("wrote build/retail_names.tsv",
-          f"({sum(1 for e in m if e.get('retail_addr'))} funcs + {len(labels)} labels)")
+          f"({sum(1 for e in m if e.get('retail_addr'))} funcs + {len(labels)} labels + {len(data)} globals)")

@@ -37,7 +37,7 @@ class CPanelData {
 	void TrickMessageRefresh();
 };
 
-extern int DAT_800d173c;
+extern int ViewportMode;
 extern char DAT_800d1ea8[4]; /* "%d " */
 extern char DAT_800d1eac[8]; /* "%s%s" */
 extern char DAT_800d1eb4[];  /* "%s + %s" */
@@ -68,7 +68,7 @@ void CPanelData::TrickMessageRefresh() {
 
 	currLine = 0;
 
-	switch (DAT_800d173c * 2 + mpBruce->mPlayer) {
+	switch (ViewportMode * 2 + mpBruce->mPlayer) {
 		case 2:
 		case 3:
 		case 6:

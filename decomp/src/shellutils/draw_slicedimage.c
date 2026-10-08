@@ -19,10 +19,10 @@ typedef struct {
 
 extern char DAT_800a20d8[];
 
-int DAT_800d1d94;
+int OT_entry;
 
-extern char *DAT_800d1a48;
-extern char *DAT_800d1a54;
+extern char *pDoubleBuffer;
+extern char *pPoly;
 
 int FUN_8008c190(char *, int);
 int FUN_8008c880(char *);
@@ -44,13 +44,13 @@ void SlicedImage_draw(SP *p, int x0, int y, int fb, int c4, int c5, int c6, int 
 
 	t0 = 0;
 
-	if ((unsigned)DAT_800d1d94 >= 0x2000)
-		FUN_8008c190(DAT_800a20d8, DAT_800d1d94);
+	if ((unsigned)OT_entry >= 0x2000)
+		FUN_8008c190(DAT_800a20d8, OT_entry);
 
 	if (fb)
-		ot = (unsigned *)(DAT_800d1a48 + 0x84);
+		ot = (unsigned *)(pDoubleBuffer + 0x84);
 	else
-		ot = (unsigned *)(DAT_800d1a48 + (DAT_800d1d94 * 4 + 0x8c));
+		ot = (unsigned *)(pDoubleBuffer + (OT_entry * 4 + 0x8c));
 
 	i = 0;
 	s2 = p->depth == 8;
@@ -62,8 +62,8 @@ void SlicedImage_draw(SP *p, int x0, int y, int fb, int c4, int c5, int c6, int 
 
 			if (p->w > 0) {
 				do {
-					pk = DAT_800d1a54;
-					DAT_800d1a54 = pk + 40;
+					pk = pPoly;
+					pPoly = pk + 40;
 					pk[3] = 9;
 					pk[7] = 44;
 
@@ -143,8 +143,8 @@ void SlicedImage_draw(SP *p, int x0, int y, int fb, int c4, int c5, int c6, int 
 					} else
 						FUN_8008c880(pk);
 
-					if (ot != (unsigned *)(DAT_800d1a48 + 0x84))
-						DAT_800d1d94--;
+					if (ot != (unsigned *)(pDoubleBuffer + 0x84))
+						OT_entry--;
 
 					t0++;
 					j++;

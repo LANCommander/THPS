@@ -7,7 +7,7 @@ typedef struct {
 	char pad2[0x40 - 0x28];
 } E;
 
-extern E DAT_800bf7a8[] __attribute__((section(".data")));
+extern E PSXRegion[] __attribute__((section(".data")));
 
 struct Item {
 	char pad[0x1b];
@@ -36,7 +36,7 @@ void CBruce::CalculateDynamicLighting(uint *p_face, Item *p_item) {
 	unsigned short f = *(unsigned short *)p_face;
 
 	if (f & 0x800) {
-		uint *pColourTable = DAT_800bf7a8[p_item->type].ctab;
+		uint *pColourTable = PSXRegion[p_item->type].ctab;
 		int vertices = 4;
 
 		mLight = 0;

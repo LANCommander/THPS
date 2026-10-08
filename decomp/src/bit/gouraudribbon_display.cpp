@@ -60,12 +60,12 @@ class CGouraudRibbon {
 	void Display();
 };
 
-extern SCamera *DAT_800d2178;
-extern SOTBuffer *DAT_800d1a48;
-extern uchar *DAT_800d1a54;
-extern uchar *DAT_800d177c;
+extern SCamera *pCurrentViewport;
+extern SOTBuffer *pDoubleBuffer;
+extern uchar *pPoly;
+extern uchar *PolyBufferEnd;
 
-u_long DAT_800d1900[2];
+u_long StoredTPagePrim[2];
 
 int Transform(const CVector &, int &);
 void CalcScreenNormal(SCalcBuffer *, int &, int &, int);
@@ -93,7 +93,7 @@ void CGouraudRibbon::Display() {
 		for (i = 0; i < mNumPoints; i++) {
 			pBuf->Zed = Transform(pPoint->Pos, pBuf->Pos);
 
-			if (pBuf->Zed < DAT_800d2178->Near || DAT_800d2178->Far < pBuf->Zed) {
+			if (pBuf->Zed < pCurrentViewport->Near || pCurrentViewport->Far < pBuf->Zed) {
 				pBuf->Bad = 1;
 			} else {
 				pBuf->Bad = 0;
@@ -165,35 +165,35 @@ void CGouraudRibbon::Display() {
 				uint a;
 				uint b;
 
-				pOTPos = (uint *)(DAT_800d1a48->pOT + ((pBuf->Zed - mZOffset) & 0x3ffc));
+				pOTPos = (uint *)(pDoubleBuffer->pOT + ((pBuf->Zed - mZOffset) & 0x3ffc));
 				dx = pBuf->NormalX * pBuf->ScrWidth >> 6;
 				dy = pBuf->NormalY * pBuf->ScrWidth >> 6;
 				x = (short)pBuf->Pos;
 				y = pBuf->Pos >> 16;
 				NewTop = ((y + dy) << 16) | ((x + dx) & 0xffff);
 				NewBottom = ((y - dy) << 16) | ((x - dx) & 0xffff);
-				pTopPoly = (POLY_G4 *)DAT_800d1a54;
+				pTopPoly = (POLY_G4 *)pPoly;
 				pBottomPoly = pTopPoly + 1;
 				ptpage = (DR_TPAGE *)(pBottomPoly + 1);
 				newppoly = (uchar *)(ptpage + 1);
 
-				if (newppoly > DAT_800d177c)
+				if (newppoly > PolyBufferEnd)
 					goto SEEYA;
 
-				a = DAT_800d1900[0];
-				b = DAT_800d1900[1];
+				a = StoredTPagePrim[0];
+				b = StoredTPagePrim[1];
 				ptpage->tag = a;
 				ptpage->code[0] = b;
-				DAT_800d1a54 = newppoly;
+				pPoly = newppoly;
 
 				if (mFrames >= 3) {
 					{
-						uchar *newppoly = DAT_800d1a54 + sizeof(POLY_G4);
+						uchar *newppoly = pPoly + sizeof(POLY_G4);
 
-						if (newppoly > DAT_800d177c)
+						if (newppoly > PolyBufferEnd)
 							goto SEEYA;
 
-						DAT_800d1a54 = newppoly;
+						pPoly = newppoly;
 					}
 
 					{

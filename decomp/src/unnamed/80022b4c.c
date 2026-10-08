@@ -6,7 +6,7 @@ struct E {
 	int q[1];
 };
 
-extern struct E DAT_800a63e8[];
+extern struct E movieDetails[];
 extern unsigned char DAT_800a6728[];
 
 int FUN_8009085c(char *a, int b);
@@ -17,11 +17,11 @@ void FUN_80022b4c(void) {
 	int i;
 
 	for (i = 0; i < 26; i++) {
-		if (DAT_800a63e8[DAT_800a6728[i]].f24) {
-			if (FUN_8009085c(buf, DAT_800a63e8[DAT_800a6728[i]].f0))
-				DAT_800a63e8[DAT_800a6728[i]].f24 = FUN_800913c0(buf);
+		if (movieDetails[DAT_800a6728[i]].f24) {
+			if (FUN_8009085c(buf, movieDetails[DAT_800a6728[i]].f0))
+				movieDetails[DAT_800a6728[i]].f24 = FUN_800913c0(buf);
 			else
-				DAT_800a63e8[DAT_800a6728[i]].f24 = 0;
+				movieDetails[DAT_800a6728[i]].f24 = 0;
 		}
 	}
 }

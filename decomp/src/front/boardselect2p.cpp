@@ -115,15 +115,15 @@ class PREManager {
 	void unloadPRE(char *);
 };
 
-extern SControl DAT_800c0a48[];
-extern SCareer DAT_800a6844;
+extern SControl Pad[];
+extern SCareer GCareer;
 extern SSkater DAT_800a44fc[];
 extern SStats DAT_800a8240[];
 extern int DAT_800be42c[];
 extern int DAT_800d2c1c[];
 extern SlicedImage *DAT_800d31cc[][3][15];
 extern int DAT_800d1cb8;
-extern int DAT_800d16d8;
+extern int SelectedSkater2;
 extern PREManager *DAT_800d1b10;
 extern char DAT_800a14fc[];
 extern char DAT_800a150c[];
@@ -214,8 +214,8 @@ extern "C" int FUN_80051660(int player) {
 	FUN_8005c97c(10);
 	FUN_8005ca64();
 	FUN_80061714(FUN_8005ca3c(DAT_800a14fc));
-	Pad_ClearTriggers(&DAT_800c0a48[0]);
-	Pad_ClearTriggers(&DAT_800c0a48[1]);
+	Pad_ClearTriggers(&Pad[0]);
+	Pad_ClearTriggers(&Pad[1]);
 	Pack_DefragmentFully();
 
 	for (int p = 0; p < 2; p++) {
@@ -223,8 +223,8 @@ extern "C" int FUN_80051660(int player) {
 		x[p][0][1] = DAT_800d1bcc[p];
 		y[p][0][0] = 119;
 		y[p][0][1] = 265;
-		idx[p][0][0] = DAT_800a6844.LastDeck[p];
-		idx[p][0][1] = DAT_800a6844.LastDeck[p] + 1;
+		idx[p][0][0] = GCareer.LastDeck[p];
+		idx[p][0][1] = GCareer.LastDeck[p] + 1;
 
 		if (idx[p][0][1] == DAT_800d2c1c[0])
 			idx[p][0][1] = 0;
@@ -242,8 +242,8 @@ extern "C" int FUN_80051660(int player) {
 		x[p][1][1] = DAT_800d1bdc[p];
 		y[p][1][0] = 190;
 		y[p][1][1] = 254;
-		idx[p][1][0] = DAT_800a6844.LastTrucks[p];
-		idx[p][1][1] = DAT_800a6844.LastTrucks[p] + 1;
+		idx[p][1][0] = GCareer.LastTrucks[p];
+		idx[p][1][1] = GCareer.LastTrucks[p] + 1;
 
 		if (idx[p][1][1] == DAT_800d2c1c[1])
 			idx[p][1][1] = 0;
@@ -261,8 +261,8 @@ extern "C" int FUN_80051660(int player) {
 		x[p][2][1] = DAT_800d1bec[p];
 		y[p][2][0] = 209;
 		y[p][2][1] = 265;
-		idx[p][2][0] = DAT_800a6844.LastWheel[p];
-		idx[p][2][1] = DAT_800a6844.LastWheel[p] + 1;
+		idx[p][2][0] = GCareer.LastWheel[p];
+		idx[p][2][1] = GCareer.LastWheel[p] + 1;
 
 		if (idx[p][2][1] == DAT_800d2c1c[2])
 			idx[p][2][1] = 0;
@@ -278,7 +278,7 @@ extern "C" int FUN_80051660(int player) {
 	}
 
 	DAT_800d22d0[0] = player;
-	DAT_800d22d0[1] = DAT_800d16d8;
+	DAT_800d22d0[1] = SelectedSkater2;
 	deck[0] = idx[0][0][0];
 	deck[1] = idx[1][0][0];
 	trucks[0] = idx[0][1][0];
@@ -317,7 +317,7 @@ extern "C" int FUN_80051660(int player) {
 		n[p] = 0;
 
 		while (n[p] < lastBoard) {
-			if (DAT_800a6844.Skater[DAT_800d22d0[p]].NumTapes <
+			if (GCareer.Skater[DAT_800d22d0[p]].NumTapes <
 			    DAT_800a44fc[DAT_800d22d0[p]].Boards[n[p] + 1].Req)
 				break;
 
@@ -751,7 +751,7 @@ extern "C" int FUN_80051660(int player) {
 					textX[p] += textSpeed[p];
 
 					if (textTimer[p] == 0) {
-						if (DAT_800a6844.Skater[DAT_800d22d0[p]].NumTapes >=
+						if (GCareer.Skater[DAT_800d22d0[p]].NumTapes >=
 						    DAT_800a44fc[DAT_800d22d0[p]].Boards[deck[p]].Req)
 							FUN_8008e904(text[p],
 							             DAT_800a44fc[DAT_800d22d0[p]].Boards[deck[p]].Name);
@@ -796,8 +796,8 @@ extern "C" int FUN_80051660(int player) {
 					statsDone[p] = 1;
 			}
 
-			if (DAT_800c0a48[p].Start.Triggered || DAT_800c0a48[p].X.Triggered) {
-				Pad_ClearTriggers(&DAT_800c0a48[p]);
+			if (Pad[p].Start.Triggered || Pad[p].X.Triggered) {
+				Pad_ClearTriggers(&Pad[p]);
 
 				DAT_800a8240[p].s[0] = 3;
 				DAT_800a8240[p].s[1] = 3;
@@ -805,15 +805,15 @@ extern "C" int FUN_80051660(int player) {
 				DAT_800a8240[p].s[3] = 3;
 				DAT_800a8240[p].s[4] = DAT_800be42c[trucks[p]];
 
-				if (DAT_800a6844.Skater[DAT_800d22d0[p]].NumTapes >=
+				if (GCareer.Skater[DAT_800d22d0[p]].NumTapes >=
 				    DAT_800a44fc[DAT_800d22d0[p]].Boards[deck[p]].Req) {
 					int j;
 
-					DAT_800a6844.LastDeck[p] = deck[p];
+					GCareer.LastDeck[p] = deck[p];
 					j = y[p][1][0] >= y[p][1][1];
-					DAT_800a6844.LastTrucks[p] = idx[p][1][j];
+					GCareer.LastTrucks[p] = idx[p][1][j];
 					j = y[p][2][0] >= y[p][2][1];
-					DAT_800a6844.LastWheel[p] = idx[p][2][j];
+					GCareer.LastWheel[p] = idx[p][2][j];
 
 					if (chosen[p] == 0) {
 						if (speed[p] > 0 && col[p] == 0 && timer[p] != 0) {
@@ -848,11 +848,11 @@ extern "C" int FUN_80051660(int player) {
 					result = 1;
 			}
 
-			if (DAT_800c0a48[p].Triangle.Triggered) {
+			if (Pad[p].Triangle.Triggered) {
 				if (chosen[p] || !chosen[1 - p])
 					SFX_PlayX__FUisi(147, 0x2000, 0);
 
-				Pad_ClearTriggers(&DAT_800c0a48[p]);
+				Pad_ClearTriggers(&Pad[p]);
 
 				if (!chosen[0] && !chosen[1])
 					result = -1;

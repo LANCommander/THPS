@@ -1,8 +1,8 @@
 /* FileIO_Init__Fv (0x8004c74c) */
 #include "names.h"
-extern char DAT_800a1294[], DAT_800a12a4[], DAT_800a12b0[], DAT_800ba09c[];
+extern char DAT_800a1294[], DAT_800a12a4[], DAT_800a12b0[], Directory[];
 
-int DAT_800d1afc, DAT_800d2258, DAT_800d1b0c;
+int Loading, WadStart, ReadSyncFailures;
 
 void FUN_8008f208(int);
 void FUN_8008c190(char *);
@@ -19,7 +19,7 @@ void FileIO_Init(void) {
 	int s0;
 	unsigned u;
 
-	DAT_800d1afc = 0;
+	Loading = 0;
 	FUN_8008f208(0);
 
 	while (!FUN_80095b60()) {
@@ -41,7 +41,7 @@ void FileIO_Init(void) {
 
 	u = (buf[1] + 2047) >> 11;
 	FUN_8008f264(2, buf, 0);
-	FUN_800958c0(u, DAT_800ba09c, 128);
+	FUN_800958c0(u, Directory, 128);
 
 	while (FUN_80095a5c(1, 0) > 0)
 		FUN_8008eebc(0);
@@ -51,6 +51,6 @@ void FileIO_Init(void) {
 			FUN_8008eebc(0);
 	}
 
-	DAT_800d2258 = FUN_800913c0(buf);
-	DAT_800d1b0c = 0;
+	WadStart = FUN_800913c0(buf);
+	ReadSyncFailures = 0;
 }

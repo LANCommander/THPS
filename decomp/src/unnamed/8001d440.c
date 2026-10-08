@@ -1,15 +1,15 @@
 /* Mess_TextHeight2__FPCc (0x8001d440) */
 #include "names.h"
-extern unsigned char DAT_800b9d9c[];
-extern unsigned char *DAT_800d1adc;
+extern unsigned char BigFont_Mapping[];
+extern unsigned char *BigFontAnim;
 
-unsigned short DAT_800d15f8;
+unsigned short Scale;
 
 int Mess_TextHeight2(unsigned char *s) {
 	int m = 0;
 
 	while (*s) {
-		int v = DAT_800b9d9c[*s];
+		int v = BigFont_Mapping[*s];
 
 		if (v == 254)
 			v = -1;
@@ -30,7 +30,7 @@ int Mess_TextHeight2(unsigned char *s) {
 			v = -1;
 
 		if (v >= 0) {
-			int w = DAT_800d1adc[v * 8 + 3];
+			int w = BigFontAnim[v * 8 + 3];
 
 			if (m < w)
 				m = w;
@@ -39,5 +39,5 @@ int Mess_TextHeight2(unsigned char *s) {
 		s++;
 	}
 
-	return (m * DAT_800d15f8) >> 8;
+	return (m * Scale) >> 8;
 }

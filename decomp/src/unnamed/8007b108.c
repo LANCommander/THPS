@@ -5,7 +5,7 @@ typedef struct Q {
 	int x, y, z, w;
 } Q;
 
-extern char DAT_800c0a48[];
+extern char Pad[];
 
 unsigned short DAT_800d2068, DAT_800d206a;
 
@@ -21,7 +21,7 @@ void QFromYRot(Q *, int);
 void QFromZRot(Q *, int);
 void __ml__FRC5CQuatT0(Q *, Q *, Q *);
 
-#define P DAT_800c0a48
+#define P Pad
 
 void FUN_8007b108(char *a) {
 	struct {

@@ -24,23 +24,23 @@ struct SSkaterCareer {
 	uchar Tapes[2];  /* 12 (indexed by level, runs into the next record) */
 };
 
-extern CBruce *DAT_800d17c8;
-extern SLevelInfo DAT_800a53a4[];
-extern SSkaterCareer DAT_800a6844[];
+extern CBruce *GSkater;
+extern SLevelInfo Levels_c[];
+extern SSkaterCareer GCareer[];
 
 void Career_GiveMedal(int Level, EMedalType medal) {
 	int g = 0;
 	int s = 0;
 	int b = 0;
 
-	DAT_800a6844[DAT_800d17c8->mSkaterIndex].Tapes[Level] |= 1 << medal;
+	GCareer[GSkater->mSkaterIndex].Tapes[Level] |= 1 << medal;
 
 	{
 		int i;
 
 		for (i = 0; i < 10; i++) {
-			if (!DAT_800a53a4[i].NotCareer) {
-				uchar t = DAT_800a6844[DAT_800d17c8->mSkaterIndex].Tapes[i];
+			if (!Levels_c[i].NotCareer) {
+				uchar t = GCareer[GSkater->mSkaterIndex].Tapes[i];
 
 				if (t & 0x20)
 					g++;
@@ -54,7 +54,7 @@ void Career_GiveMedal(int Level, EMedalType medal) {
 		}
 	}
 
-	DAT_800a6844[DAT_800d17c8->mSkaterIndex].NumGold = g;
-	DAT_800a6844[DAT_800d17c8->mSkaterIndex].NumSilver = s;
-	DAT_800a6844[DAT_800d17c8->mSkaterIndex].NumBronze = b;
+	GCareer[GSkater->mSkaterIndex].NumGold = g;
+	GCareer[GSkater->mSkaterIndex].NumSilver = s;
+	GCareer[GSkater->mSkaterIndex].NumBronze = b;
 }

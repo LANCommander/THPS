@@ -9,7 +9,7 @@ typedef struct {
 	short s[5];
 } H;
 
-extern int DAT_800a42f4[];
+extern int GVideoRestart[];
 
 typedef struct {
 	char pad[28];
@@ -18,7 +18,7 @@ typedef struct {
 	T t[5];
 } S;
 
-extern S DAT_800bf318;
+extern S GVInfo1;
 
 char *FileIO_Open(void);
 char *Mem_NewX(char *a, int b, int c);
@@ -39,15 +39,15 @@ short FUN_80014ba4(void) {
 	}
 
 	h = (H *)(b + 512);
-	DAT_800a42f4[0] = h->s[0];
-	DAT_800a42f4[1] = h->s[1];
-	DAT_800a42f4[2] = h->s[2];
-	DAT_800a42f4[3] = h->s[3];
-	DAT_800a42f4[4] = h->s[4];
-	DAT_800bf318.f = *(int *)(b + 512);
+	GVideoRestart[0] = h->s[0];
+	GVideoRestart[1] = h->s[1];
+	GVideoRestart[2] = h->s[2];
+	GVideoRestart[3] = h->s[3];
+	GVideoRestart[4] = h->s[4];
+	GVInfo1.f = *(int *)(b + 512);
 
 	for (i = 0; i < 5; i++)
-		DAT_800bf318.t[i] = ((T *)(b + 516))[i];
+		GVInfo1.t[i] = ((T *)(b + 516))[i];
 
 	Mem_Delete(b);
 	return h->s[0];

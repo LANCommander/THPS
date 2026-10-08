@@ -25,12 +25,12 @@ struct E {
 	char rest[0x154 - 12];
 };
 
-extern struct E DAT_800a44fc[];
+extern struct E Stats[];
 extern int DAT_800d2bf0[];
-extern int DAT_800d2120;
-extern int DAT_800d1a48;
-extern char *DAT_800d19a4;
-extern char DAT_800c119c[];
+extern int GHeadPart;
+extern int pDoubleBuffer;
+extern char *MechList;
+extern char MikeCamera[];
 
 short DAT_800d2294[3];
 int DAT_800d2284, DAT_800d2288, DAT_800d228c, DAT_800d1ba8;
@@ -64,7 +64,7 @@ void FUN_800507e4(int a, int b) {
 			DAT_800d2284 = -1;
 			DAT_800d2288 = 0;
 			DAT_800d228c = 500;
-			DAT_800d2bf0[0] = Spool_PSX(DAT_800a44fc[0].f8, 2, 1);
+			DAT_800d2bf0[0] = Spool_PSX(Stats[0].f8, 2, 1);
 			Spool_Sync();
 
 			DAT_800d2294[2] = 0;
@@ -88,7 +88,7 @@ void FUN_800507e4(int a, int b) {
 					ClearRegion(DAT_800d2bf0[DAT_800d2284], 1, 1);
 					FUN_8006edb8(DAT_800d2bf0[DAT_800d2284]);
 					ProcessNewPSX(DAT_800d2bf0[DAT_800d2284]);
-					Spool_ClearPSX(DAT_800a44fc[DAT_800d2284].f8);
+					Spool_ClearPSX(Stats[DAT_800d2284].f8);
 				}
 
 				FUN_8006ed2c(DAT_800d2bf0[DAT_800d2288]);
@@ -96,13 +96,13 @@ void FUN_800507e4(int a, int b) {
 
 				DAT_800d229c = FUN_800506d0(DAT_800d2288);
 				DAT_800d229c->f4 = DAT_800d1ba8;
-				DAT_800d2120 = -1;
+				GHeadPart = -1;
 				DAT_800d2284 = DAT_800d2288;
 
 				if (++DAT_800d2288 >= 10)
 					DAT_800d2288 = 0;
 
-				DAT_800d2bf0[DAT_800d2288] = Spool_PSX(DAT_800a44fc[DAT_800d2288].f8, 2, 1);
+				DAT_800d2bf0[DAT_800d2288] = Spool_PSX(Stats[DAT_800d2288].f8, 2, 1);
 			}
 
 			DAT_800d228c--;
@@ -127,8 +127,8 @@ void FUN_800507e4(int a, int b) {
 			if (b)
 				FUN_80043f70(DAT_800d229c);
 
-			M3d_RenderSetup(DAT_800c119c, DAT_800d22a0, (char *)DAT_800d1a48 + 0x8c);
-			M3d_Render(DAT_800d19a4);
+			M3d_RenderSetup(MikeCamera, DAT_800d22a0, (char *)pDoubleBuffer + 0x8c);
+			M3d_Render(MechList);
 			FUN_80083774();
 
 			DAT_800d2294[1] += 10;
@@ -140,10 +140,10 @@ void FUN_800507e4(int a, int b) {
 			ClearRegion(DAT_800d2bf0[DAT_800d2284], 1, 1);
 			FUN_8006edb8(DAT_800d2bf0[DAT_800d2284]);
 			ProcessNewPSX(DAT_800d2bf0[DAT_800d2284]);
-			Spool_ClearPSX(DAT_800a44fc[DAT_800d2284].f8);
+			Spool_ClearPSX(Stats[DAT_800d2284].f8);
 			Spool_Sync();
 			ProcessNewPSX(DAT_800d2bf0[DAT_800d2288]);
-			Spool_ClearPSX(DAT_800a44fc[DAT_800d2288].f8);
+			Spool_ClearPSX(Stats[DAT_800d2288].f8);
 			break;
 	}
 }

@@ -21,12 +21,12 @@ typedef struct Node {
 	struct Node *next;
 } Node;
 
-Node *DAT_800d15ec;
-char DAT_800d15f0;
-int DAT_800d15f4;
-unsigned short DAT_800d15f8;
+Node *pMessages;
+char TextJustification;
+int FlagsBGR;
+unsigned short Scale;
 
-extern volatile unsigned DAT_800d1a24;
+extern volatile unsigned Xblanks;
 
 void Mess_SetScale(int);
 void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
@@ -41,7 +41,7 @@ void Mess_Display(void) {
 	int sc, q4;
 	unsigned short Dur;
 
-	head = n = DAT_800d15ec;
+	head = n = pMessages;
 	cnt = 0;
 
 	for (; n; n = n->next)
@@ -57,23 +57,23 @@ void Mess_Display(void) {
 			continue;
 
 		Dur = a->us0;
-		DAT_800d15f0 = a->b3;
-		DAT_800d15f8 = ((a->us6 - a->us4) * n->t) / Dur + a->us4;
-		Mess_SetScale(DAT_800d15f8);
+		TextJustification = a->b3;
+		Scale = ((a->us6 - a->us4) * n->t) / Dur + a->us4;
+		Mess_SetScale(Scale);
 
 		cr = a->b8 + ((a->b11 - a->b8) * n->t) / Dur;
 		cg = a->b9 + ((a->b12 - a->b9) * n->t) / Dur;
 		cb = a->b10 + ((a->b13 - a->b10) * n->t) / Dur;
 		v = (cb << 16) | (cg << 8) | cr;
-		DAT_800d15f4 = v;
+		FlagsBGR = v;
 
 		if (a->b2)
-			DAT_800d15f4 |= 0x2e000000;
+			FlagsBGR |= 0x2e000000;
 		else
-			DAT_800d15f4 |= 0x2c000000;
+			FlagsBGR |= 0x2c000000;
 
 		if (a->us28)
-			Mess_SetRGB(((DAT_800d1a24 % 20) * 12) & 252, 100, 100, 0);
+			Mess_SetRGB(((Xblanks % 20) * 12) & 252, 100, 100, 0);
 
 		x = a->s20 + ((a->s24 - a->s20) * n->t) / Dur + n->s10;
 		y = a->s18 + ((a->s22 - a->s18) * n->t) / Dur + n->s8;

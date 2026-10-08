@@ -1,5 +1,5 @@
 /* FUN_8007ef30 (0x8007ef30) */
-int DAT_800d20e0;
+int ItemCacheIndex;
 int DAT_800d20e4;
 int DAT_800d20e8;
 
@@ -8,15 +8,15 @@ struct E {
 	int b[3];
 };
 
-extern struct E DAT_800c13ec[];
+extern struct E ItemCache[];
 
 void FUN_8007ef30(void) {
 	int i;
 
-	DAT_800d20e0 = 0;
+	ItemCacheIndex = 0;
 	DAT_800d20e4 = 0;
 	DAT_800d20e8 = -1;
 
 	for (i = 0; i < 10; i++)
-		DAT_800c13ec[i].a = 0;
+		ItemCache[i].a = 0;
 }

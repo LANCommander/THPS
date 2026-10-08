@@ -58,10 +58,10 @@ class CGLine : public CBit {
 	virtual ~CGLine();
 };
 
-extern char DAT_800d18fc[];
+extern char GLineList[];
 
 CGLine::CGLine() {
 	mCodeBGR0 = 0x50808080;
 	mPadBGR1 = 0x55808080;
-	AttachTo(DAT_800d18fc);
+	AttachTo(GLineList);
 }

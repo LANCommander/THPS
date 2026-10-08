@@ -5,7 +5,7 @@ typedef struct {
 	char pad2[44 - 32];
 } T;
 
-extern T DAT_800a7358[];
+extern T Group[];
 
 int FUN_8002f290(void *, int, int);
 void FUN_8002f438(void *, int);
@@ -18,7 +18,7 @@ void FUN_80031500(char *p) {
 		int t = f & 0xff;
 
 		if (f & 0x6000)
-			n = FUN_8002f290(p, t, DAT_800a7358[t].v) / 20;
+			n = FUN_8002f290(p, t, Group[t].v) / 20;
 
 		if (n)
 			FUN_8002f438(p, n);

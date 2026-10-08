@@ -48,7 +48,7 @@ int Rnd(int);
 void SFX_PlayX(unsigned int, short, int);
 void SFX_Grunt(CBruce *);
 
-extern int DAT_800d1e28;
+extern int GLevel;
 
 #define ABS(x) (((x) ^ ((x) >> 31)) - ((x) >> 31))
 
@@ -96,7 +96,7 @@ void CPlatform::Bounce(CBruce *pSkater, const CVector &Direction) {
 				case 4:
 				case 5:
 					if (mType == 2)
-						SFX_PlayX(DAT_800d1e28 ? 106 : Rnd(2) + 83, 0x2000, 0);
+						SFX_PlayX(GLevel ? 106 : Rnd(2) + 83, 0x2000, 0);
 					else if (mType == 4) {
 						SFX_Grunt(pSkater);
 						SFX_PlayX(82, 0x2000, 0);

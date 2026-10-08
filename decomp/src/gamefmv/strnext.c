@@ -1,5 +1,5 @@
 /* strNext__Fv (0x80023e88) */
-int DAT_800d1654, DAT_800d1660, DAT_800d1630;
+int GameFMV_CurrentFrame, GameFMV_EndFrame, GameFMV_RewindSwitch;
 
 int FUN_800911fc(int *, int **);
 
@@ -10,10 +10,10 @@ int strNext(void) {
 	if (FUN_800911fc(&addr, &hdr))
 		return 0;
 
-	DAT_800d1654 = hdr[2];
+	GameFMV_CurrentFrame = hdr[2];
 
-	if (DAT_800d1654 >= DAT_800d1660)
-		DAT_800d1630 = 1;
+	if (GameFMV_CurrentFrame >= GameFMV_EndFrame)
+		GameFMV_RewindSwitch = 1;
 
 	return addr;
 }

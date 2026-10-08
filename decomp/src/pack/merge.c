@@ -5,7 +5,7 @@ typedef struct TSPack {
 	struct TSPack *next;
 } TSPack;
 
-TSPack *DAT_800d1a60;
+TSPack *Pack_pFree;
 
 TSPack *Pack_MergeAdjacent(TSPack *, TSPack *);
 
@@ -17,7 +17,7 @@ int Pack_Merge(TSPack *p) {
 	do {
 		again = 0;
 
-		for (q = DAT_800d1a60; q; q = q->next) {
+		for (q = Pack_pFree; q; q = q->next) {
 			unsigned short py = p->y, qy = q->y;
 
 			if (py == qy && p->h == q->h) {

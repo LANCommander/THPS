@@ -2,7 +2,7 @@
 #include "names.h"
 extern char DAT_8009e2ec[];
 extern char DAT_8009e2f8[];
-extern volatile int DAT_800d1a1c;
+extern volatile int GameFade;
 
 void FUN_8006af64(void);
 void Mess_LoadFont__FPciii(char *, int, int, int);
@@ -31,7 +31,7 @@ void FUN_800161d8(void) {
 		FUN_8006b240();
 		FUN_80061ea0();
 
-		DAT_800d1a1c = 0;
+		GameFade = 0;
 		SetClippingBox(0, 0, 640, 480);
 		Mess_SetTextJustify(0);
 		Mess_SetScale(384);

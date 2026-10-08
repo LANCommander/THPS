@@ -21,7 +21,7 @@ struct STrick {
 	int w8, w9, w10;
 };
 
-extern STrick DAT_800a7358[];
+extern STrick Group[];
 
 class CBruce {
   public:
@@ -49,17 +49,17 @@ extern "C" void FUN_8003159c(CBruce *pBruce) {
 	int Score;
 
 	if (State & 0x4000) {
-		Score = DAT_800a7358[Trick].Score;
+		Score = Group[Trick].Score;
 		pBruce->m424++;
-		pBruce->Trick_Trick(Trick, DAT_800a7358[Trick].pName, Score, 0);
+		pBruce->Trick_Trick(Trick, Group[Trick].pName, Score, 0);
 
 		pBruce->m368 |= 0x800;
 	} else if (State & 0x2000) {
-		Score = DAT_800a7358[Trick].Score;
+		Score = Group[Trick].Score;
 		pBruce->m424++;
-		pBruce->Trick_Trick(Trick, DAT_800a7358[Trick].pName, Score, 0);
+		pBruce->Trick_Trick(Trick, Group[Trick].pName, Score, 0);
 
-		if (DAT_800a7358[Trick].Frames)
+		if (Group[Trick].Frames)
 			pBruce->m368 |= 0x800;
 	}
 }

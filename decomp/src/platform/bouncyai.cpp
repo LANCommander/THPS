@@ -109,7 +109,7 @@ int Mips_FixMul(int, int);
 int Rnd(int);
 int SFX_PlayX(unsigned int, short, int);
 
-extern int DAT_800d1e28;
+extern int GLevel;
 
 #define ABS(x) (((x) ^ ((x) >> 31)) - ((x) >> 31))
 
@@ -201,7 +201,7 @@ void CPlatform::BouncyAI() {
 					SFX_PlayX(40, 0x2000, 0);
 					break;
 				case 2:
-					if (DAT_800d1e28)
+					if (GLevel)
 						SFX_PlayX(!Rnd(2) ? 107 : 106, 0x2000, 0);
 					else
 						SFX_PlayX(Rnd(2) + 83, 0x2000, 0);

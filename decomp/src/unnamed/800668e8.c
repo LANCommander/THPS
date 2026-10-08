@@ -3,7 +3,7 @@
 int DAT_800d2364, DAT_800d2378, DAT_800d237c, DAT_800d2384, DAT_800d2388, DAT_800d238c,
     DAT_800d2390;
 
-extern int DAT_800d1a8c, DAT_800d1a90;
+extern int Pal256X, Pal256Y;
 extern int DAT_800d3810[], DAT_800d3840[], DAT_800bf2f0[], DAT_800bf2a0[];
 
 void Load8BitBMP2(int, int *, int *, int *, unsigned short *);
@@ -39,7 +39,7 @@ void FUN_800668e8(void) {
 		*ps = v;
 
 		if (DAT_800bf2a0[DAT_800d2364] == 0)
-			FUN_800665ec(DAT_800d1a8c, DAT_800d1a90 + Get256SlotNumber(a));
+			FUN_800665ec(Pal256X, Pal256Y + Get256SlotNumber(a));
 
 		h = DAT_800d237c / 2;
 

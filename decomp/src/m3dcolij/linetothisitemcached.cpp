@@ -9,7 +9,7 @@
    both-ends-on-plane reject.
    Levers: the face-cache walk is `pFaceCache->` with `pFaceCache++` at the loop end (two
    reduced givs, +12/+24); a `cmp != 1` stored in an int (xori); pItem->Pos read into the Q
-   temps before any pInfo store; DAT_800c130c as an unsized extern; DAT_800c1304 reached through
+   temps before any pInfo store; NearestHit_8 as an unsized extern; NearestHit reached through
    a pointer set in the loop guard before a do-while (it is spilled and rematerialised as
    `la s5` + 4(s5), and its high-part temp in the preheader pushes pFaceCache from v0 to v1). */
 typedef unsigned char uchar;
@@ -95,16 +95,16 @@ struct SColijInfo {
 	char pad8[0x24 - 8];
 };
 
-extern SPSXRegion DAT_800bf7a8[];
-extern SFaceCache DAT_800c148c[];
-extern SColijInfo DAT_800c1304;
-extern SVECTOR *DAT_800c130c[];
-extern int DAT_800d1ef0;
-extern int *DAT_800d1f0c[2];
+extern SPSXRegion PSXRegion[];
+extern SFaceCache FaceCache[];
+extern SColijInfo NearestHit;
+extern SVECTOR *NearestHit_8[];
+extern int OtherEnvIndex;
+extern int *EnvModelChecksums[2];
 
-int DAT_800d20d8;
-int DAT_800d20fc;
-int DAT_800d2100;
+int TriggerCollisionCheck;
+int M3dColij_ZeroMask;
+int M3dColij_OneMask;
 
 int Spool_GetEnvIndex(int);
 
@@ -116,8 +116,8 @@ extern "C" {
 }
 
 static inline void FireNode(int node, int env) {
-	DAT_800d1ef0 = env ^ 1;
-	DAT_800d20d8 = 0;
+	OtherEnvIndex = env ^ 1;
+	TriggerCollisionCheck = 0;
 	FUN_80044a20(node, 1);
 }
 
@@ -152,9 +152,9 @@ void M3dColij_LineToThisItemCached(Item *pItem, SLineInfo *pInfo, SColCache *pCo
 	XMax = ((XMax >> 12) << 12) + 0x4000;
 	YMax = ((YMax >> 12) << 12) + 0x4000;
 	ZMax = ((ZMax >> 12) << 12) + 0x4000;
-	pFaceCache = &DAT_800c148c[pColCache->FirstFace];
+	pFaceCache = &FaceCache[pColCache->FirstFace];
 	Faces = pColCache->Faces;
-	pModel = DAT_800bf7a8[pItem->Region].pModels[pItem->ModelIndex];
+	pModel = PSXRegion[pItem->Region].pModels[pItem->ModelIndex];
 	NumNormals = pModel->NumNormals;
 	pVerts = pModel->Vertices;
 	Normals = &pModel->Vertices[pModel->NumVertices];
@@ -168,7 +168,7 @@ void M3dColij_LineToThisItemCached(Item *pItem, SLineInfo *pInfo, SColCache *pCo
 		i = 0;
 
 		if (Faces > 0) {
-			pColij = &DAT_800c1304;
+			pColij = &NearestHit;
 
 			do {
 				if (YMax >= pFaceCache->YMin && pFaceCache->YMax >= YMin &&
@@ -195,10 +195,10 @@ void M3dColij_LineToThisItemCached(Item *pItem, SLineInfo *pInfo, SColCache *pCo
 					long long S0, S1, S2, S3;
 					int contained;
 
-					if (pFace[3] & DAT_800d2100)
+					if (pFace[3] & M3dColij_OneMask)
 						goto next;
 
-					if (~(pFace[3] | DAT_800d20fc))
+					if (~(pFace[3] | M3dColij_ZeroMask))
 						goto next;
 
 					{
@@ -311,7 +311,7 @@ void M3dColij_LineToThisItemCached(Item *pItem, SLineInfo *pInfo, SColCache *pCo
 								pInfo->pFace = pFace;
 								pInfo->Model = pItem->ModelIndex;
 								pInfo->Distance = Mips_FixMul__Fii(LineLen, tNear) >> 2;
-								DAT_800c130c[0] =
+								NearestHit_8[0] =
 								    (SVECTOR *)((char *)Normals + (((ushort *)pFace)[6] & 0xfff8));
 								pColij->pFace = pFace;
 							}
@@ -329,6 +329,6 @@ void M3dColij_LineToThisItemCached(Item *pItem, SLineInfo *pInfo, SColCache *pCo
 	if (CollidedTriggerModel != -1) {
 		int i = Spool_GetEnvIndex(pItem->Region);
 
-		FireNode(DAT_800d1f0c[i][CollidedTriggerModel], i);
+		FireNode(EnvModelChecksums[i][CollidedTriggerModel], i);
 	}
 }

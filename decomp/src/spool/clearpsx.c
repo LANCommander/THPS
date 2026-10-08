@@ -8,7 +8,7 @@ typedef struct {
 	char pad[0x2c];
 } SRegion;
 
-extern SRegion DAT_800bf7a8[];
+extern SRegion PSXRegion[];
 
 int Spool_FindRegion(char *);
 void ClearRegion(int, int, int);
@@ -16,6 +16,6 @@ void ClearRegion(int, int, int);
 void Spool_ClearPSX(char *name) {
 	int r = Spool_FindRegion(name);
 
-	if (DAT_800bf7a8[r].f0a)
+	if (PSXRegion[r].f0a)
 		ClearRegion(Spool_FindRegion(name), 1, 0);
 }
