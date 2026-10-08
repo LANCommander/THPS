@@ -90,7 +90,7 @@ class CBruce {
 int InterpolateFrame(int, int);
 
 extern "C" {
-	int FUN_800720ec(CVector *, CVector *);
+	int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 	int FUN_8008b5dc(int);
 	void FUN_8002fcdc(CBruce *, int, int);
 	void FUN_8002fd80(CBruce *, int, int, int, int);
@@ -175,7 +175,7 @@ void CBruce::HandleSpin() {
 			mDoingSharpTurn = 1;
 
 			{
-				int Speed = (FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6) >> 12;
+				int Speed = (FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6) >> 12;
 
 				DeltaAngle *= 2;
 				MaxLeanAngle = 0x5a000;

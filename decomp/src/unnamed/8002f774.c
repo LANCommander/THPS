@@ -23,7 +23,7 @@ typedef struct {
 extern int DAT_800d16a4;
 
 extern void FUN_80042700(void *, int, int, int, int);
-extern int FUN_800720ec(void *, void *);
+extern int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 extern int FUN_8008b5dc(int);
 extern void FUN_80010f70(int);
 extern void FUN_80010eb8(int);
@@ -51,7 +51,7 @@ void FUN_8002f774(O *oo) {
 	*(int *)(o + 0x254) = 0;
 	FUN_80042700(o, 0, 0, 0, 10);
 
-	t = FUN_8008b5dc(FUN_800720ec(o + 0x6c, o + 0x6c)) << 6;
+	t = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(o + 0x6c, o + 0x6c)) << 6;
 	i = 0;
 	sum = 0;
 	n = *(int *)(o + 0xcac);

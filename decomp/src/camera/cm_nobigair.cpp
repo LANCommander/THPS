@@ -231,7 +231,7 @@ class CCamera : public CBody {
 extern MATRIX DAT_800c12e4;
 
 void MToQ(const MATRIX &, CQuat &);
-extern "C" int FUN_800720ec(CVector *, CVector *);
+extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 void Utils_CalcAim(CSVector &, const CVector &, const CVector &);
 void Utils_GetVecFromMagDir(CVector &, int, const CSVector &);
 CVector operator-(const CVector &, const CVector &);
@@ -254,11 +254,11 @@ void CCamera::CM_NoBigAir() {
 	CVector Zero(0, 0, 0);
 	CVector temp_front;
 
-	ABS(FUN_800720ec(&Down, &vUp));
+	ABS(Mips_CVecDotProd__FP7CVectorT0(&Down, &vUp));
 	Utils_CalcAim(ang1, Zero, temp_vel);
 	Utils_GetVecFromMagDir(temp_front, 4096, ang1);
 
-	dot_front = ABS(FUN_800720ec(&temp_front, &vUp)) >> 12;
+	dot_front = ABS(Mips_CVecDotProd__FP7CVectorT0(&temp_front, &vUp)) >> 12;
 
 	if (dot_front > 2000 || temp_vel.Length() < 5) {
 		big_air = 0;

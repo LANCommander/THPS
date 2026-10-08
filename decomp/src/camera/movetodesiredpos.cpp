@@ -252,7 +252,7 @@ int DAT_800d2038;
 void QToM(const CQuat &, MATRIX &);
 void MToQ(const MATRIX &, CQuat &);
 extern "C" VECTOR *FUN_80092f60(MATRIX *, VECTOR *, VECTOR *);
-extern "C" int FUN_800720ec(CVector *, CVector *);
+extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 extern "C" int FUN_8008b5dc(int);
 extern "C" int FUN_800827d4(SLineInfo *, int);
 void M3dColij_InitLineInfo(SLineInfo *);
@@ -340,7 +340,7 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 			Dist.vz = 0;
 		}
 
-		mSpeedBuffer[0] = FUN_8008b5dc(FUN_800720ec(&Dist, &Dist)) << 6;
+		mSpeedBuffer[0] = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&Dist, &Dist)) << 6;
 	}
 
 	Spd = 0;

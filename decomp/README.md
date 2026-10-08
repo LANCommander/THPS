@@ -82,10 +82,17 @@ leading-zero counter. For those the faithful source is a `.s` file:
   `size=` covers every function inside it.
 - **Data embedded in `.text`** can go in the same module as `.word`s with a label. Example: the
   memory-layout table at 0x80071fa4, split out of `FUN_80071f84` in `functions.tsv`.
+- **Names for asm entry points:** `MAIN.SYM` has no function records for asm, only bare labels.
+  `../tools/match_functions.py` ports those that match retail exactly as `label_matches` in
+  `build/matches.json`, and they reach `retail_names.tsv` as `D` rows. Check there before you leave
+  an asm label as `FUN_`. Callers use the raw (mangled) label with C linkage: `extern "C"` in C++.
 - **Modules so far:**
   - `src/shatter/mdecdecode.s` (0x80022498, 1364 B): MDEC run-length/VLC decode, 10 entry points.
+    The demo names the first two `DecDCTvlcBuild3`/`DecDCTvlc3`, so this is probably a Psy-Q
+    libpress variant linked into the game.
   - `src/init/fixedmath.s` (0x80071fa4, 448 B): the layout table plus the 64-bit fixed-point
-    multiply helpers.
+    helpers `Mips_DotProd2Sign`, `Mips_FixMul__Fii`, `Mips_DotProd2` and
+    `Mips_CVecDotProd__FP7CVectorT0` (a CVector dot product, >> 12).
 
 ## Demo twins: start here for any named function
 

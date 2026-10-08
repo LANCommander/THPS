@@ -1102,7 +1102,7 @@ src/physics/dophysics.cpp	0x8003b424	8856	div	DoPhysics__6CBruce
 src/m3dzone/linetoitemnotscached.cpp	0x800827d4	2120	div	M3dZone_LineToItemNotSCached__FP9SLineInfoi
 src/front/boardselect2p.cpp	0x80051660	10076	sym	FUN_80051660
 src/init/fixedmath.s	0x80071fa4	448	sym	D_80071fa4
-src/shatter/mdecdecode.s	0x80022498	1364	sym	FUN_80022498
+src/shatter/mdecdecode.s	0x80022498	1364	sym	DecDCTvlcBuild3
 src/unnamed/80071f84.c	0x80071f84	32	sym	FUN_80071f84
 src/unnamed/80024258.cpp	0x80024258	116	sym	FUN_80024258
 src/unnamed/800316cc.cpp	0x800316cc	140	sym	FUN_800316cc

@@ -58,6 +58,41 @@ def norm_stream(words):
     return [norm_insn(w) for w in words]
 
 
+LABEL_MIN_INSNS = 4    # Mips_FixMul is 7
+LABEL_MAX_INSNS = 400  # compare at most this much of a long (library) span
+
+
+def match_labels(j, dwords, dbase, rnorm, rbase):
+    """Port the SYM's label-only .text symbols (no function record: hand-written asm modules,
+    statically linked Psy-Q library code, data tables). A label's extent runs to the next
+    function/symbol address; it is ported only when that whole normalized span occurs exactly
+    once in retail."""
+    import bisect
+    dend = dbase + 4 * len(dwords)
+    func_addrs = {f["addr"] for f in j["funcs"]}
+    starts = sorted(func_addrs | {s["addr"] for s in j["symbols"]})
+    K = LABEL_MIN_INSNS
+    index = {}
+    for i in range(len(rnorm) - K + 1):
+        index.setdefault(tuple(rnorm[i:i + K]), []).append(i)
+    out = []
+    for s in j["symbols"]:
+        a = s["addr"]
+        if a in func_addrs or not dbase <= a < dend:
+            continue
+        k = bisect.bisect_right(starts, a)
+        n = min(((starts[k] if k < len(starts) else dend) - a) // 4, LABEL_MAX_INSNS)
+        if n < K:
+            continue
+        off = (a - dbase) // 4
+        sig = [norm_insn(w) for w in dwords[off:off + n]]
+        hits = [p for p in index.get(tuple(sig[:K]), ()) if rnorm[p:p + n] == sig]
+        if len(hits) == 1:
+            out.append({"demo_addr": a, "retail_addr": rbase + 4 * hits[0], "name": s["name"],
+                        "span": 4 * n})
+    return out
+
+
 def main():
     j = json.load(open(SYM_JSON))
     funcs = [f for f in j["funcs"] if f["size"] and f["size"] >= MIN_INSNS * 4]
@@ -147,8 +182,12 @@ def main():
     for k, v in rows:
         print(f"{k[:19]:<20}{v['n']:>6}{v['m']:>6}{v['m']/v['n']*100:>5.0f}%")
 
+    labels = match_labels(j, dwords, dbase, rnorm, rbase)
+    print(f"\nlabel-only .text symbols (asm modules, Psy-Q libs, data) uniquely found in retail: {len(labels)}")
+
     json.dump({"exact_matches": [{"demo_addr": f["addr"], "retail_addr": f.get("retail_addr"),
-               "name": f["name"], "file": f["file"], "size": f["size"]} for f in exact]},
+               "name": f["name"], "file": f["file"], "size": f["size"]} for f in exact],
+               "label_matches": labels},
               open("build/matches.json", "w"), indent=1)
     print("\nwrote build/matches.json")
 

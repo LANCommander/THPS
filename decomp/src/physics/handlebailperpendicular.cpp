@@ -51,7 +51,7 @@ class CBruce {
 void ProjectCVectorToPlane(CVector *, SVECTOR);
 
 extern "C" {
-	int FUN_800720ec(void *, void *);
+	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	void FUN_8002fe9c(CBruce *, int);
 	int FUN_800934e4(VECTOR *, VECTOR *);
 	void FUN_8002fcdc(CBruce *, int, int);
@@ -65,12 +65,12 @@ void CBruce::HandleBailPerpendicular(SVECTOR Normal) {
 	InplaneVel = mVel;
 	ProjectCVectorToPlane(&InplaneVel, Normal);
 
-	Speed = SquareRoot0(FUN_800720ec(&InplaneVel, &InplaneVel)) << 6;
+	Speed = SquareRoot0(Mips_CVecDotProd__FP7CVectorT0(&InplaneVel, &InplaneVel)) << 6;
 
 	if (Speed <= 0x1e000)
 		return;
 
-	Dot = (FUN_800720ec(&InplaneVel, &mFront) << 6) / (Speed >> 6);
+	Dot = (Mips_CVecDotProd__FP7CVectorT0(&InplaneVel, &mFront) << 6) / (Speed >> 6);
 
 	if (ABS(Dot) >= 1638)
 		return;
@@ -78,7 +78,7 @@ void CBruce::HandleBailPerpendicular(SVECTOR Normal) {
 	Flip();
 
 	{
-		int RightDot = FUN_800720ec(&InplaneVel, &mRight);
+		int RightDot = Mips_CVecDotProd__FP7CVectorT0(&InplaneVel, &mRight);
 
 		FUN_8002fe9c(this, 0);
 

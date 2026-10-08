@@ -41,7 +41,7 @@ typedef struct {
 void FUN_8002fcdc(B *, int, int);
 void FUN_80039f2c(B *, SV, int);
 void FUN_80043408(B *);
-int FUN_800720ec(V *, V *);
+int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
 void FUN_800827d4(L *, int);
 int GetFaceFlags__FP9SLineInfo(L *);
 int Length__C7CVector(V *);
@@ -75,7 +75,7 @@ int FUN_800343f0(B *p, int a) {
 		d.y = li.n.y;
 		d.z = li.n.z;
 
-		if ((unsigned)(FUN_800720ec(&d, &p->w2) + 1023) < 2047) {
+		if ((unsigned)(Mips_CVecDotProd__FP7CVectorT0(&d, &p->w2) + 1023) < 2047) {
 			s1 = 0;
 			*(V *)&p->x = p->old;
 			c = p->vel;
@@ -91,7 +91,7 @@ int FUN_800343f0(B *p, int a) {
 							e.y = li.n.y;
 							e.z = li.n.z;
 
-							if (FUN_800720ec(&e, &p->w1) >= 2897) {
+							if (Mips_CVecDotProd__FP7CVectorT0(&e, &p->w1) >= 2897) {
 								p->f150 = 0x10000;
 								FUN_8002fcdc(p, 12, 3787);
 

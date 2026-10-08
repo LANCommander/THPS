@@ -144,7 +144,7 @@ void QToM(const CQuat &, MATRIX &);
 void M3dColij_InitLineInfo(SLineInfo *);
 extern "C" int FUN_800827d4(SLineInfo *, int);
 extern "C" VECTOR *FUN_80092f60(MATRIX *, VECTOR *, VECTOR *);
-extern "C" int FUN_800720ec(CVector *, CVector *);
+extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 void Utils_CalcUnit(CVector &, const CVector &);
 CVector operator-(const CVector &, const CVector &);
 
@@ -542,8 +542,8 @@ void CCamera::ReactToCollision() {
 		vstop.vx = v_temp2.vx;
 		vstop.vy = v_temp2.vy;
 		vstop.vz = v_temp2.vz;
-		dot_stop = ABS(FUN_800720ec(&vdown, &vstop));
-		ABS(FUN_800720ec(&vworlddown, &vstop));
+		dot_stop = ABS(Mips_CVecDotProd__FP7CVectorT0(&vdown, &vstop));
+		ABS(Mips_CVecDotProd__FP7CVectorT0(&vworlddown, &vstop));
 
 		if (mDownDist < 0 || dot_stop >= 1901)
 			mStoppedOValid = 0;

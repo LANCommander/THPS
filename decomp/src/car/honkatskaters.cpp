@@ -2,7 +2,7 @@
 /* C++ (CAR.CPP). Demo twin HonkAtSkaters (0.26): THPS1 has no skater table, so it checks the
    player skater (DAT_800d19a4) and the one linked after it. A car honks (by type) once when a
    skater within 2000 units is inside the cone ahead of it; the flag at +0x220 rearms when clear.
-   FUN_80072038 = 64-bit cross-product sign helper, FUN_8004b250 = SFX_PlayX. Each honk case
+   Mips_DotProd2Sign = 64-bit cross-product sign helper, FUN_8004b250 = SFX_PlayX. Each honk case
    makes its own SFX call; cross-jumping merges them into retail's single jal. */
 typedef unsigned short ushort;
 
@@ -41,7 +41,7 @@ int Utils_CrapDist(const CVector &, const CVector &);
 int Redbook_Rnd(int);
 
 extern "C" {
-	int FUN_80072038(int, int, int, int);
+	int Mips_DotProd2Sign(int, int, int, int);
 	int FUN_8004b250(int, short, int);
 }
 
@@ -60,11 +60,11 @@ void HonkAtSkaters(CCar *pCar, CVector Front) {
 		int VecX = pSkater->mPos.vx - pCar->mPos.vx;
 		int VecZ = pSkater->mPos.vz - pCar->mPos.vz;
 
-		if (FUN_80072038(LeftX, VecX, LeftZ, VecZ) > 0) {
+		if (Mips_DotProd2Sign(LeftX, VecX, LeftZ, VecZ) > 0) {
 			int RightX = Front.vz + Front.vx;
 			int RightZ = Front.vz - Front.vx;
 
-			Honk = FUN_80072038(RightX, VecX, RightZ, VecZ) > 0;
+			Honk = Mips_DotProd2Sign(RightX, VecX, RightZ, VecZ) > 0;
 		}
 	}
 
@@ -75,11 +75,11 @@ void HonkAtSkaters(CCar *pCar, CVector Front) {
 			int VecX = pOther->mPos.vx - pCar->mPos.vx;
 			int VecZ = pOther->mPos.vz - pCar->mPos.vz;
 
-			if (FUN_80072038(LeftX, VecX, LeftZ, VecZ) > 0) {
+			if (Mips_DotProd2Sign(LeftX, VecX, LeftZ, VecZ) > 0) {
 				int RightX = Front.vz + Front.vx;
 				int RightZ = Front.vz - Front.vx;
 
-				if (FUN_80072038(RightX, VecX, RightZ, VecZ) > 0)
+				if (Mips_DotProd2Sign(RightX, VecX, RightZ, VecZ) > 0)
 					Honk = 1;
 			}
 		}

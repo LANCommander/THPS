@@ -148,9 +148,9 @@ void M3dColij_InitLineInfo(SLineInfo *);
 int GetFaceFlags(SLineInfo *);
 
 extern "C" {
-	int FUN_800720ec(void *, void *);
+	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
-	int FUN_80072090(int, int);
+	int Mips_FixMul__Fii(int, int);
 	int FUN_800827d4(SLineInfo *, int);
 	SHandle FUN_8004d7ac(void *);
 	void FUN_8002f1a0(CBruce *);
@@ -186,7 +186,7 @@ void CBruce::DoWallRidePhysics() {
 	mPos += ((mVel * DAT_800d1774) >> 8) + ((mKick * DAT_800d1778) >> 8) / 2;
 	vMovement = mPos - mOldPos;
 	/* result unused; called as void so v0 isn't reserved (retail's register choice) */
-	((void (*)(int))FUN_8008b5dc)(FUN_800720ec(&vMovement, &vMovement));
+	((void (*)(int))FUN_8008b5dc)(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement));
 	TurnAngle = 0;
 
 	if (!m720 && !m324) {
@@ -195,14 +195,14 @@ void CBruce::DoWallRidePhysics() {
 		TurnAngle = mFallLineTurn;
 	}
 
-	FUN_80072090(TurnAngle, 3072);
+	Mips_FixMul__Fii(TurnAngle, 3072);
 	RotateHeadingAndVelocity((TurnAngle * DAT_800d1774) >> 8, !OnInvisible, 0);
 
 	SetVector(&line_info.StartCoords, mOldPos.vx, mOldPos.vy, mOldPos.vz)
 	    SetVector(&line_info.EndCoords, mPos.vx, mPos.vy, mPos.vz) vMovement = mPos - mOldPos;
 
 	if (vMovement != DAT_800a824c) {
-		Speed = FUN_8008b5dc(FUN_800720ec(&vMovement, &vMovement)) << 6;
+		Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement)) << 6;
 
 		if (mInAir ? Speed < 0x64000 : Speed < 0x1e000) {
 			if (Speed < 2048)
@@ -264,7 +264,7 @@ void CBruce::DoWallRidePhysics() {
 		}
 	}
 
-	if (mMaxSpeed < FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6)
+	if (mMaxSpeed < FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6)
 		m304 = 1;
 	else
 		m304 = 0;

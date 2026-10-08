@@ -18,7 +18,7 @@ struct CVector {
 	}
 };
 
-extern "C" int FUN_800720ec(CVector *, CVector *);
+extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 extern "C" void FUN_80093130(MATRIX *, MATRIX *);
 extern "C" MATRIX *FUN_80093240(SVECTOR *, MATRIX *);
 
@@ -57,7 +57,7 @@ void CBruce::UprightSideways() {
 		TmpCV.z = _z;
 	}
 
-	dot = FUN_800720ec(&mUp, &TmpCV);
+	dot = Mips_CVecDotProd__FP7CVectorT0(&mUp, &TmpCV);
 
 	if (dot >= 42) {
 		RotAngle.vy = 0;
@@ -72,7 +72,7 @@ void CBruce::UprightSideways() {
 		FUN_80093240(&RotAngle, &SurfaceRotMatrix);
 		FUN_80093130(&mRotMatrix, &SurfaceRotMatrix);
 	} else {
-		FUN_800720ec(&mUp, &DAT_800a7f1c);
+		Mips_CVecDotProd__FP7CVectorT0(&mUp, &DAT_800a7f1c);
 	}
 
 	FRUVectorsFromRotMatrix();

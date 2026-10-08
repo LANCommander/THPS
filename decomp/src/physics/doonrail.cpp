@@ -165,8 +165,8 @@ extern "C" {
 	void FUN_8002fd28(CBruce *, int, int, int);
 	void FUN_8002fe9c(CBruce *, int);
 	int FUN_8004f578(ushort *);
-	int FUN_800720ec(CVector *, CVector *);
-	int FUN_80072090(int, int);
+	int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
+	int Mips_FixMul__Fii(int, int);
 	void FUN_8004b250(int, int, int);
 	MATRIX *FUN_80093240(SVECTOR *, MATRIX *);
 	MATRIX *FUN_80093130(MATRIX *, MATRIX *);
@@ -318,7 +318,7 @@ NoSparks:
 		SegDir = SegEnd - SegStart;
 		M3dUtils_NormaliseVector(&SegDir);
 
-		Speed = FUN_800720ec(&SegDir, &mVel);
+		Speed = Mips_CVecDotProd__FP7CVectorT0(&SegDir, &mVel);
 
 		if (FirstTimeThroughLoop) {
 			FirstTimeThroughLoop = 0;
@@ -337,13 +337,13 @@ NoSparks:
 			}
 		}
 
-		AccMagnitude = FUN_800720ec(&SegDir, &mKick);
-		mKick.vx = FUN_80072090(SegDir.vx, AccMagnitude);
-		mKick.vy = FUN_80072090(SegDir.vy, AccMagnitude);
-		mKick.vz = FUN_80072090(SegDir.vz, AccMagnitude);
-		mVel.vx = FUN_80072090(SegDir.vx, Speed);
-		mVel.vy = FUN_80072090(SegDir.vy, Speed);
-		mVel.vz = FUN_80072090(SegDir.vz, Speed);
+		AccMagnitude = Mips_CVecDotProd__FP7CVectorT0(&SegDir, &mKick);
+		mKick.vx = Mips_FixMul__Fii(SegDir.vx, AccMagnitude);
+		mKick.vy = Mips_FixMul__Fii(SegDir.vy, AccMagnitude);
+		mKick.vz = Mips_FixMul__Fii(SegDir.vz, AccMagnitude);
+		mVel.vx = Mips_FixMul__Fii(SegDir.vx, Speed);
+		mVel.vy = Mips_FixMul__Fii(SegDir.vy, Speed);
+		mVel.vz = Mips_FixMul__Fii(SegDir.vz, Speed);
 		MajorAxis = 0;
 
 		if (ABS(SegDir.vy) > ABS(SegDir.vx)) {
@@ -409,7 +409,7 @@ NoSparks:
 				SegDir2 = SegEnd2 - SegStart2;
 				M3dUtils_NormaliseVector(&SegDir2);
 
-				if (FUN_800720ec(&SegDir, &SegDir2) < 2633) {
+				if (Mips_CVecDotProd__FP7CVectorT0(&SegDir, &SegDir2) < 2633) {
 					StateTransition(1, 3440);
 
 					m70C = 5;
@@ -461,7 +461,7 @@ NoSparks:
 				SegDir2 = SegEnd2 - SegStart2;
 				M3dUtils_NormaliseVector(&SegDir2);
 
-				if (FUN_800720ec(&SegDir, &SegDir2) < 2633) {
+				if (Mips_CVecDotProd__FP7CVectorT0(&SegDir, &SegDir2) < 2633) {
 					StateTransition(1, 3517);
 
 					m70C = 5;

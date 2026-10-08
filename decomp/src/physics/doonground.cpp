@@ -251,9 +251,9 @@ void M3dColij_InitLineInfo(SLineInfo *);
 int GetFaceFlags(SLineInfo *);
 
 extern "C" {
-	int FUN_800720ec(void *, void *);
+	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
-	int FUN_80072090(int, int);
+	int Mips_FixMul__Fii(int, int);
 	int FUN_800827d4(SLineInfo *, int);
 	SHandle FUN_8004d7ac(void *);
 	void FUN_8002952c(CSVector *);
@@ -297,7 +297,7 @@ void CBruce::DoOnGroundPhysics() {
 	if (!m734)
 		m724 = 0;
 
-	Speed = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+	Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 	if ((m72C == 5 || m72C == 6 || m72C == 3) && DAT_800d1868 < 200) {
 		SetAnglesFromHeading();
@@ -373,7 +373,7 @@ void CBruce::DoOnGroundPhysics() {
 		FUN_800429d0(this);
 
 	vMovement = mPos - mOldPos;
-	((void (*)(int))FUN_8008b5dc)(FUN_800720ec(&vMovement, &vMovement));
+	((void (*)(int))FUN_8008b5dc)(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement));
 	TurnAngle = m838 >> 12;
 	mFallLineTurn = 0;
 
@@ -394,7 +394,7 @@ void CBruce::DoOnGroundPhysics() {
 		m1FC = 0;
 	}
 
-	FUN_80072090(TurnAngle, 3072);
+	Mips_FixMul__Fii(TurnAngle, 3072);
 	RotateHeadingAndVelocity((TurnAngle * DAT_800d1774) >> 8, !OnInvisible, 0);
 
 	m328 += (TurnAngle * DAT_800d1774) >> 8;
@@ -417,7 +417,7 @@ void CBruce::DoOnGroundPhysics() {
 	    SetVector(&line_info.EndCoords, mPos.vx, mPos.vy, mPos.vz) vMovement = mPos - mOldPos;
 
 	if (vMovement != DAT_800a824c) {
-		Speed = FUN_8008b5dc(FUN_800720ec(&vMovement, &vMovement)) << 6;
+		Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement)) << 6;
 
 		if (mInAir ? Speed < 0x64000 : Speed < 0x1e000) {
 			if (Speed < 2048)
@@ -446,7 +446,7 @@ void CBruce::DoOnGroundPhysics() {
 					CVector WallFloorNormal;
 
 					SetVector(&WallFloorNormal, line_info.Normal.vx, line_info.Normal.vy,
-					          line_info.Normal.vz) if (FUN_800720ec(&WallFloorNormal, &mFront) >
+					          line_info.Normal.vz) if (Mips_CVecDotProd__FP7CVectorT0(&WallFloorNormal, &mFront) >
 					                                   2896) {
 						m150 = 0x10000;
 						FUN_8002fcdc(this, 12, 4120);
@@ -463,7 +463,7 @@ void CBruce::DoOnGroundPhysics() {
 					int UpDot;
 
 					SetVector(&WallFloorNormal, line_info.Normal.vx, line_info.Normal.vy,
-					          line_info.Normal.vz) UpDot = FUN_800720ec(&WallFloorNormal, &mUp);
+					          line_info.Normal.vz) UpDot = Mips_CVecDotProd__FP7CVectorT0(&WallFloorNormal, &mUp);
 
 					if (UpDot > -2048 && UpDot < 2048) {
 						int TurnAway = 0;
@@ -504,7 +504,7 @@ void CBruce::DoOnGroundPhysics() {
 
 								SetVector(&WallFloorNormal, line_info.Normal.vx,
 								          line_info.Normal.vy,
-								          line_info.Normal.vz) if (FUN_800720ec(&WallFloorNormal,
+								          line_info.Normal.vz) if (Mips_CVecDotProd__FP7CVectorT0(&WallFloorNormal,
 								                                                &mFront) > 2896) {
 									m150 = 0x10000;
 									FUN_8002fcdc(this, 12, 4219);
@@ -538,7 +538,7 @@ void CBruce::DoOnGroundPhysics() {
 		}
 	}
 
-	Speed = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+	Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 	if (mMaxSpeed < Speed)
 		m304 = 1;
@@ -592,7 +592,7 @@ void CBruce::DoOnGroundPhysics() {
 				mPos.vz = line_info.HitPoint.vz + mUp.vz * 30;
 				CVector Move = Orig - mPos;
 
-				if (FUN_800720ec(&Move, &Move) < 4096)
+				if (Mips_CVecDotProd__FP7CVectorT0(&Move, &Move) < 4096)
 					mPos = Orig;
 
 				if (DAT_800d1974) {
@@ -600,8 +600,8 @@ void CBruce::DoOnGroundPhysics() {
 						SVECTOR N;
 
 						N = line_info.Normal;
-						mVel.vx -= FUN_80072090(N.vx, Speed / 4);
-						mVel.vz -= FUN_80072090(N.vz, Speed / 4);
+						mVel.vx -= Mips_FixMul__Fii(N.vx, Speed / 4);
+						mVel.vz -= Mips_FixMul__Fii(N.vz, Speed / 4);
 						mVel.vy /= 2;
 
 						if (!m734) {
@@ -646,9 +646,9 @@ void CBruce::DoOnGroundPhysics() {
 						SetVector(&NewNormal, line_info.Normal.vx, line_info.Normal.vy,
 						          line_info.Normal.vz)
 						    SetVector(&LastNormal, mLastNormal.vx, mLastNormal.vy, mLastNormal.vz)
-						        Dot = FUN_800720ec(&LastNormal, &NewNormal);
+						        Dot = Mips_CVecDotProd__FP7CVectorT0(&LastNormal, &NewNormal);
 
-						if (FUN_800720ec(&mFront, &NewNormal) < 0 && mVel.vy <= 0 && Dot > 0 &&
+						if (Mips_CVecDotProd__FP7CVectorT0(&mFront, &NewNormal) < 0 && mVel.vy <= 0 && Dot > 0 &&
 						    Dot < 3000)
 							FUN_8003434c(this);
 					} else {
@@ -710,44 +710,44 @@ void CBruce::DoOnGroundPhysics() {
 		CVector ForwardsVelocity;
 		int dot;
 
-		dot = FUN_800720ec(&mVel, &mRight);
-		SideVelocity.vx = FUN_80072090(dot, mRight.vx);
-		SideVelocity.vy = FUN_80072090(dot, mRight.vy);
-		SideVelocity.vz = FUN_80072090(dot, mRight.vz);
+		dot = Mips_CVecDotProd__FP7CVectorT0(&mVel, &mRight);
+		SideVelocity.vx = Mips_FixMul__Fii(dot, mRight.vx);
+		SideVelocity.vy = Mips_FixMul__Fii(dot, mRight.vy);
+		SideVelocity.vz = Mips_FixMul__Fii(dot, mRight.vz);
 		mVel -= SideVelocity;
-		dot = FUN_800720ec(&mVel, &mFront);
-		ForwardsVelocity.vx = FUN_80072090(dot, mFront.vx);
-		ForwardsVelocity.vy = FUN_80072090(dot, mFront.vy);
-		ForwardsVelocity.vz = FUN_80072090(dot, mFront.vz);
+		dot = Mips_CVecDotProd__FP7CVectorT0(&mVel, &mFront);
+		ForwardsVelocity.vx = Mips_FixMul__Fii(dot, mFront.vx);
+		ForwardsVelocity.vy = Mips_FixMul__Fii(dot, mFront.vy);
+		ForwardsVelocity.vz = Mips_FixMul__Fii(dot, mFront.vz);
 
 		if (!m304) {
 			if (AutoKickEnabled) {
-				mKick.vx -= FUN_80072090(8, ForwardsVelocity.vx);
-				mKick.vy -= FUN_80072090(8, ForwardsVelocity.vy);
-				mKick.vz -= FUN_80072090(8, ForwardsVelocity.vz);
+				mKick.vx -= Mips_FixMul__Fii(8, ForwardsVelocity.vx);
+				mKick.vy -= Mips_FixMul__Fii(8, ForwardsVelocity.vy);
+				mKick.vz -= Mips_FixMul__Fii(8, ForwardsVelocity.vz);
 			}
 		} else {
-			mKick.vx -= FUN_80072090(82, ForwardsVelocity.vx);
-			mKick.vy -= FUN_80072090(82, ForwardsVelocity.vy);
-			mKick.vz -= FUN_80072090(82, ForwardsVelocity.vz);
+			mKick.vx -= Mips_FixMul__Fii(82, ForwardsVelocity.vx);
+			mKick.vy -= Mips_FixMul__Fii(82, ForwardsVelocity.vy);
+			mKick.vz -= Mips_FixMul__Fii(82, ForwardsVelocity.vz);
 		}
 
 		if (m72C == 5) {
-			mKick.vx -= FUN_80072090(120, ForwardsVelocity.vx);
-			mKick.vy -= FUN_80072090(120, ForwardsVelocity.vy);
-			mKick.vz -= FUN_80072090(120, ForwardsVelocity.vz);
+			mKick.vx -= Mips_FixMul__Fii(120, ForwardsVelocity.vx);
+			mKick.vy -= Mips_FixMul__Fii(120, ForwardsVelocity.vy);
+			mKick.vz -= Mips_FixMul__Fii(120, ForwardsVelocity.vz);
 		}
 
 		if (m72C == 6) {
-			mKick.vx -= FUN_80072090(120, ForwardsVelocity.vx);
-			mKick.vy -= FUN_80072090(120, ForwardsVelocity.vy);
-			mKick.vz -= FUN_80072090(120, ForwardsVelocity.vz);
+			mKick.vx -= Mips_FixMul__Fii(120, ForwardsVelocity.vx);
+			mKick.vy -= Mips_FixMul__Fii(120, ForwardsVelocity.vy);
+			mKick.vz -= Mips_FixMul__Fii(120, ForwardsVelocity.vz);
 		}
 
 		if (m72C == 3) {
-			mKick.vx -= FUN_80072090(180, ForwardsVelocity.vx);
-			mKick.vy -= FUN_80072090(180, ForwardsVelocity.vy);
-			mKick.vz -= FUN_80072090(180, ForwardsVelocity.vz);
+			mKick.vx -= Mips_FixMul__Fii(180, ForwardsVelocity.vx);
+			mKick.vy -= Mips_FixMul__Fii(180, ForwardsVelocity.vy);
+			mKick.vz -= Mips_FixMul__Fii(180, ForwardsVelocity.vz);
 		}
 	}
 }

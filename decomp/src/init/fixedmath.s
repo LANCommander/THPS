@@ -46,8 +46,8 @@ D_80071fa4:
 
 # 64-bit fixed-point multiply helpers
 
-	.globl	FUN_80072038
-FUN_80072038:
+	.globl	Mips_DotProd2Sign
+Mips_DotProd2Sign:
 	mult	$4,$5
 	mflo	$2
 	mfhi	$3
@@ -72,8 +72,8 @@ $L18:
 $L20:
 	jr	$31
 	sll	$0,$0,0
-	.globl	FUN_80072090
-FUN_80072090:
+	.globl	Mips_FixMul__Fii
+Mips_FixMul__Fii:
 	mult	$4,$5
 	mflo	$2
 	mfhi	$3
@@ -81,8 +81,8 @@ FUN_80072090:
 	sll	$3,$3,20
 	jr	$31
 	or	$2,$2,$3
-	.globl	FUN_800720ac
-FUN_800720ac:
+	.globl	Mips_DotProd2
+Mips_DotProd2:
 	mult	$4,$5
 	mflo	$2
 	mfhi	$3
@@ -99,8 +99,8 @@ FUN_800720ac:
 	sll	$3,$3,20
 	jr	$31
 	or	$2,$2,$3
-	.globl	FUN_800720ec
-FUN_800720ec:
+	.globl	Mips_CVecDotProd__FP7CVectorT0
+Mips_CVecDotProd__FP7CVectorT0:
 	lw	$8,0($4)
 	lw	$9,0($5)
 	sll	$0,$0,0

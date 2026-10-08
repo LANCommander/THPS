@@ -16,7 +16,7 @@ typedef struct B {
 	int f358;
 } B;
 
-int FUN_800720ec(V *, V *);
+int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
 int Length__C7CVector(V *);
 void Normalize__7CVector(V *);
 V __mi__FRC7CVectorT0(const V *, const V *);
@@ -41,8 +41,8 @@ void FUN_8003b2f0(B *p) {
 				Normalize__7CVector(&d);
 
 				s3 = &p->vel;
-				s1 = FUN_800720ec(s3, &d);
-				v = FUN_800720ec(&p->other->vel, &d);
+				s1 = Mips_CVecDotProd__FP7CVectorT0(s3, &d);
+				v = Mips_CVecDotProd__FP7CVectorT0(&p->other->vel, &d);
 
 				if (s1 > 0) {
 					if (v > 0) {

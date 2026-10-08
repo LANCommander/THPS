@@ -56,7 +56,7 @@ void FUN_8002fe50(B *);
 void FUN_80041c30(B *);
 void FUN_800429d0(B *);
 void FUN_8004b250(int, int, int);
-int FUN_800720ec(void *, void *);
+int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 int FUN_8008b5dc(int);
 int Redbook_Rnd__Fi(int);
 
@@ -80,7 +80,7 @@ void FUN_8002fe9c(B *p, int a) {
 	p->f150 = 0x10000;
 	FUN_8002fd80(p, 0x36, 0, 0x1d, 0x416);
 
-	if (0x2d000 < (FUN_8008b5dc(FUN_800720ec((char *)p + 0x6c, (char *)p + 0x6c)) << 6))
+	if (0x2d000 < (FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0((char *)p + 0x6c, (char *)p + 0x6c)) << 6))
 		p->f24c = 1;
 	else
 		p->f24c = 6;

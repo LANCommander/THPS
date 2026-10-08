@@ -1,10 +1,10 @@
-# FUN_80022498 (0x80022498) size=1364 -- hand-written assembly
+# DecDCTvlcBuild3 (0x80022498) size=1364 -- hand-written assembly
 	.set	noreorder
 	.set	noat
 	.text
 
-	.globl	FUN_80022498
-FUN_80022498:
+	.globl	DecDCTvlcBuild3
+DecDCTvlcBuild3:
 	lui	$4,8064
 	lui	$5,32778
 	addiu	$5,$5,25208
@@ -25,8 +25,8 @@ $L4:
 	addi	$8,$8,-2
 	jr	$31
 	sll	$0,$0,0
-	.globl	FUN_800224e4
-FUN_800224e4:
+	.globl	DecDCTvlc3
+DecDCTvlc3:
 	addi	$29,$29,-4
 	sw	$31,0($29)
 	lui	$14,32778

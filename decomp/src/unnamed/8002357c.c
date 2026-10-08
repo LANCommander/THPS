@@ -15,7 +15,7 @@ extern int DAT_800a6748[];
 
 extern int Utils_CrapDist__FRC7CVectorT0(void *, void *);
 extern void FUN_80024010(void *);
-extern void FUN_80022498(void);
+extern void DecDCTvlcBuild3(void);
 extern void FUN_800902c0(int, int);
 extern void FUN_8009033c(int, int);
 extern void FUN_8008f19c(int, int, int);
@@ -53,7 +53,7 @@ void FUN_8002357c(int a) {
 	if (DAT_800d1634) {
 		int w;
 
-		FUN_80022498();
+		DecDCTvlcBuild3();
 
 		if (DAT_800d164c == 0) {
 			if (DAT_800d1630) {

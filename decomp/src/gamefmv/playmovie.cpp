@@ -72,7 +72,7 @@ extern "C" {
 	void FUN_80023168(int); /* GameFMV_SetStartTrack */
 	void *FUN_8004d068(int, int, int);
 	void FUN_8004d5d0(void *);
-	void FUN_80022498(void);
+	void DecDCTvlcBuild3(void);
 	DISPENV *FUN_800914fc(DISPENV *, int, int, int, int);
 	void FUN_8008eebc(int);
 	int FUN_8008ca0c(DISPENV *);
@@ -142,7 +142,7 @@ void GameFMV_PlayMovie(int track) {
 	}
 
 	{
-		FUN_80022498();
+		DecDCTvlcBuild3();
 
 		DAT_800d1634 = 1;
 		Front_ClearScreen();

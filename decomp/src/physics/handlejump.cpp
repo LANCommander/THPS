@@ -161,9 +161,9 @@ class CBruce {
 int Redbook_Rnd(int);
 
 extern "C" {
-	int FUN_800720ec(void *, void *);
+	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
-	int FUN_80072090(int, int);
+	int Mips_FixMul__Fii(int, int);
 	void FUN_8004b250(int, int, int);
 	int FUN_8006ebdc(CPanelData *);
 	void FUN_8002f1a0(CBruce *);
@@ -361,7 +361,7 @@ void CBruce::HandleJump() {
 			m744 = 0;
 			m740 = 1;
 			m74C = m748;
-			m2F8 = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+			m2F8 = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 			if (m6DC) {
 				int a;
@@ -373,10 +373,10 @@ void CBruce::HandleJump() {
 				mFront = mRailDir;
 				AlignHeadingOnRail();
 
-				Speed = FUN_800720ec(&mRailDir, &mVel);
-				mVel.vx = FUN_80072090(mRailDir.vx, Speed);
-				mVel.vy = FUN_80072090(mRailDir.vy, Speed);
-				mVel.vz = FUN_80072090(mRailDir.vz, Speed);
+				Speed = Mips_CVecDotProd__FP7CVectorT0(&mRailDir, &mVel);
+				mVel.vx = Mips_FixMul__Fii(mRailDir.vx, Speed);
+				mVel.vy = Mips_FixMul__Fii(mRailDir.vy, Speed);
+				mVel.vz = Mips_FixMul__Fii(mRailDir.vz, Speed);
 				a = 0;
 
 				if (mpColl->x80)

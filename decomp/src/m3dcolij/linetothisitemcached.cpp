@@ -5,7 +5,7 @@
    points (item-relative) are tested against the face plane, then against the triangle or quad
    edges with 64-bit triple products. A hit on a trigger face records the model for its node,
    otherwise the nearest hit's position, face and distance are kept in pInfo.
-   THPS1 differs from the demo in the tail (hit point via FUN_800720ac) and drops the
+   THPS1 differs from the demo in the tail (hit point via Mips_DotProd2) and drops the
    both-ends-on-plane reject.
    Levers: the face-cache walk is `pFaceCache->` with `pFaceCache++` at the loop end (two
    reduced givs, +12/+24); a `cmp != 1` stored in an int (xori); pItem->Pos read into the Q
@@ -110,8 +110,8 @@ int Spool_GetEnvIndex(int);
 
 extern "C" {
 	int FUN_8008b62c(int, int, int);
-	int FUN_800720ac(int, int, int, int);
-	int FUN_80072090(int, int);
+	int Mips_DotProd2(int, int, int, int);
+	int Mips_FixMul__Fii(int, int);
 	void FUN_80044a20(int, int);
 }
 
@@ -296,9 +296,9 @@ void M3dColij_LineToThisItemCached(Item *pItem, SLineInfo *pInfo, SColCache *pCo
 							t = FUN_8008b62c(s0, 0x4000, s0 - s1);
 
 							if (t < tNear) {
-								Qx = FUN_800720ac(L0x << 12, 0x4000, (int)Dx << 12, t) >> 2;
-								Qy = FUN_800720ac(L0y << 12, 0x4000, (int)Dy << 12, t) >> 2;
-								Qz = FUN_800720ac(L0z << 12, 0x4000, (int)Dz << 12, t) >> 2;
+								Qx = Mips_DotProd2(L0x << 12, 0x4000, (int)Dx << 12, t) >> 2;
+								Qy = Mips_DotProd2(L0y << 12, 0x4000, (int)Dy << 12, t) >> 2;
+								Qz = Mips_DotProd2(L0z << 12, 0x4000, (int)Dz << 12, t) >> 2;
 								Qx += pItem->Pos.vx;
 								Qy += pItem->Pos.vy;
 								Qz += pItem->Pos.vz;
@@ -310,7 +310,7 @@ void M3dColij_LineToThisItemCached(Item *pItem, SLineInfo *pInfo, SColCache *pCo
 								pInfo->pItem = pItem;
 								pInfo->pFace = pFace;
 								pInfo->Model = pItem->ModelIndex;
-								pInfo->Distance = FUN_80072090(LineLen, tNear) >> 2;
+								pInfo->Distance = Mips_FixMul__Fii(LineLen, tNear) >> 2;
 								DAT_800c130c[0] =
 								    (SVECTOR *)((char *)Normals + (((ushort *)pFace)[6] & 0xfff8));
 								pColij->pFace = pFace;

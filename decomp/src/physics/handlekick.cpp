@@ -93,7 +93,7 @@ extern "C" {
 	void FUN_8002fcdc(CBruce *, int, int);
 	void FUN_8002fd28(CBruce *, int, int, int);
 	int FUN_8004b250(int, int, int);
-	int FUN_800720ec(void *, void *);
+	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 }
 
@@ -127,11 +127,11 @@ void CBruce::HandleKick() {
 	if (m840 > 0)
 		m840--;
 
-	Speed = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+	Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 	mVel2 = mVel;
 	ProjectCVectorToPlane(&mVel2, mNormal);
 
-	x = FUN_800720ec(&m7FC, &mVel2);
+	x = Mips_CVecDotProd__FP7CVectorT0(&m7FC, &mVel2);
 
 	if (mpColl->x10 || AutoKickEnabled) {
 		if (!m318 || !m31C) {
@@ -154,7 +154,7 @@ void CBruce::HandleKick() {
 				}
 			}
 
-			Speed = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+			Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 			if (mAnim == 3 || m918 == 2) {
 				int KickVal = 4;
@@ -205,7 +205,7 @@ void CBruce::HandleKick() {
 		}
 	}
 
-	Speed = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+	Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 	if (mAnim == 3 || m918 == 2) {
 		int KickVal = 4;

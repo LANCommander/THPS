@@ -18,7 +18,7 @@ unsigned short DAT_800d1658, DAT_800d166e, DAT_800d1672, DAT_800d1674, DAT_800d1
 unsigned char DAT_800d167d;
 
 int FUN_8004d068(int, int, int);
-void FUN_80022498(void);
+void DecDCTvlcBuild3(void);
 void FUN_80023cb8(void);
 int strNextVlc__Fi(int);
 
@@ -59,7 +59,7 @@ void GameFMV_StartFMV__Fi(int a) {
 				} while (j < DAT_800d166c);
 			}
 
-			FUN_80022498();
+			DecDCTvlcBuild3();
 		}
 
 		DAT_800d1634 = 1;

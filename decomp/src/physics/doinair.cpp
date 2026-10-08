@@ -175,9 +175,9 @@ int SFX_PlayX(unsigned int, short, int);
 int Rnd(int);
 
 extern "C" {
-	int FUN_800720ec(void *, void *);
+	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
-	int FUN_80072090(int, int);
+	int Mips_FixMul__Fii(int, int);
 	int FUN_800827d4(SLineInfo *, int);
 	MATRIX *FUN_80093100(MATRIX *, VECTOR *);
 	MATRIX *FUN_80093240(SVECTOR *, MATRIX *);
@@ -238,9 +238,9 @@ void CBruce::DoInAirPhysics() {
 	}
 
 	vMovement = mPos - mOldPos;
-	((void (*)(int))FUN_8008b5dc)(FUN_800720ec(&vMovement, &vMovement));
+	((void (*)(int))FUN_8008b5dc)(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement));
 	TurnAngle = m838 >> 12;
-	FUN_80072090(TurnAngle, 3072);
+	Mips_FixMul__Fii(TurnAngle, 3072);
 
 	if (TurnAngle && m814 == DAT_800a824c) {
 		RotAngle.vz = 0;
@@ -271,7 +271,7 @@ void CBruce::DoInAirPhysics() {
 
 	SetVector(&line_info.StartCoords, mOldPos.vx, mOldPos.vy, mOldPos.vz)
 	    SetVector(&line_info.EndCoords, mPos.vx, mPos.vy, mPos.vz) vMovement = mPos - mOldPos;
-	Speed = FUN_8008b5dc(FUN_800720ec(&vMovement, &vMovement)) << 6;
+	Speed = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement)) << 6;
 
 	if (Speed < 0x2e000) {
 		if (Speed < 2048)
@@ -312,7 +312,7 @@ void CBruce::DoInAirPhysics() {
 			FaceNormal.vz = line_info.Normal.vz;
 			M3dUtils_NormaliseVector(&FaceNormal);
 
-			VelNormal = FUN_800720ec(&FaceNormal, &UnitVel);
+			VelNormal = Mips_CVecDotProd__FP7CVectorT0(&FaceNormal, &UnitVel);
 
 			if (!Steep && ((VelNormal ^ (VelNormal >> 31)) - (VelNormal >> 31)) < 3547 &&
 			    DAT_800d1770 - m208 >= 41) {
@@ -365,12 +365,12 @@ void CBruce::DoInAirPhysics() {
 					m150 = 0x10000;
 
 					if (m134 & 2) {
-						if (FUN_800720ec(&WallRight, &mVel) >= 0)
+						if (Mips_CVecDotProd__FP7CVectorT0(&WallRight, &mVel) >= 0)
 							FUN_8002fcdc(this, 35, 5238);
 						else
 							FUN_8002fcdc(this, 36, 5242);
 					} else {
-						if (FUN_800720ec(&WallRight, &mVel) >= 0)
+						if (Mips_CVecDotProd__FP7CVectorT0(&WallRight, &mVel) >= 0)
 							FUN_8002fcdc(this, 36, 5249);
 						else
 							FUN_8002fcdc(this, 35, 5253);
@@ -434,11 +434,11 @@ void CBruce::DoInAirPhysics() {
 
 					if (mpColl->bA0 || m895 < -40) {
 						SVECTOR N;
-						int Spd = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+						int Spd = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 						N = line_info.Normal;
-						mVel.vx -= FUN_80072090(N.vx, Spd / 4);
-						mVel.vz -= FUN_80072090(N.vz, Spd / 4);
+						mVel.vx -= Mips_FixMul__Fii(N.vx, Spd / 4);
+						mVel.vz -= Mips_FixMul__Fii(N.vz, Spd / 4);
 					}
 
 					m768 = 0;

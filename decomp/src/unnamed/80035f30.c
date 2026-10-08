@@ -26,7 +26,7 @@ typedef struct {
 
 void FUN_8002fcdc(B *, int, int);
 void FUN_8002fe9c(B *, int);
-int FUN_800720ec(V *, V *);
+int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
 void RotMatrixFromFRUVectors__6CBruce(B *);
 V __mi__C7CVector(const V *);
 V __ml__FRC7CVectorRCi(const V *, const int *);
@@ -44,7 +44,7 @@ void FUN_80035f30(B *p, S6 s) {
 			v.y = s.y;
 			v.z = s.z;
 
-			if (FUN_800720ec(&p->w2, &v) < 2000 && p->w2.y >= -1999) {
+			if (Mips_CVecDotProd__FP7CVectorT0(&p->w2, &v) < 2000 && p->w2.y >= -1999) {
 				FUN_8002fe9c(p, 0);
 
 				p->f150 = 0x10000;

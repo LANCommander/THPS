@@ -251,7 +251,7 @@ extern "C" {
 	void FUN_800347a8(CBruce *);
 	void FUN_8003b2f0(CBruce *);
 	int FUN_800827d4(SLineInfo *, int);
-	int FUN_800720ec(void *, void *);
+	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 }
 
@@ -424,7 +424,7 @@ void CBruce::DoPhysics() {
 			if (BrakeVal < 0xa000)
 				BrakeVal = 0xa000;
 
-			if (BrakeVal < FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6) {
+			if (BrakeVal < FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6) {
 				if (mAnim != 49) {
 					m150 = 0x20000;
 					SFX_PlayX(2, 0x2000, 0);
@@ -484,7 +484,7 @@ void CBruce::DoPhysics() {
 		mKickSpeed = MAXSPEED(22);
 
 	if (m33C) {
-		int NewMag = (FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6) >> 12;
+		int NewMag = (FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6) >> 12;
 
 		mKick.vx += mVel.vx / NewMag;
 		mKick.vy += mVel.vy / NewMag;
@@ -492,7 +492,7 @@ void CBruce::DoPhysics() {
 		m33C--;
 	}
 
-	if (m334 < FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6)
+	if (m334 < FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6)
 		m304 = 1;
 	else
 		m304 = 0;
@@ -807,13 +807,13 @@ void CBruce::DoPhysics() {
 	mVel += (mKick * DAT_800d1774) >> 8;
 
 	/* LimitFinalSpeed */
-	Spd = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+	Spd = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 	if (Spd > MAXSPEED(50)) {
 		mVel.vx = mVel.vx * (MAXSPEED(50) >> 12) / (Spd >> 12);
 		mVel.vy = mVel.vy * (MAXSPEED(50) >> 12) / (Spd >> 12);
 		mVel.vz = mVel.vz * (MAXSPEED(50) >> 12) / (Spd >> 12);
-		Spd = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+		Spd = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 	}
 
 	if (!AutoKickEnabled) {

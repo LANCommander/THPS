@@ -20,7 +20,7 @@ extern "C" int FUN_80093240(SVECTOR *, MATRIX *);
 extern "C" void FUN_80093130(void *, MATRIX *);
 extern "C" void FUN_800930c0(void *, MATRIX *);
 extern "C" void FRUVectorsFromRotMatrix__6CBruce(void *);
-extern "C" int FUN_800720ec(V *, V *);
+extern "C" int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
 extern "C" long FUN_8008b5dc(long);
 extern CVector operator*(const CVector &, const int &);
 extern CVector operator/(const CVector &, const int &);
@@ -49,7 +49,7 @@ void FUN_80039cd0(char *t, int a, int c, int b) {
 
 				if (c) {
 					s1 = (V *)(t + 108);
-					l0 = FUN_8008b5dc(FUN_800720ec(s1, s1)) << 6;
+					l0 = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(s1, s1)) << 6;
 					FUN_800930c0(t + 1900, &m2);
 
 					ang.vz = 0;
@@ -64,17 +64,17 @@ void FUN_80039cd0(char *t, int a, int c, int b) {
 					tmp.x = m3.m[0][0];
 					tmp.y = m3.m[0][1];
 					tmp.z = m3.m[0][2];
-					r.x = FUN_800720ec(&tmp, s1);
+					r.x = Mips_CVecDotProd__FP7CVectorT0(&tmp, s1);
 					tmp.x = m3.m[1][0];
 					tmp.y = m3.m[1][1];
 					tmp.z = m3.m[1][2];
-					r.y = FUN_800720ec(&tmp, s1);
+					r.y = Mips_CVecDotProd__FP7CVectorT0(&tmp, s1);
 					tmp.x = m3.m[2][0];
 					tmp.y = m3.m[2][1];
 					tmp.z = m3.m[2][2];
-					r.z = FUN_800720ec(&tmp, s1);
+					r.z = Mips_CVecDotProd__FP7CVectorT0(&tmp, s1);
 					*s1 = r;
-					l1 = FUN_8008b5dc(FUN_800720ec(s1, s1)) << 6;
+					l1 = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(s1, s1)) << 6;
 					l0 >>= 8;
 					l1 >>= 8;
 					*s1 = (*s1 * l0) / l1;

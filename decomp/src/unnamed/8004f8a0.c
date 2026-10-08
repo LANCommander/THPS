@@ -52,7 +52,7 @@ Box *DAT_800d1b94;
 unsigned short *Trig_GetLinksPointer__Fi(int);
 void Trig_GetPosition__FR7CVectori(V *, int);
 int FUN_8004f578(unsigned short *);
-int FUN_800720ec(V *, V *);
+int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
 int M3dUtils_LineLineClosestPoints__FP7CVectorN40PiT0T5(V *, V *, V *, V *, V *, int *, V *, int *);
 void M3dUtils_NormaliseVector__FP7CVector(V *);
 int __eq__7CVectorRC7CVector(V *, V *);
@@ -159,7 +159,7 @@ void FUN_8004f8a0(void) {
 
 										flag = 0;
 
-										if (FUN_800720ec(&v80, &o->f6c) >= 0) {
+										if (Mips_CVecDotProd__FP7CVectorT0(&v80, &o->f6c) >= 0) {
 											o2->f700 = v80;
 											flag = __eq__7CVectorRC7CVector(&v70, &pb) != 0;
 										} else {

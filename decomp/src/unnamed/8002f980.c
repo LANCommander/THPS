@@ -26,7 +26,7 @@ typedef struct {
 } B;
 
 extern void FUN_8002f340(B *, int, void *, int, int);
-extern int FUN_80072090(int, int);
+extern int Mips_FixMul__Fii(int, int);
 extern void RotMatrixFromFRUVectors__6CBruce(B *);
 extern V __mi__C7CVector(const V *);
 
@@ -56,9 +56,9 @@ void FUN_8002f980(B *o, int n) {
 	if (o->f734 != 2) {
 		if (n == 2) {
 			o->w3 = o->w0;
-			o->w3.x = -FUN_80072090(o->w3.x, 13000);
-			o->w3.y = FUN_80072090(o->w3.y, 13000);
-			o->w3.z = -FUN_80072090(o->w3.z, 13000);
+			o->w3.x = -Mips_FixMul__Fii(o->w3.x, 13000);
+			o->w3.y = Mips_FixMul__Fii(o->w3.y, 13000);
+			o->w3.z = -Mips_FixMul__Fii(o->w3.z, 13000);
 		}
 	}
 

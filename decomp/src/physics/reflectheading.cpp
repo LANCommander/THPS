@@ -15,8 +15,8 @@ struct CVector {
 	}
 };
 
-extern "C" int FUN_800720ec(CVector *, CVector *);
-extern "C" int FUN_80072090(int, int);
+extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
+extern "C" int Mips_FixMul__Fii(int, int);
 extern "C" int FUN_8008b5dc(int);
 extern "C" void FUN_80093130(MATRIX *, MATRIX *);
 extern "C" void FUN_80093240(SVECTOR *, MATRIX *);
@@ -57,15 +57,15 @@ void CBruce::ReflectHeadingVelocityInPlane(SVECTOR Normal, int Angle) {
 		TmpCV.z = _z;
 	}
 
-	dot = FUN_800720ec(&mVel, &TmpCV);
+	dot = Mips_CVecDotProd__FP7CVectorT0(&mVel, &TmpCV);
 
 	if (dot < 0) {
-		mVel.x -= FUN_80072090(Normal.vx, dot);
-		mVel.y -= FUN_80072090(Normal.vy, dot);
-		mVel.z -= FUN_80072090(Normal.vz, dot);
-		mVel.x += FUN_80072090(Normal.vx, 205);
-		mVel.y += FUN_80072090(Normal.vy, 205);
-		mVel.z += FUN_80072090(Normal.vz, 205);
+		mVel.x -= Mips_FixMul__Fii(Normal.vx, dot);
+		mVel.y -= Mips_FixMul__Fii(Normal.vy, dot);
+		mVel.z -= Mips_FixMul__Fii(Normal.vz, dot);
+		mVel.x += Mips_FixMul__Fii(Normal.vx, 205);
+		mVel.y += Mips_FixMul__Fii(Normal.vy, 205);
+		mVel.z += Mips_FixMul__Fii(Normal.vz, 205);
 	}
 
 	{
@@ -78,7 +78,7 @@ void CBruce::ReflectHeadingVelocityInPlane(SVECTOR Normal, int Angle) {
 		TmpCV.z = _z;
 	}
 
-	dot = FUN_800720ec(&mFront, &TmpCV);
+	dot = Mips_CVecDotProd__FP7CVectorT0(&mFront, &TmpCV);
 
 	if (dot < 0) {
 		int sin;
@@ -89,7 +89,7 @@ void CBruce::ReflectHeadingVelocityInPlane(SVECTOR Normal, int Angle) {
 		sin = FUN_8008b5dc(0x1000000 - dot * dot);
 		pShort = (short *)&SurfaceRotMatrix;
 		cos = dot;
-		dot = FUN_800720ec(&mRight, &TmpCV);
+		dot = Mips_CVecDotProd__FP7CVectorT0(&mRight, &TmpCV);
 
 		if (dot > 0)
 			sin = -sin;

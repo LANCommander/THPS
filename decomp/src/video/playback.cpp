@@ -103,7 +103,7 @@ extern "C" void FUN_8004e268(CBruce *);
 void RestartCompFrig();
 extern "C" void FUN_80069684(CBruce *, int, int, int);
 extern "C" void FUN_8006a158(CBruce *, int);
-extern "C" int FUN_800720ac(int, int, int, int);
+extern "C" int Mips_DotProd2(int, int, int, int);
 extern "C" void FUN_8002952c(const CSVector &);
 extern "C" void FUN_8003f65c();
 extern "C" void FUN_8001a608();
@@ -137,7 +137,7 @@ void Video_Playback(CBruce *pSkater) {
 
 		VInfo->FramesLeft--;
 		IsAGrind =
-		    ABS(FUN_800720ac(-pSkater->m7e0, pSkater->m6c, pSkater->m7d8, pSkater->m74)) < 40000;
+		    ABS(Mips_DotProd2(-pSkater->m7e0, pSkater->m6c, pSkater->m7d8, pSkater->m74)) < 40000;
 		int st = pSkater->m734;
 
 		if (st == 4 && (IsAGrind || pSkater->m146 == 58) && DAT_800d1868 < 200) {

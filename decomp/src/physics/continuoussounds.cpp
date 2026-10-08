@@ -65,7 +65,7 @@ class CBruce {
 #define MaxSpeed (((GetStat(1) + 50) << 12) * 3 * 15 / 28)
 
 extern "C" {
-	int FUN_800720ec(void *, void *);
+	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 }
 
@@ -212,7 +212,7 @@ void CBruce::HandleContinuousSounds() {
 			unsigned short NewPitch;
 			unsigned short NewVol;
 
-			Spd = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+			Spd = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 			if (mState == 8)
 				Spd = 300000;
@@ -243,7 +243,7 @@ void CBruce::HandleContinuousSounds() {
 	}
 
 	if (mRollSnd) {
-		int Spd = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+		int Spd = FUN_8008b5dc(Mips_CVecDotProd__FP7CVectorT0(&mVel, &mVel)) << 6;
 
 		SFX_GetVoicePitch(mRollSnd);
 		int NewPitch = (Spd * 2048) / MaxSpeed;
