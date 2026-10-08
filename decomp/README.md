@@ -461,8 +461,15 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
 - **Statement order can block an unwanted cross-jump** between cases: write
   `SwitchOffPauseMode = 1; EndCode = 7;` in one case so it stops sharing another case's tail.
 - **Still unexplained:**
-  - HandleJump's lone dead `mult` from an unused `/10`. Flow deletes the whole chain whenever the
-    quotient is dead before combine.
+  - HandleJump's lone dead `mult` from an unused `/10` (now matched with inline asm). Flow deletes the whole chain whenever the
+    quotient is dead before combine. S29, checked against the egcs 1.1.2 source:
+    - Combine's `distribute_notes` deletes the mult along with the rest, since `single_set` is non-null.
+    - Reload's `delete_dead_insn` walks a linear chain, so it always leaves the `x>>31` sra.
+    - Only a post-reload `delete_computation` gives retail's shape, and it is disabled under
+      `-fschedule-insns2` (jump.c:3658).
+    - About 75 source shapes tried (cross-jumped ifs, switches, loops, inline helpers, bitfields,
+      statics). None leaves a lone mult, and Psy-Q 4.3/4.4/4.6 score far worse.
+    - Old Psy-Q 4.0/4.1 cc1 needs `TMP` set or it fails, writing `cta*` files into the cwd.
   - ReactToCollision's unfilled `beq; mult` slot. reorg's `find_dead_or_set_registers` gives up
     after the 2nd conditional branch.
 
@@ -630,13 +637,17 @@ write `(T *)((i << 2) + (int)base)`. That fixed RenderEllipsoid's `addPrim` and 
     local-alloc's chain register (M3d_PreprocessWibblyTextures).
   - **Check `;; N conflicts:` in `.greg`** before trying priority levers. A hard register listed
     there means local-alloc already took it, and no priority change will help.
+  - **A "separate" global may be a struct member:** check whether an unexplained `DAT_` sits just
+    past a known struct's fields. FUN_8002566c's `DAT_800a706c` is `DAT_800a6844 + 0x828`, i.e.
+    `DAT_800a6844.b828[j]`. Spelling it as a member changed the loop pass's hoist order
+    (sp+16 before sp+48) and made the 1-word residue exact. The bytes are identical either way.
 - **Parked, with mechanisms understood but no plausible source found:**
-  - HandleJump: a dead `mult` without `mfhi` needs REG_UNUSED at reload.
+  - HandleJump: EXACT in S29 via one inline-asm `mult` (end-game policy, parked for good). Plain C
+    cannot leave a dead `mult` without `mfhi` under Psy-Q 4.5.
   - ReactToCollision: retail's reorg follows 2 conditional branches to our 1.
   - DoOnGroundPhysics: needs an invisible s1 preference.
   - Bit_Display: local-alloc qty order.
-  - HandleStickToRail, FUN_8004f000, Card_GetDirAndFreeBlocks, FUN_8002566c,
-    FileIO_Open.
+  - HandleStickToRail, FUN_8004f000, Card_GetDirAndFreeBlocks, FileIO_Open.
 - **Function table:**
   - Identities: FUN_8003058c is HandleStickToRail; FUN_80059794 is the 1P skater select;
     FUN_8006658c/80066d7c are the level select.

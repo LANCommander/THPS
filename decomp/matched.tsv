@@ -1162,3 +1162,5 @@ src/unnamed/8008528c.cpp	0x8008528c	1096	sym	FUN_8008528c
 src/tricktips/update.cpp	0x80072404	2604	sym	TrickTips_Update__Fv
 src/front/frontendmain.cpp	0x8005bb70	2824	sym	FUN_8005bb70
 src/front/display.cpp	0x80017d70	8484	sym	Front_Display__Fv
+src/unnamed/8002566c.c	0x8002566c	1052	sym	FUN_8002566c
+src/physics/handlejump.cpp	0x80038268	4940	div	HandleJump__6CBruce

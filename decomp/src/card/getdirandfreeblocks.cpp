@@ -1,4 +1,13 @@
 /* Card_GetDirAndFreeBlocks__Fii (0x80015164) */
+/* 68/69, parked. Retail (and the identical THPS2-demo twin) starts the first loop with
+   `addu a0,s2,zero`: i copied from size's zero register. Ours is `move a0,$0`. S29 findings,
+   checked against the egcs 1.1.2 source:
+   - CSE1 folds `i = size` (and every chained-zero spelling) to const 0, since the costs tie.
+   - reload_cse never swaps a CONST_INT for a register on MIPS: CONST_COSTS returns 0 for
+     every CONST_INT (reload1.c:8748).
+   - An empty asm forcing the copy hides i's start value from loop.c, which then adds a
+     loop guard (+4 words).
+   So the copy must come from an RTL shape that we haven't found. */
 struct DIRENTRY {
 	char name[20];
 	long attr;

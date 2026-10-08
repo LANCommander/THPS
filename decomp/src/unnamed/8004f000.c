@@ -3,7 +3,12 @@
    single-use `goto out` and folds `return ret` to `v0 = 0`, which reorg copies into the `beq`
    slot (retail: nop). Giving `out` a second user (`if(!s0){ret=1;goto out;}`, retail's
    `j; li v0,1` shape) fixes that but then reorg fills the final `beq s1,zero` slot from the
-   target (`v0 = 3`) instead of the fall-through (142/147). FUN_8006eb18 takes one argument;
+   target (`v0 = 3`) instead of the fall-through (142/147). S29: the two are coupled. Every
+   variant without the folded `v0 = 0` block flips that slot: more `goto out` users, direct
+   returns, ret/callee types, C++ `bool`, and -fno-cse-follow-jumps (142). Likely cause: once
+   the `j; out:` block is gone, reorg's find_basic_block can't place the beq target, treats
+   all regs as live, and can't take `move a0,s5` from the fall-through. No per-TU flag helps
+   (match_sym ignores CC1_OPTS; sweep with match_div). FUN_8006eb18 takes one argument;
    FUN_8004b250 returns int. */
 typedef struct N{char p0[4];int f4;unsigned short s8;unsigned char cA,cB;unsigned short sC;char p1[2];struct N*f10;void*f14;}N;
 typedef struct B{unsigned short f0;char p0[0x20-2];int f20;char p1[0x1d4-0x24];struct B*f1d4;char p2[0x1f0-0x1d8];int f1f0;int f1f4;char p3[0x924-0x1f8];int f924;}B;

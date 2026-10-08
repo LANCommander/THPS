@@ -246,9 +246,13 @@ void CBruce::HandleJump()
 			}
 			FUN_80031108(this, 6261);
 			if (!mInAir) {
-				/* Retail evaluates a TotalScore()/10 here and keeps only its `mult` (no mfhi, the
-				   only lone mult in the game); no plain C form found reproduces that (3 words short). */
-				int Score = FUN_8006ebdc(&mPanel) / 10;
+				/* PARKED FOR GOOD, inline asm (end-game policy). Retail evaluates TotalScore()/10
+				   here and keeps only its `mult`: the lone dead mult in the game. The original was
+				   presumably `int Score = TotalScore() / 10;` (unused). Psy-Q 4.5 can't leave just the
+				   mult: the only pass that would (post-reload delete_computation) is disabled under
+				   -fschedule-insns2 (egcs jump.c:3658). Earlier passes delete the whole chain or
+				   leave the x>>31 sra. See the README "Still unexplained" note. */
+				__asm__ volatile ("lui $3,0x6666; ori $3,$3,0x6667; mult %0,$3" : : "r"(FUN_8006ebdc(&mPanel)) : "$3");
 				int Bonus = FUN_8006ebdc(&mPanel) / 100;
 				if (Bonus > 20)
 					Bonus = 20;
