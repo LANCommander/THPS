@@ -1,4 +1,4 @@
-/* FUN_80071b00 (0x80071b00) */
+/* DeleteList__FP5CBody (0x80071b00) */
 struct VT {
 	char pad[8];
 	short off;
@@ -15,7 +15,7 @@ struct O {
 	unsigned short fl;
 };
 
-void FUN_80071b00(struct O *p) {
+void DeleteList__FP5CBody(struct O *p) {
 	struct O *n;
 
 	if (!p)

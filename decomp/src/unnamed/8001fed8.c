@@ -1,4 +1,4 @@
-/* FUN_8001fed8 (0x8001fed8) */
+/* DeleteStuff__8CPowerUp (0x8001fed8) */
 struct VT {
 	char pad[8];
 	short off;
@@ -13,7 +13,7 @@ struct O {
 
 void KillShadow__5CBody(char *p);
 
-void FUN_8001fed8(char *p) {
+void DeleteStuff__8CPowerUp(char *p) {
 	struct O *o;
 
 	KillShadow__5CBody(p);

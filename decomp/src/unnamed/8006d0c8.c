@@ -9,7 +9,7 @@ unsigned DAT_800d1ec8;
 
 extern void Mess_SetTextJustify__FUc(int);
 extern void FUN_8001e0a4(void *, int);
-extern void FUN_8006ca1c(void *);
+extern void GraffitiColor__FP6CBruce(void *);
 extern void FUN_8006e7c0(void *);
 extern void FUN_8008b900(char *, char *, int);
 extern int Mess_DrawPanelText__FiiPCciUii(int, int, char *, int, int, int);
@@ -56,7 +56,7 @@ void FUN_8006d0c8(char *o, int x0, int y0) {
 		if (s2 || *(int *)(o + 0xa70) == 5) {
 			FUN_8008b900(b1, DAT_800d1e88, *(int *)(o + 0xa70) == 5 ? DAT_800d1ec8 : s2);
 			Mess_SetRGB__FUcUcUci(128, 128, 128, 0);
-			FUN_8006ca1c(o);
+			GraffitiColor__FP6CBruce(o);
 
 			s4 = s3 < 3;
 
@@ -83,7 +83,7 @@ void FUN_8006d0c8(char *o, int x0, int y0) {
 					FUN_8008b900(b2, DAT_800d1e94, s3 >> 1);
 
 				Mess_SetRGB__FUcUcUci(128, 128, 128, 0);
-				FUN_8006ca1c(o);
+				GraffitiColor__FP6CBruce(o);
 				Mess_SetTextJustify__FUc(1);
 				Mess_SetScale__Fi(256);
 

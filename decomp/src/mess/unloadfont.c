@@ -12,7 +12,7 @@ int DAT_800d15e4, DAT_800d15e0;
 
 void Pack_Unpack__Fss(short, short);
 void Free16Slot__FUs(unsigned short);
-void FUN_8004d5d0(char *);
+void Mem_Delete__FPv(char *);
 
 void Mess_UnloadFont__Fv(void) {
 	int i;
@@ -24,7 +24,7 @@ void Mess_UnloadFont__Fv(void) {
 	}
 
 	Free16Slot__FUs(*(unsigned short *)(DAT_800a6110[DAT_800d15e4].ptr + 22));
-	FUN_8004d5d0(DAT_800a6110[DAT_800d15e4].ptr);
+	Mem_Delete__FPv(DAT_800a6110[DAT_800d15e4].ptr);
 
 	DAT_800a6110[DAT_800d15e4].ptr = 0;
 

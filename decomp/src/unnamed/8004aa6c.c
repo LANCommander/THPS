@@ -1,4 +1,4 @@
-/* FUN_8004aa6c (0x8004aa6c) */
+/* Pal_Init__Fv (0x8004aa6c) */
 int DAT_800d1a80;
 char DAT_800d1a8c[4];
 char DAT_800d1a90[4];
@@ -10,7 +10,7 @@ extern char DAT_800d2b10[];
 
 void Pack_Pack__FiiiPiT3iiUi(int a, int b, int c, char *d, char *e, int f, int g, int h);
 
-void FUN_8004aa6c(void) {
+void Pal_Init__Fv(void) {
 	int i;
 	volatile int pad[2];
 

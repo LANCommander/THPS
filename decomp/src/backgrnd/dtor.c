@@ -6,7 +6,7 @@ unsigned short DAT_800d1fe8;
 
 void DeleteFrom__5CBodyPP5CBody(char *, void *);
 void FUN_80043860(char *, int);
-void FUN_80043530(char *);
+void __dl__5CItemPv(char *);
 
 void __dt__11CBackground(char *t, int f) {
 	*(char **)(t + 0x48) = DAT_800a3494;
@@ -16,5 +16,5 @@ void __dt__11CBackground(char *t, int f) {
 	FUN_80043860(t, 0);
 
 	if (f & 1)
-		FUN_80043530(t);
+		__dl__5CItemPv(t);
 }

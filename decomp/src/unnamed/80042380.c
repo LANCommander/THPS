@@ -5,12 +5,12 @@ char DAT_800d19a4[8];
 int DAT_800d19a0;
 
 void SFX_Stop__FUi(int a);
-void FUN_8004d5d0(int a);
+void Mem_Delete__FPv(int a);
 void DeleteFrom__5CBodyPP5CBody(char *p, char *l);
 void FUN_800427bc(char *p);
 void FUN_8001dfec(char *p, int a);
 void dt_6CSuper(char *p, int a);
-void FUN_80043530(char *p);
+void __dl__5CItemPv(char *p);
 
 void FUN_80042380(char *p, int f) {
 	*(char **)(p + 72) = DAT_800a0534;
@@ -28,10 +28,10 @@ void FUN_80042380(char *p, int f) {
 	}
 
 	if (*(int *)(p + 348))
-		FUN_8004d5d0(*(int *)(p + 348));
+		Mem_Delete__FPv(*(int *)(p + 348));
 
 	if (*(int *)(p + 352))
-		FUN_8004d5d0(*(int *)(p + 352));
+		Mem_Delete__FPv(*(int *)(p + 352));
 
 	DeleteFrom__5CBodyPP5CBody(p, DAT_800d19a4);
 
@@ -42,5 +42,5 @@ void FUN_80042380(char *p, int f) {
 	dt_6CSuper(p, 0);
 
 	if (f & 1)
-		FUN_80043530(p);
+		__dl__5CItemPv(p);
 }

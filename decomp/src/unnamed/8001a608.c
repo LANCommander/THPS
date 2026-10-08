@@ -13,7 +13,7 @@ extern int DAT_800d16a4;
 int DAT_800d13e8;
 
 int Competition_IsOver__Fv(void);
-void FUN_8001a128(void);
+void CommonSwitchOnMenuCode__Fv(void);
 
 void Front_SwitchOnVideoScreen__Fv(void) {
 	int v;
@@ -29,5 +29,5 @@ void Front_SwitchOnVideoScreen__Fv(void) {
 	}
 
 	DAT_800d13e8 = v;
-	FUN_8001a128();
+	CommonSwitchOnMenuCode__Fv();
 }

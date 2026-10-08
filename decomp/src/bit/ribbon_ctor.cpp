@@ -35,7 +35,7 @@ class CRibbonBit : public CFT4Bit {
 	CRibbonBit();
 };
 
-extern "C" void FUN_800280a8(CRibbonBit *, ushort); /* scale */
+extern "C" void SetScale__7CFT4BitUs(CRibbonBit *, ushort); /* scale */
 extern "C" void FUN_800280b0(CRibbonBit *);         /* semi-transparent */
 
 class CRibbon : public CNonRenderedBit {
@@ -76,7 +76,7 @@ CRibbon::CRibbon(const CVector &pos, int numbits, int pointsperbit, char *pMiddl
 			mBits[i] = new CRibbonBit;
 			mBits[i]->mProtected = 1;
 			mBits[i]->SetAnim(pMiddleAnimName);
-			FUN_800280a8(mBits[i], scale);
+			SetScale__7CFT4BitUs(mBits[i], scale);
 
 			if (semitrans)
 				FUN_800280b0(mBits[i]);

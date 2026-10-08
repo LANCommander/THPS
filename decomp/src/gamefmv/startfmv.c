@@ -19,7 +19,7 @@ unsigned char DAT_800d167d;
 
 int Mem_NewX__FUiii(int, int, int);
 void DecDCTvlcBuild3(void);
-void FUN_80023cb8(void);
+void strInit__Fv(void);
 int strNextVlc__Fi(int);
 
 void GameFMV_StartFMV__Fi(int a) {
@@ -64,7 +64,7 @@ void GameFMV_StartFMV__Fi(int a) {
 
 		DAT_800d1634 = 1;
 		DAT_800d1630 = 0;
-		FUN_80023cb8();
+		strInit__Fv();
 		strNextVlc__Fi(1);
 	}
 }

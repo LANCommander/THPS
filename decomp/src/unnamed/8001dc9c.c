@@ -1,4 +1,4 @@
-/* FUN_8001dc9c (0x8001dc9c) */
+/* Mess_TextHeightAboveBaseline__FPCc (0x8001dc9c) */
 typedef struct {
 	int **p;
 	char pad[32];
@@ -21,7 +21,7 @@ int DAT_800d15e4;
 int Trick_HoldTrick__6CBrucei(unsigned char *s, int a);
 int GetCharIndex__Fc(int c);
 
-int FUN_8001dc9c(unsigned char *s, int a1) {
+int Mess_TextHeightAboveBaseline__FPCc(unsigned char *s, int a1) {
 	int m;
 	int v;
 	int c;

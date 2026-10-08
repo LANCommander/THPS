@@ -1,4 +1,4 @@
-/* FUN_8004b65c (0x8004b65c) */
+/* SFX_ModifyPos__FUiRC7CVectori (0x8004b65c) */
 typedef struct {
 	int id;
 	int cmd;
@@ -15,7 +15,7 @@ unsigned short DAT_800d2b5c[48];
 void FUN_80093e54(int, S *);
 unsigned Utils_CalculateSpatialAttenuation__FRC7CVectorii(void *, int, int);
 
-void FUN_8004b65c(unsigned a, void *pos, int b) {
+void SFX_ModifyPos__FUiRC7CVectori(unsigned a, void *pos, int b) {
 	S s;
 	unsigned t, l, r;
 	int i, y, v, d;

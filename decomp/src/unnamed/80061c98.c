@@ -2,7 +2,7 @@
 int Mem_NewX__FUiii(int a, int b, int c);
 void FUN_8008c774(short *r, int b);
 void FUN_8008c714(short *r, int b);
-void FUN_8004d5d0(int a);
+void Mem_Delete__FPv(int a);
 
 void FUN_80061c98(int a, int b) {
 	short r[4];
@@ -26,5 +26,5 @@ void FUN_80061c98(int a, int b) {
 	}
 
 	FUN_8008c714(r, buf);
-	FUN_8004d5d0(buf);
+	Mem_Delete__FPv(buf);
 }

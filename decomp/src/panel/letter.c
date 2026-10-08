@@ -8,7 +8,7 @@ int DAT_800d1e64;
 
 extern CBruce *DAT_800d19a4;
 
-void FUN_8006e2fc(int);
+void Panel_Tape__Fi(int);
 
 int Panel_Letter(int n) {
 	DAT_800d1e64 = 40;
@@ -18,7 +18,7 @@ int Panel_Letter(int n) {
 
 	if (DAT_800d19a4->l[0] == 1 && DAT_800d19a4->l[1] == 1 && DAT_800d19a4->l[2] == 1 &&
 	    DAT_800d19a4->l[3] == 1 && DAT_800d19a4->l[4] == 1) {
-		FUN_8006e2fc(2);
+		Panel_Tape__Fi(2);
 		return 1;
 	}
 

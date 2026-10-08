@@ -2,7 +2,7 @@
 /* C++ (CAR.CPP). Demo twin HonkAtSkaters (0.26): THPS1 has no skater table, so it checks the
    player skater (DAT_800d19a4) and the one linked after it. A car honks (by type) once when a
    skater within 2000 units is inside the cone ahead of it; the flag at +0x220 rearms when clear.
-   Mips_DotProd2Sign = 64-bit cross-product sign helper, FUN_8004b250 = SFX_PlayX. Each honk case
+   Mips_DotProd2Sign = 64-bit cross-product sign helper, SFX_PlayX__FUisi = SFX_PlayX. Each honk case
    makes its own SFX call; cross-jumping merges them into retail's single jal. */
 typedef unsigned short ushort;
 
@@ -42,7 +42,7 @@ int Redbook_Rnd(int);
 
 extern "C" {
 	int Mips_DotProd2Sign(int, int, int, int);
-	int FUN_8004b250(int, short, int);
+	int SFX_PlayX__FUisi(int, short, int);
 }
 
 void HonkAtSkaters(CCar *pCar, CVector Front) {
@@ -89,16 +89,16 @@ void HonkAtSkaters(CCar *pCar, CVector Front) {
 		if (!pCar->mHonked) {
 			switch (pCar->mType) {
 				case 213:
-					FUN_8004b250(Redbook_Rnd(3) + 110, 0x2000, 0);
+					SFX_PlayX__FUisi(Redbook_Rnd(3) + 110, 0x2000, 0);
 					break;
 				case 214:
-					FUN_8004b250(122, 0x2000, 0);
+					SFX_PlayX__FUisi(122, 0x2000, 0);
 					break;
 				case 215:
-					FUN_8004b250(130, 0x2000, 0);
+					SFX_PlayX__FUisi(130, 0x2000, 0);
 					break;
 				case 216:
-					FUN_8004b250(120, 0x2000, 0);
+					SFX_PlayX__FUisi(120, 0x2000, 0);
 					break;
 			}
 

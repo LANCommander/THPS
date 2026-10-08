@@ -11,7 +11,7 @@ void Mess_SetTextJustify__FUc(int);
 void Mess_SetScale__Fi(int);
 void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
 void Mess_DrawText__FiiPCciUiib(int, int, const char *, int, int, int, int);
-void *FUN_8006c4f0(SAnimFrame *);
+void *Panel_DrawTexturedPoly__FP10SAnimFrame(SAnimFrame *);
 void Panel_SetStretchedScreenCoords__FiiP8POLY_FT4P10SAnimFrame(int, int, void *, SAnimFrame *);
 
 void Front_PrintGoBack(void) {
@@ -23,7 +23,7 @@ void Front_PrintGoBack(void) {
 	Mess_DrawText__FiiPCciUiib(92, 214, DAT_800a5ef0[0], 0, 0, 256, 0);
 	Mess_SetTextJustify__FUc(0);
 
-	p = FUN_8006c4f0(DAT_800d1420 + 1);
+	p = Panel_DrawTexturedPoly__FP10SAnimFrame(DAT_800d1420 + 1);
 
 	if (p)
 		Panel_SetStretchedScreenCoords__FiiP8POLY_FT4P10SAnimFrame(64, 211, p, DAT_800d1420 + 1);

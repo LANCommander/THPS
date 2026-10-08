@@ -1,4 +1,4 @@
-/* FUN_8008528c (0x8008528c) */
+/* M3d_PreprocessWibblyTextures__Fi (0x8008528c) */
 /* C++ (M3D.CPP). THPS1's M3d_PreprocessWibblyTextures(Region): the demo twin minus its
    ZeroU/ZeroVAmplitudes skips and the 16-pass cap on the tile-wrap loops, with u/v wibble calls
    interleaved per vertex. vWibble__FP15STexWibVertInfo is vWibble. Locals and line order from the demo SYM.

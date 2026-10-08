@@ -1,6 +1,6 @@
 /* Trick_HoldTrick__6CBrucei (0x8001d528) */
-extern void FUN_8001d440(void *);
+extern void Mess_TextHeight2__FPCc(void *);
 
 void Trick_HoldTrick(void *p) {
-	FUN_8001d440(p);
+	Mess_TextHeight2__FPCc(p);
 }

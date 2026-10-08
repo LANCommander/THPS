@@ -71,13 +71,13 @@ void Pad_ClearTriggers(SControl *);
 extern "C" {
 	void FUN_80023168(int); /* GameFMV_SetStartTrack */
 	void *Mem_NewX__FUiii(int, int, int);
-	void FUN_8004d5d0(void *);
+	void Mem_Delete__FPv(void *);
 	void DecDCTvlcBuild3(void);
 	DISPENV *FUN_800914fc(DISPENV *, int, int, int, int);
 	void FUN_8008eebc(int);
 	int FUN_8008ca0c(DISPENV *);
 	void FUN_8008f620(CdlATV *);
-	void FUN_80023cb8(void);
+	void strInit__Fv(void);
 	void FUN_80070ff4(void);
 	void FUN_800902c0(u_long *, int);
 	void FUN_8009033c(u_long *, int);
@@ -171,7 +171,7 @@ void GameFMV_PlayMovie(int track) {
 		FUN_8008f620(&atv);
 	}
 
-	FUN_80023cb8();
+	strInit__Fv();
 	FUN_80070ff4();
 
 	DAT_800c0a48[0].b[14].Triggered = 0;
@@ -263,7 +263,7 @@ end:
 	FUN_8008f4d4(9, 0, 0);
 InsufficientMemory:
 	if (DAT_800d222c) {
-		FUN_8004d5d0(DAT_800d222c);
+		Mem_Delete__FPv(DAT_800d222c);
 
 		DAT_800d222c = 0;
 	}
@@ -273,7 +273,7 @@ InsufficientMemory:
 
 		for (i = 0; i < 2; i++) {
 			if (DAT_800d168c[i]) {
-				FUN_8004d5d0(DAT_800d168c[i]);
+				Mem_Delete__FPv(DAT_800d168c[i]);
 
 				DAT_800d168c[i] = 0;
 			}
@@ -285,7 +285,7 @@ InsufficientMemory:
 
 		for (i = 0; i < DAT_800d166c; i++) {
 			if (DAT_800a6748[i]) {
-				FUN_8004d5d0(DAT_800a6748[i]);
+				Mem_Delete__FPv(DAT_800a6748[i]);
 
 				DAT_800a6748[i] = 0;
 			}

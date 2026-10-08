@@ -1,5 +1,5 @@
 /* Trig_SendPulse__FPUs (0x80045718) */
-void FUN_80045538(int n);
+void Trig_SendPulseToNode__Fi(int n);
 
 void Trig_SendPulse(unsigned short *p) {
 	int i, n = p[0];
@@ -9,6 +9,6 @@ void Trig_SendPulse(unsigned short *p) {
 
 	while (i < n) {
 		i++;
-		FUN_80045538(*q++);
+		Trig_SendPulseToNode__Fi(*q++);
 	}
 }

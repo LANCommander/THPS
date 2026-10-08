@@ -1,4 +1,4 @@
-/* FUN_80071c24 (0x80071c24) */
+/* Init_Cleanup__Fi (0x80071c24) */
 typedef struct {
 	int x, y, z;
 } V;
@@ -38,7 +38,7 @@ static inline void VI(V *p, int x, int y, int z) {
 	p->z = z;
 }
 
-void FUN_80071c24(int a) {
+void Init_Cleanup__Fi(int a) {
 	V v;
 
 	FUN_8004b8e0();

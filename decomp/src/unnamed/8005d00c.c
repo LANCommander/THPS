@@ -27,11 +27,11 @@ void FUN_8005c97c(int);
 void FUN_8005ca64(void);
 int FileIO_Open__FPCc(int);
 int Mem_NewX__FUiii(int, int, int);
-void FUN_8004cb10(int);
-void FUN_8004cdd0(void);
+void FileIO_Load__FPv(int);
+void FileIO_Sync__Fv(void);
 void FUN_80061a10(int);
 void FUN_8005dc58(int);
-int __nw__5CItemUi(int);
+int __nw__6CClassUi(int);
 int FUN_80063a5c(int, int, int, int, int, int, int);
 int FUN_8005ca3c(char *);
 void FUN_8006b240(void);
@@ -49,29 +49,29 @@ void FUN_8005d00c(void) {
 	FUN_8005ca64();
 
 	s1 = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a5398[DAT_800d1cf4].f30), 1, 1);
-	FUN_8004cb10(s1);
-	FUN_8004cdd0();
+	FileIO_Load__FPv(s1);
+	FileIO_Sync__Fv();
 	FUN_80061a10(s1);
 	FUN_8005dc58(6);
 
 	s1 = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a5398[DAT_800d1cf4].f34), 1, 1);
-	FUN_8004cb10(s1);
-	FUN_8004cdd0();
+	FileIO_Load__FPv(s1);
+	FileIO_Sync__Fv();
 
-	o = __nw__5CItemUi(24);
+	o = __nw__6CClassUi(24);
 
 	if (o)
 		o = FUN_80063a5c(o, 8, s1, 0, 458, 64, 128);
 
 	DAT_800d1d0c = o;
-	o2 = __nw__5CItemUi(24);
+	o2 = __nw__6CClassUi(24);
 
 	if (o2)
 		o2 = FUN_80063a5c(o2, 8, FUN_8005ca3c(DAT_800a1b4c), 0, 440, 64, 128);
 
 	DAT_800d1d04 = o2;
 	DAT_800d1d18 = DAT_800a6844[DAT_800d234c].Tapes[DAT_800d1cf4];
-	o3 = __nw__5CItemUi(24);
+	o3 = __nw__6CClassUi(24);
 
 	if (o3)
 		o3 = FUN_80063a5c(o3, 8, FUN_8005ca3c(DAT_800a1b58), 0, 256, 64, 128);

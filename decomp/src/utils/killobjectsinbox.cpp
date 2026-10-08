@@ -18,7 +18,7 @@ class CBody {
 	virtual void Die();
 };
 
-extern "C" int FUN_80043ce8(CBody *);
+extern "C" int IsDead__C5CBody(CBody *);
 
 int Utils_KillObjectsInBox(const CVector &min, const CVector &max, CBody *p_list, bool use_die) {
 	int killed = 0;
@@ -26,7 +26,7 @@ int Utils_KillObjectsInBox(const CVector &min, const CVector &max, CBody *p_list
 	while (p_list) {
 		CBody *p_next = p_list->mpNext;
 
-		if (!FUN_80043ce8(p_list)) {
+		if (!IsDead__C5CBody(p_list)) {
 			CVector pos = p_list->mPos;
 
 			if (pos.vx >= min.vx && max.vx >= pos.vx && pos.vz >= min.vz && max.vz >= pos.vz &&

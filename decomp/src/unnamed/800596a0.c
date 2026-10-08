@@ -8,7 +8,7 @@ extern struct Q *DAT_800d1a60;
 struct Q *DAT_800d1c80;
 
 void FUN_80059618(int a);
-void FUN_8004d5d0(struct Q *p);
+void Mem_Delete__FPv(struct Q *p);
 
 struct Q *Mem_NewX__FUiii(int a, int b, int c);
 
@@ -20,7 +20,7 @@ void FUN_800596a0(void) {
 	if (DAT_800d1a60) {
 		do {
 			n = (struct Q *)DAT_800d1a60->c;
-			FUN_8004d5d0(DAT_800d1a60);
+			Mem_Delete__FPv(DAT_800d1a60);
 
 			DAT_800d1a60 = n;
 		} while (n);

@@ -1,7 +1,7 @@
-/* FUN_800434d4 (0x800434d4) */
+/* __nw__5CItemUi (0x800434d4) */
 int *Mem_NewX__FUiii(unsigned n, int a, int b);
 
-int *FUN_800434d4(unsigned n) {
+int *__nw__5CItemUi(unsigned n) {
 	int *r = Mem_NewX__FUiii(n, 0, 1);
 	int *q = r;
 	unsigned c = (n + 3) >> 2;

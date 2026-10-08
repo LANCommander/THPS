@@ -210,7 +210,7 @@ extern "C" {
 	void FUN_800229ec(int);
 	void FUN_80022aec(CVector *);
 	void FUN_80023260();
-	void FUN_80045538(int);
+	void Trig_SendPulseToNode__Fi(int);
 	void FUN_8006e454(int);
 }
 
@@ -383,7 +383,7 @@ int CBaddy::ExecuteCommand(ushort command) {
 				break;
 			}
 
-			FUN_80045538(node);
+			Trig_SendPulseToNode__Fi(node);
 			break;
 		}
 		case 17088: {

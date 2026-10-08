@@ -16,7 +16,7 @@ void FUN_8009035c(int);
 void FUN_8009074c(void);
 void FUN_800912bc(int, unsigned char *);
 void FUN_8008f264(int, unsigned char *, int);
-void FUN_8004d5d0(int);
+void Mem_Delete__FPv(int);
 void FUN_8008c5ec(RECT *, int, int, int);
 
 void GameFMV_StopFMV__Fv(void) {
@@ -42,14 +42,14 @@ void GameFMV_StopFMV__Fv(void) {
 		FUN_8008f264(22, loc, 0);
 
 		if (DAT_800d222c) {
-			FUN_8004d5d0(DAT_800d222c);
+			Mem_Delete__FPv(DAT_800d222c);
 
 			DAT_800d222c = 0;
 		}
 
 		for (i = 0; i < DAT_800d166c; i++) {
 			if (DAT_800a6748[i]) {
-				FUN_8004d5d0(DAT_800a6748[i]);
+				Mem_Delete__FPv(DAT_800a6748[i]);
 
 				DAT_800a6748[i] = 0;
 			}
@@ -57,7 +57,7 @@ void GameFMV_StopFMV__Fv(void) {
 
 		for (i = 0; i < 2; i++) {
 			if (DAT_800d168c[i]) {
-				FUN_8004d5d0(DAT_800d168c[i]);
+				Mem_Delete__FPv(DAT_800d168c[i]);
 
 				DAT_800d168c[i] = 0;
 			}

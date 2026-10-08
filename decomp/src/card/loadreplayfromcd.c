@@ -4,9 +4,9 @@ extern char DAT_8009e0e4[];
 
 char *FileIO_Open__FPCc(char *);
 char *Mem_NewX__FUiii(char *, int, int);
-void FUN_8004cb10(char *);
-void FUN_8004cdd0(void);
-void FUN_8004d5d0(char *);
+void FileIO_Load__FPv(char *);
+void FileIO_Sync__Fv(void);
+void Mem_Delete__FPv(char *);
 void FUN_8008c190(char *);
 void Mem_Copy__FPvT0i(void *, void *, int);
 int CalcChecksum__FPUlUl(void *, int);
@@ -16,8 +16,8 @@ int Card_LoadReplayFromCD__FPUlT0Pc(char *a, char *b, char *name) {
 	char *p = Mem_NewX__FUiii(FileIO_Open__FPCc(name), 1, 1);
 
 	if (p) {
-		FUN_8004cb10(p);
-		FUN_8004cdd0();
+		FileIO_Load__FPv(p);
+		FileIO_Sync__Fv();
 	}
 
 	Mem_Copy__FPvT0i(a, p, 0x6000);
@@ -25,7 +25,7 @@ int Card_LoadReplayFromCD__FPUlT0Pc(char *a, char *b, char *name) {
 	if (b)
 		Mem_Copy__FPvT0i(b, p + 0x6000, 0x6000);
 
-	FUN_8004d5d0(p);
+	Mem_Delete__FPv(p);
 
 	c = *(short *)(a + 566);
 

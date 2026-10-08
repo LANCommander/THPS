@@ -12,7 +12,7 @@ int SyncToGoodState__Fv(void);
 int Mem_NewX__FUiii(int, int, int);
 void Card_SetSelectedFile__FPc(char *);
 int Card_Load__F9EFileTypePUlT1(int, int, int);
-void FUN_8004d5d0(int);
+void Mem_Delete__FPv(int);
 
 void FUN_8001571c(void) {
 	struct B buf;
@@ -39,7 +39,7 @@ void FUN_8001571c(void) {
 						DAT_800d1398 = ((unsigned short *)&buf)[1047] + 1;
 				}
 
-				FUN_8004d5d0(p);
+				Mem_Delete__FPv(p);
 			}
 
 			name += 40;

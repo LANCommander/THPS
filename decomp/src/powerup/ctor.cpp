@@ -69,7 +69,7 @@ extern unsigned char DAT_800d1a16;
 
 char DAT_800d1618[8];
 
-extern "C" void FUN_8001fe7c(CPowerUp *);
+extern "C" void DontDisplay__8CPowerUp(CPowerUp *);
 extern "C" void AttachTo__5CBodyPP5CBody(CPowerUp *, char *);
 extern "C" void FUN_80043ae0(CPowerUp *);
 extern "C" void InitItem__5CItemPc(CPowerUp *, char *);
@@ -218,5 +218,5 @@ CPowerUp::CPowerUp(unsigned short a1, const V &a2_, const V &a3_, unsigned int a
 	AttachTo__5CBodyPP5CBody(this, DAT_800d1618);
 
 	if (this->b13d == 0)
-		FUN_8001fe7c(this);
+		DontDisplay__8CPowerUp(this);
 }

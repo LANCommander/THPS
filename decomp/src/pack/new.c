@@ -4,10 +4,10 @@ typedef struct TSPack {
 	struct TSPack *next;
 } TSPack;
 
-TSPack *FUN_800495c4(void);
+TSPack *Pack_GetSlot__Fv(void);
 
 TSPack *Pack_New__FPP6TSPack(TSPack **list) {
-	TSPack *p = FUN_800495c4();
+	TSPack *p = Pack_GetSlot__Fv();
 
 	p->next = *list;
 	*list = p;

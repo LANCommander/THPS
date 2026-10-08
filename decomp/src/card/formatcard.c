@@ -2,7 +2,7 @@
 extern char DAT_8009e124[];
 
 void FUN_8008b900(char *, char *, int, int);
-void FUN_80015044(void);
+void _clear_event_x__Fv(void);
 int FUN_8008eaa8(char *);
 int _card_event_x__Fv(void);
 
@@ -11,7 +11,7 @@ int Card_FormatCard__Fii(int a, int b) {
 	int s, r;
 
 	FUN_8008b900(buf, DAT_8009e124, a, b);
-	FUN_80015044();
+	_clear_event_x__Fv();
 
 	s = FUN_8008eaa8(buf);
 	r = _card_event_x__Fv();

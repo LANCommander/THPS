@@ -1,5 +1,5 @@
 /* FUN_8006e454 (0x8006e454) */
-/* C++. Counts a skater event (+0xe00) in career mode: the 5th ends it (99, FUN_8006e2fc(1));
+/* C++. Counts a skater event (+0xe00) in career mode: the 5th ends it (99, Panel_Tape__Fi(1));
    before that it shows "n of N" for the current level. */
 struct SMessageProg;
 
@@ -20,7 +20,7 @@ extern int DAT_800d1e28;
 void Mess_Message(const char *, SMessageProg *, bool, short, short);
 
 extern "C" {
-	void FUN_8006e2fc(int);
+	void Panel_Tape__Fi(int);
 	int FUN_8008b900(char *, const char *, ...);
 }
 
@@ -32,7 +32,7 @@ extern "C" void FUN_8006e454(void) {
 
 	if (n == 5) {
 		*(int *)(pSkater + 0xe00) = 99;
-		FUN_8006e2fc(1);
+		Panel_Tape__Fi(1);
 		return;
 	}
 

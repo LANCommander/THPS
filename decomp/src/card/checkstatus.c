@@ -7,7 +7,7 @@ int FUN_8008e914(int);
 int _card_event__Fv(void);
 void _clear_event__Fv(void);
 int FUN_8008f0cc(int);
-void FUN_80015044(void);
+void _clear_event_x__Fv(void);
 void FUN_8008ea68(int);
 void _card_event_x__Fv(void);
 
@@ -52,7 +52,7 @@ int Card_CheckStatus__Fii(int a, int b) {
 				case 4:
 					DAT_800d10f4 = 0;
 					DAT_800d1390 = 2;
-					FUN_80015044();
+					_clear_event_x__Fv();
 					FUN_8008ea68(s0);
 					_card_event_x__Fv();
 

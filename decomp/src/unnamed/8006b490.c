@@ -6,7 +6,7 @@ int DAT_800d1e44;
 
 int __6CBaddy(char *);
 void InitItem__5CItemPc(char *, char *);
-int FUN_8004b250(int, int, int);
+int SFX_PlayX__FUisi(int, int, int);
 void AttachTo__5CBodyPP5CBody(char *, void *);
 void CycleAnim__6CSuperiSc(char *, int, int);
 short *SquirtPos__5CBodyPs(char *, short *);
@@ -44,7 +44,7 @@ char *__4CCarPsii(char *t, short *p, int id, int ty) {
 
 			x = 0x86;
 		L:
-			*(int *)(t + 0x210) = FUN_8004b250(x, 0, 0);
+			*(int *)(t + 0x210) = SFX_PlayX__FUisi(x, 0, 0);
 			break;
 	}
 

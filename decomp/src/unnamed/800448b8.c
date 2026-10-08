@@ -3,7 +3,7 @@ extern int DAT_800d2610[];
 
 int *DAT_800d19f8;
 
-void FUN_8004d5d0(int *p);
+void Mem_Delete__FPv(int *p);
 
 void FUN_800448b8(void) {
 	int i;
@@ -15,7 +15,7 @@ void FUN_800448b8(void) {
 
 	for (p = DAT_800d19f8; p; p = n) {
 		n = (int *)p[5];
-		FUN_8004d5d0(p);
+		Mem_Delete__FPv(p);
 	}
 
 	DAT_800d19f8 = 0;

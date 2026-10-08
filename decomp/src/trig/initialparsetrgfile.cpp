@@ -30,8 +30,8 @@ void Trig_ParseTRGFile();
 extern "C" {
 	int FileIO_Open__FPCc(char *);
 	char *Mem_NewX__FUiii(int, int, int);
-	void FUN_8004cb10(char *);
-	void FUN_8004cdd0(void);
+	void FileIO_Load__FPv(char *);
+	void FileIO_Sync__Fv(void);
 	void FUN_8004d6a0(char *, int);
 	void ExecuteCommandList__FPUsii(ushort *, int, int);
 }
@@ -54,8 +54,8 @@ void Trig_InitialParseTRGFile(char *pName) {
 	}
 
 	DAT_800d19e0 = Mem_NewX__FUiii(FileIO_Open__FPCc(Name), 0, 1);
-	FUN_8004cb10(DAT_800d19e0);
-	FUN_8004cdd0();
+	FileIO_Load__FPv(DAT_800d19e0);
+	FileIO_Sync__Fv();
 
 	{
 		short **pTable = (short **)DAT_800d19e0;

@@ -187,7 +187,7 @@ extern "C" {
 	void FUN_8005ca64(void);
 	void *FUN_8005ca3c(char *);
 	void *Mem_NewX__FUiii(int, int, int);
-	void FUN_8004d5d0(void *);
+	void Mem_Delete__FPv(void *);
 	void FUN_80061714(void *);
 	void FUN_80059520(int);
 	int FUN_8008b900(char *, const char *, ...);
@@ -205,7 +205,7 @@ extern "C" {
 	void FUN_80061ea0(void);
 	void FUN_80059618(int);
 	void FUN_80043f70(CBruce *);
-	int FUN_8004b250(int, int, int);
+	int SFX_PlayX__FUisi(int, int, int);
 	void FUN_8006ed2c(int);
 	void ProcessNewPSX__Fi(int);
 	CBruce *FUN_8005622c(int);
@@ -218,7 +218,7 @@ extern "C" {
 	void FUN_80083774(void);
 	void Mess_SetTextJustify__FUc(int);
 	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
-	int FUN_8001dc9c(char *);
+	int Mess_TextHeightAboveBaseline__FPCc(char *);
 	int Mess_TextWidth__FPCc(char *);
 	void SetClippingBox__Fiiii(int, int, int, int);
 	void FUN_80059018(void);
@@ -226,7 +226,7 @@ extern "C" {
 	void FUN_80056394(void);
 	void FUN_8006b374(void);
 	void FUN_8006af64(void);
-	void FUN_8004cdd0(void);
+	void FileIO_Sync__Fv(void);
 	void FUN_8005609c(void);
 	void FUN_80059758(void);
 }
@@ -272,7 +272,7 @@ extern "C" int FUN_80056754(void) {
 	bmp = FUN_8005ca3c("select2p.bmp");
 
 	Mem_Copy(buf, bmp, 0x26160);
-	FUN_8004d5d0(bmp);
+	Mem_Delete__FPv(bmp);
 	Mess_LoadFont("stats2.fnt", -1, -1, -1);
 	Mess_LoadFont("mainf.fnt", -1, -1, -1);
 	Mess_SetFontScale(200);
@@ -516,13 +516,13 @@ extern "C" int FUN_80056754(void) {
 					press = input[p]->getPress();
 
 					if (press == 2) {
-						FUN_8004b250(148, 0x2000, 0);
+						SFX_PlayX__FUisi(148, 0x2000, 0);
 
 						state[p] = 2;
 						textState[p] = 3;
 						rightTimer[p] = 16;
 					} else if (press == 1) {
-						FUN_8004b250(148, 0x2000, 0);
+						SFX_PlayX__FUisi(148, 0x2000, 0);
 
 						state[p] = 3;
 						textState[p] = 3;
@@ -700,13 +700,13 @@ extern "C" int FUN_80056754(void) {
 						press = input[p]->getPress();
 
 						if (press == 2) {
-							FUN_8004b250(148, 0x2000, 0);
+							SFX_PlayX__FUisi(148, 0x2000, 0);
 
 							state[p] = 2;
 							textState[p] = 3;
 							rightTimer[p] = 16;
 						} else if (press == 1) {
-							FUN_8004b250(148, 0x2000, 0);
+							SFX_PlayX__FUisi(148, 0x2000, 0);
 
 							state[p] = 3;
 							textState[p] = 3;
@@ -737,13 +737,13 @@ extern "C" int FUN_80056754(void) {
 						press = input[p]->getPress();
 
 						if (press == 2) {
-							FUN_8004b250(148, 0x2000, 0);
+							SFX_PlayX__FUisi(148, 0x2000, 0);
 
 							state[p] = 2;
 							textState[p] = 3;
 							rightTimer[p] = 16;
 						} else if (press == 1) {
-							FUN_8004b250(148, 0x2000, 0);
+							SFX_PlayX__FUisi(148, 0x2000, 0);
 
 							state[p] = 3;
 							textState[p] = 3;
@@ -808,37 +808,37 @@ extern "C" int FUN_80056754(void) {
 				int ty = 330;
 
 				Mess_DrawText__FiiPCciUiib(infoX[p],
-				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[0]) + ty -
+				             Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d2304[p]].Info[0]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[0]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[0], 0, 0, 256, 0);
 
 				ty += 15;
 				Mess_DrawText__FiiPCciUiib(infoX[p],
-				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[1]) + ty -
+				             Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d2304[p]].Info[1]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[1]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[1], 0, 0, 256, 0);
 
 				ty += 15;
 				Mess_DrawText__FiiPCciUiib(infoX[p],
-				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[2]) + ty -
+				             Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d2304[p]].Info[2]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[2]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[2], 0, 0, 256, 0);
 
 				ty += 15;
 				Mess_DrawText__FiiPCciUiib(infoX[p],
-				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[3]) + ty -
+				             Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d2304[p]].Info[3]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[3]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[3], 0, 0, 256, 0);
 
 				ty += 15;
 				Mess_DrawText__FiiPCciUiib(infoX[p],
-				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[4]) + ty -
+				             Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d2304[p]].Info[4]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[4]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[4], 0, 0, 256, 0);
 
 				ty += 15;
 				Mess_DrawText__FiiPCciUiib(infoX[p],
-				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[5]) + ty -
+				             Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d2304[p]].Info[5]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[5]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[5], 0, 0, 256, 0);
 			}
@@ -914,7 +914,7 @@ extern "C" int FUN_80056754(void) {
 					{
 						int ty = 74;
 
-						textY[p] = FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Name) + ty -
+						textY[p] = Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d2304[p]].Name) + ty -
 						           (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Name) >> 1);
 					}
 
@@ -981,9 +981,9 @@ extern "C" int FUN_80056754(void) {
 				if (state[p] != 1 && DAT_800d231c[p] &&
 				    (DAT_800d2304[0] != DAT_800d2304[1] || state[1 - p] != 1)) {
 					state[p] = 1;
-					FUN_8004b250(145, 0x2000, 0);
+					SFX_PlayX__FUisi(145, 0x2000, 0);
 				} else if (state[p] != 1 && DAT_800d231c[p]) {
-					FUN_8004b250(146, 0x2000, 0);
+					SFX_PlayX__FUisi(146, 0x2000, 0);
 				}
 			}
 
@@ -992,13 +992,13 @@ extern "C" int FUN_80056754(void) {
 
 				if (state[p] != 1) {
 					if (state[1 - p] != 1) {
-						FUN_8004b250(147, 0x2000, 0);
+						SFX_PlayX__FUisi(147, 0x2000, 0);
 
 						result = -1;
 						break;
 					}
 				} else {
-					FUN_8004b250(147, 0x2000, 0);
+					SFX_PlayX__FUisi(147, 0x2000, 0);
 
 					state[p] = 0;
 				}
@@ -1031,7 +1031,7 @@ out:
 
 	FUN_8006af64();
 	if (DAT_800d1afc)
-		FUN_8004cdd0();
+		FileIO_Sync__Fv();
 
 	for (i = 0; i < 2; i++) {
 		if (DAT_800d231c[i]) {

@@ -80,7 +80,7 @@ int __5CMenuiiUciii(int, int, int, int, int, int, int);
 void FUN_8008b900();
 int FindEntry__5CMenuPCc(int, char *);
 void SetLine__5CMenuUc(int, int);
-int __nw__5CItemUi(int);
+int __nw__6CClassUi(int);
 
 void FUN_800171f0(void) {
 	int q, q2, a1, a2, a3, a4, a5, a6, a7;
@@ -88,7 +88,7 @@ void FUN_800171f0(void) {
 	DAT_800d1408 = FUN_80071fa4;
 	DAT_800a5c64 = DAT_8009e31c;
 	DAT_800a5bdc = DAT_8009e31c;
-	a1 = __nw__5CItemUi(384);
+	a1 = __nw__6CClassUi(384);
 
 	if (a1)
 		a1 = __5CMenuiiUciii(a1, 256, 0, 0, 335, 256, 22);
@@ -97,7 +97,7 @@ void FUN_800171f0(void) {
 	AddEntry__5CMenuPCc(a1, DAT_800a5d5c.f1b4);
 	AddEntry__5CMenuPCc(DAT_800d1428, DAT_800a5d5c.f1b8);
 
-	a2 = __nw__5CItemUi(384);
+	a2 = __nw__6CClassUi(384);
 
 	if (a2)
 		a2 = __5CMenuiiUciii(a2, 256, 0, 0, 335, 256, 22);
@@ -140,7 +140,7 @@ void FUN_800171f0(void) {
 											   : DAT_800a5d5c.f74) &
 	        255);
 
-	a3 = __nw__5CItemUi(384);
+	a3 = __nw__6CClassUi(384);
 
 	if (a3)
 		a3 = __5CMenuiiUciii(a3, 256, 0, 0, 335, 256, 22);
@@ -152,7 +152,7 @@ void FUN_800171f0(void) {
 	AddEntry__5CMenuPCc(DAT_800d1430, DAT_800a5d5c.f6c);
 	CentreY__5CMenu(DAT_800d1430);
 
-	a4 = __nw__5CItemUi(384);
+	a4 = __nw__6CClassUi(384);
 
 	if (a4)
 		a4 = __5CMenuiiUciii(a4, 256, 0, 0, 335, 256, 22);
@@ -163,7 +163,7 @@ void FUN_800171f0(void) {
 	AddEntry__5CMenuPCc(DAT_800d1434, DAT_800a5d5c.f6c);
 	CentreY__5CMenu(DAT_800d1434);
 
-	a5 = __nw__5CItemUi(384);
+	a5 = __nw__6CClassUi(384);
 
 	if (a5)
 		a5 = __5CMenuiiUciii(a5, 256, 0, 0, 335, 256, 22);
@@ -175,7 +175,7 @@ void FUN_800171f0(void) {
 	AddEntry__5CMenuPCc(DAT_800d1438, DAT_800a5d5c.f124);
 	CentreY__5CMenu(DAT_800d1438);
 
-	a6 = __nw__5CItemUi(384);
+	a6 = __nw__6CClassUi(384);
 
 	if (a6)
 		a6 = __5CMenuiiUciii(a6, 256, 0, 0, 335, 256, 22);
@@ -187,7 +187,7 @@ void FUN_800171f0(void) {
 	AddEntry__5CMenuPCc(DAT_800d143c, DAT_800a5d5c.f188);
 	CentreY__5CMenu(DAT_800d143c);
 
-	a7 = __nw__5CItemUi(384);
+	a7 = __nw__6CClassUi(384);
 
 	if (a7)
 		a7 = __5CMenuiiUciii(a7, 256, 0, 0, 335, 256, 22);

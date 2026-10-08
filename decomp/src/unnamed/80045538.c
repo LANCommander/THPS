@@ -1,4 +1,4 @@
-/* FUN_80045538 (0x80045538) */
+/* Trig_SendPulseToNode__Fi (0x80045538) */
 typedef struct {
 	int x, y, z, pad;
 } V;
@@ -23,12 +23,12 @@ CP *GetCommandPoint__Fi(int, short **);
 void ExecuteCommandList__FPUsii(int, int, int);
 P *Trig_GetPosition__FR7CVectori(V *, int);
 int __nw__4CBitUi(int);
-void FUN_8001f614(int, V *, int, int, int, int, int, int, int, int, int, int, int);
+void __6CLightRC7CVectoriiiiiUcUcUcUcUcUc(int, V *, int, int, int, int, int, int, int, int, int, int, int);
 void TrickOb_DarkenNode__Fi(int, short **);
-int __nw__5CItemUi(int, short **);
+int __nw__6CClassUi(int, short **);
 void FUN_8004f684(int, int);
 
-void FUN_80045538(int idx) {
+void Trig_SendPulseToNode__Fi(int idx) {
 	V v;
 	P *p;
 	CP *cp;
@@ -51,14 +51,14 @@ void FUN_80045538(int idx) {
 			o = __nw__4CBitUi(100);
 
 			if (o)
-				FUN_8001f614(o, &v, idx, p->w0, p->w2, p->w4, p->w6, p->b8, p->b10, p->b12, p->b14,
+				__6CLightRC7CVectoriiiiiUcUcUcUcUcUc(o, &v, idx, p->w0, p->w2, p->w4, p->w6, p->b8, p->b10, p->b12, p->b14,
 				             p->b16, p->b18);
 
 			DAT_800d186c = 1;
 			break;
 		case 10:
 		case 11:
-			o2 = __nw__5CItemUi(44, DAT_800d19e8);
+			o2 = __nw__6CClassUi(44, DAT_800d19e8);
 
 			if (o2)
 				FUN_8004f684(o2, idx);

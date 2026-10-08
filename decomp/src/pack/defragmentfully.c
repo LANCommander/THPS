@@ -7,7 +7,7 @@ typedef struct TSPack {
 TSPack *DAT_800d1a60;
 int DAT_800d1a74, DAT_800d1a7c;
 
-void FUN_800495f4(TSPack *);
+void Pack_KillSlot__FP6TSPack(TSPack *);
 void Pack_Zap__Fiiii(int, int, int, int);
 int Pack_Merge__FP6TSPack(TSPack *);
 
@@ -22,7 +22,7 @@ void Pack_DefragmentFully__Fv(void) {
 
 		do {
 			n = p->next;
-			FUN_800495f4(p);
+			Pack_KillSlot__FP6TSPack(p);
 
 			p = n;
 		} while (p);

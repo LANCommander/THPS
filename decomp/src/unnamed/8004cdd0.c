@@ -1,11 +1,11 @@
-/* FUN_8004cdd0 (0x8004cdd0) */
+/* FileIO_Sync__Fv (0x8004cdd0) */
 int DAT_800d1b14;
 int DAT_800d1afc;
 
-void FUN_8004cc18(void);
+void FileIO_Continue__Fv(void);
 void FUN_8005dcc4(void);
 
-void FUN_8004cdd0(void) {
+void FileIO_Sync__Fv(void) {
 	if (DAT_800d1b14) {
 		DAT_800d1afc = 0;
 		DAT_800d1b14 = 0;
@@ -13,9 +13,9 @@ void FUN_8004cdd0(void) {
 	}
 
 	while (DAT_800d1afc) {
-		FUN_8004cc18();
+		FileIO_Continue__Fv();
 		FUN_8005dcc4();
 	}
 
-	FUN_8004cc18();
+	FileIO_Continue__Fv();
 }

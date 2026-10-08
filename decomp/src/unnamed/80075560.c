@@ -67,7 +67,7 @@ void Flash_Reset__Fv(void);
 int Flash_FadeFinished__Fv(void);
 void GameFMV_PlayMovie__Fi(int);
 int Mem_NewX__FUiii(int, int, int);
-void FUN_8004d5d0(int);
+void Mem_Delete__FPv(int);
 int FUN_80073f9c(void);
 int FUN_80077124(void *);
 void FUN_8008f4d4(int, int, int);
@@ -117,7 +117,7 @@ void Competition_WinLoseLogic__FR13EPausedStatusRi(int *a0, int *a1) {
 			Mess_DeleteAll__Fv();
 			FUN_8008f4d4(8, 0, 0);
 			Pause__Fi(10);
-			FUN_8004d5d0(DAT_800a891c.a);
+			Mem_Delete__FPv(DAT_800a891c.a);
 			GameFMV_PlayMovie__Fi(-11);
 			Flash_Reset__Fv();
 

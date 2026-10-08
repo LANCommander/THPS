@@ -15,21 +15,21 @@ typedef struct STexture {
 	short px, py;
 } STexture;
 
-void FUN_8006f094(void);
+void GotoStartOfTextureList__Fv(void);
 STexture *NextTexture__Fv(void);
 void Pack_Unpack__Fss(short, short);
-void FUN_8006efb8(STexture *);
+void RemoveTextureEntry__FP7Texture(STexture *);
 
 void Spool_RemoveUnusedTextures__Fv(void) {
 	STexture *t;
 
-	FUN_8006f094();
+	GotoStartOfTextureList__Fv();
 
 	while ((t = NextTexture__Fv())) {
 		if ((t->u.flags & 0xf0000) && !t->u.usage) {
 			t->pal->refs--;
 			Pack_Unpack__Fss(t->px, t->py);
-			FUN_8006efb8(t);
+			RemoveTextureEntry__FP7Texture(t);
 		}
 	}
 }

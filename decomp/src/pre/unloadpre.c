@@ -9,7 +9,7 @@ typedef struct {
 extern char DAT_800d1dbc[];
 
 int FUN_8008f6fc(char *, char *);
-void FUN_8004d5d0(void *);
+void Mem_Delete__FPv(void *);
 
 void unloadPRE__10PREManagerPc(PREManager *m, char *name) {
 	int i;
@@ -21,7 +21,7 @@ void unloadPRE__10PREManagerPc(PREManager *m, char *name) {
 			n[0] = DAT_800d1dbc[0];
 
 			if (m->pre[i])
-				FUN_8004d5d0(m->pre[i]);
+				Mem_Delete__FPv(m->pre[i]);
 
 			m->pre[i] = 0;
 			return;

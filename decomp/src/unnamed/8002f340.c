@@ -14,7 +14,7 @@ typedef struct {
 extern int DAT_800d16a4;
 
 int FUN_8002f290(B *, int, int);
-void Mem_Delete__FPv(void *, int, int, int);
+void FUN_8006e19c(void *, int, int, int);
 
 void FUN_8002f340(B *p, int a1, int a2, int a3) {
 	if (p->f760) {
@@ -35,6 +35,6 @@ void FUN_8002f340(B *p, int a1, int a2, int a3) {
 			p->a568[a1]--;
 		}
 
-		Mem_Delete__FPv(p, a2, a3, 0);
+		FUN_8006e19c(p, a2, a3, 0);
 	}
 }

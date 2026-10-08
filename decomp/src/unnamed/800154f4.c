@@ -23,7 +23,7 @@ void Card_SetSelectedFile__FPc(E *);
 int Card_Load__F9EFileTypePUlT1(int, int, int);
 int FUN_8008eebc(int);
 void Front_ExtractASCIINameFromSJIS__FPcT0(char *, char *);
-void FUN_8004d5d0(int);
+void Mem_Delete__FPv(int);
 void FUN_800103a4(void);
 void Options_SetPreferences__Fv(void);
 
@@ -68,7 +68,7 @@ int FUN_800154f4(void) {
 					}
 				}
 
-				FUN_8004d5d0(p);
+				Mem_Delete__FPv(p);
 			}
 
 			i++;

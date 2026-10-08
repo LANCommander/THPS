@@ -27,7 +27,7 @@ extern int DAT_800be3d0[];
 void FUN_80023168(int);
 void FUN_8002357c(int);
 P *Mem_NewX__FUiii(int, int, int);
-void FUN_8004d5d0(P *);
+void Mem_Delete__FPv(P *);
 int FUN_8008eebc(int);
 void GameFMV_StartFMV__Fi(int);
 void GameFMV_StopFMV__Fv(void);
@@ -132,7 +132,7 @@ void FUN_800502bc(int a) {
 			break;
 		case 2:
 			GameFMV_StopFMV__Fv();
-			FUN_8004d5d0(DAT_800d2280);
+			Mem_Delete__FPv(DAT_800d2280);
 			break;
 	}
 }

@@ -1,4 +1,4 @@
-/* FUN_8001db80 (0x8001db80) */
+/* Mess_TextHeightBelowBaseline__FPCc (0x8001db80) */
 typedef struct {
 	int **p;
 	char pad[32];
@@ -21,7 +21,7 @@ int DAT_800d15e4;
 int FUN_8001d548(unsigned char *s);
 int GetCharIndex__Fc(int c);
 
-int FUN_8001db80(unsigned char *s) {
+int Mess_TextHeightBelowBaseline__FPCc(unsigned char *s) {
 	int m;
 	int v;
 	int c;

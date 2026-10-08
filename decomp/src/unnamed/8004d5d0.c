@@ -1,4 +1,4 @@
-/* FUN_8004d5d0 (0x8004d5d0) */
+/* Mem_Delete__FPv (0x8004d5d0) */
 typedef struct B {
 	struct B *next;
 	int flags : 4;
@@ -14,7 +14,7 @@ unsigned DAT_800d1b60;
 
 void AddToFreeList__FP12SBlockHeaderi(B *b, int i);
 
-void FUN_8004d5d0(char *p) {
+void Mem_Delete__FPv(char *p) {
 	B *b = (B *)(p - 8);
 	int f = b->flags;
 

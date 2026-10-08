@@ -36,10 +36,10 @@ uchar DAT_800d22e8;
 int DAT_800d22ec; /* all pictures loaded */
 
 extern "C" {
-	void FUN_8004cc18(void);
+	void FileIO_Continue__Fv(void);
 	int FileIO_Open__FPCc(char *);
 	char *Mem_NewX__FUiii(int, int, int);
-	void FUN_8004cb10(char *);
+	void FileIO_Load__FPv(char *);
 }
 
 int Load8BitBMP2(char *, char **, int *, int *, ushort *);
@@ -47,7 +47,7 @@ int Load8BitBMP2(char *, char **, int *, int *, ushort *);
 extern "C" void FUN_80054134(void) {
 	int col = DAT_800d22e0;
 
-	FUN_8004cc18();
+	FileIO_Continue__Fv();
 
 	if (DAT_800d22ec)
 		DAT_800d22e8 = 1;
@@ -104,7 +104,7 @@ extern "C" void FUN_80054134(void) {
 			int size = FileIO_Open__FPCc(DAT_800d33d4[c][DAT_800d22d8]);
 
 			if (size > 0)
-				FUN_8004cb10(DAT_800d22e4 = Mem_NewX__FUiii(size, 1, 1));
+				FileIO_Load__FPv(DAT_800d22e4 = Mem_NewX__FUiii(size, 1, 1));
 		}
 	}
 }

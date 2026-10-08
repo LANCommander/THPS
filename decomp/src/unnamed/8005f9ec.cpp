@@ -48,7 +48,7 @@ Sprite *DAT_800d1d60;
 extern "C" {
 	int getSelected__12VerticalMenu(int);
 	void FUN_8002357c(int);
-	void FUN_8004b250(int, int, int);
+	void SFX_PlayX__FUisi(int, int, int);
 	void FUN_80023168(int);
 	void FUN_80022aec(CVector *);
 }
@@ -93,7 +93,7 @@ extern "C" void FUN_8005f9ec(int a) {
 			}
 
 			DAT_800d13cc = v * 0x555;
-			FUN_8004b250(145, 8192, 0);
+			SFX_PlayX__FUisi(145, 8192, 0);
 		}
 
 		if (getSelected__12VerticalMenu(a) == 1) {
@@ -117,7 +117,7 @@ extern "C" void FUN_8005f9ec(int a) {
 		if (getSelected__12VerticalMenu(a) == 0) {
 			Pad_ClearTriggers(&DAT_800c0a48[0]);
 			Pad_ClearTriggers(&DAT_800c0a48[1]);
-			FUN_8004b250(145, 8192, 0);
+			SFX_PlayX__FUisi(145, 8192, 0);
 		}
 
 		if (getSelected__12VerticalMenu(a) == 1) {

@@ -11,7 +11,7 @@ extern int DAT_800d16a4;
 
 int DAT_800d10ec;
 
-void FUN_8004b250(int a, int b, int c);
+void SFX_PlayX__FUisi(int a, int b, int c);
 
 void FUN_80010f70(int a) {
 	int s;
@@ -30,8 +30,8 @@ void FUN_80010f70(int a) {
 		if (s < 4096)
 			s = 4096;
 		else
-			FUN_8004b250(46, (short)(s / 2), 0);
+			SFX_PlayX__FUisi(46, (short)(s / 2), 0);
 
-		FUN_8004b250(47, (short)s, 0);
+		SFX_PlayX__FUisi(47, (short)s, 0);
 	}
 }

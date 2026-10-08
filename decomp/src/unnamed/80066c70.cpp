@@ -12,7 +12,7 @@ int DAT_800d23b0[2];
 int DAT_800d23b8[2];
 
 extern "C" void FUN_80066bb4(int);
-extern "C" void FUN_8004d5d0(void *);
+extern "C" void Mem_Delete__FPv(void *);
 void Pack_Unpack(short, short);
 
 extern "C" void FUN_80066c70() {
@@ -26,7 +26,7 @@ extern "C" void FUN_80066c70() {
 		while (DAT_800d2398[i]) {
 			SNode *n = DAT_800d2398[i]->pNext;
 
-			FUN_8004d5d0(DAT_800d2398[i]);
+			Mem_Delete__FPv(DAT_800d2398[i]);
 
 			DAT_800d2398[i] = n;
 		}
@@ -34,7 +34,7 @@ extern "C" void FUN_80066c70() {
 		while (DAT_800d23a0[i]) {
 			SNode *n = DAT_800d23a0[i]->pNext;
 
-			FUN_8004d5d0(DAT_800d23a0[i]);
+			Mem_Delete__FPv(DAT_800d23a0[i]);
 
 			DAT_800d23a0[i] = n;
 		}

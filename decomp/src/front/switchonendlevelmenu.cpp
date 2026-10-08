@@ -69,7 +69,7 @@ void InitStatsSwisch();
 int SFX_PlayX(unsigned int, short, int);
 
 extern "C" {
-	void FUN_8001a128(void);
+	void CommonSwitchOnMenuCode__Fv(void);
 	int FUN_8008b900(char *, const char *, ...);
 }
 
@@ -147,6 +147,6 @@ void Front_SwitchOnEndLevelMenu() {
 		DAT_800d13c4 = 0;
 	}
 
-	FUN_8001a128();
+	CommonSwitchOnMenuCode__Fv();
 	InitStatsSwisch();
 }

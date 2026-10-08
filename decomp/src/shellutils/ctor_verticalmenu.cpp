@@ -66,7 +66,7 @@ void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
 extern "C" {
 	void FUN_8008e904(char *, char *);
 	int Mess_TextWidth__FPCc(char *);
-	int FUN_8001dc9c(char *);
+	int Mess_TextHeightAboveBaseline__FPCc(char *);
 	int FUN_8008c468(int);
 	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 }
@@ -90,7 +90,7 @@ VerticalMenu::VerticalMenu(int top, int bottom, int spacing, char **items, int n
 			list[i].w = Mess_TextWidth__FPCc(items[i]);
 			list[i].h = Mess_TextHeight(items[i]);
 			list[i].x = xlist ? xlist[i] : 320;
-			list[i].yoff = FUN_8001dc9c(list[i].text);
+			list[i].yoff = Mess_TextHeightAboveBaseline__FPCc(list[i].text);
 			list[i].disabled = 0;
 			tot_h += item_spacing + list[i].h;
 		}

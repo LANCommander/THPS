@@ -13,7 +13,7 @@ void FUN_8005ca64(void);
 int FUN_8005ca3c(char *a);
 void FUN_80061a10(int a);
 void FUN_8005dc58(int a);
-char *__nw__5CItemUi(unsigned);
+char *__nw__6CClassUi(unsigned);
 char *FUN_80063a5c(char *p, int a, int b, int c, int d, int e, int f);
 void Pack_DefragmentFully__Fv(void);
 void FUN_8006b240(void);
@@ -28,7 +28,7 @@ void FUN_8005d28c(void) {
 	FUN_80061a10(FUN_8005ca3c(DAT_800a1b64));
 	FUN_8005dc58(6);
 
-	p = __nw__5CItemUi(24);
+	p = __nw__6CClassUi(24);
 
 	if (p) {
 		p = FUN_80063a5c(p, 8, FUN_8005ca3c(DAT_800a1b74), 0, 458, 64, 128);

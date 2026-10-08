@@ -1,10 +1,10 @@
-/* FUN_8001d440 (0x8001d440) */
+/* Mess_TextHeight2__FPCc (0x8001d440) */
 extern unsigned char DAT_800b9d9c[];
 extern unsigned char *DAT_800d1adc;
 
 unsigned short DAT_800d15f8;
 
-int FUN_8001d440(unsigned char *s) {
+int Mess_TextHeight2__FPCc(unsigned char *s) {
 	int m = 0;
 
 	while (*s) {

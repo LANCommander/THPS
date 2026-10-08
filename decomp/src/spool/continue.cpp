@@ -42,7 +42,7 @@ uint *Spool_SkipPackets(uint *);
 extern "C" {
 	int FileIO_Open__FPCc(char *);
 	uint *Mem_NewX__FUiii(int, int, int);
-	void FUN_8004cb10(uint *);
+	void FileIO_Load__FPv(uint *);
 	void ProcessNewPSX__Fi(int);
 }
 
@@ -81,13 +81,13 @@ void Spool_Continue() {
 
 					*pDest = 0;
 					DAT_800bf7a8[Q->Region].pPSX = Mem_NewX__FUiii(FileSize, 1, 1);
-					FUN_8004cb10(DAT_800bf7a8[Q->Region].pPSX);
+					FileIO_Load__FPv(DAT_800bf7a8[Q->Region].pPSX);
 					break;
 				}
 				case 0:
 				case 2:
 					DAT_800bf7a8[Q->Region].pPSX = Mem_NewX__FUiii(FileSize, 1, 1);
-					FUN_8004cb10(DAT_800bf7a8[Q->Region].pPSX);
+					FileIO_Load__FPv(DAT_800bf7a8[Q->Region].pPSX);
 					break;
 			}
 

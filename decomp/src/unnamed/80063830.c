@@ -2,7 +2,7 @@
 extern char DAT_800a2190[];
 
 int Load8BitBMP__FPcPPcPiT2PUs(char *name, char **a, int *b, int *c, unsigned short *d);
-char *__nw__5CItemUi(unsigned n);
+char *__nw__6CClassUi(unsigned n);
 char *__11SlicedImagePciiiiiUs(char *p, char *a, int b, int c, int d, int e, int f, int g);
 void pack__11SlicedImage(char *p);
 
@@ -26,7 +26,7 @@ char *__6SpritePciii(char *p, char *name, int pk, int mw, int mh) {
 	if (!(mh < h))
 		mh = 0;
 
-	v = __nw__5CItemUi(52);
+	v = __nw__6CClassUi(52);
 
 	if (v)
 		v = __11SlicedImagePciiiiiUs(v, data, w, h, mw, mh, *(int *)(p + 16), pal);

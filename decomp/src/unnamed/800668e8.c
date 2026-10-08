@@ -6,7 +6,7 @@ extern int DAT_800d1a8c, DAT_800d1a90;
 extern int DAT_800d3810[], DAT_800d3840[], DAT_800bf2f0[], DAT_800bf2a0[];
 
 void Load8BitBMP2__FPcPPcPiT2PUs(int, int *, int *, int *, unsigned short *);
-int __nw__5CItemUi(int);
+int __nw__6CClassUi(int);
 int __11SlicedImagePciiiiiUs(int, int, int, int, int, int, int, int);
 int Get256SlotNumber__FUs(unsigned short);
 void FUN_800665ec(int, int);
@@ -30,7 +30,7 @@ void FUN_800668e8(void) {
 		t = DAT_800d2364;
 		DAT_800d3810[t] = 0;
 		ps = &DAT_800bf2f0[t];
-		v = __nw__5CItemUi(52);
+		v = __nw__6CClassUi(52);
 
 		if (v)
 			v = __11SlicedImagePciiiiiUs(v, b, c, d, 32, 63, 8, a);

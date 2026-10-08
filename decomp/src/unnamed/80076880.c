@@ -1,4 +1,4 @@
-/* FUN_80076880 (0x80076880) flags=-fstructure-noalias */
+/* Competition_EndGameLogic__FR13EPausedStatusRi (0x80076880) flags=-fstructure-noalias */
 /* Competition end-of-game logic (COMPETITION.CPP, demo Competition_EndGameLogic), as C: after the
    results flash, kills the medal objects, records the medal, and reloads/plays the ending; else
    waits for the prompt and offers the continue menu. */
@@ -71,7 +71,7 @@ void Pad_ActuatorOff__FUcUc(int, int);
 void Mess_DeleteAll__Fv(void);
 void FUN_8008f4d4(int, int, int);
 void Pause__Fi(int);
-void FUN_8004d5d0(int);
+void Mem_Delete__FPv(int);
 void GameFMV_PlayMovie__Fi(int);
 void Flash_Reset__Fv(void);
 int Mem_NewX__FUiii(int, int, int);
@@ -80,7 +80,7 @@ void SetLine__5CMenuUc(char *, unsigned char);
 int FUN_8007401c(void);
 void Flash_Fade__Fii(int, int);
 
-void FUN_80076880(int *a, int *b) {
+void Competition_EndGameLogic__FR13EPausedStatusRi(int *a, int *b) {
 	char *g;
 	int e;
 
@@ -114,7 +114,7 @@ void FUN_80076880(int *a, int *b) {
 			Mess_DeleteAll__Fv();
 			FUN_8008f4d4(8, 0, 0);
 			Pause__Fi(10);
-			FUN_8004d5d0(DAT_800a891c.a);
+			Mem_Delete__FPv(DAT_800a891c.a);
 			GameFMV_PlayMovie__Fi(-(*(int *)(DAT_800d17c8 + 744) + 12));
 			Flash_Reset__Fv();
 

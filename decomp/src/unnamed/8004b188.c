@@ -11,8 +11,8 @@ typedef struct {
 
 int FileIO_Open__FPCc(char *);
 void *Mem_NewX__FUiii(int, int, int);
-void FUN_8004cb10(void *);
-void FUN_8004cdd0(void);
+void FileIO_Load__FPv(void *);
+void FileIO_Sync__Fv(void);
 int FUN_800949a4(int);
 void FUN_800938b4(int);
 void FUN_80093df4(void *, int);
@@ -23,8 +23,8 @@ int FUN_8004b188(char *name, SVabHead **out) {
 	SVabHead *vab = Mem_NewX__FUiii(FileIO_Open__FPCc(name) + 64, 1, 1);
 	int head, body, addr;
 
-	FUN_8004cb10(vab);
-	FUN_8004cdd0();
+	FileIO_Load__FPv(vab);
+	FileIO_Sync__Fv();
 
 	head = (vab->NumProgs << 9) + 2592;
 	body = (vab->Size - head + 63) & ~63;

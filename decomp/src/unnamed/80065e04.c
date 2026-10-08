@@ -1,7 +1,7 @@
 /* FUN_80065e04 (0x80065e04) */
 extern int DAT_800d1b10;
 
-void FUN_8004d5d0(int);
+void Mem_Delete__FPv(int);
 void ProcessNewPSX__Fi(int);
 void Spool_ClearPSX__FPc(char *);
 void Spool_Sync__Fv(void);
@@ -20,7 +20,7 @@ void FUN_80065e04(char *a, int b) {
 		if (*s == 0) {
 			q = (int *)(a + 0x10);
 			q = (int *)((char *)q + o);
-			FUN_8004d5d0(*q);
+			Mem_Delete__FPv(*q);
 
 			*q = 0;
 		}

@@ -18,11 +18,11 @@ extern unsigned short *DAT_800a8828[];
 int GetFlag__FUcPUc(unsigned char, unsigned char *);
 int *Trig_GetPosition__FR7CVectori(V *, int);
 void Trig_CreateObject__Fi(int);
-void FUN_80044820(int, unsigned short, char *);
+void CreateCommandPoint__FUiUsPUs(int, unsigned short, char *);
 void *__nw__4CBitUi(int);
-int FUN_8001f614(void *, V *, int, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned,
+int __6CLightRC7CVectoriiiiiUcUcUcUcUcUc(void *, V *, int, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned,
                  unsigned, unsigned, unsigned, unsigned);
-void *__nw__5CItemUi(unsigned);
+void *__nw__6CClassUi(unsigned);
 void __8CTrickObUs(void *, unsigned short, int);
 void CamPt_New__Fi(int);
 void Trig_ClearTrigMenu__Fv(void);
@@ -66,7 +66,7 @@ void Trig_ParseTRGFile__Fv(void) {
 				if ((int)b & 2)
 					b += 1;
 
-				FUN_80044820(*(int *)b, ui, (char *)b + 4);
+				CreateCommandPoint__FUiUsPUs(*(int *)b, ui, (char *)b + 4);
 				break;
 			case 2:
 			case 9:
@@ -76,7 +76,7 @@ void Trig_ParseTRGFile__Fv(void) {
 				if ((int)b & 2)
 					b += 1;
 
-				FUN_80044820(*(int *)b, i, DAT_800d1a10);
+				CreateCommandPoint__FUiUsPUs(*(int *)b, i, DAT_800d1a10);
 				break;
 			case 500:
 				q = (Q *)Trig_GetPosition__FR7CVectori(&v, i);
@@ -84,14 +84,14 @@ void Trig_ParseTRGFile__Fv(void) {
 				w = __nw__4CBitUi(100);
 
 				if (w)
-					FUN_8001f614(w, &v, i, q->us0, q->us2, q->us4, q->us6, q->b8, q->b10, q->b12,
+					__6CLightRC7CVectoriiiiiUcUcUcUcUcUc(w, &v, i, q->us0, q->us2, q->us4, q->us6, q->b8, q->b10, q->b12,
 					             q->b14, q->b16, q->b18);
 
 				DAT_800d186c = 1;
 				break;
 			case 12:
 			case 14:
-				it = __nw__5CItemUi(24);
+				it = __nw__6CClassUi(24);
 
 				if (it)
 					__8CTrickObUs(it, i, 0);

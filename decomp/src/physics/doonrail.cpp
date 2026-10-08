@@ -167,7 +167,7 @@ extern "C" {
 	int FUN_8004f578(ushort *);
 	int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 	int Mips_FixMul__Fii(int, int);
-	void FUN_8004b250(int, int, int);
+	void SFX_PlayX__FUisi(int, int, int);
 	MATRIX *FUN_80093240(SVECTOR *, MATRIX *);
 	MATRIX *FUN_80093130(MATRIX *, MATRIX *);
 }
@@ -396,7 +396,7 @@ NoSparks:
 				m35C = 0;
 
 				if (m210 == 1 && !m2EC)
-					FUN_8004b250(16, 0x2000, 0);
+					SFX_PlayX__FUisi(16, 0x2000, 0);
 			} else {
 				int NextSegment2 = FUN_8004f578(Trig_GetLinksPointer(PreviousSegment));
 				CVector SegStart2;
@@ -423,7 +423,7 @@ NoSparks:
 					m35C = 0;
 
 					if (m210 == 1 && !m2EC)
-						FUN_8004b250(16, 0x2000, 0);
+						SFX_PlayX__FUisi(16, 0x2000, 0);
 				} else {
 					RemainingSpeed = t;
 					mRailNode = PreviousSegment;
@@ -448,7 +448,7 @@ NoSparks:
 				m35C = 0;
 
 				if (m210 == 1 && !m2EC)
-					FUN_8004b250(16, 0x2000, 0);
+					SFX_PlayX__FUisi(16, 0x2000, 0);
 			} else {
 				int NextSegment2 = FUN_8004f578(Trig_GetLinksPointer(NextSegment));
 				CVector SegStart2;
@@ -475,7 +475,7 @@ NoSparks:
 					m35C = 0;
 
 					if (m210 == 1 && !m2EC)
-						FUN_8004b250(16, 0x2000, 0);
+						SFX_PlayX__FUisi(16, 0x2000, 0);
 				} else {
 					mRailNode = NextSegment;
 					RemainingSpeed = t - Length;

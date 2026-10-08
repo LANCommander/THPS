@@ -8,7 +8,7 @@ typedef struct {
 
 extern char DAT_8009f6b8[];
 
-void FUN_8004d5d0(char *p);
+void Mem_Delete__FPv(char *p);
 void FUN_80027fa4(char *p, int a);
 void FUN_80027d70(char *p);
 
@@ -27,8 +27,8 @@ void FUN_8002a018(char *p, int f) {
 		}
 	}
 
-	FUN_8004d5d0(*(char **)(p + 92));
-	FUN_8004d5d0(*(char **)(p + 88));
+	Mem_Delete__FPv(*(char **)(p + 92));
+	Mem_Delete__FPv(*(char **)(p + 88));
 	FUN_80027fa4(p, 0);
 
 	if (f & 1)

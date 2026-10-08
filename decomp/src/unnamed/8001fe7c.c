@@ -1,5 +1,5 @@
-/* FUN_8001fe7c (0x8001fe7c) */
-void FUN_8001fe7c(char *p) {
+/* DontDisplay__8CPowerUp (0x8001fe7c) */
+void DontDisplay__8CPowerUp(char *p) {
 	char *vt;
 
 	void (*fn)(char *);

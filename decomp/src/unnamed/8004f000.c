@@ -9,7 +9,7 @@
    the `j; out:` block is gone, reorg's find_basic_block can't place the beq target, treats
    all regs as live, and can't take `move a0,s5` from the fall-through. No per-TU flag helps
    (match_sym ignores CC1_OPTS; sweep with match_div). FUN_8006eb18 takes one argument;
-   FUN_8004b250 returns int. */
+   SFX_PlayX__FUisi returns int. */
 typedef struct N {
 	char p0[4];
 	int f4;
@@ -43,7 +43,7 @@ int DAT_800d1b8c, DAT_800d1b90;
 
 int FUN_8006ef00(B *);
 int FUN_8004eed8(unsigned short);
-int FUN_8004b250(int, short, int);
+int SFX_PlayX__FUisi(int, short, int);
 void FUN_8006eb18(int *);
 void FUN_80068f40(int, int);
 unsigned short *Trig_GetLinksPointer__Fi(unsigned short);
@@ -90,7 +90,7 @@ int FUN_8004f000(B *a, B *b, int c) {
 
 	if (FUN_8004eed8(s0->s8)) {
 		if (DAT_800d16a4 == 1) {
-			FUN_8004b250(20, 0x2000, 0);
+			SFX_PlayX__FUisi(20, 0x2000, 0);
 
 			a->f20 = 0x202020;
 			s1 = 1;
@@ -104,13 +104,13 @@ int FUN_8004f000(B *a, B *b, int c) {
 		a->f20 = 0x202020;
 		a->f0 |= 0x400;
 		b->f1f0++;
-		FUN_8004b250(24, 0x2000, 0);
+		SFX_PlayX__FUisi(24, 0x2000, 0);
 
 		if (s0->cA) {
 			b->f1d4->f1f0--;
 			b->f1f4++;
 			FUN_8006eb18(&b->f924);
-			FUN_8004b250(25, 0x2000, 0);
+			SFX_PlayX__FUisi(25, 0x2000, 0);
 		}
 
 		s0->cB = s5;

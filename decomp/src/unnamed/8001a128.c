@@ -1,4 +1,4 @@
-/* FUN_8001a128 (0x8001a128) */
+/* CommonSwitchOnMenuCode__Fv (0x8001a128) */
 extern char DAT_800c0a48[];
 
 int DAT_800d1428;
@@ -17,9 +17,9 @@ void SetLine__5CMenuUc(int m, unsigned char c);
 void Mess_DeleteAll__Fv(void);
 void Pad_ActuatorOff__FUcUc(unsigned char a, unsigned char b);
 void SFX_Pause__Fv(void);
-void FUN_8004b250(int a, int b, int c);
+void SFX_PlayX__FUisi(int a, int b, int c);
 
-void FUN_8001a128(void) {
+void CommonSwitchOnMenuCode__Fv(void) {
 	char *s = DAT_800c0a48;
 
 	Pad_ClearTriggers__FP8SControl(s);
@@ -31,7 +31,7 @@ void FUN_8001a128(void) {
 	Pad_ActuatorOff__FUcUc(0, 0);
 	Pad_ActuatorOff__FUcUc(0, 1);
 	SFX_Pause__Fv();
-	FUN_8004b250(2, 4096, 0);
+	SFX_PlayX__FUisi(2, 4096, 0);
 
 	DAT_800d1e48 = 0;
 	DAT_800d1514 = 0;

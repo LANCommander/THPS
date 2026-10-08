@@ -19,7 +19,7 @@ extern T DAT_800c9670[] __attribute__((section(".data")));
 int DAT_800d19a4;
 
 int Redbook_Rnd__Fi(int);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 char *__nw__4CBitUi(int);
 void __11CFlatRippleRC7CVectoriUcUcUcii(char *, V *, int, int, int, int, int, int);
 
@@ -37,7 +37,7 @@ void HandleWater__6CBruce(B *t) {
 
 		if (s1 < t->pos.y + 0x19000) {
 			if (!(*(unsigned short *)t & 8))
-				FUN_8004b250(43, 8192, 0);
+				SFX_PlayX__FUisi(43, 8192, 0);
 
 			*(unsigned short *)t |= 8;
 

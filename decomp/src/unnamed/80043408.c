@@ -10,7 +10,7 @@ extern int DAT_800d1984;
 extern int DAT_800d1e28;
 
 int Redbook_Rnd__Fi(int);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 
 void SFX_Grunt__FP6CBruce(char *p) {
 	int a;
@@ -30,7 +30,7 @@ void SFX_Grunt__FP6CBruce(char *p) {
 			goto out;
 	}
 
-	FUN_8004b250(a, 8192, 0);
+	SFX_PlayX__FUisi(a, 8192, 0);
 out:
 	a = DAT_800a44fc[*(int *)(p + 744)].f;
 
@@ -39,5 +39,5 @@ out:
 	else
 		a = Redbook_Rnd__Fi(3) + 28;
 
-	FUN_8004b250(a, 8192, 0);
+	SFX_PlayX__FUisi(a, 8192, 0);
 }

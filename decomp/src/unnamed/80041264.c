@@ -12,9 +12,9 @@ char DAT_800d1998[8];
 
 void DeleteFrom__5CBodyPP5CBody(char *p, char *l);
 void SFX_Stop__FUi(int a);
-void FUN_8004d5d0(int a);
+void Mem_Delete__FPv(int a);
 void dt_6CBaddy(char *p, int a);
-void FUN_80043530(char *p);
+void __dl__5CItemPv(char *p);
 
 void FUN_80041264(char *p, int f) {
 	int i;
@@ -43,11 +43,11 @@ void FUN_80041264(char *p, int f) {
 			}
 		}
 
-		FUN_8004d5d0(*(int *)(p + 548));
+		Mem_Delete__FPv(*(int *)(p + 548));
 	}
 
 	dt_6CBaddy(p, 0);
 
 	if (f & 1)
-		FUN_80043530(p);
+		__dl__5CItemPv(p);
 }

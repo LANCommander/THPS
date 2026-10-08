@@ -129,9 +129,9 @@ extern "C" {
 	int FUN_800144a8(int);
 	int Card_Write__F9EFileTypei(int, int);
 	int FUN_80014868(int, char *);
-	int FUN_8004b250(unsigned int, short, int);
+	int SFX_PlayX__FUisi(unsigned int, short, int);
 	void *Mem_NewX__FUiii(unsigned int, int, int);
-	void FUN_8004d5d0(void *);
+	void Mem_Delete__FPv(void *);
 	int FUN_8008c190(char *, ...);
 	char *FUN_8008e904(char *, char *);
 }
@@ -244,7 +244,7 @@ int Front_MemCardUpdate() {
 			}
 
 			if (AnyButton) {
-				FUN_8004b250(2, 0x2000, 0);
+				SFX_PlayX__FUisi(2, 0x2000, 0);
 				return SaveReturnState();
 			}
 
@@ -254,7 +254,7 @@ int Front_MemCardUpdate() {
 
 			if (UpDown == -1) {
 				DAT_800d1100 = 16;
-				FUN_8004b250(17, 0x2000, 0);
+				SFX_PlayX__FUisi(17, 0x2000, 0);
 
 				if (DAT_800a42d0[DAT_800d10fc] == ' ' || DAT_800a42d0[DAT_800d10fc] == 0) {
 					DAT_800a42d0[DAT_800d10fc] = 'A';
@@ -268,7 +268,7 @@ int Front_MemCardUpdate() {
 
 			if (UpDown == 1) {
 				DAT_800d1100 = 16;
-				FUN_8004b250(17, 0x2000, 0);
+				SFX_PlayX__FUisi(17, 0x2000, 0);
 
 				if (DAT_800a42d0[DAT_800d10fc] == ' ' || DAT_800a42d0[DAT_800d10fc] == 0) {
 					DAT_800a42d0[DAT_800d10fc] = 'Z';
@@ -282,7 +282,7 @@ int Front_MemCardUpdate() {
 
 			if (DAT_800c0a48[0].Left.Triggered || DAT_800c0a48[1].Left.Triggered) {
 				DAT_800d1100 = 16;
-				FUN_8004b250(5, 0x2000, 0);
+				SFX_PlayX__FUisi(5, 0x2000, 0);
 
 				DAT_800c0a48[0].Left.Triggered = 0;
 				DAT_800c0a48[1].Left.Triggered = 0;
@@ -294,7 +294,7 @@ int Front_MemCardUpdate() {
 
 			if (DAT_800c0a48[0].Right.Triggered || DAT_800c0a48[1].Right.Triggered) {
 				DAT_800d1100 = 16;
-				FUN_8004b250(5, 0x2000, 0);
+				SFX_PlayX__FUisi(5, 0x2000, 0);
 
 				DAT_800c0a48[0].Right.Triggered = 0;
 				DAT_800c0a48[1].Right.Triggered = 0;
@@ -310,7 +310,7 @@ int Front_MemCardUpdate() {
 				FUN_8008e904(DAT_800a42dc, (char *)DAT_800a42d0);
 
 			if (GoBack) {
-				FUN_8004b250(2, 0x2000, 0);
+				SFX_PlayX__FUisi(2, 0x2000, 0);
 				return SaveReturnState();
 			}
 
@@ -318,7 +318,7 @@ int Front_MemCardUpdate() {
 				DAT_800d111c = 9;
 
 			if (Activated && !DAT_800d10f0) {
-				FUN_8004b250(5, 0x2000, 0);
+				SFX_PlayX__FUisi(5, 0x2000, 0);
 
 				{
 					int FileType = DAT_800d1148 == 0;
@@ -343,7 +343,7 @@ int Front_MemCardUpdate() {
 			}
 
 			if (Activated && DAT_800d10f0) {
-				FUN_8004b250(5, 0x2000, 0);
+				SFX_PlayX__FUisi(5, 0x2000, 0);
 
 				DAT_800d111c = 5;
 			}
@@ -353,13 +353,13 @@ int Front_MemCardUpdate() {
 
 			if (Activated) {
 				if (DAT_800d1428->ChoiceIs(DAT_800a5d5c.f1b4)) {
-					FUN_8004b250(5, 0x2000, 0);
+					SFX_PlayX__FUisi(5, 0x2000, 0);
 
 					DAT_800d111c = 4;
 					DAT_800d21c8 = 4;
 					DAT_800d21cc = 4;
 				} else {
-					FUN_8004b250(2, 0x2000, 0);
+					SFX_PlayX__FUisi(2, 0x2000, 0);
 
 					DAT_800d111c = 2;
 					FUN_800117b4();
@@ -367,7 +367,7 @@ int Front_MemCardUpdate() {
 			}
 
 			if (GoBack) {
-				FUN_8004b250(2, 0x2000, 0);
+				SFX_PlayX__FUisi(2, 0x2000, 0);
 
 				DAT_800d111c = 2;
 				FUN_800117b4();
@@ -384,7 +384,7 @@ int Front_MemCardUpdate() {
 			}
 
 			if (AnyButton) {
-				FUN_8004b250(2, 0x2000, 0);
+				SFX_PlayX__FUisi(2, 0x2000, 0);
 				return SaveReturnState();
 			}
 
@@ -394,7 +394,7 @@ int Front_MemCardUpdate() {
 				DAT_800d111c = 17;
 
 			if (AnyButton) {
-				FUN_8004b250(GoBack ? 147 : 145, 0x2000, 0);
+				SFX_PlayX__FUisi(GoBack ? 147 : 145, 0x2000, 0);
 				return SaveReturnState();
 			}
 
@@ -414,19 +414,19 @@ int Front_MemCardUpdate() {
 
 			if (Activated) {
 				if (DAT_800d1428->ChoiceIs(DAT_800a5d5c.f1b4)) {
-					FUN_8004b250(5, 0x2000, 0);
+					SFX_PlayX__FUisi(5, 0x2000, 0);
 
 					DAT_800d111c = 11;
 					DAT_800d21c8 = 4;
 					DAT_800d21cc = 4;
 				} else {
-					FUN_8004b250(5, 0x2000, 0);
+					SFX_PlayX__FUisi(5, 0x2000, 0);
 					return SaveReturnState();
 				}
 			}
 
 			if (GoBack) {
-				FUN_8004b250(2, 0x2000, 0);
+				SFX_PlayX__FUisi(2, 0x2000, 0);
 
 				DAT_800d111c = 0;
 			}
@@ -457,7 +457,7 @@ int Front_MemCardUpdate() {
 		case 6:
 		case 7:
 			if (Activated) {
-				FUN_8004b250(5, 0x2000, 0);
+				SFX_PlayX__FUisi(5, 0x2000, 0);
 				return SaveReturnState();
 			}
 
@@ -472,7 +472,7 @@ int Front_MemCardUpdate() {
 			}
 
 			if (AnyButton) {
-				FUN_8004b250(GoBack ? 2 : 5, 0x2000, 0);
+				SFX_PlayX__FUisi(GoBack ? 2 : 5, 0x2000, 0);
 
 				DAT_800d111c = 0;
 			}
@@ -553,7 +553,7 @@ int Front_MemCardUpdate() {
 			break;
 		case 14:
 			if (AnyButton)
-				FUN_8004b250(5, 0x2000, 0);
+				SFX_PlayX__FUisi(5, 0x2000, 0);
 
 			break;
 		case 15:
@@ -655,7 +655,7 @@ int Front_MemCardUpdate() {
 			}
 		case 19:
 			if (AnyButton) {
-				FUN_8004b250(GoBack ? 147 : 145, 0x2000, 0);
+				SFX_PlayX__FUisi(GoBack ? 147 : 145, 0x2000, 0);
 				return SaveReturnState();
 			}
 
@@ -688,14 +688,14 @@ int Front_MemCardUpdate() {
 			}
 
 			if (GoBack || DAT_800d1380 == -1) {
-				FUN_8004b250(147, 0x2000, 0);
+				SFX_PlayX__FUisi(147, 0x2000, 0);
 				return DAT_800d21e0;
 			}
 
 			if (Activated) {
 				Card_SetSelectedFile(
 				    DAT_800a58bc[DAT_800a43f8[DAT_800d110c + DAT_800d1104->getSelected()]]);
-				FUN_8004b250(145, 0x2000, 0);
+				SFX_PlayX__FUisi(145, 0x2000, 0);
 
 				DAT_800d111c = 21;
 			}
@@ -767,14 +767,14 @@ int Front_MemCardUpdate() {
 						DAT_800d111c = 23;
 					}
 
-					FUN_8004d5d0(pTmp);
+					Mem_Delete__FPv(pTmp);
 				} break;
 			}
 
 			break;
 		case 22:
 			if (AnyButton) {
-				FUN_8004b250(GoBack ? 147 : 145, 0x2000, 0);
+				SFX_PlayX__FUisi(GoBack ? 147 : 145, 0x2000, 0);
 				return 36;
 			}
 

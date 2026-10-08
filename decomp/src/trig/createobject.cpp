@@ -56,7 +56,7 @@ CBody *PowerUp_Create(ushort, const CVector &, uint, int, CVector &);
 
 extern "C" {
 	void FUN_8001ff34(CBody *, int);
-	void FUN_80043a14(CBody *, CBody **);
+	void Suspend__5CBodyPP5CBody(CBody *, CBody **);
 }
 
 CBody *Trig_CreateObject(int NodeIndex) {
@@ -143,7 +143,7 @@ CBody *Trig_CreateObject(int NodeIndex) {
 			if (NewObject == DAT_800d1618)
 				ppList = &DAT_800d1618;
 
-			FUN_80043a14(NewObject, ppList);
+			Suspend__5CBodyPP5CBody(NewObject, ppList);
 		}
 
 		return NewObject;

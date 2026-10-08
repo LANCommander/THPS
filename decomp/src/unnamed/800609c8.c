@@ -21,14 +21,14 @@ void Front_MemCardHiResDisplay__Fv(void);
 void FUN_8006b26c(void);
 int Front_MemCardUpdate__Fv(void);
 void Pad_ClearTriggers__FP8SControl(char *);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 void Mess_SetFontScale__FUi(int);
 void Front_RestoreBackground__Fv(void);
 void erase__12VerticalMenu(int);
 void FUN_8008c468(int);
 void FUN_80011570(void);
 void FUN_80011150(void);
-void FUN_8004d5d0(int);
+void Mem_Delete__FPv(int);
 
 int FUN_800609c8(void) {
 	int fs, i;
@@ -58,7 +58,7 @@ int FUN_800609c8(void) {
 
 	Pad_ClearTriggers__FP8SControl((char *)i);
 	Pad_ClearTriggers__FP8SControl((char *)i + 364);
-	FUN_8004b250(145, 8192, 0);
+	SFX_PlayX__FUisi(145, 8192, 0);
 	Mess_SetFontScale__FUi(fs);
 
 	i = 0;
@@ -81,7 +81,7 @@ int FUN_800609c8(void) {
 	if (DAT_800d1104 != 0)
 		FUN_80011150();
 
-	FUN_8004d5d0(DAT_800bf318[1]);
+	Mem_Delete__FPv(DAT_800bf318[1]);
 
 	switch (DAT_800a42f4[0]) {
 		case 1:

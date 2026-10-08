@@ -14,7 +14,7 @@ int DAT_800d22f4;
 int DAT_800d2310;
 int DAT_800d2314;
 
-void FUN_8004cc18(void);
+void FileIO_Continue__Fv(void);
 void Spool_Continue__Fv(void);
 int FUN_80070830(void);
 void Spool_Sync__Fv(void);
@@ -24,7 +24,7 @@ void FUN_80055f80(void) {
 	int a;
 	int n;
 
-	FUN_8004cc18();
+	FileIO_Continue__Fv();
 	Spool_Continue__Fv();
 
 	if (FUN_80070830())

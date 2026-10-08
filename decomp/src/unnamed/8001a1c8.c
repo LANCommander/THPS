@@ -20,7 +20,7 @@ void SetLine__5CMenuUc(char *m, unsigned char l);
 void Mess_DeleteAll__Fv(void);
 void Pad_ActuatorOff__FUcUc(unsigned char a, unsigned char b);
 void SFX_Pause__Fv(void);
-void FUN_8004b250(int a, int b, int c);
+void SFX_PlayX__FUisi(int a, int b, int c);
 
 void FUN_8001a1c8(void) {
 	char *s;
@@ -46,7 +46,7 @@ void FUN_8001a1c8(void) {
 	Pad_ActuatorOff__FUcUc(0, 0);
 	Pad_ActuatorOff__FUcUc(0, 1);
 	SFX_Pause__Fv();
-	FUN_8004b250(2, 4096, 0);
+	SFX_PlayX__FUisi(2, 4096, 0);
 
 	DAT_800d1e48 = 0;
 }

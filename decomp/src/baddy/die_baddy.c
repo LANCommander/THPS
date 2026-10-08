@@ -1,9 +1,9 @@
 /* Die__6CBaddy (0x8003fb1c) */
-int FUN_80043ce8(char *);
+int IsDead__C5CBody(char *);
 void SendDeathPulse__6CBaddy(char *);
 
 void Die__6CBaddy(char *t) {
-	if (!FUN_80043ce8(t)) {
+	if (!IsDead__C5CBody(t)) {
 		SendDeathPulse__6CBaddy(t);
 
 		*(unsigned short *)(t + 0x52) |= 0x40;

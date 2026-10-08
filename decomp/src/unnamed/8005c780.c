@@ -9,7 +9,7 @@ int DAT_800d1cbc;
 
 void SFX_ModifyVol__FUiii(int a, int b, int c);
 void SFX_Stop__FUi(int a);
-int FUN_8004b250(int a, int b, int c);
+int SFX_PlayX__FUisi(int a, int b, int c);
 
 void FUN_8005c780(void) {
 	int s = DAT_800d13cc;
@@ -27,7 +27,7 @@ void FUN_8005c780(void) {
 			DAT_800d1cc4 = 0;
 
 			if (DAT_800d1cbc != -1)
-				DAT_800d1ca4 = FUN_8004b250(DAT_800d1cbc, DAT_800d1ca0, 0);
+				DAT_800d1ca4 = SFX_PlayX__FUisi(DAT_800d1cbc, DAT_800d1ca0, 0);
 
 			DAT_800d1ca0 = 0;
 		}

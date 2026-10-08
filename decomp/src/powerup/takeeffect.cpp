@@ -57,7 +57,7 @@ void Trig_SendPulse(ushort *);
 
 extern "C" {
 	int FUN_80042744(CBruce *, short);
-	void FUN_8006e2fc(int);
+	void Panel_Tape__Fi(int);
 	void FUN_8002f1a0(CBruce *);
 	void FUN_8002f340(CBruce *, int, char *, int, int);
 	void Trick_Land__6CBruce(CBruce *);
@@ -128,7 +128,7 @@ void CPowerUp::TakeEffect(CBruce *pMech) {
 
 						break;
 					case 16:
-						FUN_8006e2fc(3);
+						Panel_Tape__Fi(3);
 
 						pMess = 0;
 						break;

@@ -10,7 +10,7 @@ int Mem_NewX__FUiii(int, int, int);
 int __11SlicedImagePciiiiiUs(int, int, int, int, int, int, int, int);
 void FUN_8008c468(int);
 void FUN_8008c774(short *, int);
-int __nw__5CItemUi(int);
+int __nw__6CClassUi(int);
 void pack__11SlicedImage(int);
 void removeBlack__11SlicedImage(int);
 
@@ -37,7 +37,7 @@ S *__6Spriteiiiiiii(S *p, short a1, short a2, int w, int h, int f, int x, int y)
 	FUN_8008c774(r, buf);
 	FUN_8008c468(0);
 
-	v = __nw__5CItemUi(52);
+	v = __nw__6CClassUi(52);
 
 	if (v)
 		v = __11SlicedImagePciiiiiUs(v, buf, w, h, x, y, 16, 0);

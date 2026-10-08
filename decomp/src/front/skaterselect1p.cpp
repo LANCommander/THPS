@@ -203,7 +203,7 @@ void M3d_BuildTransform(CSuper *);
 extern "C" {
 	void FUN_8005c97c(int);
 	void *FUN_8005ca3c(char *);
-	void FUN_8004d5d0(void *);
+	void Mem_Delete__FPv(void *);
 	void FUN_8005ca64(void);
 	void FUN_80061714(void *);
 	void FUN_80059520(int);
@@ -211,9 +211,9 @@ extern "C" {
 	void FUN_8008c468(int);
 	void FUN_80059050(void);
 	short *FUN_8006b1c8(void);
-	int FUN_8001db80(const char *);
+	int Mess_TextHeightBelowBaseline__FPCc(const char *);
 	int Mess_TextWidth__FPCc(char *);
-	int FUN_8001dc9c(char *);
+	int Mess_TextHeightAboveBaseline__FPCc(char *);
 	void Mess_SetTextJustify__FUc(int);
 	void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 	uchar *Mem_NewX__FUiii(int, int, int);
@@ -227,7 +227,7 @@ extern "C" {
 	void FUN_80061ea0(void);
 	void FUN_80059094(void);
 	void FUN_8005c934(void);
-	void FUN_8004b250(int, int, int);
+	void SFX_PlayX__FUisi(int, int, int);
 	void FUN_8006ed2c(int);
 	void ProcessNewPSX__Fi(int);
 	CBruce *FUN_8005933c(void);
@@ -245,7 +245,7 @@ extern "C" {
 	void FUN_8005948c(void);
 	void FUN_8006b2f4(void);
 	void FUN_8006af64(void);
-	void FUN_8004cdd0(void);
+	void FileIO_Sync__Fv(void);
 	void FUN_800591c0(void);
 	void FUN_80059758(void);
 }
@@ -281,7 +281,7 @@ extern "C" int FUN_80059794() {
 	Pad_ClearTriggers(&DAT_800c0a48[0]);
 	Pad_ClearTriggers(&DAT_800c0a48[1]);
 	FUN_8005c97c(1);
-	FUN_8004d5d0(FUN_8005ca3c("select2p.bmp"));
+	Mem_Delete__FPv(FUN_8005ca3c("select2p.bmp"));
 	FUN_8005ca64();
 	FUN_80061714(FUN_8005ca3c("selectp.bmp"));
 	Pack_DefragmentFully();
@@ -399,7 +399,7 @@ extern "C" int FUN_80059794() {
 	tapes[0] = '0';
 	tapes[1] = '0';
 	tapes[2] = 0;
-	int tapesY = (Mess_TextHeight(tapes) >> 1) + 385 - FUN_8001db80(tapes);
+	int tapesY = (Mess_TextHeight(tapes) >> 1) + 385 - Mess_TextHeightBelowBaseline__FPCc(tapes);
 
 	MenuInput input(-1);
 
@@ -440,7 +440,7 @@ extern "C" int FUN_80059794() {
 					int press = input.getPress();
 
 					if (press == 2) {
-						FUN_8004b250(148, 0x2000, 0);
+						SFX_PlayX__FUisi(148, 0x2000, 0);
 
 						state = 1;
 						nameState = 4;
@@ -448,7 +448,7 @@ extern "C" int FUN_80059794() {
 						dir = 0;
 						blink = 96;
 					} else if (press == 1) {
-						FUN_8004b250(148, 0x2000, 0);
+						SFX_PlayX__FUisi(148, 0x2000, 0);
 
 						state = 2;
 						nameState = 4;
@@ -530,14 +530,14 @@ extern "C" int FUN_80059794() {
 					int press = input.getPress();
 
 					if (press == 2) {
-						FUN_8004b250(148, 0x2000, 0);
+						SFX_PlayX__FUisi(148, 0x2000, 0);
 
 						state = 1;
 						nameState = 4;
 						rightTimer = 20;
 						dir = 0;
 					} else if (press == 1) {
-						FUN_8004b250(148, 0x2000, 0);
+						SFX_PlayX__FUisi(148, 0x2000, 0);
 
 						state = 2;
 						nameState = 4;
@@ -566,14 +566,14 @@ extern "C" int FUN_80059794() {
 					int press = input.getPress();
 
 					if (press == 2) {
-						FUN_8004b250(148, 0x2000, 0);
+						SFX_PlayX__FUisi(148, 0x2000, 0);
 
 						state = 1;
 						nameState = 4;
 						rightTimer = 20;
 						dir = 0;
 					} else if (press == 1) {
-						FUN_8004b250(148, 0x2000, 0);
+						SFX_PlayX__FUisi(148, 0x2000, 0);
 
 						state = 2;
 						nameState = 4;
@@ -793,27 +793,27 @@ extern "C" int FUN_80059794() {
 			Mess_SetTextJustify__FUc(1);
 			Mess_DrawText__FiiPCciUiib(203,
 			             299 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[0]) >> 1) +
-			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[0]),
+			                 Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d1c40].pBio[0]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[0], 0, 0, 256, 0);
 			Mess_DrawText__FiiPCciUiib(203,
 			             320 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[1]) >> 1) +
-			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[1]),
+			                 Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d1c40].pBio[1]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[1], 0, 0, 256, 0);
 			Mess_DrawText__FiiPCciUiib(203,
 			             341 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[2]) >> 1) +
-			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[2]),
+			                 Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d1c40].pBio[2]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[2], 0, 0, 256, 0);
 			Mess_DrawText__FiiPCciUiib(203,
 			             362 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[3]) >> 1) +
-			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[3]),
+			                 Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d1c40].pBio[3]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[3], 0, 0, 256, 0);
 			Mess_DrawText__FiiPCciUiib(203,
 			             383 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[4]) >> 1) +
-			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[4]),
+			                 Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d1c40].pBio[4]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[4], 0, 0, 256, 0);
 			Mess_DrawText__FiiPCciUiib(203,
 			             404 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[5]) >> 1) +
-			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[5]),
+			                 Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d1c40].pBio[5]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[5], 0, 0, 256, 0);
 
 			if (textTimer == 0)
@@ -829,7 +829,7 @@ extern "C" int FUN_80059794() {
 			tapes[1] = n % 10 + '0';
 			tapes[2] = 0;
 			medalTimer--;
-			tapesY = (Mess_TextHeight(tapes) >> 1) + 385 - FUN_8001db80(tapes);
+			tapesY = (Mess_TextHeight(tapes) >> 1) + 385 - Mess_TextHeightBelowBaseline__FPCc(tapes);
 
 			for (int c = 0; c < 3; c++) {
 				int j = 0;
@@ -863,7 +863,7 @@ extern "C" int FUN_80059794() {
 				nameStep = (nameR - nameX) / 6;
 				nameState = 3;
 				nameY = 70 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pName) >> 1) +
-				        FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pName);
+				        Mess_TextHeightAboveBaseline__FPCc(DAT_800a44fc[DAT_800d1c40].pName);
 				nameR -= nameStep;
 				nameL = nameX - nameStep;
 				break;
@@ -920,7 +920,7 @@ extern "C" int FUN_80059794() {
 			Pad_ClearTriggers(&DAT_800c0a48[1]);
 
 			result = DAT_800d1c40;
-			FUN_8004b250(145, 0x2000, 0);
+			SFX_PlayX__FUisi(145, 0x2000, 0);
 
 			if (DAT_800a6844.LastSkater[0] != DAT_800d1c40) {
 				DAT_800a6844.LastSkater[0] = 0;
@@ -938,7 +938,7 @@ extern "C" int FUN_80059794() {
 			result = -1;
 			DAT_800c0a48[0].Triangle.Triggered = 0;
 			DAT_800c0a48[1].Triangle.Triggered = 0;
-			FUN_8004b250(147, 0x2000, 0);
+			SFX_PlayX__FUisi(147, 0x2000, 0);
 			goto done;
 		}
 	}
@@ -947,8 +947,8 @@ done:
 
 	FUN_8006af64();
 	if (DAT_800d1afc)
-		FUN_8004cdd0();
-	FUN_8004d5d0(flags);
+		FileIO_Sync__Fv();
+	Mem_Delete__FPv(flags);
 
 	if (DAT_800d2344)
 		delete pBruce;

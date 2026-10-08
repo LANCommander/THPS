@@ -61,8 +61,15 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
   `.syms.json`. **`python ../tools/review_caller_names.py`** compares those names with the demo
   SYM and writes `caller_names_review.tsv`. Promote a name only after checking it, and rename the
   defining source, its header, `matched.tsv` and every caller in one step. Leave callers on the
-  `FUN_` alias when the name isn't a C identifier (destructors such as `_._5CItem`). `BASEF` is a
-  generic placeholder, not a name.
+  `FUN_` alias when the name isn't a C identifier (destructors such as `_._5CItem`). The same goes
+  for C++ sources where the raw name would collide with one g++ emits itself (`__8CQuadBit` beside
+  `struct CQuadBit`). `BASEF` is an alias some callers use for `_._4CBit` (0x80027e80).
+- **`python ../tools/callsite_names.py`** is the stronger check. Exact twins have identical
+  instruction streams, so the k-th `jal` in each calls the same function, and that gives the demo's
+  name for each retail call target. Weigh it together with opcode similarity and source-order
+  adjacency (same `.CPP`, same order). Byte-shape matching alone mislabels identical bodies:
+  `0x800241dc` was `__nw__5CItemUi` but is `__nw__6CClassUi`, and `0x8006e19c` was `Mem_Delete`
+  but is a panel wrapper.
 - `src/unnamed/<addr>.c` holds unnamed functions. The trivial ones (empty bodies, `return K`,
   one-store setters) were generated mechanically from their bytes.
 - All matchers use per-process temp files under `build/`, so they can run concurrently.

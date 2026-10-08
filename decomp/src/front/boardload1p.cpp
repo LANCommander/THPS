@@ -69,10 +69,10 @@ int DAT_800d22f0; /* skater */
 
 extern "C" {
 	char *strcpy(char *, const char *);
-	void FUN_8004cdd0(void);
+	void FileIO_Sync__Fv(void);
 	int FileIO_Open__FPCc(char *);
 	char *Mem_NewX__FUiii(int, int, int);
-	void FUN_8004cb10(char *);
+	void FileIO_Load__FPv(char *);
 }
 
 int Load8BitBMP2(char *, char **, int *, int *, ushort *);
@@ -126,8 +126,8 @@ extern "C" void FUN_80053dbc(void) {
 	DAT_800d22e0 = 0;
 	DAT_800d22e4 = Mem_NewX__FUiii(FileIO_Open__FPCc("b1lock01.bmp"), 1, 1);
 
-	FUN_8004cb10(DAT_800d22e4);
-	FUN_8004cdd0();
+	FileIO_Load__FPv(DAT_800d22e4);
+	FileIO_Sync__Fv();
 
 	ushort clut;
 	char *data;

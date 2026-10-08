@@ -1,4 +1,4 @@
-/* FUN_800732e4 (0x800732e4) */
+/* DeleteStuff__5CTape (0x800732e4) */
 struct VT {
 	char pad[8];
 	short off;
@@ -11,7 +11,7 @@ struct O {
 	struct VT *vt;
 };
 
-void FUN_800732e4(char *p) {
+void DeleteStuff__5CTape(char *p) {
 	struct O *o = *(struct O **)(p + 308);
 
 	if (o)

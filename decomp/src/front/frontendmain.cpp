@@ -100,7 +100,7 @@ extern "C" {
 	void GameFMV_PlayMovie__Fi(int);
 	void FUN_800491e8(void);
 	void FUN_8004b09c(char *);
-	void FUN_8004d5d0(void *);
+	void Mem_Delete__FPv(void *);
 	void FUN_8004fe28(int, int);
 	int FUN_80051660(int);
 	int FUN_80054510(int);
@@ -565,7 +565,7 @@ movie:
 	}
 
 	if (DAT_800a891c[0].Polys)
-		FUN_8004d5d0(DAT_800a891c[0].Polys);
+		Mem_Delete__FPv(DAT_800a891c[0].Polys);
 
 	DAT_800a891c[0].Polys = 0;
 	FUN_8006b01c(1);
@@ -578,7 +578,7 @@ credits:
 	FUN_8004fe28(choice != 100, 1);
 
 	if (DAT_800a891c[0].Polys)
-		FUN_8004d5d0(DAT_800a891c[0].Polys);
+		Mem_Delete__FPv(DAT_800a891c[0].Polys);
 
 	DAT_800a891c[0].Polys = 0;
 	FUN_8006b01c(1);

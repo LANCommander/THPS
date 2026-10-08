@@ -14,7 +14,7 @@ int DAT_800d1118;
 void Mess_DrawText__FiiPCciUiib(int, int, const char *, int, int, int, int);
 int Mess_TextWidth__FPCc(const char *);
 int Mess_TextHeight__FPCc(const char *);
-char *__nw__5CItemUi(unsigned);
+char *__nw__6CClassUi(unsigned);
 char *__6Spriteiiiiiii(char *, int, int, int, int, int, int, int);
 
 void Front_DirtyRectText__FiiPCc(int x, int y, const char *s) {
@@ -38,7 +38,7 @@ void Front_DirtyRectText__FiiPCc(int x, int y, const char *s) {
 	e->x = nx;
 	e->y = y - h;
 	h += 4;
-	p = __nw__5CItemUi(24);
+	p = __nw__6CClassUi(24);
 
 	if (p)
 		p = __6Spriteiiiiiii(p, nx, DAT_800a4434[DAT_800d1118].y, w, h, 1, 32, 128);

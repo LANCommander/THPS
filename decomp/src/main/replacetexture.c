@@ -11,10 +11,10 @@ extern int DAT_800d1a8c;
 STexEntry *Spool_FindTextureEntry__FUi(unsigned);
 void *FileIO_Open__FPCc(char *);
 char *Mem_NewX__FUiii(void *, int, int);
-void FUN_8004cb10(char *);
-void FUN_8004cdd0(void);
+void FileIO_Load__FPv(char *);
+void FileIO_Sync__Fv(void);
 void DownloadBMP__FPciiii(char *, int, int, int, int);
-void FUN_8004d5d0(char *);
+void Mem_Delete__FPv(char *);
 
 void ReplaceTexture(unsigned id, char *name) {
 	STexEntry *e = Spool_FindTextureEntry__FUi(id);
@@ -30,9 +30,9 @@ void ReplaceTexture(unsigned id, char *name) {
 		pal += info[2];
 		k = DAT_800d1a8c;
 		bmp = Mem_NewX__FUiii(FileIO_Open__FPCc(name), 1, 1);
-		FUN_8004cb10(bmp);
-		FUN_8004cdd0();
+		FileIO_Load__FPv(bmp);
+		FileIO_Sync__Fv();
 		DownloadBMP__FPciiii(bmp, w, h, k, pal);
-		FUN_8004d5d0(bmp);
+		Mem_Delete__FPv(bmp);
 	}
 }

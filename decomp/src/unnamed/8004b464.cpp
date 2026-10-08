@@ -1,4 +1,4 @@
-/* FUN_8004b464 (0x8004b464) */
+/* SFX_PlayPos__FUiRC7CVectori (0x8004b464) */
 /* C++ (PAL). Positional variant of FUN_8004b250: left/right volumes come from the spatial
    attenuation at pos (12 bits each, scaled by the global percentage DAT_800d13cc). The
    attenuation's sign bit flips the left channel's phase. */
@@ -14,7 +14,7 @@ int DAT_800d1acc;
 unsigned int Utils_CalculateSpatialAttenuation(const CVector &, int, int);
 extern "C" int playSFX__FUiUcssiUs(int, unsigned char, short, short, int);
 
-extern "C" int FUN_8004b464(int id, const CVector &pos, int pan) {
+extern "C" int SFX_PlayPos__FUiRC7CVectori(int id, const CVector &pos, int pan) {
 	unsigned int att;
 	int l, r, p, note;
 	if (id < 0 || id == 0xffff)

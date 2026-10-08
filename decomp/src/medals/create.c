@@ -24,7 +24,7 @@ typedef struct {
 extern char *DAT_800d217c;
 extern char DAT_800a824c[];
 
-Medal *FUN_800434d4(int);
+Medal *__nw__5CItemUi(int);
 Medal *__8CPowerUpUsRC7CVectorT2Uii(Medal *, int, int *, char *, int, int);
 
 Medal *Medal_Create__F10EMedalTypeiiiii(int type, int x, int y, int z, int a, int b) {
@@ -55,21 +55,21 @@ Medal *Medal_Create__F10EMedalTypeiiiii(int type, int x, int y, int z, int a, in
 
 	switch (type) {
 		case 5:
-			p = FUN_800434d4(356);
+			p = __nw__5CItemUi(356);
 
 			if (p)
 				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1636, pos, DAT_800a824c, 0, 0xffff);
 
 			break;
 		case 6:
-			p = FUN_800434d4(356);
+			p = __nw__5CItemUi(356);
 
 			if (p)
 				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1637, pos, DAT_800a824c, 0, 0xffff);
 
 			break;
 		case 7:
-			p = FUN_800434d4(356);
+			p = __nw__5CItemUi(356);
 
 			if (p)
 				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1638, pos, DAT_800a824c, 0, 0xffff);

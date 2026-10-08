@@ -58,7 +58,7 @@ void Horse_DisplayWords(int *);
 extern "C" {
 	void FUN_8001f138(int);
 	int Career_Got__Fi(int);
-	void FUN_8006e2fc(int);
+	void Panel_Tape__Fi(int);
 	void FUN_8008b900(char *, char *, unsigned);
 	void Mess_SetTextJustify__FUc(int);
 }
@@ -156,10 +156,10 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
 
 	if (DoDisplay && DAT_800d16a4 == 1 && !DAT_800a5398[DAT_800d1e28].NoTapes) {
 		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore1 && !Career_Got__Fi(0))
-			FUN_8006e2fc(0);
+			Panel_Tape__Fi(0);
 
 		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore2 && !Career_Got__Fi(4))
-			FUN_8006e2fc(4);
+			Panel_Tape__Fi(4);
 	}
 
 	if (DoDisplay) {

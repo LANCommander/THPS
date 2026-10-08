@@ -14,7 +14,7 @@ extern char DAT_800a2460[];
 
 struct L *DAT_800d1f78;
 
-void FUN_8004d5d0(int *p);
+void Mem_Delete__FPv(int *p);
 void FUN_80024238(void *p);
 
 void FUN_80071a14(struct L *p, int f) {
@@ -29,8 +29,8 @@ void FUN_80071a14(struct L *p, int f) {
 	if (DAT_800d1f78 == p)
 		DAT_800d1f78 = p->prev;
 
-	FUN_8004d5d0(p->m1);
-	FUN_8004d5d0(p->m2);
+	Mem_Delete__FPv(p->m1);
+	Mem_Delete__FPv(p->m2);
 
 	p->vt = DAT_800a2460;
 

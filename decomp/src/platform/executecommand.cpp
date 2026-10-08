@@ -100,8 +100,8 @@ ushort *Trig_GetPosition(CVector &, int);
 void Shatter_Item(Item *, int, int);
 
 extern "C" {
-	int FUN_8004b250(int, short, int);
-	int FUN_8004b464(int, const CVector &, int);
+	int SFX_PlayX__FUisi(int, short, int);
+	int SFX_PlayPos__FUiRC7CVectori(int, const CVector &, int);
 }
 
 int CPlatform::ExecuteCommand(ushort command) {
@@ -136,7 +136,7 @@ int CPlatform::ExecuteCommand(ushort command) {
 			if (mSound)
 				SFX_Stop(mSound);
 
-			mSound = FUN_8004b250(*pScript++, 0x2000, 0);
+			mSound = SFX_PlayX__FUisi(*pScript++, 0x2000, 0);
 			mSoundId = -1;
 			break;
 		case 17672: {
@@ -147,7 +147,7 @@ int CPlatform::ExecuteCommand(ushort command) {
 
 			id = *pScript++;
 			mSoundId = *pScript++;
-			mSound = FUN_8004b464(id, mPos, 0);
+			mSound = SFX_PlayPos__FUiRC7CVectori(id, mPos, 0);
 			break;
 		}
 		case 17673:

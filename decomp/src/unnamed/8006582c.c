@@ -16,8 +16,8 @@ extern char DAT_800d1da4[], DAT_800d1da8[], DAT_800d1dac[], DAT_800d1db0[], DAT_
 extern int DAT_800d1b10;
 
 int FileIO_Open__FPCc(char *);
-void FUN_8004cb10(int);
-void FUN_8004cdd0(void);
+void FileIO_Load__FPv(int);
+void FileIO_Sync__Fv(void);
 int Mem_NewX__FUiii(int, int, int);
 void spoolPRE__10PREManagerPc(int, char *);
 int Spool_PSX__FPciii(char *, int, int);
@@ -33,7 +33,7 @@ void FUN_8006582c(C *a) {
 	if (a->f4 == 1)
 		Spool_Sync__Fv();
 	else
-		FUN_8004cdd0();
+		FileIO_Sync__Fv();
 
 	while (a->e[a->cur].used)
 		a->cur++;
@@ -104,7 +104,7 @@ void FUN_8006582c(C *a) {
 				return;
 			}
 
-			FUN_8004cb10(a->e[a->cur].p);
+			FileIO_Load__FPv(a->e[a->cur].p);
 
 			a->e[a->cur].i14 = -1;
 			a->e[a->cur].i1c = n;

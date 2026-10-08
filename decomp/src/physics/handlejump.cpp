@@ -4,7 +4,7 @@
    charge) timer while on the ground, and on release launches the skater: off a rail, along the
    rail; off a wall-ride, away from the wall; the upward kick scales with the charge and the
    skater's stats. A quick double-tap within the window does a boneless / no-comply.
-   GetStat is the shared stat macro (see dofootplant.cpp). Levers: SFX_PlayX (FUN_8004b250) is
+   GetStat is the shared stat macro (see dofootplant.cpp). Levers: SFX_PlayX (SFX_PlayX__FUisi) is
    declared void here (v0 free for the |mUp.vy| test); the two JumpBoost arms share their tail by
    cross-jumping, so the boost is a local added once; the early-out call is wrapped in
    do { } while (0) (keeps `sw m744` ahead of the argument setup). */
@@ -164,7 +164,7 @@ extern "C" {
 	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 	int Mips_FixMul__Fii(int, int);
-	void FUN_8004b250(int, int, int);
+	void SFX_PlayX__FUisi(int, int, int);
 	int FUN_8006ebdc(CPanelData *);
 	void FUN_8002f1a0(CBruce *);
 	void FUN_8002fcdc(CBruce *, int, int);
@@ -257,18 +257,18 @@ void CBruce::HandleJump() {
 		if (!mInAir) {
 			switch (m72C) {
 				case 2:
-					FUN_8004b250(Redbook_Rnd(2) + 38, 0x2000, 0);
+					SFX_PlayX__FUisi(Redbook_Rnd(2) + 38, 0x2000, 0);
 					break;
 				case 10:
 				case 12:
-					FUN_8004b250(35, 0x2000, 0);
+					SFX_PlayX__FUisi(35, 0x2000, 0);
 					break;
 				case 6:
 					break;
 				case 1:
 				case 15:
 				default:
-					FUN_8004b250(5, 0x2000, 0);
+					SFX_PlayX__FUisi(5, 0x2000, 0);
 					break;
 			}
 
@@ -412,7 +412,7 @@ void CBruce::HandleJump() {
 						Sfx = 6;
 				}
 
-				FUN_8004b250(Sfx, 0x2000, 0);
+				SFX_PlayX__FUisi(Sfx, 0x2000, 0);
 			}
 
 			if (ABS(mUp.vy) < 2500)

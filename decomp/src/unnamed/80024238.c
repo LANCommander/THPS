@@ -1,6 +1,6 @@
 /* FUN_80024238 (0x80024238) */
-void FUN_8004d5d0(void);
+void Mem_Delete__FPv(void);
 
 void FUN_80024238(void) {
-	FUN_8004d5d0();
+	Mem_Delete__FPv();
 }

@@ -20,7 +20,7 @@ extern char *DAT_800d19a4;
 extern SSaveGame DAT_800a5bdc;
 
 char *Trig_GetPosition__FR7CVectori(CVector *, int);
-void FUN_800171e0(char *);
+void Front_SavePreferences__FR12SPreferences(char *);
 unsigned Front_CalculateGameChecksum__FR9SSaveGame(SSaveGame *);
 
 void Front_SaveGameState(void) {
@@ -44,7 +44,7 @@ void Front_SaveGameState(void) {
 		DAT_800a5bdc.x42 = 0;
 	}
 
-	FUN_800171e0(DAT_800a5bdc.x70);
+	Front_SavePreferences__FR12SPreferences(DAT_800a5bdc.x70);
 
 	DAT_800a5bdc.checksum = Front_CalculateGameChecksum__FR9SSaveGame(&DAT_800a5bdc);
 }

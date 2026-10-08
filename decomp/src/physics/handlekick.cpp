@@ -92,7 +92,7 @@ void ProjectCVectorToPlane(CVector *, SVECTOR);
 extern "C" {
 	void FUN_8002fcdc(CBruce *, int, int);
 	void FUN_8002fd28(CBruce *, int, int, int);
-	int FUN_8004b250(int, int, int);
+	int SFX_PlayX__FUisi(int, int, int);
 	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 }
@@ -161,7 +161,7 @@ void CBruce::HandleKick() {
 
 				if (mFrame >= 11 && m714) {
 					m718 = 34;
-					FUN_8004b250(34, 0x2000, 0);
+					SFX_PlayX__FUisi(34, 0x2000, 0);
 
 					m714 = 0;
 				}

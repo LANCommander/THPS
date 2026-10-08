@@ -65,7 +65,7 @@ void Bit_SetSparkTrajectory(const CSVector &);
 
 extern "C" {
 	void SFX_Grunt__FP6CBruce(CBruce *);
-	int FUN_8004b250(int, short, int);
+	int SFX_PlayX__FUisi(int, short, int);
 	void FUN_8002f340(CBruce *, int, int, int, int);
 	void Bit_SetSparkTrajectoryCone__FRC8CSVector(CSVector *);
 	void *__nw__4CBitUi(int);
@@ -172,7 +172,7 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 				pSkater->mVel.vy -= 0x1e000;
 				pSkater->Vibrate(8, 1, 150);
 				SFX_Grunt__FP6CBruce(pSkater);
-				FUN_8004b250(40, 0x2000, 0);
+				SFX_PlayX__FUisi(40, 0x2000, 0);
 				FUN_8002f340(pSkater, 78, DAT_800a5e1c[0], -1000, 0);
 
 				{
@@ -256,7 +256,7 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 		pSkater->BloodSplat(1, 100);
 		pSkater->Vibrate(12, 1, 255);
 		SFX_Grunt__FP6CBruce(pSkater);
-		FUN_8004b250(114, 0x2000, 0);
+		SFX_PlayX__FUisi(114, 0x2000, 0);
 
 		{
 			int sfx;
@@ -278,7 +278,7 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 					return;
 			}
 
-			FUN_8004b250(sfx, 0x2000, 0);
+			SFX_PlayX__FUisi(sfx, 0x2000, 0);
 		}
 	}
 }

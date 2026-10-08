@@ -36,7 +36,7 @@ extern int DAT_800d1780;
 unsigned DAT_800d19c0;
 
 void FlashUpdate__5CItem(O *);
-void FUN_80043a14(O *, O **);
+void Suspend__5CBodyPP5CBody(O *, O **);
 void FUN_800440ec(O *);
 void UpdateShadow__5CBody(O *);
 unsigned Utils_CrapDist__FRC7CVectorT0(V *, V *);
@@ -77,7 +77,7 @@ void Ob_AI__FPP5CBody(O **a) {
 			m->fe8 = d;
 
 			if ((m->f52 & 2) && DAT_800d19c0 < d) {
-				FUN_80043a14(m, a);
+				Suspend__5CBodyPP5CBody(m, a);
 			} else {
 				FUN_800440ec(m);
 				UpdateShadow__5CBody(m);

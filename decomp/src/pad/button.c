@@ -6,7 +6,7 @@ typedef struct {
 
 int DAT_800d1f68;
 
-extern void FUN_800241d4(void);
+extern void ResetMainDemoTimer__Fv(void);
 
 void Pad_Button(SButton *b, int pressed) {
 	b->count++;
@@ -18,7 +18,7 @@ void Pad_Button(SButton *b, int pressed) {
 
 	if (pressed) {
 		DAT_800d1f68 = 0;
-		FUN_800241d4();
+		ResetMainDemoTimer__Fv();
 
 		b->down = 1;
 	} else

@@ -21,9 +21,9 @@ extern S DAT_800bf318;
 
 char *FileIO_Open__FPCc(void);
 char *Mem_NewX__FUiii(char *a, int b, int c);
-void FUN_8004cb10(char *a);
-void FUN_8004cdd0(void);
-void FUN_8004d5d0(char *a);
+void FileIO_Load__FPv(char *a);
+void FileIO_Sync__Fv(void);
+void Mem_Delete__FPv(char *a);
 
 short FUN_80014ba4(void) {
 	H *h;
@@ -33,8 +33,8 @@ short FUN_80014ba4(void) {
 	b = Mem_NewX__FUiii(FileIO_Open__FPCc(), 1, 1);
 
 	if (b) {
-		FUN_8004cb10(b);
-		FUN_8004cdd0();
+		FileIO_Load__FPv(b);
+		FileIO_Sync__Fv();
 	}
 
 	h = (H *)(b + 512);
@@ -48,6 +48,6 @@ short FUN_80014ba4(void) {
 	for (i = 0; i < 5; i++)
 		DAT_800bf318.t[i] = ((T *)(b + 516))[i];
 
-	FUN_8004d5d0(b);
+	Mem_Delete__FPv(b);
 	return h->s[0];
 }

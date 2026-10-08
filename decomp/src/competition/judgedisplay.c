@@ -22,7 +22,7 @@ void Mess_SetTextJustify__FUc(int);
 void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
 int FUN_8008b900(char *, char *, ...);
 int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 void Front_PrintCentredPrompt__FPCc(char *);
 
 void Competition_JudgeDisplay__Fv(void) {
@@ -55,7 +55,7 @@ void Competition_JudgeDisplay__Fv(void) {
 		s = i * 15;
 
 		if (p->i16 == s + 1)
-			FUN_8004b250(52, 8192, 0);
+			SFX_PlayX__FUisi(52, 8192, 0);
 
 		if (s < p->i16) {
 			FUN_8008b900(buf, DAT_800a3410, i + 1, p->x[i] / 10, p->x[i] % 10);
@@ -73,7 +73,7 @@ void Competition_JudgeDisplay__Fv(void) {
 
 	if (t >= 100) {
 		if (p->i32 == 0)
-			FUN_8004b250(51, 8192, 0);
+			SFX_PlayX__FUisi(51, 8192, 0);
 
 		Mess_SetTextJustify__FUc(0);
 		Mess_SetRGB__FUcUcUci(182, 132, 36, 0);

@@ -4,7 +4,7 @@ extern char DAT_800d1998[];
 
 void DeleteFrom__5CBodyPP5CBody(char *p, char *q);
 int BASEF(char *p, int a);
-void FUN_80043530(void *p);
+void __dl__5CItemPv(void *p);
 
 void FUN_8006b630(char *p, int f) {
 	*(char **)(p + 72) = DAT_800a233c;
@@ -12,5 +12,5 @@ void FUN_8006b630(char *p, int f) {
 	BASEF(p, 0);
 
 	if (f & 1)
-		FUN_80043530(p);
+		__dl__5CItemPv(p);
 }

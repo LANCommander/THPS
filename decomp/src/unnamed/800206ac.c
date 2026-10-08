@@ -53,7 +53,7 @@ extern int DAT_800d16e4;
 extern char DAT_800c9670[];
 
 void DoPhysics__8CPowerUp(P *);
-void FUN_8001fec4(P *);
+void CreateBit__8CPowerUp(P *);
 void FUN_800201c8(void);
 G *__nw__4CBitUi(int);
 G *__5CGlowUiUi(G *, int, int);
@@ -100,7 +100,7 @@ void FUN_800206ac(P *p) {
 	s3 = &p->v;
 
 	if (p->b13d == 0)
-		FUN_8001fec4(p);
+		CreateBit__8CPowerUp(p);
 
 	if (p->g == 0) {
 		g = __nw__4CBitUi(104);

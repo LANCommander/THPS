@@ -1,4 +1,4 @@
-/* FUN_800293c8 (0x800293c8) */
+/* __8MenuItemi (0x800293c8) */
 extern char DAT_8009f7b8[];
 
 char DAT_800d18d4[8];
@@ -6,7 +6,7 @@ char DAT_800d18d4[8];
 char *FUN_80028004(char *p);
 void AttachTo__4CBitPv(char *p, char *q);
 
-char *FUN_800293c8(char *p) {
+char *__8MenuItemi(char *p) {
 	FUN_80028004(p);
 
 	*(char **)(p + 68) = DAT_8009f7b8;

@@ -21,9 +21,9 @@ void FUN_80061a10(int);
 void FUN_8005dc58(int);
 int FileIO_Open__FPCc(int);
 int Mem_NewX__FUiii(int, int, int);
-void FUN_8004cb10(int);
-void FUN_8004cdd0(void);
-int __nw__5CItemUi(int);
+void FileIO_Load__FPv(int);
+void FileIO_Sync__Fv(void);
+int __nw__6CClassUi(int);
 int FUN_80063a5c(int, int, int, int, int, int, int);
 void Pack_DefragmentFully__Fv(void);
 void FUN_8006b240(void);
@@ -53,7 +53,7 @@ void FUN_8005cd14(void) {
 	}
 
 	if (DAT_800d1cf8 == 3 || DAT_800d1cf8 == 1 || DAT_800d1cf8 == 5) {
-		o = __nw__5CItemUi(24);
+		o = __nw__6CClassUi(24);
 
 		if (o)
 			o = FUN_80063a5c(o, 8, FUN_8005ca3c(DAT_800a1b3c), 0, 458, 64, 128);
@@ -67,11 +67,11 @@ void FUN_8005cd14(void) {
 		s0 = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a5398[DAT_800d1cf4].f34), 1, 1);
 
 		if (s0) {
-			FUN_8004cb10(s0);
-			FUN_8004cdd0();
+			FileIO_Load__FPv(s0);
+			FileIO_Sync__Fv();
 		}
 
-		o2 = __nw__5CItemUi(24);
+		o2 = __nw__6CClassUi(24);
 
 		if (o2)
 			o2 = FUN_80063a5c(o2, 8, s0, 0, 458, 64, 128);
@@ -80,8 +80,8 @@ void FUN_8005cd14(void) {
 		s0 = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a5398[DAT_800d1cf4].f30), 1, 1);
 
 		if (s0) {
-			FUN_8004cb10(s0);
-			FUN_8004cdd0();
+			FileIO_Load__FPv(s0);
+			FileIO_Sync__Fv();
 		}
 
 		FUN_80061a10(s0);
@@ -90,7 +90,7 @@ void FUN_8005cd14(void) {
 		DAT_800d1cf8 = 4;
 	}
 
-	s0 = __nw__5CItemUi(24);
+	s0 = __nw__6CClassUi(24);
 
 	if (s0)
 		s0 = FUN_80063a5c(s0, 8, FUN_8005ca3c(DAT_800a1b4c), 0, 440, 64, 128);

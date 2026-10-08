@@ -7,7 +7,7 @@ struct RECT {
 };
 
 extern "C" void *Mem_NewX__FUiii(unsigned int, int, int);
-extern "C" void FUN_8004d5d0(void *);
+extern "C" void Mem_Delete__FPv(void *);
 extern "C" int FUN_8008c774(RECT *, void *);
 extern "C" int FUN_8008c714(RECT *, void *);
 
@@ -35,5 +35,5 @@ extern "C" void FUN_800665ec(int x, int y) {
 	}
 
 	FUN_8008c714(&temp, buf);
-	FUN_8004d5d0(buf);
+	Mem_Delete__FPv(buf);
 }

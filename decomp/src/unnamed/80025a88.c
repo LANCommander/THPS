@@ -52,7 +52,7 @@ CB *DAT_800d17cc;
 extern int DAT_800d1de8;
 extern int DAT_800d1e28;
 
-void *FUN_800434d4(int);
+void *__nw__5CItemUi(int);
 CB *__6CBruce(void *);
 CC *__7CCameraP5CBodyUs(void *, CB *, int);
 void TrickTips_Init__Fv(void);
@@ -66,7 +66,7 @@ void FUN_80025a88(void) {
 	CB *p2;
 	CC *c2;
 
-	pBruce = FUN_800434d4(3612);
+	pBruce = __nw__5CItemUi(3612);
 
 	if (pBruce)
 		pBruce = __6CBruce(pBruce);
@@ -74,7 +74,7 @@ void FUN_80025a88(void) {
 	DAT_800d17c8 = pBruce;
 	DAT_800d17cc = 0;
 	pBruce->m2160 = 0;
-	pCam = FUN_800434d4(1712);
+	pCam = __nw__5CItemUi(1712);
 
 	if (pCam)
 		pCam = __7CCameraP5CBodyUs(pCam, pBruce, 0);
@@ -108,13 +108,13 @@ void FUN_80025a88(void) {
 		pBruce->m404 |= 4096;
 
 	if (DAT_800d1780 == 2 && DAT_800d16a4 != 7) {
-		p2 = FUN_800434d4(3612);
+		p2 = __nw__5CItemUi(3612);
 
 		if (p2)
 			p2 = __6CBruce(p2);
 
 		p2->m2160 = 1;
-		c2 = FUN_800434d4(1712);
+		c2 = __nw__5CItemUi(1712);
 
 		if (c2)
 			c2 = __7CCameraP5CBodyUs(c2, p2, 0);

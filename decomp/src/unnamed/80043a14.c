@@ -1,4 +1,4 @@
-/* FUN_80043a14 (0x80043a14) */
+/* Suspend__5CBodyPP5CBody (0x80043a14) */
 struct VT {
 	char pad[56];
 	short off;
@@ -11,7 +11,7 @@ char DAT_800d19b4[8];
 void DeleteFrom__5CBodyPP5CBody(char *p, char *q);
 void AttachTo__5CBodyPP5CBody(char *p, char *q);
 
-void FUN_80043a14(char *p, char *a) {
+void Suspend__5CBodyPP5CBody(char *p, char *a) {
 	struct VT *vt = *(struct VT **)(p + 72);
 
 	vt->fn(p + vt->off);

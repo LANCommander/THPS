@@ -20,7 +20,7 @@ extern char DAT_800d1d40[];
 
 void FUN_800648c0(int, int, int);
 int getSelected__12VerticalMenu(int);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 void FUN_8008b900(char *, char *, int, int);
 void setString__12VerticalMenuiPc(int, int, char *);
 void Pad_ClearTriggers__FP8SControl(unsigned char *);
@@ -45,7 +45,7 @@ int FUN_8005ffac(int a) {
 
 		if (getSelected__12VerticalMenu(a) == 3) {
 			if (s3 != DAT_800a4118.f184)
-				FUN_8004b250(144, 0x2000, 0);
+				SFX_PlayX__FUisi(144, 0x2000, 0);
 
 			s1 = s3 != 0;
 			DAT_800a4118.f184 = s1;
@@ -58,7 +58,7 @@ int FUN_8005ffac(int a) {
 			s1 = s3 != 0;
 
 			if (s3 != DAT_800a4118.f188)
-				FUN_8004b250(144, 0x2000, 0);
+				SFX_PlayX__FUisi(144, 0x2000, 0);
 
 			DAT_800a4118.f188 = s1;
 			FUN_8008b900(buf, DAT_800d1d40, DAT_800a5d5c.fc,

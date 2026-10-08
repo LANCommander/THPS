@@ -45,12 +45,12 @@ void Pack_DefragmentFully__Fv(void);
 void Mess_LoadFont__FPciii(char *, int, int, int);
 void Mess_SetFontScale__FUi(unsigned);
 int FileIO_Open__FPCc(char *);
-void FUN_8004cb10(int);
-void FUN_8004cdd0(void);
+void FileIO_Load__FPv(int);
+void FileIO_Sync__Fv(void);
 int Mem_NewX__FUiii(int, int, int);
 void FUN_80061714(int);
 void Pad_ClearTriggers__FP8SControl(char *);
-char *__nw__5CItemUi(unsigned);
+char *__nw__6CClassUi(unsigned);
 char *__6Spriteiiiiiii(char *, int, int, int, int, int, int, int);
 void FUN_8008c468(int);
 int FUN_800154f4(int);
@@ -69,7 +69,7 @@ void FUN_8005c68c(void);
 void Mess_Update__Fv(void);
 void Mess_Display__Fv(void);
 void FUN_8006b26c(void);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 
 void FUN_80060e98(void) {
 	int v, w;
@@ -83,8 +83,8 @@ void FUN_80060e98(void) {
 	v = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a1fc4), 1, 1);
 
 	if (v) {
-		FUN_8004cb10(v);
-		FUN_8004cdd0();
+		FileIO_Load__FPv(v);
+		FileIO_Sync__Fv();
 	}
 
 	FUN_80061714(v);
@@ -95,7 +95,7 @@ void FUN_80060e98(void) {
 	DAT_800d1d8e = 293;
 	DAT_800d1d90 = 640;
 	DAT_800d1d92 = 128;
-	p = __nw__5CItemUi(24);
+	p = __nw__6CClassUi(24);
 
 	if (p)
 		p = __6Spriteiiiiiii(p, DAT_800d1d8c, DAT_800d1d8e, DAT_800d1d90, DAT_800d1d92, 1, 32, 128);
@@ -158,7 +158,7 @@ void FUN_80060e98(void) {
 
 			DAT_800c0a48[0xe1] = 0;
 			DAT_800c0a48[0x24d] = 0;
-			FUN_8004b250(145, 8192, 0);
+			SFX_PlayX__FUisi(145, 8192, 0);
 			break;
 		}
 

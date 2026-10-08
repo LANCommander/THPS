@@ -23,7 +23,7 @@ extern char DAT_800a1c04[];
 
 extern int FUN_8005eb78();
 void FUN_800242cc(void);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 void FUN_8005c68c(void);
 void FUN_8005c780(void);
 void FUN_8005c934(void);
@@ -41,7 +41,7 @@ void FUN_8006b26c(void);
 void FUN_80070ff4(void);
 int FUN_8008f6fc(int, char *);
 void Pad_ClearTriggers__FP8SControl(char *);
-O *__nw__5CItemUi(int);
+O *__nw__6CClassUi(int);
 void down__12VerticalMenu(O *);
 void erase__12VerticalMenu(O *);
 void up__12VerticalMenu(O *);
@@ -61,7 +61,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	if (s3)
 		return s3 + a3;
 
-	s2 = __nw__5CItemUi(820);
+	s2 = __nw__6CClassUi(820);
 
 	if (s2)
 		s2 = __12VerticalMenuiiiPPciPiT6i(s2, 100, 398, 15, a0, a2, a6, a7, a8);
@@ -78,7 +78,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	if (a5 && (int)a5 == (int)FUN_8005eb78)
 		s0 = DAT_800d1d28;
 
-	s1 = __nw__5CItemUi(284);
+	s1 = __nw__6CClassUi(284);
 
 	if (s1)
 		s1 = FUN_80063e34(s1, s0);
@@ -111,12 +111,12 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		r = FUN_80064274(s1);
 
 		if (r == 3) {
-			FUN_8004b250(144, 8192, 0);
+			SFX_PlayX__FUisi(144, 8192, 0);
 			up__12VerticalMenu(s2);
 		}
 
 		if (r == 4) {
-			FUN_8004b250(144, 8192, 0);
+			SFX_PlayX__FUisi(144, 8192, 0);
 			down__12VerticalMenu(s2);
 		}
 
@@ -134,7 +134,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		if (DAT_800c0a48[225] || DAT_800c0a48[589] || DAT_800c0a48[49] || DAT_800c0a48[413]) {
 			Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
 			Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
-			FUN_8004b250(145, 8192, 0);
+			SFX_PlayX__FUisi(145, 8192, 0);
 
 			t = getSelected__12VerticalMenu(s2) + 1;
 			s3 = a3 + t;
@@ -145,7 +145,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		if (P[1] || P[365]) {
 			Pad_ClearTriggers__FP8SControl(P);
 			Pad_ClearTriggers__FP8SControl(P + 364);
-			FUN_8004b250(147, 8192, 0);
+			SFX_PlayX__FUisi(147, 8192, 0);
 
 			s3 = -1;
 		}

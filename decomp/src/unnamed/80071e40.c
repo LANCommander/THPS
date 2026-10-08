@@ -1,10 +1,10 @@
-/* FUN_80071e40 (0x80071e40) */
+/* Init_ResetMemory__Fi (0x80071e40) */
 extern int DAT_800be09c[];
 extern int DAT_800dc94c;
 
 void FUN_8004cf7c(void);
 
-void FUN_80071e40(int a) {
+void Init_ResetMemory__Fi(int a) {
 	int v = DAT_800dc94c;
 
 	DAT_800be09c[3] = 0x801fe000;

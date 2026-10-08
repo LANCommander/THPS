@@ -17,15 +17,15 @@ extern O *DAT_800d36a4[][15];
 O *DAT_800d22dc;
 int DAT_800d22e4;
 
-void FUN_8004cdd0(void);
-void FUN_8004d5d0(int);
+void FileIO_Sync__Fv(void);
+void Mem_Delete__FPv(int);
 
 void FUN_800543d4(void) {
 	int i, j;
 	O *o;
 
 	if (DAT_800d1afc)
-		FUN_8004cdd0();
+		FileIO_Sync__Fv();
 
 	for (i = 0; i < 3; i++) {
 		for (j = 0; j < DAT_800d33c4[i]; j++) {
@@ -40,7 +40,7 @@ void FUN_800543d4(void) {
 	}
 
 	if (DAT_800d22e4)
-		FUN_8004d5d0(DAT_800d22e4);
+		Mem_Delete__FPv(DAT_800d22e4);
 
 	o = DAT_800d22dc;
 

@@ -38,7 +38,7 @@ void FUN_8005c97c(int);
 void FUN_8005ca64(void);
 int FUN_8005ca3c(char *);
 void FUN_80061714(int);
-O *__nw__5CItemUi(int);
+O *__nw__6CClassUi(int);
 O *__6SpritePciii(O *, char *, int, int, int);
 void FUN_80023168(int);
 void FUN_80022aec(V *);
@@ -58,13 +58,13 @@ int FUN_8005fd50(int a) {
 	FUN_8005ca64();
 	FUN_80061714(FUN_8005ca3c(DAT_800a1d38));
 
-	o = __nw__5CItemUi(24);
+	o = __nw__6CClassUi(24);
 
 	if (o)
 		o = __6SpritePciii(o, DAT_800a1d44, 1, 256, 256);
 
 	DAT_800d1d5c = o;
-	o2 = __nw__5CItemUi(24);
+	o2 = __nw__6CClassUi(24);
 
 	if (o2)
 		o2 = __6SpritePciii(o2, DAT_800a1d54, 1, 256, 256);

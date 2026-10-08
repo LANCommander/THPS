@@ -36,7 +36,7 @@ void Spool_RemoveUnusedTextures(void);
 
 extern "C" {
 	void FUN_80082738(int);
-	void FUN_8004d5d0(void *);
+	void Mem_Delete__FPv(void *);
 }
 
 void ClearRegion(int Region, int cleanuptextures, int KeepInMemory) {
@@ -71,7 +71,7 @@ void ClearRegion(int Region, int cleanuptextures, int KeepInMemory) {
 			}
 		}
 
-		FUN_8004d5d0(DAT_800bf7a8[Region].pPSX);
+		Mem_Delete__FPv(DAT_800bf7a8[Region].pPSX);
 
 		DAT_800bf7a8[Region].pPSX = 0;
 	}

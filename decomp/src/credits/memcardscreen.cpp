@@ -81,7 +81,7 @@ void Front_RestoreBackground();
 
 extern "C" {
 	void *Mem_NewX__FUiii(uint, int, int);
-	void FUN_8004d5d0(void *);
+	void Mem_Delete__FPv(void *);
 	void FUN_80011628(int);
 	void FUN_8005c780(void);
 	void FUN_8005c934(void);
@@ -160,7 +160,7 @@ int FUN_80060ba0() {
 	if (DAT_800d1104)
 		FUN_80011150();
 
-	FUN_8004d5d0(DAT_800bf318.pBlockStart);
+	Mem_Delete__FPv(DAT_800bf318.pBlockStart);
 	FUN_800103a4();
 
 	if (DAT_800a4118.SFXVolume > 12)

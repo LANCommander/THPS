@@ -11,7 +11,7 @@ extern int DAT_800d16a4;
 
 int DAT_800d10ec;
 
-int FUN_8004b250(int, short, int);
+int SFX_PlayX__FUisi(int, short, int);
 
 void FUN_80010eb8(int Speed) {
 	int Volume;
@@ -27,7 +27,7 @@ void FUN_80010eb8(int Speed) {
 			if (Volume < 2048)
 				Volume = 2048;
 
-			FUN_8004b250(49, Volume, 0);
+			SFX_PlayX__FUisi(49, Volume, 0);
 		}
 	}
 }

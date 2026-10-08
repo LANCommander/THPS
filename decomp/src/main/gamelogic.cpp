@@ -53,7 +53,7 @@ extern "C" {
 	void Ob_AI__FPP5CBody(CBody **);
 	void Ob_QuickAI__FPP5CBody(CBody **);
 	void FUN_80048044(void);
-	void FUN_8004cc18(void);
+	void FileIO_Continue__Fv(void);
 	void FUN_8004f8a0(void);
 	void FUN_8006c4e8(void);
 	void Spool_Continue__Fv(void);
@@ -141,5 +141,5 @@ void Game_Logic(void) {
 	TrickTips_Update__Fv();
 	Mess_Update__Fv();
 	Spool_Continue__Fv();
-	FUN_8004cc18();
+	FileIO_Continue__Fv();
 }

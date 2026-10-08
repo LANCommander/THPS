@@ -3,7 +3,7 @@
    dead zone of 32 either side of the centre. Movement outside it marks the pad active. */
 int DAT_800d1f68;
 
-void FUN_800241d4(void);
+void ResetMainDemoTimer__Fv(void);
 
 int FUN_80070f18(int v, int min, int max, int centre) {
 	if (v < min)
@@ -16,7 +16,7 @@ int FUN_80070f18(int v, int min, int max, int centre) {
 		int a, n, b;
 
 		DAT_800d1f68 = 0;
-		FUN_800241d4();
+		ResetMainDemoTimer__Fv();
 
 		a = v + 32;
 		n = (centre - a) * -127;
@@ -28,7 +28,7 @@ int FUN_80070f18(int v, int min, int max, int centre) {
 		int a, n, b;
 
 		DAT_800d1f68 = 0;
-		FUN_800241d4();
+		ResetMainDemoTimer__Fv();
 
 		a = v - 32;
 		n = (a - centre) * 127;

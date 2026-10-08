@@ -16,7 +16,7 @@ typedef struct {
 extern unsigned char DAT_800c0a48[];
 
 void Pad_ClearTriggers__FP8SControl(unsigned char *);
-O *__nw__5CItemUi(int);
+O *__nw__6CClassUi(int);
 O *FUN_800652e4(O *, int, int, int, int, int, int, int, int);
 O *FUN_80063e34(O *, int);
 void FUN_8005c934(void);
@@ -25,7 +25,7 @@ void FUN_800242cc(void);
 void FUN_8006b240(void);
 void FUN_80061ea0(void);
 void FUN_8006b26c(void);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 void erase__12VerticalMenu(O *);
 
 int FUN_8005e4ec(int a, int b, int c) {
@@ -37,12 +37,12 @@ int FUN_8005e4ec(int a, int b, int c) {
 	Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
 	Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
 
-	m = __nw__5CItemUi(820);
+	m = __nw__6CClassUi(820);
 
 	if (m)
 		m = FUN_800652e4(m, 100, 398, 15, a, b, 0, 0, 0);
 
-	n = __nw__5CItemUi(284);
+	n = __nw__6CClassUi(284);
 
 	if (n)
 		n = FUN_80063e34(n, -1);
@@ -60,7 +60,7 @@ int FUN_8005e4ec(int a, int b, int c) {
 		    DAT_800c0a48[0x19d] || DAT_800c0a48[1] || DAT_800c0a48[0x16d]) {
 			Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
 			Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
-			FUN_8004b250(145, 0x2000, 0);
+			SFX_PlayX__FUisi(145, 0x2000, 0);
 
 			r = -1;
 		}

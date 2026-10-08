@@ -13,7 +13,7 @@ typedef struct {
 } SSliced;
 
 void Pack_Unpack__Fss(short, short);
-void FUN_8004d5d0(SEnt *);
+void Mem_Delete__FPv(SEnt *);
 
 void unpack__11SlicedImage(SSliced *t) {
 	int i, j;
@@ -35,7 +35,7 @@ void unpack__11SlicedImage(SSliced *t) {
 		}
 	}
 
-	FUN_8004d5d0(t->data);
+	Mem_Delete__FPv(t->data);
 
 	t->data = 0;
 }

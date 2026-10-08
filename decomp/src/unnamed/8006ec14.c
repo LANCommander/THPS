@@ -1,4 +1,4 @@
-/* FUN_8006ec14 (0x8006ec14) */
+/* Spool_Init__Fv (0x8006ec14) */
 typedef struct {
 	char a0;
 	char pad0[9];
@@ -24,7 +24,7 @@ int DAT_800d1edc;
 int DAT_800d1eec;
 int DAT_800d1ef0;
 
-void FUN_8006ec14(void) {
+void Spool_Init__Fv(void) {
 	int i;
 
 	for (i = 0; i < 20; i++)

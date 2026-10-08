@@ -11,7 +11,7 @@ SPalette *DAT_800d1a80;
 
 extern unsigned char DAT_800d2a10[], DAT_800d2b10[];
 
-void FUN_8004ab88(SPalette *);
+void RemovePaletteEntry__FP9tag_S_Pal(SPalette *);
 
 void Pal_RemoveUnusedPalettes__Fv(void) {
 	SPalette *p = DAT_800d1a80;
@@ -26,7 +26,7 @@ void Pal_RemoveUnusedPalettes__Fv(void) {
 			if (p->flags & 2)
 				DAT_800d2b10[p->slot] = 1;
 
-			FUN_8004ab88(p);
+			RemovePaletteEntry__FP9tag_S_Pal(p);
 		}
 
 		p = next;

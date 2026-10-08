@@ -15,7 +15,7 @@ extern N *DAT_800d1a60;
 extern N *DAT_800d1c80;
 
 void FUN_80059618(int);
-void FUN_800495f4(N *);
+void Pack_KillSlot__FP6TSPack(N *);
 N *Mem_NewX__FUiii(int, int, int);
 void FUN_8006edb8(int);
 void ClearRegion__Fiii(int, int, int);
@@ -41,7 +41,7 @@ void FUN_80056428(void) {
 	if (DAT_800d1a60) {
 		do {
 			t = DAT_800d1a60->next;
-			FUN_800495f4(DAT_800d1a60);
+			Pack_KillSlot__FP6TSPack(DAT_800d1a60);
 
 			DAT_800d1a60 = t;
 		} while (t);

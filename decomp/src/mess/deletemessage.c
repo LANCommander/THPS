@@ -7,7 +7,7 @@ typedef struct Message {
 
 Message *DAT_800d15ec;
 
-extern void FUN_8004d5d0(void *);
+extern void Mem_Delete__FPv(void *);
 
 void Mess_DeleteMessage(Message *m) {
 	if (m->next)
@@ -19,5 +19,5 @@ void Mess_DeleteMessage(Message *m) {
 	if (m == DAT_800d15ec)
 		DAT_800d15ec = m->next;
 
-	FUN_8004d5d0(m);
+	Mem_Delete__FPv(m);
 }

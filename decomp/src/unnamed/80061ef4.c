@@ -12,7 +12,7 @@ typedef struct {
 extern char DAT_800a21a0[];
 
 extern unsigned short *Mem_NewX__FUiii(int, int, int);
-extern void FUN_8004d5d0(void *);
+extern void Mem_Delete__FPv(void *);
 
 S *__11SlicedImagePciiiiiUs(S *s, unsigned short *src, int w, int h, int cw, int ch, int bpp,
                 unsigned short fl) {
@@ -70,7 +70,7 @@ S *__11SlicedImagePciiiiiUs(S *s, unsigned short *src, int w, int h, int cw, int
 		s->f1c = s->f1c + 1;
 	}
 
-	FUN_8004d5d0(src);
+	Mem_Delete__FPv(src);
 
 	s->f30 = 0;
 	return s;

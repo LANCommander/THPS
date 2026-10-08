@@ -30,7 +30,7 @@ extern int FUN_8005ca3c(char *);
 extern void FUN_80061714(int);
 extern void Mess_LoadFont__FPcT0iii(char *, int, int, int, int);
 extern void Mess_SetFontScale__FUi(unsigned);
-extern struct O *__nw__5CItemUi(unsigned);
+extern struct O *__nw__6CClassUi(unsigned);
 extern struct O *__6SpritePciii(struct O *, char *, int, int, int);
 extern void FUN_8005c8dc(int);
 extern int FUN_8005e754(int);
@@ -64,13 +64,13 @@ int FUN_8005de7c(int a) {
 	Mess_LoadFont__FPcT0iii(DAT_800a1be0, FUN_8005ca3c(DAT_800a1be0), -1, -1, -1);
 	Mess_SetFontScale__FUi(200);
 
-	o = __nw__5CItemUi(24);
+	o = __nw__6CClassUi(24);
 
 	if (o)
 		o = __6SpritePciii(o, DAT_800a1bec, 1, 32, 128);
 
 	DAT_800d2358 = o;
-	p = __nw__5CItemUi(24);
+	p = __nw__6CClassUi(24);
 
 	if (p)
 		p = __6SpritePciii(p, DAT_800a1bf8, 1, 32, 128);

@@ -3,7 +3,7 @@ int DAT_800d1628;
 
 extern int DAT_800d1e28;
 
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 
 void Shatter_MaybeMakeGlassShatterSound(void) {
 	int s;
@@ -18,7 +18,7 @@ void Shatter_MaybeMakeGlassShatterSound(void) {
 				s = 0x2a;
 		}
 
-		FUN_8004b250(s, 0x2000, 0);
+		SFX_PlayX__FUisi(s, 0x2000, 0);
 	}
 
 	DAT_800d1628 = 0;

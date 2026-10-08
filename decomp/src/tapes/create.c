@@ -21,7 +21,7 @@ typedef struct {
 extern char *DAT_800d217c;
 extern char DAT_800a824c[];
 
-Tape *FUN_800434d4(int);
+Tape *__nw__5CItemUi(int);
 Tape *__5CTapeUsRC7CVectorT2iiT2Uii(Tape *, int, V *, V *, int, int, char *, int, int);
 
 Tape *Tape_Create__Fiiiiiiii(int x, int y, int z, int p, int e, int f, int g, int h) {
@@ -72,7 +72,7 @@ Tape *Tape_Create__Fiiiiiiii(int x, int y, int z, int p, int e, int f, int g, in
 		pos2.z = o.z + (*(int *)(DAT_800d217c + 12) << 12);
 	}
 
-	t = FUN_800434d4(412);
+	t = __nw__5CItemUi(412);
 
 	if (t)
 		t = __5CTapeUsRC7CVectorT2iiT2Uii(t, 18, &pos1, &pos2, p, h, DAT_800a824c, 0, 0xffff);

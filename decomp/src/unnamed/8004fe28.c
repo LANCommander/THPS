@@ -7,18 +7,18 @@ extern char DAT_800c0a48[];
 int DAT_800d1b98[1];
 
 void Mess_SetTextJustify__FUc(int);
-int FUN_8001dc9c(char *);
+int Mess_TextHeightAboveBaseline__FPCc(char *);
 void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 void FUN_800242cc(void);
 void FUN_800491e8(void);
 void FUN_80049474(void);
 void FUN_800494dc(void);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 int FileIO_Open__FPCc(char *);
-void FUN_8004cb10(char *);
-void FUN_8004cdd0(void);
+void FileIO_Load__FPv(char *);
+void FileIO_Sync__Fv(void);
 char *Mem_NewX__FUiii(int, int, int);
-void FUN_8004d5d0(char *);
+void Mem_Delete__FPv(char *);
 void FUN_8005027c(int, int, int);
 void FUN_8005c780(void);
 void DrawColoredBox__FiiiiUcUcUc(int, int, int, int, int, int, int);
@@ -59,10 +59,10 @@ void FUN_8004fe28(int a0, int a1) {
 		s0i = FileIO_Open__FPCc(DAT_800a136c);
 
 	s0 = Mem_NewX__FUiii(s0i, 1, 1);
-	FUN_8004cb10(s0);
+	FileIO_Load__FPv(s0);
 
 	s7 = 0;
-	FUN_8004cdd0();
+	FileIO_Sync__Fv();
 
 	out = (char (*)[30])Mem_NewX__FUiii(12000, 1, 1);
 	p = (unsigned char *)s0;
@@ -108,14 +108,14 @@ void FUN_8004fe28(int a0, int a1) {
 		break;
 	}
 
-	FUN_8004d5d0(s0);
+	Mem_Delete__FPv(s0);
 	Mess_LoadFont__FPciii(DAT_800a1378, -1, -1, -1);
 	Mess_SetTextJustify__FUc(0);
 	Mess_SetScale__Fi(255);
 	Mess_SetRGB__FUcUcUci(150, 100, 25, 0);
 
 	s6 = 0;
-	s3 = FUN_8001dc9c((char *)out) + 256;
+	s3 = Mess_TextHeightAboveBaseline__FPCc((char *)out) + 256;
 	th = Mess_TextHeight__FPCc((char *)out) + 8;
 	bot = -th;
 	top = s3;
@@ -176,12 +176,12 @@ void FUN_8004fe28(int a0, int a1) {
 		    DAT_800c0a48[241] || DAT_800c0a48[605]) {
 			Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
 			Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
-			FUN_8004b250(145, 8192, 0);
+			SFX_PlayX__FUisi(145, 8192, 0);
 			break;
 		}
 	}
 
 	FUN_8005027c(a0, 2, a1);
-	FUN_8004d5d0((char *)out);
+	Mem_Delete__FPv((char *)out);
 	Mess_UnloadFont__Fv();
 }

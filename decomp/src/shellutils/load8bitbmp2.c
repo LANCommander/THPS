@@ -24,7 +24,7 @@ int GetFree256Slot__Fv(void);
 int FUN_8008c714(RECT *, unsigned short *);
 int FUN_8008c468(int);
 char *Mem_NewX__FUiii(int, int, int);
-void FUN_8004d5d0(void *);
+void Mem_Delete__FPv(void *);
 unsigned short FUN_8008f70c(int, int);
 
 int Load8BitBMP2__FPcPPcPiT2PUs(char *file, char **out, int *pw, int *ph, unsigned short *pclut) {
@@ -109,7 +109,7 @@ int Load8BitBMP2__FPcPPcPiT2PUs(char *file, char **out, int *pw, int *ph, unsign
 		dst -= w * 2;
 	}
 
-	FUN_8004d5d0(file);
+	Mem_Delete__FPv(file);
 
 	*pw = w;
 	*ph = h;

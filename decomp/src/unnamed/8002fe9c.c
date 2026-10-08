@@ -55,7 +55,7 @@ void FUN_8002fd80(B *, int, int, int, int);
 void FUN_8002fe50(B *);
 void BoardOff__6CBruce(B *);
 void FUN_800429d0(B *);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 int FUN_8008b5dc(int);
 int Redbook_Rnd__Fi(int);
@@ -89,13 +89,13 @@ void FUN_8002fe9c(B *p, int a) {
 
 	if (DAT_800a44fc[*(int *)((char *)p + 0x2e8)].fc == 0x9000 ||
 	    DAT_800a44fc[*(int *)((char *)p + 0x2e8)].fc == 0xb000) {
-		FUN_8004b250(8, 0x2000, 0);
-		FUN_8004b250(2, 0x2000, 0);
+		SFX_PlayX__FUisi(8, 0x2000, 0);
+		SFX_PlayX__FUisi(2, 0x2000, 0);
 	} else {
 		if (Redbook_Rnd__Fi(2))
-			FUN_8004b250(9, 0x2000, 0);
+			SFX_PlayX__FUisi(9, 0x2000, 0);
 		else
-			FUN_8004b250(10, 0x2000, 0);
+			SFX_PlayX__FUisi(10, 0x2000, 0);
 	}
 
 	p->f6dc = 0;

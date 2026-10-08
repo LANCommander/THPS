@@ -1,9 +1,9 @@
-/* FUN_8004ab88 (0x8004ab88) */
+/* RemovePaletteEntry__FP9tag_S_Pal (0x8004ab88) */
 int *DAT_800d1a80;
 
-void FUN_8004d5d0(int *p);
+void Mem_Delete__FPv(int *p);
 
-void FUN_8004ab88(int *n) {
+void RemovePaletteEntry__FP9tag_S_Pal(int *n) {
 	int *p = (int *)n[4];
 	int *q;
 
@@ -18,5 +18,5 @@ void FUN_8004ab88(int *n) {
 	if (n == DAT_800d1a80)
 		DAT_800d1a80 = (int *)n[4];
 
-	FUN_8004d5d0(n);
+	Mem_Delete__FPv(n);
 }

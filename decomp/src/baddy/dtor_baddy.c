@@ -5,7 +5,7 @@ int DAT_800d1988;
 
 void SFX_Stop__FUi(unsigned);
 void __dt__6CSuper(char *, int);
-void FUN_80043530(char *);
+void __dl__5CItemPv(char *);
 
 void __dt__6CBaddy(char *t, int f) {
 	int c = DAT_800d1988;
@@ -20,5 +20,5 @@ void __dt__6CBaddy(char *t, int f) {
 	__dt__6CSuper(t, 0);
 
 	if (f & 1)
-		FUN_80043530(t);
+		__dl__5CItemPv(t);
 }

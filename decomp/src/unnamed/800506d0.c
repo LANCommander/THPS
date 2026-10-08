@@ -30,7 +30,7 @@ extern char DAT_800be3f8[];
 int DAT_800d1ba8;
 int DAT_800d22a4;
 
-char *FUN_800434d4(int n);
+char *__nw__5CItemUi(int n);
 char *__6CBruce(char *p);
 void InitItem__6CBrucePc(char *t, char *n);
 void CycleAnim__6CSuperiSc(char *t, int a, signed char c);
@@ -39,7 +39,7 @@ void FUN_8008b238(char *m); /* identity-matrix init, one arg */
 char *FUN_800506d0(int idx) {
 	char *p;
 
-	p = FUN_800434d4(3612);
+	p = __nw__5CItemUi(3612);
 
 	if (p)
 		p = __6CBruce(p);

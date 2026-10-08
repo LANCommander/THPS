@@ -20,7 +20,7 @@ void FUN_8008c5ec(R *r, int a, int b, int c);
 void FUN_80096c14(void (*a)(void));
 void FUN_8008c3d0(int a);
 void FUN_800785cc(int a);
-void FUN_8004b038(void);
+void SFX_InitAtStart__Fv(void);
 void FileIO_Init__Fv(void);
 void FUN_80022b4c(void);
 
@@ -42,7 +42,7 @@ void FUN_80071d60(void) {
 	FUN_80096c14(FUN_80047870);
 	FUN_8008c3d0(1);
 	FUN_800785cc(0x9f6ad);
-	FUN_8004b038();
+	SFX_InitAtStart__Fv();
 	FileIO_Init__Fv();
 	FUN_80022b4c();
 }

@@ -20,7 +20,7 @@ int FileIO_Open(const char *);
 
 extern "C" {
 	char *Mem_NewTop__FUi(int);
-	void FUN_8004cb10(char *);
+	void FileIO_Load__FPv(char *);
 	void FUN_8008c190(char *, ...);
 }
 
@@ -37,7 +37,7 @@ void PREManager::spoolPRE(char *pre_name) {
 	}
 
 	if ((mPre[slot] = Mem_NewTop__FUi(FileIO_Open(pre_name))))
-		FUN_8004cb10(mPre[slot]);
+		FileIO_Load__FPv(mPre[slot]);
 	else
 		FUN_8008c190(DAT_800a2104, pre_name);
 

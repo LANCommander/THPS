@@ -167,7 +167,7 @@ extern "C" {
 	void FUN_80025400(void); /* FPS_Init */
 	void FUN_800109b0(void); /* Crowd_Init */
 	void FUN_800109b8(void); /* Crowd_Start */
-	void FUN_800241d4(void); /* ResetMainDemoTimer */
+	void ResetMainDemoTimer__Fv(void); /* ResetMainDemoTimer */
 	void FUN_80011628(int);  /* Front_SetLoadAction */
 	int Card_Load__F9EFileTypePUlT1(int, ulong *, ulong *);
 	void Mess_SetCurrentFont__FPc(char *);
@@ -211,7 +211,7 @@ extern "C" {
 	void Db_Render__Fv(void);
 	void FUN_8001a5e0(void);
 	void Front_SwitchOnStartLevelMenu__Fv(void);
-	int FUN_80043ce8(CBody *);
+	int IsDead__C5CBody(CBody *);
 	void Spool_Sync__Fv(void);
 	void Front_SaveGameState__Fv(void);
 	void FUN_8008c468(int);
@@ -259,7 +259,7 @@ void PlayAway(void) {
 	FUN_800109b8();
 
 	DAT_800d16e0 = 0;
-	FUN_800241d4();
+	ResetMainDemoTimer__Fv();
 
 	if (DAT_800a42f4.NumSkaters > 0 && DAT_800d1cb0) {
 		int LoadError;
@@ -585,7 +585,7 @@ void PlayAway(void) {
 			}
 		}
 
-		if (FUN_80043ce8(DAT_800d19a4))
+		if (IsDead__C5CBody(DAT_800d19a4))
 			DAT_800d16e0 = 2;
 	}
 done:

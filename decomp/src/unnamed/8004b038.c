@@ -1,4 +1,4 @@
-/* FUN_8004b038 (0x8004b038) */
+/* SFX_InitAtStart__Fv (0x8004b038) */
 struct S {
 	int a;
 	short b, c;
@@ -16,7 +16,7 @@ int DAT_800d1a98;
 void FUN_80094d74(void);
 void FUN_80094444(struct S *s);
 
-void FUN_8004b038(void) {
+void SFX_InitAtStart__Fv(void) {
 	struct S s;
 
 	FUN_80094d74();

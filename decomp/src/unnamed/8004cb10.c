@@ -1,4 +1,4 @@
-/* FUN_8004cb10 (0x8004cb10) */
+/* FileIO_Load__FPv (0x8004cb10) */
 typedef struct {
 	int a, b;
 } R;
@@ -28,9 +28,9 @@ void Mem_Copy__FPvT0i(void *a, void *b, int c);
 void FUN_8008c190(char *a, int b, int c);
 void GameFMV_StopFMV__Fv(void);
 int FUN_800912bc(int a, char *b);
-void FUN_8004cc18(void);
+void FileIO_Continue__Fv(void);
 
-void FUN_8004cb10(char *p) {
+void FileIO_Load__FPv(char *p) {
 	int a3, a2;
 
 	if (DAT_800d1b10 && DAT_800d1b14) {
@@ -56,5 +56,5 @@ void FUN_8004cb10(char *p) {
 	DAT_800d169c = 1;
 	DAT_800d16a0 = 0;
 	DAT_800d1af8 = 0;
-	FUN_8004cc18();
+	FileIO_Continue__Fv();
 }

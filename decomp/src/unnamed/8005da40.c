@@ -28,7 +28,7 @@ void SetClippingBox__Fiiii(int, int, int, int);
 void draw__6Spriteiiiiii(O *, int, int, int, int, int, int);
 void FUN_80070ff4(void);
 int FUN_800718d0(void);
-void FUN_8004b250(int, int, int);
+void SFX_PlayX__FUisi(int, int, int);
 void Pause__Fi(int);
 void Pad_ClearTriggers__FP8SControl(unsigned char *);
 void Mess_LoadFont__FPciii(char *, int, int, int);
@@ -58,7 +58,7 @@ void FUN_8005da40(void) {
 		DAT_800c0a79[0] = 1;
 
 	if (DAT_800c0a48[0x31] && DAT_800d1cb0 == 0) {
-		FUN_8004b250(2, 0x2000, 0);
+		SFX_PlayX__FUisi(2, 0x2000, 0);
 		Pause__Fi(20);
 		Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
 		Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);

@@ -106,7 +106,7 @@ void Front_PrintCentredPrompt(const char *);
 extern "C" {
 	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 	void Career_GiveMedal__Fi10EMedalType(int, int);
-	int FUN_8004b250(int, short, int);
+	int SFX_PlayX__FUisi(int, short, int);
 	int FUN_8008b900(char *, const char *, ...);
 }
 
@@ -220,8 +220,8 @@ void Competition_WinLoseDisplay() {
 			}
 
 			if (!c->SoundDone) {
-				FUN_8004b250(45, 0x2000, 0);
-				FUN_8004b250(48, 0x2000, 0);
+				SFX_PlayX__FUisi(45, 0x2000, 0);
+				SFX_PlayX__FUisi(48, 0x2000, 0);
 
 				c->SoundDone = 1;
 			}
@@ -237,7 +237,7 @@ void Competition_WinLoseDisplay() {
 			}
 
 			if (!c->SoundDone) {
-				FUN_8004b250(48, 0x2000, 0);
+				SFX_PlayX__FUisi(48, 0x2000, 0);
 
 				c->SoundDone = 1;
 			}
@@ -253,7 +253,7 @@ void Competition_WinLoseDisplay() {
 			}
 
 			if (!c->SoundDone) {
-				FUN_8004b250(45, 0x2000, 0);
+				SFX_PlayX__FUisi(45, 0x2000, 0);
 
 				c->SoundDone = 1;
 			}
@@ -265,7 +265,7 @@ void Competition_WinLoseDisplay() {
 			int third;
 
 			if (!c->SoundDone) {
-				FUN_8004b250(47, 0x2000, 0);
+				SFX_PlayX__FUisi(47, 0x2000, 0);
 
 				c->SoundDone = 1;
 			}

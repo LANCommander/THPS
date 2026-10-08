@@ -1,4 +1,4 @@
-/* FUN_8004ee78 (0x8004ee78) */
+/* TrickOb_DeleteAll__Fv (0x8004ee78) */
 struct VT {
 	char pad[8];
 	short off;
@@ -16,7 +16,7 @@ struct O {
 
 struct O *DAT_800d1b70;
 
-void FUN_8004ee78(void) {
+void TrickOb_DeleteAll__Fv(void) {
 	struct O *p = DAT_800d1b70;
 	struct O *n;
 

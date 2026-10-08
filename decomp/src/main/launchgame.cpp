@@ -60,7 +60,7 @@ extern "C" {
 	void FUN_8001ccf8(SSaveGame *);
 	void PlayAway__Fv(void);
 	int FUN_8008c190(const char *, ...);
-	void FUN_80071c24(int);
+	void Init_Cleanup__Fi(int);
 	void FUN_80025a88(void);
 	void Trig_ExecuteRestart__Fv(void);
 	void FUN_800491e8(void);
@@ -123,7 +123,7 @@ DUN:
 
 	if (DAT_800d16e0 == 7) {
 		FUN_8008c190(DAT_8009f5b8);
-		FUN_80071c24(1);
+		Init_Cleanup__Fi(1);
 		Trig_ParseTRGFile();
 		FUN_80025a88();
 		Trig_ExecuteRestart__Fv();

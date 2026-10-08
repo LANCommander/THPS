@@ -1,4 +1,4 @@
-/* FUN_80029a0c (0x80029a0c) */
+/* __11CMotionBlurRC7CVectorR7CVectorPciii (0x80029a0c) */
 typedef struct V {
 	int x, y, z;
 } V;
@@ -9,7 +9,7 @@ char *FUN_8002930c(char *p);
 void SetAnim__7CFT4BitPc(char *p, char *n);
 void FUN_800280b0(char *p);
 
-char *FUN_80029a0c(char *p, V *a, V *b, char *n, int s1, int s2, int s3) {
+char *__11CMotionBlurRC7CVectorR7CVectorPciii(char *p, V *a, V *b, char *n, int s1, int s2, int s3) {
 	FUN_8002930c(p);
 
 	*(char **)(p + 68) = DAT_8009f758;

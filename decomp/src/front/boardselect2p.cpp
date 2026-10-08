@@ -171,9 +171,9 @@ extern "C" {
 	int FUN_8008b900(char *, const char *, ...);
 	void FUN_8008e904(char *, char *);
 	int Mess_TextWidth__FPCc(char *);
-	int FUN_8001db80(const char *);
+	int Mess_TextHeightBelowBaseline__FPCc(const char *);
 	void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
-	void FUN_8004b250(int, int, int);
+	void SFX_PlayX__FUisi(int, int, int);
 	void FUN_8005c8dc(int);
 	void FUN_80050c5c(void);
 	void FUN_8005c780(void);
@@ -389,7 +389,7 @@ extern "C" int FUN_80051660(int player) {
 		{
 			int h = Mess_TextHeight(text[p]);
 
-			textY[p] = (h >> 1) + 75 + FUN_8001db80(text[p]);
+			textY[p] = (h >> 1) + 75 + Mess_TextHeightBelowBaseline__FPCc(text[p]);
 		}
 
 		textSpeed[p] = (DAT_800d1bbc[p] - textX[p]) / 10;
@@ -577,14 +577,14 @@ extern "C" int FUN_80051660(int player) {
 								DAT_800d22c8 = 3;
 
 							if (press == 1) {
-								FUN_8004b250(144, 0x2000, 0);
+								SFX_PlayX__FUisi(144, 0x2000, 0);
 
 								timer[p] = 4;
 								state[p] = 1;
 								dir[p] = -1;
 								again = 1;
 							} else if (press == 2) {
-								FUN_8004b250(144, 0x2000, 0);
+								SFX_PlayX__FUisi(144, 0x2000, 0);
 
 								timer[p] = 4;
 								state[p] = 1;
@@ -594,11 +594,11 @@ extern "C" int FUN_80051660(int player) {
 								int k;
 
 								if (col[p] == 0)
-									FUN_8004b250(149, 0x2000, 0);
+									SFX_PlayX__FUisi(149, 0x2000, 0);
 								else if (col[p] == 1)
-									FUN_8004b250(150, 0x2000, 0);
+									SFX_PlayX__FUisi(150, 0x2000, 0);
 								else if (col[p] == 2)
-									FUN_8004b250(151, 0x2000, 0);
+									SFX_PlayX__FUisi(151, 0x2000, 0);
 
 								timer[p] = 10;
 								state[p] = 2;
@@ -616,11 +616,11 @@ extern "C" int FUN_80051660(int player) {
 								img[p][col[p]][k] = 0;
 							} else if (press == 4) {
 								if (col[p] == 0)
-									FUN_8004b250(149, 0x2000, 0);
+									SFX_PlayX__FUisi(149, 0x2000, 0);
 								else if (col[p] == 1)
-									FUN_8004b250(150, 0x2000, 0);
+									SFX_PlayX__FUisi(150, 0x2000, 0);
 								else if (col[p] == 2)
-									FUN_8004b250(151, 0x2000, 0);
+									SFX_PlayX__FUisi(151, 0x2000, 0);
 
 								timer[p] = 10;
 								state[p] = 2;
@@ -769,7 +769,7 @@ extern "C" int FUN_80051660(int player) {
 						{
 							int h = Mess_TextHeight(text[p]);
 
-							textY[p] = (h >> 1) + 75 + FUN_8001db80(text[p]);
+							textY[p] = (h >> 1) + 75 + Mess_TextHeightBelowBaseline__FPCc(text[p]);
 						}
 
 						textSpeed[p] = (DAT_800d1bbc[p] - textX[p]) / 10;
@@ -836,12 +836,12 @@ extern "C" int FUN_80051660(int player) {
 								deck[p] = 0;
 						}
 
-						FUN_8004b250(145, 0x2000, 0);
+						SFX_PlayX__FUisi(145, 0x2000, 0);
 
 						chosen[p] = 1;
 					}
 				} else {
-					FUN_8004b250(146, 0x2000, 0);
+					SFX_PlayX__FUisi(146, 0x2000, 0);
 				}
 
 				if (chosen[0] && chosen[1])
@@ -850,7 +850,7 @@ extern "C" int FUN_80051660(int player) {
 
 			if (DAT_800c0a48[p].Triangle.Triggered) {
 				if (chosen[p] || !chosen[1 - p])
-					FUN_8004b250(147, 0x2000, 0);
+					SFX_PlayX__FUisi(147, 0x2000, 0);
 
 				Pad_ClearTriggers(&DAT_800c0a48[p]);
 

@@ -37,7 +37,7 @@ P *DAT_800d229c;
 short *DAT_800d22a0;
 
 void FUN_80043f70(P *);
-void FUN_8004cc18(void);
+void FileIO_Continue__Fv(void);
 P *FUN_800506d0(int);
 P *FUN_8006b1c8(void);
 void FUN_8006ed2c(int);
@@ -76,7 +76,7 @@ void FUN_800507e4(int a, int b) {
 			DAT_800d229c = 0;
 			break;
 		case 1:
-			FUN_8004cc18();
+			FileIO_Continue__Fv();
 			Spool_Continue__Fv();
 
 			if (DAT_800d228c == 500 && FUN_80070830() == 0) {

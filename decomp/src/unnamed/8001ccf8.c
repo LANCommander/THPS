@@ -71,7 +71,7 @@ void SFX_SetReverbType__FUc(int);
 void Spool_ClearAllPSXs__Fv(void);
 void Spool_Sync__Fv(void);
 void Trig_SetRestart__FPc(char *);
-int __nw__5CItemUi(int);
+int __nw__6CClassUi(int);
 
 void FUN_8001ccf8(char *p) {
 	int a, b, s2, t1, t2, u1, u2, i1;
@@ -87,25 +87,25 @@ void FUN_8001ccf8(char *p) {
 	FUN_8004b0e4(DAT_800a5398[DAT_800d1e28].f8);
 	SFX_SetReverbType__FUc(0);
 
-	a = __nw__5CItemUi(24);
+	a = __nw__6CClassUi(24);
 
 	if (a)
 		a = __6SpritePciii(a, DAT_8009e4f8, 1, 256, 256);
 
 	DAT_800d184c = a;
-	a = __nw__5CItemUi(24);
+	a = __nw__6CClassUi(24);
 
 	if (a)
 		a = __6SpritePciii(a, DAT_8009e504, 1, 256, 256);
 
 	DAT_800d1850 = a;
-	a = __nw__5CItemUi(24);
+	a = __nw__6CClassUi(24);
 
 	if (a)
 		a = __6SpritePciii(a, DAT_8009e510, 1, 256, 256);
 
 	DAT_800d1854 = a;
-	b = __nw__5CItemUi(24);
+	b = __nw__6CClassUi(24);
 
 	if (b)
 		b = __6SpritePciii(b, DAT_8009e520, 1, 64, 256);

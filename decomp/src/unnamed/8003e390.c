@@ -69,7 +69,7 @@ extern int DAT_800d16e4;
 void DoPhysics__9CPlatform(S *);
 void BouncyAI__9CPlatform(S *);
 void ParseScript__6CBaddyPUs(S *, int);
-void FUN_8004b65c(int, void *, int);
+void SFX_ModifyPos__FUiRC7CVectori(int, void *, int);
 int Length__C7CVector(V *);
 void Utils_CalcAim__FR8CSVectorRC7CVectorT1(SV *, void *, void *);
 void Utils_GetVecFromMagDir__FR7CVectoriRC8CSVector(void *, int, SV *);
@@ -263,7 +263,7 @@ void FUN_8003e390(S *p) {
 	DoPhysics__9CPlatform(p);
 
 	if (p->i248 != -1 && DAT_800d16e4 % p->i248 == 0)
-		FUN_8004b65c(p->i244, PB(4), 0);
+		SFX_ModifyPos__FUiRC7CVectori(p->i244, PB(4), 0);
 
 	p->i23c = 0;
 }

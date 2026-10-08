@@ -4,7 +4,7 @@ typedef struct TSPack {
 	struct TSPack *next;
 } TSPack;
 
-void FUN_800495f4(TSPack *);
+void Pack_KillSlot__FP6TSPack(TSPack *);
 
 void Pack_Remove__FPP6TSPackP6TSPack(TSPack **list, TSPack *p) {
 	TSPack *q;
@@ -20,5 +20,5 @@ void Pack_Remove__FPP6TSPackP6TSPack(TSPack **list, TSPack *p) {
 		q->next = p->next;
 	}
 
-	FUN_800495f4(p);
+	Pack_KillSlot__FP6TSPack(p);
 }

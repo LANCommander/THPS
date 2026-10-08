@@ -9,7 +9,7 @@ int DAT_800d2040;
 void DeleteFrom__5CBodyPP5CBody(char *p, char *l);
 void FUN_8007d20c(char *p, int a);
 void FUN_80043860(char *p, int a);
-void FUN_80043530(char *p);
+void __dl__5CItemPv(char *p);
 
 typedef struct {
 	char *v[419];
@@ -40,5 +40,5 @@ void FUN_800788b8(char *q, int f) {
 	FUN_80043860(q, 0);
 
 	if (f & 1)
-		FUN_80043530(q);
+		__dl__5CItemPv(q);
 }

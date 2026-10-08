@@ -17,7 +17,7 @@ int DAT_800d1f68, DAT_800d1f74;
 extern void Pad_ClearAll__Fv(void);
 extern void FUN_80096304(char *, char *);
 extern void FUN_80096050(void);
-extern void FUN_800241d4(void);
+extern void ResetMainDemoTimer__Fv(void);
 
 void Pad_InitAtStart(void) {
 	int i;
@@ -34,7 +34,7 @@ void Pad_InitAtStart(void) {
 	FUN_80096050();
 
 	DAT_800d1f68 = 0;
-	FUN_800241d4();
+	ResetMainDemoTimer__Fv();
 
 	DAT_800d1f74 = 1;
 }
