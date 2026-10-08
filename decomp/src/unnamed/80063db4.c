@@ -1,4 +1,4 @@
-/* FUN_80063db4 (0x80063db4) */
+/* _._11EraseSprite (0x80063db4) */
 extern char DAT_800a2180[];
 extern char DAT_800a21b0[];
 

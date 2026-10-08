@@ -10,7 +10,7 @@ unsigned DAT_800d1ec8;
 extern void Mess_SetTextJustify__FUc(int);
 extern void FUN_8001e0a4(void *, int);
 extern void GraffitiColor__FP6CBruce(void *);
-extern void FUN_8006e7c0(void *);
+extern void TrickMessage__10CPanelData(void *);
 extern void FUN_8008b900(char *, char *, int);
 extern int Mess_DrawPanelText__FiiPCciUii(int, int, char *, int, int, int);
 extern void Mess_SetRGB__FUcUcUci(int, int, int, int);
@@ -100,7 +100,7 @@ void FUN_8006d0c8(char *o, int x0, int y0) {
 
 			if (*(int *)(o + 0xddc) < kk) {
 				if (*(int *)(o + 0x734) != 2 || kk >= 2) {
-					FUN_8006e7c0(o + 0x924);
+					TrickMessage__10CPanelData(o + 0x924);
 
 					*(int *)(o + 0xddc) = *(int *)(o + 0x32c);
 				}

@@ -1,6 +1,6 @@
 /* FUN_8006ea4c (0x8006ea4c) */
 void Video_HighlightEnd__FP6CBrucei(char *b, int n);
-void FUN_8001e014(char *p);
+void init__17FallingTextEffect(char *p);
 
 void FUN_8006ea4c(char *p) {
 	int sum = 0;
@@ -40,7 +40,7 @@ void FUN_8006ea4c(char *p) {
 	if (*(int *)(p + 340)) {
 		*(int *)(p + 340) = 0;
 		*(int *)(p + 344) = 1;
-		FUN_8001e014(p + 356);
+		init__17FallingTextEffect(p + 356);
 	}
 
 	*(int *)(p + 904) = 0;

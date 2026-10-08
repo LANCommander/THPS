@@ -6,10 +6,10 @@ extern char DAT_800bf104[];
 int DAT_800d1cc8;
 int DAT_800d1ccc;
 
-void FUN_80063e34(char *p, int a);
+void __9PadBufferi(char *p, int a);
 
 void FUN_8005de08(void) {
 	DAT_800d1cc8 = DAT_800bf0f4[0];
 	DAT_800d1ccc = DAT_800bf100[0];
-	FUN_80063e34(DAT_800bf104, -1);
+	__9PadBufferi(DAT_800bf104, -1);
 }

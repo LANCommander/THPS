@@ -91,11 +91,11 @@ class Sprite : public CItem {
 	void prepare();
 };
 
-class MenuInput : public CItem {
+class PadBuffer : public CItem {
   public:
 	int pad[(0x11c - 4) / 4];
-	MenuInput(int);
-	~MenuInput();
+	PadBuffer(int);
+	~PadBuffer();
 	void update();
 	int getPress();
 };
@@ -329,7 +329,7 @@ extern "C" int FUN_80054510(int player) {
 	title[0] = new Sprite(DAT_800a1738, 1, 32, 128);
 	title[1] = new Sprite(DAT_800a1744, 1, 32, 128);
 	title[2] = new Sprite(DAT_800a1750, 1, 32, 128);
-	MenuInput *input = new MenuInput(-1);
+	PadBuffer *input = new PadBuffer(-1);
 	int result;
 
 	FUN_8005c8dc(3);

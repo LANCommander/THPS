@@ -1,7 +1,7 @@
-/* FUN_8001e014 (0x8001e014) */
+/* init__17FallingTextEffect (0x8001e014) */
 int Redbook_Rnd__Fi(int a);
 
-void FUN_8001e014(short *p) {
+void init__17FallingTextEffect(short *p) {
 	int i = 0;
 	short *q = p;
 

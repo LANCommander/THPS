@@ -1,4 +1,4 @@
-/* FUN_80063e34 (0x80063e34) */
+/* __9PadBufferi (0x80063e34) */
 typedef struct {
 	char pad[128];
 	char a;
@@ -27,7 +27,7 @@ extern char DAT_800a2170[];
 
 int DAT_800d1d9c;
 
-P *FUN_80063e34(P *p, int a1) {
+P *__9PadBufferi(P *p, int a1) {
 	int fl = DAT_800d1d9c;
 	S *t;
 

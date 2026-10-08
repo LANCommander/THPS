@@ -44,14 +44,14 @@ class Sprite : public CItem {
 	void draw(int, int, int, int, int, int);
 };
 
-class MenuInput : public CItem {
+class PadBuffer : public CItem {
   public:
 	int pad[(0x11c - 4) / 4];
 	void update();
 };
 
 extern SControl DAT_800c0a48[2];
-extern MenuInput DAT_800bf104;
+extern PadBuffer DAT_800bf104;
 extern int DAT_800bf0d4[]; /* picture x by screen */
 extern int DAT_800bf0e0[]; /* picture y by screen */
 extern int DAT_800d1d80;

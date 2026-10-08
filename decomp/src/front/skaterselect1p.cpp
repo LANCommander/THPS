@@ -117,20 +117,20 @@ class Sprite : public CItem {
 	void removeFromMemory();
 };
 
-class MenuInput : public CItem {
+class PadBuffer : public CItem {
   public:
 	int pad[(0x11c - 4) / 4];
-	MenuInput(int);
+	PadBuffer(int);
 	void update();
 	int getPress();
 };
 
-class SaveRect : public CItem {
+class EraseSprite : public CItem {
   public:
 	short x, y, w, h;
 	void *buf;
-	SaveRect(int, int, int, int);
-	~SaveRect();
+	EraseSprite(int, int, int, int);
+	~EraseSprite();
 	void restore(int, int);
 };
 
@@ -309,8 +309,8 @@ extern "C" int FUN_80059794() {
 	rows[2].value = DAT_800a44fc[DAT_800d1c40].Stats[2];
 	rows[3].value = DAT_800a44fc[DAT_800d1c40].Stats[3];
 
-	SaveRect *bioRect1 = new SaveRect(203, 287, 188, 33);
-	SaveRect *bioRect2 = new SaveRect(203, 320, 188, 94);
+	EraseSprite *bioRect1 = new EraseSprite(203, 287, 188, 33);
+	EraseSprite *bioRect2 = new EraseSprite(203, 320, 188, 94);
 	Sprite *statBox = new Sprite(203, 180, 200, 95, 1, 32, 128);
 
 	statBox->removeFromMemory();
@@ -401,7 +401,7 @@ extern "C" int FUN_80059794() {
 	tapes[2] = 0;
 	int tapesY = (Mess_TextHeight(tapes) >> 1) + 385 - Mess_TextHeightBelowBaseline__FPCc(tapes);
 
-	MenuInput input(-1);
+	PadBuffer input(-1);
 
 	int textTimer = 0;
 	int statTimer = 0;

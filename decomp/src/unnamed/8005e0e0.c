@@ -29,9 +29,9 @@ void FUN_8005c780(void);
 void FUN_8005c934(void);
 int FUN_8005e09c(int);
 void FUN_80061ea0(void);
-O *FUN_80063e34(O *, int);
-void update__9MenuInput(O *);
-int FUN_80064274(O *);
+O *__9PadBufferi(O *, int);
+void update__9PadBuffer(O *);
+int getPress__9PadBuffer(O *);
 O *__12VerticalMenuiiiPPciPiT6i(O *, int, int, int, int *, int, int, int, int);
 void FUN_80064890(O *, int, int);
 void FUN_800648c0(O *, int, int);
@@ -81,7 +81,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	s1 = __nw__6CClassUi(284);
 
 	if (s1)
-		s1 = FUN_80063e34(s1, s0);
+		s1 = __9PadBufferi(s1, s0);
 
 	DAT_800d1cb0 = 1600;
 
@@ -108,7 +108,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		FUN_8006b240();
 		FUN_80061ea0();
 
-		r = FUN_80064274(s1);
+		r = getPress__9PadBuffer(s1);
 
 		if (r == 3) {
 			SFX_PlayX__FUisi(144, 8192, 0);
@@ -123,7 +123,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		if (r)
 			DAT_800d1cb0 = 1600;
 
-		update__9MenuInput(s1);
+		update__9PadBuffer(s1);
 
 		if (a5)
 			a5(s2);

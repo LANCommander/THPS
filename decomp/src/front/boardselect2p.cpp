@@ -90,23 +90,23 @@ class Sprite : public CItem {
 	void prepare();
 };
 
-class MenuInput : public CItem {
+class PadBuffer : public CItem {
   public:
 	int pad[(0x11c - 4) / 4];
-	MenuInput(int);
-	~MenuInput();
+	PadBuffer(int);
+	~PadBuffer();
 	void update();
 	int getPress();
 	void reset();
 };
 
 /* Saves a screen rectangle to a buffer (StoreImage) and puts it back (LoadImage). */
-class SaveRect : public CItem {
+class EraseSprite : public CItem {
   public:
 	short x, y, w, h;
 	void *buf;
-	SaveRect(int, int, int, int);
-	~SaveRect();
+	EraseSprite(int, int, int, int);
+	~EraseSprite();
 	void restore(int, int);
 };
 
@@ -352,7 +352,7 @@ extern "C" int FUN_80051660(int player) {
 	SLabel7 sChosen = "chosen";
 	int lx[2];
 	int ly[2];
-	SaveRect *popup[2];
+	EraseSprite *popup[2];
 	lx[0] = DAT_800d1be4[0];
 	lx[1] = DAT_800d1be4[1];
 	ly[0] = 180;
@@ -401,9 +401,9 @@ extern "C" int FUN_80051660(int player) {
 	title[0] = new Sprite(DAT_800a1530, 1, 32, 128);
 	title[1] = new Sprite(DAT_800a153c, 1, 32, 128);
 	title[2] = new Sprite(DAT_800a1548, 1, 32, 128);
-	MenuInput *input[2];
-	input[0] = new MenuInput(0);
-	input[1] = new MenuInput(1);
+	PadBuffer *input[2];
+	input[0] = new PadBuffer(0);
+	input[1] = new PadBuffer(1);
 
 	FUN_8005c8dc(3);
 	FUN_80050c5c();
@@ -533,7 +533,7 @@ extern "C" int FUN_80051660(int player) {
 
 			if (chosen[p] == 4) {
 				if (popup[p] == 0)
-					popup[p] = new SaveRect(DAT_800d1be4[p] - 40, 150, 80, 80);
+					popup[p] = new EraseSprite(DAT_800d1be4[p] - 40, 150, 80, 80);
 
 				Mess_SetCurrentFont(DAT_800a1524);
 				Mess_SetFontScale(150);

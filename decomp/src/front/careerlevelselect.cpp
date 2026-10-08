@@ -90,20 +90,20 @@ class Sprite : public CItem {
 	void draw(int, int, int, int, int, int);
 };
 
-class MenuInput : public CItem {
+class PadBuffer : public CItem {
   public:
 	int pad[(0x11c - 4) / 4];
-	MenuInput(int);
+	PadBuffer(int);
 	void update();
 	int getPress();
 };
 
-class SaveRect : public CItem {
+class EraseSprite : public CItem {
   public:
 	short x, y, w, h;
 	void *buf;
-	SaveRect(int, int, int, int);
-	~SaveRect();
+	EraseSprite(int, int, int, int);
+	~EraseSprite();
 	void restore(int, int);
 };
 
@@ -262,7 +262,7 @@ extern "C" void FUN_80066d7c() {
 	Sprite *arrowSpr[4];
 	char name[16];
 	Sprite *arrow = new Sprite("levarrow.bmp", 1, 32, 128);
-	SaveRect *save = new SaveRect(ax, ay, 32, 32);
+	EraseSprite *save = new EraseSprite(ax, ay, 32, 32);
 	arrowTimer[0] = 0;
 	arrowTimer[1] = 0;
 	arrowX[0] = 91;
@@ -416,7 +416,7 @@ extern "C" void FUN_80066d7c() {
 		prev = DAT_800d237c - 1;
 	char unused188[64]; /* unused; keeps the frame layout */
 
-	MenuInput input(-1);
+	PadBuffer input(-1);
 	Pad_ClearTriggers(&DAT_800c0a48[0]);
 	Pad_ClearTriggers(&DAT_800c0a48[1]);
 
@@ -687,7 +687,7 @@ extern "C" void FUN_80066d7c() {
 				FUN_8008c468(0);
 				FUN_80066bb4(-1);
 				delete save;
-				save = new SaveRect(ax, ay, 32, 32);
+				save = new EraseSprite(ax, ay, 32, 32);
 				state = 2;
 			}
 		}

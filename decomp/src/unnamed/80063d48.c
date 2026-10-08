@@ -1,10 +1,10 @@
-/* FUN_80063d48 (0x80063d48) */
+/* __11EraseSpriteiiii (0x80063d48) */
 extern char DAT_800a2180[];
 
 int Mem_NewX__FUiii(int a, int b, int c);
 void FUN_8008c774(char *p, int a);
 
-char *FUN_80063d48(char *p, int a, int b, int c, int d) {
+char *__11EraseSpriteiiii(char *p, int a, int b, int c, int d) {
 	int n;
 
 	*(short *)(p + 4) = a;

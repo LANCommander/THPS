@@ -115,11 +115,11 @@ class Sprite : public CItem {
 	void removeFromMemory();
 };
 
-class MenuInput : public CItem {
+class PadBuffer : public CItem {
   public:
 	int pad[(0x11c - 4) / 4];
-	MenuInput(int);
-	~MenuInput();
+	PadBuffer(int);
+	~PadBuffer();
 	void update();
 	int getPress();
 	void reset();
@@ -429,7 +429,7 @@ extern "C" int FUN_80056754(void) {
 	int pad200[2];
 	int lx[2];
 	int ly[2];
-	MenuInput *input[2];
+	PadBuffer *input[2];
 	int panelState[2];
 	int infoTimer[2];
 	int unused[2];
@@ -447,8 +447,8 @@ extern "C" int FUN_80056754(void) {
 	lx[1] = 496;
 	ly[0] = 153;
 	ly[1] = 173;
-	input[0] = new MenuInput(0);
-	input[1] = new MenuInput(1);
+	input[0] = new PadBuffer(0);
+	input[1] = new PadBuffer(1);
 
 	for (int j = 0; j < 2; j++) {
 		panelState[j] = 0;

@@ -1,7 +1,7 @@
-/* FUN_8001dfc4 (0x8001dfc4) */
-void FUN_8001e014(int a);
+/* __17FallingTextEffect (0x8001dfc4) */
+void init__17FallingTextEffect(int a);
 
-int FUN_8001dfc4(int a) {
-	FUN_8001e014(a);
+int __17FallingTextEffect(int a) {
+	init__17FallingTextEffect(a);
 	return a;
 }

@@ -1,4 +1,4 @@
-/* FUN_800316cc (0x800316cc) */
+/* SetTrickFlags__6CBruceP6STrick (0x800316cc) */
 /* PHYSICS: copies a trick-table entry's flag bits (top 12 bits of its first word) into the
    skater; called twice from HandleTricksNew__6CBruce with &DAT_800a7358[i]. */
 struct STrick {

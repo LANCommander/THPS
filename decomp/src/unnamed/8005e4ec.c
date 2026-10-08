@@ -18,7 +18,7 @@ extern unsigned char DAT_800c0a48[];
 void Pad_ClearTriggers__FP8SControl(unsigned char *);
 O *__nw__6CClassUi(int);
 O *FUN_800652e4(O *, int, int, int, int, int, int, int, int);
-O *FUN_80063e34(O *, int);
+O *__9PadBufferi(O *, int);
 void FUN_8005c934(void);
 void FUN_80070ff4(void);
 void FUN_800242cc(void);
@@ -45,7 +45,7 @@ int FUN_8005e4ec(int a, int b, int c) {
 	n = __nw__6CClassUi(284);
 
 	if (n)
-		n = FUN_80063e34(n, -1);
+		n = __9PadBufferi(n, -1);
 
 	do {
 		FUN_8005c934();

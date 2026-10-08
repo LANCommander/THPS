@@ -1,5 +1,5 @@
-/* update__9MenuInput (0x80063f58) */
-/* MenuInput: a small queue of d-pad presses for the front-end menus. update() samples the
+/* update__9PadBuffer (0x80063f58) */
+/* PadBuffer: a small queue of d-pad presses for the front-end menus. update() samples the
    Left/Right/Up/Down "Pressed" flags of one controller (or of both when mPad >= 2), queues one
    press (1..4) per push and waits for every direction to be released before queueing again. */
 #pragma interface
@@ -29,7 +29,7 @@ class CItem {
 	virtual ~CItem();
 };
 
-class MenuInput : public CItem {
+class PadBuffer : public CItem {
   public:
 	int mCount;     /* 4 */
 	int mHeld;      /* 8 */
@@ -38,8 +38,8 @@ class MenuInput : public CItem {
 	int mHead;      /* 0x110 */
 	int mLast;      /* 0x114 */
 	uint mPad;      /* 0x118 */
-	MenuInput(int);
-	~MenuInput();
+	PadBuffer(int);
+	~PadBuffer();
 	void update();
 	int getPress();
 	void reset();
@@ -47,7 +47,7 @@ class MenuInput : public CItem {
 
 extern SControl DAT_800c0a48[];
 
-void MenuInput::update() {
+void PadBuffer::update() {
 	if (!mHeld) {
 		mLast = 0;
 

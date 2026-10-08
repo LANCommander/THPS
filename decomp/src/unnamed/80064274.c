@@ -1,5 +1,5 @@
-/* FUN_80064274 (0x80064274) */
-int FUN_80064274(int *p) {
+/* getPress__9PadBuffer (0x80064274) */
+int getPress__9PadBuffer(int *p) {
 	int r = 0;
 
 	if (p[1] > 0) {
