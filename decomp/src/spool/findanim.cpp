@@ -5,14 +5,15 @@
    (CSE turns it into letterb's register) lets jump threading send that exit straight to found = 1. */
 typedef unsigned int uint;
 struct SAnimFrame;
+
 struct AnimPacket {
 	uint *pData;
 	AnimPacket *pNext;
 };
+
 AnimPacket *DAT_800d1efc;
 
-SAnimFrame *Spool_FindAnim(char *pName)
-{
+SAnimFrame *Spool_FindAnim(char *pName) {
 	SAnimFrame *pAnim = 0;
 	AnimPacket *pPacketInfo;
 
@@ -20,8 +21,10 @@ SAnimFrame *Spool_FindAnim(char *pName)
 		uint NumAnims = *pPacketInfo->pData;
 		char *pAnimName = (char *)(pPacketInfo->pData + 1);
 		int found = 0;
+
 		{
 			int i;
+
 			for (i = 0; i < NumAnims; i++) {
 				char lettera;
 				char letterb;
@@ -29,28 +32,36 @@ SAnimFrame *Spool_FindAnim(char *pName)
 				char *pB = pAnimName;
 				int count = 0;
 				uint NumFrames;
+
 				lettera = *pA & 0xdf;
 				letterb = *pB & 0xdf;
+
 				while (1) {
-					if (lettera != letterb || !lettera || count >= 8) break;
+					if (lettera != letterb || !lettera || count >= 8)
+						break;
+
 					pA++;
 					pB++;
 					lettera = *pA & 0xdf;
 					letterb = *pB & 0xdf;
 					count++;
 				}
+
 				if ((!lettera && !letterb) || count == 8) {
 					found = 1;
 					break;
 				}
+
 				NumFrames = *(uint *)(pAnimName + 8);
 				pAnimName += NumFrames * 8 + 12;
 			}
 		}
+
 		if (found) {
 			pAnim = (SAnimFrame *)(pAnimName + 12);
 			break;
 		}
 	}
+
 	return pAnim;
 }

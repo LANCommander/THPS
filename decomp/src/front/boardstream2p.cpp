@@ -9,62 +9,74 @@ typedef unsigned short ushort;
 typedef unsigned int uint;
 
 class CItem {
-public:
+  public:
 	virtual ~CItem();
 	void *operator new(uint) throw();
 };
+
 class SlicedImage : public CItem {
-public:
+  public:
 	int m[12];
 	SlicedImage(char *, int, int, int, int, int, ushort);
 	void pack();
 };
 
 extern int DAT_800d1afc;
-extern int DAT_800d2c1c[3];                /* pictures per column (8 decks, 3 trucks, 15 wheels) */
-extern char DAT_800d2c2c[2][3][15][16];    /* picture file names */
+extern int DAT_800d2c1c[3];             /* pictures per column (8 decks, 3 trucks, 15 wheels) */
+extern char DAT_800d2c2c[2][3][15][16]; /* picture file names */
 extern SlicedImage *DAT_800d31cc[2][3][15];
-extern int DAT_800d333c[2][3];             /* load offset from the start entry (-1: not started) */
-extern int DAT_800d335c[2][3];             /* start entry */
-extern int DAT_800d337c[2][3];             /* column fully loaded */
-int DAT_800d22a8;                   /* entry being loaded */
-int DAT_800d22ac;                   /* player being loaded */
-int DAT_800d22b8[2];                /* column being loaded, per player */
-char *DAT_800d22c0[2];              /* load buffer, per player */
+extern int DAT_800d333c[2][3]; /* load offset from the start entry (-1: not started) */
+extern int DAT_800d335c[2][3]; /* start entry */
+extern int DAT_800d337c[2][3]; /* column fully loaded */
+
+int DAT_800d22a8;      /* entry being loaded */
+int DAT_800d22ac;      /* player being loaded */
+int DAT_800d22b8[2];   /* column being loaded, per player */
+char *DAT_800d22c0[2]; /* load buffer, per player */
 uchar DAT_800d22c8;
-int DAT_800d22cc;                   /* all pictures loaded */
+int DAT_800d22cc; /* all pictures loaded */
 
 extern "C" {
-int FUN_8008eebc(int);
-void FUN_8004cc18(void);
-int FUN_8004c8a4(char *);
-char *FUN_8004d068(int, int, int);
-void FUN_8004cb10(char *);
+	int FUN_8008eebc(int);
+	void FUN_8004cc18(void);
+	int FUN_8004c8a4(char *);
+	char *FUN_8004d068(int, int, int);
+	void FUN_8004cb10(char *);
 }
+
 int Load8BitBMP2(char *, char **, int *, int *, ushort *);
 
-extern "C" void FUN_8005115c(void)
-{
+extern "C" void FUN_8005115c(void) {
 	FUN_8008eebc(-1);
+
 	int col = DAT_800d22b8[DAT_800d22ac];
+
 	FUN_8004cc18();
+
 	if (DAT_800d22cc)
 		DAT_800d22c8 = 1;
+
 	if (DAT_800d22c8 == 1 && !DAT_800d1afc && !DAT_800d22cc) {
 		if (DAT_800d333c[DAT_800d22ac][col] >= 0) {
 			ushort clut;
 			char *data;
 			int w, h;
+
 			Load8BitBMP2(DAT_800d22c0[DAT_800d22ac], &data, &w, &h, &clut);
+
 			DAT_800d22c0[DAT_800d22ac] = 0;
-			DAT_800d31cc[DAT_800d22ac][col][DAT_800d22a8] = new SlicedImage(data, w, h, 128, 128, 8, clut);
+			DAT_800d31cc[DAT_800d22ac][col][DAT_800d22a8] =
+			    new SlicedImage(data, w, h, 128, 128, 8, clut);
 		}
+
 		if (!DAT_800d337c[DAT_800d22ac][col]) {
 			int off = DAT_800d333c[DAT_800d22ac][col];
+
 			if (off == -1) {
 				DAT_800d333c[DAT_800d22ac][col] = 0;
 			} else {
 				int n = DAT_800d2c1c[col];
+
 				if (off < n / 2)
 					DAT_800d333c[DAT_800d22ac][col] = n - off - 1;
 				else if (off > n / 2)
@@ -73,23 +85,31 @@ extern "C" void FUN_8005115c(void)
 					DAT_800d337c[DAT_800d22ac][col] = 1;
 			}
 		}
+
 		DAT_800d22ac = 1 - DAT_800d22ac;
 		int k;
+
 		for (k = 0; k < 3; k++) {
 			if (++DAT_800d22b8[DAT_800d22ac] >= 3)
 				DAT_800d22b8[DAT_800d22ac] = 0;
+
 			if (!DAT_800d337c[DAT_800d22ac][DAT_800d22b8[DAT_800d22ac]])
 				break;
 		}
+
 		if (k == 3) {
 			if (DAT_800d22ac == 1)
 				DAT_800d22cc = 1;
 		} else {
 			int c = DAT_800d22b8[DAT_800d22ac];
+
 			DAT_800d22a8 = DAT_800d335c[DAT_800d22ac][c] + DAT_800d333c[DAT_800d22ac][c];
+
 			if (DAT_800d22a8 >= DAT_800d2c1c[c])
 				DAT_800d22a8 -= DAT_800d2c1c[c];
+
 			int size = FUN_8004c8a4(DAT_800d2c2c[DAT_800d22ac][c][DAT_800d22a8]);
+
 			if (size > 0)
 				FUN_8004cb10(DAT_800d22c0[DAT_800d22ac] = FUN_8004d068(size, 1, 1));
 		}

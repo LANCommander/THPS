@@ -7,6 +7,7 @@
    extern give retail's loop-preheader order. */
 typedef unsigned int uint;
 struct Item;
+
 struct SZone {
 	int Active;
 	int xL;
@@ -19,18 +20,20 @@ struct SZone {
 	short NumZ;
 	Item *Cells[20][20];
 };
+
 struct SEnvPSX {
 	uint *pPSX;
 	char pad[60];
 };
+
 extern SZone DAT_800c4e0c[2];
 extern int DAT_800d1ed0[1];
 extern SEnvPSX DAT_800bf7bc[];
 
-void M3dZone_SetZone(int EnvIndex, uint *pPack)
-{
+void M3dZone_SetZone(int EnvIndex, uint *pPack) {
 	{
 		int Z;
+
 		DAT_800c4e0c[EnvIndex].xL = *pPack++;
 		DAT_800c4e0c[EnvIndex].zL = *pPack++;
 		DAT_800c4e0c[EnvIndex].xH = *pPack++;
@@ -38,20 +41,26 @@ void M3dZone_SetZone(int EnvIndex, uint *pPack)
 		DAT_800c4e0c[EnvIndex].NumX = *((short *)pPack)++;
 		DAT_800c4e0c[EnvIndex].NumZ = *((short *)pPack)++;
 		DAT_800c4e0c[EnvIndex].Active = 1;
-		DAT_800c4e0c[EnvIndex].CellSize = (DAT_800c4e0c[EnvIndex].xH - DAT_800c4e0c[EnvIndex].xL) / DAT_800c4e0c[EnvIndex].NumX;
+		DAT_800c4e0c[EnvIndex].CellSize =
+		    (DAT_800c4e0c[EnvIndex].xH - DAT_800c4e0c[EnvIndex].xL) / DAT_800c4e0c[EnvIndex].NumX;
+
 		for (Z = 0; Z < DAT_800c4e0c[EnvIndex].NumZ; Z++) {
 			int X;
+
 			for (X = 0; X < DAT_800c4e0c[EnvIndex].NumX; X++) {
 				int count;
 				uint *pPSX;
+
 				pPack += 2;
 				count = *pPack++;
 				DAT_800c4e0c[EnvIndex].Cells[X][Z] = (Item *)pPack;
 				pPSX = (DAT_800bf7bc + DAT_800d1ed0[EnvIndex])->pPSX;
+
 				while (count-- > 0) {
 					*pPack = (uint)pPSX + 12 + *pPack * 36;
 					pPack++;
 				}
+
 				pPack++;
 			}
 		}

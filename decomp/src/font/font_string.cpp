@@ -2,6 +2,7 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
+
 struct SString {
 	int End;
 	ushort X;
@@ -12,10 +13,11 @@ struct SString {
 	uchar BigText;
 	int Pos[3];
 };
+
 SString *DAT_800d1aec;
 uint DAT_800d1ae0;
-void Font_String(ushort X, ushort Y, char *pString, uchar r, uchar g, uchar b, uchar BigText)
-{
+
+void Font_String(ushort X, ushort Y, char *pString, uchar r, uchar g, uchar b, uchar BigText) {
 	DAT_800d1aec->End = 0;
 	DAT_800d1aec->X = X;
 	DAT_800d1aec->Y = Y;

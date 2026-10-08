@@ -1,4 +1,16 @@
 /* FUN_8004b09c (0x8004b09c) */
-extern char DAT_800b9014[];char DAT_800d1ad0[8];int DAT_800d1a94;
-void FUN_80093854(int a,char*b);void SFX_SetReverbType__FUc(unsigned char a);int FUN_8004b188(int a,char*b);
-void FUN_8004b09c(int a){FUN_80093854(16,DAT_800b9014);SFX_SetReverbType__FUc(0);DAT_800d1a94=FUN_8004b188(a,DAT_800d1ad0);}
+extern char DAT_800b9014[];
+
+char DAT_800d1ad0[8];
+int DAT_800d1a94;
+
+void FUN_80093854(int a, char *b);
+void SFX_SetReverbType__FUc(unsigned char a);
+int FUN_8004b188(int a, char *b);
+
+void FUN_8004b09c(int a) {
+	FUN_80093854(16, DAT_800b9014);
+	SFX_SetReverbType__FUc(0);
+
+	DAT_800d1a94 = FUN_8004b188(a, DAT_800d1ad0);
+}

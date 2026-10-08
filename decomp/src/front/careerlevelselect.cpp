@@ -8,6 +8,7 @@
    needed to unlock"; mode 3 shows the level's top three high scores. Left/right scroll (the level
    names slide out and back in), X/Start picks an unlocked level, triangle backs out. */
 #pragma interface
+
 typedef unsigned char uchar;
 typedef unsigned int uint;
 
@@ -18,6 +19,7 @@ struct SButton {
 	int ReleasedTime;
 	int TriggeredTime;
 };
+
 struct SControl {
 	SButton Triangle, Square, Circle, X;
 	SButton LeftOne, LeftTwo, RightOne, RightTwo;
@@ -26,51 +28,57 @@ struct SControl {
 	SButton Crouch, Jump, SmartBomb, SelectWeapon;
 	int rest[11];
 };
+
 struct SSkaterCareer {
 	uchar pad0[4];
-	uchar NumTapes;            /* 4 */
-	uchar Bronze;              /* 5 */
-	uchar Silver;              /* 6 */
-	uchar Gold;                /* 7 */
-	uchar Medals[6];           /* 8: per-level goal/medal flags */
+	uchar NumTapes;  /* 4 */
+	uchar Bronze;    /* 5 */
+	uchar Silver;    /* 6 */
+	uchar Gold;      /* 7 */
+	uchar Medals[6]; /* 8: per-level goal/medal flags */
 };
+
 struct SCareer {
 	int Version;
 	SSkaterCareer Skater[148];
 	char pad[0x82c - 4 - 148 * 14];
-	uchar LastLevel;           /* 0x82c */
+	uchar LastLevel; /* 0x82c */
 };
+
 struct SLevel {
-	char *Name;                /* 0x00 */
-	char *Name2;               /* 0x04 */
+	char *Name;  /* 0x00 */
+	char *Name2; /* 0x04 */
 	int m08;
-	int Competition;           /* 0x0c */
+	int Competition; /* 0x0c */
 	char pad10[0x28 - 0x10];
-	int X;                     /* 0x28 */
-	int Y;                     /* 0x2c */
+	int X; /* 0x28 */
+	int Y; /* 0x2c */
 	char pad30[0x3c - 0x30];
-	int Tapes;                 /* 0x3c */
-	int Medals;                /* 0x40 */
+	int Tapes;  /* 0x3c */
+	int Medals; /* 0x40 */
 	char pad44[120 - 0x44];
 };
+
 struct SHighScore {
 	char Name[8];
 	int Score;
 };
 
 class CItem {
-public:
+  public:
 	virtual ~CItem() {}
 	void *operator new(uint) throw();
 };
+
 class SlicedImage : public CItem {
-public:
+  public:
 	void pack();
 	void unpack();
 	void draw(int, int, int, int, int, int, int, int);
 };
+
 class Sprite : public CItem {
-public:
+  public:
 	int m_w;
 	int m_h;
 	int m_packed;
@@ -81,23 +89,26 @@ public:
 	~Sprite();
 	void draw(int, int, int, int, int, int);
 };
+
 class MenuInput : public CItem {
-public:
+  public:
 	int pad[(0x11c - 4) / 4];
 	MenuInput(int);
 	void update();
 	int getPress();
 };
+
 class SaveRect : public CItem {
-public:
+  public:
 	short x, y, w, h;
 	void *buf;
 	SaveRect(int, int, int, int);
 	~SaveRect();
 	void restore(int, int);
 };
+
 class PREManager {
-public:
+  public:
 	void unloadPRE(char *);
 };
 
@@ -105,23 +116,23 @@ extern SControl DAT_800c0a48[];
 extern SCareer DAT_800a6844;
 extern SLevel DAT_800a5398[];
 extern SHighScore DAT_800a68e8[][8];
-extern int DAT_800bf2a0[];         /* unlocked (this visit) */
-extern int DAT_800bf2c8[];         /* unlocked (saved) */
+extern int DAT_800bf2a0[]; /* unlocked (this visit) */
+extern int DAT_800bf2c8[]; /* unlocked (saved) */
 extern SlicedImage *DAT_800bf2f0[];
 extern int DAT_800d3810[];
-extern int DAT_800d16a4;           /* game mode */
+extern int DAT_800d16a4; /* game mode */
 extern int DAT_800d1cb8;
 extern int DAT_800d1afc;
 extern int DAT_800d1708;
 extern PREManager *DAT_800d1b10;
-extern char DAT_800a21c0[];        /* "mainf.fnt" */
+extern char DAT_800a21c0[]; /* "mainf.fnt" */
 
-int DAT_800d1dc4 = 0;              /* chosen level */
+int DAT_800d1dc4 = 0; /* chosen level */
 int DAT_800d1dc8 = -1;
-static int DAT_800d2368;                  /* skater */
-static int DAT_800d236c;                  /* competition medals */
-static int DAT_800d2370;                  /* free-skate: first five levels open */
-static int DAT_800d237c;                  /* number of levels */
+static int DAT_800d2368; /* skater */
+static int DAT_800d236c; /* competition medals */
+static int DAT_800d2370; /* free-skate: first five levels open */
+static int DAT_800d237c; /* number of levels */
 static int DAT_800d2380;
 static int DAT_800d238c;
 
@@ -132,41 +143,41 @@ void Mess_SetCurrentFont(char *);
 int Mess_TextHeight(const char *);
 void Mess_LoadFont(char *, int, int, int);
 void Mess_UnloadFont();
+
 extern "C" {
-char *strcpy(char *, const char *);
-int strcmp(const char *, const char *);
-int sprintf(char *, const char *, ...);
-void FUN_8005c97c(int);
-void FUN_8005ca64(void);
-void *FUN_8005ca3c(char *);
-void FUN_80061714(void *);
-void FUN_80066aa8(void);
-void FUN_800666f4(int);
-void FUN_80066768(void);
-void FUN_800668e8(void);
-void FUN_80066bb4(int);
-void FUN_80066c70(void);
-int FUN_8001da44(char *);
-int FUN_8001db80(const char *);
-void FUN_8001d250(int);
-int FUN_8001e114(int, int, char *, int, int, int, int);
-int FUN_8004b250(int, int, int);
-void FUN_8005c780(void);
-void FUN_80070ff4(void);
-void FUN_8005c68c(void);
-void FUN_8006b240(void);
-void FUN_80061ea0(void);
-void FUN_8006b26c(void);
-void FUN_80061e00(int, int, int, int);
-void FUN_80061d44(int, int, int, int, int, int, int);
-void FUN_8008c468(int);
-void FUN_8006af64(void);
-void FUN_8004cdd0(void);
-void FUN_8004d5d0(int);
+	char *strcpy(char *, const char *);
+	int strcmp(const char *, const char *);
+	int sprintf(char *, const char *, ...);
+	void FUN_8005c97c(int);
+	void FUN_8005ca64(void);
+	void *FUN_8005ca3c(char *);
+	void FUN_80061714(void *);
+	void FUN_80066aa8(void);
+	void FUN_800666f4(int);
+	void FUN_80066768(void);
+	void FUN_800668e8(void);
+	void FUN_80066bb4(int);
+	void FUN_80066c70(void);
+	int FUN_8001da44(char *);
+	int FUN_8001db80(const char *);
+	void FUN_8001d250(int);
+	int FUN_8001e114(int, int, char *, int, int, int, int);
+	int FUN_8004b250(int, int, int);
+	void FUN_8005c780(void);
+	void FUN_80070ff4(void);
+	void FUN_8005c68c(void);
+	void FUN_8006b240(void);
+	void FUN_80061ea0(void);
+	void FUN_8006b26c(void);
+	void FUN_80061e00(int, int, int, int);
+	void FUN_80061d44(int, int, int, int, int, int, int);
+	void FUN_8008c468(int);
+	void FUN_8006af64(void);
+	void FUN_8004cdd0(void);
+	void FUN_8004d5d0(int);
 }
 
-extern "C" void FUN_80066d7c()
-{
+extern "C" void FUN_80066d7c() {
 	int medal[3];
 
 	FUN_8005c97c(3);
@@ -174,6 +185,7 @@ extern "C" void FUN_80066d7c()
 	FUN_80061714(FUN_8005ca3c("select_c.bmp"));
 	Pack_DefragmentFully();
 	FUN_80066aa8();
+
 	for (DAT_800d237c = 0; DAT_800d237c < 10; DAT_800d237c++)
 		if (!*DAT_800a5398[DAT_800d237c].Name)
 			break;
@@ -194,6 +206,7 @@ extern "C" void FUN_80066d7c()
 
 	int first;
 	int last;
+
 	if (DAT_800d16a4 == 1) {
 		first = DAT_800d2368;
 		last = first + 1;
@@ -201,13 +214,18 @@ extern "C" void FUN_80066d7c()
 		first = 0;
 		last = 11;
 	}
+
 	for (int s = first; s < last; s++) {
 		DAT_800d236c = 0;
+
 		for (int k = 0; k < 3; k++) {
 			int j = 0;
+
 			while (strcmp(DAT_800a5398[j].Name, comps[k]))
 				j++;
+
 			uchar f = DAT_800a6844.Skater[s].Medals[j];
+
 			if (f & 0x20) {
 				medal[k] = 0;
 				DAT_800d236c++;
@@ -224,8 +242,10 @@ extern "C" void FUN_80066d7c()
 				medal[k] = -1;
 			}
 		}
+
 		for (int i = 0; i < DAT_800d237c; i++) {
-			if ((DAT_800a6844.Skater[s].NumTapes >= DAT_800a5398[i].Tapes && DAT_800d236c >= DAT_800a5398[i].Medals) ||
+			if ((DAT_800a6844.Skater[s].NumTapes >= DAT_800a5398[i].Tapes &&
+			     DAT_800d236c >= DAT_800a5398[i].Medals) ||
 			    (DAT_800d2370 && i < 5)) {
 				DAT_800bf2a0[i] = 1;
 				DAT_800bf2c8[i] = 1;
@@ -238,7 +258,7 @@ extern "C" void FUN_80066d7c()
 	int arrowTimer[2];
 	int arrowX[2];
 	int arrowY[2];
-	int unused60[2];           /* unused; keeps the frame layout */
+	int unused60[2]; /* unused; keeps the frame layout */
 	Sprite *arrowSpr[4];
 	char name[16];
 	Sprite *arrow = new Sprite("levarrow.bmp", 1, 32, 128);
@@ -249,72 +269,97 @@ extern "C" void FUN_80066d7c()
 	arrowY[0] = 158;
 	arrowX[1] = 583;
 	arrowY[1] = 158;
+
 	for (int i = 0; i < 4; i++) {
 		sprintf(name, "levbut%d.bmp", i + 1);
+
 		arrowSpr[i] = new Sprite(name, 1, 32, 128);
 	}
+
 	Sprite *tapeBox = new Sprite("tape_s3.bmp", 1, 32, 128);
 	Sprite *check = new Sprite("check1.bmp", 1, 32, 128);
 	Sprite *frame = new Sprite(266, 93, 180, 34, 1, 32, 128);
 	int state = 0;
 	int timer;
+
 	Mess_LoadFont("goalf.fnt", -1, -1, -1);
+
 	char line1[32];
 	char line2[32];
 	int lineX[2];
 	int lineY[2];
+
 	if (DAT_800d16a4 == 1) {
 		strcpy(line2, "needed to unlock");
 	} else {
 		strcpy(line1, "play career mode");
 		strcpy(line2, "to unlock");
 	}
+
 	lineX[1] = 357 - (FUN_8001da44(line2) >> 1);
 	lineY[1] = Mess_TextHeight(line2) + 198 - FUN_8001db80(line2);
 	Sprite *medalSpr[3];
 	Sprite *goalSpr[3];
+
 	for (int i = 0; i < 3; i++) {
 		sprintf(name, "medal%d.bmp", i + 1);
+
 		medalSpr[i] = new Sprite(name, 1, 32, 128);
 		sprintf(name, "medal%d.bmp", i + 4);
+
 		goalSpr[i] = new Sprite(name, 1, 32, 128);
 	}
+
 	Sprite *itemBox = new Sprite("itembox2.bmp", 1, 32, 128);
+
 	Mess_LoadFont("tapes1.fnt", -1, -1, -1);
 	Mess_SetFontScale(255);
+
 	char tapes[3];
 	uchar n = DAT_800a6844.Skater[DAT_800d2368].NumTapes;
 	tapes[2] = 0;
 	tapes[0] = n / 10 + '0';
 	tapes[1] = n % 10 + '0';
 	int tapesY = (Mess_TextHeight(tapes) >> 1) + 359 - FUN_8001db80(tapes);
+
 	if (DAT_800d16a4 == 1) {
 		for (int i = 0; i < 2; i++) {
 			int y = 307;
+
 			FUN_8006b240();
 			FUN_80061ea0();
 			itemBox->draw(375, 287, 0, -1, -1, -1);
 			FUN_8001e114(472, tapesY, tapes, 0, 0, 256, 0);
+
 			for (int k = 0; k < 3; k++) {
 				if (medal[k] != -1)
 					medalSpr[medal[k]]->draw(575, y, 0, -1, -1, -1);
+
 				y += 24;
 			}
+
 			FUN_8006b26c();
 		}
 	}
+
 	delete itemBox;
 	Sprite *scoreBox = new Sprite("scorebox.bmp", 1, 32, 128);
+
 	for (int i = 0; i < 2; i++) {
 		FUN_8006b240();
 		FUN_80061ea0();
+
 		if (DAT_800d16a4 == 3)
 			scoreBox->draw(375, 287, 0, -1, -1, -1);
+
 		FUN_8006b26c();
 	}
+
 	delete scoreBox;
 	Sprite *scoreBack = new Sprite(409, 320, 167, 61, 1, 32, 128);
+
 	Mess_LoadFont("stats1.fnt", -1, -1, -1);
+
 	Sprite *topBar = new Sprite(0, 55, 640, 40, 1, 32, 128);
 
 	char text[2][32];
@@ -324,9 +369,11 @@ extern "C" void FUN_80066d7c()
 	int th[2];
 	int ttarget[2];
 	int tstep[2];
+
 	strcpy(text[0], DAT_800a5398[cur].Name);
 	strcpy(text[1], DAT_800a5398[cur].Name2);
 	Mess_SetCurrentFont(DAT_800a21c0);
+
 	tw[0] = FUN_8001da44(text[0]);
 	tw[1] = FUN_8001da44(text[1]);
 	int mid = (tw[0] + tw[1]) / 2 + 320 - tw[1];
@@ -341,6 +388,7 @@ extern "C" void FUN_80066d7c()
 	ty[1] = th[1] / 2 + 71 - FUN_8001db80(text[1]);
 	ttarget[1] = 640;
 	tstep[1] = (ttarget[1] - tx[1]) / 7;
+
 	FUN_80066bb4(0);
 
 	int picX[2];
@@ -356,7 +404,9 @@ extern "C" void FUN_80066d7c()
 		picIdx[1] = 0;
 	int speed = 0;
 	int anim = 0;
+
 	FUN_800666f4(picIdx[0]);
+
 	int sel = picIdx[0];
 	int next = sel + 2;
 	if (next >= DAT_800d237c)
@@ -364,26 +414,31 @@ extern "C" void FUN_80066d7c()
 	int prev = sel - 1;
 	if (sel == 0)
 		prev = DAT_800d237c - 1;
-	char unused188[64];        /* unused; keeps the frame layout */
+	char unused188[64]; /* unused; keeps the frame layout */
+
 	MenuInput input(-1);
 	Pad_ClearTriggers(&DAT_800c0a48[0]);
 	Pad_ClearTriggers(&DAT_800c0a48[1]);
 
 	while (1) {
 		FUN_8005c780();
+
 		if (!DAT_800d2380)
 			FUN_80066768();
+
 		FUN_800668e8();
 		FUN_8006b240();
 		FUN_80061ea0();
 		frame->draw(266, 93, 0, -1, -1, -1);
 		FUN_80061e00(137, 115, 442, 154);
+
 		for (int i = 0; i < 2; i++) {
 			if (pic[i])
 				pic[i]->draw(picX[i], 112, 0, -1, -1, -1, 0, 0);
 			else
 				FUN_80061d44(picX[i], 112, 448, 161, 0, 0, 0);
 		}
+
 		FUN_80061e00(0, 0, 640, 480);
 		arrow->draw(ax, ay, 0, -1, -1, -1);
 		topBar->draw(0, 55, 0, -1, -1, -1);
@@ -392,14 +447,18 @@ extern "C" void FUN_80066d7c()
 			if (!DAT_800a5398[sel].Competition) {
 				int x = 266;
 				uchar f = DAT_800a6844.Skater[DAT_800d2368].Medals[sel];
+
 				for (int k = 0; k < 5; k++) {
 					tapeBox->draw(x, 93, 0, -1, -1, -1);
+
 					if ((f >> k) & 1)
 						check->draw(x, 93, 0, -1, -1, -1);
+
 					x += 36;
 				}
 			} else {
 				uchar f = DAT_800a6844.Skater[DAT_800d2368].Medals[sel];
+
 				if (f & 0x20)
 					goalSpr[0]->draw(335, 88, 0, -1, -1, -1);
 				else if (f & 0x40)
@@ -408,47 +467,61 @@ extern "C" void FUN_80066d7c()
 					goalSpr[2]->draw(335, 88, 0, -1, -1, -1);
 			}
 		}
+
 		if (DAT_800d16a4 == 3 && state == 0) {
 			char score[16];
+
 			scoreBack->draw(409, 320, 0, -1, -1, -1);
 			Mess_SetCurrentFont("stats1.fnt");
 			int y = (Mess_TextHeight("0") >> 1) + 333 - FUN_8001db80("0");
+
 			for (int k = 0; k < 3; k++) {
 				FUN_8001d250(1);
 				FUN_8001e114(409, y, DAT_800a68e8[sel][k].Name, 0, 0, 256, 0);
 				sprintf(score, "%d", DAT_800a68e8[sel][k].Score);
 				FUN_8001d250(2);
 				FUN_8001e114(578, y, score, 0, 0, 256, 0);
+
 				y += 20;
 			}
+
 			FUN_8001d250(1);
 		}
+
 		if (state == 0) {
 			char plural[4];
+
 			plural[0] = 0;
 			plural[1] = 0;
 			plural[2] = 0;
 			plural[3] = 0;
 			Mess_SetCurrentFont("goalf.fnt");
+
 			if (DAT_800d16a4 == 1) {
 				if (DAT_800a6844.Skater[DAT_800d2368].NumTapes < DAT_800a5398[sel].Tapes) {
 					if (DAT_800d236c < DAT_800a5398[sel].Medals) {
 						if (DAT_800a5398[sel].Tapes >= 2)
 							plural[0] = 's';
+
 						if (DAT_800a5398[sel].Medals >= 2)
 							plural[2] = 's';
-						sprintf(line1, "%d tape%s, %d medal%s", DAT_800a5398[sel].Tapes, &plural[0], DAT_800a5398[sel].Medals, &plural[2]);
+
+						sprintf(line1, "%d tape%s, %d medal%s", DAT_800a5398[sel].Tapes, &plural[0],
+						        DAT_800a5398[sel].Medals, &plural[2]);
 					} else {
 						if (DAT_800a5398[sel].Tapes >= 2)
 							plural[0] = 's';
+
 						sprintf(line1, "%d tape%s", DAT_800a5398[sel].Tapes, plural);
 					}
 				} else if (DAT_800d236c < DAT_800a5398[sel].Medals) {
 					if (DAT_800a5398[sel].Medals >= 2)
 						plural[0] = 's';
+
 					sprintf(line1, "%d medal%s", DAT_800a5398[sel].Medals, plural);
 				}
 			}
+
 			if (!DAT_800bf2a0[sel]) {
 				lineX[0] = 357 - (FUN_8001da44(line1) >> 1);
 				lineY[0] = 190 - FUN_8001db80(line1);
@@ -456,51 +529,70 @@ extern "C" void FUN_80066d7c()
 				FUN_8001e114(lineX[1], lineY[1], line2, 1, 0, 256, 0);
 			}
 		}
+
 		Mess_SetCurrentFont(DAT_800a21c0);
+
 		for (int i = 0; i < 2; i++)
 			FUN_8001e114(tx[i], ty[i], text[i], 0, 0, 256, 0);
+
 		for (int i = 0; i < 2; i++) {
 			int f = 0;
+
 			if (arrowTimer[i]) {
 				f = 2;
 				arrowTimer[i]--;
 			}
+
 			arrowSpr[i + f]->draw(arrowX[i], arrowY[i], 0, -1, -1, -1);
 		}
+
 		FUN_8006b26c();
 
 		for (int i = 0; i < 2; i++) {
 			SlicedImage *im = DAT_800bf2f0[picIdx[i]];
+
 			if (im && !pic[i]) {
 				pic[i] = im;
 				FUN_80066bb4(i);
 				pic[i]->pack();
 			}
+
 			picX[i] += speed;
+
 			if (picX[i] < -313 && speed < 0) {
 				picX[i] += 896;
 				FUN_80066bb4(i);
+
 				if (pic[i])
 					pic[i]->unpack();
+
 				pic[i] = DAT_800bf2f0[next];
 				picIdx[i] = next;
+
 				if (pic[i])
 					pic[i]->pack();
+
 				if (++prev >= DAT_800d237c)
 					prev = 0;
+
 				if (++next >= DAT_800d237c)
 					next = 0;
 			} else if (picX[i] >= 583 && speed > 0) {
 				picX[i] -= 896;
 				FUN_80066bb4(i);
+
 				if (pic[i])
 					pic[i]->unpack();
+
 				pic[i] = DAT_800bf2f0[prev];
 				picIdx[i] = prev;
+
 				if (pic[i])
 					pic[i]->pack();
+
 				if (--next < 0)
 					next = DAT_800d237c - 1;
+
 				if (--prev < 0)
 					prev = DAT_800d237c - 1;
 			}
@@ -510,9 +602,11 @@ extern "C" void FUN_80066d7c()
 			if (--timer == 0)
 				state = 0;
 		}
+
 		if (anim > 0) {
 			tx[0] += tstep[0];
 			tx[1] += tstep[1];
+
 			if (anim == 8) {
 				if (!strcmp(DAT_800a5398[sel].Name, "Roswell") && !DAT_800bf2a0[sel]) {
 					strcpy(text[0], "unknown");
@@ -521,7 +615,9 @@ extern "C" void FUN_80066d7c()
 					strcpy(text[0], DAT_800a5398[sel].Name);
 					strcpy(text[1], DAT_800a5398[sel].Name2);
 				}
+
 				Mess_SetCurrentFont(DAT_800a21c0);
+
 				tw[0] = FUN_8001da44(text[0]);
 				tw[1] = FUN_8001da44(text[1]);
 				mid = (tw[0] + tw[1]) / 2 + 320 - tw[1];
@@ -529,6 +625,7 @@ extern "C" void FUN_80066d7c()
 				tx[0] = -tw[0];
 				ty[0] = th[0] / 2 + 71 - FUN_8001db80(text[0]);
 				int w20b = tw[0] + 20;
+
 				ttarget[0] = mid - w20b;
 				tstep[0] = (ttarget[0] - tx[0]) / 7;
 				tw[1] = FUN_8001da44(text[1]);
@@ -538,42 +635,53 @@ extern "C" void FUN_80066d7c()
 				ttarget[1] = mid + 20;
 				tstep[1] = (ttarget[1] - tx[1]) / 7;
 			}
+
 			if (anim == 1) {
 				DAT_800d238c = 4;
 				tstep[0] = -tstep[0];
 				tstep[1] = -tstep[1];
 			}
+
 			if (--anim == 0) {
 				state = 1;
 				timer = 4;
 				speed = 0;
 			}
 		}
+
 		if (anim == 0 && DAT_800d238c < 2) {
 			int press = input.getPress();
+
 			if (press == 1) {
 				speed = 32;
 				anim = 14;
 				sel--;
 				DAT_800d238c = 0;
+
 				if (sel < 0)
 					sel = DAT_800d237c - 1;
+
 				arrowTimer[0] = anim;
 			} else if (press == 2) {
 				do {
 					speed = -32;
 					int a = 14;
+
 					anim = a;
 					sel++;
 					DAT_800d238c = 0;
+
 					if (sel >= DAT_800d237c)
 						sel = 0;
+
 					arrowTimer[1] = a;
 				} while (0);
 			}
+
 			if (press == 1 || press == 2) {
 				FUN_8004b250(144, 0x2000, 0);
 				save->restore(ax, ay);
+
 				ax = DAT_800a5398[sel].X - 16;
 				ay = DAT_800a5398[sel].Y - 16;
 				FUN_8008c468(0);
@@ -583,47 +691,61 @@ extern "C" void FUN_80066d7c()
 				state = 2;
 			}
 		}
+
 		if (DAT_800d238c >= 2)
 			DAT_800d238c--;
 
 		FUN_80070ff4();
 		FUN_8005c68c();
+
 		if (DAT_800d1cb8)
 			break;
+
 		if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered ||
 		    DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered) {
 			Pad_ClearTriggers(&DAT_800c0a48[0]);
 			Pad_ClearTriggers(&DAT_800c0a48[1]);
+
 			DAT_800d1dc4 = sel;
+
 			if (DAT_800bf2a0[sel]) {
 				FUN_8004b250(145, 0x2000, 0);
+
 				DAT_800a6844.LastLevel = sel;
 				break;
 			}
+
 			FUN_8004b250(146, 0x2000, 0);
+
 			if (DAT_800d1708) {
 				DAT_800a6844.LastLevel = sel;
 				break;
 			}
 		}
+
 		if (DAT_800c0a48[0].Triangle.Triggered || DAT_800c0a48[1].Triangle.Triggered) {
 			FUN_8004b250(147, 0x2000, 0);
 			Pad_ClearTriggers(&DAT_800c0a48[0]);
 			Pad_ClearTriggers(&DAT_800c0a48[1]);
+
 			DAT_800d1dc4 = -1;
 			break;
 		}
+
 		input.update();
 	}
 
 	if (DAT_800d1afc)
 		FUN_8004cdd0();
 	FUN_8006af64();
+
 	for (int i = 0; i < DAT_800d237c; i++) {
 		delete DAT_800bf2f0[i];
+
 		if (DAT_800d3810[i])
 			FUN_8004d5d0(DAT_800d3810[i]);
 	}
+
 	FUN_80066c70();
 	Mess_SetCurrentFont("goalf.fnt");
 	Mess_UnloadFont();
@@ -632,13 +754,16 @@ extern "C" void FUN_80066d7c()
 	Mess_SetCurrentFont("stats1.fnt");
 	Mess_UnloadFont();
 	DAT_800d1b10->unloadPRE("Level.pre");
+
 	delete scoreBack;
 	delete tapeBox;
 	delete check;
+
 	for (int i = 0; i < 3; i++) {
 		delete medalSpr[i];
 		delete goalSpr[i];
 	}
+
 	delete frame;
 	for (int i = 0; i < 4; i++)
 		delete arrowSpr[i];

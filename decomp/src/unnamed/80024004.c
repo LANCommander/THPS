@@ -1,3 +1,6 @@
 /* FUN_80024004 (0x80024004) */
 int DAT_800d1694;
-void FUN_80024004(int v){DAT_800d1694=v;}
+
+void FUN_80024004(int v) {
+	DAT_800d1694 = v;
+}

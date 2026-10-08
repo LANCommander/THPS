@@ -9,123 +9,142 @@
    cross-jumping, so the boost is a local added once; the early-out call is wrapped in
    do { } while (0) (keeps `sw m744` ahead of the argument setup). */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
+	#include <sys/types.h>
+	#include <libgte.h>
 }
+
 #define ABS(x) (((x) ^ ((x) >> 31)) - ((x) >> 31))
-#define SetVector(v, x, y, z) { int _x = (x); int _y = (y); int _z = (z); \
-	(v)->vx = _x; (v)->vy = _y; (v)->vz = _z; }
+#define SetVector(v, x, y, z)                                                                      \
+	{                                                                                              \
+		int _x = (x);                                                                              \
+		int _y = (y);                                                                              \
+		int _z = (z);                                                                              \
+		(v)->vx = _x;                                                                              \
+		(v)->vy = _y;                                                                              \
+		(v)->vz = _z;                                                                              \
+	}
+
 struct CVector {
 	int vx, vy, vz;
 	CVector &operator+=(const CVector &);
 };
+
 CVector operator*(const CVector &, const int &);
+
 struct SSkater {
 	char pad0[0x18];
-	int Stats[10];            /* 0x18 */
+	int Stats[10]; /* 0x18 */
 	char pad40[340 - 0x40];
 };
+
 struct SColl {
 	char pad0[0x30];
-	unsigned char x30;        /* 0x30 */
+	unsigned char x30; /* 0x30 */
 	char pad31[0x80 - 0x31];
-	unsigned char x80;        /* 0x80 */
+	unsigned char x80; /* 0x80 */
 	char pad81[0x90 - 0x81];
-	unsigned char x90;        /* 0x90 */
+	unsigned char x90; /* 0x90 */
 };
-struct CPanelData { char pad[4]; };
+
+struct CPanelData {
+	char pad[4];
+};
+
 extern SSkater DAT_800a44fc[];
+
 int DAT_800d1924;
+
 extern int DAT_800d172c;
 extern int DAT_800d1770;
 extern int DAT_800d1784;
 extern char DAT_8009fe44[];
 extern char DAT_800d1948[];
+
 class CBruce {
-public:
+  public:
 	char pad0[0x6c];
-	CVector mVel;             /* 0x6c */
-	CVector mKick;            /* 0x78 */
+	CVector mVel;  /* 0x6c */
+	CVector mKick; /* 0x78 */
 	char pad84[0x144 - 0x84];
-	short mFrame;             /* 0x144 */
-	unsigned short mAnim;     /* 0x146 */
+	short mFrame;         /* 0x144 */
+	unsigned short mAnim; /* 0x146 */
 	char pad148[0x14b - 0x148];
-	signed char m14B;         /* 0x14b */
+	signed char m14B; /* 0x14b */
 	char pad14c[0x14f - 0x14c];
-	unsigned char m14F;       /* 0x14f */
-	int m150;                 /* 0x150 */
+	unsigned char m14F; /* 0x14f */
+	int m150;           /* 0x150 */
 	char pad154[0x198 - 0x154];
 	unsigned char *mpStatBonus; /* 0x198 */
 	char pad19c[0x1e8 - 0x19c];
-	int m1E8;                 /* 0x1e8 */
+	int m1E8; /* 0x1e8 */
 	char pad1ec[0x210 - 0x1ec];
-	int m210;                 /* 0x210 */
+	int m210; /* 0x210 */
 	char pad214[0x228 - 0x214];
-	int m228;                 /* 0x228 */
-	int m22C;                 /* 0x22c */
+	int m228; /* 0x228 */
+	int m22C; /* 0x22c */
 	char pad230[0x254 - 0x230];
-	int m254;                 /* 0x254 */
+	int m254; /* 0x254 */
 	char pad258[0x268 - 0x258];
-	int m268;                 /* 0x268 */
-	int m26C;                 /* 0x26c */
+	int m268; /* 0x268 */
+	int m26C; /* 0x26c */
 	char pad270[0x274 - 0x270];
-	int m274;                 /* 0x274 */
-	int m278;                 /* 0x278 */
+	int m274; /* 0x274 */
+	int m278; /* 0x278 */
 	char pad27c[0x2e8 - 0x27c];
-	int mSkaterIndex;         /* 0x2e8 */
-	int m2EC;                 /* 0x2ec */
+	int mSkaterIndex; /* 0x2e8 */
+	int m2EC;         /* 0x2ec */
 	char pad2f0[0x2f8 - 0x2f0];
-	int m2F8;                 /* 0x2f8 */
-	int m2FC;                 /* 0x2fc */
-	int m300;                 /* 0x300 */
+	int m2F8; /* 0x2f8 */
+	int m2FC; /* 0x2fc */
+	int m300; /* 0x300 */
 	char pad304[0x310 - 0x304];
-	int m310;                 /* 0x310 */
+	int m310; /* 0x310 */
 	char pad314[0x328 - 0x314];
-	int m328;                 /* 0x328 */
-	int m32C;                 /* 0x32c */
+	int m328; /* 0x328 */
+	int m32C; /* 0x32c */
 	char pad330[0x33c - 0x330];
-	int m33C;                 /* 0x33c */
-	int m340;                 /* 0x340 */
-	int m344;                 /* 0x344 */
+	int m33C; /* 0x33c */
+	int m340; /* 0x340 */
+	int m344; /* 0x344 */
 	char pad348[0x358 - 0x348];
-	int mInAir;               /* 0x358 */
-	int m35C;                 /* 0x35c */
+	int mInAir; /* 0x358 */
+	int m35C;   /* 0x35c */
 	char pad360[0x364 - 0x360];
-	int m364;                 /* 0x364 */
-	int m368;                 /* 0x368 */
+	int m364; /* 0x364 */
+	int m368; /* 0x368 */
 	char pad36c[0x6dc - 0x36c];
-	int m6DC;                 /* 0x6dc */
-	int m6E0;                 /* 0x6e0 */
+	int m6DC; /* 0x6dc */
+	int m6E0; /* 0x6e0 */
 	char pad6e4[0x700 - 0x6e4];
-	CVector mRailDir;         /* 0x700 */
-	int m70C;                 /* 0x70c */
+	CVector mRailDir; /* 0x700 */
+	int m70C;         /* 0x70c */
 	char pad710[0x72c - 0x710];
-	int m72C;                 /* 0x72c */
+	int m72C; /* 0x72c */
 	char pad730[0x734 - 0x730];
-	int m734;                 /* 0x734 */
-	int m738;                 /* 0x738 */
-	int m73C;                 /* 0x73c */
-	int m740;                 /* 0x740 */
-	int m744;                 /* 0x744 */
-	int m748;                 /* 0x748 */
-	int m74C;                 /* 0x74c */
+	int m734; /* 0x734 */
+	int m738; /* 0x738 */
+	int m73C; /* 0x73c */
+	int m740; /* 0x740 */
+	int m744; /* 0x744 */
+	int m748; /* 0x748 */
+	int m74C; /* 0x74c */
 	char pad750[0x754 - 0x750];
-	int m754;                 /* 0x754 */
+	int m754; /* 0x754 */
 	char pad758[0x764 - 0x758];
-	int m764;                 /* 0x764 */
-	int m768;                 /* 0x768 */
+	int m764; /* 0x764 */
+	int m768; /* 0x768 */
 	char pad76c[0x7d8 - 0x76c];
-	CVector mFront;           /* 0x7d8 */
-	CVector mRight;           /* 0x7e4 */
-	CVector mUp;              /* 0x7f0 */
+	CVector mFront; /* 0x7d8 */
+	CVector mRight; /* 0x7e4 */
+	CVector mUp;    /* 0x7f0 */
 	char pad7fc[0x80c - 0x7fc];
-	SVECTOR mPolyNormal;      /* 0x80c */
+	SVECTOR mPolyNormal; /* 0x80c */
 	char pad814[0x838 - 0x814];
-	int m838;                 /* 0x838 */
+	int m838; /* 0x838 */
 	char pad83c[0x86c - 0x83c];
-	SColl *mpColl;            /* 0x86c */
+	SColl *mpColl; /* 0x86c */
 	char pad870[0x924 - 0x870];
-	CPanelData mPanel;        /* 0x924 */
+	CPanelData mPanel; /* 0x924 */
 	void Trick_Trick(int, char *, int, int);
 	void StateTransition(int, int);
 	void Vibrate(int, int, int);
@@ -133,31 +152,36 @@ public:
 	void RotateHeadingAndVelocity(int, int, int);
 	void HandleJump();
 };
-#define GetStat(n) (DAT_800d1924 ? DAT_800d1924 \
-	: (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) + mpStatBonus[n])
+
+#define GetStat(n)                                                                                 \
+	(DAT_800d1924 ? DAT_800d1924                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	                    mpStatBonus[n])
+
 int Redbook_Rnd(int);
+
 extern "C" {
-int FUN_800720ec(void *, void *);
-int FUN_8008b5dc(int);
-int FUN_80072090(int, int);
-void FUN_8004b250(int, int, int);
-int FUN_8006ebdc(CPanelData *);
-void FUN_8002f1a0(CBruce *);
-void FUN_8002fcdc(CBruce *, int, int);
-void FUN_8002fd28(CBruce *, int, int, int);
-void FUN_8002fd80(CBruce *, int, int, int, int);
-void FUN_8002fde4(CBruce *, int, int, int, int, int);
-void FUN_80031108(CBruce *, int);
-void FUN_8002f458(CBruce *, int);
-void FUN_8002f478(CBruce *);
+	int FUN_800720ec(void *, void *);
+	int FUN_8008b5dc(int);
+	int FUN_80072090(int, int);
+	void FUN_8004b250(int, int, int);
+	int FUN_8006ebdc(CPanelData *);
+	void FUN_8002f1a0(CBruce *);
+	void FUN_8002fcdc(CBruce *, int, int);
+	void FUN_8002fd28(CBruce *, int, int, int);
+	void FUN_8002fd80(CBruce *, int, int, int, int);
+	void FUN_8002fde4(CBruce *, int, int, int, int, int);
+	void FUN_80031108(CBruce *, int);
+	void FUN_8002f458(CBruce *, int);
+	void FUN_8002f478(CBruce *);
 }
 
-void CBruce::HandleJump()
-{
+void CBruce::HandleJump() {
 	int Speed;
 
 	if (mInAir)
 		return;
+
 	if (m73C) {
 		if (!mAnim) {
 			m150 = 0x10000;
@@ -165,78 +189,91 @@ void CBruce::HandleJump()
 		}
 	} else if (mAnim == 8) {
 		m150 = 0x10000;
+
 		if (m14B == -1) {
 			if (!mFrame)
 				FUN_8002fcdc(this, 0, 6114);
 		} else
 			FUN_8002fd80(this, 8, 19, 0, 6117);
 	}
+
 	if (m14F) {
 		switch (mAnim) {
-		case 8:
-			if (!mFrame) {
+			case 8:
+				if (!mFrame) {
+					m150 = 0x10000;
+					FUN_8002fcdc(this, 0, 6130);
+				}
+
+				break;
+			case 5:
+			case 25:
+				if (m73C) {
+					m150 = 0x10000;
+					FUN_8002fde4(this, 8, 19, 26, 19, 6145);
+				} else {
+					m150 = 0x10000;
+					FUN_8002fcdc(this, 0, 6150);
+				}
+
+				break;
+			case 4:
+			case 13:
+				if (!m73C) {
+					m150 = 0x10000;
+					FUN_8002fcdc(this, 14, 6160);
+				}
+
+				break;
+			case 14:
 				m150 = 0x10000;
-				FUN_8002fcdc(this, 0, 6130);
-			}
-			break;
-		case 5:
-		case 25:
-			if (m73C) {
+				FUN_8002fcdc(this, 14, 6166);
+				break;
+			case 34:
 				m150 = 0x10000;
-				FUN_8002fde4(this, 8, 19, 26, 19, 6145);
-			} else {
+
+				if (m73C)
+					FUN_8002fde4(this, 8, 19, 26, 19, 6175);
+				else
+					FUN_8002fd80(this, 8, 19, 0, 6178);
+
+				break;
+			case 0:
 				m150 = 0x10000;
-				FUN_8002fcdc(this, 0, 6150);
-			}
-			break;
-		case 4:
-		case 13:
-			if (!m73C) {
-				m150 = 0x10000;
-				FUN_8002fcdc(this, 14, 6160);
-			}
-			break;
-		case 14:
-			m150 = 0x10000;
-			FUN_8002fcdc(this, 14, 6166);
-			break;
-		case 34:
-			m150 = 0x10000;
-			if (m73C)
-				FUN_8002fde4(this, 8, 19, 26, 19, 6175);
-			else
-				FUN_8002fd80(this, 8, 19, 0, 6178);
-			break;
-		case 0:
-			m150 = 0x10000;
-			if (m73C)
-				FUN_8002fde4(this, 8, 19, 26, 19, 6191);
-			else
-				FUN_8002fcdc(this, 0, 6194);
-			break;
+
+				if (m73C)
+					FUN_8002fde4(this, 8, 19, 26, 19, 6191);
+				else
+					FUN_8002fcdc(this, 0, 6194);
+
+				break;
 		}
 	}
+
 	if (m740 && m738 && !m734) {
 		m740 = 0;
 		m764 = 0;
+
 		if (!mInAir) {
 			switch (m72C) {
-			case 2:
-				FUN_8004b250(Redbook_Rnd(2) + 38, 0x2000, 0);
-				break;
-			case 10:
-			case 12:
-				FUN_8004b250(35, 0x2000, 0);
-				break;
-			case 6:
-				break;
-			case 1:
-			case 15:
-			default:
-				FUN_8004b250(5, 0x2000, 0);
-				break;
+				case 2:
+					FUN_8004b250(Redbook_Rnd(2) + 38, 0x2000, 0);
+					break;
+				case 10:
+				case 12:
+					FUN_8004b250(35, 0x2000, 0);
+					break;
+				case 6:
+					break;
+				case 1:
+				case 15:
+				default:
+					FUN_8004b250(5, 0x2000, 0);
+					break;
 			}
+
 			Vibrate(2, 1, 255);
+
 			if (m73C) {
 				m150 = 0x10000;
 				FUN_8002fd28(this, 25, 3, 6253);
@@ -244,7 +281,9 @@ void CBruce::HandleJump()
 				m150 = 0x10000;
 				FUN_8002fd28(this, 5, 0, 6258);
 			}
+
 			FUN_80031108(this, 6261);
+
 			if (!mInAir) {
 				/* PARKED FOR GOOD, inline asm (end-game policy). Retail evaluates TotalScore()/10
 				   here and keeps only its `mult`: the lone dead mult in the game. The original was
@@ -252,10 +291,15 @@ void CBruce::HandleJump()
 				   mult: the only pass that would (post-reload delete_computation) is disabled under
 				   -fschedule-insns2 (egcs jump.c:3658). Earlier passes delete the whole chain or
 				   leave the x>>31 sra. See the README "Still unexplained" note. */
-				__asm__ volatile ("lui $3,0x6666; ori $3,$3,0x6667; mult %0,$3" : : "r"(FUN_8006ebdc(&mPanel)) : "$3");
+				__asm__ volatile("lui $3,0x6666; ori $3,$3,0x6667; mult %0,$3"
+				                 :
+				                 : "r"(FUN_8006ebdc(&mPanel))
+				                 : "$3");
 				int Bonus = FUN_8006ebdc(&mPanel) / 100;
+
 				if (Bonus > 20)
 					Bonus = 20;
+
 				m340 = 30;
 				m344 = 30;
 				m33C += Bonus;
@@ -263,16 +307,22 @@ void CBruce::HandleJump()
 				FUN_8002f478(this);
 			}
 		}
+
 		m35C = 0;
 	}
+
 	if (mpColl->x30 && !mInAir) {
 		m748++;
+
 		if (m748 > 15 - (GetStat(0) + GetStat(2)) / 2)
 			m748 = 15 - (GetStat(0) + GetStat(2)) / 2;
+
 		if (m734 == 0 && !m310) {
 			m744 = 1;
+
 			if (!m73C) {
 				m150 = 0x10000;
+
 				if (ABS(m838) <= 0x9fff) {
 					m838 = 0;
 					FUN_8002fde4(this, 8, 0, 26, 19, 6331);
@@ -283,29 +333,36 @@ void CBruce::HandleJump()
 		} else if (m734 == 5 && !m310) {
 			m744 = 1;
 		}
+
 		if (!m310)
 			m73C = 1;
 	} else {
 		m310 = 0;
 		m73C = 0;
+
 		if (m300 > 0 && DAT_800d1770 - m300 > 20)
 			m744 = 0;
+
 		if (m744) {
 			int LastPhysics;
 			int JumpBoost;
 
 			if (DAT_800d1784 == 1 && m734 != 4 && m734 != 5) {
 				m744 = 0;
+
 				do {
 					FUN_8002fcdc(this, 0, 6362);
 				} while (0);
+
 				m748 = 0;
 				return;
 			}
+
 			m744 = 0;
 			m740 = 1;
 			m74C = m748;
 			m2F8 = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+
 			if (m6DC) {
 				int a;
 
@@ -315,67 +372,91 @@ void CBruce::HandleJump()
 				m35C = 0;
 				mFront = mRailDir;
 				AlignHeadingOnRail();
+
 				Speed = FUN_800720ec(&mRailDir, &mVel);
 				mVel.vx = FUN_80072090(mRailDir.vx, Speed);
 				mVel.vy = FUN_80072090(mRailDir.vy, Speed);
 				mVel.vz = FUN_80072090(mRailDir.vz, Speed);
 				a = 0;
+
 				if (mpColl->x80)
 					a = -200;
+
 				if (mpColl->x90)
 					a = 200;
+
 				RotateHeadingAndVelocity(a, 1, 0);
 			}
+
 			m150 = 0x10000;
 			m764 = m768;
 			m754 = m734 == 5;
 			LastPhysics = m734;
+
 			if (LastPhysics == 5) {
 				CVector SurfaceNormal;
 
 				m748 = 15 - (GetStat(0) + GetStat(2)) / 2;
-				SetVector(&SurfaceNormal, mPolyNormal.vx, mPolyNormal.vy, mPolyNormal.vz)
-				mKick += SurfaceNormal * 2;
+				SetVector(&SurfaceNormal, mPolyNormal.vx, mPolyNormal.vy, mPolyNormal.vz) mKick +=
+				    SurfaceNormal * 2;
 				mVel.vy -= 0xf000;
 			}
+
 			{
 				int Sfx = 6;
+
 				if (m734 == 4 && !m2EC) {
 					Sfx = 16;
+
 					if (m210 != 1)
 						Sfx = 6;
 				}
+
 				FUN_8004b250(Sfx, 0x2000, 0);
 			}
+
 			if (ABS(mUp.vy) < 2500)
-				JumpBoost = -((m748 * (((32 - (10 - GetStat(2)) / 2) + ((10 - GetStat(2)) / 3 - 18)) << 10)
-						/ (15 - (GetStat(0) + GetStat(2)) / 2)
-					+ ((32 - (10 - GetStat(2)) / 2) << 10)) * 3);
+				JumpBoost = -(
+				    (m748 * (((32 - (10 - GetStat(2)) / 2) + ((10 - GetStat(2)) / 3 - 18)) << 10) /
+					     (15 - (GetStat(0) + GetStat(2)) / 2) +
+					 ((32 - (10 - GetStat(2)) / 2) << 10)) *
+				    3);
 			else
-				JumpBoost = -((m748 * (((32 - (10 - GetStat(0)) / 2) + ((10 - GetStat(0)) / 3 - 18)) << 10)
-						/ (15 - (GetStat(0) + GetStat(2)) / 2)
-					+ ((32 - (10 - GetStat(0)) / 2) << 10)) * 3);
+				JumpBoost = -(
+				    (m748 * (((32 - (10 - GetStat(0)) / 2) + ((10 - GetStat(0)) / 3 - 18)) << 10) /
+					     (15 - (GetStat(0) + GetStat(2)) / 2) +
+					 ((32 - (10 - GetStat(0)) / 2) << 10)) *
+				    3);
+
 			mVel.vy += JumpBoost;
 			m228++;
+
 			if (m748 < 15 - (GetStat(0) + GetStat(2)) / 2)
 				m22C++;
+
 			m328 = 0;
 			m32C = 0;
+
 			if (m734 != 2) {
 				if (m764 && m734 == 0) {
 					StateTransition(3, 6480);
+
 					m1E8 = DAT_800d1770;
 				} else
 					StateTransition(1, 6485);
 			}
+
 			if (!m368 || (m368 & 0xf000) == 0x1000) {
 				m150 = 0x10000;
+
 				if (LastPhysics != 5 && m278 == 1 && DAT_800d1770 - m274 < 20) {
 					m328 = 0;
 					m32C = 0;
+
 					if (m268 == 1 && DAT_800d1770 - m26C < 35) {
 						FUN_8002f1a0(this);
 						Trick_Trick(65, DAT_8009fe44, 250, 0);
+
 						mVel.vy -= 0x5000;
 						FUN_8002fd28(this, 45, 16, 6508);
 					} else {
@@ -383,14 +464,17 @@ void CBruce::HandleJump()
 						Trick_Trick(75, DAT_800d1948, 200, 0);
 						FUN_8002fcdc(this, 13, 6515);
 					}
+
 					m364 = 1;
 				} else {
 					FUN_8002f1a0(this);
 					FUN_8002fcdc(this, 4, 6523);
 				}
 			}
+
 			m2FC = DAT_800d1770;
 		}
+
 		m748 = 0;
 	}
 }

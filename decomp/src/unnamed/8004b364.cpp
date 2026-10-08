@@ -3,10 +3,12 @@
    volumes (each clamped to 16384), scaled by the global percentage DAT_800d13cc. */
 extern int DAT_800b8a9c[];
 extern int DAT_800d13cc;
+
 int DAT_800d1acc;
+
 extern "C" int FUN_8004bb74(int, unsigned char, short, short, int);
-extern "C" int FUN_8004b364(int id, short l, short r, int pan)
-{
+
+extern "C" int FUN_8004b364(int id, short l, short r, int pan) {
 	int p, note;
 	if (l > 16384)
 		l = 16384;
@@ -16,12 +18,14 @@ extern "C" int FUN_8004b364(int id, short l, short r, int pan)
 		return 0;
 	p = DAT_800b8a9c[id * 2 + 1];
 	note = 60;
+
 	if (p & 0xffff0000) {
 		note = p >> 16;
 		p &= 0xffff;
 	}
+
 	DAT_800d1acc = p;
 	p = DAT_800d13cc * p / 100;
-	return FUN_8004bb74(DAT_800b8a9c[id * 2], note, (l * p * 4) >> 16, (r * p * 4) >> 16, pan);
 
+	return FUN_8004bb74(DAT_800b8a9c[id * 2], note, (l * p * 4) >> 16, (r * p * 4) >> 16, pan);
 }

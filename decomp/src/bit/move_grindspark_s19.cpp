@@ -1,7 +1,15 @@
 /* Move__11CGrindSpark (0x8002780c) */
 typedef unsigned short ushort;
-struct CVector { int x, y, z; };
-struct CBody { char pad[4]; CVector mPos; };
+
+struct CVector {
+	int x, y, z;
+};
+
+struct CBody {
+	char pad[4];
+	CVector mPos;
+};
+
 struct CGrindSpark {
 	char pad0[8];
 	short mAge;
@@ -18,9 +26,10 @@ struct CGrindSpark {
 	void Move();
 	void Die();
 };
-void CGrindSpark::Move()
-{
+
+void CGrindSpark::Move() {
 	int px, py, pz, nx, ny, nz, sx, sy, sz;
+
 	px = mPos.x;
 	py = mPos.y;
 	pz = mPos.z;
@@ -52,6 +61,7 @@ void CGrindSpark::Move()
 	mVel.y = ny;
 	mVel.z = nz;
 	mAge++;
+
 	if (mAge >= mLifetime)
 		Die();
 }

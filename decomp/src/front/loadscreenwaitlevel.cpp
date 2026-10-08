@@ -15,6 +15,7 @@ struct SButton {
 	int ReleasedTime;
 	int TriggeredTime;
 };
+
 struct SControl {
 	SButton Triangle, Square, Circle, X;
 	SButton LeftOne, LeftTwo, RightOne, RightTwo;
@@ -23,14 +24,17 @@ struct SControl {
 	SButton Crouch, Jump, SmartBomb, SelectWeapon;
 	int rest[11];
 };
+
 class CItem {
-public:
+  public:
 	virtual ~CItem();
 	void *operator new(uint) throw();
 };
+
 class SlicedImage;
+
 class Sprite : public CItem {
-public:
+  public:
 	int m_w;
 	int m_h;
 	int m_packed;
@@ -41,45 +45,46 @@ public:
 };
 
 class MenuInput : public CItem {
-public:
+  public:
 	int pad[(0x11c - 4) / 4];
 	void update();
 };
 
 extern SControl DAT_800c0a48[2];
 extern MenuInput DAT_800bf104;
-extern int DAT_800bf0d4[];		/* picture x by screen */
-extern int DAT_800bf0e0[];		/* picture y by screen */
+extern int DAT_800bf0d4[]; /* picture x by screen */
+extern int DAT_800bf0e0[]; /* picture y by screen */
 extern int DAT_800d1d80;
-extern uint DAT_800d1a1c;		/* GameFade */
-extern int DAT_800d1cb8;		/* START+SELECT quit */
+extern uint DAT_800d1a1c; /* GameFade */
+extern int DAT_800d1cb8;  /* START+SELECT quit */
+
 int DAT_800d1ce8;
-int DAT_800d1cec;			/* loading finished */
-int DAT_800d1cf0;			/* backed out */
-int DAT_800d1cf8;			/* screen type */
-Sprite *DAT_800d1d00;			/* got-tape marker */
-Sprite *DAT_800d1d04;			/* "Press X" */
-int DAT_800d1d08;			/* blink counter */
-Sprite *DAT_800d1d0c;			/* level picture */
-int DAT_800d1d14;			/* redraw picture */
+int DAT_800d1cec;     /* loading finished */
+int DAT_800d1cf0;     /* backed out */
+int DAT_800d1cf8;     /* screen type */
+Sprite *DAT_800d1d00; /* got-tape marker */
+Sprite *DAT_800d1d04; /* "Press X" */
+int DAT_800d1d08;     /* blink counter */
+Sprite *DAT_800d1d0c; /* level picture */
+int DAT_800d1d14;     /* redraw picture */
 
 int SFX_PlayX(uint, short, int);
 void Pause(int);
 void Pad_ClearTriggers(SControl *);
+
 extern "C" {
-void FUN_8008eebc(int);
-int DrawSync(int);
-void FUN_8006b2f4(void);
-void FUN_8006b240(void);
-void FUN_80061ea0(void);
-void FUN_800242cc(void);
-void FUN_80061d44(int, int, int, int, int, int, int);
-void FUN_80070ff4(void);
-void FUN_8005c68c(void);
+	void FUN_8008eebc(int);
+	int DrawSync(int);
+	void FUN_8006b2f4(void);
+	void FUN_8006b240(void);
+	void FUN_80061ea0(void);
+	void FUN_800242cc(void);
+	void FUN_80061d44(int, int, int, int, int, int, int);
+	void FUN_80070ff4(void);
+	void FUN_8005c68c(void);
 }
 
-extern "C" void FUN_8005d73c(void)
-{
+extern "C" void FUN_8005d73c(void) {
 	do {
 		if (DAT_800d1cec)
 			FUN_8008eebc(0);
@@ -112,8 +117,8 @@ extern "C" void FUN_8005d73c(void)
 			DAT_800d1cf0 = 1;
 			break;
 		}
-		if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered
-		    || DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered) {
+		if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered ||
+		    DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered) {
 			SFX_PlayX(6, 8192, 0);
 			Pad_ClearTriggers(&DAT_800c0a48[0]);
 			Pad_ClearTriggers(&DAT_800c0a48[1]);
@@ -130,6 +135,7 @@ extern "C" void FUN_8005d73c(void)
 			DAT_800d1cf0 = 1;
 		}
 	} while (DAT_800d1cec);
+
 	if (DAT_800d1cec) {
 		delete DAT_800d1d04;
 		delete DAT_800d1d0c;

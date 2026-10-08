@@ -1,2 +1,2 @@
 /* FUN_8004bb54 (0x8004bb54) */
-void FUN_8004bb54(void){}
+void FUN_8004bb54(void) {}

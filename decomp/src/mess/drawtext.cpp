@@ -4,19 +4,23 @@
    per character, handling the in-string control characters (scale toggle, colour changes, space).
    THPS1 adds an optional wobble/clip descriptor (DAT_800d15e8) that bounces characters vertically. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <libgpu.h>
 }
+
 typedef unsigned char uchar;
 
 struct Character {
 	int w, h, x, y, baseline;
-	u_char u0, v0; u_short clut;
-	u_char u1, v1; u_short tp;
+	u_char u0, v0;
+	u_short clut;
+	u_char u1, v1;
+	u_short tp;
 	u_char u2, v2, u3, v3;
 	int real_w;
 };
+
 struct FontInfo {
 	char mFont_name[16];
 	int mNum_chars;
@@ -26,6 +30,7 @@ struct FontInfo {
 	int mChar_sep;
 	int mSpace_width;
 };
+
 struct SWobble {
 	short Offsets[32];
 	u_short Limit;
@@ -33,22 +38,26 @@ struct SWobble {
 	short pad44;
 	u_short ClipY;
 };
+
 struct SDB {
 	char pad0[0x84];
 	u_long OT[3];
 };
 
 extern FontInfo DAT_800a6110[10];
+
 int DAT_800d15e4;
 SWobble *DAT_800d15e8;
 uchar DAT_800d15f0;
 u_int DAT_800d15f4;
 u_short DAT_800d15fa;
 u_int DAT_800d2204;
+
 extern SDB *DAT_800d1a48;
 extern uchar *DAT_800d1a54;
 extern uchar *DAT_800d177c;
-#define Font_table DAT_800a6110
+
+#define Font_table   DAT_800a6110
 #define Current_font DAT_800d15e4
 
 int Mess_TextWidth(const char *);
@@ -59,8 +68,8 @@ int GetCharIndex(char);
 void Panel_addPrim(void *);
 extern "C" unsigned int strlen(const char *);
 
-int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireRGB, int FireSquash, bool IsPanel)
-{
+int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireRGB, int FireSquash,
+                  bool IsPanel) {
 	const char *pScan;
 	int Off;
 	int length;
@@ -76,32 +85,43 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 	useCurrentScale = 1;
 
 	switch (DAT_800d15f0) {
-	case 0:
-		Off = -length / 2;
-		break;
-	case 2:
-		Off = -length;
-		break;
-	case 1:
-		Off = 0;
-		break;
+		case 0:
+			Off = -length / 2;
+			break;
+		case 2:
+			Off = -length;
+			break;
+		case 1:
+			Off = 0;
+			break;
 	}
 
 	ScreenX = x + Off;
-	shadow_off = (((u_int)(Font_table[Current_font].mFont_shadow_offset * Font_table[Current_font].mFont_scale) >> 8) << 16) +
-	             ((u_int)(Font_table[Current_font].mFont_shadow_offset * Font_table[Current_font].mFont_scale) >> 8);
+	shadow_off = (((u_int)(Font_table[Current_font].mFont_shadow_offset *
+	                       Font_table[Current_font].mFont_scale) >>
+	               8)
+	              << 16) +
+	             ((u_int)(Font_table[Current_font].mFont_shadow_offset *
+	                      Font_table[Current_font].mFont_scale) >>
+	              8);
 	pScan = pMessage;
 	char_count = strlen(pScan);
+
 	if (DAT_800d15e8)
 		DAT_800d15e8->Count = char_count;
+
 	ScreenX += length;
 	pScan += char_count;
+
 	while (char_count) {
 		int ypos = y;
+
 		if (DAT_800d15e8) {
 			int d = DAT_800d15e8->Offsets[char_count & 31];
+
 			if (d < 0) {
 				int e = -d;
+
 				if (y + e * e >= DAT_800d15e8->Limit) {
 					ypos = DAT_800d15e8->Limit;
 					DAT_800d15e8->Count--;
@@ -109,6 +129,7 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 					ypos = y + e * e;
 			}
 		}
+
 		pScan--;
 		n = GetCharIndex(*pScan);
 		char_count--;
@@ -118,40 +139,54 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 			Mess_SetScale(useCurrentScale ? currentScale : 256);
 			continue;
 		}
+
 		if (n == 254) {
 			if (!DAT_800d15e8)
 				DAT_800d15f4 = DAT_800d2204;
+
 			continue;
 		}
+
 		if (n == 253) {
 			if (!DAT_800d15e8) {
 				DAT_800d2204 = DAT_800d15f4;
 				Mess_SetRGB(0, 128, 255, 0);
 			}
+
 			continue;
 		}
+
 		if (n == 252) {
 			if (!DAT_800d15e8) {
 				DAT_800d2204 = DAT_800d15f4;
 				Mess_SetRGB(255, 128, 0, 0);
 			}
+
 			continue;
 		}
+
 		if (n == 251) {
 			if (!DAT_800d15e8) {
 				DAT_800d2204 = DAT_800d15f4;
 				Mess_SetRGB(64, 64, 64, 0);
 			}
-			continue;
-		}
-		if (n == 255) {
-			ScreenX -= ((Font_table[Current_font].mSpace_width + Font_table[Current_font].mChar_sep) *
-			            Font_table[Current_font].mFont_scale) >> 8;
+
 			continue;
 		}
 
-		ScreenX -= ((Font_table[Current_font].mChar_table[n].real_w + Font_table[Current_font].mChar_sep) *
-		            Font_table[Current_font].mFont_scale) >> 8;
+		if (n == 255) {
+			ScreenX -=
+			    ((Font_table[Current_font].mSpace_width + Font_table[Current_font].mChar_sep) *
+				 Font_table[Current_font].mFont_scale) >>
+			    8;
+			continue;
+		}
+
+		ScreenX -=
+		    ((Font_table[Current_font].mChar_table[n].real_w + Font_table[Current_font].mChar_sep) *
+			 Font_table[Current_font].mFont_scale) >>
+		    8;
+
 		{
 			POLY_GT4 *apoly;
 			POLY_FT4 *shadow;
@@ -167,8 +202,10 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 			shadow = (POLY_FT4 *)(apoly + 1);
 			anothershadow = shadow + 1;
 			newppoly = (uchar *)(anothershadow + 1);
+
 			if (newppoly > DAT_800d177c)
 				break;
+
 			DAT_800d1a54 = newppoly;
 
 			apoly->tag = 0x0c000000;
@@ -181,28 +218,38 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 			u1 = *(u_int *)&Font_table[Current_font].mChar_table[n].u1;
 			u2 = *(u_short *)&Font_table[Current_font].mChar_table[n].u2;
 			u3 = *(u_short *)&Font_table[Current_font].mChar_table[n].u3;
+
 			if (Font_table[Current_font].mFont_scale > 256) {
 				u1--;
 				u2 -= 256;
 				u3 -= 257;
 			}
+
 			*(u_int *)&apoly->u0 = u0;
 			*(u_int *)&apoly->u1 = u1;
 			*(u_short *)&apoly->u2 = u2;
 			*(u_short *)&apoly->u3 = u3;
 
 			apoly->x0 = ScreenX;
-			apoly->y0 = ypos - ((Font_table[Current_font].mChar_table[n].baseline * Font_table[Current_font].mFont_scale) >> 8);
-			apoly->x1 = ScreenX + (((Font_table[Current_font].mChar_table[n].w << 2) * Font_table[Current_font].mFont_scale) >> 8);
+			apoly->y0 = ypos - ((Font_table[Current_font].mChar_table[n].baseline *
+			                     Font_table[Current_font].mFont_scale) >>
+			                    8);
+			apoly->x1 = ScreenX + (((Font_table[Current_font].mChar_table[n].w << 2) *
+			                        Font_table[Current_font].mFont_scale) >>
+			                       8);
 			apoly->y1 = apoly->y0;
 			apoly->x2 = apoly->x0;
-			apoly->y2 = apoly->y0 + ((Font_table[Current_font].mChar_table[n].h * Font_table[Current_font].mFont_scale) >> 8);
+			apoly->y2 = apoly->y0 + ((Font_table[Current_font].mChar_table[n].h *
+			                          Font_table[Current_font].mFont_scale) >>
+			                         8);
 			apoly->x3 = apoly->x1;
 			apoly->y3 = apoly->y2;
 
 			setSemiTrans(apoly, 0);
+
 			if (!DrawSolid) {
 				setSemiTrans(apoly, 1);
+
 				apoly->tpage = (apoly->tpage & ~0x60) | 0x20;
 			}
 
@@ -231,6 +278,7 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 			shadow->x3 = apoly->x3;
 			shadow->y3 = apoly->y3;
 			setSemiTrans(shadow, 1);
+
 			shadow->tpage = (shadow->tpage & ~0x60) | 0x40;
 			shadow->r0 = 128;
 			shadow->g0 = 128;
@@ -238,6 +286,7 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 
 			{
 				u_int w0, w1, w2, w3;
+
 				w0 = ((u_int *)shadow)[0];
 				w1 = ((u_int *)shadow)[1];
 				w2 = ((u_int *)shadow)[2];
@@ -273,6 +322,7 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 			anothershadow->g0 = LargestRGB;
 			anothershadow->b0 = LargestRGB;
 			setSemiTrans(anothershadow, 1);
+
 			anothershadow->tpage = (anothershadow->tpage & ~0x60) | 0x40;
 
 			if (IsPanel) {
@@ -281,10 +331,12 @@ int Mess_DrawText(int x, int y, const char *pMessage, int DrawSolid, u_int FireR
 				Panel_addPrim(shadow);
 				continue;
 			}
+
 			addPrim(&DAT_800d1a48->OT[DAT_800d15fa], apoly);
 			addPrim(&DAT_800d1a48->OT[DAT_800d15fa], anothershadow);
 			addPrim(&DAT_800d1a48->OT[DAT_800d15fa], shadow);
 		}
 	}
+
 	return length;
 }

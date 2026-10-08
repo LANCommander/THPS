@@ -1,3 +1,6 @@
 /* FUN_80048044 (0x80048044) */
 int DAT_800d1a18;
-void FUN_80048044(void){DAT_800d1a18=0;}
+
+void FUN_80048044(void) {
+	DAT_800d1a18 = 0;
+}

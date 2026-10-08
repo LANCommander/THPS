@@ -6,21 +6,23 @@
    at +0. It compiles to the same code: the array of five polymorphic elements at +40 is destroyed
    through their vtables, then the inlined ~CClass vptr store. */
 #pragma interface
+
 class CClass {
-public:
+  public:
 	virtual ~CClass() {}
 };
+
 class E : public CClass {
-public:
+  public:
 	int a;
 };
+
 class X {
-public:
+  public:
 	CClass c;
 	char pad[36];
 	E e[5];
 	~X();
 };
-X::~X()
-{
-}
+
+X::~X() {}

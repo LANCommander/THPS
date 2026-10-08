@@ -4,25 +4,45 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include <inline_c.h>
+
 typedef unsigned int uint;
 
-struct Vec { short vx, vy, vz; };
-struct Vector { int vx, vy, vz; };
-struct CVector { int vx, vy, vz; };
+struct Vec {
+	short vx, vy, vz;
+};
+
+struct Vector {
+	int vx, vy, vz;
+};
+
+struct CVector {
+	int vx, vy, vz;
+};
+
 struct SModel {
-  ushort Flags, NumVertices, NumNormals, NumFaces;
-  int Radius;
-  Vector Box;
-  short zMax;
-  ushort NextLOD;
-  SVECTOR Vertices[1];
+	ushort Flags, NumVertices, NumNormals, NumFaces;
+	int Radius;
+	Vector Box;
+	short zMax;
+	ushort NextLOD;
+	SVECTOR Vertices[1];
 };
+
 struct Texture {
-  u_char u0, v0; ushort clut;
-  u_char u1, v1; ushort tpage;
-  u_char u2, v2, u3, v3;
+	u_char u0, v0;
+	ushort clut;
+	u_char u1, v1;
+	ushort tpage;
+	u_char u2, v2, u3, v3;
 };
-struct SCamera { int pad; Vector Pos; char pad1[0x74 - 0x10]; MATRIX View; };
+
+struct SCamera {
+	int pad;
+	Vector Pos;
+	char pad1[0x74 - 0x10];
+	MATRIX View;
+};
+
 #define Box ((short *)&pModel->Box)
 
 extern SCamera *DAT_800d217c;
@@ -40,130 +60,163 @@ void M3dMaths_CrossWithLastVec12(Vec *);
 void M3dMaths_NormaliseLastVec(void);
 void M3dMaths_ScaleLastVec12(int);
 
-void M3dElips_RenderEllipsoid(SModel *pModel, MATRIX *pTransform, uint Rgb, int Scale, int OTPushback, Texture *pTex)
-{
-  short a, b, c, d;
-  short Mag_d_m;
-  int d12;
-  int k;
-  short R[3][3], RT[3][3], d_Ainv[3][3];
-  Vec l, t, v, d_m, Scaled_q, e, f, Vertex, Centre;
-  CVector d_m_Squared;
-  POLY_FT4 *pQuad;
-  uint OTPos;
+void M3dElips_RenderEllipsoid(SModel *pModel, MATRIX *pTransform, uint Rgb, int Scale,
+                              int OTPushback, Texture *pTex) {
+	short a, b, c, d;
+	short Mag_d_m;
+	int d12;
+	int k;
+	short R[3][3], RT[3][3], d_Ainv[3][3];
+	Vec l, t, v, d_m, Scaled_q, e, f, Vertex, Centre;
+	CVector d_m_Squared;
+	POLY_FT4 *pQuad;
+	uint OTPos;
 
-  a = ((Box[0] - Box[1]) >> 1) * Scale >> 12;
-  b = ((Box[2] - Box[3]) >> 1) * Scale >> 12;
-  c = ((Box[4] - Box[5]) >> 1) * Scale >> 12;
-  Centre.vx = (Box[0] + Box[1]) >> 1;
-  Centre.vy = (Box[2] + Box[3]) >> 1;
-  Centre.vz = (Box[4] + Box[5]) >> 1;
+	a = ((Box[0] - Box[1]) >> 1) * Scale >> 12;
+	b = ((Box[2] - Box[3]) >> 1) * Scale >> 12;
+	c = ((Box[4] - Box[5]) >> 1) * Scale >> 12;
+	Centre.vx = (Box[0] + Box[1]) >> 1;
+	Centre.vy = (Box[2] + Box[3]) >> 1;
+	Centre.vz = (Box[4] + Box[5]) >> 1;
 
-  gte_ldsv(&Centre);
-  M3dMaths_TransformLastVec((ushort *)pTransform);
-  gte_stsv(&t);
-  t.vx += pTransform->t[0];
-  t.vy += pTransform->t[1];
-  t.vz += pTransform->t[2];
-  t.vx -= DAT_800d217c->Pos.vx;
-  t.vy -= DAT_800d217c->Pos.vy;
-  t.vz -= DAT_800d217c->Pos.vz;
-  gte_ldsv(&t);
-  M3dMaths_NormaliseLastVec();
-  gte_stsv(&l);
+	gte_ldsv(&Centre);
+	M3dMaths_TransformLastVec((ushort *)pTransform);
+	gte_stsv(&t);
 
-  d = (a + b + c) / 3;
-  M3dMaths_CopyMat((ushort *)pTransform, (ushort *)R);
-  M3dMaths_TransposeMat((ushort *)R, (ushort *)RT);
-  M3dMaths_ZeroMat((ushort *)d_Ainv);
-  d12 = d << 12;
-  d_Ainv[0][0] = d12 / a;
-  d_Ainv[1][1] = d12 / b;
-  d_Ainv[2][2] = d12 / c;
+	t.vx += pTransform->t[0];
+	t.vy += pTransform->t[1];
+	t.vz += pTransform->t[2];
+	t.vx -= DAT_800d217c->Pos.vx;
+	t.vy -= DAT_800d217c->Pos.vy;
+	t.vz -= DAT_800d217c->Pos.vz;
+	gte_ldsv(&t);
+	M3dMaths_NormaliseLastVec();
+	gte_stsv(&l);
 
-  gte_ldsv(&l);
-  M3dMaths_TransformLastVec((ushort *)RT);
-  M3dMaths_NormaliseLastVec();
-  M3dMaths_TransformLastVec((ushort *)d_Ainv);
-  gte_stsv(&d_m);
-  Mag_d_m = M3dMaths_LastVecMagnitude();
-  gte_stlvnl(&d_m_Squared);
+	d = (a + b + c) / 3;
+	M3dMaths_CopyMat((ushort *)pTransform, (ushort *)R);
+	M3dMaths_TransposeMat((ushort *)R, (ushort *)RT);
+	M3dMaths_ZeroMat((ushort *)d_Ainv);
 
-  v.vx = v.vy = v.vz = 0;
-  if (d_m_Squared.vx <= d_m_Squared.vy && d_m_Squared.vx <= d_m_Squared.vz) v.vx = 4096;
-  else if (d_m_Squared.vy <= d_m_Squared.vx && d_m_Squared.vy <= d_m_Squared.vz) v.vy = 4096;
-  else v.vz = 4096;
+	d12 = d << 12;
+	d_Ainv[0][0] = d12 / a;
+	d_Ainv[1][1] = d12 / b;
+	d_Ainv[2][2] = d12 / c;
 
-  gte_ldsv(&d_m);
-  M3dMaths_CrossWithLastVec12(&v);
-  gte_stsv(&Scaled_q);
-  M3dMaths_NormaliseLastVec();
-  k = a * b / d * c * Mag_d_m / d >> 12;
-  M3dMaths_TransformLastVec((ushort *)d_Ainv);
-  M3dMaths_TransformLastVec((ushort *)R);
-  M3dMaths_CrossWithLastVec12(&l);
-  M3dMaths_ScaleLastVec12(k);
-  gte_stsv(&e);
+	gte_ldsv(&l);
+	M3dMaths_TransformLastVec((ushort *)RT);
+	M3dMaths_NormaliseLastVec();
+	M3dMaths_TransformLastVec((ushort *)d_Ainv);
+	gte_stsv(&d_m);
 
-  gte_ldsv(&d_m);
-  M3dMaths_CrossWithLastVec12(&Scaled_q);
-  M3dMaths_NormaliseLastVec();
-  M3dMaths_TransformLastVec((ushort *)d_Ainv);
-  M3dMaths_TransformLastVec((ushort *)R);
-  M3dMaths_CrossWithLastVec12(&l);
-  M3dMaths_ScaleLastVec12(k);
-  gte_stsv(&f);
+	Mag_d_m = M3dMaths_LastVecMagnitude();
+	gte_stlvnl(&d_m_Squared);
 
-  gte_SetRotMatrix(&DAT_800d217c->View);
-  __asm__ volatile ("ctc2 $0, $5; ctc2 $0, $6; ctc2 $0, $7");
-  Vertex.vx = t.vx - e.vx - f.vx;
-  Vertex.vy = t.vy - e.vy - f.vy;
-  Vertex.vz = t.vz - e.vz - f.vz;
-  gte_ldv0(&Vertex);
-  Vertex.vx = t.vx + e.vx - f.vx;
-  Vertex.vy = t.vy + e.vy - f.vy;
-  Vertex.vz = t.vz + e.vz - f.vz;
-  gte_ldv1(&Vertex);
-  Vertex.vx = t.vx - e.vx + f.vx;
-  Vertex.vy = t.vy - e.vy + f.vy;
-  Vertex.vz = t.vz - e.vz + f.vz;
-  gte_ldv2(&Vertex);
-  gte_rtpt();
-  Vertex.vx = t.vx + e.vx + f.vx;
-  Vertex.vy = t.vy + e.vy + f.vy;
-  Vertex.vz = t.vz + e.vz + f.vz;
-  gte_stsxy0(&DAT_800d2160[0]);
-  gte_stsxy1(&DAT_800d2160[1]);
-  gte_stsxy2(&DAT_800d2160[2]);
-  gte_ldv0(&Vertex);
-  gte_rtps();
-  gte_stsxy(&DAT_800d2160[3]);
-  gte_avsz4();
-  gte_stotz(&OTPos);
+	v.vx = v.vy = v.vz = 0;
 
-  OTPos += OTPushback;
-  if (OTPos >= 4096) OTPos = 4095;
+	if (d_m_Squared.vx <= d_m_Squared.vy && d_m_Squared.vx <= d_m_Squared.vz)
+		v.vx = 4096;
+	else if (d_m_Squared.vy <= d_m_Squared.vx && d_m_Squared.vy <= d_m_Squared.vz)
+		v.vy = 4096;
+	else
+		v.vz = 4096;
 
-  pQuad = (POLY_FT4 *)DAT_800d1a54;
-  DAT_800d1a54 += sizeof(POLY_FT4);
-  if (DAT_800d1a54 > DAT_800d177c) {
-    DAT_800d1a54 = (char *)pQuad;
-    return;
-  }
-  *(uint *)&pQuad->r0 = Rgb;
-  setPolyFT4(pQuad);
-  setSemiTrans(pQuad, 1);
-  { SVECTOR *sc = DAT_800d2160;
-  pQuad->x0 = sc[0].vx; pQuad->y0 = sc[0].vy;
-  pQuad->x1 = sc[1].vx; pQuad->y1 = sc[1].vy;
-  pQuad->x2 = sc[2].vx; pQuad->y2 = sc[2].vy;
-  pQuad->x3 = sc[3].vx; pQuad->y3 = sc[3].vy;
-  }
-  pQuad->u0 = pTex->u0; pQuad->v0 = pTex->v0;
-  pQuad->u1 = pTex->u1 - 1; pQuad->v1 = pTex->v1;
-  pQuad->u2 = pTex->u2; pQuad->v2 = pTex->v2 - 1;
-  pQuad->u3 = pTex->u3 - 1; pQuad->v3 = pTex->v3 - 1;
-  pQuad->clut = pTex->clut;
-  pQuad->tpage = (pTex->tpage & ~0x60) | 0x20;
-  { u_long *ot = (u_long *)(OTPos * 4 + (uint)DAT_800d21a0); addPrim(ot, pQuad); }
+	gte_ldsv(&d_m);
+	M3dMaths_CrossWithLastVec12(&v);
+	gte_stsv(&Scaled_q);
+	M3dMaths_NormaliseLastVec();
+
+	k = a * b / d * c * Mag_d_m / d >> 12;
+	M3dMaths_TransformLastVec((ushort *)d_Ainv);
+	M3dMaths_TransformLastVec((ushort *)R);
+	M3dMaths_CrossWithLastVec12(&l);
+	M3dMaths_ScaleLastVec12(k);
+	gte_stsv(&e);
+
+	gte_ldsv(&d_m);
+	M3dMaths_CrossWithLastVec12(&Scaled_q);
+	M3dMaths_NormaliseLastVec();
+	M3dMaths_TransformLastVec((ushort *)d_Ainv);
+	M3dMaths_TransformLastVec((ushort *)R);
+	M3dMaths_CrossWithLastVec12(&l);
+	M3dMaths_ScaleLastVec12(k);
+	gte_stsv(&f);
+
+	gte_SetRotMatrix(&DAT_800d217c->View);
+	__asm__ volatile("ctc2 $0, $5; ctc2 $0, $6; ctc2 $0, $7");
+
+	Vertex.vx = t.vx - e.vx - f.vx;
+	Vertex.vy = t.vy - e.vy - f.vy;
+	Vertex.vz = t.vz - e.vz - f.vz;
+	gte_ldv0(&Vertex);
+
+	Vertex.vx = t.vx + e.vx - f.vx;
+	Vertex.vy = t.vy + e.vy - f.vy;
+	Vertex.vz = t.vz + e.vz - f.vz;
+	gte_ldv1(&Vertex);
+
+	Vertex.vx = t.vx - e.vx + f.vx;
+	Vertex.vy = t.vy - e.vy + f.vy;
+	Vertex.vz = t.vz - e.vz + f.vz;
+	gte_ldv2(&Vertex);
+	gte_rtpt();
+
+	Vertex.vx = t.vx + e.vx + f.vx;
+	Vertex.vy = t.vy + e.vy + f.vy;
+	Vertex.vz = t.vz + e.vz + f.vz;
+	gte_stsxy0(&DAT_800d2160[0]);
+	gte_stsxy1(&DAT_800d2160[1]);
+	gte_stsxy2(&DAT_800d2160[2]);
+	gte_ldv0(&Vertex);
+	gte_rtps();
+	gte_stsxy(&DAT_800d2160[3]);
+	gte_avsz4();
+	gte_stotz(&OTPos);
+
+	OTPos += OTPushback;
+
+	if (OTPos >= 4096)
+		OTPos = 4095;
+
+	pQuad = (POLY_FT4 *)DAT_800d1a54;
+	DAT_800d1a54 += sizeof(POLY_FT4);
+
+	if (DAT_800d1a54 > DAT_800d177c) {
+		DAT_800d1a54 = (char *)pQuad;
+		return;
+	}
+
+	*(uint *)&pQuad->r0 = Rgb;
+	setPolyFT4(pQuad);
+	setSemiTrans(pQuad, 1);
+
+	{
+		SVECTOR *sc = DAT_800d2160;
+
+		pQuad->x0 = sc[0].vx;
+		pQuad->y0 = sc[0].vy;
+		pQuad->x1 = sc[1].vx;
+		pQuad->y1 = sc[1].vy;
+		pQuad->x2 = sc[2].vx;
+		pQuad->y2 = sc[2].vy;
+		pQuad->x3 = sc[3].vx;
+		pQuad->y3 = sc[3].vy;
+	}
+
+	pQuad->u0 = pTex->u0;
+	pQuad->v0 = pTex->v0;
+	pQuad->u1 = pTex->u1 - 1;
+	pQuad->v1 = pTex->v1;
+	pQuad->u2 = pTex->u2;
+	pQuad->v2 = pTex->v2 - 1;
+	pQuad->u3 = pTex->u3 - 1;
+	pQuad->v3 = pTex->v3 - 1;
+	pQuad->clut = pTex->clut;
+	pQuad->tpage = (pTex->tpage & ~0x60) | 0x20;
+
+	{
+		u_long *ot = (u_long *)(OTPos * 4 + (uint)DAT_800d21a0);
+
+		addPrim(ot, pQuad);
+	}
 }

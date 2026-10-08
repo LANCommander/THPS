@@ -3,13 +3,15 @@ struct CQuat {
 	int vf;
 	int x, y, z, w;
 };
+
 struct MATRIX {
 	short m[3][3];
 	int t[3];
 };
-void QToM(const CQuat &q, MATRIX &m)
-{
+
+void QToM(const CQuat &q, MATRIX &m) {
 	int wx, wy, wz, xx, xy, xz, yy, yz, zz;
+
 	wx = (q.w * q.x) >> 11;
 	wy = (q.w * q.y) >> 11;
 	wz = (q.w * q.z) >> 11;

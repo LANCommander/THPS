@@ -1,6 +1,7 @@
 /* SetLine__5CMenuUc (0x80016708) */
 /* C++ (FRONT.CPP). Demo twin (same lines). Selects menu line Line: it scales up, the rest down. */
 typedef unsigned char uchar;
+
 struct SEntry {
 	char *pString;
 	short CurrentScale;
@@ -14,6 +15,7 @@ struct SEntry {
 	uchar LowR, LowG, LowB;
 	uchar FadeUpCounter;
 };
+
 struct CMenu {
 	int **vf;
 	uchar mJustification;
@@ -28,9 +30,10 @@ struct CMenu {
 	SEntry mEntry[15];
 	void SetLine(uchar Line);
 };
-void CMenu::SetLine(uchar Line)
-{
+
+void CMenu::SetLine(uchar Line) {
 	mLine = Line;
+
 	for (int i = 0; i < 15; i++) {
 		mEntry[i].TargetScale = (i == mLine) ? mEntry[i].HiScale : mEntry[i].LowScale;
 		mEntry[i].CurrentScale = mEntry[i].TargetScale;

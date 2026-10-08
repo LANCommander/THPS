@@ -9,11 +9,12 @@ int DAT_800d2210;
 int DAT_800d2214;
 int DAT_800d2218;
 int DAT_800d221c;
-void Flash_Update(void)
-{
+
+void Flash_Update(void) {
 	if (DAT_800d1610) {
 		if (DAT_800d1614) {
 			DAT_800d1614--;
+
 			if (DAT_800d1614 == 0) {
 				DAT_800d2208 = DAT_800d220c = DAT_800d2210 = 0xff0000;
 			} else {
@@ -24,6 +25,7 @@ void Flash_Update(void)
 		}
 	} else if (DAT_800d160c) {
 		DAT_800d160c--;
+
 		if (DAT_800d160c == 0) {
 			DAT_800d1604 = 0;
 		} else {

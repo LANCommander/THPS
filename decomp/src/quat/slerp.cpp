@@ -4,22 +4,26 @@
    (CClass is modelled without virtuals so g++ doesn't emit the out-of-line destructors here). */
 extern "C" long SquareRoot0(long);
 
-extern int DAT_800a3484[];   /* CClass's vtable */
+extern int DAT_800a3484[]; /* CClass's vtable */
 
 class CClass {
-public:
+  public:
 	int *vf;
-	~CClass() { vf = DAT_800a3484; }
+	~CClass() {
+		vf = DAT_800a3484;
+	}
 };
 
 class CQuat : public CClass {
-public:
+  public:
 	int x, y, z, w;
 	CQuat(const CQuat &);
-	void Normalise()
-	{
+	void Normalise() {
 		int mag = SquareRoot0(x * x + y * y + z * z + w * w);
-		if (!mag) mag = 1;
+
+		if (!mag)
+			mag = 1;
+
 		x = (x << 12) / mag;
 		y = (y << 12) / mag;
 		z = (z << 12) / mag;
@@ -28,50 +32,51 @@ public:
 	~CQuat() {}
 };
 
-struct SSinCos { short sin, cos; };
+struct SSinCos {
+	short sin, cos;
+};
+
 extern SSinCos DAT_800c9670[1];
+
 #define SIN(a) (((short *)DAT_800c9670)[((a) & 4095) * 2])
 
 int Utils_ArcCos(int);
 
-void Quat_Slerp(CQuat p, CQuat q, int t, CQuat &qt)
-{
+void Quat_Slerp(CQuat p, CQuat q, int t, CQuat &qt) {
 	int omega, cosom, sinom, sclp, sclq;
 
 	p.Normalise();
 	q.Normalise();
+
 	cosom = (p.x * q.x + p.y * q.y + p.z * q.z + p.w * q.w) >> 12;
-	if (cosom < 0)
-	{
+
+	if (cosom < 0) {
 		cosom = -cosom;
 		p.x = -p.x;
 		p.y = -p.y;
 		p.z = -p.z;
 		p.w = -p.w;
 	}
+
 	if (cosom > 4096)
 		cosom = 4096;
-	if (4096 + cosom > 128)
-	{
-		if (4096 - cosom > 128)
-		{
+
+	if (4096 + cosom > 128) {
+		if (4096 - cosom > 128) {
 			omega = Utils_ArcCos(cosom);
 			sinom = SIN(omega);
 			sclp = (SIN(((4096 - t) * omega) >> 12) << 12) / sinom;
 			sclq = (SIN((t * omega) >> 12) << 12) / sinom;
-		}
-		else
-		{
+		} else {
 			sclp = 4096 - t;
 			sclq = t;
 		}
+
 		qt.x = (sclp * p.x + sclq * q.x) >> 12;
 		qt.y = (sclp * p.y + sclq * q.y) >> 12;
 		qt.z = (sclp * p.z + sclq * q.z) >> 12;
 		qt.w = (sclp * p.w + sclq * q.w) >> 12;
-	}
-	else
-	{
+	} else {
 		qt.x = -p.y;
 		qt.y = -p.x;
 		qt.z = -p.w;
@@ -83,5 +88,6 @@ void Quat_Slerp(CQuat p, CQuat q, int t, CQuat &qt)
 		qt.z = (sclp * p.z + sclq * qt.z) >> 12;
 		qt.w = (sclp * p.w + sclq * qt.w) >> 12;
 	}
+
 	qt.Normalise();
 }

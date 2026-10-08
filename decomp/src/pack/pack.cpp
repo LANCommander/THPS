@@ -9,29 +9,31 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
+
 struct TSPack {
-	ushort X;                  /* 0 */
-	ushort Y;                  /* 2 */
-	ushort W;                  /* 4 */
-	ushort H;                  /* 6 */
-	TSPack *pNext;             /* 8 */
-	uchar Type;                /* 12 */
-	uchar Pass;                /* 13 */
-	uchar BPP;                 /* 14 */
-	uchar Aligned;             /* 15 */
-	short ReqW;                /* 16 */
-	short ReqH;                /* 18 */
+	ushort X;      /* 0 */
+	ushort Y;      /* 2 */
+	ushort W;      /* 4 */
+	ushort H;      /* 6 */
+	TSPack *pNext; /* 8 */
+	uchar Type;    /* 12 */
+	uchar Pass;    /* 13 */
+	uchar BPP;     /* 14 */
+	uchar Aligned; /* 15 */
+	short ReqW;    /* 16 */
+	short ReqH;    /* 18 */
 };
+
 TSPack *DAT_800d1a60;
 int DAT_800d1a6c;
 int DAT_800d1a70;
+
 TSPack *Pack_NewFree(int, int, int, int);
 void Pack_Merge(TSPack *);
 void Pack_Remove(TSPack **, TSPack *);
 extern "C" TSPack *FUN_800496b0(int, int, int, int);
 
-TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned, uint checksum)
-{
+TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned, uint checksum) {
 	TSPack *pBest;
 	TSPack *pPack;
 	int OX;
@@ -45,8 +47,10 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 		if (W == 256 && H == 256)
 			Aligned = 0;
 	}
+
 	if (Aligned > 0) {
 		pPack = Pack_Pack(Type, WW, H, X, Y, BPP, -1, checksum);
+
 		if (!pPack) {
 			int NewX;
 			int NewY;
@@ -54,29 +58,40 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 			int OldY;
 			int OldW;
 			int OldH;
+
 			W = WW;
+
 			if (W == 256 || H == 256) {
 				pPack = Pack_Pack(Type, 256, 256, &NewX, &NewY, BPP, 0, checksum);
+
 				if (!pPack)
 					return 0;
+
 				OldW = 128;
 				OldH = 256;
+
 				if (BPP != 16)
 					W = (W + 1) / 2;
+
 				if (BPP == 4) {
 					W = (W + 1) / 2;
 					OldW = 64;
 				}
+
 				OldX = pPack->X;
 				OldY = pPack->Y;
 			} else {
 				pPack = Pack_Pack(Type, W * 2, H * 2, &NewX, &NewY, BPP, 0, checksum);
+
 				if (!pPack)
 					return 0;
+
 				if (BPP != 16)
 					W = (W + 1) / 2;
+
 				if (BPP == 4)
 					W = (W + 1) / 2;
+
 				NewX = (NewX + W - 1) & -W;
 				NewY = (NewY + H - 1) & -H;
 				OldX = pPack->X;
@@ -84,25 +99,33 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 				OldW = W * 2;
 				OldH = H * 2;
 			}
+
 			pPack->X = NewX;
 			pPack->Y = NewY;
 			pPack->W = W;
 			pPack->H = H;
 			*X = NewX;
 			*Y = NewY;
+
 			if (OldX < NewX) {
 				Pack_Merge(Pack_NewFree(OldX, OldY, NewX - OldX, OldH));
+
 				OldW -= NewX - OldX;
 			}
+
 			if (W < OldW)
 				Pack_Merge(Pack_NewFree(NewX + W, OldY, OldW - W, OldH));
+
 			if (OldY < NewY) {
 				Pack_Merge(Pack_NewFree(NewX, OldY, W, NewY - OldY));
+
 				OldH -= NewY - OldY;
 			}
+
 			if (H < OldH)
 				Pack_Merge(Pack_NewFree(NewX, NewY + H, W, OldH - H));
 		}
+
 		pPack->ReqW = WW;
 		pPack->ReqH = H;
 		pPack->BPP = BPP;
@@ -111,93 +134,130 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 		pPack->Pass = DAT_800d1a6c;
 		return pPack;
 	}
+
 	if (BPP != 16)
 		W = (W + 1) / 2;
+
 	if (BPP == 4)
 		W = (W + 1) / 2;
+
 	pBest = 0;
+
 	for (pPack = DAT_800d1a60; pPack; pPack = pPack->pNext) {
 		int RightEdge;
+
 		if (BPP == 16)
 			RightEdge = (pPack->X & ~63) + 256;
 		else if (BPP == 8)
 			RightEdge = (pPack->X & ~63) + 128;
 		else
 			RightEdge = (pPack->X & ~63) + 64;
+
 		Over = pPack->X + W > RightEdge;
+
 		if (!Over && Aligned == -1) {
 			if ((pPack->X & (W - 1)) || (pPack->Y & (H - 1)))
 				Over = 1;
 		}
+
 		if (DAT_800d1a6c && !((pPack->Y + H) & 255))
 			continue;
+
 		if (DAT_800d1a70 && pPack->X + W == RightEdge)
 			continue;
+
 		if (Type >= 0 && Over)
 			continue;
+
 		if (pPack->W == W && pPack->H == H) {
 			pBest = pPack;
 			break;
 		}
+
 		if (pBest && (pBest->W == W || pBest->H == H) && pPack->W != W && pPack->H != H)
 			continue;
+
 		if (pPack->W >= W && pPack->H >= H && (!pBest || pPack->W * pPack->H < pBest->W * pBest->H))
 			pBest = pPack;
 	}
+
 	if (!pBest) {
 		for (pPack = DAT_800d1a60; pPack; pPack = pPack->pNext) {
 			int RightEdge;
+
 			if (BPP == 16)
 				RightEdge = ((pPack->X + pPack->W - W) & ~63) + 256;
 			else if (BPP == 8)
 				RightEdge = ((pPack->X + pPack->W - W) & ~63) + 128;
 			else
 				RightEdge = ((pPack->X + pPack->W - W) & ~63) + 64;
+
 			Over = pPack->X + pPack->W > RightEdge;
+
 			if (!Over && Aligned == -1) {
 				if (((pPack->X - W) & (W - 1)) || (pPack->Y & (H - 1)))
 					Over = 1;
 			}
+
 			if (DAT_800d1a6c && !((pPack->Y + H) & 255))
 				continue;
+
 			if (DAT_800d1a70 && pPack->X + pPack->W == RightEdge)
 				continue;
+
 			if (Type >= 0 && Over)
 				continue;
+
 			if (pPack->W == W && pPack->H == H) {
 				pBest = pPack;
 				continue;
 			}
+
 			if (pBest && (pBest->W == W || pBest->H == H) && pPack->W != W && pPack->H != H)
 				continue;
-			if (pPack->W >= W && pPack->H >= H && (!pBest || pPack->W * pPack->H < pBest->W * pBest->H))
+
+			if (pPack->W >= W && pPack->H >= H &&
+			    (!pBest || pPack->W * pPack->H < pBest->W * pBest->H))
 				pBest = pPack;
 		}
+
 		if (!pBest) {
 			int AlignedX;
 			int AlignedW;
+
 			if (Aligned == -1)
 				return 0;
+
 			for (pPack = DAT_800d1a60; pPack; pPack = pPack->pNext) {
 				if (DAT_800d1a6c && !((pPack->Y + H) & 255))
 					continue;
+
 				if (DAT_800d1a70 && WW == 256)
 					continue;
+
 				if (pBest && (pBest->W == W || pBest->H == H) && pPack->W != W && pPack->H != H)
 					continue;
+
 				AlignedX = (pPack->X + 64) & ~63;
 				AlignedW = pPack->W - (AlignedX - pPack->X);
-				if (AlignedW >= W && pPack->H >= H && (!pBest || pPack->W * pPack->H < pBest->W * pBest->H))
+
+				if (AlignedW >= W && pPack->H >= H &&
+				    (!pBest || pPack->W * pPack->H < pBest->W * pBest->H))
 					pBest = pPack;
 			}
+
 			if (!pBest)
 				return 0;
+
 			AlignedX = (pBest->X + 64) & ~63;
 			AlignedW = pBest->W - (AlignedX - pBest->X);
+
 			if (AlignedW > 0) {
 				Pack_NewFree(AlignedX, pBest->Y, AlignedW, pBest->H);
+
 				pBest->W -= AlignedW;
 			}
+
 			pPack = Pack_Pack(Type, WW, H, X, Y, BPP, 0, checksum);
 			pPack->ReqW = WW;
 			pPack->ReqH = H;
@@ -207,12 +267,15 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 			pPack->Pass = DAT_800d1a6c;
 			return pPack;
 		}
+
 		OX = pBest->X;
 		OY = pBest->Y;
 		OW = pBest->W;
 		OH = pBest->H;
 		Pack_Remove(&DAT_800d1a60, pBest);
+
 		pBest = FUN_800496b0(OX + OW - W, OY, W, H);
+
 		if (OW != W) {
 			if (OH != H) {
 				Pack_Merge(Pack_NewFree(OX, OY, OW - W, OH));
@@ -224,6 +287,7 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 			if (OH != H)
 				Pack_Merge(Pack_NewFree(OX, OY + H, OW, OH - H));
 		}
+
 		*X = OX + OW - W;
 		*Y = OY;
 	} else {
@@ -232,7 +296,9 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 		OW = pBest->W;
 		OH = pBest->H;
 		Pack_Remove(&DAT_800d1a60, pBest);
+
 		pBest = FUN_800496b0(OX, OY, W, H);
+
 		if (OW != W) {
 			if (OH != H) {
 				Pack_Merge(Pack_NewFree(OX + W, OY, OW - W, OH));
@@ -244,9 +310,11 @@ TSPack *Pack_Pack(int Type, int WW, int H, int *X, int *Y, int BPP, int Aligned,
 			if (OH != H)
 				Pack_Merge(Pack_NewFree(OX, OY + H, OW, OH - H));
 		}
+
 		*X = OX;
 		*Y = OY;
 	}
+
 	pBest->ReqW = WW;
 	pBest->ReqH = H;
 	pBest->BPP = BPP;

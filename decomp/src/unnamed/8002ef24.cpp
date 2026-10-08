@@ -3,15 +3,19 @@ struct CVector {
 	int vx, vy, vz;
 	int Length() const;
 };
+
 CVector operator/(const CVector &, const int &);
+
 extern "C" {
-extern CVector DAT_800a7f28;
-extern CVector DAT_800a7f34;
-void FUN_8002ef24(CVector *v);
+	extern CVector DAT_800a7f28;
+	extern CVector DAT_800a7f34;
+
+	void FUN_8002ef24(CVector *v);
 }
-void FUN_8002ef24(CVector *v)
-{
+
+void FUN_8002ef24(CVector *v) {
 	DAT_800a7f28 = *v;
 	int len = -DAT_800a7f28.Length();
+
 	DAT_800a7f34 = DAT_800a7f28 / len;
 }

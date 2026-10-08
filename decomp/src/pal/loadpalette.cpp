@@ -5,31 +5,34 @@
    slot, uploads the palette and records its CLUT id. The tests re-read *pEntry rather than use a
    local: CSE serves them from the first load, which gives the andi 0xffff before the zero test. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <libgpu.h>
 }
+
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
+
 struct tag_S_Pal {
-	ushort Clut;              /* 0 */
-	uchar Slot;               /* 2 */
-	uchar Flags;              /* 3 */
-	ushort RefCount;          /* 4 */
-	uchar Loaded;             /* 6 */
+	ushort Clut;     /* 0 */
+	uchar Slot;      /* 2 */
+	uchar Flags;     /* 3 */
+	ushort RefCount; /* 4 */
+	uchar Loaded;    /* 6 */
 };
+
 int DAT_800d1a84;
 int DAT_800d1a88;
 int DAT_800d1a8c;
 int DAT_800d1a90;
+
 tag_S_Pal *Pal_NewEntry(uint);
 int GetFree16Slot(void);
 int GetFree256Slot(void);
 extern "C" void FUN_8008c714(RECT *, uint *);
 
-tag_S_Pal *Pal_LoadPalette(uint checksum, uint *pData, uchar flags)
-{
+tag_S_Pal *Pal_LoadPalette(uint checksum, uint *pData, uchar flags) {
 	tag_S_Pal *pNew;
 	ushort *pEntry;
 	RECT rec;
@@ -42,10 +45,13 @@ tag_S_Pal *Pal_LoadPalette(uint checksum, uint *pData, uchar flags)
 	entries = 256;
 	pNew->Flags = flags;
 	rec.h = 1;
+
 	if (flags & 1)
 		entries = 16;
+
 	{
 		int i;
+
 		for (i = 0; i < entries; i++) {
 			if ((*pEntry & 0x7fff) == 0x7c1f) {
 				transparent_index = 1;
@@ -53,17 +59,22 @@ tag_S_Pal *Pal_LoadPalette(uint checksum, uint *pData, uchar flags)
 			} else if (transparent_index || !*pEntry) {
 				*pEntry |= 0x8000;
 			}
+
 			pEntry++;
 		}
 	}
+
 	if (!transparent_index) {
 		int i;
+
 		pEntry = (ushort *)pData;
+
 		for (i = 0; i < entries; i++) {
 			*pEntry |= 0x8000;
 			pEntry++;
 		}
 	}
+
 	if (entries == 16) {
 		pNew->Slot = GetFree16Slot();
 		rec.x = DAT_800d1a84;
@@ -75,8 +86,10 @@ tag_S_Pal *Pal_LoadPalette(uint checksum, uint *pData, uchar flags)
 		rec.y = DAT_800d1a90 + pNew->Slot;
 		pNew->Clut = getClut(DAT_800d1a8c, DAT_800d1a90 + pNew->Slot);
 	}
+
 	rec.w = entries;
 	FUN_8008c714(&rec, pData);
+
 	pNew->Loaded = 1;
 	return pNew;
 }

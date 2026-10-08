@@ -3,15 +3,21 @@
    cosines, which the SYM doesn't list. Cos2 has to be a fresh variable: reassigning r1Norm gives it
    two deaths, so local-alloc skips it and it loses s1 to Shift1. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <inline_c.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <inline_c.h>
 }
+
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
-struct Vector { int vx, vy, vz; };
+
+struct Vector {
+	int vx, vy, vz;
+};
+
 struct Item;
+
 struct SLineInfo {
 	Vector StartCoords;
 	Vector EndCoords;
@@ -38,12 +44,13 @@ struct SLineInfo {
 };
 
 extern MATRIX DAT_800c13cc;
+
 ushort DAT_800d20c8;
+
 int M3dMaths_SquareRoot0(int);
 void NextInquiry();
 
-void M3dColij_InitLineInfo(SLineInfo *pInfo)
-{
+void M3dColij_InitLineInfo(SLineInfo *pInfo) {
 	short *pShort;
 	SVECTOR L;
 	SVECTOR AbsL;
@@ -70,16 +77,18 @@ void M3dColij_InitLineInfo(SLineInfo *pInfo)
 	L.vz = (pInfo->EndCoords.vz - pInfo->StartCoords.vz) >> 12;
 
 	s1 = L.vx * L.vx + L.vz * L.vz;
-	if (s1)
-	{
+
+	if (s1) {
 		gte_ldlzc(s1);
 		gte_nop();
 		gte_nop();
 		gte_stlzc(&lzc);
+
 		Shift1 = (lzc - 1) >> 1;
 		r1Norm = M3dMaths_SquareRoot0(s1 << ((lzc - 1) & 0x1e));
 		Sin = (L.vx << (Shift1 + 12)) / r1Norm;
 		short Cos = (L.vz << (Shift1 + 12)) / r1Norm;
+
 		pShort = (short *)&DAT_800c13cc;
 		*pShort++ = Cos;
 		*pShort++ = 0;
@@ -96,11 +105,13 @@ void M3dColij_InitLineInfo(SLineInfo *pInfo)
 		gte_nop();
 		gte_nop();
 		gte_stlzc(&lzc);
+
 		Shift2 = (lzc - 1) >> 1;
 		r2Norm = M3dMaths_SquareRoot0(s2 << ((lzc - 1) & 0x1e));
 		pInfo->Length = r2Norm >> Shift2;
 		Sin = (L.vy << (Shift2 + 12)) / r2Norm;
 		short Cos2 = (r1Norm << 12) / (r2Norm << (Shift1 - Shift2));
+
 		pInfo->WorldCst.m[0][0] = 4096;
 		pInfo->WorldCst.m[0][1] = 0;
 		pInfo->WorldCst.m[0][2] = 0;
@@ -111,20 +122,17 @@ void M3dColij_InitLineInfo(SLineInfo *pInfo)
 		pInfo->WorldCst.m[2][1] = Sin;
 		pInfo->WorldCst.m[2][2] = Cos2;
 		MulMatrix(&pInfo->WorldCst, &DAT_800c13cc);
-	}
-	else
-	{
+	} else {
 		Sin = 4096;
-		if (L.vy < 0)
-		{
+
+		if (L.vy < 0) {
 			Sin = -4096;
 			pInfo->Length = -L.vy;
-		}
-		else
-		{
+		} else {
 			pInfo->Length = L.vy;
 			pInfo->DropDown = 1;
 		}
+
 		pInfo->WorldCst.m[0][0] = 4096;
 		pInfo->WorldCst.m[0][1] = 0;
 		pInfo->WorldCst.m[0][2] = 0;
@@ -135,39 +143,36 @@ void M3dColij_InitLineInfo(SLineInfo *pInfo)
 		pInfo->WorldCst.m[2][1] = Sin;
 		pInfo->WorldCst.m[2][2] = 0;
 	}
+
 	gte_SetRotMatrix(&pInfo->WorldCst);
 
 	p1 = &pInfo->EndCoords;
-	if (pInfo->StartCoords.vx < p1->vx)
-	{
+
+	if (pInfo->StartCoords.vx < p1->vx) {
 		pInfo->MinCoords.vx = pInfo->StartCoords.vx;
 		pInfo->MaxCoords.vx = p1->vx;
-	}
-	else
-	{
+	} else {
 		pInfo->MinCoords.vx = p1->vx;
 		pInfo->MaxCoords.vx = pInfo->StartCoords.vx;
 	}
-	if (pInfo->StartCoords.vy < p1->vy)
-	{
+
+	if (pInfo->StartCoords.vy < p1->vy) {
 		pInfo->MinCoords.vy = pInfo->StartCoords.vy;
 		pInfo->MaxCoords.vy = p1->vy;
-	}
-	else
-	{
+	} else {
 		pInfo->MinCoords.vy = p1->vy;
 		pInfo->MaxCoords.vy = pInfo->StartCoords.vy;
 	}
-	if (pInfo->StartCoords.vz < p1->vz)
-	{
+
+	if (pInfo->StartCoords.vz < p1->vz) {
 		pInfo->MinCoords.vz = pInfo->StartCoords.vz;
 		pInfo->MaxCoords.vz = p1->vz;
-	}
-	else
-	{
+	} else {
 		pInfo->MinCoords.vz = p1->vz;
 		pInfo->MaxCoords.vz = pInfo->StartCoords.vz;
 	}
+
 	NextInquiry();
+
 	pInfo->Inquiry = DAT_800d20c8;
 }

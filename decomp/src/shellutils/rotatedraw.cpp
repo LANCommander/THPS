@@ -5,12 +5,13 @@
    after the division's quotient temp, which gives retail's spill-slot order (numx 48, remy 52). */
 typedef unsigned short ushort;
 typedef unsigned int uint;
+
 struct RECT {
 	ushort x, y, w, h;
 };
 
 class SlicedImage {
-public:
+  public:
 	int **vf;
 	int width;
 	int height;
@@ -28,14 +29,15 @@ public:
 void *Mem_New(uint, int, int);
 void Pack_Pack(int, int, int, int *, int *, int, int, uint);
 void DrawIt(RECT *r, int x, int y, int bpp, int clut);
+
 extern "C" {
-int LoadImage(RECT *, ushort *);
-int DrawSync(int);
+	int LoadImage(RECT *, ushort *);
+	int DrawSync(int);
 }
+
 extern int DAT_800d1a6c;
 
-void SlicedImage::rotateDraw(int x, int y)
-{
+void SlicedImage::rotateDraw(int x, int y) {
 	RECT *tab = sliceTab;
 	RECT r;
 	int dum1, dum2;
@@ -47,15 +49,18 @@ void SlicedImage::rotateDraw(int x, int y)
 	if (!tab) {
 		sliceTab = (RECT *)Mem_New(sizeof(RECT), 1, 1);
 		Pack_Pack(0, slice_width, slice_height, &dum1, &dum2, 16, 0, 0);
+
 		sliceTab->w = slice_width;
 		sliceTab->h = slice_height;
 		sliceTab->x = dum1;
 		sliceTab->y = dum2;
 		tab = sliceTab;
 	}
+
 	w = width;
 	sw = slice_width;
 	int numx = w / sw;
+
 	h = height;
 	sh = slice_height;
 	numy = h / sh;
@@ -68,18 +73,22 @@ void SlicedImage::rotateDraw(int x, int y)
 	DAT_800d1a6c = 1;
 	remx = w - numx * sw;
 	int remy = h - numy * sh;
+
 	for (j = 0; j < numx; j++) {
 		data = data_col;
 		yt = y;
+
 		for (k = 0; k < numy; k++) {
 			r.w = slice_width;
 			r.h = slice_height;
 			LoadImage(&r, data);
 			DrawSync(0);
 			DrawIt(&r, xt, yt, bpp, clut);
+
 			yt += slice_height;
 			data += slice_width * slice_height;
 		}
+
 		if (remy > 0) {
 			r.w = slice_width;
 			r.h = remy;
@@ -87,24 +96,30 @@ void SlicedImage::rotateDraw(int x, int y)
 			DrawSync(0);
 			DrawIt(&r, xt, yt, bpp, clut);
 		}
+
 		data_col += slice_width * height;
+
 		if (bpp == 16)
 			xt += slice_width;
 		else
 			xt += slice_width * 2;
 	}
+
 	if (remx > 0) {
 		data = data_col;
 		yt = y;
+
 		for (k = 0; k < numy; k++) {
 			r.w = remx;
 			r.h = slice_height;
 			LoadImage(&r, data);
 			DrawSync(0);
 			DrawIt(&r, xt, yt, bpp, clut);
+
 			yt += slice_height;
 			data += remx * slice_height;
 		}
+
 		if (remy > 0) {
 			r.w = remx;
 			r.h = remy;
@@ -113,5 +128,6 @@ void SlicedImage::rotateDraw(int x, int y)
 			DrawIt(&r, xt, yt, bpp, clut);
 		}
 	}
+
 	DAT_800d1a6c = 0;
 }

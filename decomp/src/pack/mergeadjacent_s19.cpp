@@ -1,18 +1,22 @@
 /* Pack_MergeAdjacent__FP6TSPackT0 (0x8004a388) */
 typedef unsigned short ushort;
 typedef unsigned char uchar;
+
 struct TSPack {
 	ushort X, Y, W, H;
 	TSPack *pNext;
 	char Type;
 	uchar no_bottom, bpp, aligned;
 };
+
 TSPack *DAT_800d1a60;
+
 void Pack_Remove(TSPack **, TSPack *);
 TSPack *Pack_NewFree(int, int, int, int);
-TSPack *Pack_MergeAdjacent(TSPack *p_first, TSPack *p_second)
-{
+
+TSPack *Pack_MergeAdjacent(TSPack *p_first, TSPack *p_second) {
 	int x, y, w, h;
+
 	if (p_first->Y == p_second->Y) {
 		if (p_first->X < p_second->X) {
 			if (p_first->X + p_first->W == p_second->X && p_first->H == p_second->H) {

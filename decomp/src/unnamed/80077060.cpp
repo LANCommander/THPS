@@ -5,27 +5,30 @@
    destructor is the implicit one, which never re-stores X's own vptr; only the inlined
    ~CClass store (0x800a3464) remains. The out-of-line copy is FUN_80077130. */
 #pragma interface
+
 class CClass {
-public:
+  public:
 	virtual ~CClass() {}
 };
+
 class E : public CClass {
-public:
+  public:
 	int a;
 };
+
 class X : public CClass {
-public:
+  public:
 	char pad[36];
 	E e[5];
 	char pad2[200 - 80];
 	int f200;
 	int f204;
 	int f208;
-	X()
-	{
+	X() {
 		f200 = 0;
 		f204 = 0;
 		f208 = 0;
 	}
 };
+
 X DAT_800c0fdc;

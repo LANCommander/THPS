@@ -4,10 +4,11 @@
    address goes into the header's size word. Called by FUN_8004b0e4 with "name.VAB". */
 typedef struct {
 	char pad0[12];
-	int Size;                 /* 0x0c */
+	int Size; /* 0x0c */
 	char pad10[2];
-	unsigned short NumProgs;  /* 0x12 */
+	unsigned short NumProgs; /* 0x12 */
 } SVabHead;
+
 int FUN_8004c8a4(char *);
 void *FUN_8004d068(int, int, int);
 void FUN_8004cb10(void *);
@@ -17,20 +18,24 @@ void FUN_800938b4(int);
 void FUN_80093df4(void *, int);
 void FUN_80094d94(int);
 void FUN_8004d6a0(void *, int);
-int FUN_8004b188(char *name, SVabHead **out)
-{
+
+int FUN_8004b188(char *name, SVabHead **out) {
 	SVabHead *vab = FUN_8004d068(FUN_8004c8a4(name) + 64, 1, 1);
 	int head, body, addr;
+
 	FUN_8004cb10(vab);
 	FUN_8004cdd0();
+
 	head = (vab->NumProgs << 9) + 2592;
 	body = (vab->Size - head + 63) & ~63;
 	addr = FUN_800949a4(body);
 	FUN_800938b4(addr);
 	FUN_80093df4((char *)vab + head, body);
 	FUN_80094d94(1);
+
 	vab->Size = addr;
 	FUN_8004d6a0(vab, head);
+
 	*out = vab;
 	return 1;
 }

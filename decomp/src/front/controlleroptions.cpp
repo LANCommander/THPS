@@ -10,21 +10,28 @@ struct SOptions {
 	int SFXVolume;
 	int MusicVolume;
 	int OtherOptions[66];
-	int AutoKickEnabled[2];        /* 0x110 */
-	int VibrationEnabled[2];       /* 0x118 */
-	int ControllerFunction[2][4];  /* 0x120 */
+	int AutoKickEnabled[2];       /* 0x110 */
+	int VibrationEnabled[2];      /* 0x118 */
+	int ControllerFunction[2][4]; /* 0x120 */
 };
-struct SPadMap { int Function[4]; };
+
+struct SPadMap {
+	int Function[4];
+};
+
 struct SText {
 	char pad0[0x4c];
-	char *Autokick;                /* 0x4c */
+	char *Autokick; /* 0x4c */
 	char pad50[0xf0 - 0x50];
-	char *On;                      /* 0xf0: "on <off>" */
-	char *Off;                     /* 0xf4: "<on> off" */
+	char *On;  /* 0xf0: "on <off>" */
+	char *Off; /* 0xf4: "<on> off" */
 	char pad8[0x100 - 0xf8];
-	char *Vibration;               /* 0x100 */
+	char *Vibration; /* 0x100 */
 };
-struct SLabels { char *Name[8]; };
+
+struct SLabels {
+	char *Name[8];
+};
 
 extern SOptions DAT_800a4118;
 extern SPadMap DAT_800bf260[2];
@@ -34,21 +41,21 @@ extern SLabels DAT_800a1d0c;
 extern char DAT_800a1cb8[];
 extern char DAT_800a1d2c[];
 extern char DAT_800d1d40[];
+
 int DAT_800d1d28;
 
 extern "C" {
-void FUN_8005c97c(int);
-void FUN_8005ca64(void);
-int FUN_8005ca3c(char *);
-void FUN_80061714(int);
-int FUN_8008b900(char *, char *, ...);
-char *FUN_8005ea74(int);
-int FUN_8005eb78(void);
-int FUN_8005e0e0(char **, int *, int, int, int *, int (*)(void), int *, int *, int);
+	void FUN_8005c97c(int);
+	void FUN_8005ca64(void);
+	int FUN_8005ca3c(char *);
+	void FUN_80061714(int);
+	int FUN_8008b900(char *, char *, ...);
+	char *FUN_8005ea74(int);
+	int FUN_8005eb78(void);
+	int FUN_8005e0e0(char **, int *, int, int, int *, int (*)(void), int *, int *, int);
 }
 
-extern "C" int FUN_8005f6bc(int a)
-{
+extern "C" int FUN_8005f6bc(int a) {
 	int pl = DAT_800d1d28;
 	SLabels labels;
 	int disabled[8];
@@ -61,17 +68,32 @@ extern "C" int FUN_8005f6bc(int a)
 	FUN_8005c97c(13);
 	FUN_8005ca64();
 	FUN_80061714(FUN_8005ca3c(DAT_800a1cb8));
+
 	labels = DAT_800a1d0c;
-	disabled[0] = 0; disabled[1] = 0; disabled[2] = 0; disabled[3] = 0;
-	disabled[4] = 0; disabled[5] = 0; disabled[6] = 0; disabled[7] = 0;
-	xs[0] = 487; ys[0] = 95;
-	xs[1] = 224; ys[1] = 126;
-	xs[2] = 493; ys[2] = 238;
-	xs[3] = 254; ys[3] = 271;
-	xs[4] = 350; ys[4] = 315;
-	xs[5] = 350; ys[5] = 345;
-	xs[6] = 350; ys[6] = 375;
-	xs[7] = 350; ys[7] = 405;
+	disabled[0] = 0;
+	disabled[1] = 0;
+	disabled[2] = 0;
+	disabled[3] = 0;
+	disabled[4] = 0;
+	disabled[5] = 0;
+	disabled[6] = 0;
+	disabled[7] = 0;
+	xs[0] = 487;
+	ys[0] = 95;
+	xs[1] = 224;
+	ys[1] = 126;
+	xs[2] = 493;
+	ys[2] = 238;
+	xs[3] = 254;
+	ys[3] = 271;
+	xs[4] = 350;
+	ys[4] = 315;
+	xs[5] = 350;
+	ys[5] = 345;
+	xs[6] = 350;
+	ys[6] = 375;
+	xs[7] = 350;
+	ys[7] = 405;
 	DAT_800bf260[pl].Function[0] = DAT_800a4118.ControllerFunction[pl][0];
 	DAT_800bf260[pl].Function[1] = DAT_800a4118.ControllerFunction[pl][1];
 	DAT_800bf260[pl].Function[2] = DAT_800a4118.ControllerFunction[pl][2];
@@ -80,22 +102,29 @@ extern "C" int FUN_8005f6bc(int a)
 	labels.Name[1] = FUN_8005ea74(DAT_800bf260[pl].Function[1]);
 	labels.Name[2] = FUN_8005ea74(DAT_800bf260[pl].Function[2]);
 	labels.Name[3] = FUN_8005ea74(DAT_800bf260[pl].Function[3]);
+
 	FUN_8008b900(vib, DAT_800d1d40, DAT_800a5d5c.Vibration,
-		DAT_800a4118.VibrationEnabled[pl] ? DAT_800a5d5c.On : DAT_800a5d5c.Off);
+	             DAT_800a4118.VibrationEnabled[pl] ? DAT_800a5d5c.On : DAT_800a5d5c.Off);
+
 	labels.Name[4] = vib;
+
 	FUN_8008b900(ak, DAT_800d1d40, DAT_800a5d5c.Autokick,
-		DAT_800a4118.AutoKickEnabled[pl] ? DAT_800a5d5c.On : DAT_800a5d5c.Off);
+	             DAT_800a4118.AutoKickEnabled[pl] ? DAT_800a5d5c.On : DAT_800a5d5c.Off);
+
 	labels.Name[5] = ak;
 	DAT_800bf280[pl].Function[0] = DAT_800bf260[pl].Function[0];
 	DAT_800bf280[pl].Function[2] = DAT_800bf260[pl].Function[2];
 	DAT_800bf280[pl].Function[1] = DAT_800bf260[pl].Function[1];
 	DAT_800bf280[pl].Function[3] = DAT_800bf260[pl].Function[3];
 	r = FUN_8005e0e0(labels.Name, disabled, 8, 1296, &a, FUN_8005eb78, xs, ys, 0);
+
 	if (r == -1 || r == 1304) {
 		FUN_8005c97c(11);
 		FUN_8005ca64();
 		FUN_80061714(FUN_8005ca3c(DAT_800a1d2c));
+
 		r = -1;
 	}
+
 	return r;
 }

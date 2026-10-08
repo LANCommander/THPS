@@ -11,49 +11,60 @@ struct CVector {
 	int Length() const;
 	CVector operator-() const;
 };
+
 CVector operator*(const CVector &, const int &);
+
 struct SSkater {
 	char pad0[0x18];
-	int Stats[10];            /* 0x18 */
+	int Stats[10]; /* 0x18 */
 	char pad40[340 - 0x40];
 };
+
 extern SSkater DAT_800a44fc[];
-int DAT_800d1924;             /* stats cheat override */
+
+int DAT_800d1924; /* stats cheat override */
+
 extern int DAT_800d172c;
 extern char DAT_8009fe38[];
+
 class CBruce {
-public:
+  public:
 	char pad0[0x6c];
-	CVector mVel;             /* 0x6c */
+	CVector mVel; /* 0x6c */
 	char pad78[0x198 - 0x78];
 	unsigned char *mpStatBonus; /* 0x198 */
 	char pad19c[0x254 - 0x19c];
-	int m254;                 /* 0x254 */
+	int m254; /* 0x254 */
 	char pad258[0x2e8 - 0x258];
-	int mSkaterIndex;         /* 0x2e8 */
+	int mSkaterIndex; /* 0x2e8 */
 	char pad2ec[0x740 - 0x2ec];
-	int m740;                 /* 0x740 */
+	int m740; /* 0x740 */
 	int m744;
-	int m748;                 /* 0x748 */
+	int m748; /* 0x748 */
 	char pad74c[0x7d8 - 0x74c];
-	CVector mFront;           /* 0x7d8 */
+	CVector mFront; /* 0x7d8 */
 	void Trick_Trick(int, char *, int, int);
 	void StateTransition(int, int);
 	void DoFootPlantPhysics();
 };
-#define GetStat(n) (DAT_800d1924 ? DAT_800d1924 \
-	: (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) + mpStatBonus[n])
 
-void CBruce::DoFootPlantPhysics()
-{
+#define GetStat(n)                                                                                 \
+	(DAT_800d1924 ? DAT_800d1924                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	                    mpStatBonus[n])
+
+void CBruce::DoFootPlantPhysics() {
 	Trick_Trick(65, DAT_8009fe38, 100, 0);
+
 	m748 = 15 - (GetStat(0) + GetStat(2)) / 2;
 	StateTransition(1, 5587);
+
 	m740 = 1;
 	mVel = -mFront * mVel.Length();
 	mVel.vx += mFront.vx * 5;
 	mVel.vz += mFront.vz * 5;
-	mVel.vy -= (m748 * (((32 - (10 - GetStat(0)) / 2) + ((10 - GetStat(0)) / 3 - 18)) << 10)
-			/ (15 - (GetStat(0) + GetStat(2)) / 2)
-		+ ((32 - (10 - GetStat(0)) / 2) << 10)) * 3;
+	mVel.vy -= (m748 * (((32 - (10 - GetStat(0)) / 2) + ((10 - GetStat(0)) / 3 - 18)) << 10) /
+	                (15 - (GetStat(0) + GetStat(2)) / 2) +
+	            ((32 - (10 - GetStat(0)) / 2) << 10)) *
+	           3;
 }

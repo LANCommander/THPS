@@ -5,49 +5,54 @@
    wrapping when the line gets wider than the viewport allows. FUN_8008b900 = sprintf,
    FUN_8001da44 = text width, FUN_8006e534 = "SWITCH " or "" prefix. */
 struct Message;
+
 class CBruce {
-public:
+  public:
 	char pad0[0x32c];
-	int m32C;			/* 0x32c spin (half turns) */
+	int m32C; /* 0x32c spin (half turns) */
 	char pad330[0x734 - 0x330];
-	int m734;			/* 0x734 */
+	int m734; /* 0x734 */
 	char pad738[0x92c - 0x738];
-	unsigned short mPlayer;		/* 0x92c */
+	unsigned short mPlayer; /* 0x92c */
 };
+
 class CTrick {
-public:
-	char *name;		/* 0x00 */
-	int point_value;	/* 0x04 */
-	int depreciate;		/* 0x08 */
-	int countdown;		/* 0x0c */
-	Message *message;	/* 0x10 */
+  public:
+	char *name;       /* 0x00 */
+	int point_value;  /* 0x04 */
+	int depreciate;   /* 0x08 */
+	int countdown;    /* 0x0c */
+	Message *message; /* 0x10 */
 };
+
 class CPanelData {
-public:
-	CBruce *mpBruce;		/* 0x000 */
+  public:
+	CBruce *mpBruce; /* 0x000 */
 	char pad4[0x1f8 - 0x4];
-	CTrick mTQ[20];			/* 0x1f8 */
-	int mTQStack;			/* 0x388 */
-	char mTrickLine1[100];		/* 0x38c */
-	char mTrickLine2[100];		/* 0x3f0 */
-	char mTrickLine3[100];		/* 0x454 */
+	CTrick mTQ[20];        /* 0x1f8 */
+	int mTQStack;          /* 0x388 */
+	char mTrickLine1[100]; /* 0x38c */
+	char mTrickLine2[100]; /* 0x3f0 */
+	char mTrickLine3[100]; /* 0x454 */
 	void TrickMessageRefresh();
 };
+
 extern int DAT_800d173c;
-extern char DAT_800d1ea8[4];	/* "%d " */
-extern char DAT_800d1eac[8];	/* "%s%s" */
-extern char DAT_800d1eb4[];	/* "%s + %s" */
-extern char DAT_800d1ebc[];	/* "+ %s" */
-extern char DAT_800a23ac[8];	/* "%s + ^...^" */
+extern char DAT_800d1ea8[4]; /* "%d " */
+extern char DAT_800d1eac[8]; /* "%s%s" */
+extern char DAT_800d1eb4[];  /* "%s + %s" */
+extern char DAT_800d1ebc[];  /* "+ %s" */
+extern char DAT_800a23ac[8]; /* "%s + ^...^" */
+
 extern "C" {
-int FUN_8008b900(char *, const char *, ...);
-int FUN_8001da44(char *);
-char *FUN_8006e534(CBruce *);
+	int FUN_8008b900(char *, const char *, ...);
+	int FUN_8001da44(char *);
+	char *FUN_8006e534(CBruce *);
 }
+
 void Mess_SetScale(int);
 
-void CPanelData::TrickMessageRefresh()
-{
+void CPanelData::TrickMessageRefresh() {
 	char *p;
 	char tbuf[96];
 	int lineWidth;
@@ -55,40 +60,50 @@ void CPanelData::TrickMessageRefresh()
 
 	mTrickLine2[0] = 0;
 	mTrickLine3[0] = 0;
+
 	if (mpBruce->m32C > 0 && (mpBruce->m734 != 2 || mpBruce->m32C >= 2))
 		p = mTrickLine1 + FUN_8008b900(mTrickLine1, DAT_800d1ea8, mpBruce->m32C * 180);
 	else
 		p = mTrickLine1;
+
 	currLine = 0;
+
 	switch (DAT_800d173c * 2 + mpBruce->mPlayer) {
-	case 2:
-	case 3:
-	case 6:
-	case 7:
-		lineWidth = 240;
-		break;
-	default:
-		lineWidth = 480;
-		break;
+		case 2:
+		case 3:
+		case 6:
+		case 7:
+			lineWidth = 240;
+			break;
+		default:
+			lineWidth = 480;
+			break;
 	}
+
 	if (!mTQStack) {
 		mTrickLine1[0] = 0;
 		return;
 	}
+
 	FUN_8008b900(p, DAT_800d1eac, FUN_8006e534(mpBruce), mTQ[0].name);
 	Mess_SetScale(188);
+
 	for (int i = 1; i < mTQStack; i++) {
 		FUN_8008b900(tbuf, DAT_800d1eb4, p, mTQ[i].name);
+
 		if (FUN_8001da44(tbuf) > lineWidth) {
 			currLine++;
+
 			if (currLine == 1)
 				p = mTrickLine2;
 			else if (currLine == 2)
 				p = mTrickLine3;
+
 			if (currLine == 3) {
 				FUN_8008b900(p, DAT_800a23ac, p);
 				return;
 			}
+
 			FUN_8008b900(p, DAT_800d1ebc, mTQ[i].name);
 		} else
 			FUN_8008b900(p, tbuf);

@@ -3,19 +3,21 @@
    its MAIN.SYM. Allocates player 1's replay buffer, and player 2's in a two-player game. */
 struct SVideoInfo {
 	int Mode;
-	char *pBuffer;             /* 4 */
-	char *pPos;                /* 8 */
+	char *pBuffer; /* 4 */
+	char *pPos;    /* 8 */
 	char pad0c[0xc0 - 12];
 };
+
 extern SVideoInfo DAT_800bf318;
 extern SVideoInfo DAT_800bf3d8;
 extern int DAT_800d1780;
+
 extern "C" char *FUN_8004d068(int, int, int);
 
-void Video_InitOnce()
-{
+void Video_InitOnce() {
 	DAT_800bf318.pBuffer = DAT_800bf318.pPos = FUN_8004d068(24576, 1, 1);
 	DAT_800bf318.pPos += 576;
+
 	if (DAT_800d1780 == 2) {
 		DAT_800bf3d8.pBuffer = DAT_800bf3d8.pPos = FUN_8004d068(24576, 1, 1);
 		DAT_800bf3d8.pPos += 576;

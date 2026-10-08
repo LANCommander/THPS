@@ -1,5 +1,39 @@
 /* FUN_80071a14 (0x80071a14) */
-struct L{char*vt;char pad[40];int*m1;int*m2;char pad2[16];struct L*prev;struct L*next;};
-extern char DAT_800a2450[];extern char DAT_800a2460[];struct L* DAT_800d1f78;
-void FUN_8004d5d0(int*p);void FUN_80024238(void*p);
-void FUN_80071a14(struct L*p,int f){p->vt=DAT_800a2450;if(p->prev)p->prev->next=p->next;if(p->next)p->next->prev=p->prev;if(DAT_800d1f78==p)DAT_800d1f78=p->prev;FUN_8004d5d0(p->m1);FUN_8004d5d0(p->m2);p->vt=DAT_800a2460;if(f&1)FUN_80024238(p);}
+struct L {
+	char *vt;
+	char pad[40];
+	int *m1;
+	int *m2;
+	char pad2[16];
+	struct L *prev;
+	struct L *next;
+};
+
+extern char DAT_800a2450[];
+extern char DAT_800a2460[];
+
+struct L *DAT_800d1f78;
+
+void FUN_8004d5d0(int *p);
+void FUN_80024238(void *p);
+
+void FUN_80071a14(struct L *p, int f) {
+	p->vt = DAT_800a2450;
+
+	if (p->prev)
+		p->prev->next = p->next;
+
+	if (p->next)
+		p->next->prev = p->prev;
+
+	if (DAT_800d1f78 == p)
+		DAT_800d1f78 = p->prev;
+
+	FUN_8004d5d0(p->m1);
+	FUN_8004d5d0(p->m2);
+
+	p->vt = DAT_800a2460;
+
+	if (f & 1)
+		FUN_80024238(p);
+}

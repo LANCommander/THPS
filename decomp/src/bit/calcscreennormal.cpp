@@ -4,10 +4,11 @@ struct SCalcBuffer {
 	char pad[0x14];
 	int Bad;
 };
-void CalcScreenNormal(SCalcBuffer *pBuf, int &UnitX, int &UnitY, int ClosenessLimit)
-{
+
+void CalcScreenNormal(SCalcBuffer *pBuf, int &UnitX, int &UnitY, int ClosenessLimit) {
 	if (pBuf[0].Bad == 0 && pBuf[1].Bad == 0) {
 		int xa, ya, xb, yb, dx, dy, l;
+
 		xa = pBuf[0].x;
 		ya = pBuf[0].y;
 		xb = pBuf[1].x;
@@ -17,12 +18,18 @@ void CalcScreenNormal(SCalcBuffer *pBuf, int &UnitX, int &UnitY, int ClosenessLi
 		dx = (dx * 320) / 512;
 		UnitX = dy;
 		UnitY = -dx;
-		if (dx < 0) dx = -dx;
-		if (dy < 0) dy = -dy;
+
+		if (dx < 0)
+			dx = -dx;
+
+		if (dy < 0)
+			dy = -dy;
+
 		if (dy < dx)
 			l = dx + dy / 2;
 		else
 			l = dy + dx / 2;
+
 		if (l >= ClosenessLimit) {
 			UnitX = (UnitX << 6) / l;
 			UnitY = (UnitY << 6) / l;
@@ -30,5 +37,6 @@ void CalcScreenNormal(SCalcBuffer *pBuf, int &UnitX, int &UnitY, int ClosenessLi
 			return;
 		}
 	}
+
 	UnitX = UnitY = 0;
 }

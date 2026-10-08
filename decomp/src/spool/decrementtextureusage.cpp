@@ -4,21 +4,24 @@
    drops each texture's usage count. */
 typedef unsigned short ushort;
 typedef unsigned int uint;
+
 struct Texture {
 	char pad0[16];
-	ushort Usage;             /* 16 */
+	ushort Usage; /* 16 */
 };
+
 struct SPSXRegion {
 	char pad0[16];
-	uint *pModels;            /* 0x10 */
-	uint *pPSX;               /* 0x14 */
+	uint *pModels; /* 0x10 */
+	uint *pPSX;    /* 0x14 */
 	char pad18[64 - 0x18];
 };
+
 extern SPSXRegion DAT_800bf7a8[];
+
 uint *Spool_SkipPackets(uint *);
 
-void DecrementTextureUsage(int region)
-{
+void DecrementTextureUsage(int region) {
 	uint *pPSX;
 	uint *pNumModels;
 	uint NumModels;
@@ -30,8 +33,10 @@ void DecrementTextureUsage(int region)
 	NumModels = pNumModels[-1];
 	ChecksumTable = Spool_SkipPackets(pPSX) + (NumModels + 1);
 	NumChecksums = ChecksumTable[-1];
+
 	{
 		int i;
+
 		for (i = 0; i < NumChecksums; i++)
 			((Texture *)ChecksumTable[i])->Usage--;
 	}

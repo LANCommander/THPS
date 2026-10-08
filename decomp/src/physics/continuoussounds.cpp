@@ -5,76 +5,90 @@
    and the speed-driven pitch/volume of the rolling loop. GetStat is the shared stat macro (see
    dofootplant.cpp). */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
+	#include <sys/types.h>
+	#include <libgte.h>
 }
-struct CVector { int vx, vy, vz; };
+
+struct CVector {
+	int vx, vy, vz;
+};
+
 struct SSkater {
 	char pad0[0x18];
-	int Stats[10];            /* 0x18 */
+	int Stats[10]; /* 0x18 */
 	char pad40[340 - 0x40];
 };
+
 extern SSkater DAT_800a44fc[];
+
 int DAT_800d1924;
+
 extern int DAT_800d172c;
 extern int DAT_800d1e28;
+
 class CBruce {
-public:
+  public:
 	char pad0[0x6c];
-	CVector mVel;             /* 0x6c */
+	CVector mVel; /* 0x6c */
 	char pad78[0x198 - 0x78];
 	unsigned char *mpStatBonus; /* 0x198 */
 	char pad19c[0x210 - 0x19c];
-	int m210;                 /* 0x210 */
+	int m210; /* 0x210 */
 	char pad214[0x254 - 0x214];
-	int m254;                 /* 0x254 */
+	int m254; /* 0x254 */
 	char pad258[0x2e8 - 0x258];
-	int mSkaterIndex;         /* 0x2e8 */
-	int m2EC;                 /* 0x2ec */
+	int mSkaterIndex; /* 0x2e8 */
+	int m2EC;         /* 0x2ec */
 	char pad2f0[0x358 - 0x2f0];
-	int m358;                 /* 0x358 */
+	int m358; /* 0x358 */
 	char pad35c[0x6c4 - 0x35c];
-	int mLoopSnd;             /* 0x6c4 */
-	int mGrindSnd;            /* 0x6c8 */
-	int mRollSnd;             /* 0x6cc */
-	int mAirSnd;              /* 0x6d0 */
-	int mAirPitch;            /* 0x6d4 */
-	int mAirVol;              /* 0x6d8 */
+	int mLoopSnd;  /* 0x6c4 */
+	int mGrindSnd; /* 0x6c8 */
+	int mRollSnd;  /* 0x6cc */
+	int mAirSnd;   /* 0x6d0 */
+	int mAirPitch; /* 0x6d4 */
+	int mAirVol;   /* 0x6d8 */
 	char pad6dc[0x72c - 0x6dc];
-	int mTerrain;             /* 0x72c */
-	int mRollTerrain;         /* 0x730 */
-	int mState;               /* 0x734 */
+	int mTerrain;     /* 0x72c */
+	int mRollTerrain; /* 0x730 */
+	int mState;       /* 0x734 */
 	char pad738[0x758 - 0x738];
-	int mRollVolScale;        /* 0x758 */
-	int mRollPitchScale;      /* 0x75c */
+	int mRollVolScale;   /* 0x758 */
+	int mRollPitchScale; /* 0x75c */
 	void HandleContinuousSounds();
 };
-#define GetStat(n) (DAT_800d1924 ? DAT_800d1924 \
-	: (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) + mpStatBonus[n])
+
+#define GetStat(n)                                                                                 \
+	(DAT_800d1924 ? DAT_800d1924                                                                   \
+	              : (DAT_800a44fc[mSkaterIndex].Stats[n] + ((m254 || DAT_800d172c) ? 3 : 0)) +     \
+	                    mpStatBonus[n])
 #define MaxSpeed (((GetStat(1) + 50) << 12) * 3 * 15 / 28)
+
 extern "C" {
-int FUN_800720ec(void *, void *);
-int FUN_8008b5dc(int);
+	int FUN_800720ec(void *, void *);
+	int FUN_8008b5dc(int);
 }
+
 int SFX_PlayX(unsigned int, short, int);
 int SFX_GetVoicePitch(unsigned int);
 void SFX_SetVoicePitch(unsigned int, unsigned short);
 void SFX_ModifyVol(unsigned int, int, int);
 void SFX_Stop(unsigned int);
 
-void CBruce::HandleContinuousSounds()
-{
+void CBruce::HandleContinuousSounds() {
 	if (mState == 5) {
 		if (!mLoopSnd)
 			mLoopSnd = SFX_PlayX(15, 0x2000, 0);
 	} else if (mLoopSnd) {
 		SFX_Stop(mLoopSnd);
+
 		mLoopSnd = 0;
 	}
 
 	if (mState == 4) {
 		if (!mGrindSnd) {
 			int Snd;
+
 			if (m2EC && (m210 == 0 || m210 == 2))
 				Snd = 11;
 			else if (!m2EC && (m210 == 0 || m210 == 2))
@@ -83,103 +97,112 @@ void CBruce::HandleContinuousSounds()
 				Snd = 170;
 			else
 				Snd = 12;
+
 			mGrindSnd = SFX_PlayX(Snd, 0x2000, 0);
 		}
 	} else if (mGrindSnd) {
 		SFX_Stop(mGrindSnd);
+
 		mGrindSnd = 0;
 	}
 
 	if (mState == 0) {
 		if (mRollSnd && (mRollTerrain != mTerrain || m358)) {
 			SFX_Stop(mRollSnd);
+
 			mRollSnd = 0;
 		}
+
 		if (!mRollSnd && !m358) {
 			mRollVolScale = 100;
 			mRollPitchScale = 100;
 			mRollTerrain = mTerrain;
+
 			switch (mTerrain) {
-			case 2:
-				mRollSnd = SFX_PlayX(1, 0x2000, 0);
-				mRollVolScale = 100;
-				mRollPitchScale = 100;
-				break;
-			case 5:
-				mRollSnd = SFX_PlayX(61, 0x2000, 0);
-				break;
-			case 3:
-				mRollSnd = SFX_PlayX(33, 0x2000, 0);
-				break;
-			case 13:
-				mRollSnd = SFX_PlayX(56, 0x2000, 0);
-				mRollVolScale = 40;
-				mRollPitchScale = 100;
-				break;
-			case 4:
-				if (DAT_800d1e28 == 7) {
-					mRollSnd = SFX_PlayX(169, 0x2000, 0);
-					mRollVolScale = 50;
-					mRollPitchScale = 110;
-				} else {
+				case 2:
+					mRollSnd = SFX_PlayX(1, 0x2000, 0);
+					mRollVolScale = 100;
+					mRollPitchScale = 100;
+					break;
+				case 5:
+					mRollSnd = SFX_PlayX(61, 0x2000, 0);
+					break;
+				case 3:
+					mRollSnd = SFX_PlayX(33, 0x2000, 0);
+					break;
+				case 13:
 					mRollSnd = SFX_PlayX(56, 0x2000, 0);
 					mRollVolScale = 40;
-					mRollPitchScale = 90;
-				}
-				break;
-			case 6:
-				mRollSnd = SFX_PlayX(72, 0x2000, 0);
-				break;
-			case 8:
-				mRollSnd = SFX_PlayX(57, 0x2000, 0);
-				mRollVolScale = 50;
-				mRollPitchScale = 110;
-				break;
-			case 11:
-				mRollSnd = SFX_PlayX(0, 0x2000, 0);
-				mRollVolScale = 90;
-				mRollPitchScale = 70;
-				break;
-			case 1:
-				if (DAT_800d1e28 == 8) {
-					mRollSnd = SFX_PlayX(171, 0x2000, 0);
-					mRollVolScale = 150;
 					mRollPitchScale = 100;
-				} else
-					mRollSnd = SFX_PlayX(73, 0x2000, 0);
-				break;
-			case 12:
-				if (DAT_800d1e28 == 8) {
-					mRollSnd = SFX_PlayX(143, 0x2000, 0);
+					break;
+				case 4:
+					if (DAT_800d1e28 == 7) {
+						mRollSnd = SFX_PlayX(169, 0x2000, 0);
+						mRollVolScale = 50;
+						mRollPitchScale = 110;
+					} else {
+						mRollSnd = SFX_PlayX(56, 0x2000, 0);
+						mRollVolScale = 40;
+						mRollPitchScale = 90;
+					}
+
+					break;
+				case 6:
+					mRollSnd = SFX_PlayX(72, 0x2000, 0);
+					break;
+				case 8:
+					mRollSnd = SFX_PlayX(57, 0x2000, 0);
 					mRollVolScale = 50;
-					mRollPitchScale = 100;
-				} else {
-					mRollSnd = SFX_PlayX(55, 0x2000, 0);
-					mRollVolScale = 50;
-					mRollPitchScale = 100;
-				}
-				break;
-			case 10:
-				mRollSnd = SFX_PlayX(71, 0x2000, 0);
-				mRollVolScale = 75;
-				mRollPitchScale = 150;
-				break;
-			case 14:
-				mRollSnd = SFX_PlayX(105, 0x2000, 0);
-				break;
-			case 15:
-				mRollSnd = SFX_PlayX(119, 0x2000, 0);
-				mRollVolScale = 60;
-				mRollPitchScale = 150;
-				break;
-			default:
-				mRollSnd = SFX_PlayX(0, 0x2000, 0);
-				mRollVolScale = 70;
-				break;
+					mRollPitchScale = 110;
+					break;
+				case 11:
+					mRollSnd = SFX_PlayX(0, 0x2000, 0);
+					mRollVolScale = 90;
+					mRollPitchScale = 70;
+					break;
+				case 1:
+					if (DAT_800d1e28 == 8) {
+						mRollSnd = SFX_PlayX(171, 0x2000, 0);
+						mRollVolScale = 150;
+						mRollPitchScale = 100;
+					} else
+						mRollSnd = SFX_PlayX(73, 0x2000, 0);
+
+					break;
+				case 12:
+					if (DAT_800d1e28 == 8) {
+						mRollSnd = SFX_PlayX(143, 0x2000, 0);
+						mRollVolScale = 50;
+						mRollPitchScale = 100;
+					} else {
+						mRollSnd = SFX_PlayX(55, 0x2000, 0);
+						mRollVolScale = 50;
+						mRollPitchScale = 100;
+					}
+
+					break;
+				case 10:
+					mRollSnd = SFX_PlayX(71, 0x2000, 0);
+					mRollVolScale = 75;
+					mRollPitchScale = 150;
+					break;
+				case 14:
+					mRollSnd = SFX_PlayX(105, 0x2000, 0);
+					break;
+				case 15:
+					mRollSnd = SFX_PlayX(119, 0x2000, 0);
+					mRollVolScale = 60;
+					mRollPitchScale = 150;
+					break;
+				default:
+					mRollSnd = SFX_PlayX(0, 0x2000, 0);
+					mRollVolScale = 70;
+					break;
 			}
 		}
 	} else if (mRollSnd) {
 		SFX_Stop(mRollSnd);
+
 		mRollSnd = 0;
 	}
 
@@ -188,17 +211,24 @@ void CBruce::HandleContinuousSounds()
 			int Spd;
 			unsigned short NewPitch;
 			unsigned short NewVol;
+
 			Spd = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+
 			if (mState == 8)
 				Spd = 300000;
+
 			NewVol = (unsigned short)(Spd * 200 / (MaxSpeed / 16));
 			mAirSnd = SFX_PlayX(7, NewVol * 2 / 3, NewVol * 2 / 3);
 			SFX_GetVoicePitch(mAirSnd);
+
 			NewPitch = (unsigned short)((Spd * 2048) / MaxSpeed);
+
 			if (NewPitch <= 400)
 				NewPitch = 400;
+
 			if (NewPitch >= 1024)
 				NewPitch = 1023;
+
 			mAirPitch = NewPitch;
 			mAirVol = NewVol;
 			SFX_SetVoicePitch(mAirSnd, NewPitch);
@@ -208,22 +238,29 @@ void CBruce::HandleContinuousSounds()
 		}
 	} else if (mAirSnd) {
 		SFX_Stop(mAirSnd);
+
 		mAirSnd = 0;
 	}
 
 	if (mRollSnd) {
 		int Spd = FUN_8008b5dc(FUN_800720ec(&mVel, &mVel)) << 6;
+
 		SFX_GetVoicePitch(mRollSnd);
 		int NewPitch = (Spd * 2048) / MaxSpeed;
 		int NewVol = Spd * 2024 / (MaxSpeed / 16);
+
 		NewVol = NewVol * mRollVolScale / 100;
 		SFX_ModifyVol(mRollSnd, NewVol, NewVol);
+
 		if (NewPitch <= 700)
 			NewPitch = 700;
+
 		if (NewPitch >= 1024)
 			NewPitch = 1023;
+
 		NewPitch = NewPitch * mRollPitchScale / 100;
 		SFX_SetVoicePitch(mRollSnd, NewPitch);
+
 		mAirPitch = NewPitch;
 		mAirVol = NewVol;
 	}

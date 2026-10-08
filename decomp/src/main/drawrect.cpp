@@ -2,22 +2,25 @@
 /* C++ (MAIN.CPP). Demo twin; locals from its MAIN.SYM. Adds a flat quad with the given corners
    (right and bottom edges inclusive) and packed colour word to ordering-table slot 2. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <libgpu.h>
 }
+
 typedef unsigned char uchar;
+
 struct SDB {
 	char pad0[0x84];
 	u_long OT[3];
 };
+
 extern SDB *DAT_800d1a48;
 extern uchar *DAT_800d1a54;
 
-void Draw_Rect(int X0, int Y0, int X1, int Y1, int X2, int Y2, int X3, int Y3, int c)
-{
+void Draw_Rect(int X0, int Y0, int X1, int Y1, int X2, int Y2, int X3, int Y3, int c) {
 	POLY_F4 *pF4 = (POLY_F4 *)DAT_800d1a54;
 	uchar *newppoly;
+
 	*(u_long *)&pF4->r0 = c;
 	pF4->x0 = X0;
 	pF4->y0 = Y0;
@@ -30,5 +33,6 @@ void Draw_Rect(int X0, int Y0, int X1, int Y1, int X2, int Y2, int X3, int Y3, i
 	newppoly = (uchar *)pF4 + sizeof(POLY_F4);
 	SetPolyF4((POLY_F4 *)DAT_800d1a54);
 	addPrim(&DAT_800d1a48->OT[2], DAT_800d1a54);
+
 	DAT_800d1a54 = newppoly;
 }

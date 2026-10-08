@@ -1,55 +1,80 @@
 /* FUN_8006b01c (0x8006b01c) flags=-fstrict-aliasing */
-typedef struct{char p0[0x17];char b17,b18,b19,b1a,b1b;char p1[0x80a8-0x1c];int f80a8;char p2[0x80c3-0x80ac];char b80c3,b80c4;char p3[0x10154-0x80c5];int f10154;}G;
-typedef struct{char p0[0x19];char b19,b1a,b1b;}H;
+typedef struct {
+	char p0[0x17];
+	char b17, b18, b19, b1a, b1b;
+	char p1[0x80a8 - 0x1c];
+	int f80a8;
+	char p2[0x80c3 - 0x80ac];
+	char b80c3, b80c4;
+	char p3[0x10154 - 0x80c5];
+	int f10154;
+} G;
+
+typedef struct {
+	char p0[0x19];
+	char b19, b1a, b1b;
+} H;
+
 extern G DAT_800a891c;
 extern H DAT_800b09c8;
 extern char DAT_800b0a24[];
-extern G* DAT_800d1a48;
-extern int DAT_800d1774,DAT_800d177c,DAT_800d1a54;
-extern short DAT_800d214c,DAT_800d214e;
+extern G *DAT_800d1a48;
+extern int DAT_800d1774, DAT_800d177c, DAT_800d1a54;
+extern short DAT_800d214c, DAT_800d214e;
+
 void FUN_8008c3d0(int);
-int FUN_8004d068(int,int,int);
-void FUN_80092e70(void*,int,int,int,int);
-void FUN_800914fc(void*,int,int,int,int);
+int FUN_8004d068(int, int, int);
+void FUN_80092e70(void *, int, int, int, int);
+void FUN_800914fc(void *, int, int, int, int);
 void FUN_80048d00(void);
-int FUN_8008c94c(void*);
-void FUN_8008ca0c(void*);
+int FUN_8008c94c(void *);
+void FUN_8008ca0c(void *);
 void FUN_8006af64(void);
-void M3dInit_SetResolution__FUiUi(int,int);
-void FUN_8006b01c(int a){
-  int v;
-  char*s2;
-  FUN_8008c3d0(0);
-  v=FUN_8004d068(0x14000,1,1);
-  DAT_800a891c.f80a8=v;
-  DAT_800a891c.f10154=v+0xa000;
-  FUN_80092e70(&DAT_800a891c,0,0,640,480);
-  s2=(char*)&DAT_800a891c+92;
-  FUN_800914fc(s2,0,0,640,480);
-  FUN_80092e70(&DAT_800b09c8,0,0,640,480);
-  FUN_800914fc(DAT_800b0a24,0,0,640,480);
-  FUN_80048d00();
-  DAT_800a891c.b17=0;
-  DAT_800a891c.b80c3=0;
-  DAT_800a891c.b18=0;
-  DAT_800a891c.b80c4=0;
-  DAT_800a891c.b19=255;
-  DAT_800a891c.b1a=0;
-  DAT_800a891c.b1b=0;
-  DAT_800b09c8.b19=0;
-  DAT_800b09c8.b1a=0;
-  DAT_800b09c8.b1b=255;
-  FUN_8008c94c(&DAT_800a891c);
-  FUN_8008ca0c(s2);
-  if(a) FUN_8006af64();
-  DAT_800a891c.b17=0;
-  DAT_800a891c.b18=0;
-  FUN_8008c94c(&DAT_800a891c);
-  DAT_800d1a48=&DAT_800a891c;
-  DAT_800d177c=-1;
-  DAT_800d1a54=DAT_800a891c.f80a8;
-  M3dInit_SetResolution__FUiUi(640,480);
-  DAT_800d1774=128;
-  DAT_800d214c=0;
-  DAT_800d214e=0;
+void M3dInit_SetResolution__FUiUi(int, int);
+
+void FUN_8006b01c(int a) {
+	int v;
+	char *s2;
+
+	FUN_8008c3d0(0);
+
+	v = FUN_8004d068(0x14000, 1, 1);
+	DAT_800a891c.f80a8 = v;
+	DAT_800a891c.f10154 = v + 0xa000;
+	FUN_80092e70(&DAT_800a891c, 0, 0, 640, 480);
+
+	s2 = (char *)&DAT_800a891c + 92;
+	FUN_800914fc(s2, 0, 0, 640, 480);
+	FUN_80092e70(&DAT_800b09c8, 0, 0, 640, 480);
+	FUN_800914fc(DAT_800b0a24, 0, 0, 640, 480);
+	FUN_80048d00();
+
+	DAT_800a891c.b17 = 0;
+	DAT_800a891c.b80c3 = 0;
+	DAT_800a891c.b18 = 0;
+	DAT_800a891c.b80c4 = 0;
+	DAT_800a891c.b19 = 255;
+	DAT_800a891c.b1a = 0;
+	DAT_800a891c.b1b = 0;
+	DAT_800b09c8.b19 = 0;
+	DAT_800b09c8.b1a = 0;
+	DAT_800b09c8.b1b = 255;
+	FUN_8008c94c(&DAT_800a891c);
+	FUN_8008ca0c(s2);
+
+	if (a)
+		FUN_8006af64();
+
+	DAT_800a891c.b17 = 0;
+	DAT_800a891c.b18 = 0;
+	FUN_8008c94c(&DAT_800a891c);
+
+	DAT_800d1a48 = &DAT_800a891c;
+	DAT_800d177c = -1;
+	DAT_800d1a54 = DAT_800a891c.f80a8;
+	M3dInit_SetResolution__FUiUi(640, 480);
+
+	DAT_800d1774 = 128;
+	DAT_800d214c = 0;
+	DAT_800d214e = 0;
 }

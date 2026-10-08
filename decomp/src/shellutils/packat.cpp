@@ -7,15 +7,16 @@
    several blocks becomes CSE's canonical register, so the copies survive: retail's s4/t0);
    curx is declared before remx and remy at its assignment, which fixes the spill-slot order. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <libgpu.h>
 }
+
 typedef unsigned short ushort;
 typedef unsigned int uint;
 
 class SlicedImage {
-public:
+  public:
 	int **vf;
 	int width;
 	int height;
@@ -34,10 +35,10 @@ public:
 };
 
 void *Mem_New(uint, int, int);
+
 extern int DAT_800d1a6c;
 
-void SlicedImage::packAt(int x, int y)
-{
+void SlicedImage::packAt(int x, int y) {
 	int j;
 	int k;
 	ushort *data_col;
@@ -58,15 +59,15 @@ void SlicedImage::packAt(int x, int y)
 	numy = height / slice_height;
 	remx = width - numx * slice_width;
 	int remy = height - numy * slice_height;
+
 	curx = x;
 	DAT_800d1a6c = 1;
 
-	for (j = 0; j < numx; j++)
-	{
+	for (j = 0; j < numx; j++) {
 		data = data_col;
 		cury = y;
-		for (k = 0; k < numy; k++)
-		{
+
+		for (k = 0; k < numy; k++) {
 			sx = curx;
 			sy = cury;
 			cury = sy + slice_height;
@@ -79,10 +80,11 @@ void SlicedImage::packAt(int x, int y)
 			sliceTab[k * num_slices_x + j].w = slice_width;
 			sliceTab[k * num_slices_x + j].h = slice_height;
 			LoadImage(&r, (u_long *)data);
+
 			data += slice_width * slice_height;
 		}
-		if (remy > 0)
-		{
+
+		if (remy > 0) {
 			sx = curx;
 			sy = cury;
 			r.h = remy;
@@ -95,16 +97,16 @@ void SlicedImage::packAt(int x, int y)
 			sliceTab[numy * num_slices_x + j].h = remy;
 			LoadImage(&r, (u_long *)data);
 		}
+
 		curx += slice_width;
 		data_col += slice_width * height;
 	}
 
-	if (remx > 0)
-	{
+	if (remx > 0) {
 		data = data_col;
 		cury = y;
-		for (k = 0; k < numy; k++)
-		{
+
+		for (k = 0; k < numy; k++) {
 			sx = curx;
 			sy = cury;
 			cury = sy + slice_height;
@@ -117,10 +119,11 @@ void SlicedImage::packAt(int x, int y)
 			sliceTab[k * num_slices_x + numx].w = remx;
 			sliceTab[k * num_slices_x + numx].h = slice_height;
 			LoadImage(&r, (u_long *)data);
+
 			data += remx * slice_height;
 		}
-		if (remy > 0)
-		{
+
+		if (remy > 0) {
 			sx = curx;
 			sy = cury;
 			r.w = remx;
@@ -134,6 +137,7 @@ void SlicedImage::packAt(int x, int y)
 			LoadImage(&r, (u_long *)data);
 		}
 	}
+
 	DAT_800d1a6c = 0;
 	DrawSync(0);
 	removeFromMemory();

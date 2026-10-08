@@ -11,38 +11,42 @@ typedef unsigned int uint;
 /* SBoard as in boardselect2p.cpp, with the picture file name that precedes it: the array really
    starts at 0x54, so `Name` is at 0x58 and `Req` at 0x5c as there. */
 struct SBoard {
-	char *File;                /* 0: picture */
-	char *Name;                /* 4 */
-	uchar Req;                 /* 8: tapes needed */
-	int Stats[4];              /* 0xc */
+	char *File;   /* 0: picture */
+	char *Name;   /* 4 */
+	uchar Req;    /* 8: tapes needed */
+	int Stats[4]; /* 0xc */
 	int pad;
 };
+
 struct SSkater {
 	char pad0[0x54];
-	SBoard Boards[8];          /* 0x54 */
+	SBoard Boards[8]; /* 0x54 */
 };
+
 struct SSkaterCareer {
 	uchar pad0[4];
-	uchar NumTapes;            /* 4 (0x8 in SCareer) */
+	uchar NumTapes; /* 4 (0x8 in SCareer) */
 	uchar pad5[9];
 };
+
 struct SCareer {
 	int Version;
 	SSkaterCareer Skater[148];
 	char pad[0x824 - 4 - 148 * 14];
-	char LastSkater[2];        /* 0x824 */
-	char LastDeck[2];          /* 0x826 */
-	char LastWheel[2];         /* 0x828 */
-	char LastTrucks[2];        /* 0x82a */
+	char LastSkater[2]; /* 0x824 */
+	char LastDeck[2];   /* 0x826 */
+	char LastWheel[2];  /* 0x828 */
+	char LastTrucks[2]; /* 0x82a */
 };
 
 class CItem {
-public:
+  public:
 	virtual ~CItem();
 	void *operator new(uint) throw();
 };
+
 class SlicedImage : public CItem {
-public:
+  public:
 	int m[12];
 	SlicedImage(char *, int, int, int, int, int, ushort);
 	void pack();
@@ -50,36 +54,38 @@ public:
 
 extern SCareer DAT_800a6844;
 extern SSkater DAT_800a44fc[];
-extern int DAT_800d2c1c[3];                /* pictures per column */
-extern char DAT_800d2c2c[2][3][15][16];    /* picture file names */
+extern int DAT_800d2c1c[3];             /* pictures per column */
+extern char DAT_800d2c2c[2][3][15][16]; /* picture file names */
 extern SlicedImage *DAT_800d31cc[2][3][15];
-extern int DAT_800d333c[2][3];             /* load offset from the start entry (-1: not started) */
-extern int DAT_800d335c[2][3];             /* start entry */
-extern int DAT_800d337c[2][3];             /* column fully loaded */
-int DAT_800d22ac;                          /* player being loaded */
-SlicedImage *DAT_800d22b0;                 /* "locked" picture */
-int DAT_800d22b8[2];                       /* column being loaded, per player */
-char *DAT_800d22c0[2];                     /* load buffer, per player */
+extern int DAT_800d333c[2][3]; /* load offset from the start entry (-1: not started) */
+extern int DAT_800d335c[2][3]; /* start entry */
+extern int DAT_800d337c[2][3]; /* column fully loaded */
+
+int DAT_800d22ac;          /* player being loaded */
+SlicedImage *DAT_800d22b0; /* "locked" picture */
+int DAT_800d22b8[2];       /* column being loaded, per player */
+char *DAT_800d22c0[2];     /* load buffer, per player */
 uchar DAT_800d22c8;
-int DAT_800d22cc;                          /* all pictures loaded */
-int DAT_800d22d0[2];                       /* skater, per player */
+int DAT_800d22cc;    /* all pictures loaded */
+int DAT_800d22d0[2]; /* skater, per player */
 
 extern "C" {
-char *strcpy(char *, const char *);
-void FUN_8004cdd0(void);
-int FUN_8004c8a4(char *);
-char *FUN_8004d068(int, int, int);
-void FUN_8004cb10(char *);
+	char *strcpy(char *, const char *);
+	void FUN_8004cdd0(void);
+	int FUN_8004c8a4(char *);
+	char *FUN_8004d068(int, int, int);
+	void FUN_8004cb10(char *);
 }
+
 int Load8BitBMP2(char *, char **, int *, int *, ushort *);
 
-extern "C" void FUN_80050c5c(void)
-{
+extern "C" void FUN_80050c5c(void) {
 	DAT_800d2c1c[0] = 8;
 	DAT_800d2c1c[1] = 3;
 	DAT_800d2c1c[2] = 15;
 	DAT_800d333c[0][0] = -1;
 	DAT_800d333c[1][0] = 0;
+
 	for (int p = 0; p < 2; p++) {
 		DAT_800d337c[p][0] = 0;
 		DAT_800d335c[p][0] = DAT_800a6844.LastDeck[0];
@@ -92,18 +98,23 @@ extern "C" void FUN_80050c5c(void)
 		DAT_800d22c8 = 1;
 
 		for (int i = 0; i < DAT_800d2c1c[0]; i++) {
-			if (DAT_800a6844.Skater[DAT_800d22d0[p]].NumTapes >= DAT_800a44fc[DAT_800d22d0[p]].Boards[i].Req) {
+			if (DAT_800a6844.Skater[DAT_800d22d0[p]].NumTapes >=
+			    DAT_800a44fc[DAT_800d22d0[p]].Boards[i].Req) {
 				strcpy(DAT_800d2c2c[p][0][i], DAT_800a44fc[DAT_800d22d0[p]].Boards[i].File);
+
 				DAT_800d2c2c[p][0][i][1] = '2';
 			} else {
 				strcpy(DAT_800d2c2c[p][0][i], "b2lock01.bmp");
 			}
+
 			DAT_800d31cc[p][0][i] = 0;
 		}
 
 		char *trucks[3] = { "T2_loose.bmp", "T2_mdium.bmp", "T2_tight.bmp" };
+
 		for (int j = 0; j < DAT_800d2c1c[1]; j++) {
 			strcpy(DAT_800d2c2c[p][1][j], trucks[j]);
+
 			DAT_800d31cc[p][1][j] = 0;
 		}
 
@@ -112,8 +123,10 @@ extern "C" void FUN_80050c5c(void)
 			"W2dark01.bmp", "W2gree01.bmp", "W2gree02.bmp", "W2gree03.bmp", "W2oran01.bmp",
 			"W2purp01.bmp", "W2red_01.bmp", "W2red_02.bmp", "W2whit01.bmp", "W2yell01.bmp",
 		};
+
 		for (int j = 0; j < DAT_800d2c1c[2]; j++) {
 			strcpy(DAT_800d2c2c[p][2][j], wheels[j]);
+
 			DAT_800d31cc[p][2][j] = 0;
 		}
 
@@ -124,13 +137,18 @@ extern "C" void FUN_80050c5c(void)
 	DAT_800d22cc = 0;
 	DAT_800d22ac = 0;
 	DAT_800d22c0[0] = FUN_8004d068(FUN_8004c8a4("b2lock01.bmp"), 1, 1);
+
 	FUN_8004cb10(DAT_800d22c0[0]);
 	FUN_8004cdd0();
+
 	ushort clut;
 	char *data;
 	int w, h;
+
 	Load8BitBMP2(DAT_800d22c0[0], &data, &w, &h, &clut);
+
 	DAT_800d22c0[0] = 0;
 	DAT_800d22b0 = new SlicedImage(data, w, h, 128, 128, 8, clut);
+
 	DAT_800d22b0->pack();
 }

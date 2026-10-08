@@ -12,25 +12,33 @@ typedef struct STrig {
 	struct STrig *pNext;
 	struct STrig *pNextAll;
 } STrig;
+
 extern STrig *DAT_800d2610[];
 extern int DAT_800d199c;
 extern int DAT_800d17c8;
+
 void FUN_80046374(char *, int, int);
-STrig *FUN_80044a20(int id)
-{
+
+STrig *FUN_80044a20(int id) {
 	STrig *t;
+
 	for (t = DAT_800d2610[id & 0xff]; t; t = t->pNext) {
 		if (t->Id == id) {
 			int bit = 2;
+
 			if (DAT_800d199c == DAT_800d17c8)
 				bit = 1;
+
 			t->Hit |= bit;
+
 			if (!(t->Done & bit)) {
 				FUN_80046374(t->pScript, t->Line, 0);
+
 				t->Done |= bit;
 				return t;
 			}
 		}
 	}
+
 	return 0;
 }

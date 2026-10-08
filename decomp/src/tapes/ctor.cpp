@@ -5,21 +5,34 @@ typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 
-struct CVector { int vx, vy, vz; };
+struct CVector {
+	int vx, vy, vz;
+};
+
 struct CSVector {
 	short vx, vy, vz;
-	void Set(short x, short y, short z) { vx = x; vy = y; vz = z; }
+	void Set(short x, short y, short z) {
+		vx = x;
+		vy = y;
+		vz = z;
+	}
 };
+
 struct CFriction {
 	uchar x, y, z;
-	void Set(uchar a, uchar b, uchar c) { x = a; y = b; z = c; }
+	void Set(uchar a, uchar b, uchar c) {
+		x = a;
+		y = b;
+		z = c;
+	}
 };
+
 struct SLight;
 struct CGlow;
 struct STapeMessage;
 
 class CItem {
-public:
+  public:
 	ushort mFlags;
 	ushort mInquiry;
 	CVector mPos;
@@ -48,24 +61,24 @@ public:
 };
 
 class CBody : public CItem {
-public:
+  public:
 	char pad4c[0x6c - 0x4c];
-	CVector mVel;          /* 0x6c */
+	CVector mVel; /* 0x6c */
 	int pad78;
-	int m7c;               /* 0x7c */
+	int m7c; /* 0x7c */
 	char pad80[5];
-	CFriction mFric;       /* 0x85 */
+	CFriction mFric; /* 0x85 */
 	char pad88[2];
-	ushort m8a;            /* 0x8a */
+	ushort m8a; /* 0x8a */
 	char pad8c[0xe0 - 0x8c];
-	ushort me0;            /* 0xe0 */
+	ushort me0; /* 0xe0 */
 	char pade2[0x134 - 0xe2];
 	CBody();
 	void AttachTo(CBody **);
 };
 
 class CTape : public CBody {
-public:
+  public:
 	CGlow *mpGlow;
 	ushort mGlowRadiusOrg;
 	ushort mGlowRadiusAmp;
@@ -94,7 +107,7 @@ public:
 	ushort mLifetime;
 	uint mTimer;
 	CTape(ushort PowerupType, const CVector &Pos, const CVector &Pos2, int Size1, int Size2,
-		const CVector &Vel, uint Flags, int Lifetime);
+	      const CVector &Vel, uint Flags, int Lifetime);
 	void DontDisplay();
 	virtual ~CTape();
 };
@@ -102,6 +115,7 @@ public:
 int Rnd(int);
 short Spool_GetModel(uint, int);
 int Career_Got(int);
+
 extern char DAT_800d1fb0[];
 extern char DAT_800a3050[];
 extern STapeMessage DAT_800c0da4[];
@@ -111,14 +125,14 @@ extern uchar DAT_800d1a15;
 extern uchar DAT_800d1a16;
 
 CTape::CTape(ushort PowerupType, const CVector &Pos, const CVector &Pos2, int Size1, int Size2,
-	const CVector &Vel, uint Flags, int Lifetime)
-{
+             const CVector &Vel, uint Flags, int Lifetime) {
 	mSize = Size1;
 	mSize1 = Size1;
 	mSize2 = Size2;
 	mVec1 = Pos;
 	mVec2 = Pos2;
 	mScale.Set(Size1, Size1, Size1);
+
 	mTimer = 0;
 	mType = PowerupType;
 	mLifetime = Lifetime;
@@ -128,6 +142,7 @@ CTape::CTape(ushort PowerupType, const CVector &Pos, const CVector &Pos2, int Si
 	mPos = Pos;
 	mVel = Vel;
 	mFric.Set(5, 5, 5);
+
 	m8a = 100;
 	m7c = 0x8000;
 	mWobbleSpeed = Rnd(20) + 90;
@@ -136,57 +151,66 @@ CTape::CTape(ushort PowerupType, const CVector &Pos, const CVector &Pos2, int Si
 	me0 = 300;
 	InitItem(DAT_800d1fb0);
 
-	switch (mType)
-	{
-	case 0x664:
-		InitItem(DAT_800a3050);
-		mIs3d = 1;
-		mModel = Spool_GetModel(0x54636518, DAT_800d1a16);
-		break;
-	case 0x665:
-		InitItem(DAT_800a3050);
-		mIs3d = 1;
-		mModel = Spool_GetModel(0xba6d0434, DAT_800d1a16);
-		break;
-	case 0x666:
-		InitItem(DAT_800a3050);
-		mIs3d = 1;
-		mModel = Spool_GetModel(0x2364558e, DAT_800d1a16);
-		break;
-	case 0x10:
-	case 0x12:
-		mMessageTable = DAT_800c0da4;
-		m8a = 150;
-		mIs3d = 1;
-		mModel = Spool_GetModel(0xd5108e8c, DAT_800d1a15);
-		break;
+	switch (mType) {
+		case 0x664:
+			InitItem(DAT_800a3050);
+
+			mIs3d = 1;
+			mModel = Spool_GetModel(0x54636518, DAT_800d1a16);
+			break;
+		case 0x665:
+			InitItem(DAT_800a3050);
+
+			mIs3d = 1;
+			mModel = Spool_GetModel(0xba6d0434, DAT_800d1a16);
+			break;
+		case 0x666:
+			InitItem(DAT_800a3050);
+
+			mIs3d = 1;
+			mModel = Spool_GetModel(0x2364558e, DAT_800d1a16);
+			break;
+		case 0x10:
+		case 0x12:
+			mMessageTable = DAT_800c0da4;
+			m8a = 150;
+			mIs3d = 1;
+			mModel = Spool_GetModel(0xd5108e8c, DAT_800d1a15);
+			break;
 	}
 
-	if (DAT_800d16a4 != 1)
-	{
-		switch (mType)
-		{
-		case 4: case 5: case 6: case 10: case 15: case 16:
-			mLifetime = 1;
-			break;
+	if (DAT_800d16a4 != 1) {
+		switch (mType) {
+			case 4:
+			case 5:
+			case 6:
+			case 10:
+			case 15:
+			case 16:
+				mLifetime = 1;
+				break;
 		}
-	}
-	else
-	{
-		switch (mType)
-		{
-		case 4: case 5: case 6: case 10: case 15:
-			if (Career_Got(2))
-				mLifetime = 1;
-			break;
-		case 16:
-			if (Career_Got(3))
-				mLifetime = 1;
-			break;
+	} else {
+		switch (mType) {
+			case 4:
+			case 5:
+			case 6:
+			case 10:
+			case 15:
+				if (Career_Got(2))
+					mLifetime = 1;
+
+				break;
+			case 16:
+				if (Career_Got(3))
+					mLifetime = 1;
+
+				break;
 		}
 	}
 
 	AttachTo(&DAT_800d1618);
+
 	if (!mIs3d)
 		DontDisplay();
 }

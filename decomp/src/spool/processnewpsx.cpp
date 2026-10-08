@@ -9,39 +9,46 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
+
 struct SModel {
 	ushort Flags;
-	ushort NumVertices;       /* 2 */
-	ushort NumNormals;        /* 4 */
-	ushort NumFaces;          /* 6 */
+	ushort NumVertices; /* 2 */
+	ushort NumNormals;  /* 4 */
+	ushort NumFaces;    /* 6 */
 };
+
 struct Texture {
 	char pad0[16];
-	ushort Usage;             /* 16 */
+	ushort Usage; /* 16 */
 };
+
 struct SPSXRegion {
-	char Name[9];             /* 0 */
-	uchar m9;                 /* 9 */
-	uchar Loaded;             /* 10 */
+	char Name[9]; /* 0 */
+	uchar m9;     /* 9 */
+	uchar Loaded; /* 10 */
 	char padb[12 - 11];
-	uint *pChecksums;         /* 0x0c */
-	SModel **ppModels;        /* 0x10 */
-	uint *pPSX;               /* 0x14 */
-	uint *pRails;             /* 0x18 */
-	uint *pHier;              /* 0x1c */
+	uint *pChecksums;  /* 0x0c */
+	SModel **ppModels; /* 0x10 */
+	uint *pPSX;        /* 0x14 */
+	uint *pRails;      /* 0x18 */
+	uint *pHier;       /* 0x1c */
 	char pad20[0x24 - 0x20];
-	uint *pRGBs;              /* 0x24 */
-	uint *pTrig;              /* 0x28 */
-	uint *pPack7;             /* 0x2c */
+	uint *pRGBs;  /* 0x24 */
+	uint *pTrig;  /* 0x28 */
+	uint *pPack7; /* 0x2c */
 	char pad30[0x33 - 0x30];
-	uchar InMemory;           /* 0x33 */
-	uchar KeepTextures;       /* 0x34 */
+	uchar InMemory;     /* 0x33 */
+	uchar KeepTextures; /* 0x34 */
 	char pad35[64 - 0x35];
 };
+
 extern SPSXRegion DAT_800bf7a8[];
+
 uint *DAT_800d1ee0;
+
 extern int DAT_800d1a6c;
 extern int DAT_800d1a70;
+
 uint *Spool_SkipPackets(uint *);
 Texture *Spool_FindTextureEntry(uint);
 void Spool_RemoveUnusedTextures(void);
@@ -51,15 +58,15 @@ void M3dInit_ParsePSX(int);
 int Spool_GetEnvIndex(int);
 void M3dZone_SetZone(int, uint *);
 void PreProcessAnimPacket(uint *, uint *);
+
 extern "C" {
-Texture *FUN_8006ef30(uint);
-void FUN_8004aea4(uint, uint *, int);
-void FUN_8006f854(int, int);
-void FUN_8004d6a0(uint *, int);
+	Texture *FUN_8006ef30(uint);
+	void FUN_8004aea4(uint, uint *, int);
+	void FUN_8006f854(int, int);
+	void FUN_8004d6a0(uint *, int);
 }
 
-void ProcessNewPSX(int region)
-{
+void ProcessNewPSX(int region) {
 	uint *pPSX;
 	int NumItems;
 	SModel **ppModels;
@@ -78,27 +85,36 @@ void ProcessNewPSX(int region)
 	ppModels = (SModel **)(pPSX[2] * 36 + (int)pPSX) + 4;
 	NumModels = ((uint *)ppModels)[-1];
 	DAT_800d1ee0 = 0;
+
 	{
 		int i;
+
 		for (i = 0; i < NumModels; i++)
 			ppModels[i] = (SModel *)((uint)ppModels[i] + (uint)pPSX);
 	}
+
 	DAT_800bf7a8[region].ppModels = ppModels;
 	DAT_800bf7a8[region].pChecksums = Spool_SkipPackets(pPSX);
 	ChecksumTable = DAT_800bf7a8[region].pChecksums + NumModels + 1;
 	NumChecksums = ChecksumTable[-1];
+
 	{
 		int i;
+
 		for (i = 0; i < NumChecksums; i++) {
 			Texture *pTextureEntry = Spool_FindTextureEntry(ChecksumTable[i]);
+
 			if (!pTextureEntry)
 				pTextureEntry = FUN_8006ef30(ChecksumTable[i]);
+
 			pTextureEntry->Usage++;
 			ChecksumTable[i] = (uint)pTextureEntry;
 		}
 	}
+
 	{
 		int m;
+
 		for (m = 0; m < NumModels; m++) {
 			SModel *pModel = ppModels[m];
 			uint NumVertices = pModel->NumVertices;
@@ -106,94 +122,125 @@ void ProcessNewPSX(int region)
 			uint NumFaces = pModel->NumFaces;
 			uint *pFace = (uint *)((char *)pModel + (NumVertices * 8 + 28) + NumNormals * 8);
 			int j;
+
 			for (j = 0; j < NumFaces; j++) {
 				if (pFace[0] & 1)
 					pFace[4] = ChecksumTable[pFace[4]];
+
 				pFace = (uint *)((char *)pFace + (pFace[0] >> 18) * 4);
 			}
 		}
 	}
+
 	Spool_RemoveUnusedTextures();
 	Pal_RemoveUnusedPalettes();
+
 	{
 		uint t;
-		GeometryAndTableSize = ((char *)Spool_SkipPackets(pPSX) - (char *)pPSX) + NumModels * 4 + (t = NumChecksums * 4 + 4);
+
+		GeometryAndTableSize = ((char *)Spool_SkipPackets(pPSX) - (char *)pPSX) + NumModels * 4 +
+		                       (t = NumChecksums * 4 + 4);
 	}
+
 	pPaletteInfo = (uint *)((char *)pPSX + GeometryAndTableSize);
 	Num16CPalettes = *pPaletteInfo++;
+
 	{
 		int i;
+
 		for (i = 0; i < Num16CPalettes; i++) {
 			if (!Pal_FindPaletteEntry(*pPaletteInfo))
 				FUN_8004aea4(*pPaletteInfo, pPaletteInfo + 1, 1);
+
 			pPaletteInfo += 9;
 		}
 	}
+
 	Num256CPalettes = *pPaletteInfo++;
+
 	{
 		int i;
+
 		for (i = 0; i < Num256CPalettes; i++) {
 			if (!Pal_FindPaletteEntry(*pPaletteInfo))
 				FUN_8004aea4(*pPaletteInfo, pPaletteInfo + 1, 2);
+
 			pPaletteInfo += 129;
 		}
 	}
+
 	DAT_800d1a6c = 0;
 	DAT_800d1a70 = 0;
-	if (DAT_800bf7a8[region].Name[0] == 'b' && DAT_800bf7a8[region].Name[1] == 'i' && DAT_800bf7a8[region].Name[2] == 't' && DAT_800bf7a8[region].Name[3] == 's' && !DAT_800bf7a8[region].Name[4]) {
+
+	if (DAT_800bf7a8[region].Name[0] == 'b' && DAT_800bf7a8[region].Name[1] == 'i' &&
+	    DAT_800bf7a8[region].Name[2] == 't' && DAT_800bf7a8[region].Name[3] == 's' &&
+	    !DAT_800bf7a8[region].Name[4]) {
 		DAT_800d1a6c = 1;
 		DAT_800d1a70 = 1;
 	}
+
 	DAT_800bf7a8[region].InMemory = 1;
 	FUN_8006f854(region, 0);
+
 	DAT_800d1a6c = 0;
 	DAT_800d1a70 = 0;
+
 	if (!DAT_800bf7a8[region].KeepTextures) {
 		FUN_8004d6a0(pPSX, GeometryAndTableSize);
+
 		DAT_800bf7a8[region].InMemory = 0;
 	}
+
 	AnimPacketFound = 0;
 	M3dInit_ParsePSX(region);
+
 	DAT_800bf7a8[region].m9 = 0;
 	DAT_800bf7a8[region].pTrig = 0;
 	DAT_800bf7a8[region].pPack7 = 0;
 	pPacket = (uint *)((char *)pPSX + pPSX[1]);
 	PacketType = *pPacket;
+
 	while (PacketType != -1) {
 		pPacket++;
 		NumItems = *pPacket++;
+
 		switch (PacketType) {
-		case 10:
-			M3dZone_SetZone(Spool_GetEnvIndex(region), pPacket);
-			break;
-		case 0x45:
-			PreProcessAnimPacket(pPSX, pPacket);
-			AnimPacketFound = 1;
-			break;
-		case 0x2a:
-		case 0x2c:
-			DAT_800bf7a8[region].pRails = pPacket;
-			DAT_800bf7a8[region].m9 = 1;
-			break;
-		case 0x73424752:
-			DAT_800bf7a8[region].pRGBs = pPacket;
-			break;
-		case 6:
-			DAT_800bf7a8[region].pTrig = pPacket;
-			DAT_800d1ee0 = pPacket - 2;
-			break;
-		case 7:
-			DAT_800bf7a8[region].pPack7 = pPacket;
-			break;
-		case 0x52454948:
-			DAT_800bf7a8[region].pHier = pPacket;
-			break;
+			case 10:
+				M3dZone_SetZone(Spool_GetEnvIndex(region), pPacket);
+				break;
+			case 0x45:
+				PreProcessAnimPacket(pPSX, pPacket);
+
+				AnimPacketFound = 1;
+				break;
+			case 0x2a:
+			case 0x2c:
+				DAT_800bf7a8[region].pRails = pPacket;
+				DAT_800bf7a8[region].m9 = 1;
+				break;
+			case 0x73424752:
+				DAT_800bf7a8[region].pRGBs = pPacket;
+				break;
+			case 6:
+				DAT_800bf7a8[region].pTrig = pPacket;
+				DAT_800d1ee0 = pPacket - 2;
+				break;
+			case 7:
+				DAT_800bf7a8[region].pPack7 = pPacket;
+				break;
+			case 0x52454948:
+				DAT_800bf7a8[region].pHier = pPacket;
+				break;
 		}
+
 		pPacket = (uint *)((char *)pPacket + NumItems);
 		PacketType = *pPacket;
 	}
+
 	pPacket++;
+
 	if (AnimPacketFound)
 		FUN_8004d6a0(pPSX, (char *)pPacket - (char *)pPSX);
+
 	DAT_800bf7a8[region].Loaded = 1;
 }

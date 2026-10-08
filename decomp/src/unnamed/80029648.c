@@ -1,3 +1,6 @@
 /* FUN_80029648 (0x80029648) */
 int DAT_800d18b4;
-void FUN_80029648(int a){DAT_800d18b4=(a<<16)|a;}
+
+void FUN_80029648(int a) {
+	DAT_800d18b4 = (a << 16) | a;
+}

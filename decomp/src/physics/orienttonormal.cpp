@@ -1,15 +1,25 @@
 /* OrientToNormal__6CBruce (0x8003b0c0) */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <inline_c.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <inline_c.h>
 }
+
 struct CVector {
 	int x, y, z;
-	void Set(int px, int py, int pz) { x = px; y = py; z = pz; }
+	void Set(int px, int py, int pz) {
+		x = px;
+		y = py;
+		z = pz;
+	}
 };
-struct CSVector { short x, y, z; };
+
+struct CSVector {
+	short x, y, z;
+};
+
 void M3dUtils_NormaliseVector(CVector *);
+
 struct CBruce {
 	char pad0[0xa8];
 	CSVector mNormal;
@@ -24,16 +34,18 @@ struct CBruce {
 	CVector mOldNormal;
 	void OrientToNormal();
 };
-void CBruce::OrientToNormal()
-{
+
+void CBruce::OrientToNormal() {
 	VECTOR z1;
 	CVector normal;
 	CVector x1;
+
 	if (mState < 25) {
 		if (mState == 24) {
 			int _x = mNormal.x;
 			int _y = mNormal.y;
 			int _z = mNormal.z;
+
 			normal.x = _x;
 			normal.y = _y;
 			normal.z = _z;
@@ -42,6 +54,7 @@ void CBruce::OrientToNormal()
 			normal.y = mOldNormal.y + ((mNormal.y - mOldNormal.y) >> 2);
 			normal.z = mOldNormal.z + ((mNormal.z - mOldNormal.z) >> 2);
 		}
+
 		M3dUtils_NormaliseVector(&normal);
 		mFront.Set(m[0][2], m[1][2], m[2][2]);
 		gte_ldopv1(&mFront);
@@ -53,6 +66,7 @@ void CBruce::OrientToNormal()
 		gte_ldopv2(&x1);
 		gte_op12();
 		gte_stlvnl(&z1);
+
 		m[0][0] = x1.x;
 		mRight.x = m[0][0];
 		m[1][0] = x1.y;
@@ -71,10 +85,12 @@ void CBruce::OrientToNormal()
 		mFront.y = m[1][2];
 		m[2][2] = z1.vz;
 		mFront.z = m[2][2];
+
 		{
 			int _x = normal.x;
 			int _y = normal.y;
 			int _z = normal.z;
+
 			mOldNormal.x = _x;
 			mOldNormal.y = _y;
 			mOldNormal.z = _z;

@@ -8,52 +8,62 @@
    Levers: -fstructure-noalias; a block-local face-loop `int i` (s6) separate from the cache i;
    the high-water test written `used > max`. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <inline_c.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <inline_c.h>
 }
+
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
-struct Vector { int vx, vy, vz; };
+
+struct Vector {
+	int vx, vy, vz;
+};
+
 struct SModel {
 	ushort Flags;
-	ushort NumVertices;       /* 0x02 */
-	ushort NumNormals;        /* 0x04 */
-	ushort NumFaces;          /* 0x06 */
-	int Radius;               /* 0x08 */
-	Vector Box;               /* 0x0c */
-	short zMax;               /* 0x18 */
-	ushort NextLOD;           /* 0x1a */
-	SVECTOR Vertices[1];      /* 0x1c */
+	ushort NumVertices;  /* 0x02 */
+	ushort NumNormals;   /* 0x04 */
+	ushort NumFaces;     /* 0x06 */
+	int Radius;          /* 0x08 */
+	Vector Box;          /* 0x0c */
+	short zMax;          /* 0x18 */
+	ushort NextLOD;      /* 0x1a */
+	SVECTOR Vertices[1]; /* 0x1c */
 };
+
 struct SPSXRegion {
 	char pad0[16];
-	SModel **pModels;         /* 0x10 */
+	SModel **pModels; /* 0x10 */
 	char pad14[64 - 0x14];
 };
+
 struct Item {
-	ushort Flags;             /* 0 */
-	ushort Inquiry;           /* 2 */
-	Vector Pos;               /* 4 */
-	short Angles[3];          /* 16 */
-	ushort ModelIndex;        /* 22 */
+	ushort Flags;      /* 0 */
+	ushort Inquiry;    /* 2 */
+	Vector Pos;        /* 4 */
+	short Angles[3];   /* 16 */
+	ushort ModelIndex; /* 22 */
 	char pad18[27 - 24];
-	uchar Region;             /* 27 */
+	uchar Region; /* 27 */
 };
+
 struct SLineInfo {
 	char pad0[0x44];
-	int Length;               /* 0x44 */
-	MATRIX WorldCst;          /* 0x48 */
+	int Length;      /* 0x44 */
+	MATRIX WorldCst; /* 0x48 */
 	char pad68[0x8a - 0x68];
-	ushort Inquiry;           /* 0x8a */
+	ushort Inquiry; /* 0x8a */
 };
+
 struct SColCache {
 	Item *pItem;
 	SModel *pModel;
 	int Faces;
 	int FirstFace;
 };
+
 struct SFaceCache {
 	int Flags;
 	int XMin;
@@ -63,9 +73,11 @@ struct SFaceCache {
 	int YMax;
 	int ZMax;
 };
+
 extern SPSXRegion DAT_800bf7a8[];
 extern SColCache DAT_800c13ec[];
 extern SFaceCache DAT_800c148c[];
+
 int DAT_800d20e0;
 int DAT_800d20e4;
 int DAT_800d20e8;
@@ -73,28 +85,35 @@ int DAT_800d2110;
 int DAT_800d2114;
 int DAT_800d2118;
 int DAT_800d211c;
+
 void M3dAsm_LineColijPreprocessItemsZoned(Item **, int, SLineInfo *, ushort);
 void M3dColij_LineToThisItemCached(Item *, SLineInfo *, SColCache *);
 
-void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo)
-{
+void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo) {
 	if (!ppItem)
 		return;
+
 	if (!pInfo->Length)
 		return;
+
 	gte_SetRotMatrix(&pInfo->WorldCst);
 	M3dAsm_LineColijPreprocessItemsZoned(ppItem, 0, pInfo, pInfo->Inquiry);
+
 	while (*ppItem) {
 		if ((*ppItem)->Inquiry != pInfo->Inquiry) {
 			Item *pItem;
 			int i;
+
 			(*ppItem)->Inquiry = pInfo->Inquiry;
 			pItem = *ppItem;
+
 			for (i = 0; i < 10; i++)
 				if (DAT_800c13ec[i].pItem == pItem)
 					break;
+
 			if (i != 10) {
 				M3dColij_LineToThisItemCached(pItem, pInfo, &DAT_800c13ec[i]);
+
 				DAT_800d2110++;
 			} else {
 				SModel *pModel;
@@ -113,11 +132,13 @@ void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo)
 					else
 						DAT_800d20e8 = DAT_800c13ec[DAT_800d20e0 + 1].FirstFace;
 				}
+
 				DAT_800c13ec[DAT_800d20e0].pItem = pItem;
 				pModel = DAT_800bf7a8[pItem->Region].pModels[pItem->ModelIndex];
 				DAT_800c13ec[DAT_800d20e0].pModel = pModel;
 				Faces = pModel->NumFaces;
 				DAT_800c13ec[DAT_800d20e0].Faces = Faces;
+
 				if (DAT_800d20e4 + Faces < 500) {
 					DAT_800c13ec[DAT_800d20e0].FirstFace = DAT_800d20e4;
 					DAT_800d20e4 += Faces;
@@ -125,6 +146,7 @@ void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo)
 					DAT_800c13ec[DAT_800d20e0].FirstFace = 0;
 					DAT_800d20e4 = Faces;
 				}
+
 				pVertices = pModel->Vertices;
 				pFaceX = (uint *)(&pModel->Vertices[pModel->NumVertices] + pModel->NumNormals);
 				pFaceCache = &DAT_800c148c[DAT_800c13ec[DAT_800d20e0].FirstFace];
@@ -132,6 +154,7 @@ void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo)
 				ItemY = pItem->Pos.vy;
 				ItemZ = pItem->Pos.vz;
 				NumFaces = pModel->NumFaces;
+
 				for (int i = 0; i < NumFaces; i++) {
 					uchar *pVertexIndex;
 					int z0;
@@ -156,29 +179,67 @@ void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo)
 					x2 = pVertices[pVertexIndex[2]].vx;
 					y2 = pVertices[pVertexIndex[2]].vy;
 					z2 = pVertices[pVertexIndex[2]].vz;
-					if (xmax < x1) xmax = x1;
-					if (xmax < x2) xmax = x2;
-					if (ymax < y1) ymax = y1;
-					if (ymax < y2) ymax = y2;
-					if (zmax < z1) zmax = z1;
-					if (zmax < z2) zmax = z2;
-					if (x1 < xmin) xmin = x1;
-					if (x2 < xmin) xmin = x2;
-					if (y1 < ymin) ymin = y1;
-					if (y2 < ymin) ymin = y2;
-					if (z1 < zmin) zmin = z1;
-					if (z2 < zmin) zmin = z2;
+
+					if (xmax < x1)
+						xmax = x1;
+
+					if (xmax < x2)
+						xmax = x2;
+
+					if (ymax < y1)
+						ymax = y1;
+
+					if (ymax < y2)
+						ymax = y2;
+
+					if (zmax < z1)
+						zmax = z1;
+
+					if (zmax < z2)
+						zmax = z2;
+
+					if (x1 < xmin)
+						xmin = x1;
+
+					if (x2 < xmin)
+						xmin = x2;
+
+					if (y1 < ymin)
+						ymin = y1;
+
+					if (y2 < ymin)
+						ymin = y2;
+
+					if (z1 < zmin)
+						zmin = z1;
+
+					if (z2 < zmin)
+						zmin = z2;
+
 					x3 = pVertices[pVertexIndex[3]].vx;
 					y3 = pVertices[pVertexIndex[3]].vy;
 					z3 = pVertices[pVertexIndex[3]].vz;
+
 					if (!(*(ushort *)pFaceX & 16)) {
-						if (xmax < x3) xmax = x3;
-						if (ymax < y3) ymax = y3;
-						if (zmax < z3) zmax = z3;
-						if (x3 < xmin) xmin = x3;
-						if (y3 < ymin) ymin = y3;
-						if (z3 < zmin) zmin = z3;
+						if (xmax < x3)
+							xmax = x3;
+
+						if (ymax < y3)
+							ymax = y3;
+
+						if (zmax < z3)
+							zmax = z3;
+
+						if (x3 < xmin)
+							xmin = x3;
+
+						if (y3 < ymin)
+							ymin = y3;
+
+						if (z3 < zmin)
+							zmin = z3;
 					}
+
 					xmin <<= 12;
 					ymin <<= 12;
 					zmin <<= 12;
@@ -200,18 +261,25 @@ void M3dColij_LineToItemZoned(Item **ppItem, SLineInfo *pInfo)
 					pFaceCache++;
 					pFaceX = (uint *)((char *)pFaceX + (((ushort *)pFaceX)[1] & ~3));
 				}
+
 				DAT_800d2118 = 0;
+
 				for (i = 0; i < 10; i++)
 					if (DAT_800c13ec[i].pItem)
 						DAT_800d2118 += DAT_800c13ec[i].Faces;
+
 				if (DAT_800d2118 > DAT_800d211c)
 					DAT_800d211c = DAT_800d2118;
+
 				M3dColij_LineToThisItemCached(pItem, pInfo, &DAT_800c13ec[DAT_800d20e0]);
+
 				if (++DAT_800d20e0 == 10)
 					DAT_800d20e0 = 0;
+
 				DAT_800d2114++;
 			}
 		}
+
 		ppItem++;
 	}
 }

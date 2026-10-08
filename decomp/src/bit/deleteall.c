@@ -1,30 +1,32 @@
 /* Bit_DeleteAll__Fv (0x80027b28) */
-void* DAT_800d18cc;
-void* DAT_800d18d0;
-void* DAT_800d18d4;
-void* DAT_800d18d8;
-void* DAT_800d18f4;
-void* DAT_800d18f8;
-void* DAT_800d18dc;
-void* DAT_800d18e0;
-void* DAT_800d18e4;
-void* DAT_800d18e8;
-void* DAT_800d18ec;
-void* DAT_800d18fc;
-void* DAT_800d18f0;
-void FUN_80027ab0(void*);
-void Bit_DeleteAll(void){
-  FUN_80027ab0(DAT_800d18cc);
-  FUN_80027ab0(DAT_800d18d0);
-  FUN_80027ab0(DAT_800d18d4);
-  FUN_80027ab0(DAT_800d18d8);
-  FUN_80027ab0(DAT_800d18f4);
-  FUN_80027ab0(DAT_800d18f8);
-  FUN_80027ab0(DAT_800d18dc);
-  FUN_80027ab0(DAT_800d18e0);
-  FUN_80027ab0(DAT_800d18e4);
-  FUN_80027ab0(DAT_800d18e8);
-  FUN_80027ab0(DAT_800d18ec);
-  FUN_80027ab0(DAT_800d18fc);
-  FUN_80027ab0(DAT_800d18f0);
+void *DAT_800d18cc;
+void *DAT_800d18d0;
+void *DAT_800d18d4;
+void *DAT_800d18d8;
+void *DAT_800d18f4;
+void *DAT_800d18f8;
+void *DAT_800d18dc;
+void *DAT_800d18e0;
+void *DAT_800d18e4;
+void *DAT_800d18e8;
+void *DAT_800d18ec;
+void *DAT_800d18fc;
+void *DAT_800d18f0;
+
+void FUN_80027ab0(void *);
+
+void Bit_DeleteAll(void) {
+	FUN_80027ab0(DAT_800d18cc);
+	FUN_80027ab0(DAT_800d18d0);
+	FUN_80027ab0(DAT_800d18d4);
+	FUN_80027ab0(DAT_800d18d8);
+	FUN_80027ab0(DAT_800d18f4);
+	FUN_80027ab0(DAT_800d18f8);
+	FUN_80027ab0(DAT_800d18dc);
+	FUN_80027ab0(DAT_800d18e0);
+	FUN_80027ab0(DAT_800d18e4);
+	FUN_80027ab0(DAT_800d18e8);
+	FUN_80027ab0(DAT_800d18ec);
+	FUN_80027ab0(DAT_800d18fc);
+	FUN_80027ab0(DAT_800d18f0);
 }

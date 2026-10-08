@@ -31,69 +31,77 @@ struct CMenu {
 	void Update();
 };
 
-struct SPad { uchar b[364]; };
+struct SPad {
+	uchar b[364];
+};
+
 extern SPad DAT_800c0a48[];
+
 int DAT_800d1418;
+
 int SFX_PlayX(unsigned int, short, int);
 
-void CMenu::Update()
-{
-	while (!mEntry[mLine].Visible)
-	{
+void CMenu::Update() {
+	while (!mEntry[mLine].Visible) {
 		mEntry[mLine].TargetScale = mEntry[mLine].LowScale;
 		mEntry[mLine].CurrentScale = mEntry[mLine].LowScale;
 		mLine++;
-		if (mLine >= mNumLines) mLine = 0;
+
+		if (mLine >= mNumLines)
+			mLine = 0;
+
 		mEntry[mLine].TargetScale = mEntry[mLine].HiScale;
 		mEntry[mLine].CurrentScale = mEntry[mLine].LowScale;
 	}
 
-	if (DAT_800c0a48[0].b[0xa0] || DAT_800c0a48[0].b[0xb0] ||
-		DAT_800c0a48[1].b[0xa0] || DAT_800c0a48[1].b[0xb0])
-	{
-		if (DAT_800d1418 == 0 || (DAT_800d1418 >= 16 && (DAT_800d1418 & 3) == 0))
-		{
-			if (DAT_800c0a48[0].b[0xa0] || DAT_800c0a48[1].b[0xa0])
-			{
+	if (DAT_800c0a48[0].b[0xa0] || DAT_800c0a48[0].b[0xb0] || DAT_800c0a48[1].b[0xa0] ||
+	    DAT_800c0a48[1].b[0xb0]) {
+		if (DAT_800d1418 == 0 || (DAT_800d1418 >= 16 && (DAT_800d1418 & 3) == 0)) {
+			if (DAT_800c0a48[0].b[0xa0] || DAT_800c0a48[1].b[0xa0]) {
 				mEntry[mLine].TargetScale = mEntry[mLine].LowScale;
-				do
-				{
-					if (mLine == 0) mLine = mNumLines - 1;
-					else mLine--;
+
+				do {
+					if (mLine == 0)
+						mLine = mNumLines - 1;
+					else
+						mLine--;
 				} while (!mEntry[mLine].Visible || !mEntry[mLine].Enabled);
+
 				mEntry[mLine].TargetScale = mEntry[mLine].HiScale;
 				SFX_PlayX(6, 8192, 0);
 			}
-			if (DAT_800c0a48[0].b[0xb0] || DAT_800c0a48[1].b[0xb0])
-			{
+
+			if (DAT_800c0a48[0].b[0xb0] || DAT_800c0a48[1].b[0xb0]) {
 				mEntry[mLine].TargetScale = mEntry[mLine].LowScale;
-				do
-				{
+
+				do {
 					mLine++;
-					if (mLine >= mNumLines) mLine = 0;
+
+					if (mLine >= mNumLines)
+						mLine = 0;
 				} while (!mEntry[mLine].Visible || !mEntry[mLine].Enabled);
+
 				mEntry[mLine].TargetScale = mEntry[mLine].HiScale;
 				SFX_PlayX(6, 8192, 0);
 			}
 		}
+
 		DAT_800d1418++;
-	}
-	else
-	{
+	} else {
 		DAT_800d1418 = 0;
 	}
 
-	for (int i = 0; i < mNumLines; i++)
-	{
-		if (mEntry[i].CurrentScale < mEntry[i].TargetScale)
-		{
+	for (int i = 0; i < mNumLines; i++) {
+		if (mEntry[i].CurrentScale < mEntry[i].TargetScale) {
 			mEntry[i].CurrentScale += 40;
+
 			if (mEntry[i].CurrentScale > mEntry[i].TargetScale)
 				mEntry[i].CurrentScale = mEntry[i].TargetScale;
 		}
-		if (mEntry[i].CurrentScale > mEntry[i].TargetScale)
-		{
+
+		if (mEntry[i].CurrentScale > mEntry[i].TargetScale) {
 			mEntry[i].CurrentScale -= 40;
+
 			if (mEntry[i].CurrentScale < mEntry[i].TargetScale)
 				mEntry[i].CurrentScale = mEntry[i].TargetScale;
 		}

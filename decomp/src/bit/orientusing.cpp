@@ -3,11 +3,16 @@ struct CVector {
 	int x, y, z;
 	int Length() const;
 };
-struct SVECTOR { short vx, vy, vz, pad; };
+
+struct SVECTOR {
+	short vx, vy, vz, pad;
+};
+
 CVector operator+(const CVector &, const CVector &);
 CVector operator-(const CVector &, const CVector &);
 CVector operator*(const CVector &, const int &);
 CVector operator/(const CVector &, const int &);
+
 struct CQuadBit {
 	char pad0[0x18];
 	CVector mA;
@@ -17,12 +22,14 @@ struct CQuadBit {
 	CVector mD;
 	void OrientUsing(const CVector &Position, const SVECTOR &Normal, int dx, int dy, int Angle);
 };
-void CQuadBit::OrientUsing(const CVector &Position, const SVECTOR &Normal, int dx, int dy, int Angle)
-{
+
+void CQuadBit::OrientUsing(const CVector &Position, const SVECTOR &Normal, int dx, int dy,
+                           int Angle) {
 	CVector b1;
 	CVector b2;
 	int l1;
 	int l2;
+
 	b1.x = 0;
 	b1.y = -Normal.vz;
 	b1.z = Normal.vy;

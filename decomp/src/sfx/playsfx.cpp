@@ -1,160 +1,202 @@
 /* playSFX__FUiUcssiUs (0x8004bb74) */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <inline_c.h>
-struct SpuVolume {
-	short left;
-	short right;
-};
-struct SpuVoiceAttr {
-	unsigned long voice;
-	unsigned long mask;
-	SpuVolume volume;
-	SpuVolume volmode;
-	SpuVolume volumex;
-	unsigned short pitch;
-	unsigned short note;
-	unsigned short sample_note;
-	short envx;
-	unsigned long addr;
-	unsigned long loop_addr;
-	long a_mode;
-	long s_mode;
-	long r_mode;
-	unsigned short ar;
-	unsigned short dr;
-	unsigned short sr;
-	unsigned short rr;
-	unsigned short sl;
-	unsigned short adsr1;
-	unsigned short adsr2;
-};
-struct VagAtr {
-	unsigned char prior;
-	unsigned char mode;
-	unsigned char vol;
-	unsigned char pan;
-	unsigned char center;
-	unsigned char shift;
-	unsigned char min;
-	unsigned char max;
-	unsigned char vibW;
-	unsigned char vibT;
-	unsigned char porW;
-	unsigned char porT;
-	unsigned char pbmin;
-	unsigned char pbmax;
-	unsigned char reserved1;
-	unsigned char reserved2;
-	unsigned short adsr1;
-	unsigned short adsr2;
-	short prog;
-	short vag;
-	short reserved[4];
-};
-unsigned short FUN_80094e44(short, short, short, short);
-void FUN_80093e54(int, SpuVoiceAttr *);
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <inline_c.h>
+
+	struct SpuVolume {
+		short left;
+		short right;
+	};
+
+	struct SpuVoiceAttr {
+		unsigned long voice;
+		unsigned long mask;
+		SpuVolume volume;
+		SpuVolume volmode;
+		SpuVolume volumex;
+		unsigned short pitch;
+		unsigned short note;
+		unsigned short sample_note;
+		short envx;
+		unsigned long addr;
+		unsigned long loop_addr;
+		long a_mode;
+		long s_mode;
+		long r_mode;
+		unsigned short ar;
+		unsigned short dr;
+		unsigned short sr;
+		unsigned short rr;
+		unsigned short sl;
+		unsigned short adsr1;
+		unsigned short adsr2;
+	};
+
+	struct VagAtr {
+		unsigned char prior;
+		unsigned char mode;
+		unsigned char vol;
+		unsigned char pan;
+		unsigned char center;
+		unsigned char shift;
+		unsigned char min;
+		unsigned char max;
+		unsigned char vibW;
+		unsigned char vibT;
+		unsigned char porW;
+		unsigned char porT;
+		unsigned char pbmin;
+		unsigned char pbmax;
+		unsigned char reserved1;
+		unsigned char reserved2;
+		unsigned short adsr1;
+		unsigned short adsr2;
+		short prog;
+		short vag;
+		short reserved[4];
+	};
+
+	unsigned short FUN_80094e44(short, short, short, short);
+	void FUN_80093e54(int, SpuVoiceAttr *);
 }
+
 typedef unsigned short ushort;
 typedef unsigned char uchar;
 typedef unsigned int uint;
+
 int Redbook_Rnd(int);
 int allocateVoice(void);
+
 char *DAT_800d1ad0;
 char *DAT_800d1ad4;
 unsigned DAT_800d1aa4, DAT_800d1aa8, DAT_800d1aac, DAT_800d1ab0, DAT_800d1ab8, DAT_800d1abc;
+
 extern ushort DAT_800d2b5c[];
 
-int playSFX(uint sfx, uchar pitch, short vl, short vr, int pitch_offset, ushort volMod)
-{
+int playSFX(uint sfx, uchar pitch, short vl, short vr, int pitch_offset, ushort volMod) {
 	int looping;
 	ushort prog;
 	ushort tones;
 	ushort voices;
 	int voice_bf;
+
 	looping = sfx >> 31;
 	prog = (sfx >> 16) & 127;
 	tones = sfx & 0xffff;
+
 	if (pitch_offset) {
 		Redbook_Rnd(pitch_offset * 2);
 	}
+
 	voices = 1;
+
 	if (tones > 1) {
 		voices = 0;
+
 		{
 			int t;
+
 			for (t = 0; t < 16; t++)
 				if ((tones >> t) & 1)
 					voices++;
 		}
 	}
+
 	voice_bf = 0;
+
 	{
 		int i;
+
 		for (i = 0; i < voices; i++) {
 			int free = allocateVoice();
+
 			if (free == -1) {
 				voice_bf = 0;
 				break;
 			}
+
 			voice_bf |= 1 << free;
 		}
 	}
+
 	if (voice_bf > 0) {
 		{
 			uint lzc;
 			char *p_vab_hdr;
 			int tone_start;
 			SpuVoiceAttr attr;
+
 			gte_ldlzc(voice_bf);
+
 			if (!(sfx & 0x40000000))
 				p_vab_hdr = DAT_800d1ad0;
 			else
 				p_vab_hdr = DAT_800d1ad4;
+
 			gte_stlzc(&lzc);
+
 			lzc = 32 - lzc;
 			tone_start = 0;
 			attr.mask = 0x60093;
+
 			{
 				int v;
+
 				for (v = 0; v < lzc; v++) {
 					if (!tones)
 						break;
+
 					if ((voice_bf >> v) & 1) {
 						int t;
+
 						for (t = tone_start; t < 16; t++) {
 							if ((tones >> t) & 1) {
 								VagAtr *p_vagatr;
 								ushort *p_offset;
+
 								tone_start = t + 1;
 								p_vagatr = &((VagAtr *)(p_vab_hdr + 2080 + prog * 512))[t];
+
 								if (vl < -16383)
 									vl = -16383;
+
 								if (vl > 16383)
 									vl = 16383;
+
 								if (vr < -16383)
 									vr = -16383;
+
 								if (vr > 16383)
 									vr = 16383;
+
 								attr.voice = 1 << v;
 								attr.volume.left = vl;
 								attr.volume.right = vr;
-								attr.pitch = FUN_80094e44(pitch, 0, p_vagatr->center, p_vagatr->shift);
+								attr.pitch =
+								    FUN_80094e44(pitch, 0, p_vagatr->center, p_vagatr->shift);
 								DAT_800d2b5c[v] = attr.pitch;
+
 								{
 									uint addr = *(uint *)(p_vab_hdr + 12);
 									int n = p_vagatr->vag;
-									p_offset = (ushort *)(p_vab_hdr + 2080 + *(ushort *)(p_vab_hdr + 18) * 512);
+
+									p_offset = (ushort *)(p_vab_hdr + 2080 +
+									                      *(ushort *)(p_vab_hdr + 18) * 512);
+
 									while (n--)
 										addr += *p_offset++ << 3;
+
 									attr.addr = addr;
 								}
+
 								attr.adsr1 = p_vagatr->adsr1;
 								attr.adsr2 = p_vagatr->adsr2;
 								FUN_80093e54(v, &attr);
+
 								if (looping)
 									DAT_800d1ab8 |= 1 << v;
+
 								tones &= ~(1 << t);
 								DAT_800d1abc &= ~(1 << v);
 								DAT_800d1aa4 |= 1 << v;
@@ -169,5 +211,6 @@ int playSFX(uint sfx, uchar pitch, short vl, short vr, int pitch_offset, ushort 
 			}
 		}
 	}
+
 	return voice_bf;
 }

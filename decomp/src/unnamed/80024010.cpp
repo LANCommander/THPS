@@ -1,16 +1,24 @@
 /* FUN_80024010 (0x80024010) */
 /* C++ (GAMEFMV). Sets the CD-audio mixer for a sound at pos: the spatial attenuation's left/right
    (12 bits each) are scaled by the current volume and added to a 3/4-volume base. */
-struct CVector { int vx, vy, vz; };
-struct CdlATV { unsigned char val0, val1, val2, val3; };
+struct CVector {
+	int vx, vy, vz;
+};
+
+struct CdlATV {
+	unsigned char val0, val1, val2, val3;
+};
+
 extern int DAT_800d13d0;
+
 unsigned int Utils_CalculateSpatialAttenuation(const CVector &, int, int);
+
 extern "C" {
-int FUN_80023fb0(int);
-int FUN_8008f620(CdlATV *);
+	int FUN_80023fb0(int);
+	int FUN_8008f620(CdlATV *);
 }
-extern "C" void FUN_80024010(const CVector &pos)
-{
+
+extern "C" void FUN_80024010(const CVector &pos) {
 	CdlATV atv;
 	unsigned int att = Utils_CalculateSpatialAttenuation(pos, 1024, 16384);
 	int vol = FUN_80023fb0(DAT_800d13d0);
@@ -28,5 +36,6 @@ extern "C" void FUN_80024010(const CVector &pos)
 	atv.val1 = r;
 	atv.val3 = 0;
 	atv.val2 = 0;
+
 	FUN_8008f620(&atv);
 }

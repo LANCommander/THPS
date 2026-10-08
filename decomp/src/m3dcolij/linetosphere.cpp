@@ -5,47 +5,53 @@
    distance along the line, with the end caps checked against the end points. The nearest hit's
    distance is kept in DAT_800c1304's best field, and ColijPos is set to the hit point. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <inline_c.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <inline_c.h>
 }
+
 typedef unsigned short ushort;
+
 struct CVector {
 	int vx, vy, vz;
 	CVector &operator<<=(const int &);
 	CVector &operator+=(const CVector &);
 };
+
 CVector operator-(const CVector &, const CVector &);
 CVector operator>>(const CVector &, const int &);
 CVector operator<<(const CVector &, const int &);
 CVector operator/(const CVector &, const int &);
+
 class CBody {
-public:
+  public:
 	char pad0[4];
-	CVector mPos;             /* 0x04 */
+	CVector mPos; /* 0x04 */
 	char pad10[0x1c - 0x10];
-	CBody *mNextItem;         /* 0x1c */
+	CBody *mNextItem; /* 0x1c */
 	char pad20[0x52 - 0x20];
-	ushort mCBodyFlags;       /* 0x52 */
+	ushort mCBodyFlags; /* 0x52 */
 	char pad54[0xe0 - 0x54];
-	ushort mRadius;           /* 0xe0 */
+	ushort mRadius; /* 0xe0 */
 };
+
 struct SColijInfo {
 	char pad0[32];
-	int BestDist;             /* 0x20 */
+	int BestDist; /* 0x20 */
 };
+
 extern SColijInfo DAT_800c1304;
+
 CBody *DAT_800d2108;
 
-static inline void SetSVector(SVECTOR *v, int _x, int _y, int _z)
-{
+static inline void SetSVector(SVECTOR *v, int _x, int _y, int _z) {
 	v->vx = _x;
 	v->vy = _y;
 	v->vz = _z;
 }
 
-CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVector &ColijPos, CBody *pBody, CBody *pIgnore, int ScaleFactor)
-{
+CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVector &ColijPos,
+                             CBody *pBody, CBody *pIgnore, int ScaleFactor) {
 	int Length;
 	int DotProd;
 	CVector DirectionVec;
@@ -62,13 +68,17 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 	gte_ldlvl(&DirectionVec);
 	gte_sqr0();
 	gte_stlvnl(&SquareVec);
+
 	Length = SquareRoot0(SquareVec.vx + SquareVec.vy + SquareVec.vz);
+
 	if (!Length)
 		return 0;
+
 	DirectionVec = (DirectionVec << 12) / Length;
 	gte_ldopv1(&DirectionVec);
 	SetSVector(&DirVecShort, DirectionVec.vx, DirectionVec.vy, DirectionVec.vz);
 	gte_ldsvllrow0(&DirVecShort);
+
 	if (OldPos.vx < NewPos.vx) {
 		MinCoords.vx = OldPos.vx;
 		MaxCoords.vx = NewPos.vx;
@@ -76,6 +86,7 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 		MinCoords.vx = NewPos.vx;
 		MaxCoords.vx = OldPos.vx;
 	}
+
 	if (OldPos.vy < NewPos.vy) {
 		MinCoords.vy = OldPos.vy;
 		MaxCoords.vy = NewPos.vy;
@@ -83,6 +94,7 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 		MinCoords.vy = NewPos.vy;
 		MaxCoords.vy = OldPos.vy;
 	}
+
 	if (OldPos.vz < NewPos.vz) {
 		MinCoords.vz = OldPos.vz;
 		MaxCoords.vz = NewPos.vz;
@@ -90,37 +102,51 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 		MinCoords.vz = NewPos.vz;
 		MaxCoords.vz = OldPos.vz;
 	}
+
 	for (; pBody; pBody = pBody->mNextItem) {
 		int Radius;
 		int RadiusSquared;
+
 		if (pBody->mCBodyFlags & 0x40)
 			continue;
+
 		if (pBody == pIgnore)
 			continue;
+
 		Radius = pBody->mRadius << 12;
+
 		if (pBody->mPos.vx + Radius < MinCoords.vx || MaxCoords.vx < pBody->mPos.vx - Radius)
 			continue;
+
 		if (pBody->mPos.vy + Radius < MinCoords.vy || MaxCoords.vy < pBody->mPos.vy - Radius)
 			continue;
+
 		if (pBody->mPos.vz + Radius < MinCoords.vz || MaxCoords.vz < pBody->mPos.vz - Radius)
 			continue;
+
 		*(CVector *)&OldToCentre = (pBody->mPos - OldPos) >> 12;
 		gte_ldopv2(&OldToCentre);
 		gte_op12();
 		gte_sqr0();
 		gte_stlvnl(&SquareVec);
+
 		RadiusSquared = pBody->mRadius * pBody->mRadius;
+
 		if (SquareVec.vx + SquareVec.vy + SquareVec.vz >= RadiusSquared)
 			continue;
+
 		gte_ldlv0(&OldToCentre);
 		gte_llv0();
 		gte_stlvnl0(&DotProd);
+
 		if (DotProd >= DAT_800c1304.BestDist)
 			continue;
+
 		if (DotProd < 0) {
 			gte_ldlvl(&OldToCentre);
 			gte_sqr0();
 			gte_stlvnl(&SquareVec);
+
 			if (SquareVec.vx + SquareVec.vy + SquareVec.vz >= RadiusSquared)
 				continue;
 		} else if (DotProd > Length) {
@@ -128,12 +154,15 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 			gte_ldlvl(&NewToCentre);
 			gte_sqr0();
 			gte_stlvnl(&SquareVec);
+
 			if (SquareVec.vx + SquareVec.vy + SquareVec.vz >= RadiusSquared)
 				continue;
 		}
+
 		DAT_800d2108 = pBody;
 		DAT_800c1304.BestDist = DotProd;
 	}
+
 	if (DAT_800d2108) {
 		gte_ldlvl(&DirectionVec);
 		gte_lddp(DAT_800c1304.BestDist);
@@ -142,5 +171,6 @@ CBody *M3dColij_LineToSphere(const CVector &OldPos, const CVector &NewPos, CVect
 		ColijPos <<= 12;
 		ColijPos += OldPos;
 	}
+
 	return DAT_800d2108;
 }

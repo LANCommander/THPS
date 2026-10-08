@@ -13,9 +13,17 @@ typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 
-struct SVECTOR { short vx, vy, vz, pad; };
-struct Vector { int vx, vy, vz; };
-struct SVector { short vx, vy, vz; };
+struct SVECTOR {
+	short vx, vy, vz, pad;
+};
+
+struct Vector {
+	int vx, vy, vz;
+};
+
+struct SVector {
+	short vx, vy, vz;
+};
 
 struct SModel {
 	ushort Flags;
@@ -59,22 +67,22 @@ struct STexWibFaceInfo {
 
 struct SRegion {
 	char pad0[0x10];
-	SModel **ppModels;      /* 0x10 */
-	uint *pPSX;             /* 0x14 */
+	SModel **ppModels; /* 0x10 */
+	uint *pPSX;        /* 0x14 */
 	char pad18[0x28 - 0x18];
-	uint *pWibbleData;      /* 0x28 */
+	uint *pWibbleData; /* 0x28 */
 	char pad2c[0x40 - 0x2c];
 };
 
 extern SRegion DAT_800bf7a8[];
+
 int DAT_800d21b0;
 int DAT_800d21c4;
 
 int uWibble(STexWibVertInfo *pTexWibVertInfo);
 int vWibble(STexWibVertInfo *pTexWibVertInfo);
 
-void M3d_PreprocessWibblyTextures(int Region)
-{
+void M3d_PreprocessWibblyTextures(int Region) {
 	uint *pData;
 	uint *pPSX;
 	uint *pFace;
@@ -100,27 +108,31 @@ void M3d_PreprocessWibblyTextures(int Region)
 
 	if (Region == -1)
 		return;
+
 	pData = DAT_800bf7a8[Region].pWibbleData;
+
 	if (!pData)
 		return;
+
 	pPSX = DAT_800bf7a8[Region].pPSX;
-	while (*pData)
-	{
+
+	while (*pData) {
 		pItem = (Item *)((char *)pPSX + *pData);
 		pTexWibFaceInfo = (STexWibFaceInfo *)(pData + 4);
 		NumFaces = pData[3];
-		if (pItem->Flags & 0x8000)
-		{
+
+		if (pItem->Flags & 0x8000) {
 			pData = (uint *)(pTexWibFaceInfo + NumFaces);
 			continue;
 		}
+
 		pModel = DAT_800bf7a8[pItem->Region].ppModels[pItem->Model];
 		pFace = (uint *)(&pModel->Vertices[pModel->NumVertices] + pModel->NumNormals);
 		uScroll = (DAT_800d21b0 * ((short *)pData)[2]) >> 4;
 		vScroll = (DAT_800d21b0 * ((short *)pData)[3]) >> 4;
 		DAT_800d21c4 = (DAT_800d21b0 * (int)pData[2]) >> 10;
-		for (i = 0; i < NumFaces; i++, pTexWibFaceInfo++)
-		{
+
+		for (i = 0; i < NumFaces; i++, pTexWibFaceInfo++) {
 			TileWidth = ((-(pFace[7] & 0x1f)) << 11) & 0xf800;
 			TileHeight = ((-(pFace[7] & 0x3e0)) << 6) & 0xff00;
 			u0 = pTexWibFaceInfo->p0.u << 8;
@@ -131,36 +143,41 @@ void M3d_PreprocessWibblyTextures(int Region)
 			v2 = pTexWibFaceInfo->p2.v << 8;
 			u3 = pTexWibFaceInfo->p3.u << 8;
 			v3 = pTexWibFaceInfo->p3.v << 8;
-			if (uScroll)
-			{
+
+			if (uScroll) {
 				u0 += uScroll;
 				u1 += uScroll;
 				u2 += uScroll;
 				u3 += uScroll;
 			}
-			if (vScroll)
-			{
+
+			if (vScroll) {
 				v0 += vScroll;
 				v1 += vScroll;
 				v2 += vScroll;
 				v3 += vScroll;
 			}
+
 			u0 += uWibble(&pTexWibFaceInfo->p0);
 			v0 += vWibble(&pTexWibFaceInfo->p0);
 			u1 += uWibble(&pTexWibFaceInfo->p1);
 			v1 += vWibble(&pTexWibFaceInfo->p1);
 			u2 += uWibble(&pTexWibFaceInfo->p2);
+
 			do {
 				v2 += vWibble(&pTexWibFaceInfo->p2);
 			} while (0);
+
 			u3 += uWibble(&pTexWibFaceInfo->p3);
+
 			do {
 				v3 += vWibble(&pTexWibFaceInfo->p3);
 			} while (0);
+
 			And = u0 & u1 & u2 & u3;
 			Or = u0 | u1 | u2 | u3;
-			while ((And ^ Or) & 0x10000)
-			{
+
+			while ((And ^ Or) & 0x10000) {
 				u0 += TileWidth;
 				u1 += TileWidth;
 				u2 += TileWidth;
@@ -168,10 +185,11 @@ void M3d_PreprocessWibblyTextures(int Region)
 				And = u0 & u1 & u2 & u3;
 				Or = u0 | u1 | u2 | u3;
 			}
+
 			And = v0 & v1 & v2 & v3;
 			Or = v0 | v1 | v2 | v3;
-			while ((And ^ Or) & 0x10000)
-			{
+
+			while ((And ^ Or) & 0x10000) {
 				v0 += TileHeight;
 				v1 += TileHeight;
 				v2 += TileHeight;
@@ -179,6 +197,7 @@ void M3d_PreprocessWibblyTextures(int Region)
 				And = v0 & v1 & v2 & v3;
 				Or = v0 | v1 | v2 | v3;
 			}
+
 			u0 = (u0 & 0xff00) >> 8;
 			u1 = (u1 & 0xff00) >> 8;
 			u2 = (u2 & 0xff00) >> 8;
@@ -186,9 +205,11 @@ void M3d_PreprocessWibblyTextures(int Region)
 			((ushort *)pFace)[10] = u1 | (v1 & 0xff00U);
 			int u3Hi = u3 & 0xff00;
 			int v3Hi = v3 & 0xff00;
+
 			pFace[6] = u2 | (v2 & 0xff00) | (u3Hi << 8) | (v3Hi << 16);
 			pFace = (uint *)((char *)pFace + (((ushort *)pFace)[1] & 0xfffc));
 		}
+
 		pData = (uint *)pTexWibFaceInfo;
 	}
 }

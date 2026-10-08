@@ -7,75 +7,91 @@
    Near-miss (685/695): in the wibble block the sine-table address is built through v1
    (`lui v1; addiu t0,v1`), and gcc's delay-slot filler hoists that lui; retail builds it in t0. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <libgpu.h>
 }
+
 typedef unsigned short ushort;
 typedef unsigned char uchar;
 typedef unsigned int uint;
-struct CVector { int vx, vy, vz; };
+
+struct CVector {
+	int vx, vy, vz;
+};
+
 struct SRibbonPoint {
 	CVector Pos;
-	uint Colour;              /* 12 */
-	ushort Width;             /* 16 */
-	ushort WidthB;            /* 18 */
-	uint ColourB;             /* 20 */
+	uint Colour;   /* 12 */
+	ushort Width;  /* 16 */
+	ushort WidthB; /* 18 */
+	uint ColourB;  /* 20 */
 	int Last1Scr;
 	int Last2Scr;
 	int Last3Scr;
 };
+
 struct SCalcBuffer {
-	int Pos;                  /* 0, screen XY */
-	int NormalX;              /* 4 */
-	int NormalY;              /* 8 */
-	int Zed;                  /* 12 */
-	int ScrWidth;             /* 16 */
-	int ScrWidthB;            /* 20 */
-	int Bad;                  /* 24 */
+	int Pos;       /* 0, screen XY */
+	int NormalX;   /* 4 */
+	int NormalY;   /* 8 */
+	int Zed;       /* 12 */
+	int ScrWidth;  /* 16 */
+	int ScrWidthB; /* 20 */
+	int Bad;       /* 24 */
 };
+
 struct Texture {
 	uchar u0, v0;
-	ushort clut;              /* 2 */
+	ushort clut; /* 2 */
 	uchar u1, v1;
-	ushort tpage;             /* 6 */
+	ushort tpage; /* 6 */
 };
+
 struct SCamera {
 	char pad0[8];
-	ushort Near;              /* 8 */
-	ushort Far;               /* 10 */
+	ushort Near; /* 8 */
+	ushort Far;  /* 10 */
 };
+
 struct SOTBuffer {
 	char pad0[0x808c];
-	char *pOT;                /* 0x808c */
+	char *pOT; /* 0x808c */
 };
-struct STrig { short s, c; };
+
+struct STrig {
+	short s, c;
+};
+
 class CTexturedRibbon {
-public:
+  public:
 	char pad0[0x48];
-	uchar mTrail;             /* 0x48 */
-	Texture *mpTex;           /* 0x4c */
-	uchar mDontDisplay;       /* 0x50 */
-	int mU;                   /* 0x54 */
-	int mV;                   /* 0x58 */
-	int mDv;                  /* 0x5c */
-	int mWibble;              /* 0x60 */
-	int mNumPoints;           /* 0x64 */
-	SRibbonPoint *mpPoints;   /* 0x68 */
+	uchar mTrail;           /* 0x48 */
+	Texture *mpTex;         /* 0x4c */
+	uchar mDontDisplay;     /* 0x50 */
+	int mU;                 /* 0x54 */
+	int mV;                 /* 0x58 */
+	int mDv;                /* 0x5c */
+	int mWibble;            /* 0x60 */
+	int mNumPoints;         /* 0x64 */
+	SRibbonPoint *mpPoints; /* 0x68 */
 	void Display();
 };
+
 extern SCamera *DAT_800d2178;
 extern SOTBuffer *DAT_800d1a48;
 extern uchar *DAT_800d1a54;
 extern uchar *DAT_800d177c;
 extern int DAT_800d16e4;
-extern STrig DAT_800c9670[1];  /* declared <= 8 bytes: cc1 then emits one la (as retail), not a hi/lo split */
+extern STrig
+    DAT_800c9670[1]; /* declared <= 8 bytes: cc1 then emits one la (as retail), not a hi/lo split */
+
 u_long DAT_800d1900[2];
+
 int Transform(const CVector &, int &);
 void CalcScreenNormal(SCalcBuffer *, int &, int &, int);
 
-void CTexturedRibbon::Display()
-{
+void CTexturedRibbon::Display() {
 	SRibbonPoint *pPoint;
 	SCalcBuffer *pBuf;
 	int LastNormalX;
@@ -96,12 +112,16 @@ void CTexturedRibbon::Display()
 
 	if (mDontDisplay)
 		return;
+
 	pBuf = (SCalcBuffer *)0x1f800000;
 	pPoint = mpPoints;
+
 	{
 		int i;
+
 		for (i = 0; i < mNumPoints; i++) {
 			pBuf->Zed = Transform(pPoint->Pos, pBuf->Pos);
+
 			if (pBuf->Zed < DAT_800d2178->Near || DAT_800d2178->Far < pBuf->Zed) {
 				pBuf->Bad = 1;
 			} else {
@@ -109,26 +129,33 @@ void CTexturedRibbon::Display()
 				pBuf->ScrWidth = pPoint->Width * 400 / pBuf->Zed;
 				pBuf->ScrWidthB = pPoint->WidthB * 400 / pBuf->Zed;
 			}
+
 			pBuf++;
 			pPoint++;
 		}
 	}
+
 	LastNormalX = 0;
 	pBuf = (SCalcBuffer *)0x1f800000;
 	LastNormalY = 0;
+
 	{
 		int i;
+
 		for (i = 0; i < mNumPoints - 1; i++) {
 			CalcScreenNormal(pBuf, pBuf->NormalX, pBuf->NormalY, 4);
+
 			if (!pBuf->NormalX && !pBuf->NormalY) {
 				pBuf->NormalX = LastNormalX;
 				pBuf->NormalY = LastNormalY;
 			}
+
 			LastNormalX = pBuf->NormalX;
 			LastNormalY = pBuf->NormalY;
 			pBuf++;
 		}
 	}
+
 	pBuf->NormalX = LastNormalX;
 	pBuf->NormalY = LastNormalY;
 	pBuf = (SCalcBuffer *)0x1f800000;
@@ -147,14 +174,19 @@ void CTexturedRibbon::Display()
 	pBuf = pLastBuf + 1;
 	pLastPoint = mpPoints;
 	pPoint = pLastPoint + 1;
+
 	{
 		int i;
+
 		for (i = 1; i < mNumPoints; pLastBuf++, pBuf++, pLastPoint++, pPoint++, i++) {
 			uint *pOTPos;
+
 			if (!(pBuf->NormalX | pBuf->NormalY))
 				continue;
+
 			if (!(pLastBuf->NormalX | pLastBuf->NormalY))
 				continue;
+
 			{
 				int MinZ;
 				int NewTop;
@@ -174,9 +206,12 @@ void CTexturedRibbon::Display()
 				int v;
 				uint a;
 				uint b;
+
 				MinZ = pLastBuf->Zed;
+
 				if (pBuf->Zed < MinZ)
 					MinZ = pBuf->Zed;
+
 				dx = pBuf->NormalX * pBuf->ScrWidth >> 6;
 				dy = pBuf->NormalY * pBuf->ScrWidth >> 6;
 				dxB = pBuf->NormalX * pBuf->ScrWidthB >> 6;
@@ -188,12 +223,18 @@ void CTexturedRibbon::Display()
 				pOTPos = (uint *)(DAT_800d1a48->pOT + (MinZ & 0x3ffc));
 				NewTopB = ((y + dyB) << 16) | ((x + dxB) & 0xffff);
 				NewBottomB = ((y - dyB) << 16) | ((x - dxB) & 0xffff);
+
 				if (mWibble && i >= mNumPoints / 2) {
-					NewTop = ((y + dy + DAT_800c9670[(DAT_800d16e4 * 200 + 130) & 4095].s / 2048) << 16) | ((x + dx) & 0xffff);
+					NewTop = ((y + dy + DAT_800c9670[(DAT_800d16e4 * 200 + 130) & 4095].s / 2048)
+					          << 16) |
+					         ((x + dx) & 0xffff);
 					y += DAT_800c9670[(DAT_800d16e4 * 250) & 4094].s * 3 / 4096;
 					pBuf->Pos = (pBuf->Pos & 0xffff) | (y << 16);
-					NewBottom = ((y - dy + DAT_800c9670[(DAT_800d16e4 * 150 + 100) & 4095].s / 2048) << 16) | ((x - dx) & 0xffff);
+					NewBottom = ((y - dy + DAT_800c9670[(DAT_800d16e4 * 150 + 100) & 4095].s / 2048)
+					             << 16) |
+					            ((x - dx) & 0xffff);
 				}
+
 				pTopPoly = (POLY_GT4 *)DAT_800d1a54;
 				pBottomPoly = pTopPoly + 1;
 				pTopPolyB = pBottomPoly + 1;
@@ -202,20 +243,27 @@ void CTexturedRibbon::Display()
 				pWinOff = pWinOn + 1;
 				ptpage = (DR_TPAGE *)(pWinOff + 1);
 				newppoly = (uchar *)(ptpage + 1);
+
 				if (newppoly > DAT_800d177c)
 					return;
+
 				DAT_800d1a54 = newppoly;
 				win.x = win.y = win.w = win.h = 0;
 				setTexWindow(pWinOff, &win);
+
 				win.x = mpTex->u0;
 				win.y = mpTex->v0;
 				win.w = 64;
 				win.h = 64;
 				setTexWindow(pWinOn, &win);
 				addPrim(pOTPos, pWinOff);
-				*(u_long *)&pTopPoly->tag = *(u_long *)&pBottomPoly->tag = *(u_long *)&pTopPolyB->tag = *(u_long *)&pBottomPolyB->tag = 0x0c000000;
-				pTopPoly->clut = pBottomPoly->clut = pTopPolyB->clut = pBottomPolyB->clut = mpTex->clut;
-				pTopPoly->tpage = pBottomPoly->tpage = pTopPolyB->tpage = pBottomPolyB->tpage = mpTex->tpage;
+
+				*(u_long *)&pTopPoly->tag = *(u_long *)&pBottomPoly->tag =
+				    *(u_long *)&pTopPolyB->tag = *(u_long *)&pBottomPolyB->tag = 0x0c000000;
+				pTopPoly->clut = pBottomPoly->clut = pTopPolyB->clut = pBottomPolyB->clut =
+				    mpTex->clut;
+				pTopPoly->tpage = pBottomPoly->tpage = pTopPolyB->tpage = pBottomPolyB->tpage =
+				    mpTex->tpage;
 				u = mpTex->u0 + (mU & 63);
 				v = mpTex->v0 + (voff & 63);
 				pTopPolyB->u0 = u;
@@ -288,14 +336,17 @@ void CTexturedRibbon::Display()
 				addPrim(pOTPos, pTopPolyB);
 				addPrim(pOTPos, pBottomPoly);
 				addPrim(pOTPos, pBottomPolyB);
+
 				LastTop = NewTop;
 				addPrim(pOTPos, pWinOn);
+
 				LastTopB = NewTopB;
 				a = DAT_800d1900[0];
 				b = DAT_800d1900[1];
 				ptpage->tag = a;
 				ptpage->code[0] = b;
 				addPrim(pOTPos, ptpage);
+
 				LastBottom = NewBottom;
 				LastBottomB = NewBottomB;
 			}

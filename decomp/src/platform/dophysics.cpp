@@ -1,13 +1,18 @@
 /* DoPhysics__9CPlatform (0x8003e9d8) */
 typedef unsigned char uchar;
 typedef unsigned short ushort;
-struct CFriction { uchar x, y, z; };
+
+struct CFriction {
+	uchar x, y, z;
+};
+
 struct CVector {
 	int x, y, z;
 	CVector &operator+=(const CVector &);
 	CVector &operator%=(const CFriction &);
 	void KillSmall();
 };
+
 struct CSVector {
 	short x, y, z;
 	CSVector &operator+=(const CSVector &);
@@ -15,6 +20,7 @@ struct CSVector {
 	void Mask();
 	void KillSmall();
 };
+
 struct CPlatform {
 	char pad0[4];
 	CVector mPos;
@@ -33,20 +39,29 @@ struct CPlatform {
 	ushort mState;
 	void DoPhysics();
 };
-void CPlatform::DoPhysics()
-{
+
+void CPlatform::DoPhysics() {
 	mS.z = 0;
 	mS.y = 0;
 	mS.x = 0;
+
 	if (mState == 0) {
 		int vx, vy, vz;
 		short sx, sy, sz;
+
 		vx = mVel.x + mAcc.x;
 		vy = mVel.y + mAcc.y;
 		vz = mVel.z + mAcc.z;
-		if (vx >= -2048 && vx <= 2048) vx = 0;
-		if (vy >= -2048 && vy <= 2048) vy = 0;
-		if (vz >= -2048 && vz <= 2048) vz = 0;
+
+		if (vx >= -2048 && vx <= 2048)
+			vx = 0;
+
+		if (vy >= -2048 && vy <= 2048)
+			vy = 0;
+
+		if (vz >= -2048 && vz <= 2048)
+			vz = 0;
+
 		mVel.x = vx;
 		mVel.y = vy;
 		mVel.z = vz;
@@ -62,9 +77,16 @@ void CPlatform::DoPhysics()
 		sx = sx + mAngAcc.x;
 		sy = sy + mAngAcc.y;
 		sz = sz + mAngAcc.z;
-		if (sx >= -1 && sx <= 1) sx = 0;
-		if (sy >= -1 && sy <= 1) sy = 0;
-		if (sz >= -1 && sz <= 1) sz = 0;
+
+		if (sx >= -1 && sx <= 1)
+			sx = 0;
+
+		if (sy >= -1 && sy <= 1)
+			sy = 0;
+
+		if (sz >= -1 && sz <= 1)
+			sz = 0;
+
 		mAngVel.x = sx;
 		mAngVel.y = sy;
 		mAngVel.z = sz;
@@ -72,9 +94,11 @@ void CPlatform::DoPhysics()
 		mVel += mAcc;
 		mVel %= mFric;
 		mVel.KillSmall();
+
 		mPos += mVel;
 		mAngles += mAngVel;
 		mAngles.Mask();
+
 		mAngVel += mAngAcc;
 		mAngVel %= mAngFric;
 		mAngVel.KillSmall();

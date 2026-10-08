@@ -3,17 +3,23 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 
-struct CVector { int vx, vy, vz; };
-struct CQuat { int x, y, z, w, n; };
+struct CVector {
+	int vx, vy, vz;
+};
+
+struct CQuat {
+	int x, y, z, w, n;
+};
+
 class CBody {
-public:
+  public:
 	ushort mFlags;
 	ushort mInquiry;
 	CVector mPos;
 };
 
 class CamPos {
-public:
+  public:
 	int **vf;
 	int calc_mTripod;
 	CBody *mTripod;
@@ -27,21 +33,18 @@ public:
 
 void Font_String(ushort, ushort, char *, uchar, uchar, uchar, uchar);
 void Font_Number(ushort, ushort, int, uchar, uchar, uchar, uchar);
+
 extern char DAT_800d2098[];
 extern char DAT_800d20a0[];
 extern char DAT_800a3528[];
 
-void CamPos::Display(ushort x, ushort y, uchar r, uchar g, uchar b)
-{
-	if (calc_mTripod)
-	{
+void CamPos::Display(ushort x, ushort y, uchar r, uchar g, uchar b) {
+	if (calc_mTripod) {
 		Font_String(x, y, DAT_800d2098, r, g, b, 0);
 		Font_Number(x, y + 8, mTripod->mPos.vx >> 12, r, g, b, 0);
 		Font_Number(x, y + 16, mTripod->mPos.vy >> 12, r, g, b, 0);
 		Font_Number(x, y + 24, mTripod->mPos.vz >> 12, r, g, b, 0);
-	}
-	else
-	{
+	} else {
 		Font_String(x, y, DAT_800d20a0, r, g, b, 0);
 		Font_Number(x, y + 8, mTripodPos.vx >> 12, r, g, b, 0);
 		Font_Number(x, y + 16, mTripodPos.vy >> 12, r, g, b, 0);

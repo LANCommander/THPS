@@ -6,14 +6,22 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
-struct CVector { int vx, vy, vz; };
+
+struct CVector {
+	int vx, vy, vz;
+};
+
 struct CFriction {
 	uchar x, y, z;
-	void Set(uchar a, uchar b, uchar c) { x = a; y = b; z = c; }
+	void Set(uchar a, uchar b, uchar c) {
+		x = a;
+		y = b;
+		z = c;
+	}
 };
 
 class CBit {
-public:
+  public:
 	CBit *mPrevious;
 	CBit *mNext;
 	short mAge;
@@ -29,15 +37,17 @@ public:
 	uchar mType;
 	virtual ~CBit();
 };
+
 class CPixel : public CBit {
-public:
+  public:
 	uint tag;
 	uchar r0, g0, b0, code;
 	uint mWidthHeight;
 	CPixel();
 };
+
 class CSpark : public CPixel {
-public:
+  public:
 	uchar mFadeR;
 	uchar mFadeG;
 	uchar mFadeB;
@@ -53,11 +63,11 @@ uchar DAT_800d18be;
 uchar DAT_800d18c0;
 uchar DAT_800d18c1;
 uchar DAT_800d18c2;
+
 short Redbook_Rnd(int);
 void Bit_CalculateSparkVelocity(CVector &, int);
 
-CSpark::CSpark(CVector &pos, int vel, int gravity, int life)
-{
+CSpark::CSpark(CVector &pos, int vel, int gravity, int life) {
 	if ((DAT_800d18b4 & 15) == 1) {
 		code = 0x68;
 		tag = 0x02000000;
@@ -67,6 +77,7 @@ CSpark::CSpark(CVector &pos, int vel, int gravity, int life)
 		mWidthHeight = DAT_800d18b4;
 		tag = 0x03000000;
 	}
+
 	r0 = DAT_800d18bc;
 	g0 = DAT_800d18bd;
 	b0 = DAT_800d18be;
@@ -75,9 +86,12 @@ CSpark::CSpark(CVector &pos, int vel, int gravity, int life)
 	mFadeB = DAT_800d18c2;
 	mPos = pos;
 	Bit_CalculateSparkVelocity(mVel, vel);
+
 	mAcc.vy = gravity;
 	mFric.Set(3, 3, 3);
+
 	mLifetime = Redbook_Rnd(life);
+
 	if (DAT_800d18b8)
 		code |= 2;
 }

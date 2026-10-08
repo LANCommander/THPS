@@ -12,12 +12,16 @@ typedef struct STrig {
 	struct STrig *pNext;
 	struct STrig *pNextAll;
 } STrig;
+
 extern STrig *DAT_800d2610[];
+
 STrig *DAT_800d19f8;
+
 void *FUN_8004d068(int, int, int);
-void FUN_80044820(int id, unsigned short line, char *script)
-{
+
+void FUN_80044820(int id, unsigned short line, char *script) {
 	STrig *t = FUN_8004d068(sizeof(STrig), 0, 1);
+
 	t->pNextAll = DAT_800d19f8;
 	t->pNext = DAT_800d2610[id & 0xff];
 	DAT_800d2610[id & 0xff] = t;

@@ -1,3 +1,8 @@
 /* FUN_80068d88 (0x80068d88) */
-int DAT_800d1df4;int DAT_800d1df8;
-void FUN_80068d88(void){DAT_800d1df4=0;DAT_800d1df8=0;}
+int DAT_800d1df4;
+int DAT_800d1df8;
+
+void FUN_80068d88(void) {
+	DAT_800d1df4 = 0;
+	DAT_800d1df8 = 0;
+}

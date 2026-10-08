@@ -3,19 +3,22 @@
    buffers: once the GPU is idle, any buffer waiting to be drawn is marked done. */
 struct SDb {
 	char pad0[120];
-	int Pending;               /* 120 */
-	int Done;                  /* 124 */
+	int Pending; /* 120 */
+	int Done;    /* 124 */
 	char pad80[32940 - 128];
 };
+
 extern SDb DAT_800a891c[2];
+
 extern "C" int FUN_8008c468(int);
 
-void Db_CallBack()
-{
+void Db_CallBack() {
 	if (!DAT_800a891c[0].Pending && !DAT_800a891c[1].Pending)
 		return;
+
 	if (!FUN_8008c468(1)) {
 		int i;
+
 		for (i = 0; i < 2; i++) {
 			if (DAT_800a891c[i].Pending) {
 				DAT_800a891c[i].Pending = 0;

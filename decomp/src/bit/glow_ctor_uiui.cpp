@@ -3,12 +3,22 @@
    `this` is copied where retail copies it. */
 typedef unsigned char uchar;
 typedef unsigned int uint;
-struct CVector { int vx, vy, vz; };
-struct SSection { int a, b; };
-struct SFringeQuad { uint a; uint code; };
+
+struct CVector {
+	int vx, vy, vz;
+};
+
+struct SSection {
+	int a, b;
+};
+
+struct SFringeQuad {
+	uint a;
+	uint code;
+};
 
 class CBit {
-public:
+  public:
 	CBit *mPrevious;
 	CBit *mNext;
 	short mAge;
@@ -28,7 +38,7 @@ public:
 };
 
 class CGlow : public CBit {
-public:
+  public:
 	SSection *mpSections;
 	SFringeQuad *mpFringes;
 	uint mNumSections;
@@ -43,17 +53,20 @@ public:
 };
 
 void *Mem_New(uint, int, int);
+
 char DAT_800d18e8[8];
 
-CGlow::CGlow(uint NumPoints, uint NumFringes)
-{
+CGlow::CGlow(uint NumPoints, uint NumFringes) {
 	mNumSections = NumPoints * 2;
 	mNumFringes = NumFringes;
 	mStepAngle = 4096 / mNumSections;
-	mpSections = (SSection *)Mem_New((mNumSections + mNumSections * mNumFringes) * sizeof(SSection), 0, 1);
+	mpSections =
+	    (SSection *)Mem_New((mNumSections + mNumSections * mNumFringes) * sizeof(SSection), 0, 1);
 	mpFringes = (SFringeQuad *)(mpSections + mNumSections);
+
 	for (uint i = 0; i < mNumSections * mNumFringes; i++)
 		mpFringes[i].code = 0x3a000000;
+
 	mCentreCodeBGR = 0x32000000;
 	mMask = 0xffffffff;
 	AttachTo(DAT_800d18e8);

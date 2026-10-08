@@ -2,6 +2,7 @@
 typedef unsigned short ushort;
 typedef unsigned char uchar;
 typedef unsigned int uint;
+
 struct CItem {
 	ushort mFlags;
 	char pad0[0x1e];
@@ -15,8 +16,8 @@ struct CItem {
 	short mFlash_dB;
 	void Flash(int frames, uchar r, uchar g, uchar b);
 };
-void CItem::Flash(int frames, uchar r, uchar g, uchar b)
-{
+
+void CItem::Flash(int frames, uchar r, uchar g, uchar b) {
 	if (frames == 0) {
 		mFlashTimer = 0;
 		mRGB = (b << 16) | (g << 8) | r;
@@ -31,15 +32,19 @@ void CItem::Flash(int frames, uchar r, uchar g, uchar b)
 			mFlags |= 1024;
 			return;
 		}
+
 		mFlash_dR = (128 - r) / frames;
 		mFlash_dG = (128 - g) / frames;
 		mFlash_dB = (128 - b) / frames;
 		mFlashTimer = frames + 1;
+
 		if (!(mStoredRGB & 0x01000000)) {
 			mStoredRGB = (mRGB & 0x00ffffff) | 0x01000000;
+
 			if (mFlags & 1024)
 				mStoredRGB |= 0x02000000;
 		}
+
 		mRGB = (b << 16) | (g << 8) | r;
 		mFlags |= 1024;
 	}

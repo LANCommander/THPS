@@ -6,50 +6,56 @@
    resident flag. The flag update goes through a multiply-set local, so sched1 doesn't treat it as a
    birthing insn and keeps the store last (demo line 1135, after Window). */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <libgpu.h>
 }
+
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
+
 struct tag_S_Pal {
 	ushort Clut;
 	ushort pad2;
 	ushort RefCount;
 };
+
 struct Texture {
 	uchar u0, v0;
-	ushort Clut;              /* 2 */
+	ushort Clut; /* 2 */
 	uchar u1, v1;
-	ushort TPage;             /* 6 */
+	ushort TPage; /* 6 */
 	uchar u2, v2;
 	uchar u3, v3;
-	uint Window;              /* 12 */
-	uint Flags;               /* 16 */
-	uint Checksum;            /* 20 */
-	tag_S_Pal *pPal;          /* 24 */
-	short X;                  /* 28 */
-	short Y;                  /* 30 */
+	uint Window;     /* 12 */
+	uint Flags;      /* 16 */
+	uint Checksum;   /* 20 */
+	tag_S_Pal *pPal; /* 24 */
+	short X;         /* 28 */
+	short Y;         /* 30 */
 };
+
 struct SPSXRegion {
 	char pad0[16];
-	uint *pModels;            /* 0x10 */
-	uint *pPSX;               /* 0x14 */
+	uint *pModels; /* 0x10 */
+	uint *pPSX;    /* 0x14 */
 	char pad18[64 - 0x18];
 };
+
 extern SPSXRegion DAT_800bf7a8[];
+
 void Pack_DefragmentFully(void);
 uint *Spool_SkipPackets(uint *);
 tag_S_Pal *Pal_FindPaletteEntry(uint);
+
 extern "C" {
-int FUN_8004982c(int, int, int, int *, int *, int, int, uint);
-void FUN_8008c714(RECT *, uint *);
-ushort FUN_8008f72c(int, int, int, int);
+	int FUN_8004982c(int, int, int, int *, int *, int, int, uint);
+	void FUN_8008c714(RECT *, uint *);
+	ushort FUN_8008f72c(int, int, int, int);
 }
 
-void Spool_LoadTexturesToVRAM(int Region, int defrag)
-{
+void Spool_LoadTexturesToVRAM(int Region, int defrag) {
 	uint *pPSX;
 	uint *pStuff;
 	int Temp;
@@ -60,6 +66,7 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 
 	if (defrag)
 		Pack_DefragmentFully();
+
 	pPSX = DAT_800bf7a8[Region].pPSX;
 	pStuff = Spool_SkipPackets(pPSX);
 	pStuff += DAT_800bf7a8[Region].pModels[-1];
@@ -72,20 +79,26 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 	pStuff += Temp * 129;
 	pTextureInfo = pStuff;
 	NumTextures = *pTextureInfo++;
+
 	for (i = 0; i < NumTextures; i++) {
 		uint *pTexture = (uint *)((char *)pPSX + *pTextureInfo++);
 		uint Flags = pTexture[0];
 		uint NumColours = pTexture[1];
 		uint PaletteChecksum = pTexture[2];
 		Texture *pTextureEntry = TextureLookup[pTexture[3]];
+
 		if (!pTextureEntry)
 			continue;
+
 		if (pTextureEntry->Flags & 0xf0000)
 			continue;
+
 		if (pTextureEntry->Checksum == 0xcce0187c)
 			Flags |= 1;
+
 		if (pTextureEntry->Checksum == 0x68b7b136)
 			Flags |= 1;
+
 		{
 			tag_S_Pal *pPal;
 			ushort Width = *(ushort *)&pTexture[4];
@@ -93,12 +106,16 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 			uint *pTextureData = pTexture + 5;
 			int x;
 			int y;
+
 			if (NumColours == 256) {
 				int AlignedWidth = (Width + 1) & ~1;
 				RECT rec;
-				FUN_8004982c(0, AlignedWidth, Height, &x, &y, 8, (Flags & 1) ? 2 : 0, pTextureEntry->Checksum);
+
+				FUN_8004982c(0, AlignedWidth, Height, &x, &y, 8, (Flags & 1) ? 2 : 0,
+				             pTextureEntry->Checksum);
 				ushort sx = x;
 				ushort sy = y;
+
 				pTextureEntry->X = sx;
 				pTextureEntry->Y = sy;
 				rec.x = sx;
@@ -107,12 +124,16 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 				rec.h = Height;
 				FUN_8008c714(&rec, pTextureData);
 			}
+
 			if (NumColours == 16) {
 				int AlignedWidth = (Width + 3) & ~3;
 				RECT rec;
-				FUN_8004982c(0, AlignedWidth, Height, &x, &y, 4, (Flags & 1) ? 2 : 0, pTextureEntry->Checksum);
+
+				FUN_8004982c(0, AlignedWidth, Height, &x, &y, 4, (Flags & 1) ? 2 : 0,
+				             pTextureEntry->Checksum);
 				ushort sx = x;
 				ushort sy = y;
+
 				pTextureEntry->X = sx;
 				pTextureEntry->Y = sy;
 				rec.x = sx;
@@ -121,19 +142,23 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 				rec.h = Height;
 				FUN_8008c714(&rec, pTextureData);
 			}
+
 			pPal = Pal_FindPaletteEntry(PaletteChecksum);
 			pPal->RefCount++;
 			pTextureEntry->pPal = pPal;
 			pTextureEntry->Clut = pPal->Clut;
 			pTextureEntry->TPage = FUN_8008f72c(NumColours == 256, 0, x, y);
+
 			{
 				int t = x & 63;
 				uchar u;
 				uchar v;
+
 				if (NumColours == 256)
 					u = t << 1;
 				else
 					u = t << 2;
+
 				pTextureEntry->u0 = u;
 				v = y;
 				pTextureEntry->v0 = v;
@@ -143,9 +168,12 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag)
 				pTextureEntry->v2 = v + Height - 1;
 				pTextureEntry->u3 = u + Width - 1;
 				pTextureEntry->v3 = v + Height - 1;
-				pTextureEntry->Window = ((v & 0xf8) << 12) | 0xe2000000 | ((u & 0xf8) << 7) | ((-Height & 0xf8) << 2) | ((-Width & 0xf8) >> 3);
+				pTextureEntry->Window = ((v & 0xf8) << 12) | 0xe2000000 | ((u & 0xf8) << 7) |
+				                        ((-Height & 0xf8) << 2) | ((-Width & 0xf8) >> 3);
+
 				{
 					uint f = pTextureEntry->Flags;
+
 					f &= 0xfff0ffff;
 					f |= 0x10000;
 					pTextureEntry->Flags = f;

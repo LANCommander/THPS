@@ -5,14 +5,15 @@
    in setUVWH and `<< 1` (not `* 2`) for the 8-bit widths keep both arms' registers identical so
    the getTPage tail cross-jumps as in retail. */
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
-void DrawPrim(void *);
-int DrawSync(int);
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <libgpu.h>
+
+	void DrawPrim(void *);
+	int DrawSync(int);
 }
-void DrawIt(RECT *r, int x, int y, int bpp, int clut)
-{
+
+void DrawIt(RECT *r, int x, int y, int bpp, int clut) {
 	POLY_FT4 poly;
 	POLY_FT4 *apoly;
 
@@ -20,16 +21,20 @@ void DrawIt(RECT *r, int x, int y, int bpp, int clut)
 	setPolyFT4(apoly);
 	setRGB0(apoly, 0, 0, 0);
 	setShadeTex(apoly, 1);
+
 	if (bpp == 16) {
 		setXYWH(apoly, x, y, r->w, r->h);
 		setUVWH(apoly, r->x & 0x3f, r->y & 0xff, r->w, r->h);
+
 		apoly->tpage = getTPage(2, 0, r->x, r->y);
 	} else {
 		setXYWH(apoly, x, y, r->w << 1, r->h);
 		setUVWH(apoly, (r->x & 0x3f) << 1, r->y & 0xff, r->w << 1, r->h);
+
 		apoly->tpage = getTPage(1, 0, r->x, r->y);
 		apoly->clut = clut;
 	}
+
 	DrawPrim(apoly);
 	DrawSync(0);
 }

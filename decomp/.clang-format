@@ -1,0 +1,25 @@
+# Run via tools/format.py, which adds the blank-line layout pass on top.
+# Whitespace-only formatting for the matching sources. Codegen is insensitive to layout, but
+# include order and comment text are left alone (headers carry salvage flags/notes).
+BasedOnStyle: LLVM
+UseTab: ForIndentation
+IndentWidth: 4
+TabWidth: 4
+ContinuationIndentWidth: 4
+ColumnLimit: 100
+SortIncludes: Never
+ReflowComments: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: false
+IndentCaseLabels: true
+PointerAlignment: Right
+AlignConsecutiveMacros: Consecutive
+AlignTrailingComments: true
+BreakBeforeBraces: Attach
+SpaceBeforeParens: ControlStatements
+IndentPPDirectives: None
+IndentExternBlock: Indent
+Cpp11BracedListStyle: false

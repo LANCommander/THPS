@@ -8,19 +8,29 @@
    temps v0/v1/a0 and the OffX (short) shift temp a1 (so global puts OffX in a1, Width in t5,
    Angle in s3); ours allocates the OffX chain first (v0). Statement order follows the demo lines. */
 #pragma interface
+
 extern "C" {
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
-#include <inline_c.h>
+	#include <sys/types.h>
+	#include <libgte.h>
+	#include <libgpu.h>
+	#include <inline_c.h>
 }
+
 typedef unsigned short ushort;
 typedef unsigned char uchar;
 typedef unsigned int uint;
-struct CVector { int vx, vy, vz; };
+
+struct CVector {
+	int vx, vy, vz;
+};
+
 CVector operator>>(const CVector &, const int &);
 CVector operator-(const CVector &, const CVector &);
-struct CSVector { short vx, vy, vz; };
+
+struct CSVector {
+	short vx, vy, vz;
+};
+
 struct Texture {
 	uchar u0, v0;
 	ushort clut;
@@ -30,6 +40,7 @@ struct Texture {
 	uchar u3, v3;
 	uint TexWin;
 };
+
 struct SAnimFrame {
 	signed char OffX;
 	signed char OffY;
@@ -37,12 +48,22 @@ struct SAnimFrame {
 	uchar Height;
 	Texture *pTexture;
 };
-struct SSection { uint Radius; uint PadBGR; };
-struct SFringeQuad { uint Width; uint CodeBGR; };
+
+struct SSection {
+	uint Radius;
+	uint PadBGR;
+};
+
+struct SFringeQuad {
+	uint Width;
+	uint CodeBGR;
+};
+
 struct SLineSeg {
 	CVector End;
 	uchar r, g, b, code;
 };
+
 struct SCam {
 	int pad;
 	CVector Pos;
@@ -50,23 +71,28 @@ struct SCam {
 	MATRIX Matrix;
 	char pad94[164 - 0x94];
 };
+
 struct SCamera {
 	char pad0[8];
-	ushort Near;              /* 8 */
-	ushort Far;               /* 10 */
+	ushort Near; /* 8 */
+	ushort Far;  /* 10 */
 	char padc[14 - 12];
-	ushort H;                 /* 14 */
-	ushort OffX;              /* 16 */
-	ushort OffY;              /* 18 */
+	ushort H;    /* 14 */
+	ushort OffX; /* 16 */
+	ushort OffY; /* 18 */
 };
+
 struct SOTBuffer {
 	char pad0[0x808c];
-	char *pOT;                /* 0x808c */
+	char *pOT; /* 0x808c */
 };
-struct STrig { short s, c; };
+
+struct STrig {
+	short s, c;
+};
 
 class CBit {
-public:
+  public:
 	CBit *mPrevious;
 	CBit *mNext;
 	short mAge;
@@ -84,10 +110,11 @@ public:
 	virtual void Move();
 	virtual void Display();
 };
-class CSpecialDisplay : public CBit {
-};
+
+class CSpecialDisplay : public CBit {};
+
 class CGlow : public CBit {
-public:
+  public:
 	SSection *mpSections;
 	SFringeQuad *mpFringes;
 	uint mNumSections;
@@ -100,22 +127,24 @@ public:
 };
 
 class CGPolyLine : public CBit {
-public:
+  public:
 	int mNumSegs;
 	SLineSeg *mSegs;
 	CVector mStart;
 	uchar mStartR, mStartG, mStartB, mCode;
 	uchar mForcedPriority;
 };
+
 class CPolyLine : public CBit {
-public:
+  public:
 	uchar mForcedPriority;
 	int mNumSegs;
 	SLineSeg *mSegs;
 	CVector mStart;
 };
+
 class CFT4Bit : public CBit {
-public:
+  public:
 	short mTransDecay;
 	short mScaleDecay;
 	uint mCodeBGR;
@@ -128,8 +157,9 @@ public:
 	short mAnimSpeed;
 	short mScale;
 };
+
 class CFlatBit : public CFT4Bit {
-public:
+  public:
 	short mAngle;
 	short mAngVel;
 	short mAngAcc;
@@ -139,8 +169,9 @@ public:
 	uchar mSemiTransparencyRate;
 	ushort mCLUT;
 };
+
 class CGlassBit : public CBit {
-public:
+  public:
 	CVector mPosA;
 	CVector mPosB;
 	CVector mPosC;
@@ -149,15 +180,17 @@ public:
 	uchar mR, mG, mB;
 	uchar mFadeRate;
 };
+
 class CGLine : public CBit {
-public:
+  public:
 	uint mCodeBGR0;
 	uint mPadBGR1;
 	CVector mStart;
 	CVector mEnd;
 };
+
 class CQuadBit : public CBit {
-public:
+  public:
 	CVector mPosB;
 	CVector mPosC;
 	CVector mPosD;
@@ -168,8 +201,9 @@ public:
 	Texture *mpTexture;
 	uchar mFlags;
 };
+
 class CChunkBit : public CBit {
-public:
+  public:
 	SVECTOR mPosA;
 	SVECTOR mPosB;
 	SVECTOR mPosC;
@@ -189,17 +223,20 @@ public:
 	uint mB3G3R3;
 	uint mTexWin;
 };
+
 class CPixel : public CBit {
-public:
+  public:
 	uint tag;
 	uchar r0, g0, b0, code;
 	uint mWidthHeight;
 };
+
 class CLinked2EndedBit : public CFT4Bit {
-public:
+  public:
 	CVector mEndPosA;
 	CVector mEndPosB;
 };
+
 struct SClipLineBuf {
 	CVector Start;
 	CVector End;
@@ -214,6 +251,7 @@ extern SOTBuffer *DAT_800d1a48;
 extern uchar *DAT_800d1a54;
 extern uchar *DAT_800d177c;
 extern STrig DAT_800c9670[];
+
 CSpecialDisplay *DAT_800d18f0;
 CGlow *DAT_800d18e8;
 CGPolyLine *DAT_800d18f8;
@@ -226,11 +264,11 @@ CChunkBit *DAT_800d18e4;
 CPixel *DAT_800d18d8;
 CLinked2EndedBit *DAT_800d18d4;
 u_long DAT_800d1900[2];
+
 int M3dAsm_ClipLine(SClipLineBuf *);
 int M3dMaths_SquareRoot0(int);
 
-void Bit_Display()
-{
+void Bit_Display() {
 	CVector Temp;
 	CVector camera_pos;
 	int GTEZedLimit;
@@ -238,62 +276,81 @@ void Bit_Display()
 	CGlow *pGlow;
 
 	gte_SetRotMatrix(&DAT_800c119c[DAT_800d2048].Matrix);
-	__asm__ volatile ("ctc2 $0, $5; ctc2 $0, $6; ctc2 $0, $7");
+	__asm__ volatile("ctc2 $0, $5; ctc2 $0, $6; ctc2 $0, $7");
+
 	camera_pos.vx = DAT_800c119c[DAT_800d2048].Pos.vx;
 	camera_pos.vy = DAT_800c119c[DAT_800d2048].Pos.vy;
 	camera_pos.vz = DAT_800c119c[DAT_800d2048].Pos.vz;
 	GTEZedLimit = DAT_800d2178->H >> 1;
 	pSpecial = DAT_800d18f0;
+
 	while (pSpecial) {
 		pSpecial->Display();
+
 		pSpecial = (CSpecialDisplay *)pSpecial->mNext;
 	}
+
 	{
 		for (pGlow = DAT_800d18e8; pGlow; pGlow = (CGlow *)pGlow->mNext) {
 			uint y0x0;
 			VECTOR RotCoords;
 			CVector Centre = (pGlow->mPos >> 12) - camera_pos;
+
 			gte_ldlv0(&Centre);
 			gte_rtps();
 			DR_TPAGE *ptpage = (DR_TPAGE *)DAT_800d1a54;
 			uchar *newppoly = DAT_800d1a54 + sizeof(DR_TPAGE);
+
 			if (newppoly > DAT_800d177c)
 				return;
+
 			DAT_800d1a54 = newppoly;
 			uint a = DAT_800d1900[0];
 			uint b = DAT_800d1900[1];
+
 			ptpage->tag = a;
 			ptpage->code[0] = b;
 			int n = pGlow->mNumSections;
 			int Step = pGlow->mStepAngle;
 			int Ang = pGlow->mAngle;
 			SSection *pSection = pGlow->mpSections;
+
 			gte_stlvnl(&RotCoords);
+
 			if ((uint)RotCoords.vz > 20000)
 				continue;
+
 			short CentreX;
 			short CentreY;
 			int RGBFade = 0;
+
 			if (RotCoords.vz < 700)
 				RGBFade = RotCoords.vz * 255 / 700 + 1;
+
 			if (RotCoords.vz < GTEZedLimit) {
 				CentreX = DAT_800d2178->H * RotCoords.vx / RotCoords.vz + DAT_800d2178->OffX;
+
 				if (CentreX > 1023)
 					CentreX = 1023;
 				else if (CentreX < -1024)
 					CentreX = -1024;
+
 				CentreY = DAT_800d2178->H * RotCoords.vy / RotCoords.vz + DAT_800d2178->OffY;
+
 				if (CentreY > 1023)
 					CentreY = 1023;
 				else if (CentreY < -1024)
 					CentreY = -1024;
 			} else {
 				gte_stsxy(&y0x0);
+
 				CentreX = (short)y0x0;
 				CentreY = (short)(y0x0 >> 16);
 			}
+
 			if (CentreX == -1024 || CentreX == 1023 || CentreY == -1024 || CentreY == 1023)
 				continue;
+
 			uint *OTPos = (uint *)(DAT_800d1a48->pOT + (RotCoords.vz & 0x3ffc));
 			DVECTOR *pBufA = (DVECTOR *)0x1f800000;
 			DVECTOR *pBufB = (DVECTOR *)0x1f800004 + pGlow->mNumFringes;
@@ -304,105 +361,175 @@ void Bit_Display()
 			int MCos = p->c;
 			int x = CentreX + RadA * MSin / 4096;
 			int y = CentreY - RadA * MCos / 4096;
-			if (x > 612) x = 612;
-			if (x < -100) x = -100;
-			if (y > 340) y = 340;
-			if (y < -100) y = -100;
+
+			if (x > 612)
+				x = 612;
+
+			if (x < -100)
+				x = -100;
+
+			if (y > 340)
+				y = 340;
+
+			if (y < -100)
+				y = -100;
+
 			int Rad;
 			SFringeQuad *pFringe;
+
 			{
 				int f;
+
 				pBufA->vx = x;
 				pBufA->vy = y;
 				Rad = pSection[n - 1].Radius;
 				pFringe = pGlow->mpFringes + n - 1;
+
 				for (f = 0; f < pGlow->mNumFringes; f++) {
 					Rad += pFringe->Width;
 					x = CentreX + (Rad * 400 / RotCoords.vz) * MSin / 4096;
 					y = CentreY - (Rad * 400 / RotCoords.vz) * MCos / 4096;
-					if (x > 612) x = 612;
-					if (x < -100) x = -100;
-					if (y > 340) y = 340;
-					if (y < -100) y = -100;
+
+					if (x > 612)
+						x = 612;
+
+					if (x < -100)
+						x = -100;
+
+					if (y > 340)
+						y = 340;
+
+					if (y < -100)
+						y = -100;
+
 					pBufA[f + 1].vx = x;
 					pBufA[f + 1].vy = y;
 					pFringe += n;
 				}
 			}
+
 			{
 				int i;
 				int f;
+
 				Ang += Step;
+
 				for (i = 0; i < n; i++) {
 					int DoDisplay;
+
 					DoDisplay = (pGlow->mMask >> i) & 1;
+
 					if (i == n - 1)
 						Ang = pGlow->mAngle;
+
 					int RadB = pSection->Radius * 400 / RotCoords.vz;
 					STrig *q = (STrig *)((Ang & 4095) * 4 + (uint)pTab);
+
 					MSin = q->s * 400 / 256;
 					MCos = q->c;
 					x = CentreX + RadB * MSin / 4096;
 					y = CentreY - RadB * MCos / 4096;
-					if (x > 612) x = 612;
-					if (x < -100) x = -100;
-					if (y > 340) y = 340;
-					if (y < -100) y = -100;
+
+					if (x > 612)
+						x = 612;
+
+					if (x < -100)
+						x = -100;
+
+					if (y > 340)
+						y = 340;
+
+					if (y < -100)
+						y = -100;
+
 					pBufB->vx = x;
 					pBufB->vy = y;
+
 					if (!pGlow->mSkipTriangles) {
 						if (DoDisplay) {
 							POLY_G3 *aGou;
 							uchar *newppoly;
+
 							aGou = (POLY_G3 *)DAT_800d1a54;
 							newppoly = DAT_800d1a54 + sizeof(POLY_G3);
+
 							if (newppoly > DAT_800d177c)
 								return;
+
 							DAT_800d1a54 = newppoly;
 							aGou->tag = 0x06000000;
 							*(u_long *)&aGou->r0 = pGlow->mCentreCodeBGR;
 							*(u_long *)&aGou->r1 = pSection->PadBGR;
 							*(u_long *)&aGou->r2 = pSection->PadBGR;
+
 							if (RGBFade) {
-								aGou->r0 = aGou->r0 * RGBFade >> 8; aGou->g0 = aGou->g0 * RGBFade >> 8; aGou->b0 = aGou->b0 * RGBFade >> 8;
-								aGou->r1 = aGou->r1 * RGBFade >> 8; aGou->g1 = aGou->g1 * RGBFade >> 8; aGou->b1 = aGou->b1 * RGBFade >> 8;
-								aGou->r2 = aGou->r2 * RGBFade >> 8; aGou->g2 = aGou->g2 * RGBFade >> 8; aGou->b2 = aGou->b2 * RGBFade >> 8;
+								aGou->r0 = aGou->r0 * RGBFade >> 8;
+								aGou->g0 = aGou->g0 * RGBFade >> 8;
+								aGou->b0 = aGou->b0 * RGBFade >> 8;
+								aGou->r1 = aGou->r1 * RGBFade >> 8;
+								aGou->g1 = aGou->g1 * RGBFade >> 8;
+								aGou->b1 = aGou->b1 * RGBFade >> 8;
+								aGou->r2 = aGou->r2 * RGBFade >> 8;
+								aGou->g2 = aGou->g2 * RGBFade >> 8;
+								aGou->b2 = aGou->b2 * RGBFade >> 8;
 							}
-							aGou->x0 = CentreX; aGou->y0 = CentreY;
-							aGou->x1 = pBufA->vx; aGou->y1 = pBufA->vy;
-							aGou->x2 = pBufB->vx; aGou->y2 = pBufB->vy;
+
+							aGou->x0 = CentreX;
+							aGou->y0 = CentreY;
+							aGou->x1 = pBufA->vx;
+							aGou->y1 = pBufA->vy;
+							aGou->x2 = pBufB->vx;
+							aGou->y2 = pBufB->vy;
 							addPrim(OTPos, aGou);
 						}
 					}
+
 					{
 						int f;
+
 						Rad = pSection->Radius;
 						pFringe = pGlow->mpFringes + i;
+
 						for (f = 0; f < pGlow->mNumFringes; f++) {
 							Rad += pFringe->Width;
 							x = CentreX + (Rad * 400 / RotCoords.vz) * MSin / 4096;
 							y = CentreY - (Rad * 400 / RotCoords.vz) * MCos / 4096;
-							if (x > 612) x = 612;
-							if (x < -100) x = -100;
-							if (y > 340) y = 340;
-							if (y < -100) y = -100;
+
+							if (x > 612)
+								x = 612;
+
+							if (x < -100)
+								x = -100;
+
+							if (y > 340)
+								y = 340;
+
+							if (y < -100)
+								y = -100;
+
 							pBufB[f + 1].vx = x;
 							pBufB[f + 1].vy = y;
+
 							if (DoDisplay) {
 								POLY_G4 *aGou;
 								uchar *newppoly;
 								uint CodeBGR;
+
 								aGou = (POLY_G4 *)DAT_800d1a54;
 								newppoly = DAT_800d1a54 + sizeof(POLY_G4);
+
 								if (newppoly > DAT_800d177c)
 									return;
+
 								DAT_800d1a54 = newppoly;
 								aGou->tag = 0x08000000;
 								CodeBGR = pFringe->CodeBGR;
 								*(u_long *)&aGou->r0 = CodeBGR;
 								*(u_long *)&aGou->r1 = CodeBGR;
+
 								if (f) {
 									uint PadBGR;
+
 									PadBGR = (pFringe - n)->CodeBGR;
 									*(u_long *)&aGou->r2 = PadBGR;
 									*(u_long *)&aGou->r3 = PadBGR;
@@ -410,79 +537,113 @@ void Bit_Display()
 									*(u_long *)&aGou->r2 = pSection->PadBGR;
 									*(u_long *)&aGou->r3 = pSection->PadBGR;
 								}
+
 								if (RGBFade) {
-									aGou->r0 = aGou->r0 * RGBFade >> 8; aGou->g0 = aGou->g0 * RGBFade >> 8; aGou->b0 = aGou->b0 * RGBFade >> 8;
-									aGou->r1 = aGou->r1 * RGBFade >> 8; aGou->g1 = aGou->g1 * RGBFade >> 8; aGou->b1 = aGou->b1 * RGBFade >> 8;
-									aGou->r2 = aGou->r2 * RGBFade >> 8; aGou->g2 = aGou->g2 * RGBFade >> 8; aGou->b2 = aGou->b2 * RGBFade >> 8;
-									aGou->r3 = aGou->r3 * RGBFade >> 8; aGou->g3 = aGou->g3 * RGBFade >> 8; aGou->b3 = aGou->b3 * RGBFade >> 8;
+									aGou->r0 = aGou->r0 * RGBFade >> 8;
+									aGou->g0 = aGou->g0 * RGBFade >> 8;
+									aGou->b0 = aGou->b0 * RGBFade >> 8;
+									aGou->r1 = aGou->r1 * RGBFade >> 8;
+									aGou->g1 = aGou->g1 * RGBFade >> 8;
+									aGou->b1 = aGou->b1 * RGBFade >> 8;
+									aGou->r2 = aGou->r2 * RGBFade >> 8;
+									aGou->g2 = aGou->g2 * RGBFade >> 8;
+									aGou->b2 = aGou->b2 * RGBFade >> 8;
+									aGou->r3 = aGou->r3 * RGBFade >> 8;
+									aGou->g3 = aGou->g3 * RGBFade >> 8;
+									aGou->b3 = aGou->b3 * RGBFade >> 8;
 								}
-								aGou->x2 = pBufA[f].vx; aGou->y2 = pBufA[f].vy;
-								aGou->x3 = pBufB[f].vx; aGou->y3 = pBufB[f].vy;
-								aGou->x0 = pBufA[f + 1].vx; aGou->y0 = pBufA[f + 1].vy;
-								aGou->x1 = pBufB[f + 1].vx; aGou->y1 = pBufB[f + 1].vy;
+
+								aGou->x2 = pBufA[f].vx;
+								aGou->y2 = pBufA[f].vy;
+								aGou->x3 = pBufB[f].vx;
+								aGou->y3 = pBufB[f].vy;
+								aGou->x0 = pBufA[f + 1].vx;
+								aGou->y0 = pBufA[f + 1].vy;
+								aGou->x1 = pBufB[f + 1].vx;
+								aGou->y1 = pBufB[f + 1].vy;
 								addPrim(OTPos, aGou);
 							}
+
 							pFringe += n;
 						}
 					}
+
 					{
 						DVECTOR *pTemp;
+
 						pTemp = pBufA;
 						pBufA = pBufB;
 						pBufB = pTemp;
 					}
+
 					Ang += Step;
 					pSection++;
 				}
 			}
+
 			addPrim(OTPos, ptpage);
 		}
 	}
+
 	CGPolyLine *pGPolyLine;
+
 	{
 		uint LastBGR;
 		SLineSeg *pSeg;
 		SClipLineBuf *pClip = (SClipLineBuf *)0x1f800000;
+
 		pGPolyLine = DAT_800d18f8;
+
 		while (pGPolyLine) {
 			int i;
+
 			LastBGR = *(uint *)&pGPolyLine->mStartR;
 			pClip->Start.vx = pGPolyLine->mStart.vx;
 			pClip->Start.vy = pGPolyLine->mStart.vy;
 			pClip->Start.vz = pGPolyLine->mStart.vz;
 			pSeg = pGPolyLine->mSegs;
+
 			for (i = 0; i < pGPolyLine->mNumSegs; i++) {
 				uint NewBGR;
 				int sort;
+
 				NewBGR = *(uint *)&pSeg->r;
 				pClip->End.vx = pSeg->End.vx;
 				pClip->End.vy = pSeg->End.vy;
 				pClip->End.vz = pSeg->End.vz;
 				sort = M3dAsm_ClipLine(pClip);
+
 				if (sort >= 0) {
 					DR_TPAGE *ptpage;
 					LINE_G2 *aline;
 					uchar *newppoly;
 					uint *otpos;
+
 					ptpage = (DR_TPAGE *)DAT_800d1a54;
 					aline = (LINE_G2 *)(ptpage + 1);
 					newppoly = DAT_800d1a54 + sizeof(DR_TPAGE) + sizeof(LINE_G2);
+
 					if (newppoly > DAT_800d177c)
 						return;
+
 					DAT_800d1a54 = newppoly;
 					aline->tag = 0x04000000;
 					*(u_long *)&aline->r0 = LastBGR;
 					*(u_long *)&aline->r1 = NewBGR;
+
 					if (pGPolyLine->mForcedPriority)
 						otpos = (uint *)DAT_800d1a48->pOT + pGPolyLine->mForcedPriority;
 					else
 						otpos = (uint *)DAT_800d1a48->pOT + sort;
+
 					*(u_long *)&aline->x0 = pClip->ScrStart;
 					*(u_long *)&aline->x1 = pClip->ScrEnd;
 					addPrim(otpos, aline);
+
 					if (LastBGR & 0x02000000) {
 						uint a;
 						uint b;
+
 						a = DAT_800d1900[0];
 						b = DAT_800d1900[1];
 						ptpage->tag = a;
@@ -490,57 +651,74 @@ void Bit_Display()
 						addPrim(otpos, ptpage);
 					}
 				}
+
 				LastBGR = NewBGR;
 				pClip->Start.vx = pClip->End.vx;
 				pClip->Start.vy = pClip->End.vy;
 				pClip->Start.vz = pClip->End.vz;
 				pSeg++;
 			}
+
 			pGPolyLine = (CGPolyLine *)pGPolyLine->mNext;
 		}
 	}
+
 	CPolyLine *pPolyLine;
+
 	{
 		SLineSeg *pSeg;
 		SClipLineBuf *pClip = (SClipLineBuf *)0x1f800000;
+
 		pPolyLine = DAT_800d18f4;
+
 		while (pPolyLine) {
 			int i;
+
 			pClip->Start.vx = pPolyLine->mStart.vx;
 			pClip->Start.vy = pPolyLine->mStart.vy;
 			pClip->Start.vz = pPolyLine->mStart.vz;
 			pSeg = pPolyLine->mSegs;
+
 			for (i = 0; i < pPolyLine->mNumSegs; i++) {
 				uint CodeBGR;
 				int sort;
+
 				CodeBGR = *(uint *)&pSeg->r;
 				pClip->End.vx = pSeg->End.vx;
 				pClip->End.vy = pSeg->End.vy;
 				pClip->End.vz = pSeg->End.vz;
 				sort = M3dAsm_ClipLine(pClip);
+
 				if (sort >= 0) {
 					DR_TPAGE *ptpage;
 					LINE_F2 *aline;
 					uchar *newppoly;
 					uint *otpos;
+
 					ptpage = (DR_TPAGE *)DAT_800d1a54;
 					aline = (LINE_F2 *)(ptpage + 1);
 					newppoly = DAT_800d1a54 + sizeof(DR_TPAGE) + sizeof(LINE_F2);
+
 					if (newppoly > DAT_800d177c)
 						return;
+
 					DAT_800d1a54 = newppoly;
 					aline->tag = 0x03000000;
 					*(u_long *)&aline->r0 = CodeBGR;
+
 					if (pPolyLine->mForcedPriority)
 						otpos = (uint *)DAT_800d1a48->pOT + pPolyLine->mForcedPriority;
 					else
 						otpos = (uint *)DAT_800d1a48->pOT + sort;
+
 					*(u_long *)&aline->x0 = pClip->ScrStart;
 					*(u_long *)&aline->x1 = pClip->ScrEnd;
 					addPrim(otpos, aline);
+
 					if (CodeBGR & 0x02000000) {
 						uint a;
 						uint b;
+
 						a = DAT_800d1900[0];
 						b = DAT_800d1900[1];
 						ptpage->tag = a;
@@ -548,18 +726,23 @@ void Bit_Display()
 						addPrim(otpos, ptpage);
 					}
 				}
+
 				pClip->Start.vx = pClip->End.vx;
 				pClip->Start.vy = pClip->End.vy;
 				pClip->Start.vz = pClip->End.vz;
 				pSeg++;
 			}
+
 			pPolyLine = (CPolyLine *)pPolyLine->mNext;
 		}
 	}
+
 	CFlatBit *pFlatBit;
+
 	for (pFlatBit = DAT_800d18d0; pFlatBit; pFlatBit = (CFlatBit *)pFlatBit->mNext) {
 		long zed;
 		uint y0x0;
+
 		Temp.vx = (pFlatBit->mPos.vx >> 12) - camera_pos.vx;
 		Temp.vy = (pFlatBit->mPos.vy >> 12) - camera_pos.vy;
 		Temp.vz = (pFlatBit->mPos.vz >> 12) - camera_pos.vz;
@@ -567,28 +750,36 @@ void Bit_Display()
 		gte_rtps();
 		POLY_FT4 *apoly = (POLY_FT4 *)DAT_800d1a54;
 		uchar *newppoly = DAT_800d1a54 + sizeof(POLY_FT4);
+
 		if (newppoly > DAT_800d177c)
 			return;
+
 		DAT_800d1a54 = newppoly;
 		apoly->tag = 0x09000000;
 		*(u_long *)&apoly->r0 = pFlatBit->mCodeBGR;
 		gte_stlvnl2(&zed);
+
 		if (zed < GTEZedLimit || zed > DAT_800d2178->Far) {
 			DAT_800d1a54 = (uchar *)apoly;
 			continue;
 		}
+
 		uint Scale = pFlatBit->mScale;
+
 		Scale = (Scale << 7) / zed;
+
 		if (Scale > 512 && !(pFlatBit->mBitFlags & 8)) {
 			DAT_800d1a54 = (uchar *)apoly;
 			continue;
 		}
+
 		gte_stsxy(&y0x0);
 		Texture *stored = pFlatBit->mpPSXFrame->pTexture;
 		uint foo1 = *(uint *)&stored->u0;
 		uint foo2 = *(uint *)&stored->u1;
 		uint foo3 = *(uint *)&stored->u2;
 		ushort foo4 = *(ushort *)&stored->u3;
+
 		if (pFlatBit->mCLUT)
 			*(u_long *)&apoly->u0 = (foo1 & 0xffff) | (pFlatBit->mCLUT << 16);
 		else
@@ -598,12 +789,14 @@ void Bit_Display()
 		*(u_long *)&apoly->u2 = foo3;
 		*(ushort *)&apoly->u3 = foo4;
 		short Angle = pFlatBit->mAngle;
+
 		if (Scale >= 256 || Angle) {
 			apoly->u1--;
 			apoly->v2--;
 			apoly->u3--;
 			apoly->v3--;
 		}
+
 		uint *ptr;
 		uchar Flipped;
 		int OffX;
@@ -612,6 +805,7 @@ void Bit_Display()
 		uint Height;
 		uint x_post_scale;
 		uint y_post_scale;
+
 		{
 			ptr = (uint *)&apoly->x0;
 			Flipped = pFlatBit->mBitFlags & 1;
@@ -623,8 +817,10 @@ void Bit_Display()
 			y_post_scale = pFlatBit->mPostScale >> 16;
 			uint xs = Scale * x_post_scale;
 			uint ys = Scale * y_post_scale;
+
 			if (!Angle) {
 				int Y1;
+
 				OffX = (short)(Scale * OffX >> 7);
 				Y1 = (Scale * OffY >> 7) << 16;
 				y0x0 += Y1 + OffX;
@@ -632,10 +828,13 @@ void Bit_Display()
 				Width >>= 7;
 				Height = Scale * Height >> 7;
 				Height <<= 16;
+
 				if (Width < 5)
 					Width = 2;
+
 				if (Height < 0x50000)
 					Height = 0x10000;
+
 				if (!Flipped) {
 					*(uint *)&apoly->x0 = y0x0;
 					ptr[2] = y0x0 + Width;
@@ -660,12 +859,15 @@ void Bit_Display()
 				int yhcos;
 				uint x_scale;
 				uint y_scale;
+
 				{
 					STrig *p = DAT_800c9670;
+
 					p += Angle & 4095;
 					sin = p->s;
 					cos = p->c;
 				}
+
 				xsin = OffX * sin;
 				ysin = OffY * sin;
 				xcos = OffX * cos;
@@ -678,25 +880,38 @@ void Bit_Display()
 				y_scale = ys >> 12;
 
 				if (!Flipped) {
-					*(uint *)&apoly->x0 = y0x0 + (x_scale * (xcos - ysin) >> 19) + ((y_scale * (xsin + ycos) >> 19) << 16);
-					ptr[2] = y0x0 + (x_scale * (xwcos - ysin) >> 19) + ((y_scale * (xwsin + ycos) >> 19) << 16);
-					ptr[4] = y0x0 + (x_scale * (xcos - yhsin) >> 19) + ((y_scale * (xsin + yhcos) >> 19) << 16);
-					ptr[6] = y0x0 + (x_scale * (xwcos - yhsin) >> 19) + ((y_scale * (xwsin + yhcos) >> 19) << 16);
+					*(uint *)&apoly->x0 = y0x0 + (x_scale * (xcos - ysin) >> 19) +
+					                      ((y_scale * (xsin + ycos) >> 19) << 16);
+					ptr[2] = y0x0 + (x_scale * (xwcos - ysin) >> 19) +
+					         ((y_scale * (xwsin + ycos) >> 19) << 16);
+					ptr[4] = y0x0 + (x_scale * (xcos - yhsin) >> 19) +
+					         ((y_scale * (xsin + yhcos) >> 19) << 16);
+					ptr[6] = y0x0 + (x_scale * (xwcos - yhsin) >> 19) +
+					         ((y_scale * (xwsin + yhcos) >> 19) << 16);
 				} else {
-					ptr[2] = y0x0 + (x_scale * (xcos - ysin) >> 19) + ((y_scale * (xsin + ycos) >> 19) << 16);
-					*(uint *)&apoly->x0 = y0x0 + (x_scale * (xwcos - ysin) >> 19) + ((y_scale * (xwsin + ycos) >> 19) << 16);
-					ptr[6] = y0x0 + (x_scale * (xcos - yhsin) >> 19) + ((y_scale * (xsin + yhcos) >> 19) << 16);
-					ptr[4] = y0x0 + (x_scale * (xwcos - yhsin) >> 19) + ((y_scale * (xwsin + yhcos) >> 19) << 16);
+					ptr[2] = y0x0 + (x_scale * (xcos - ysin) >> 19) +
+					         ((y_scale * (xsin + ycos) >> 19) << 16);
+					*(uint *)&apoly->x0 = y0x0 + (x_scale * (xwcos - ysin) >> 19) +
+					                      ((y_scale * (xwsin + ycos) >> 19) << 16);
+					ptr[6] = y0x0 + (x_scale * (xcos - yhsin) >> 19) +
+					         ((y_scale * (xsin + yhcos) >> 19) << 16);
+					ptr[4] = y0x0 + (x_scale * (xwcos - yhsin) >> 19) +
+					         ((y_scale * (xwsin + yhcos) >> 19) << 16);
 				}
 			}
 		}
+
 		if (pFlatBit->mForcedPriority)
 			addPrim((uint *)DAT_800d1a48->pOT + pFlatBit->mForcedPriority, apoly);
 		else
-			addPrim((uint *)(((zed - pFlatBit->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT), apoly);
+			addPrim((uint *)(((zed - pFlatBit->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+			        apoly);
 	}
+
 	CGlassBit *pGlass;
+
 	pGlass = DAT_800d18ec;
+
 	while (pGlass) {
 		SVECTOR STemp;
 		long zed;
@@ -706,24 +921,30 @@ void Bit_Display()
 		uint a;
 		uint b;
 		uint *OTPos;
+
 		STemp.vx = (pGlass->mPosA.vx >> 12) - camera_pos.vx;
 		STemp.vy = (pGlass->mPosA.vy >> 12) - camera_pos.vy;
 		STemp.vz = (pGlass->mPosA.vz >> 12) - camera_pos.vz;
 		gte_ldv0(&STemp);
+
 		STemp.vx = (pGlass->mPosB.vx >> 12) - camera_pos.vx;
 		STemp.vy = (pGlass->mPosB.vy >> 12) - camera_pos.vy;
 		STemp.vz = (pGlass->mPosB.vz >> 12) - camera_pos.vz;
 		gte_ldv1(&STemp);
+
 		STemp.vx = (pGlass->mPosC.vx >> 12) - camera_pos.vx;
 		STemp.vy = (pGlass->mPosC.vy >> 12) - camera_pos.vy;
 		STemp.vz = (pGlass->mPosC.vz >> 12) - camera_pos.vz;
 		gte_ldv2(&STemp);
 		gte_rtpt();
+
 		aGou = (POLY_F3 *)DAT_800d1a54;
 		ptpage = (DR_TPAGE *)(aGou + 1);
 		newppoly = DAT_800d1a54 + sizeof(POLY_F3) + sizeof(DR_TPAGE);
+
 		if (newppoly > DAT_800d177c)
 			return;
+
 		DAT_800d1a54 = newppoly;
 		aGou->tag = 0x04000000;
 		aGou->code = 0x22;
@@ -736,51 +957,70 @@ void Bit_Display()
 		ptpage->code[0] = b;
 		gte_stsxy3(&aGou->x0, &aGou->x1, &aGou->x2);
 		gte_stlvnl2(&zed);
+
 		OTPos = (uint *)(DAT_800d1a48->pOT + (zed & 0x3ffc));
 		addPrim(OTPos, aGou);
 		addPrim(OTPos, ptpage);
+
 		pGlass = (CGlassBit *)pGlass->mNext;
 	}
+
 	CGLine *pGLine;
+
 	pGLine = DAT_800d18fc;
+
 	while (pGLine) {
 		uint y0x01;
 		uint y0x02;
 		long zed;
 		long zed2;
+
 		Temp = (pGLine->mStart >> 12) - camera_pos;
 		gte_ldlv0(&Temp);
 		gte_rtps();
 		gte_stlvnl2(&zed);
+
 		if (zed >= DAT_800d2178->Near && zed <= DAT_800d2178->Far) {
 			gte_stsxy(&y0x01);
+
 			Temp = (pGLine->mEnd >> 12) - camera_pos;
 			gte_ldlv0(&Temp);
 			gte_rtps();
 			gte_stlvnl2(&zed2);
+
 			if (zed2 >= DAT_800d2178->Near && zed2 <= DAT_800d2178->Far) {
 				LINE_G2 *aline;
 				uchar *newppoly;
+
 				gte_stsxy(&y0x02);
+
 				aline = (LINE_G2 *)DAT_800d1a54;
 				newppoly = DAT_800d1a54 + sizeof(LINE_G2);
+
 				if (newppoly > DAT_800d177c)
 					return;
+
 				DAT_800d1a54 = newppoly;
 				aline->tag = 0x04000000;
 				*(u_long *)&aline->r0 = pGLine->mCodeBGR0;
 				*(u_long *)&aline->r1 = pGLine->mPadBGR1;
 				*(u_long *)&aline->x0 = y0x01;
 				*(u_long *)&aline->x1 = y0x02;
+
 				if (zed2 < zed)
 					zed = zed2;
+
 				addPrim((uint *)((zed & 0x3ffc) + (uint)DAT_800d1a48->pOT), aline);
 			}
 		}
+
 		pGLine = (CGLine *)pGLine->mNext;
 	}
+
 	CQuadBit *pQuad;
+
 	pQuad = DAT_800d18dc;
+
 	while (pQuad) {
 		if (pQuad->mpTexture) {
 			long ZedB;
@@ -793,47 +1033,64 @@ void Bit_Display()
 			uint foo1;
 			uint foo2;
 			uint foo3;
+
 			Temp = (pQuad->mPos >> 12) - camera_pos;
 			gte_ldlv0(&Temp);
 			gte_rtps();
+
 			stored = pQuad->mpTexture;
 			apoly = (POLY_FT4 *)DAT_800d1a54;
 			newppoly = DAT_800d1a54 + sizeof(POLY_FT4);
+
 			if (newppoly > DAT_800d177c)
 				return;
+
 			DAT_800d1a54 = newppoly;
 			gte_stlvnl2(&MaxZed);
+
 			if (MaxZed < DAT_800d2178->Near || MaxZed > DAT_800d2178->Far) {
 				DAT_800d1a54 = (uchar *)apoly;
 				goto NEXTQUAD;
 			}
+
 			gte_stsxy(&apoly->x0);
+
 			Temp = (pQuad->mPosB >> 12) - camera_pos;
 			gte_ldlv0(&Temp);
 			gte_rtps();
 			gte_stlvnl2(&ZedB);
+
 			if (ZedB < DAT_800d2178->Near || ZedB > DAT_800d2178->Far) {
 				DAT_800d1a54 = (uchar *)apoly;
 				goto NEXTQUAD;
 			}
+
 			gte_stsxy(&apoly->x1);
+
 			Temp = (pQuad->mPosC >> 12) - camera_pos;
 			gte_ldlv0(&Temp);
 			gte_rtps();
+
 			apoly->tag = 0x09000000;
 			*(u_long *)&apoly->r0 = pQuad->mCodeBGR;
+
 			if (ZedB > MaxZed)
 				MaxZed = ZedB;
+
 			gte_stlvnl2(&ZedC);
+
 			if (ZedC < DAT_800d2178->Near || ZedC > DAT_800d2178->Far) {
 				DAT_800d1a54 = (uchar *)apoly;
 				goto NEXTQUAD;
 			}
+
 			gte_stsxy(&apoly->x2);
+
 			Temp = (pQuad->mPosD >> 12) - camera_pos;
 			gte_ldlv0(&Temp);
 			gte_rtps();
 			ushort foo4;
+
 			foo1 = *(uint *)&stored->u0;
 			foo2 = *(uint *)&stored->u1;
 			foo3 = *(uint *)&stored->u2;
@@ -842,25 +1099,36 @@ void Bit_Display()
 			*(u_long *)&apoly->u1 = foo2;
 			*(u_long *)&apoly->u2 = foo3;
 			*(ushort *)&apoly->u3 = foo4;
+
 			if (pQuad->mFlags & 4)
 				apoly->tpage = (apoly->tpage & 0xff9f) | 0x40;
+
 			if (ZedC > MaxZed)
 				MaxZed = ZedC;
+
 			gte_stlvnl2(&ZedD);
+
 			if (ZedD < DAT_800d2178->Near || ZedD > DAT_800d2178->Far) {
 				DAT_800d1a54 = (uchar *)apoly;
 				goto NEXTQUAD;
 			}
+
 			gte_stsxy(&apoly->x3);
+
 			if (MaxZed < ZedD)
 				MaxZed = ZedD;
-			addPrim((uint *)(((MaxZed - pQuad->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT), apoly);
+
+			addPrim((uint *)(((MaxZed - pQuad->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+			        apoly);
 		}
 	NEXTQUAD:
 		pQuad = (CQuadBit *)pQuad->mNext;
 	}
+
 	CChunkBit *p_chunk;
+
 	p_chunk = DAT_800d18e4;
+
 	while (p_chunk) {
 		DR_TWIN *p_overflow2;
 		long opz;
@@ -878,65 +1146,90 @@ void Bit_Display()
 		DR_TWIN *pWinOn;
 		uchar *newppoly;
 		uint *pOTPos;
+
 		if (DAT_800d1a54 + 152 > DAT_800d177c)
 			return;
+
 		MaxZed = -1;
 		Temp = p_chunk->mWorldPosA - camera_pos;
 		gte_ldlv0(&Temp);
 		gte_rtps();
 		gte_stlvnl2(&ZedA);
 		gte_stsxy(&y0x0A);
+
 		Temp = p_chunk->mWorldPosB - camera_pos;
 		gte_ldlv0(&Temp);
 		gte_rtps();
+
 		if (ZedA < DAT_800d2178->Near || ZedA > DAT_800d2178->Far)
 			goto NEXTCHUNK;
+
 		if (ZedA > MaxZed)
 			MaxZed = ZedA;
+
 		gte_stlvnl2(&ZedB);
 		gte_stsxy(&y0x0B);
+
 		Temp = p_chunk->mWorldPosC - camera_pos;
 		gte_ldlv0(&Temp);
 		gte_rtps();
+
 		if (ZedB < DAT_800d2178->Near || ZedB > DAT_800d2178->Far)
 			goto NEXTCHUNK;
+
 		if (ZedB > MaxZed)
 			MaxZed = ZedB;
+
 		gte_stlvnl2(&ZedC);
 		gte_stsxy(&y0x0C);
+
 		Temp = p_chunk->mWorldPosD - camera_pos;
 		gte_ldlv0(&Temp);
 		gte_rtps();
+
 		if (ZedC < DAT_800d2178->Near || ZedC > DAT_800d2178->Far)
 			goto NEXTCHUNK;
+
 		if (ZedC > MaxZed)
 			MaxZed = ZedC;
+
 		gte_stlvnl2(&ZedD);
+
 		if (ZedD < DAT_800d2178->Near || ZedD > DAT_800d2178->Far)
 			goto NEXTCHUNK;
+
 		if (ZedD > MaxZed)
 			MaxZed = ZedD;
+
 		gte_stsxy(&y0x0D);
+
 		pOTPos = (uint *)(DAT_800d1a48->pOT + (MaxZed & 0x3ffc));
+
 		if (p_chunk->mTexWin) {
 			pWinOff = (DR_TWIN *)DAT_800d1a54;
 			pWinOn = pWinOff + 1;
 			newppoly = (uchar *)(pWinOn + 1);
 			DAT_800d1a54 = newppoly;
+
 			{
 				RECT win;
+
 				win.x = win.y = win.w = win.h = 0;
 				setTexWindow(pWinOff, &win);
 				setTexWindow(pWinOn, &win);
+
 				pWinOn->code[0] = p_chunk->mTexWin;
 			}
+
 			if (p_chunk->mTexWin)
 				addPrim(pOTPos, pWinOff);
 		}
+
 		aft3poly = (POLY_FT3 *)DAT_800d1a54;
 		gte_ldsxy3(y0x0A, y0x0B, y0x0C);
 		gte_nclip();
 		gte_stopz(&opz);
+
 		if (opz <= 0) {
 			aft3poly->tag = 0x07000000;
 			*(u_long *)&aft3poly->r0 = p_chunk->mB0G0R0 | 0x24000000;
@@ -947,11 +1240,14 @@ void Bit_Display()
 			*(u_long *)&aft3poly->x1 = y0x0B;
 			*(u_long *)&aft3poly->x2 = y0x0C;
 			addPrim(pOTPos, aft3poly);
+
 			aft3poly++;
 		}
+
 		gte_ldsxy3(y0x0A, y0x0D, y0x0B);
 		gte_nclip();
 		gte_stopz(&opz);
+
 		if (opz <= 0) {
 			aft3poly->tag = 0x07000000;
 			*(u_long *)&aft3poly->r0 = p_chunk->mB1G1R1 | 0x24000000;
@@ -962,11 +1258,14 @@ void Bit_Display()
 			*(u_long *)&aft3poly->x1 = y0x0D;
 			*(u_long *)&aft3poly->x2 = y0x0B;
 			addPrim(pOTPos, aft3poly);
+
 			aft3poly++;
 		}
+
 		gte_ldsxy3(y0x0B, y0x0D, y0x0C);
 		gte_nclip();
 		gte_stopz(&opz);
+
 		if (opz <= 0) {
 			aft3poly->tag = 0x07000000;
 			*(u_long *)&aft3poly->r0 = p_chunk->mB2G2R2 | 0x24000000;
@@ -977,11 +1276,14 @@ void Bit_Display()
 			*(u_long *)&aft3poly->x1 = y0x0D;
 			*(u_long *)&aft3poly->x2 = y0x0C;
 			addPrim(pOTPos, aft3poly);
+
 			aft3poly++;
 		}
+
 		gte_ldsxy3(y0x0C, y0x0D, y0x0A);
 		gte_nclip();
 		gte_stopz(&opz);
+
 		if (opz <= 0) {
 			aft3poly->tag = 0x07000000;
 			*(u_long *)&aft3poly->r0 = p_chunk->mB3G3R3 | 0x24000000;
@@ -992,68 +1294,91 @@ void Bit_Display()
 			*(u_long *)&aft3poly->x1 = y0x0D;
 			*(u_long *)&aft3poly->x2 = y0x0A;
 			addPrim(pOTPos, aft3poly);
+
 			aft3poly++;
 		}
+
 		DAT_800d1a54 = (uchar *)aft3poly;
+
 		if (p_chunk->mTexWin)
 			addPrim(pOTPos, pWinOn);
 	NEXTCHUNK:
 		p_chunk = (CChunkBit *)p_chunk->mNext;
 	}
+
 	CPixel *pPixel;
+
 	pPixel = DAT_800d18d8;
+
 	while (pPixel) {
 		long zed;
+
 		Temp = (pPixel->mPos >> 12) - camera_pos;
 		gte_ldlv0(&Temp);
 		gte_rtps();
+
 		if ((pPixel->mWidthHeight & 0xf) == 1) {
 			TILE_1 *atile;
 			uchar *newppoly;
+
 			atile = (TILE_1 *)DAT_800d1a54;
 			newppoly = DAT_800d1a54 + sizeof(TILE_1);
+
 			if (newppoly > DAT_800d177c)
 				return;
+
 			DAT_800d1a54 = newppoly;
 			atile->tag = pPixel->tag;
 			*(u_long *)&atile->r0 = *(u_long *)&pPixel->r0;
 			gte_stlvnl2(&zed);
+
 			if (zed < DAT_800d2178->Near) {
 				DAT_800d1a54 = (uchar *)atile;
 				goto SKIPPIXEL;
 			}
+
 			if (zed > DAT_800d2178->Far) {
 				DAT_800d1a54 = (uchar *)atile;
 				goto SKIPPIXEL;
 			}
+
 			gte_stsxy(&atile->x0);
-			addPrim((uint *)(((zed - pPixel->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT), atile);
+			addPrim((uint *)(((zed - pPixel->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+			        atile);
 		} else {
 			TILE *atile;
 			uchar *newppoly;
+
 			atile = (TILE *)DAT_800d1a54;
 			newppoly = DAT_800d1a54 + sizeof(TILE);
+
 			if (newppoly > DAT_800d177c)
 				return;
+
 			DAT_800d1a54 = newppoly;
 			atile->tag = pPixel->tag;
 			*(u_long *)&atile->r0 = *(u_long *)&pPixel->r0;
 			*(u_long *)&atile->w = pPixel->mWidthHeight;
 			gte_stlvnl2(&zed);
+
 			if (zed < DAT_800d2178->Near) {
 				DAT_800d1a54 = (uchar *)atile;
 				goto SKIPPIXEL;
 			}
+
 			if (zed > DAT_800d2178->Far) {
 				DAT_800d1a54 = (uchar *)atile;
 				goto SKIPPIXEL;
 			}
+
 			gte_stsxy(&atile->x0);
-			addPrim((uint *)(((zed - pPixel->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT), atile);
+			addPrim((uint *)(((zed - pPixel->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+			        atile);
 		}
 	SKIPPIXEL:
 		pPixel = (CPixel *)pPixel->mNext;
 	}
+
 	int Loop1x;
 	int Loop1y;
 	int Loop2x;
@@ -1066,11 +1391,20 @@ void Bit_Display()
 	int StoredAy;
 	int Broken;
 	CLinked2EndedBit *pLinked2EndedBit;
-	Loop1x = 0; Loop1y = 0; Loop2x = 0; Loop2y = 0;
-	StoredA1x = 0; StoredA1y = 0; StoredA2x = 0; StoredA2y = 0;
-	StoredAx = 0; StoredAy = 0;
+
+	Loop1x = 0;
+	Loop1y = 0;
+	Loop2x = 0;
+	Loop2y = 0;
+	StoredA1x = 0;
+	StoredA1y = 0;
+	StoredA2x = 0;
+	StoredA2y = 0;
+	StoredAx = 0;
+	StoredAy = 0;
 	Broken = 0;
 	pLinked2EndedBit = DAT_800d18d4;
+
 	while (pLinked2EndedBit) {
 		Texture *stored;
 		long zed;
@@ -1099,23 +1433,31 @@ void Bit_Display()
 		int dy;
 		int dx;
 		int d;
+
 		NeedToTransformA = (pLinked2EndedBit->mBitFlags & 16) || Broken;
+
 		if (NeedToTransformA) {
 			uint Ay0x0;
+
 			Temp = (pLinked2EndedBit->mEndPosA >> 12) - camera_pos;
 			gte_ldlv0(&Temp);
 			gte_rtps();
+
 			stored = pLinked2EndedBit->mpPSXFrame->pTexture;
 			Width = pLinked2EndedBit->mpPSXFrame->Width;
 			gte_stlvnl2(&zed);
+
 			if (zed < DAT_800d2178->Near || zed > DAT_800d2178->Far) {
 				Broken = 1;
 				goto NEXTL2E;
 			}
+
 			gte_stsxy(&Ay0x0);
+
 			Ax = (short)Ay0x0;
 			Ay = (short)(Ay0x0 >> 16);
 			dA = (pLinked2EndedBit->mScale * Width) / zed >> 1;
+
 			if (dA < 2)
 				dA = 2;
 		} else {
@@ -1124,17 +1466,22 @@ void Bit_Display()
 			Ax = StoredAx;
 			Ay = StoredAy;
 		}
+
 		Temp = (pLinked2EndedBit->mEndPosB >> 12) - camera_pos;
 		gte_ldlv0(&Temp);
 		gte_rtps();
+
 		apoly = (POLY_FT4 *)DAT_800d1a54;
 		newppoly = DAT_800d1a54 + sizeof(POLY_FT4);
+
 		if (newppoly > DAT_800d177c)
 			return;
+
 		DAT_800d1a54 = newppoly;
 		apoly->tag = 0x09000000;
 		*(u_long *)&apoly->r0 = pLinked2EndedBit->mCodeBGR;
 		ushort foo4;
+
 		foo1 = *(uint *)&stored->u0;
 		foo2 = *(uint *)&stored->u1;
 		foo3 = *(uint *)&stored->u2;
@@ -1148,30 +1495,38 @@ void Bit_Display()
 		apoly->u3--;
 		apoly->v3--;
 		gte_stlvnl2(&zed);
+
 		if (zed < DAT_800d2178->Near || zed > DAT_800d2178->Far) {
 			DAT_800d1a54 = (uchar *)apoly;
 			Broken = 1;
 			goto NEXTL2E;
 		}
+
 		gte_stsxy(&By0x0);
+
 		Bx = (short)By0x0;
 		By = (short)(By0x0 >> 16);
 		StoredAx = Bx;
 		StoredAy = By;
 		dB = (pLinked2EndedBit->mScale * Width) / zed >> 1;
+
 		if (dB < 2)
 			dB = 2;
+
 		dy = By - Ay;
 		dx = Bx - Ax;
 		d = M3dMaths_SquareRoot0(dx * dx + dy * dy);
+
 		if (!d) {
 			DAT_800d1a54 = (uchar *)apoly;
 			Broken = 1;
 			goto NEXTL2E;
 		}
+
 		if (NeedToTransformA) {
 			int dydA;
 			int dxdA;
+
 			dydA = dy * dA / d;
 			dxdA = dx * dA / d;
 			A1x = Ax + dydA;
@@ -1184,16 +1539,23 @@ void Bit_Display()
 			A2x = StoredA2x;
 			A2y = StoredA2y;
 		}
+
 		if (pLinked2EndedBit->mBitFlags & 16) {
-			Loop1x = A1x; Loop1y = A1y;
-			Loop2x = A2x; Loop2y = A2y;
+			Loop1x = A1x;
+			Loop1y = A1y;
+			Loop2x = A2x;
+			Loop2y = A2y;
 		}
+
 		if (pLinked2EndedBit->mBitFlags & 32) {
-			B1x = Loop1x; B1y = Loop1y;
-			B2x = Loop2x; B2y = Loop2y;
+			B1x = Loop1x;
+			B1y = Loop1y;
+			B2x = Loop2x;
+			B2y = Loop2y;
 		} else {
 			int dydB;
 			int dxdB;
+
 			dydB = dy * dB / d;
 			dxdB = dx * dB / d;
 			B1x = Bx + dydB;
@@ -1201,36 +1563,58 @@ void Bit_Display()
 			B2x = Bx - dydB;
 			B2y = By + dxdB;
 		}
+
 		StoredA1x = B1x;
 		StoredA1y = B1y;
 		StoredA2x = B2x;
 		StoredA2y = B2y;
+
 		if (pLinked2EndedBit->mBitFlags & 2) {
 			if (!(pLinked2EndedBit->mBitFlags & 1)) {
-				apoly->x0 = B2x; apoly->x1 = B1x;
-				apoly->y0 = B2y; apoly->y1 = B1y;
-				apoly->x2 = A2x; apoly->x3 = A1x;
-				apoly->y2 = A2y; apoly->y3 = A1y;
+				apoly->x0 = B2x;
+				apoly->x1 = B1x;
+				apoly->y0 = B2y;
+				apoly->y1 = B1y;
+				apoly->x2 = A2x;
+				apoly->x3 = A1x;
+				apoly->y2 = A2y;
+				apoly->y3 = A1y;
 			} else {
-				apoly->x0 = B1x; apoly->x1 = B2x;
-				apoly->y0 = B1y; apoly->y1 = B2y;
-				apoly->x2 = A1x; apoly->x3 = A2x;
-				apoly->y2 = A1y; apoly->y3 = A2y;
+				apoly->x0 = B1x;
+				apoly->x1 = B2x;
+				apoly->y0 = B1y;
+				apoly->y1 = B2y;
+				apoly->x2 = A1x;
+				apoly->x3 = A2x;
+				apoly->y2 = A1y;
+				apoly->y3 = A2y;
 			}
 		} else {
 			if (pLinked2EndedBit->mBitFlags & 1) {
-				apoly->x0 = A2x; apoly->x1 = B2x;
-				apoly->y0 = A2y; apoly->y1 = B2y;
-				apoly->x2 = A1x; apoly->x3 = B1x;
-				apoly->y2 = A1y; apoly->y3 = B1y;
+				apoly->x0 = A2x;
+				apoly->x1 = B2x;
+				apoly->y0 = A2y;
+				apoly->y1 = B2y;
+				apoly->x2 = A1x;
+				apoly->x3 = B1x;
+				apoly->y2 = A1y;
+				apoly->y3 = B1y;
 			} else {
-				apoly->x0 = A1x; apoly->x1 = B1x;
-				apoly->y0 = A1y; apoly->y1 = B1y;
-				apoly->x2 = A2x; apoly->x3 = B2x;
-				apoly->y2 = A2y; apoly->y3 = B2y;
+				apoly->x0 = A1x;
+				apoly->x1 = B1x;
+				apoly->y0 = A1y;
+				apoly->y1 = B1y;
+				apoly->x2 = A2x;
+				apoly->x3 = B2x;
+				apoly->y2 = A2y;
+				apoly->y3 = B2y;
 			}
 		}
-		addPrim((uint *)(((zed - pLinked2EndedBit->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT), apoly);
+
+		addPrim(
+		    (uint *)(((zed - pLinked2EndedBit->mFrigDeltaZ) & 0x3ffc) + (uint)DAT_800d1a48->pOT),
+		    apoly);
+
 		Broken = 0;
 	NEXTL2E:
 		pLinked2EndedBit = (CLinked2EndedBit *)pLinked2EndedBit->mNext;

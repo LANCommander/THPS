@@ -1,12 +1,30 @@
 /* ResetOrientation__7CCamera (0x80078d94) */
-struct CVector { int x, y, z; };
-struct VECTOR { int vx, vy, vz, pad; };
-struct CClass { virtual void v0(); };
-struct CQuat : CClass { int x, y, z, w; };
-struct CBruce { int vf; CVector mPos; };
+struct CVector {
+	int x, y, z;
+};
+
+struct VECTOR {
+	int vx, vy, vz, pad;
+};
+
+struct CClass {
+	virtual void v0();
+};
+
+struct CQuat : CClass {
+	int x, y, z, w;
+};
+
+struct CBruce {
+	int vf;
+	CVector mPos;
+};
+
 CVector operator<<(const CVector &, const int &);
 extern "C" void ApplyMatrixLV(void *, VECTOR *, VECTOR *);
+
 unsigned int DAT_800d2048;
+
 struct CCamera {
 	char pad0[0x134];
 	unsigned short mMikeIndex;
@@ -32,15 +50,17 @@ struct CCamera {
 	void CM_Normal();
 	void LoadIntoMikeCamera();
 };
-void CCamera::ResetOrientation()
-{
+
+void CCamera::ResetOrientation() {
 	VECTOR vtemp1, vtemp2;
 	CBruce *pBruce;
+
 	pBruce = mFocus;
 	vtemp1.vx = 0;
 	vtemp1.vy = 0;
 	vtemp1.vz = -4096;
 	ApplyMatrixLV((char *)mFocus + 0x78c, &vtemp1, &vtemp2);
+
 	real_cam_offset.vx = vtemp2.vx;
 	real_cam_offset.vy = vtemp2.vy;
 	real_cam_offset.vz = vtemp2.vz;
@@ -48,6 +68,7 @@ void CCamera::ResetOrientation()
 	mOldFocusPos = mFocusPos = mFocus->mPos;
 	DAT_800d2048 = mMikeIndex;
 	CM_Normal();
+
 	q510 = q4e8 = q4c0 = q4d4;
 	mStoppedOValid = 1;
 	LoadIntoMikeCamera();

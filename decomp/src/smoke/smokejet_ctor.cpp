@@ -4,9 +4,18 @@ typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 
-struct CVector { int vx, vy, vz; };
-struct CSVector { short vx, vy, vz; };
-struct CFriction { uchar f[3]; };
+struct CVector {
+	int vx, vy, vz;
+};
+
+struct CSVector {
+	short vx, vy, vz;
+};
+
+struct CFriction {
+	uchar f[3];
+};
+
 struct Texture;
 
 struct SRibbonPoint {
@@ -24,7 +33,7 @@ struct SWidthWobble {
 };
 
 class CBit {
-public:
+  public:
 	CBit *mPrevious;
 	CBit *mNext;
 	short mAge;
@@ -43,11 +52,10 @@ public:
 	virtual void Display();
 };
 
-class CSpecialDisplay : public CBit {
-};
+class CSpecialDisplay : public CBit {};
 
 class CTexturedRibbon : public CSpecialDisplay {
-public:
+  public:
 	uchar mTrail;
 	Texture *mpTex;
 	uchar mDontDisplay;
@@ -62,7 +70,7 @@ public:
 };
 
 class CSmokeJet : public CTexturedRibbon {
-public:
+  public:
 	SWidthWobble mWidthWobble[10];
 	int mOrgX[10];
 	int mPhase[10];
@@ -74,8 +82,8 @@ public:
 	ushort mDamageTimer;
 	CSVector mAngles;
 	int mLength;
-	CSmokeJet(const CVector &BasePos, const CSVector &Angles, int Length, ushort Duration, int Damage,
-		int r, int g, int b, uchar ScrollSpeed, uint Checksum);
+	CSmokeJet(const CVector &BasePos, const CSVector &Angles, int Length, ushort Duration,
+	          int Damage, int r, int g, int b, uchar ScrollSpeed, uint Checksum);
 	void SetPos(const CVector &);
 	virtual void Move();
 	virtual void Display();
@@ -83,25 +91,25 @@ public:
 
 int Rnd(int);
 
-CSmokeJet::CSmokeJet(const CVector &BasePos, const CSVector &Angles, int Length, ushort Duration, int Damage,
-	int r, int g, int b, uchar ScrollSpeed, uint Checksum)
-	: CTexturedRibbon(10, 0)
-{
+CSmokeJet::CSmokeJet(const CVector &BasePos, const CSVector &Angles, int Length, ushort Duration,
+                     int Damage, int r, int g, int b, uchar ScrollSpeed, uint Checksum)
+    : CTexturedRibbon(10, 0) {
 	mAngles = Angles;
 	mLength = Length;
 	SetPos(BasePos);
+
 	mLifetime = Duration;
 	mDamage = Damage;
-	if (mDamage >= 1000)
-	{
+
+	if (mDamage >= 1000) {
 		mDamageBaddies = 1;
 		mDamage = Damage - 1000;
 	}
+
 	mScrollSpeed = ScrollSpeed;
 	SetTexture(Checksum);
 
-	for (int i = 0; i < 10; i++)
-	{
+	for (int i = 0; i < 10; i++) {
 		int scaledr;
 		int scaledg;
 		int scaledb;
@@ -111,6 +119,7 @@ CSmokeJet::CSmokeJet(const CVector &BasePos, const CSVector &Angles, int Length,
 		mFreq[i] = 80;
 		mAmp[i] = i ? Length / 80 : 0;
 		mWidthWobble[i].TChange = Rnd(16);
+
 		if (i == 0)
 			mWidthWobble[0].TargetWidth = Rnd(60) + 20;
 		else

@@ -7,32 +7,36 @@
    Horse_DisplayWords jal delay slot stays empty; Sprite::draw takes ints (no &255 on the flash). */
 typedef unsigned char uchar;
 typedef unsigned short ushort;
+
 class CBruce {
-public:
+  public:
 	char pad0[0x1f0];
-	int GraffitiScore;        /* 0x1f0 */
+	int GraffitiScore; /* 0x1f0 */
 	char pad1[0x250 - 0x1f4];
-	int BalanceTime;          /* 0x250 */
-	int BalanceFlash;         /* 0x254 */
+	int BalanceTime;  /* 0x250 */
+	int BalanceFlash; /* 0x254 */
 	char pad2[0x928 - 0x258];
-	unsigned Score;           /* 0x928 */
+	unsigned Score; /* 0x928 */
 	char pad3[0xa64 - 0x92c];
-	unsigned ScoreToAdd;      /* 0xa64 */
+	unsigned ScoreToAdd; /* 0xa64 */
 	char pad4[0xe18 - 0xa68];
-	int Bailing;              /* 0xe18 */
+	int Bailing; /* 0xe18 */
 };
+
 class Sprite {
-public:
+  public:
 	void draw(int, int, int, int, int, int);
 };
+
 struct SLevelInfo {
 	char pad0[12];
-	int NoTapes;              /* 0x0c */
+	int NoTapes; /* 0x0c */
 	char pad1[0x44 - 0x10];
-	unsigned TapeScore1;      /* 0x44 */
-	unsigned TapeScore2;      /* 0x48 */
+	unsigned TapeScore1; /* 0x44 */
+	unsigned TapeScore2; /* 0x48 */
 	char pad2[120 - 0x4c];
 };
+
 extern int DAT_800bf318[];
 extern int DAT_800d172c;
 extern int DAT_800d16a4;
@@ -48,54 +52,66 @@ extern int DAT_800d17b0[2];
 extern char DAT_800d1e80[];
 extern char DAT_800d1e88[];
 extern SLevelInfo DAT_800a5398[];
+
 void Horse_DisplayWords(int *);
+
 extern "C" {
-void FUN_8001f138(int);
-int FUN_800106e0(int);
-void FUN_8006e2fc(int);
-void FUN_8008b900(char *, char *, unsigned);
-void FUN_8001d250(int);
+	void FUN_8001f138(int);
+	int FUN_800106e0(int);
+	void FUN_8006e2fc(int);
+	void FUN_8008b900(char *, char *, unsigned);
+	void FUN_8001d250(int);
 }
+
 struct POLY_G4;
+
 POLY_G4 *DrawGouraudPoly(int, int, int, int, uchar, uchar, uchar, uchar, uchar, uchar, int);
 void Mess_SetRGB(uchar, uchar, uchar, int);
 void GraffitiColor(CBruce *);
 void Mess_SetScale(int);
 int Mess_DrawPanelText(int, int, const char *, int, unsigned, int);
 
-void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos)
-{
+void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
 	int DoDisplay = DAT_800bf318[0] != 2;
+
 	if (DAT_800d172c) {
 		pBruce->BalanceFlash = 750;
 		pBruce->BalanceTime = 750;
 	}
+
 	if (DAT_800d16a4 == 7) {
 		if (!DAT_800d172c) {
 			pBruce->BalanceFlash = 0;
 			pBruce->BalanceTime = -1;
 		}
+
 		Horse_DisplayWords(DAT_800d17b0);
 		return;
 	}
+
 	FUN_8001f138(DAT_800d1798);
+
 	if (DoDisplay) {
 		{
 			int r;
 			int g;
 			int b;
+
 			if (pBruce->BalanceTime != -1) {
 				if (pBruce->BalanceFlash)
 					DrawGouraudPoly(xpos - 1, ypos + 10, pBruce->BalanceFlash * 120 / 750, 3,
-						(DAT_800d1a24 % 40) * 6, (DAT_800d1a24 % 40) * 6, 50,
-						(DAT_800d1a24 % 40) * 6, (DAT_800d1a24 % 40) * 6, 50, 0);
+					                (DAT_800d1a24 % 40) * 6, (DAT_800d1a24 % 40) * 6, 50,
+					                (DAT_800d1a24 % 40) * 6, (DAT_800d1a24 % 40) * 6, 50, 0);
 				else if (pBruce->BalanceTime)
-					DrawGouraudPoly(xpos - 1, ypos + 10, pBruce->BalanceTime / 25, 3, 0, 150, 0, 0, 150, 50, 0);
+					DrawGouraudPoly(xpos - 1, ypos + 10, pBruce->BalanceTime / 25, 3, 0, 150, 0, 0,
+					                150, 50, 0);
 			}
+
 			DAT_800d1d94 = 1;
 			r = -1;
 			g = -1;
 			b = -1;
+
 			if (DAT_800d16a4 == 8) {
 				if (pBruce == DAT_800d17c8) {
 					r = 80;
@@ -107,15 +123,19 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos)
 					b = 80;
 				}
 			}
+
 			DAT_800d184c->draw(xpos, ypos - 20, 1, r, g, b);
+
 			if (DAT_800d16a4 != 7) {
 				if (pBruce->BalanceFlash == 0)
 					DAT_800d1854->draw(xpos - 4, ypos, 1, r, g, b);
 				else
-					DAT_800d1854->draw(xpos - 4, ypos, 1, (DAT_800d1a24 % 40) * 6, (DAT_800d1a24 % 40) * 6, 50);
+					DAT_800d1854->draw(xpos - 4, ypos, 1, (DAT_800d1a24 % 40) * 6,
+					                   (DAT_800d1a24 % 40) * 6, 50);
 			}
 		}
 	}
+
 	if (DAT_800d16a4 != 7 && pBruce->ScoreToAdd && !pBruce->Bailing) {
 		if (DAT_800d16a4 == 8) {
 			pBruce->ScoreToAdd = 0;
@@ -133,29 +153,40 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos)
 			pBruce->ScoreToAdd = 0;
 		}
 	}
+
 	if (DoDisplay && DAT_800d16a4 == 1 && !DAT_800a5398[DAT_800d1e28].NoTapes) {
-		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore1 && !FUN_800106e0(0)) FUN_8006e2fc(0);
-		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore2 && !FUN_800106e0(4)) FUN_8006e2fc(4);
+		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore1 && !FUN_800106e0(0))
+			FUN_8006e2fc(0);
+
+		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore2 && !FUN_800106e0(4))
+			FUN_8006e2fc(4);
 	}
+
 	if (DoDisplay) {
 		char score[15];
+
 		if (pBruce->Score > 999999) {
 			FUN_8008b900(score, DAT_800d1e80, pBruce->Score);
 			Mess_SetRGB((DAT_800d1a24 % 20) * 12, 100, 100, 0);
 		} else {
 			Mess_SetRGB(128, 128, 128, 0);
+
 			{
 				int Value = pBruce->Score;
+
 				if (DAT_800d16a4 == 8) {
 					Value = pBruce->GraffitiScore;
 					GraffitiColor(pBruce);
 				}
+
 				FUN_8008b900(score, DAT_800d1e88, Value);
 			}
 		}
+
 		FUN_8001d250(2);
 		Mess_SetScale(256);
 		Mess_DrawPanelText(xpos + 125, ypos - 4, score, 0, 0, 256);
 	}
+
 	FUN_8001f138(DAT_800d1790);
 }

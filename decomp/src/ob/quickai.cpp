@@ -2,14 +2,23 @@
 /* C++ (OB.CPP). Fuzzy demo twin; locals from its MAIN.SYM. Runs AI on every body in the list;
    bodies flagged 0x40 are deleted on the second pass (0x80 marks the first). */
 #pragma interface
+
 typedef unsigned short ushort;
 typedef unsigned char uchar;
 typedef unsigned int uint;
-struct CVector { int vx, vy, vz; };
-struct CSVector { short vx, vy, vz; };
+
+struct CVector {
+	int vx, vy, vz;
+};
+
+struct CSVector {
+	short vx, vy, vz;
+};
+
 struct SLight;
+
 class CItem {
-public:
+  public:
 	ushort mFlags;
 	ushort mInquiry;
 	CVector mPos;
@@ -39,15 +48,15 @@ public:
 };
 
 class CBody : public CItem {
-public:
+  public:
 	char pad4c[0x52 - 0x4c];
-	ushort mCBodyFlags;    /* 0x52 */
+	ushort mCBodyFlags; /* 0x52 */
 };
 
-void Ob_QuickAI(CBody **ppBody)
-{
+void Ob_QuickAI(CBody **ppBody) {
 	CBody *pBody;
 	CBody *pNext;
+
 	/* the exit test loads pNext (probably a list-walk macro), so cc1 can't rotate it into a
 	   simple bottom test and `delete` keeps its null check */
 	for (pBody = *ppBody; pBody ? (pNext = (CBody *)pBody->mNextItem, 1) : 0; pBody = pNext) {

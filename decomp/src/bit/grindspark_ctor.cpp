@@ -4,22 +4,31 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
-struct CVector { int vx, vy, vz; };
+
+struct CVector {
+	int vx, vy, vz;
+};
+
 CVector operator+(const CVector &, const CVector &);
+
 struct CFriction {
 	uchar x, y, z;
-	void Set(uchar a, uchar b, uchar c) { x = a; y = b; z = c; }
+	void Set(uchar a, uchar b, uchar c) {
+		x = a;
+		y = b;
+		z = c;
+	}
 };
 
 class CBody {
-public:
+  public:
 	ushort mFlags;
 	ushort mInquiry;
 	CVector mPos;
 };
 
 class CBit {
-public:
+  public:
 	CBit *mPrevious;
 	CBit *mNext;
 	short mAge;
@@ -35,16 +44,18 @@ public:
 	uchar mType;
 	virtual ~CBit();
 };
+
 class CGLine : public CBit {
-public:
+  public:
 	uint mCodeBGR0;
 	uint mPadBGR1;
 	CVector mStart;
 	CVector mEnd;
 	CGLine();
 };
+
 class CGrindSpark : public CGLine {
-public:
+  public:
 	CVector mOldPos;
 	CBody *mpParent;
 	CGrindSpark(CBody *pParent, CVector &pos, int vel, int gravity, int life);
@@ -54,28 +65,31 @@ public:
 int Rnd(int);
 void Bit_CalculateSparkVelocity(CVector &, int);
 
-CGrindSpark::CGrindSpark(CBody *pParent, CVector &pos, int vel, int gravity, int life)
-{
+CGrindSpark::CGrindSpark(CBody *pParent, CVector &pos, int vel, int gravity, int life) {
 	{
 		int vel2;
-		if (vel < 0)
-		{
+
+		if (vel < 0) {
 			int t = -vel;
+
 			{
 				int r = Rnd(t);
+
 				t >>= 1;
 				t += r;
 			}
+
 			vel2 = -t;
-		}
-		else
-		{
+		} else {
 			vel2 = (vel >> 1) + Rnd(vel);
 		}
+
 		Bit_CalculateSparkVelocity(mVel, vel2);
+
 		mAcc.vy = gravity;
 		mFric.Set(3, 3, 3);
 	}
+
 	mLifetime = Rnd(life) + 1;
 	mpParent = pParent;
 	mOldPos = pos;
@@ -83,8 +97,10 @@ CGrindSpark::CGrindSpark(CBody *pParent, CVector &pos, int vel, int gravity, int
 	mEnd = pos + mpParent->mPos;
 	mStart = mEnd;
 	mCodeBGR0 = 0x52000080;
+
 	{
 		int r = ((Rnd(159) >> 5) + 2) << 12;
+
 		mPadBGR1 = 0x55000000;
 		mCodeBGR0 |= r;
 	}

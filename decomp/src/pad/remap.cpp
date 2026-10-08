@@ -4,6 +4,7 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
+
 struct SButton {
 	uchar Pressed;
 	uchar Triggered;
@@ -11,6 +12,7 @@ struct SButton {
 	int ReleasedTime;
 	int TriggeredTime;
 };
+
 struct SControl {
 	SButton Triangle;
 	SButton Square;
@@ -54,15 +56,18 @@ struct SControl {
 	SButton *pCircle;
 	SButton *pX;
 };
+
 extern SControl DAT_800c0a48[];
-void Pad_Remap(void)
-{
+
+void Pad_Remap(void) {
 	SButton TempButtonTriangle;
 	SButton TempButtonX;
 	SButton TempButtonCircle;
 	SButton TempButtonSquare;
+
 	{
 		int i;
+
 		for (i = 0; i < 2; i++) {
 			TempButtonTriangle = DAT_800c0a48[i].Triangle;
 			TempButtonCircle = DAT_800c0a48[i].Circle;
