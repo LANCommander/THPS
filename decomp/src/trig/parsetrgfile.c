@@ -17,13 +17,13 @@ extern unsigned short *DAT_800a8828[];
 
 int GetFlag__FUcPUc(unsigned char, unsigned char *);
 int *Trig_GetPosition__FR7CVectori(V *, int);
-void FUN_80045268(int);
+void Trig_CreateObject__Fi(int);
 void FUN_80044820(int, unsigned short, char *);
-void *FUN_80027d08(int);
+void *__nw__4CBitUi(int);
 int FUN_8001f614(void *, V *, int, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned,
                  unsigned, unsigned, unsigned, unsigned);
 void *__nw__5CItemUi(unsigned);
-void FUN_8004ef08(void *, unsigned short, int);
+void __8CTrickObUs(void *, unsigned short, int);
 void CamPt_New__Fi(int);
 void Trig_ClearTrigMenu__Fv(void);
 
@@ -48,14 +48,14 @@ void Trig_ParseTRGFile__Fv(void) {
 				break;
 			case 1:
 				if (GetFlag__FUcPUc(1, (unsigned char *)b + (((short *)b)[3] * 2 + 8)))
-					FUN_80045268(i);
+					Trig_CreateObject__Fi(i);
 
 				break;
 			case 5:
 				r = Trig_GetPosition__FR7CVectori(&v, i);
 
 				if (*(unsigned short *)r == 1)
-					FUN_80045268(i);
+					Trig_CreateObject__Fi(i);
 
 				break;
 			case 6:
@@ -81,7 +81,7 @@ void Trig_ParseTRGFile__Fv(void) {
 			case 500:
 				q = (Q *)Trig_GetPosition__FR7CVectori(&v, i);
 				DAT_800d186c = 0;
-				w = FUN_80027d08(100);
+				w = __nw__4CBitUi(100);
 
 				if (w)
 					FUN_8001f614(w, &v, i, q->us0, q->us2, q->us4, q->us6, q->b8, q->b10, q->b12,
@@ -94,7 +94,7 @@ void Trig_ParseTRGFile__Fv(void) {
 				it = __nw__5CItemUi(24);
 
 				if (it)
-					FUN_8004ef08(it, i, 0);
+					__8CTrickObUs(it, i, 0);
 
 				break;
 			case 13:

@@ -1,4 +1,4 @@
-/* FUN_80043408 (0x80043408) */
+/* SFX_Grunt__FP6CBruce (0x80043408) */
 struct E {
 	char pad[12];
 	int f;
@@ -12,7 +12,7 @@ extern int DAT_800d1e28;
 int Redbook_Rnd__Fi(int);
 void FUN_8004b250(int, int, int);
 
-void FUN_80043408(char *p) {
+void SFX_Grunt__FP6CBruce(char *p) {
 	int a;
 
 	switch (DAT_800d1984) {

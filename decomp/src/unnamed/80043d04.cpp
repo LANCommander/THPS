@@ -1,4 +1,4 @@
-/* FUN_80043d04 (0x80043d04) */
+/* __6CSuper (0x80043d04) */
 /* C++: constructor of a CBody-derived class (vtable 0x800a0574). */
 #pragma interface
 

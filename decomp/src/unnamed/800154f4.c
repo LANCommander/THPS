@@ -14,18 +14,18 @@ extern struct B DAT_800a6844;
 extern char DAT_800a4308[];
 extern int DAT_800d10f4, DAT_800d10f8;
 
-void FUN_80010000(void);
+void Career_Init__Fv(void);
 int SyncToGoodState__Fv(void);
 void FUN_80061270(int);
 void Card_GetDirAndFreeBlocks__Fii(int, int);
-int FUN_8004d068(int, int, int);
+int Mem_NewX__FUiii(int, int, int);
 void Card_SetSelectedFile__FPc(E *);
 int Card_Load__F9EFileTypePUlT1(int, int, int);
 int FUN_8008eebc(int);
 void Front_ExtractASCIINameFromSJIS__FPcT0(char *, char *);
 void FUN_8004d5d0(int);
 void FUN_800103a4(void);
-void FUN_800101e4(void);
+void Options_SetPreferences__Fv(void);
 
 int FUN_800154f4(void) {
 	struct B buf;
@@ -34,7 +34,7 @@ int FUN_800154f4(void) {
 	struct B *d;
 
 	r = 0;
-	FUN_80010000();
+	Career_Init__Fv();
 
 	if (SyncToGoodState__Fv() == 0) {
 		FUN_80061270(0);
@@ -46,7 +46,7 @@ int FUN_800154f4(void) {
 
 		do {
 			if (DAT_800a5880[i] == 0) {
-				p = FUN_8004d068(3200, 1, 1);
+				p = Mem_NewX__FUiii(3200, 1, 1);
 				Card_SetSelectedFile__FPc(&DAT_800a58bc[i]);
 
 				if (Card_Load__F9EFileTypePUlT1(0, p, 0) == 0) {
@@ -77,7 +77,7 @@ int FUN_800154f4(void) {
 		if (s4 >= 0) {
 			Card_SetSelectedFile__FPc(&DAT_800a58bc[s4]);
 			FUN_800103a4();
-			FUN_800101e4();
+			Options_SetPreferences__Fv();
 		}
 
 		while (s2 != 0 && FUN_8008eebc(-1) < s2 + 60)

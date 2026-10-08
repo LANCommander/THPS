@@ -99,14 +99,14 @@ extern int DAT_800d1780;
 
 int DAT_800d1de8;
 
-extern "C" void FUN_8004e268(CBruce *);
+extern "C" void CamPt_SetClosestCamera__FP6CBruce(CBruce *);
 void RestartCompFrig();
-extern "C" void FUN_80069684(CBruce *, int, int, int);
-extern "C" void FUN_8006a158(CBruce *, int);
+extern "C" void Video_Start__FP6CBruce10EVideoModeii(CBruce *, int, int, int);
+extern "C" void GetDataChunk__FP6CBrucei(CBruce *, int);
 extern "C" int Mips_DotProd2(int, int, int, int);
-extern "C" void FUN_8002952c(const CSVector &);
-extern "C" void FUN_8003f65c();
-extern "C" void FUN_8001a608();
+extern "C" void Bit_SetSparkTrajectoryCone__FRC8CSVector(const CSVector &);
+extern "C" void Platform_HandleBounce__Fv();
+extern "C" void Front_SwitchOnVideoScreen__Fv();
 void Bit_SetSparkTrajectory(const CSVector &);
 void Video_SyncObsIfNeeded();
 void Video_Stop(CBruce *);
@@ -116,7 +116,7 @@ void Video_Stop(CBruce *);
 void Video_Playback(CBruce *pSkater) {
 	SVideoInfo *VInfo;
 
-	FUN_8004e268(pSkater);
+	CamPt_SetClosestCamera__FP6CBruce(pSkater);
 
 	if (pSkater == DAT_800d19a4)
 		VInfo = &DAT_800bf318[0];
@@ -126,14 +126,14 @@ void Video_Playback(CBruce *pSkater) {
 	if (DAT_800d13e8 == 20 || DAT_800d13e8 == 22 || DAT_800d13e8 == 21) {
 		if (!VInfo->FramesLeft) {
 			RestartCompFrig();
-			FUN_80069684(pSkater, 2, 1, 0x7fffffff);
+			Video_Start__FP6CBruce10EVideoModeii(pSkater, 2, 1, 0x7fffffff);
 		}
 	}
 
 	if (VInfo->FramesLeft) {
 		int IsAGrind;
 
-		FUN_8006a158(pSkater, 1);
+		GetDataChunk__FP6CBrucei(pSkater, 1);
 
 		VInfo->FramesLeft--;
 		IsAGrind =
@@ -157,7 +157,7 @@ void Video_Playback(CBruce *pSkater) {
 			cone.vx = 450;
 			cone.vy = 900;
 			cone.vz = 0;
-			FUN_8002952c(cone);
+			Bit_SetSparkTrajectoryCone__FRC8CSVector(cone);
 
 			DAT_800d186c = 0;
 			CVector SparkPos(0, 0x19000, 0);
@@ -178,7 +178,7 @@ void Video_Playback(CBruce *pSkater) {
 		}
 
 		pSkater->GlowUpdate();
-		FUN_8003f65c();
+		Platform_HandleBounce__Fv();
 		pSkater->HandleWater();
 	} else {
 		if ((uint)(VInfo->ReplayHighlight - 1) < 4 &&
@@ -201,7 +201,7 @@ void Video_Playback(CBruce *pSkater) {
 			Video_Stop(pSkater);
 
 			if (DAT_800d1780 == 1 || pSkater == DAT_800d19a4)
-				FUN_8001a608();
+				Front_SwitchOnVideoScreen__Fv();
 		}
 	}
 }

@@ -1,8 +1,8 @@
-/* FUN_80043550 (0x80043550) */
+/* __5CItem (0x80043550) */
 extern char DAT_800a05f4[];
 extern char DAT_800c5acc[];
 
-char *FUN_80043550(char *p) {
+char *__5CItem(char *p) {
 	short *q = (short *)(p + 36);
 
 	*(char **)(p + 72) = DAT_800a05f4;

@@ -1,6 +1,6 @@
 /* Move__11CSmokeTrail (0x8002a49c) */
 int Fade__7CFT4Biti(void *, int);
-void FUN_80027e18(char *);
+void Die__4CBit(char *);
 
 void Move__11CSmokeTrail(char *t) {
 	int i;
@@ -12,6 +12,6 @@ void Move__11CSmokeTrail(char *t) {
 				dead = 0;
 
 		if (dead)
-			FUN_80027e18(t);
+			Die__4CBit(t);
 	}
 }

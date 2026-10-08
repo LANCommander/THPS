@@ -48,7 +48,7 @@ int Mess_DrawPanelText(int, int, const char *, int, uint, int);
 
 extern "C" {
 	void FUN_8006ca1c(CBruce *);
-	void FUN_8001d250(int);
+	void Mess_SetTextJustify__FUc(int);
 	void FUN_8001e0a4(char *, int);
 	void FUN_8001e0f8(char *, ushort);
 	ushort FUN_8001e108(char *);
@@ -65,7 +65,7 @@ void CPanelData::DisplayTrick(CBruce *pBruce, ushort xpos, ushort ypos) {
 
 	Mess_SetRGB(128, 128, 128, 0);
 	FUN_8006ca1c(pBruce);
-	FUN_8001d250(0);
+	Mess_SetTextJustify__FUc(0);
 	int NormalScale;
 	int BigScale;
 

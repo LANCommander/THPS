@@ -39,10 +39,10 @@ typedef struct {
 } B;
 
 void FUN_8002fcdc(B *, int, int);
-void FUN_80039f2c(B *, SV, int);
-void FUN_80043408(B *);
+void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(B *, SV, int);
+void SFX_Grunt__FP6CBruce(B *);
 int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
-void FUN_800827d4(L *, int);
+void M3dZone_LineToItemNotSCached__FP9SLineInfoi(L *, int);
 int GetFaceFlags__FP9SLineInfo(L *);
 int Length__C7CVector(V *);
 void M3dColij_InitLineInfo__FP9SLineInfo(L *);
@@ -67,7 +67,7 @@ int FUN_800343f0(B *p, int a) {
 	ST(li.e.y, li.s.y, q1, a * p->m1)
 	ST(li.e.z, li.s.z, q2, a * p->m2)
 	M3dColij_InitLineInfo__FP9SLineInfo(&li);
-	FUN_800827d4(&li, 1);
+	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
 	GetFaceFlags__FP9SLineInfo(&li);
 
 	if (li.hit) {
@@ -96,7 +96,7 @@ int FUN_800343f0(B *p, int a) {
 								FUN_8002fcdc(p, 12, 3787);
 
 								s1 = 200;
-								FUN_80043408(p);
+								SFX_Grunt__FP6CBruce(p);
 							}
 						}
 					}
@@ -107,7 +107,7 @@ int FUN_800343f0(B *p, int a) {
 				SV t;
 
 				t = li.n;
-				FUN_80039f2c(p, t, s1);
+				ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(p, t, s1);
 			}
 
 			li.s.x = p->x;
@@ -117,7 +117,7 @@ int FUN_800343f0(B *p, int a) {
 			ST(li.e.y, li.s.y, q4, li.n.y)
 			ST(li.e.z, li.s.z, q5, li.n.z)
 			M3dColij_InitLineInfo__FP9SLineInfo(&li);
-			FUN_800827d4(&li, 1);
+			M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
 			GetFaceFlags__FP9SLineInfo(&li);
 
 			if (li.hit)

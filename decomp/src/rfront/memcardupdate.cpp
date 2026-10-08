@@ -127,10 +127,10 @@ extern "C" {
 	int FUN_80012600(void);
 	void FUN_80012650(void);
 	int FUN_800144a8(int);
-	int FUN_80014558(int, int);
+	int Card_Write__F9EFileTypei(int, int);
 	int FUN_80014868(int, char *);
 	int FUN_8004b250(unsigned int, short, int);
-	void *FUN_8004d068(unsigned int, int, int);
+	void *Mem_NewX__FUiii(unsigned int, int, int);
 	void FUN_8004d5d0(void *);
 	int FUN_8008c190(char *, ...);
 	char *FUN_8008e904(char *, char *);
@@ -496,11 +496,11 @@ int Front_MemCardUpdate() {
 						if (DAT_800d1780 == 2)
 							DAT_800d21d8 = 6;
 
-						WriteError = FUN_80014558(1, DAT_800d21d8);
+						WriteError = Card_Write__F9EFileTypei(1, DAT_800d21d8);
 						break;
 					case 1:
 						DAT_800d21d8 = 1;
-						WriteError = FUN_80014558(0, DAT_800d21d8);
+						WriteError = Card_Write__F9EFileTypei(0, DAT_800d21d8);
 						break;
 				}
 
@@ -754,7 +754,7 @@ int Front_MemCardUpdate() {
 
 					break;
 				case 2: {
-					ulong *pTmp = (ulong *)FUN_8004d068(3200, 1, 1);
+					ulong *pTmp = (ulong *)Mem_NewX__FUiii(3200, 1, 1);
 
 					if (Card_Load(FILETYPE_A, pTmp, 0)) {
 						DAT_800d111c = 22;

@@ -31,7 +31,7 @@ extern void FUN_80061714(int);
 extern void Mess_LoadFont__FPcT0iii(char *, int, int, int, int);
 extern void Mess_SetFontScale__FUi(unsigned);
 extern struct O *__nw__5CItemUi(unsigned);
-extern struct O *FUN_80063830(struct O *, char *, int, int, int);
+extern struct O *__6SpritePciii(struct O *, char *, int, int, int);
 extern void FUN_8005c8dc(int);
 extern int FUN_8005e754(int);
 
@@ -67,13 +67,13 @@ int FUN_8005de7c(int a) {
 	o = __nw__5CItemUi(24);
 
 	if (o)
-		o = FUN_80063830(o, DAT_800a1bec, 1, 32, 128);
+		o = __6SpritePciii(o, DAT_800a1bec, 1, 32, 128);
 
 	DAT_800d2358 = o;
 	p = __nw__5CItemUi(24);
 
 	if (p)
-		p = FUN_80063830(p, DAT_800a1bf8, 1, 32, 128);
+		p = __6SpritePciii(p, DAT_800a1bf8, 1, 32, 128);
 
 	DAT_800d235c = p;
 	FUN_8005c8dc(1);

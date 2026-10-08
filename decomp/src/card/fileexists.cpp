@@ -20,7 +20,7 @@ void Card_SetHeader(SCardHead *, int, char *, char *);
 void SetSJISChecksum(char *, char *);
 
 extern "C" {
-	void FUN_800116b4(char *);
+	void Front_SetSJISName__FPc(char *);
 	int open(char *, int);
 	int close(int);
 }
@@ -38,9 +38,9 @@ int FUN_800144a8(int FileType) {
 	Card_SetHeader(&Head, 1, (char *)&Head, (char *)&Head);
 
 	if (DAT_800d1148 == 1)
-		FUN_800116b4((char *)&Head + 32);
+		Front_SetSJISName__FPc((char *)&Head + 32);
 	else
-		FUN_800116b4((char *)&Head + 30);
+		Front_SetSJISName__FPc((char *)&Head + 30);
 
 	SetSJISChecksum(Head.Title, FName + 22);
 

@@ -19,7 +19,7 @@ typedef struct {
 } SLineInfo;
 
 extern void FUN_8008a658(Item *, int, SLineInfo *, unsigned short);
-extern void FUN_80080964(Item *, SLineInfo *);
+extern void M3dColij_LineToThisItem__FP4ItemP9SLineInfo(Item *, SLineInfo *);
 
 void M3dColij_LineToItem(Item *it, SLineInfo *li) {
 	if (it && li->flag) {
@@ -29,7 +29,7 @@ void M3dColij_LineToItem(Item *it, SLineInfo *li) {
 		do {
 			if (it->inq != li->inq) {
 				it->inq = li->inq;
-				FUN_80080964(it, li);
+				M3dColij_LineToThisItem__FP4ItemP9SLineInfo(it, li);
 			}
 
 			it = it->next;

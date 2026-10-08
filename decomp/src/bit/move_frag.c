@@ -15,7 +15,7 @@ typedef struct {
 	signed char cnt;
 } Frag;
 
-void FUN_80027e18(Frag *);
+void Die__4CBit(Frag *);
 
 void Move__5CFrag(Frag *t) {
 	t->px += t->vx;
@@ -35,5 +35,5 @@ void Move__5CFrag(Frag *t) {
 	t->life++;
 
 	if ((short)t->life >= t->maxlife)
-		FUN_80027e18(t);
+		Die__4CBit(t);
 }

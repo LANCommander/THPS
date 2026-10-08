@@ -39,7 +39,7 @@ void FUN_8005ca64(void);
 int FUN_8005ca3c(char *);
 void FUN_80061714(int);
 O *__nw__5CItemUi(int);
-O *FUN_80063830(O *, char *, int, int, int);
+O *__6SpritePciii(O *, char *, int, int, int);
 void FUN_80023168(int);
 void FUN_80022aec(V *);
 void GameFMV_StartFMV__Fi(int);
@@ -61,13 +61,13 @@ int FUN_8005fd50(int a) {
 	o = __nw__5CItemUi(24);
 
 	if (o)
-		o = FUN_80063830(o, DAT_800a1d44, 1, 256, 256);
+		o = __6SpritePciii(o, DAT_800a1d44, 1, 256, 256);
 
 	DAT_800d1d5c = o;
 	o2 = __nw__5CItemUi(24);
 
 	if (o2)
-		o2 = FUN_80063830(o2, DAT_800a1d54, 1, 256, 256);
+		o2 = __6SpritePciii(o2, DAT_800a1d54, 1, 256, 256);
 
 	DAT_800d1d60 = o2;
 	DAT_800d13d0 = 0;

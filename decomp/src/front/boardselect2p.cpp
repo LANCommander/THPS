@@ -167,12 +167,12 @@ extern "C" {
 	void FUN_8005ca64(void);
 	int FUN_8005ca3c(char *);
 	void FUN_80061714(int);
-	void FUN_8001d250(int);
+	void Mess_SetTextJustify__FUc(int);
 	int FUN_8008b900(char *, const char *, ...);
 	void FUN_8008e904(char *, char *);
-	int FUN_8001da44(char *);
+	int Mess_TextWidth__FPCc(char *);
 	int FUN_8001db80(const char *);
-	void FUN_8001e114(int, int, char *, int, int, int, int);
+	void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 	void FUN_8004b250(int, int, int);
 	void FUN_8005c8dc(int);
 	void FUN_80050c5c(void);
@@ -184,7 +184,7 @@ extern "C" {
 	void FUN_8005115c(void);
 	void FUN_8006b240(void);
 	void FUN_80061ea0(void);
-	void FUN_80061e00(int, int, int, int);
+	void SetClippingBox__Fiiii(int, int, int, int);
 	void FUN_8006b26c(void);
 	void FUN_8006af64(void);
 	void FUN_800514f0(void);
@@ -362,7 +362,7 @@ extern "C" int FUN_80051660(int player) {
 
 	Mess_SetCurrentFont(DAT_800a1524);
 	Mess_SetFontScale(200);
-	FUN_8001d250(1);
+	Mess_SetTextJustify__FUc(1);
 
 	int textState[2];
 	int textTimer[2];
@@ -382,7 +382,7 @@ extern "C" int FUN_80051660(int player) {
 		FUN_8008e904(text[p], DAT_800a44fc[DAT_800d22d0[p]].Boards[deck[p]].Name);
 
 		if (p == 0)
-			textX[p] = -FUN_8001da44(text[0]);
+			textX[p] = -Mess_TextWidth__FPCc(text[0]);
 		else
 			textX[p] = 640;
 
@@ -476,7 +476,7 @@ extern "C" int FUN_80051660(int player) {
 					int j;
 
 					title[c]->draw(boxX[p][c], boxY[p][c], 0, -1, -1, -1);
-					FUN_80061e00(boxX[p][c] + 3, boxY[p][c] + 5, boxW[p][c] - 6, boxH[p][c] - 10);
+					SetClippingBox__Fiiii(boxX[p][c] + 3, boxY[p][c] + 5, boxW[p][c] - 6, boxH[p][c] - 10);
 
 					for (j = 0; j < 2; j++) {
 						if (img[p][c][j] == 0) {
@@ -496,7 +496,7 @@ extern "C" int FUN_80051660(int player) {
 							                   -1, -1, -1, 0, 0);
 					}
 
-					FUN_80061e00(0, 0, 640, 480);
+					SetClippingBox__Fiiii(0, 0, 640, 480);
 				}
 			}
 
@@ -505,8 +505,8 @@ extern "C" int FUN_80051660(int player) {
 				Mess_SetCurrentFont(DAT_800a1524);
 				Mess_SetFontScale(200);
 				Mess_SetRGB(128, 128, 128, 0);
-				FUN_8001d250(1);
-				FUN_8001e114(textX[p], textY[p], text[p], 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(1);
+				Mess_DrawText__FiiPCciUiib(textX[p], textY[p], text[p], 0, 0, 256, 0);
 			}
 
 			int ry = 294;
@@ -538,9 +538,9 @@ extern "C" int FUN_80051660(int player) {
 				Mess_SetCurrentFont(DAT_800a1524);
 				Mess_SetFontScale(150);
 				Mess_SetRGB(250, 190, 60, 0);
-				FUN_8001d250(0);
-				FUN_8001e114(lx[p], ly[0], sBoard, 1, 0, 256, 0);
-				FUN_8001e114(lx[p], ly[1], sChosen, 1, 0, 256, 0);
+				Mess_SetTextJustify__FUc(0);
+				Mess_DrawText__FiiPCciUiib(lx[p], ly[0], sBoard, 1, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(lx[p], ly[1], sChosen, 1, 0, 256, 0);
 			}
 
 			if (chosen[p] == 5) {
@@ -762,7 +762,7 @@ extern "C" int FUN_80051660(int player) {
 						Mess_SetCurrentFont(DAT_800a1524);
 
 						if (p == 0)
-							textX[p] = -FUN_8001da44(text[0]);
+							textX[p] = -Mess_TextWidth__FPCc(text[0]);
 						else
 							textX[p] = 640;
 

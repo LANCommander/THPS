@@ -1,4 +1,4 @@
-/* FUN_80016534 (0x80016534) */
+/* __5CMenuiiUciii (0x80016534) */
 typedef struct {
 	short a, b;
 	char pad[3];
@@ -21,7 +21,7 @@ extern char DAT_8009e538[];
 
 void SetLine__5CMenuUc(char *p, int l);
 
-char *FUN_80016534(P *p, int a, int b, int c, int s2, int s1, int g) {
+char *__5CMenuiiUciii(P *p, int a, int b, int c, int s2, int s1, int g) {
 	int i;
 
 	*(char **)p = DAT_8009e538;

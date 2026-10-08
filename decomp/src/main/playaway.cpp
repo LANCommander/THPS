@@ -173,42 +173,42 @@ extern "C" {
 	void Mess_SetCurrentFont__FPc(char *);
 	void FUN_8006b240(void);                              /* HiRes_ClearOTag */
 	void FUN_80061ea0(void);                              /* ResetOT */
-	void FUN_80061e00(int, int, int, int);                /* SetClippingBox */
-	void FUN_80061d44(int, int, int, int, int, int, int); /* DrawColoredBox */
-	void FUN_8001d250(int);                               /* Mess_SetTextJustify */
+	void SetClippingBox__Fiiii(int, int, int, int);                /* SetClippingBox */
+	void DrawColoredBox__FiiiiUcUcUc(int, int, int, int, int, int, int); /* DrawColoredBox */
+	void Mess_SetTextJustify__FUc(int);                               /* Mess_SetTextJustify */
 	void Mess_SetScale__Fi(int);
 	void Mess_SetRGB__FUcUcUci(int, int, int, int);
-	void FUN_8001e114(int, int, char *, int, int, int, int); /* Mess_DrawText */
+	void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int); /* Mess_DrawText */
 	void FUN_8006b26c(void);                                 /* HiRes_DrawOTag */
 	void Pad_ClearTriggers__FP8SControl(SControl *);
 	int FUN_80070ff4(void); /* Pad_Update */
 	int Card_LoadReplayFromCD__FPUlT0Pc(ulong *, ulong *, uchar *);
-	int FUN_800106e0(int);                     /* Career_Got */
-	void FUN_80069684(CBody *, int, int, int); /* Video_Start */
+	int Career_Got__Fi(int);                     /* Career_Got */
+	void Video_Start__FP6CBruce10EVideoModeii(CBody *, int, int, int); /* Video_Start */
 	void Video_SyncObsIfNeeded__Fv(void);
-	void FUN_8001f310(void);   /* Flash_Reset */
-	void FUN_80069670(void);   /* Video_Cleanup */
+	void Flash_Reset__Fv(void);   /* Flash_Reset */
+	void Video_Cleanup__Fv(void);   /* Video_Cleanup */
 	int FUN_8007cd64(CBody *); /* InCompetitionIntro */
 	void FUN_800920b4(int);
-	void FUN_800444bc(CBody **); /* Ob_AI */
+	void Ob_AI__FPP5CBody(CBody **); /* Ob_AI */
 	void FUN_800242cc(void);
 	void SFX_Stop__FUi(int);
 	void FUN_8001a1c8(void);
-	void FUN_8001a2bc(void);
+	void Front_SwitchOnEndLevelMenu__Fv(void);
 	void FUN_80010bb8(void);
 	void FUN_80024258(void);
-	void FUN_80071588(void); /* Pad_Restore */
-	void FUN_8007171c(void); /* Pad_Remap */
+	void Pad_Remap__Fv(void); /* Pad_Restore */
+	void Pad_Restore__Fv(void); /* Pad_Remap */
 	void Pad_ClearAllOne__Fi(int);
 	void Video_HandleStepping__Fv(void);
-	void FUN_80024868(void); /* Game_Logic */
+	void Game_Logic__Fv(void); /* Game_Logic */
 	void FUN_80048fec(void); /* Db_WaitRender */
 	void FUN_80025440(void);
 	void FUN_80024fa4(void); /* Game_Display */
-	void FUN_8006c610(int, int, int, int, int, int, int, int);
+	void Panel_DrawFlatShadedPoly__FiiiiUcUcUci(int, int, int, int, int, int, int, int);
 	void Front_PrintDemo__Fv(void);
 	void FUN_8002357c(int);
-	void FUN_80049094(void);
+	void Db_Render__Fv(void);
 	void FUN_8001a5e0(void);
 	void Front_SwitchOnStartLevelMenu__Fv(void);
 	int FUN_80043ce8(CBody *);
@@ -230,9 +230,9 @@ static inline void System_Logic(void) {
 		DAT_800c0a48[1] = TempPad;
 	}
 
-	FUN_80071588();
+	Pad_Remap__Fv();
 	FUN_80070ff4();
-	FUN_8007171c();
+	Pad_Restore__Fv();
 
 	if (DAT_800d16a4 == 7 && DAT_800d179c == 1) {
 		TempPad = DAT_800c0a48[0];
@@ -280,13 +280,13 @@ void PlayAway(void) {
 			Mess_SetCurrentFont__FPc(DAT_8009f584);
 			FUN_8006b240();
 			FUN_80061ea0();
-			FUN_80061e00(0, 0, 512, 240);
-			FUN_80061d44(0, 0, 512, 240, 0, 0, 0);
-			FUN_8001d250(0);
+			SetClippingBox__Fiiii(0, 0, 512, 240);
+			DrawColoredBox__FiiiiUcUcUc(0, 0, 512, 240, 0, 0, 0);
+			Mess_SetTextJustify__FUc(0);
 			Mess_SetScale__Fi(255);
 			Mess_SetRGB__FUcUcUci(150, 100, 25, 0);
-			FUN_8001e114(256, 110, DAT_8009f590, 1, 0, 256, 0);
-			FUN_8001e114(256, 130, DAT_8009f5a4, 1, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 110, DAT_8009f590, 1, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 130, DAT_8009f5a4, 1, 0, 256, 0);
 			FUN_8006b26c();
 			Pad_ClearTriggers__FP8SControl(&DAT_800c0a48[0]);
 			Pad_ClearTriggers__FP8SControl(&DAT_800c0a48[1]);
@@ -370,10 +370,10 @@ void PlayAway(void) {
 		if (DAT_800d16a4 == 1) {
 			DAT_800d17c4 = 0;
 
-			if (FUN_800106e0(3))
+			if (Career_Got__Fi(3))
 				DAT_800d17c4 |= 1;
 
-			if (FUN_800106e0(2))
+			if (Career_Got__Fi(2))
 				DAT_800d17c4 |= 2;
 		} else {
 			DAT_800d17c4 = 3;
@@ -402,11 +402,11 @@ void PlayAway(void) {
 		if (DAT_800d1de8 > 0) {
 			DAT_800bf318.ReplayHighlight = DAT_800d1de8;
 			DAT_800bf3d8.ReplayHighlight = DAT_800d1de8;
-			FUN_80069684(pSkater, 2, DAT_800bf318.Highlights[DAT_800d1de8 - 1].FromFrame,
+			Video_Start__FP6CBruce10EVideoModeii(pSkater, 2, DAT_800bf318.Highlights[DAT_800d1de8 - 1].FromFrame,
 			             DAT_800bf318.Highlights[DAT_800d1de8 - 1].ToFrame);
 
 			if (pSkater2)
-				FUN_80069684(pSkater2, 2, DAT_800bf318.Highlights[DAT_800d1de8 - 1].FromFrame,
+				Video_Start__FP6CBruce10EVideoModeii(pSkater2, 2, DAT_800bf318.Highlights[DAT_800d1de8 - 1].FromFrame,
 				             DAT_800bf318.Highlights[DAT_800d1de8 - 1].ToFrame);
 
 			Video_SyncObsIfNeeded__Fv();
@@ -414,31 +414,31 @@ void PlayAway(void) {
 			DAT_800d1de8 = 0;
 			DAT_800bf318.ReplayHighlight = 0;
 			DAT_800bf3d8.ReplayHighlight = 0;
-			FUN_80069684(pSkater, 2, 1, 0x7fffffff);
+			Video_Start__FP6CBruce10EVideoModeii(pSkater, 2, 1, 0x7fffffff);
 
 			if (pSkater2)
-				FUN_80069684(pSkater2, 2, 1, 0x7fffffff);
+				Video_Start__FP6CBruce10EVideoModeii(pSkater2, 2, 1, 0x7fffffff);
 		}
 
 		DAT_800d1784 = 0;
-		FUN_8001f310();
+		Flash_Reset__Fv();
 
 		DAT_800d19a4->m330 = DAT_800d1a24 + 216030;
 
 		if (DAT_800d19a4->pNext)
 			DAT_800d19a4->pNext->m330 = DAT_800d1a24 + 216030;
 	} else {
-		FUN_80069670();
+		Video_Cleanup__Fv();
 
 		{
 			CBody *pSkater = DAT_800d19a4;
 			CBody *pSkater2 = pSkater->pNext;
 
 			if (!DAT_800bf318.VideoMode && !FUN_8007cd64(DAT_800d2044)) {
-				FUN_80069684(pSkater, 1, 1, 0x7fffffff);
+				Video_Start__FP6CBruce10EVideoModeii(pSkater, 1, 1, 0x7fffffff);
 
 				if (pSkater2)
-					FUN_80069684(pSkater2, 1, 1, 0x7fffffff);
+					Video_Start__FP6CBruce10EVideoModeii(pSkater2, 1, 1, 0x7fffffff);
 
 				((SVideoHead *)(DAT_800bf318.pBlockStart + 128))->VideoFlags = DAT_800d17c4;
 			}
@@ -460,7 +460,7 @@ void PlayAway(void) {
 	}
 
 	for (int i = 0; i < 10; i++)
-		FUN_800444bc(&DAT_800d2044);
+		Ob_AI__FPP5CBody(&DAT_800d2044);
 
 	DAT_800d1a1c = 0;
 	DAT_800d17c8->mVel.vx = 0;
@@ -507,7 +507,7 @@ void PlayAway(void) {
 					if (DAT_800a5398[DAT_800d1e28].isCompetition && DAT_800d16a4 == 1)
 						FUN_8001a1c8();
 					else
-						FUN_8001a2bc();
+						Front_SwitchOnEndLevelMenu__Fv();
 				}
 			}
 		}
@@ -540,12 +540,12 @@ void PlayAway(void) {
 		if ((DAT_800d1780 == 1 || (DAT_800d16a4 == 7 && DAT_800d17c0)) && !DAT_800d1728)
 			Pad_ClearAllOne__Fi(1);
 
-		FUN_80024868();
+		Game_Logic__Fv();
 
 		if (DAT_800d16e0)
 			break;
 
-		FUN_80024868();
+		Game_Logic__Fv();
 
 		if (DAT_800d16e0)
 			break;
@@ -555,7 +555,7 @@ void PlayAway(void) {
 		FUN_80024fa4();
 
 		if (!DAT_800d16fc && DAT_800d1718)
-			FUN_8006c610(448, 208, 54, 18, 0, 0, 0, 0);
+			Panel_DrawFlatShadedPoly__FiiiiUcUcUci(448, 208, 54, 18, 0, 0, 0, 0);
 
 		if (!DAT_800d1cb0)
 			Front_PrintDemo__Fv();
@@ -569,7 +569,7 @@ void PlayAway(void) {
 		if (DAT_800d1a20 == StartVblanks)
 			Pause__Fi(1);
 
-		FUN_80049094();
+		Db_Render__Fv();
 
 		if (DAT_800d1a20 == StartVblanks + 1)
 			Pause__Fi(1);

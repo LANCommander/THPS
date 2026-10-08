@@ -30,12 +30,12 @@ void FUN_8005c934(void);
 int FUN_8005e09c(int);
 void FUN_80061ea0(void);
 O *FUN_80063e34(O *, int);
-void FUN_80063f58(O *);
+void update__9MenuInput(O *);
 int FUN_80064274(O *);
-O *FUN_800642e8(O *, int, int, int, int *, int, int, int, int);
+O *__12VerticalMenuiiiPPciPiT6i(O *, int, int, int, int *, int, int, int, int);
 void FUN_80064890(O *, int, int);
 void FUN_800648c0(O *, int, int);
-int FUN_8006516c(O *);
+int getSelected__12VerticalMenu(O *);
 void FUN_8006b240(void);
 void FUN_8006b26c(void);
 void FUN_80070ff4(void);
@@ -64,7 +64,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	s2 = __nw__5CItemUi(820);
 
 	if (s2)
-		s2 = FUN_800642e8(s2, 100, 398, 15, a0, a2, a6, a7, a8);
+		s2 = __12VerticalMenuiiiPPciPiT6i(s2, 100, 398, 15, a0, a2, a6, a7, a8);
 
 	FUN_80064890(s2, DAT_800d2358, DAT_800d235c);
 
@@ -123,7 +123,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		if (r)
 			DAT_800d1cb0 = 1600;
 
-		FUN_80063f58(s1);
+		update__9MenuInput(s1);
 
 		if (a5)
 			a5(s2);
@@ -136,7 +136,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 			Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
 			FUN_8004b250(145, 8192, 0);
 
-			t = FUN_8006516c(s2) + 1;
+			t = getSelected__12VerticalMenu(s2) + 1;
 			s3 = a3 + t;
 		}
 

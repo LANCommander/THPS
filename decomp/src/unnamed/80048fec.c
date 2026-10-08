@@ -14,7 +14,7 @@ unsigned long DAT_800d1a54;
 
 void Pause__Fi(int);
 void FUN_8008c468(int);
-void FUN_80048e40(void);
+void Db_CallBack__Fv(void);
 int FUN_80048c74(void);
 void FUN_8008c7d4(unsigned long *, int);
 
@@ -26,7 +26,7 @@ void FUN_80048fec(void) {
 
 	if (DAT_800d1a48->Flag78) {
 		FUN_8008c468(0);
-		FUN_80048e40();
+		Db_CallBack__Fv();
 	}
 
 	FUN_8008c7d4(DAT_800d1a48->OT, FUN_80048c74());

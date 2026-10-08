@@ -1,5 +1,5 @@
-/* FUN_8006bc88 (0x8006bc88) */
-/* Builds the object's rotation matrix and runs FUN_8006b6c0 against the skater and its partner
+/* CollideWithSkaters__FP4CCar (0x8006bc88) */
+/* Builds the object's rotation matrix and runs CollideWithSkater__FP4CCarP6CBruceRC6MATRIXPs against the skater and its partner
    (+0x1c), unless a replay/video mode 2 is active on either player. */
 #include <sys/types.h>
 #include <libgte.h>
@@ -25,9 +25,9 @@ extern SVideoInfo DAT_800bf3d8;
 extern SType DAT_800bf7a8[];
 extern char *DAT_800d19a4;
 
-void FUN_8006b6c0(char *, char *, MATRIX *, char *);
+void CollideWithSkater__FP4CCarP6CBruceRC6MATRIXPs(char *, char *, MATRIX *, char *);
 
-void FUN_8006bc88(char *p) {
+void CollideWithSkaters__FP4CCar(char *p) {
 	MATRIX m;
 	SModelInfo *info;
 	char *s1, *s2, *x;
@@ -40,8 +40,8 @@ void FUN_8006bc88(char *p) {
 	s2 = *(char **)(s1 + 28);
 	x = info->p10 + 12;
 	RotMatrix((SVECTOR *)(p + 356), &m);
-	FUN_8006b6c0(p, s1, &m, x);
+	CollideWithSkater__FP4CCarP6CBruceRC6MATRIXPs(p, s1, &m, x);
 
 	if (s2)
-		FUN_8006b6c0(p, s2, &m, x);
+		CollideWithSkater__FP4CCarP6CBruceRC6MATRIXPs(p, s2, &m, x);
 }

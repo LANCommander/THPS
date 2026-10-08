@@ -1,4 +1,4 @@
-/* FUN_80039cd0 (0x80039cd0) */
+/* RotateHeadingAndVelocity__6CBruceiii (0x80039cd0) */
 /* C++: CC1=D:/Tools/psyq4.5/CC1PLPSX.EXE match_sym.mjs ... "-O2 -fno-exceptions" */
 struct CVector {
 	int x, y, z;
@@ -27,7 +27,7 @@ extern CVector operator/(const CVector &, const int &);
 
 extern "C" char DAT_800a824c[];
 
-void FUN_80039cd0(char *t, int a, int c, int b) {
+void RotateHeadingAndVelocity__6CBruceiii(char *t, int a, int c, int b) {
 	MATRIX m;
 	SVECTOR ang;
 	MATRIX m3;

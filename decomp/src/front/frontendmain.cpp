@@ -89,15 +89,15 @@ extern "C" {
 	int DAT_800d1cb4;
 	int DAT_800d1cb8; /* soft reset */
 
-	void FUN_80010000(void);
-	void FUN_800101e4(void);
+	void Career_Init__Fv(void);
+	void Options_SetPreferences__Fv(void);
 	short FUN_80014ba4(SName *);
 	void FUN_800161d8(void);
 	void FUN_800171f0(void);
-	void FUN_8001d250(int);
+	void Mess_SetTextJustify__FUc(int);
 	void FUN_8001f0dc(void);
 	void FUN_8001f1b4(int);
-	void FUN_80022c1c(int);
+	void GameFMV_PlayMovie__Fi(int);
 	void FUN_800491e8(void);
 	void FUN_8004b09c(char *);
 	void FUN_8004d5d0(void *);
@@ -153,7 +153,7 @@ restart:
 	DAT_800bf0c4 = DAT_800a192c;
 	DAT_800d1cb4 = 1;
 	Front_ClearGVideoRestartData();
-	FUN_80010000();
+	Career_Init__Fv();
 	FUN_800161d8();
 top:
 	FUN_8005c8ac();
@@ -202,7 +202,7 @@ top:
 		Mess_LoadFont(DAT_800a1938, -1, -1, -1);
 		Mess_SetRGB(128, 128, 128, 0);
 		Mess_SetFontScale(256);
-		FUN_8001d250(1);
+		Mess_SetTextJustify__FUc(1);
 		FUN_8001f1b4(4);
 
 		mode = 0;
@@ -303,7 +303,7 @@ mainmenu:
 	if (!DAT_800d1cb0)
 		goto demo;
 
-	FUN_800101e4();
+	Options_SetPreferences__Fv();
 
 	mode = 0;
 	players = 1;
@@ -316,7 +316,7 @@ mainmenu:
 		case 18:
 			if (choice == 18) {
 				DAT_800d1d80 = 0;
-				FUN_80010000();
+				Career_Init__Fv();
 			}
 
 			DAT_800d16a4 = players;
@@ -522,43 +522,43 @@ movie:
 
 	switch (choice) {
 		case 99:
-			FUN_80022c1c(-26);
+			GameFMV_PlayMovie__Fi(-26);
 			break;
 		case 1569:
-			FUN_80022c1c(-25);
+			GameFMV_PlayMovie__Fi(-25);
 			break;
 		case 1570:
-			FUN_80022c1c(-12);
+			GameFMV_PlayMovie__Fi(-12);
 			break;
 		case 1571:
-			FUN_80022c1c(-13);
+			GameFMV_PlayMovie__Fi(-13);
 			break;
 		case 1572:
-			FUN_80022c1c(-14);
+			GameFMV_PlayMovie__Fi(-14);
 			break;
 		case 1573:
-			FUN_80022c1c(-15);
+			GameFMV_PlayMovie__Fi(-15);
 			break;
 		case 1574:
-			FUN_80022c1c(-16);
+			GameFMV_PlayMovie__Fi(-16);
 			break;
 		case 25202:
-			FUN_80022c1c(-17);
+			GameFMV_PlayMovie__Fi(-17);
 			break;
 		case 25203:
-			FUN_80022c1c(-18);
+			GameFMV_PlayMovie__Fi(-18);
 			break;
 		case 25204:
-			FUN_80022c1c(-19);
+			GameFMV_PlayMovie__Fi(-19);
 			break;
 		case 25205:
-			FUN_80022c1c(-20);
+			GameFMV_PlayMovie__Fi(-20);
 			break;
 		case 25206:
-			FUN_80022c1c(-21);
+			GameFMV_PlayMovie__Fi(-21);
 			break;
 		case 25207:
-			FUN_80022c1c(-11);
+			GameFMV_PlayMovie__Fi(-11);
 			break;
 		case 100:
 			break;

@@ -1,6 +1,6 @@
 /* FUN_800316cc (0x800316cc) */
 /* PHYSICS: copies a trick-table entry's flag bits (top 12 bits of its first word) into the
-   skater; called twice from FUN_80031758 with &DAT_800a7358[i]. */
+   skater; called twice from HandleTricksNew__6CBruce with &DAT_800a7358[i]. */
 struct STrick {
 	unsigned Word0; /* trick flags in the top 12 bits */
 };

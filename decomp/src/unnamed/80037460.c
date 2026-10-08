@@ -1,4 +1,4 @@
-/* FUN_80037460 (0x80037460) */
+/* DoHandPlantPhysics__6CBruce (0x80037460) */
 typedef struct {
 	int f0, f4, f8, fc;
 	char p10[0x70 - 0x10];
@@ -32,10 +32,10 @@ extern void FUN_8002fe9c(O *, int);
 extern void FUN_8002f438(O *, int);
 extern void FUN_8002fcdc(O *, int, int);
 extern void FUN_8002f980(O *, int, int, int);
-extern void FUN_8002f478(O *);
+extern void Trick_Land__6CBruce(O *);
 extern short PingPong__Fiii(int, int, int);
 
-void FUN_80037460(O *o) {
+void DoHandPlantPhysics__6CBruce(O *o) {
 	int a, b;
 	unsigned short t1, t2, t3, t4, t5, t6;
 	int s;
@@ -81,7 +81,7 @@ void FUN_80037460(O *o) {
 		FUN_8002f980(o, 0, 0x1614, b);
 
 		o->f364 = 1;
-		FUN_8002f478(o);
+		Trick_Land__6CBruce(o);
 
 		o->f4 = o->f4 + o->f7f0 * 30;
 		o->f8 = o->f8 + o->f7f4 * 30;

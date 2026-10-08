@@ -11,10 +11,10 @@ struct N {
 };
 
 struct N *DAT_800d1a80;
-struct N *FUN_8004d068(int a, int b, int c);
+struct N *Mem_NewX__FUiii(int a, int b, int c);
 
 struct N *FUN_8004ab2c(int p) {
-	struct N *n = FUN_8004d068(24, 0, 1);
+	struct N *n = Mem_NewX__FUiii(24, 0, 1);
 	struct N *h = DAT_800d1a80;
 
 	n->next = 0;

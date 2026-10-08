@@ -6,7 +6,7 @@ extern int DAT_800d199c __attribute__((section(".data")));
 void *DAT_800d1998;
 
 void __6CBaddy(char *);
-void FUN_800438dc(char *, void *);
+void AttachTo__5CBodyPP5CBody(char *, void *);
 short *SquirtPos__5CBodyPs(char *, short *);
 short *SquirtAngles__5CBodyPs(char *, short *);
 
@@ -25,7 +25,7 @@ char *__16CScriptOnlyBaddyPsi(char *t, short *p, int id) {
 	*(unsigned short *)(t + 0xe2) = id;
 	*(unsigned short *)t |= 0x41;
 	*(unsigned short *)(t + 0x52) &= ~0x10;
-	FUN_800438dc(t, &DAT_800d1998);
+	AttachTo__5CBodyPP5CBody(t, &DAT_800d1998);
 
 	*(short *)(t + 0xe0) = 0;
 	*(short *)(t + 0x3a) = 203;

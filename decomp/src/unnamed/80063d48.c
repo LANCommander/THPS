@@ -1,7 +1,7 @@
 /* FUN_80063d48 (0x80063d48) */
 extern char DAT_800a2180[];
 
-int FUN_8004d068(int a, int b, int c);
+int Mem_NewX__FUiii(int a, int b, int c);
 void FUN_8008c774(char *p, int a);
 
 char *FUN_80063d48(char *p, int a, int b, int c, int d) {
@@ -12,7 +12,7 @@ char *FUN_80063d48(char *p, int a, int b, int c, int d) {
 	*(char **)p = DAT_800a2180;
 	*(short *)(p + 8) = c;
 	*(short *)(p + 10) = d;
-	n = FUN_8004d068(c * d * 2, 1, 1);
+	n = Mem_NewX__FUiii(c * d * 2, 1, 1);
 	*(int *)(p + 12) = n;
 	FUN_8008c774(p + 4, n);
 	return p;

@@ -15,17 +15,17 @@ int DAT_800d233c;
 int DAT_800d2340;
 
 void FUN_8004cc18(void);
-void FUN_8007046c(void);
+void Spool_Continue__Fv(void);
 int FUN_80070830(void);
 void Spool_Sync__Fv(void);
-int FUN_800701b0(char *a, int b, int c);
+int Spool_PSX__FPciii(char *a, int b, int c);
 
 void FUN_80059094(void) {
 	int a;
 	int n;
 
 	FUN_8004cc18();
-	FUN_8007046c();
+	Spool_Continue__Fv();
 
 	if (FUN_80070830())
 		return;
@@ -57,5 +57,5 @@ void FUN_80059094(void) {
 		DAT_800d2324 = DAT_800d2324 - 11;
 
 	if (*DAT_800a44fc[DAT_800d2324].n8)
-		DAT_800d37b4[DAT_800d2324] = FUN_800701b0(DAT_800a44fc[DAT_800d2324].n8, 2, 1);
+		DAT_800d37b4[DAT_800d2324] = Spool_PSX__FPciii(DAT_800a44fc[DAT_800d2324].n8, 2, 1);
 }

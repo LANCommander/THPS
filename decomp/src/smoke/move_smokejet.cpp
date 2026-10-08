@@ -119,7 +119,7 @@ extern CBody *DAT_800d1998;
 int Redbook_Rnd(int);
 void Utils_CalcUnit(CVector &, const CVector &);
 CBody *M3dColij_LineToSphere(const CVector &, const CVector &, CVector &, CBody *, CBody *);
-extern "C" void FUN_80027e18(CSmokeJet *);
+extern "C" void Die__4CBit(CSmokeJet *);
 
 void CSmokeJet::Move() {
 	if (mLifetime == 0xffff) {
@@ -150,7 +150,7 @@ void CSmokeJet::Move() {
 		}
 	} else {
 		if (!mLifetime || !--mLifetime)
-			FUN_80027e18(this);
+			Die__4CBit(this);
 	}
 
 	mDontDisplay = 0;

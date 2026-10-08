@@ -71,8 +71,8 @@ extern "C" {
 	void FUN_8006b240(void);
 	void FUN_80061ea0(void);
 	void FUN_800242cc(void);
-	void FUN_80061d44(int, int, int, int, int, int, int);
-	void FUN_80061e00(int, int, int, int);
+	void DrawColoredBox__FiiiiUcUcUc(int, int, int, int, int, int, int);
+	void SetClippingBox__Fiiii(int, int, int, int);
 	void FUN_80070ff4(void);
 	void FUN_8005c68c(void);
 }
@@ -87,10 +87,10 @@ extern "C" void FUN_8005d3dc(void) {
 		FUN_80061ea0();
 		FUN_800242cc();
 		if (DAT_800d1cf0) {
-			FUN_80061d44(0, 0, 512, 240, 0, 0, 0);
+			DrawColoredBox__FiiiiUcUcUc(0, 0, 512, 240, 0, 0, 0);
 			return;
 		}
-		FUN_80061e00(0, 0, 512, 240);
+		SetClippingBox__Fiiii(0, 0, 512, 240);
 		if (DAT_800d1d14) {
 			DAT_800d1d14 = 0;
 			if (DAT_800d1cf8 == 4)

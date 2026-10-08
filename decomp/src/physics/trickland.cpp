@@ -45,7 +45,7 @@ class CBruce {
 };
 
 extern "C" {
-	void FUN_8006e5ac(char *);
+	void TrickMessageRefresh__10CPanelData(char *);
 	void FUN_8006e20c(CBruce *);
 	int FUN_8004d83c(void *);
 	int FUN_8004f000(Item *, CBruce *, int);
@@ -68,7 +68,7 @@ void CBruce::Trick_Land() {
 	if (m32C == 1 && m738 == 2)
 		m32C = 0;
 
-	FUN_8006e5ac(mPanel);
+	TrickMessageRefresh__10CPanelData(mPanel);
 
 	m288 = 0;
 	m284 = 0;

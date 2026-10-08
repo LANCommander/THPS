@@ -186,7 +186,7 @@ extern "C" {
 	void FUN_8005c97c(int);
 	void FUN_8005ca64(void);
 	void *FUN_8005ca3c(char *);
-	void *FUN_8004d068(int, int, int);
+	void *Mem_NewX__FUiii(int, int, int);
 	void FUN_8004d5d0(void *);
 	void FUN_80061714(void *);
 	void FUN_80059520(int);
@@ -207,20 +207,20 @@ extern "C" {
 	void FUN_80043f70(CBruce *);
 	int FUN_8004b250(int, int, int);
 	void FUN_8006ed2c(int);
-	void FUN_8006f290(int);
+	void ProcessNewPSX__Fi(int);
 	CBruce *FUN_8005622c(int);
 	void FUN_80056428(void);
 	void FUN_800565ac(void);
 	void FUN_80061eb4(int);
 	void FUN_80093240(SVECTOR *, MATRIX *);
-	void FUN_800831f8(char *, SViewport *, char *);
-	void FUN_80083838(char *);
+	void M3d_RenderSetup__FP7SCameraP9SViewportPUi(char *, SViewport *, char *);
+	void M3d_Render__FPv(char *);
 	void FUN_80083774(void);
-	void FUN_8001d250(int);
-	int FUN_8001e114(int, int, char *, int, int, int, int);
+	void Mess_SetTextJustify__FUc(int);
+	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 	int FUN_8001dc9c(char *);
-	int FUN_8001da44(char *);
-	void FUN_80061e00(int, int, int, int);
+	int Mess_TextWidth__FPCc(char *);
+	void SetClippingBox__Fiiii(int, int, int, int);
 	void FUN_80059018(void);
 	void FUN_8008c8dc(char *);
 	void FUN_80056394(void);
@@ -268,7 +268,7 @@ extern "C" int FUN_80056754(void) {
 	FUN_8005c97c(2);
 	FUN_8005ca64();
 
-	buf = FUN_8004d068(0x26160, 1, 1);
+	buf = Mem_NewX__FUiii(0x26160, 1, 1);
 	bmp = FUN_8005ca3c("select2p.bmp");
 
 	Mem_Copy(buf, bmp, 0x26160);
@@ -541,7 +541,7 @@ extern "C" int FUN_80056754(void) {
 								DAT_800d2120 = DAT_800a44fc[DAT_800d2304[p]].b13;
 							}
 
-							FUN_8006f290(DAT_800d3758[DAT_800d2304[p]]);
+							ProcessNewPSX__Fi(DAT_800d3758[DAT_800d2304[p]]);
 
 							DAT_800d2120 = -1;
 						}
@@ -772,8 +772,8 @@ extern "C" int FUN_80056754(void) {
 
 					bruce[0]->m15a = 0;
 					bruce[1]->m15a = 0;
-					FUN_800831f8(DAT_800c119c, vp, DAT_800d1a48 + ((p << 14) + 140));
-					FUN_80083838(DAT_800d19a4);
+					M3d_RenderSetup__FP7SCameraP9SViewportPUi(DAT_800c119c, vp, DAT_800d1a48 + ((p << 14) + 140));
+					M3d_Render__FPv(DAT_800d19a4);
 					FUN_80083774();
 
 					bruce[p ^ 1]->mFlags ^= 0x41;
@@ -783,16 +783,16 @@ extern "C" int FUN_80056754(void) {
 			} else if (state[p] == 0) {
 				Mess_SetCurrentFont("stats2.fnt");
 				Mess_SetRGB(128, 128, 128, 0);
-				FUN_8001d250(0);
-				FUN_8001e114(loadX[p], 163, "LOADING", 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(0);
+				Mess_DrawText__FiiPCciUiib(loadX[p], 163, "LOADING", 0, 0, 256, 0);
 			}
 
 			if (state[p] == 1) {
 				Mess_SetCurrentFont("stats2.fnt");
 				Mess_SetRGB(250, 190, 60, 0);
-				FUN_8001d250(0);
-				FUN_8001e114(lx[p], ly[0], sSkater, 1, 0, 256, 0);
-				FUN_8001e114(lx[p], ly[1], sChosen, 1, 0, 256, 0);
+				Mess_SetTextJustify__FUc(0);
+				Mess_DrawText__FiiPCciUiib(lx[p], ly[0], sSkater, 1, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(lx[p], ly[1], sChosen, 1, 0, 256, 0);
 			}
 
 			FUN_80061eb4(p);
@@ -804,40 +804,40 @@ extern "C" int FUN_80056754(void) {
 				info[2][p]->draw(infoX[p], 369, 0, -1, -1, -1);
 				Mess_SetCurrentFont("stats2.fnt");
 				Mess_SetRGB(128, 128, 128, 0);
-				FUN_8001d250(1);
+				Mess_SetTextJustify__FUc(1);
 				int ty = 330;
 
-				FUN_8001e114(infoX[p],
+				Mess_DrawText__FiiPCciUiib(infoX[p],
 				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[0]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[0]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[0], 0, 0, 256, 0);
 
 				ty += 15;
-				FUN_8001e114(infoX[p],
+				Mess_DrawText__FiiPCciUiib(infoX[p],
 				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[1]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[1]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[1], 0, 0, 256, 0);
 
 				ty += 15;
-				FUN_8001e114(infoX[p],
+				Mess_DrawText__FiiPCciUiib(infoX[p],
 				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[2]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[2]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[2], 0, 0, 256, 0);
 
 				ty += 15;
-				FUN_8001e114(infoX[p],
+				Mess_DrawText__FiiPCciUiib(infoX[p],
 				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[3]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[3]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[3], 0, 0, 256, 0);
 
 				ty += 15;
-				FUN_8001e114(infoX[p],
+				Mess_DrawText__FiiPCciUiib(infoX[p],
 				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[4]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[4]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[4], 0, 0, 256, 0);
 
 				ty += 15;
-				FUN_8001e114(infoX[p],
+				Mess_DrawText__FiiPCciUiib(infoX[p],
 				             FUN_8001dc9c(DAT_800a44fc[DAT_800d2304[p]].Info[5]) + ty -
 				                 (Mess_TextHeight(DAT_800a44fc[DAT_800d2304[p]].Info[5]) >> 1),
 				             DAT_800a44fc[DAT_800d2304[p]].Info[5], 0, 0, 256, 0);
@@ -897,14 +897,14 @@ extern "C" int FUN_80056754(void) {
 				case 0:
 					Mess_SetCurrentFont("mainf.fnt");
 					Mess_SetRGB(128, 128, 128, 0);
-					FUN_8001d250(1);
+					Mess_SetTextJustify__FUc(1);
 
 					if (p == 0) {
-						startX[p] = textX[p] = -FUN_8001da44(DAT_800a44fc[DAT_800d2304[p]].Name);
-						endX[p] = 208 - (FUN_8001da44(DAT_800a44fc[DAT_800d2304[p]].Name) >> 1);
+						startX[p] = textX[p] = -Mess_TextWidth__FPCc(DAT_800a44fc[DAT_800d2304[p]].Name);
+						endX[p] = 208 - (Mess_TextWidth__FPCc(DAT_800a44fc[DAT_800d2304[p]].Name) >> 1);
 					} else {
 						startX[p] = textX[p] = 640;
-						endX[p] = 496 - (FUN_8001da44(DAT_800a44fc[DAT_800d2304[p]].Name) >> 1);
+						endX[p] = 496 - (Mess_TextWidth__FPCc(DAT_800a44fc[DAT_800d2304[p]].Name) >> 1);
 					}
 
 					textSpeed[p] = (endX[p] - startX[p]) / 6;
@@ -932,8 +932,8 @@ extern "C" int FUN_80056754(void) {
 					textBar[p]->draw(barX[p], 50, 0, -1, -1, -1);
 					Mess_SetCurrentFont("mainf.fnt");
 					Mess_SetRGB(128, 128, 128, 0);
-					FUN_8001d250(1);
-					FUN_8001e114(textX[p], textY[p], DAT_800a44fc[DAT_800d2304[p]].Name, 0, 0, 256,
+					Mess_SetTextJustify__FUc(1);
+					Mess_DrawText__FiiPCciUiib(textX[p], textY[p], DAT_800a44fc[DAT_800d2304[p]].Name, 0, 0, 256,
 					             0);
 					break;
 				case 3:
@@ -946,8 +946,8 @@ extern "C" int FUN_80056754(void) {
 					textBar[p]->draw(barX[p], 50, 0, -1, -1, -1);
 					Mess_SetCurrentFont("mainf.fnt");
 					Mess_SetRGB(128, 128, 128, 0);
-					FUN_8001d250(1);
-					FUN_8001e114(textX[p], textY[p], DAT_800a44fc[DAT_800d2304[p]].Name, 0, 0, 256,
+					Mess_SetTextJustify__FUc(1);
+					Mess_DrawText__FiiPCciUiib(textX[p], textY[p], DAT_800a44fc[DAT_800d2304[p]].Name, 0, 0, 256,
 					             0);
 					break;
 			}
@@ -955,9 +955,9 @@ extern "C" int FUN_80056754(void) {
 			FUN_80061eb4(p);
 
 			if (DAT_800d231c[p])
-				FUN_80061e00(frameX[p], 92, 129, 142);
+				SetClippingBox__Fiiii(frameX[p], 92, 129, 142);
 			else
-				FUN_80061e00(0, 0, 640, 480);
+				SetClippingBox__Fiiii(0, 0, 640, 480);
 
 			if (p == 0) {
 				FUN_80059018();

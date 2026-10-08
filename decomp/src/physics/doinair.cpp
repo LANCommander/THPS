@@ -178,19 +178,19 @@ extern "C" {
 	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 	int Mips_FixMul__Fii(int, int);
-	int FUN_800827d4(SLineInfo *, int);
+	int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
 	MATRIX *FUN_80093100(MATRIX *, VECTOR *);
 	MATRIX *FUN_80093240(SVECTOR *, MATRIX *);
 	MATRIX *FUN_80093130(MATRIX *, MATRIX *);
 	VECTOR *FUN_80092f60(MATRIX *, VECTOR *, VECTOR *);
-	void FUN_8003a498(CBruce *);
+	void UprightSideways__6CBruce(CBruce *);
 	void FUN_8002fe9c(CBruce *, int);
 	void FUN_8003036c(CBruce *);
 	void FUN_800429d0(CBruce *);
 	void FUN_8002f1a0(CBruce *);
 	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_80039f2c(CBruce *, SVECTOR, int);
-	void FUN_80031224(CBruce *, SVECTOR);
+	void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(CBruce *, SVECTOR, int);
+	void HandleBailPerpendicular__6CBruceG7SVECTOR(CBruce *, SVECTOR);
 	void FUN_80035f30(CBruce *, SVECTOR);
 	void FUN_80031108(CBruce *, int);
 	int printf(const char *, ...);
@@ -267,7 +267,7 @@ void CBruce::DoInAirPhysics() {
 	}
 
 	if (m734 != 2)
-		FUN_8003a498(this);
+		UprightSideways__6CBruce(this);
 
 	SetVector(&line_info.StartCoords, mOldPos.vx, mOldPos.vy, mOldPos.vz)
 	    SetVector(&line_info.EndCoords, mPos.vx, mPos.vy, mPos.vz) vMovement = mPos - mOldPos;
@@ -283,13 +283,13 @@ void CBruce::DoInAirPhysics() {
 	}
 
 	M3dColij_InitLineInfo(&line_info);
-	FUN_800827d4(&line_info, 1);
+	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 	GetFaceFlags(&line_info);
 
 	if (DAT_800d1974 && !DAT_800d1980 && m734 != 3) {
 		DAT_800d20d4 = 1;
 		M3dColij_InitLineInfo(&line_info);
-		FUN_800827d4(&line_info, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 		GetFaceFlags(&line_info);
 
 		DAT_800d20d4 = 0;
@@ -411,7 +411,7 @@ void CBruce::DoInAirPhysics() {
 			StateTransition(1, 5363);
 
 			m740 = 1;
-			FUN_80039f2c(this, line_info.Normal, 0);
+			ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(this, line_info.Normal, 0);
 
 			mVel.vx += line_info.Normal.vx / 4;
 			mVel.vy += line_info.Normal.vy / 4;
@@ -458,7 +458,7 @@ void CBruce::DoInAirPhysics() {
 				m72C = DAT_800d1984;
 
 				if (!mInAir) {
-					FUN_80031224(this, line_info.Normal);
+					HandleBailPerpendicular__6CBruceG7SVECTOR(this, line_info.Normal);
 					FUN_80035f30(this, line_info.Normal);
 					FUN_80031108(this, 5496);
 				}

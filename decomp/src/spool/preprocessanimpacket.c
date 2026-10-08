@@ -21,11 +21,11 @@ typedef struct SAnimNode {
 SAnimNode *DAT_800d1efc;
 
 unsigned *Spool_SkipPackets__FPUi(unsigned *);
-void *FUN_8004d068(int, int, int);
+void *Mem_NewX__FUiii(int, int, int);
 
 void PreProcessAnimPacket__FPUiT0(unsigned *packet, unsigned *data) {
 	STex **tbl = (STex **)(Spool_SkipPackets__FPUi(packet) + 1);
-	SAnimNode *node = FUN_8004d068(8, 0, 1);
+	SAnimNode *node = Mem_NewX__FUiii(8, 0, 1);
 	unsigned n, i;
 
 	node->next = DAT_800d1efc;

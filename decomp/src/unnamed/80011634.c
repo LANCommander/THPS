@@ -1,6 +1,6 @@
-/* FUN_80011634 (0x80011634) */
+/* Front_SetSaveAction__F11ESaveAction (0x80011634) */
 int DAT_800d1148;
 
-void FUN_80011634(int v) {
+void Front_SetSaveAction__F11ESaveAction(int v) {
 	DAT_800d1148 = v;
 }

@@ -8,7 +8,7 @@ extern int DAT_800d13cc;
 int DAT_800d1acc;
 
 void Video_SFXPlay(int, short, int);
-extern "C" int FUN_8004bb74(int, unsigned char, short, short, int);
+extern "C" int playSFX__FUiUcssiUs(int, unsigned char, short, short, int);
 
 extern "C" int FUN_8004b250(int id, short vol, int pan) {
 	int p, note, v, i;
@@ -33,5 +33,5 @@ extern "C" int FUN_8004b250(int id, short vol, int pan) {
 	p = DAT_800d13cc * p / 100;
 	v = (vol * p * 4) >> 16;
 
-	return FUN_8004bb74(DAT_800b8a9c[i], note, v, v, pan);
+	return playSFX__FUiUcssiUs(DAT_800b8a9c[i], note, v, v, pan);
 }

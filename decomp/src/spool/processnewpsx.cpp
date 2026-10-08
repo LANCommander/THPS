@@ -60,9 +60,9 @@ void M3dZone_SetZone(int, uint *);
 void PreProcessAnimPacket(uint *, uint *);
 
 extern "C" {
-	Texture *FUN_8006ef30(uint);
-	void FUN_8004aea4(uint, uint *, int);
-	void FUN_8006f854(int, int);
+	Texture *NewTextureEntry__FUi(uint);
+	void Pal_LoadPalette__FUiPUiUci(uint, uint *, int);
+	void Spool_LoadTexturesToVRAM__Fii(int, int);
 	void FUN_8004d6a0(uint *, int);
 }
 
@@ -105,7 +105,7 @@ void ProcessNewPSX(int region) {
 			Texture *pTextureEntry = Spool_FindTextureEntry(ChecksumTable[i]);
 
 			if (!pTextureEntry)
-				pTextureEntry = FUN_8006ef30(ChecksumTable[i]);
+				pTextureEntry = NewTextureEntry__FUi(ChecksumTable[i]);
 
 			pTextureEntry->Usage++;
 			ChecksumTable[i] = (uint)pTextureEntry;
@@ -150,7 +150,7 @@ void ProcessNewPSX(int region) {
 
 		for (i = 0; i < Num16CPalettes; i++) {
 			if (!Pal_FindPaletteEntry(*pPaletteInfo))
-				FUN_8004aea4(*pPaletteInfo, pPaletteInfo + 1, 1);
+				Pal_LoadPalette__FUiPUiUci(*pPaletteInfo, pPaletteInfo + 1, 1);
 
 			pPaletteInfo += 9;
 		}
@@ -163,7 +163,7 @@ void ProcessNewPSX(int region) {
 
 		for (i = 0; i < Num256CPalettes; i++) {
 			if (!Pal_FindPaletteEntry(*pPaletteInfo))
-				FUN_8004aea4(*pPaletteInfo, pPaletteInfo + 1, 2);
+				Pal_LoadPalette__FUiPUiUci(*pPaletteInfo, pPaletteInfo + 1, 2);
 
 			pPaletteInfo += 129;
 		}
@@ -180,7 +180,7 @@ void ProcessNewPSX(int region) {
 	}
 
 	DAT_800bf7a8[region].InMemory = 1;
-	FUN_8006f854(region, 0);
+	Spool_LoadTexturesToVRAM__Fii(region, 0);
 
 	DAT_800d1a6c = 0;
 	DAT_800d1a70 = 0;

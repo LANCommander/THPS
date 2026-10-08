@@ -63,7 +63,7 @@ extern char *DAT_800d1428;
 extern char *DAT_800a5f10[];
 
 void Flash_Update__Fv(void);
-int FUN_8001f328(void);
+int Flash_FadeFinished__Fv(void);
 void GameFMV_StopFMV__Fv(void);
 void Pad_ClearAll__Fv(void);
 void Pad_ClearTriggers__FP8SControl(char *);
@@ -72,9 +72,9 @@ void Mess_DeleteAll__Fv(void);
 void FUN_8008f4d4(int, int, int);
 void Pause__Fi(int);
 void FUN_8004d5d0(int);
-void FUN_80022c1c(int);
-void FUN_8001f310(void);
-int FUN_8004d068(int, int, int);
+void GameFMV_PlayMovie__Fi(int);
+void Flash_Reset__Fv(void);
+int Mem_NewX__FUiii(int, int, int);
 int FindEntry__5CMenuPCc(char *, char *);
 void SetLine__5CMenuUc(char *, unsigned char);
 int FUN_8007401c(void);
@@ -87,7 +87,7 @@ void FUN_80076880(int *a, int *b) {
 	if (DAT_800c0fdc.f) {
 		Flash_Update__Fv();
 
-		if (FUN_8001f328()) {
+		if (Flash_FadeFinished__Fv()) {
 			DAT_800c0fdc.f = 0;
 
 			if (DAT_800c0fdc.o1)
@@ -115,11 +115,11 @@ void FUN_80076880(int *a, int *b) {
 			FUN_8008f4d4(8, 0, 0);
 			Pause__Fi(10);
 			FUN_8004d5d0(DAT_800a891c.a);
-			FUN_80022c1c(-(*(int *)(DAT_800d17c8 + 744) + 12));
-			FUN_8001f310();
+			GameFMV_PlayMovie__Fi(-(*(int *)(DAT_800d17c8 + 744) + 12));
+			Flash_Reset__Fv();
 
 			DAT_800a891c.a =
-			    FUN_8004d068((DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
+			    Mem_NewX__FUiii((DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
 			DAT_800a891c.b =
 			    DAT_800a891c.a + 0x17c00 + DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1];
 			*a = 7;

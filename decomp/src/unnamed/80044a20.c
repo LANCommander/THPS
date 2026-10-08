@@ -17,7 +17,7 @@ extern STrig *DAT_800d2610[];
 extern int DAT_800d199c;
 extern int DAT_800d17c8;
 
-void FUN_80046374(char *, int, int);
+void ExecuteCommandList__FPUsii(char *, int, int);
 
 STrig *FUN_80044a20(int id) {
 	STrig *t;
@@ -32,7 +32,7 @@ STrig *FUN_80044a20(int id) {
 			t->Hit |= bit;
 
 			if (!(t->Done & bit)) {
-				FUN_80046374(t->pScript, t->Line, 0);
+				ExecuteCommandList__FPUsii(t->pScript, t->Line, 0);
 
 				t->Done |= bit;
 				return t;

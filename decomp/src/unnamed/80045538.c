@@ -18,11 +18,11 @@ short **DAT_800d19e8;
 
 extern int DAT_800d186c;
 
-void FUN_80045268(int, short **);
+void Trig_CreateObject__Fi(int, short **);
 CP *GetCommandPoint__Fi(int, short **);
-void FUN_80046374(int, int, int);
+void ExecuteCommandList__FPUsii(int, int, int);
 P *Trig_GetPosition__FR7CVectori(V *, int);
-int FUN_80027d08(int);
+int __nw__4CBitUi(int);
 void FUN_8001f614(int, V *, int, int, int, int, int, int, int, int, int, int, int);
 void TrickOb_DarkenNode__Fi(int, short **);
 int __nw__5CItemUi(int, short **);
@@ -38,17 +38,17 @@ void FUN_80045538(int idx) {
 		case 5:
 		case 7:
 		case 1:
-			FUN_80045268(idx, DAT_800d19e8);
+			Trig_CreateObject__Fi(idx, DAT_800d19e8);
 			break;
 		case 6:
 			cp = GetCommandPoint__Fi(idx, DAT_800d19e8);
 			cp->f7 = cp->f7 + 1;
-			FUN_80046374(cp->a, idx, 0);
+			ExecuteCommandList__FPUsii(cp->a, idx, 0);
 			break;
 		case 501:
 			p = Trig_GetPosition__FR7CVectori(&v, idx);
 			DAT_800d186c = 0;
-			o = FUN_80027d08(100);
+			o = __nw__4CBitUi(100);
 
 			if (o)
 				FUN_8001f614(o, &v, idx, p->w0, p->w2, p->w4, p->w6, p->b8, p->b10, p->b12, p->b14,

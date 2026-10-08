@@ -62,16 +62,16 @@ void Mess_SetFontScale(uint);
 void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
 
 extern "C" {
-	void FUN_8001d250(int);
-	int FUN_8001da44(char *);
-	void FUN_8001e114(int, int, char *, int, int, int, int);
+	void Mess_SetTextJustify__FUc(int);
+	int Mess_TextWidth__FPCc(char *);
+	void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 }
 
 void VerticalMenu::draw() {
 	int tri_off;
 	int y;
 
-	FUN_8001d250(0);
+	Mess_SetTextJustify__FUc(0);
 	Mess_SetFontScale(font_scale);
 
 	if ((uint)(tick - 63) < 2) {
@@ -86,7 +86,7 @@ void VerticalMenu::draw() {
 			                 -1, -1);
 
 		if (tick == 63)
-			list[selected].w = FUN_8001da44(list[selected].string);
+			list[selected].w = Mess_TextWidth__FPCc(list[selected].string);
 	}
 
 	{
@@ -111,7 +111,7 @@ void VerticalMenu::draw() {
 				y = list[i].y - (list[i].h >> 1) + list[i].baseline;
 			}
 
-			FUN_8001e114(list[i].x, y, list[i].string, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(list[i].x, y, list[i].string, 0, 0, 256, 0);
 			Mess_SetFontScale(font_scale);
 		}
 	}

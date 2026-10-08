@@ -151,12 +151,12 @@ extern "C" {
 	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 	int Mips_FixMul__Fii(int, int);
-	int FUN_800827d4(SLineInfo *, int);
+	int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
 	SHandle FUN_8004d7ac(void *);
 	void FUN_8002f1a0(CBruce *);
 	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_80039f2c(CBruce *, SVECTOR, int);
-	void FUN_80043408(CBruce *);
+	void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(CBruce *, SVECTOR, int);
+	void SFX_Grunt__FP6CBruce(CBruce *);
 }
 
 void CBruce::DoWallRidePhysics() {
@@ -217,7 +217,7 @@ void CBruce::DoWallRidePhysics() {
 		}
 
 		M3dColij_InitLineInfo(&line_info);
-		FUN_800827d4(&line_info, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 		GetFaceFlags(&line_info);
 
 		if (line_info.pItem) {
@@ -278,7 +278,7 @@ void CBruce::DoWallRidePhysics() {
 	line_info.EndCoords.vy = line_info.StartCoords.vy - mUp.vy * 128;
 	line_info.EndCoords.vz = line_info.StartCoords.vz - mUp.vz * 128;
 	M3dColij_InitLineInfo(&line_info);
-	FUN_800827d4(&line_info, 1);
+	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 	GetFaceFlags(&line_info);
 
 	if (line_info.pItem) {
@@ -332,8 +332,8 @@ void CBruce::DoWallRidePhysics() {
 
 					m740 = 1;
 					mKick += Gravity;
-					FUN_80039f2c(this, line_info.Normal, 200);
-					FUN_80043408(this);
+					ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(this, line_info.Normal, 200);
+					SFX_Grunt__FP6CBruce(this);
 				}
 			}
 		}

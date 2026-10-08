@@ -47,19 +47,19 @@ extern "C" {
 	extern CBody *DAT_800d1fe4;
 	extern CBody *DAT_800d2044;
 
-	void FUN_8001a6f8(void);
+	void Front_Update__Fv(void);
 	void FUN_80027c54(void);
 	void FUN_8002aa6c(void);
-	void FUN_800444bc(CBody **);
-	void FUN_80044620(CBody **);
+	void Ob_AI__FPP5CBody(CBody **);
+	void Ob_QuickAI__FPP5CBody(CBody **);
 	void FUN_80048044(void);
 	void FUN_8004cc18(void);
 	void FUN_8004f8a0(void);
 	void FUN_8006c4e8(void);
-	void FUN_8007046c(void);
-	void FUN_80071588(void);
-	void FUN_8007171c(void);
-	void FUN_80072404(void);
+	void Spool_Continue__Fv(void);
+	void Pad_Remap__Fv(void);
+	void Pad_Restore__Fv(void);
+	void TrickTips_Update__Fv(void);
 	void Flash_Update__Fv(void);
 	void Font_Reset__Fv(void);
 	void Mess_Update__Fv(void);
@@ -90,17 +90,17 @@ void Game_Logic(void) {
 		FUN_80048044();
 		Ob_ClearInputFlags__FP5CBody(DAT_800d1998);
 		Ob_ClearInputFlags__FP5CBody(DAT_800d19b0);
-		FUN_800444bc(&DAT_800d19a4);
+		Ob_AI__FPP5CBody(&DAT_800d19a4);
 
 		if (!DAT_800d140c[0]) {
 			FUN_8002aa6c();
 			FUN_8004f8a0();
-			FUN_800444bc(&DAT_800d1618);
+			Ob_AI__FPP5CBody(&DAT_800d1618);
 			TrickOb_Update__Fv();
-			FUN_80044620(&DAT_800d19b0);
-			FUN_80044620(&DAT_800d1fe4);
+			Ob_QuickAI__FPP5CBody(&DAT_800d19b0);
+			Ob_QuickAI__FPP5CBody(&DAT_800d1fe4);
 			Ob_MaybeUnSuspendOrCull__Fv();
-			FUN_800444bc(&DAT_800d1998);
+			Ob_AI__FPP5CBody(&DAT_800d1998);
 			FUN_80027c54();
 
 			if (DAT_800d16a4 != 7)
@@ -114,7 +114,7 @@ void Game_Logic(void) {
 		}
 	} else {
 		if (DAT_800d1784 == 1)
-			FUN_800444bc(&DAT_800d2044);
+			Ob_AI__FPP5CBody(&DAT_800d2044);
 	}
 
 	Shatter_MaybeMakeGlassShatterSound__Fv();
@@ -127,9 +127,9 @@ void Game_Logic(void) {
 		DAT_800c0a48[1] = t;
 	}
 
-	FUN_80071588();
-	FUN_8001a6f8();
-	FUN_8007171c();
+	Pad_Remap__Fv();
+	Front_Update__Fv();
+	Pad_Restore__Fv();
 
 	if (DAT_800d16a4 == 7 && DAT_800d179c == 1) {
 		SControl t = DAT_800c0a48[0];
@@ -138,8 +138,8 @@ void Game_Logic(void) {
 		DAT_800c0a48[1] = t;
 	}
 
-	FUN_80072404();
+	TrickTips_Update__Fv();
 	Mess_Update__Fv();
-	FUN_8007046c();
+	Spool_Continue__Fv();
 	FUN_8004cc18();
 }

@@ -11,11 +11,11 @@ extern T DAT_800a4434[];
 
 int DAT_800d1118;
 
-void FUN_8001e114(int, int, const char *, int, int, int, int);
-int FUN_8001da44(const char *);
+void Mess_DrawText__FiiPCciUiib(int, int, const char *, int, int, int, int);
+int Mess_TextWidth__FPCc(const char *);
 int Mess_TextHeight__FPCc(const char *);
 char *__nw__5CItemUi(unsigned);
-char *FUN_80063928(char *, int, int, int, int, int, int, int);
+char *__6Spriteiiiiiii(char *, int, int, int, int, int, int, int);
 
 void Front_DirtyRectText__FiiPCc(int x, int y, const char *s) {
 	int i, w, h, nx;
@@ -24,13 +24,13 @@ void Front_DirtyRectText__FiiPCc(int x, int y, const char *s) {
 
 	for (i = 0; i < DAT_800d1118; i++) {
 		if (DAT_800a4434[i].str == s) {
-			FUN_8001e114(x, y, s, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(x, y, s, 0, 0, 256, 0);
 			return;
 		}
 	}
 
 	DAT_800a4434[DAT_800d1118].str = s;
-	w = FUN_8001da44(s);
+	w = Mess_TextWidth__FPCc(s);
 	h = Mess_TextHeight__FPCc(s);
 	nx = x - (w >> 1);
 	w += 4;
@@ -41,7 +41,7 @@ void Front_DirtyRectText__FiiPCc(int x, int y, const char *s) {
 	p = __nw__5CItemUi(24);
 
 	if (p)
-		p = FUN_80063928(p, nx, DAT_800a4434[DAT_800d1118].y, w, h, 1, 32, 128);
+		p = __6Spriteiiiiiii(p, nx, DAT_800a4434[DAT_800d1118].y, w, h, 1, 32, 128);
 
 	e->ptr = p;
 	DAT_800a4434[DAT_800d1118].state = 2;

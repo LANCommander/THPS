@@ -17,7 +17,7 @@ unsigned short DAT_800d1658, DAT_800d166e, DAT_800d1672, DAT_800d1674, DAT_800d1
     DAT_800d1688, DAT_800d168a;
 unsigned char DAT_800d167d;
 
-int FUN_8004d068(int, int, int);
+int Mem_NewX__FUiii(int, int, int);
 void DecDCTvlcBuild3(void);
 void FUN_80023cb8(void);
 int strNextVlc__Fi(int);
@@ -39,10 +39,10 @@ void GameFMV_StartFMV__Fi(int a) {
 
 		if (a) {
 			for (i = 0; i < 2; i++)
-				DAT_800d168c[i] = FUN_8004d068(DAT_800d1664, 1, 1);
+				DAT_800d168c[i] = Mem_NewX__FUiii(DAT_800d1664, 1, 1);
 		}
 
-		DAT_800d222c = FUN_8004d068(DAT_800d1668 << 11, 1, 1);
+		DAT_800d222c = Mem_NewX__FUiii(DAT_800d1668 << 11, 1, 1);
 		t = DAT_800d1672;
 		t >>= 4;
 		DAT_800d166c = t;
@@ -54,7 +54,7 @@ void GameFMV_StartFMV__Fi(int a) {
 				j = 0;
 
 				do {
-					DAT_800a6748[j] = FUN_8004d068(DAT_800d1674 << 5, 1, 1);
+					DAT_800a6748[j] = Mem_NewX__FUiii(DAT_800d1674 << 5, 1, 1);
 					j++;
 				} while (j < DAT_800d166c);
 			}

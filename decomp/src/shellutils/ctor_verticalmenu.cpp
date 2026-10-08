@@ -65,10 +65,10 @@ void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
 
 extern "C" {
 	void FUN_8008e904(char *, char *);
-	int FUN_8001da44(char *);
+	int Mess_TextWidth__FPCc(char *);
 	int FUN_8001dc9c(char *);
 	int FUN_8008c468(int);
-	int FUN_8001e114(int, int, char *, int, int, int, int);
+	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 }
 
 VerticalMenu::VerticalMenu(int top, int bottom, int spacing, char **items, int num, int *xlist,
@@ -87,7 +87,7 @@ VerticalMenu::VerticalMenu(int top, int bottom, int spacing, char **items, int n
 		for (i = 0; i < num_items; i++) {
 			FUN_8008e904(list[i].text, items[i]);
 
-			list[i].w = FUN_8001da44(items[i]);
+			list[i].w = Mess_TextWidth__FPCc(items[i]);
 			list[i].h = Mess_TextHeight(items[i]);
 			list[i].x = xlist ? xlist[i] : 320;
 			list[i].yoff = FUN_8001dc9c(list[i].text);
@@ -125,7 +125,7 @@ VerticalMenu::VerticalMenu(int top, int bottom, int spacing, char **items, int n
 			else
 				Mess_SetRGB(122, 122, 122, 0);
 
-			FUN_8001e114(list[i].x, list[i].y - (list[i].h >> 1) + list[i].yoff, list[i].text, 0, 0,
+			Mess_DrawText__FiiPCciUiib(list[i].x, list[i].y - (list[i].h >> 1) + list[i].yoff, list[i].text, 0, 0,
 			             256, 0);
 		}
 	}

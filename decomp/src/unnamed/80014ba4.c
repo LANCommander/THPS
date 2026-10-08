@@ -19,8 +19,8 @@ typedef struct {
 
 extern S DAT_800bf318;
 
-char *FUN_8004c8a4(void);
-char *FUN_8004d068(char *a, int b, int c);
+char *FileIO_Open__FPCc(void);
+char *Mem_NewX__FUiii(char *a, int b, int c);
 void FUN_8004cb10(char *a);
 void FUN_8004cdd0(void);
 void FUN_8004d5d0(char *a);
@@ -30,7 +30,7 @@ short FUN_80014ba4(void) {
 	char *b;
 	int i;
 
-	b = FUN_8004d068(FUN_8004c8a4(), 1, 1);
+	b = Mem_NewX__FUiii(FileIO_Open__FPCc(), 1, 1);
 
 	if (b) {
 		FUN_8004cb10(b);

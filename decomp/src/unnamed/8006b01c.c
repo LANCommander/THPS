@@ -23,7 +23,7 @@ extern int DAT_800d1774, DAT_800d177c, DAT_800d1a54;
 extern short DAT_800d214c, DAT_800d214e;
 
 void FUN_8008c3d0(int);
-int FUN_8004d068(int, int, int);
+int Mem_NewX__FUiii(int, int, int);
 void FUN_80092e70(void *, int, int, int, int);
 void FUN_800914fc(void *, int, int, int, int);
 void FUN_80048d00(void);
@@ -38,7 +38,7 @@ void FUN_8006b01c(int a) {
 
 	FUN_8008c3d0(0);
 
-	v = FUN_8004d068(0x14000, 1, 1);
+	v = Mem_NewX__FUiii(0x14000, 1, 1);
 	DAT_800a891c.f80a8 = v;
 	DAT_800a891c.f10154 = v + 0xa000;
 	FUN_80092e70(&DAT_800a891c, 0, 0, 640, 480);

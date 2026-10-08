@@ -1,4 +1,4 @@
-/* FUN_8006516c (0x8006516c) */
-int FUN_8006516c(char *p) {
+/* getSelected__12VerticalMenu (0x8006516c) */
+int getSelected__12VerticalMenu(char *p) {
 	return *(int *)(p + 24);
 }

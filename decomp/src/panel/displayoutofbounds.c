@@ -17,10 +17,10 @@ void FUN_8001e07c(int *);
 void FUN_8001e0a4(int *, int);
 void FUN_8001e0f8(int *, int);
 int FUN_8001e108(int *);
-void FUN_8001d250(int);
+void Mess_SetTextJustify__FUc(int);
 void Mess_DrawPanelText__FiiPCciUii(int, int, char *, int, int, int);
 
-void FUN_8006d704(B *p, int a, int b) {
+void DisplayOutOfBounds__FP6CBruceUsUs(B *p, int a, int b) {
 	short x, y;
 	char *s0;
 
@@ -48,7 +48,7 @@ void FUN_8006d704(B *p, int a, int b) {
 		FUN_8001e07c(p->fad4);
 		FUN_8001e0f8(p->fad4, 256);
 		FUN_8001e0a4(p->fad4, 1);
-		FUN_8001d250(0);
+		Mess_SetTextJustify__FUc(0);
 		Mess_DrawPanelText__FiiPCciUii(a + x, b + y, s0, 0, 0, 256);
 
 		if (FUN_8001e108(p->fad4) == 0)

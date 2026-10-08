@@ -1,4 +1,4 @@
-/* FUN_80043af4 (0x80043af4) */
+/* KillShadow__5CBody (0x80043af4) */
 struct VT {
 	char pad[8];
 	short off;
@@ -11,7 +11,7 @@ struct O {
 	struct VT *vt;
 };
 
-void FUN_80043af4(char *p) {
+void KillShadow__5CBody(char *p) {
 	struct O *o;
 
 	*(unsigned short *)(p + 82) &= 0xfff7;

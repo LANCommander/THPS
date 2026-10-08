@@ -20,12 +20,12 @@ typedef struct {
 
 extern char DAT_8009f0b0[];
 
-int FUN_80027f64(B *);
+int __15CNonRenderedBit(B *);
 
 B *FUN_8001f614(B *p, V *pos, int a2, int a3, int a4, int a5, int a6, unsigned char c0,
                 unsigned char c1, unsigned char c2, unsigned char c3, unsigned char c4,
                 unsigned char c5) {
-	FUN_80027f64(p);
+	__15CNonRenderedBit(p);
 
 	p->vt = DAT_8009f0b0;
 	p->v18 = *pos;

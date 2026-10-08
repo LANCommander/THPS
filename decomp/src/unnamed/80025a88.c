@@ -53,12 +53,12 @@ extern int DAT_800d1de8;
 extern int DAT_800d1e28;
 
 void *FUN_800434d4(int);
-CB *FUN_80041e5c(void *);
-CC *FUN_800785f0(void *, CB *, int);
+CB *__6CBruce(void *);
+CC *__7CCameraP5CBodyUs(void *, CB *, int);
 void TrickTips_Init__Fv(void);
 void StartCompetitionIntro__7CCamera(CC *);
 void InitItem__6CBrucePc(CB *, char *);
-void FUN_80041ce0(CB *, int);
+void GetStats__6CBrucei(CB *, int);
 
 void FUN_80025a88(void) {
 	CB *pBruce;
@@ -69,7 +69,7 @@ void FUN_80025a88(void) {
 	pBruce = FUN_800434d4(3612);
 
 	if (pBruce)
-		pBruce = FUN_80041e5c(pBruce);
+		pBruce = __6CBruce(pBruce);
 
 	DAT_800d17c8 = pBruce;
 	DAT_800d17cc = 0;
@@ -77,7 +77,7 @@ void FUN_80025a88(void) {
 	pCam = FUN_800434d4(1712);
 
 	if (pCam)
-		pCam = FUN_800785f0(pCam, pBruce, 0);
+		pCam = __7CCameraP5CBodyUs(pCam, pBruce, 0);
 
 	pCam->m1412 = 1;
 	TrickTips_Init__Fv();
@@ -102,7 +102,7 @@ void FUN_80025a88(void) {
 		pBruce->m308 |= 2;
 
 	pBruce->m408 = DAT_800a8240;
-	FUN_80041ce0(pBruce, 0);
+	GetStats__6CBrucei(pBruce, 0);
 
 	if (DAT_800a44fc[pBruce->m744].c == 16384)
 		pBruce->m404 |= 4096;
@@ -111,13 +111,13 @@ void FUN_80025a88(void) {
 		p2 = FUN_800434d4(3612);
 
 		if (p2)
-			p2 = FUN_80041e5c(p2);
+			p2 = __6CBruce(p2);
 
 		p2->m2160 = 1;
 		c2 = FUN_800434d4(1712);
 
 		if (c2)
-			c2 = FUN_800785f0(c2, p2, 0);
+			c2 = __7CCameraP5CBodyUs(c2, p2, 0);
 
 		c2->m1412 = 1;
 		p2->m744 = DAT_800d16d8;
@@ -131,6 +131,6 @@ void FUN_80025a88(void) {
 		p2->m472 = c2;
 		DAT_800d17cc = p2;
 		p2->m408 = DAT_800a8245;
-		FUN_80041ce0(p2, 1);
+		GetStats__6CBrucei(p2, 1);
 	}
 }

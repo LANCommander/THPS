@@ -1,4 +1,4 @@
-/* FUN_800444bc (0x800444bc) */
+/* Ob_AI__FPP5CBody (0x800444bc) */
 typedef struct {
 	int x, y, z;
 } V;
@@ -41,7 +41,7 @@ void FUN_800440ec(O *);
 void UpdateShadow__5CBody(O *);
 unsigned Utils_CrapDist__FRC7CVectorT0(V *, V *);
 
-void FUN_800444bc(O **a) {
+void Ob_AI__FPP5CBody(O **a) {
 	O *m;
 	O *n;
 	V *v;

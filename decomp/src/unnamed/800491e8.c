@@ -41,11 +41,11 @@ char *DAT_800d1a48, *DAT_800d1a4c;
 
 extern void FUN_8008c3d0(int);
 extern int FUN_8008c468(int);
-extern char *FUN_8004d068(int, int, int);
+extern char *Mem_NewX__FUiii(int, int, int);
 extern void FUN_80092e70(void *, int, int, int, int);
 extern void FUN_800914fc(void *, int, int, int, int);
 extern void FUN_80048d00(void);
-extern void FUN_80048c8c(void);
+extern void Db_UpdateSky__Fv(void);
 extern void FUN_8008c94c(void *);
 extern void FUN_8008ca0c(void *);
 extern int FUN_80048c74(void);
@@ -63,7 +63,7 @@ void FUN_800491e8(void) {
 
 	if (DAT_800a891c.f80a8 == 0) {
 		DAT_800a891c.f80a8 =
-		    FUN_8004d068((DAT_800a5398[DAT_800d1e28].arr[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
+		    Mem_NewX__FUiii((DAT_800a5398[DAT_800d1e28].arr[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
 		DAT_800a891c.f10154 =
 		    DAT_800a891c.f80a8 + (DAT_800a5398[DAT_800d1e28].arr[DAT_800d1780 - 1] + 0x17c00);
 	}
@@ -75,7 +75,7 @@ void FUN_800491e8(void) {
 	FUN_800914fc((char *)&DAT_800a891c + 92, 0, 256, 512, 240);
 	FUN_800914fc(DAT_800b0a24, 0, 0, 512, 240);
 	FUN_80048d00();
-	FUN_80048c8c();
+	Db_UpdateSky__Fv();
 	FUN_8008c94c(&DAT_800a891c);
 	FUN_8008ca0c((char *)&DAT_800a891c + 92);
 

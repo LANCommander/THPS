@@ -13,7 +13,7 @@ typedef struct {
 extern int DAT_800d20dc;
 
 void M3dColij_InitLineInfo__FP9SLineInfo(SLineInfo *li);
-void FUN_800827d4(SLineInfo *li, int n);
+void M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *li, int n);
 
 int Utils_LineOfSight(V *a, V *b) {
 	SLineInfo li;
@@ -26,7 +26,7 @@ int Utils_LineOfSight(V *a, V *b) {
 	li.end.z = b->z;
 	DAT_800d20dc = 1;
 	M3dColij_InitLineInfo__FP9SLineInfo(&li);
-	FUN_800827d4(&li, 1);
+	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
 
 	DAT_800d20dc = 0;
 	return li.hit == 0;

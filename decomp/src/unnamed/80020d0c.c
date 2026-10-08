@@ -1,4 +1,4 @@
-/* FUN_80020d0c (0x80020d0c) */
+/* SetPos__11CShatterBitRC7CVector (0x80020d0c) */
 typedef struct {
 	int x, y, z;
 } V;
@@ -17,7 +17,7 @@ extern V DAT_800d2574;
 
 void SetPos__4CBitRC7CVector(B *, V *);
 void SetPos__7CRibbonR7CVector(int, V *);
-void FUN_80027e18(B *);
+void Die__4CBit(B *);
 int Length__C7CVector(V *);
 int Redbook_Rnd__Fi(int);
 V __mi__FRC7CVectorT0(const V *, const V *);
@@ -25,7 +25,7 @@ V __ml__FRCiRC7CVector(const int *, const V *);
 V __dv__FRC7CVectorRCi(const V *, const int *);
 void __als__7CVectorRCi(V *, const int *);
 
-void FUN_80020d0c(B *p, V *a) {
+void SetPos__11CShatterBitRC7CVector(B *p, V *a) {
 	V d;
 	int pd;
 	V r;
@@ -50,7 +50,7 @@ void FUN_80020d0c(B *p, V *a) {
 		r = __dv__FRC7CVectorRCi(pc, &len);
 		p->v24 = *pr;
 	} else {
-		FUN_80027e18(p);
+		Die__4CBit(p);
 	}
 
 	t = Redbook_Rnd__Fi(45);

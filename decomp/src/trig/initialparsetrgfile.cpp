@@ -28,12 +28,12 @@ char *Trig_GetPosition(CVector &, int);
 void Trig_ParseTRGFile();
 
 extern "C" {
-	int FUN_8004c8a4(char *);
-	char *FUN_8004d068(int, int, int);
+	int FileIO_Open__FPCc(char *);
+	char *Mem_NewX__FUiii(int, int, int);
 	void FUN_8004cb10(char *);
 	void FUN_8004cdd0(void);
 	void FUN_8004d6a0(char *, int);
-	void FUN_80046374(ushort *, int, int);
+	void ExecuteCommandList__FPUsii(ushort *, int, int);
 }
 
 void Trig_InitialParseTRGFile(char *pName) {
@@ -53,7 +53,7 @@ void Trig_InitialParseTRGFile(char *pName) {
 		*pDest = 0;
 	}
 
-	DAT_800d19e0 = FUN_8004d068(FUN_8004c8a4(Name), 0, 1);
+	DAT_800d19e0 = Mem_NewX__FUiii(FileIO_Open__FPCc(Name), 0, 1);
 	FUN_8004cb10(DAT_800d19e0);
 	FUN_8004cdd0();
 
@@ -127,7 +127,7 @@ void Trig_InitialParseTRGFile(char *pName) {
 
 			if (*pNode == 15) {
 				Found = 1;
-				FUN_80046374((ushort *)(pNode + 1), i, 1);
+				ExecuteCommandList__FPUsii((ushort *)(pNode + 1), i, 1);
 			}
 		}
 	}
@@ -139,7 +139,7 @@ void Trig_InitialParseTRGFile(char *pName) {
 			short *pNode = DAT_800d19e8[i];
 
 			if (*pNode == 4)
-				FUN_80046374((ushort *)(pNode + 1), i, 1);
+				ExecuteCommandList__FPUsii((ushort *)(pNode + 1), i, 1);
 		}
 	}
 

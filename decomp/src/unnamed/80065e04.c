@@ -2,7 +2,7 @@
 extern int DAT_800d1b10;
 
 void FUN_8004d5d0(int);
-void FUN_8006f290(int);
+void ProcessNewPSX__Fi(int);
 void Spool_ClearPSX__FPc(char *);
 void Spool_Sync__Fv(void);
 void unloadPRE__10PREManagerPc(int, char *);
@@ -30,7 +30,7 @@ void FUN_80065e04(char *a, int b) {
 		} else if (*s == 1) {
 			q = (int *)(a + 0x24);
 			q = (int *)((char *)q + o);
-			FUN_8006f290(*q);
+			ProcessNewPSX__Fi(*q);
 			Spool_ClearPSX__FPc((char *)(o + (int)a) + 20);
 			Spool_Sync__Fv();
 

@@ -10,11 +10,11 @@ typedef struct {
 extern S DAT_800bf7a8[];
 extern int *DAT_800c09a8[];
 
-int *FUN_8004d068(int, int, int);
+int *Mem_NewX__FUiii(int, int, int);
 
 void FUN_8006ed2c(int i) {
 	int *s = DAT_800bf7a8[i].p14;
-	int *d = FUN_8004d068(30000, 1, 1);
+	int *d = Mem_NewX__FUiii(30000, 1, 1);
 	int j = 0;
 
 	DAT_800c09a8[i] = d;

@@ -14,8 +14,8 @@ int DAT_800d1624;
 unsigned short DAT_800d2220, DAT_800d2224;
 unsigned char DAT_800d2228, DAT_800d2229, DAT_800d222a;
 
-extern void *FUN_80027d08(int);
-extern void *FUN_80020b84(void *, CS *, CS *, CS *, V *, int);
+extern void *__nw__4CBitUi(int);
+extern void *__11CShatterBitRC8CSVectorN21RC7CVectori(void *, CS *, CS *, CS *, V *, int);
 extern int Length__C7CVector(V *);
 extern int Redbook_Rnd__Fi(int);
 extern void SetRGB__9CChunkBitUcUcUc(void *, int, int, int);
@@ -202,10 +202,10 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 			__als__7CVectorRCi(&t60, &iEC);
 
 			DAT_800d186c = 0;
-			o = FUN_80027d08(204);
+			o = __nw__4CBitUi(204);
 
 			if (o)
-				o = FUN_80020b84(o, (CS *)&s70, &c90, &c98, &t60, 0);
+				o = __11CShatterBitRC8CSVectorN21RC7CVectori(o, (CS *)&s70, &c90, &c98, &t60, 0);
 
 			DAT_800d186c = 1;
 			SetRGB__9CChunkBitUcUcUc(o, DAT_800d2228, DAT_800d2229, DAT_800d222a);

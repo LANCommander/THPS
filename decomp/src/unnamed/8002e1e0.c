@@ -1,4 +1,4 @@
-/* FUN_8002e1e0 (0x8002e1e0) */
+/* __15CTexturedRibbonii (0x8002e1e0) */
 extern char DAT_8009f6e8[];
 
 struct E {
@@ -20,16 +20,16 @@ struct D {
 
 void CTOR(struct D *p);
 
-struct E *FUN_8004d068(int a, int b, int c);
+struct E *Mem_NewX__FUiii(int a, int b, int c);
 
-struct D *FUN_8002e1e0(struct D *p, int n, int c) {
+struct D *__15CTexturedRibbonii(struct D *p, int n, int c) {
 	int i;
 
 	CTOR(p);
 
 	p->vt = DAT_8009f6e8;
 	p->n = n;
-	p->e = FUN_8004d068(n * 36, 0, 1);
+	p->e = Mem_NewX__FUiii(n * 36, 0, 1);
 
 	for (i = 0; i < p->n; i++) {
 		struct E *x = (struct E *)(i * 36 + (int)p->e);

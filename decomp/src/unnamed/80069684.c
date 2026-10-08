@@ -1,4 +1,4 @@
-/* FUN_80069684 (0x80069684) */
+/* Video_Start__FP6CBruce10EVideoModeii (0x80069684) */
 typedef struct {
 	int f0;
 	int *f4;
@@ -50,9 +50,9 @@ extern int DAT_800d1a24;
 void FUN_80068d88(void);
 void FUN_80068ed4(void);
 void FUN_80068f2c(void);
-void FUN_80041c88(B *);
+void BoardOn__6CBruce(B *);
 
-void FUN_80069684(B *a, int b, int c, int d) {
+void Video_Start__FP6CBruce10EVideoModeii(B *a, int b, int c, int d) {
 	S *s;
 	int i, j, x, y;
 	int *q;
@@ -126,5 +126,5 @@ void FUN_80069684(B *a, int b, int c, int d) {
 	a->s146 = 0;
 	a->s144 = 0;
 	a->f724 = 0;
-	FUN_80041c88(a);
+	BoardOn__6CBruce(a);
 }

@@ -12,7 +12,7 @@ extern int DAT_800d13cc;
 int DAT_800d1acc;
 
 unsigned int Utils_CalculateSpatialAttenuation(const CVector &, int, int);
-extern "C" int FUN_8004bb74(int, unsigned char, short, short, int);
+extern "C" int playSFX__FUiUcssiUs(int, unsigned char, short, short, int);
 
 extern "C" int FUN_8004b464(int id, const CVector &pos, int pan) {
 	unsigned int att;
@@ -34,5 +34,5 @@ extern "C" int FUN_8004b464(int id, const CVector &pos, int pan) {
 
 	DAT_800d1acc = p;
 
-	return FUN_8004bb74(DAT_800b8a9c[id * 2], note, l * p / 100, r * p / 100, pan);
+	return playSFX__FUiUcssiUs(DAT_800b8a9c[id * 2], note, l * p / 100, r * p / 100, pan);
 }

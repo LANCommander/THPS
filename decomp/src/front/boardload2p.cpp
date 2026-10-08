@@ -72,8 +72,8 @@ int DAT_800d22d0[2]; /* skater, per player */
 extern "C" {
 	char *strcpy(char *, const char *);
 	void FUN_8004cdd0(void);
-	int FUN_8004c8a4(char *);
-	char *FUN_8004d068(int, int, int);
+	int FileIO_Open__FPCc(char *);
+	char *Mem_NewX__FUiii(int, int, int);
 	void FUN_8004cb10(char *);
 }
 
@@ -136,7 +136,7 @@ extern "C" void FUN_80050c5c(void) {
 
 	DAT_800d22cc = 0;
 	DAT_800d22ac = 0;
-	DAT_800d22c0[0] = FUN_8004d068(FUN_8004c8a4("b2lock01.bmp"), 1, 1);
+	DAT_800d22c0[0] = Mem_NewX__FUiii(FileIO_Open__FPCc("b2lock01.bmp"), 1, 1);
 
 	FUN_8004cb10(DAT_800d22c0[0]);
 	FUN_8004cdd0();

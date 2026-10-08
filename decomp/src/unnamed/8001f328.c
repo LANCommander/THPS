@@ -1,6 +1,6 @@
-/* FUN_8001f328 (0x8001f328) */
+/* Flash_FadeFinished__Fv (0x8001f328) */
 int DAT_800d1614;
 
-int FUN_8001f328(void) {
+int Flash_FadeFinished__Fv(void) {
 	return DAT_800d1614 == 0;
 }

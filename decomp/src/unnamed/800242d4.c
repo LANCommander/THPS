@@ -1,4 +1,4 @@
-/* FUN_800242d4 (0x800242d4) */
+/* Game_Over__Fv (0x800242d4) */
 typedef struct {
 	char p[0x1f0];
 	int f1f0;
@@ -13,7 +13,7 @@ B *DAT_800d17cc;
 extern int DAT_800d1954, DAT_800d1958, DAT_800d195c, DAT_800d1960, DAT_800d1964, DAT_800d1968,
     DAT_800d196c, DAT_800d1970;
 
-void FUN_800242d4(void) {
+void Game_Over__Fv(void) {
 	int a, b, c;
 
 	if (DAT_800d16a4 == 8) {

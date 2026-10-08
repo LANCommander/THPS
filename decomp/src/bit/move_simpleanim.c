@@ -9,7 +9,7 @@ typedef struct {
 } B;
 
 void IncFrame__7CFT4Bit(B *);
-void FUN_80027e18(B *);
+void Die__4CBit(B *);
 void SetFrame__7CFT4Biti(B *, int);
 
 void Move__11CSimpleAnim(B *t) {
@@ -17,7 +17,7 @@ void Move__11CSimpleAnim(B *t) {
 
 	if (t->once) {
 		if (t->f >= t->end)
-			FUN_80027e18(t);
+			Die__4CBit(t);
 	} else if (t->f >= t->n) {
 		if (t->end == -2)
 			SetFrame__7CFT4Biti(t, t->n - 1);

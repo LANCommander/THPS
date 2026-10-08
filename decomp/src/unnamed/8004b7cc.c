@@ -1,4 +1,4 @@
-/* FUN_8004b7cc (0x8004b7cc) */
+/* SFX_ModifyVol__FUiii (0x8004b7cc) */
 typedef struct {
 	int a, b;
 	short c, d;
@@ -9,7 +9,7 @@ extern int DAT_800d13cc;
 
 void FUN_80093e54(int a, S *s);
 
-void FUN_8004b7cc(unsigned mask, int a, int b) {
+void SFX_ModifyVol__FUiii(unsigned mask, int a, int b) {
 	int i;
 	S s;
 

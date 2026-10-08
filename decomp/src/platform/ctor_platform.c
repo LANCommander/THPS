@@ -6,7 +6,7 @@ extern char *DAT_800d19f0 __attribute__((section(".data")));
 extern int DAT_800d199c __attribute__((section(".data")));
 void __6CBaddy(char *);
 void InitItem__5CItemPc(char *, char *);
-void FUN_800438dc(char *, void *);
+void AttachTo__5CBodyPP5CBody(char *, void *);
 short *SquirtPos__5CBodyPs(char *, short *);
 short *SquirtAngles__5CBodyPs(char *, short *);
 
@@ -21,7 +21,7 @@ char *__9CPlatformPsi(char *t, short *p, int id) {
 	*(char **)(t + 0x48) = DAT_800a013c;
 	*(int *)(t + 0x218) = x;
 	InitItem__5CItemPc(t, nm);
-	FUN_800438dc(t, &DAT_800d19b0);
+	AttachTo__5CBodyPP5CBody(t, &DAT_800d19b0);
 
 	*(short *)(t + 0x22c) = 402;
 	*(unsigned short *)t |= 0x111;

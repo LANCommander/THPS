@@ -1,4 +1,4 @@
-/* FUN_8007d1a4 (0x8007d1a4) */
+/* __6CamPos (0x8007d1a4) */
 extern char DAT_800a35a4[];
 extern char DAT_800a35b4[];
 
@@ -7,7 +7,7 @@ struct X {
 	int a, b, c, d;
 };
 
-char *FUN_8007d1a4(char *p) {
+char *__6CamPos(char *p) {
 	struct X *x = (struct X *)(p + 28);
 	struct X *y = (struct X *)(p + 68);
 	struct X *z = (struct X *)(p + 120);

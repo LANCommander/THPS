@@ -1,4 +1,4 @@
-/* FUN_8006b490 (0x8006b490) */
+/* __4CCarPsii (0x8006b490) */
 extern char DAT_800d1e2c[], DAT_800d1e34[], DAT_800d1e3c[], DAT_800a232c[], DAT_800a233c[];
 extern int DAT_800d1998;
 
@@ -7,14 +7,14 @@ int DAT_800d1e44;
 int __6CBaddy(char *);
 void InitItem__5CItemPc(char *, char *);
 int FUN_8004b250(int, int, int);
-void FUN_800438dc(char *, void *);
+void AttachTo__5CBodyPP5CBody(char *, void *);
 void CycleAnim__6CSuperiSc(char *, int, int);
 short *SquirtPos__5CBodyPs(char *, short *);
 void SquirtAngles__5CBodyPs(char *, short *);
 char *Trig_GetLinksPointer__Fi(int);
 void Trig_GetPosition__FR7CVectori(char *, int);
 
-char *FUN_8006b490(char *t, short *p, int id, int ty) {
+char *__4CCarPsii(char *t, short *p, int id, int ty) {
 	int x;
 	unsigned short v;
 
@@ -49,7 +49,7 @@ char *FUN_8006b490(char *t, short *p, int id, int ty) {
 	}
 
 	DAT_800d1e44 = 300;
-	FUN_800438dc(t, &DAT_800d1998);
+	AttachTo__5CBodyPP5CBody(t, &DAT_800d1998);
 
 	*(int *)(t + 0x150) = 0x10000;
 	CycleAnim__6CSuperiSc(t, 0, 1);

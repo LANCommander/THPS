@@ -42,7 +42,7 @@ extern int DAT_800d16a4;
 int FUN_8008e904(char *, char *);
 void Video_HighlightEnd__FP6CBrucei(struct Q *, int);
 
-void FUN_8006e8ec(B *p) {
+void Land__10CPanelData(B *p) {
 	int i, a, t, m;
 	unsigned u;
 

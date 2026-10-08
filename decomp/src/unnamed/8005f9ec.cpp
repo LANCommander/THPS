@@ -46,7 +46,7 @@ Sprite *DAT_800d1d5c;
 Sprite *DAT_800d1d60;
 
 extern "C" {
-	int FUN_8006516c(int);
+	int getSelected__12VerticalMenu(int);
 	void FUN_8002357c(int);
 	void FUN_8004b250(int, int, int);
 	void FUN_80023168(int);
@@ -59,7 +59,7 @@ void GameFMV_StartFMV(int);
 
 extern "C" void FUN_8005f9ec(int a) {
 	int v, w, u, i, dir;
-	DAT_800d13d0 = FUN_8006516c(a) == 1 ? DAT_800a4118[1] * 0x555 : 0;
+	DAT_800d13d0 = getSelected__12VerticalMenu(a) == 1 ? DAT_800a4118[1] * 0x555 : 0;
 	DAT_800d13cc = DAT_800a4118[0] * 0x555;
 
 	FUN_8002357c(0);
@@ -74,7 +74,7 @@ extern "C" void FUN_8005f9ec(int a) {
 		Pad_ClearTriggers(&DAT_800c0a48[0]);
 		Pad_ClearTriggers(&DAT_800c0a48[1]);
 
-		if (FUN_8006516c(a) == 0) {
+		if (getSelected__12VerticalMenu(a) == 0) {
 			w = DAT_800a4118[0] + 1;
 
 			if (dir)
@@ -96,7 +96,7 @@ extern "C" void FUN_8005f9ec(int a) {
 			FUN_8004b250(145, 8192, 0);
 		}
 
-		if (FUN_8006516c(a) == 1) {
+		if (getSelected__12VerticalMenu(a) == 1) {
 			u = DAT_800a4118[1] + 1;
 
 			if (dir)
@@ -114,13 +114,13 @@ extern "C" void FUN_8005f9ec(int a) {
 
 	if (DAT_800c0a48[0].Start.Triggered || DAT_800c0a48[1].Start.Triggered ||
 	    DAT_800c0a48[0].X.Triggered || DAT_800c0a48[1].X.Triggered) {
-		if (FUN_8006516c(a) == 0) {
+		if (getSelected__12VerticalMenu(a) == 0) {
 			Pad_ClearTriggers(&DAT_800c0a48[0]);
 			Pad_ClearTriggers(&DAT_800c0a48[1]);
 			FUN_8004b250(145, 8192, 0);
 		}
 
-		if (FUN_8006516c(a) == 1) {
+		if (getSelected__12VerticalMenu(a) == 1) {
 			Pad_ClearTriggers(&DAT_800c0a48[0]);
 			Pad_ClearTriggers(&DAT_800c0a48[1]);
 			GameFMV_StopFMV();

@@ -1,4 +1,4 @@
-/* FUN_800850c4 (0x800850c4) */
+/* RenderBackgroundModelNonRotated__FP6SModel (0x800850c4) */
 typedef struct {
 	int a, b;
 } E;
@@ -15,7 +15,7 @@ typedef struct {
 int FUN_80086590(E *, int);
 void FUN_80086f40(E *, E *, int);
 
-void FUN_800850c4(P *p) {
+void RenderBackgroundModelNonRotated__FP6SModel(P *p) {
 	E *v = p->v;
 	int n = p->n;
 	int r = FUN_80086590(v, n);

@@ -83,7 +83,7 @@ extern volatile int DAT_800d16e4;
 extern SSkater *DAT_800d19a4;
 extern SObj *DAT_800d2044;
 
-extern "C" int FUN_8003fc1c(CScriptOnlyBaddy *, int);
+extern "C" int ParseScript__6CBaddyPUs(CScriptOnlyBaddy *, int);
 void SFX_ModifyPos(unsigned int, const CVector &, int);
 int Rnd(int);
 
@@ -100,7 +100,7 @@ void CScriptOnlyBaddy::AI() {
 		if (w1fc)
 			w1fc--;
 		else
-			FUN_8003fc1c(this, i1b0);
+			ParseScript__6CBaddyPUs(this, i1b0);
 	} else {
 		vt->fn((char *)this + vt->off);
 	}

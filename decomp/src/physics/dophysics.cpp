@@ -243,14 +243,14 @@ int SFX_PlayX(unsigned int, short, int);
 
 extern "C" {
 	void FUN_80042700(CBruce *, int, int, int, int);
-	void FUN_800242d4(void);
+	void Game_Over__Fv(void);
 	void FUN_8002fcdc(CBruce *, int, int);
 	void FUN_8002fd28(CBruce *, int, int, int);
 	void FUN_8002fde4(CBruce *, int, int, int, int, int);
-	void FUN_80041c88(CBruce *);
-	void FUN_800347a8(CBruce *);
+	void BoardOn__6CBruce(CBruce *);
+	void DoOnGroundPhysics__6CBruce(CBruce *);
 	void FUN_8003b2f0(CBruce *);
-	int FUN_800827d4(SLineInfo *, int);
+	int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
 	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 }
@@ -352,7 +352,7 @@ void CBruce::DoPhysics() {
 				if (DAT_800d16a4 == 1 && DAT_800a5398[DAT_800d1e28].f0C)
 					SFX_PlayX(160, 0x2000, 0);
 
-				FUN_800242d4();
+				Game_Over__Fv();
 			}
 		}
 	}
@@ -516,7 +516,7 @@ void CBruce::DoPhysics() {
 	m1BC = mPos;
 
 	if (!m358)
-		FUN_80041c88(this);
+		BoardOn__6CBruce(this);
 
 	if (mPhysicsState != 8)
 		HandleStickToRail();
@@ -537,10 +537,10 @@ void CBruce::DoPhysics() {
 			m2DC = 0;
 			m2E0 = 0;
 			m1DC = mPos;
-			FUN_800347a8(this);
+			DoOnGroundPhysics__6CBruce(this);
 			break;
 		case 7:
-			FUN_800347a8(this);
+			DoOnGroundPhysics__6CBruce(this);
 
 			mPos = mOldPos;
 			break;
@@ -579,7 +579,7 @@ void CBruce::DoPhysics() {
 
 			break;
 		case 2:
-			FUN_800347a8(this);
+			DoOnGroundPhysics__6CBruce(this);
 			break;
 	}
 
@@ -737,7 +737,7 @@ void CBruce::DoPhysics() {
 				}
 
 				if (mFrame >= 112)
-					FUN_80041c88(this);
+					BoardOn__6CBruce(this);
 
 				if (m14F) {
 					m840 = 4;
@@ -752,7 +752,7 @@ void CBruce::DoPhysics() {
 
 					m358 = 0;
 					mVel.vx = mVel.vy = mVel.vz = 0;
-					FUN_80041c88(this);
+					BoardOn__6CBruce(this);
 				}
 
 				break;
@@ -785,7 +785,7 @@ void CBruce::DoPhysics() {
 		Trig_ResetCPCollisionFlags(n);
 
 		DAT_800d199c = this;
-		FUN_800827d4(&LInfo, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&LInfo, 1);
 		Trig_ResetCPExecutedFlags(n);
 
 		DAT_800d199c = 0;

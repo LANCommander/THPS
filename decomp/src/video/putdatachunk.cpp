@@ -52,7 +52,7 @@ void PutNBits(SVideoInfo *, long, int);
 void Video_Stop(CBruce *);
 void Matrix2Euler(MATRIX *, SVECTOR *);
 void DequeueSoundCmd(ESoundCmdType &, int &);
-extern "C" int FUN_80068df8(void);
+extern "C" int HasSoundCmd__Fv(void);
 
 void PutDataChunk(CBruce *pSkater) {
 	int i, bx, by, bz;
@@ -200,7 +200,7 @@ void PutDataChunk(CBruce *pSkater) {
 
 	PutNBits(VInfo, DeltaX - 2, 2);
 
-	if (FUN_80068df8()) {
+	if (HasSoundCmd__Fv()) {
 		PutNBits(VInfo, 1, 1);
 
 		{

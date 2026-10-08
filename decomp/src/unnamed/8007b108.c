@@ -15,10 +15,10 @@ extern int DAT_800a35c4[];
 void DisplayLabels__6CamPosUsUsUcUcUc(int, int, int, int, int);
 void Display__6CamPosUsUsUcUcUc(char *, int, int, int, int, int);
 void Font_String__FUsUsPcUcUcUcUc(int, int, char *, int, int, int, int);
-void FUN_80077528(Q *, int);
-void FUN_80077568(Q *, int);
-void FUN_800775a8(Q *, int);
-void FUN_8007722c(Q *, Q *, Q *);
+void QFromXRot__Fs(Q *, int);
+void QFromYRot__Fs(Q *, int);
+void QFromZRot__Fs(Q *, int);
+void __ml__FRC5CQuatT0(Q *, Q *, Q *);
 
 #define P DAT_800c0a48
 
@@ -156,8 +156,8 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				FUN_80077528(pq, 10);
-				FUN_8007722c(pr, (Q *)(s2 + 0x1c), pq);
+				QFromXRot__Fs(pq, 10);
+				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
 				((Q *)(s2 + 0x1c))->vp = (int *)z.sv;
@@ -179,8 +179,8 @@ void FUN_8007b108(char *a) {
 				pq = &q2;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				FUN_80077528(pq, -10);
-				FUN_8007722c(pr, (Q *)(s2 + 0x1c), pq);
+				QFromXRot__Fs(pq, -10);
+				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
 				((Q *)(s2 + 0x1c))->vp = (int *)z.sv;
@@ -202,8 +202,8 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				FUN_80077568(pq, -10);
-				FUN_8007722c(pr, (Q *)(s2 + 0x1c), pq);
+				QFromYRot__Fs(pq, -10);
+				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
 				((Q *)(s2 + 0x1c))->vp = (int *)z.sv;
@@ -222,8 +222,8 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				FUN_80077568(pq, 10);
-				FUN_8007722c(pr, (Q *)(s2 + 0x1c), pq);
+				QFromYRot__Fs(pq, 10);
+				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
 				((Q *)(s2 + 0x1c))->vp = (int *)z.sv;
@@ -242,8 +242,8 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				FUN_800775a8(pq, 10);
-				FUN_8007722c(pr, (Q *)(s2 + 0x1c), pq);
+				QFromZRot__Fs(pq, 10);
+				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
 				((Q *)(s2 + 0x1c))->vp = (int *)z.sv;
@@ -262,8 +262,8 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				FUN_800775a8(pq, -10);
-				FUN_8007722c(pr, (Q *)(s2 + 0x1c), pq);
+				QFromZRot__Fs(pq, -10);
+				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
 				((Q *)(s2 + 0x1c))->vp = (int *)z.sv;

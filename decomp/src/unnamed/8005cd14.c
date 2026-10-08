@@ -19,8 +19,8 @@ void FUN_8005ca64(void);
 int FUN_8005ca3c(char *);
 void FUN_80061a10(int);
 void FUN_8005dc58(int);
-int FUN_8004c8a4(int);
-int FUN_8004d068(int, int, int);
+int FileIO_Open__FPCc(int);
+int Mem_NewX__FUiii(int, int, int);
 void FUN_8004cb10(int);
 void FUN_8004cdd0(void);
 int __nw__5CItemUi(int);
@@ -64,7 +64,7 @@ void FUN_8005cd14(void) {
 		FUN_8005c97c(6);
 		FUN_8005ca64();
 
-		s0 = FUN_8004d068(FUN_8004c8a4(DAT_800a5398[DAT_800d1cf4].f34), 1, 1);
+		s0 = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a5398[DAT_800d1cf4].f34), 1, 1);
 
 		if (s0) {
 			FUN_8004cb10(s0);
@@ -77,7 +77,7 @@ void FUN_8005cd14(void) {
 			o2 = FUN_80063a5c(o2, 8, s0, 0, 458, 64, 128);
 
 		DAT_800d1d0c = o2;
-		s0 = FUN_8004d068(FUN_8004c8a4(DAT_800a5398[DAT_800d1cf4].f30), 1, 1);
+		s0 = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a5398[DAT_800d1cf4].f30), 1, 1);
 
 		if (s0) {
 			FUN_8004cb10(s0);

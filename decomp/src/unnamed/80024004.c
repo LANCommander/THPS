@@ -1,6 +1,6 @@
-/* FUN_80024004 (0x80024004) */
+/* Redbook_XAAllow__Fb (0x80024004) */
 int DAT_800d1694;
 
-void FUN_80024004(int v) {
+void Redbook_XAAllow__Fb(int v) {
 	DAT_800d1694 = v;
 }

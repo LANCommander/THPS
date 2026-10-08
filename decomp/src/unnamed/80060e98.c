@@ -44,14 +44,14 @@ short DAT_800d1d92;
 void Pack_DefragmentFully__Fv(void);
 void Mess_LoadFont__FPciii(char *, int, int, int);
 void Mess_SetFontScale__FUi(unsigned);
-int FUN_8004c8a4(char *);
+int FileIO_Open__FPCc(char *);
 void FUN_8004cb10(int);
 void FUN_8004cdd0(void);
-int FUN_8004d068(int, int, int);
+int Mem_NewX__FUiii(int, int, int);
 void FUN_80061714(int);
 void Pad_ClearTriggers__FP8SControl(char *);
 char *__nw__5CItemUi(unsigned);
-char *FUN_80063928(char *, int, int, int, int, int, int, int);
+char *__6Spriteiiiiiii(char *, int, int, int, int, int, int, int);
 void FUN_8008c468(int);
 int FUN_800154f4(int);
 void FUN_8005c8dc(int);
@@ -60,10 +60,10 @@ void FUN_8006b240(void);
 void FUN_80061ea0(void);
 void FUN_8005c934(void);
 void Mess_SetRGB__FUcUcUci(int, int, int, int);
-void FUN_8001d250(int);
+void Mess_SetTextJustify__FUc(int);
 void draw__6Spriteiiiiii(struct O *, int, int, int, int, int, int);
 void FUN_8001f1b4(int);
-void FUN_8001e114(int, int, char *, int, int, int, int);
+void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 void FUN_80070ff4(void);
 void FUN_8005c68c(void);
 void Mess_Update__Fv(void);
@@ -80,7 +80,7 @@ void FUN_80060e98(void) {
 	Mess_LoadFont__FPciii(DAT_800a1fb8, -1, -1, -1);
 	Mess_SetFontScale__FUi(256);
 
-	v = FUN_8004d068(FUN_8004c8a4(DAT_800a1fc4), 1, 1);
+	v = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a1fc4), 1, 1);
 
 	if (v) {
 		FUN_8004cb10(v);
@@ -98,7 +98,7 @@ void FUN_80060e98(void) {
 	p = __nw__5CItemUi(24);
 
 	if (p)
-		p = FUN_80063928(p, DAT_800d1d8c, DAT_800d1d8e, DAT_800d1d90, DAT_800d1d92, 1, 32, 128);
+		p = __6Spriteiiiiiii(p, DAT_800d1d8c, DAT_800d1d8e, DAT_800d1d90, DAT_800d1d92, 1, 32, 128);
 
 	DAT_800d1d88 = (struct O *)p;
 	FUN_8008c468(0);
@@ -131,13 +131,13 @@ void FUN_80060e98(void) {
 			FUN_80061ea0();
 			FUN_8005c934();
 			Mess_SetRGB__FUcUcUci(128, 128, 128, 0);
-			FUN_8001d250(0);
+			Mess_SetTextJustify__FUc(0);
 
 			if (s0 < 32)
 				draw__6Spriteiiiiii(DAT_800d1d88, DAT_800d1d8c, DAT_800d1d8e, 0, -1, -1, -1);
 			else if (s0 < 128) {
 				FUN_8001f1b4(4);
-				FUN_8001e114(320, 357, DAT_800a5d5c.s, 1, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(320, 357, DAT_800a5d5c.s, 1, 0, 256, 0);
 			}
 
 			if (!s0)

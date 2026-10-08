@@ -1,9 +1,9 @@
-/* FUN_80027e44 (0x80027e44) */
+/* __4CBit (0x80027e44) */
 extern char DAT_8009f8b0[];
 
 int DAT_800d1868;
 
-char *FUN_80027e44(char *p) {
+char *__4CBit(char *p) {
 	char *q = p + 60;
 
 	*(char **)(p + 68) = DAT_8009f8b0;

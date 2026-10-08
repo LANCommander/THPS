@@ -1,4 +1,4 @@
-/* FUN_80061ef4 (0x80061ef4) */
+/* __11SlicedImagePciiiiiUs (0x80061ef4) */
 typedef struct {
 	void *f0;
 	int f4, f8, fc, f10;
@@ -11,10 +11,10 @@ typedef struct {
 
 extern char DAT_800a21a0[];
 
-extern unsigned short *FUN_8004d068(int, int, int);
+extern unsigned short *Mem_NewX__FUiii(int, int, int);
 extern void FUN_8004d5d0(void *);
 
-S *FUN_80061ef4(S *s, unsigned short *src, int w, int h, int cw, int ch, int bpp,
+S *__11SlicedImagePciiiiiUs(S *s, unsigned short *src, int w, int h, int cw, int ch, int bpp,
                 unsigned short fl) {
 	unsigned short *d, *p, *u;
 	int i, j, k, r, k2, j2;
@@ -40,7 +40,7 @@ S *FUN_80061ef4(S *s, unsigned short *src, int w, int h, int cw, int ch, int bpp
 	s->f18 = 0;
 	s->f1c = w / cw;
 	s->f20 = (h + ch - 1) / ch;
-	s->f14 = FUN_8004d068(w * h * 2, 1, 1);
+	s->f14 = Mem_NewX__FUiii(w * h * 2, 1, 1);
 	d = s->f14;
 	p = src;
 

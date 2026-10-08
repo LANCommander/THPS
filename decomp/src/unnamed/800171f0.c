@@ -76,7 +76,7 @@ void FUN_80071fa4(void);
 void AddEntry__5CMenuPCc(int, char *);
 void CentreY__5CMenu(int);
 void EntryOff__5CMenuPCc(int, char *);
-int FUN_80016534(int, int, int, int, int, int, int);
+int __5CMenuiiUciii(int, int, int, int, int, int, int);
 void FUN_8008b900();
 int FindEntry__5CMenuPCc(int, char *);
 void SetLine__5CMenuUc(int, int);
@@ -91,7 +91,7 @@ void FUN_800171f0(void) {
 	a1 = __nw__5CItemUi(384);
 
 	if (a1)
-		a1 = FUN_80016534(a1, 256, 0, 0, 335, 256, 22);
+		a1 = __5CMenuiiUciii(a1, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1428 = a1;
 	AddEntry__5CMenuPCc(a1, DAT_800a5d5c.f1b4);
@@ -100,7 +100,7 @@ void FUN_800171f0(void) {
 	a2 = __nw__5CItemUi(384);
 
 	if (a2)
-		a2 = FUN_80016534(a2, 256, 0, 0, 335, 256, 22);
+		a2 = __5CMenuiiUciii(a2, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d142c = a2;
 	AddEntry__5CMenuPCc(a2, DAT_800a5d5c.f164);
@@ -143,7 +143,7 @@ void FUN_800171f0(void) {
 	a3 = __nw__5CItemUi(384);
 
 	if (a3)
-		a3 = FUN_80016534(a3, 256, 0, 0, 335, 256, 22);
+		a3 = __5CMenuiiUciii(a3, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1430 = a3;
 	AddEntry__5CMenuPCc(a3, DAT_800a5d5c.f5c);
@@ -155,7 +155,7 @@ void FUN_800171f0(void) {
 	a4 = __nw__5CItemUi(384);
 
 	if (a4)
-		a4 = FUN_80016534(a4, 256, 0, 0, 335, 256, 22);
+		a4 = __5CMenuiiUciii(a4, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1434 = a4;
 	AddEntry__5CMenuPCc(a4, DAT_800a5d5c.f5c);
@@ -166,7 +166,7 @@ void FUN_800171f0(void) {
 	a5 = __nw__5CItemUi(384);
 
 	if (a5)
-		a5 = FUN_80016534(a5, 256, 0, 0, 335, 256, 22);
+		a5 = __5CMenuiiUciii(a5, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1438 = a5;
 	AddEntry__5CMenuPCc(a5, DAT_800a5d5c.f5c);
@@ -178,7 +178,7 @@ void FUN_800171f0(void) {
 	a6 = __nw__5CItemUi(384);
 
 	if (a6)
-		a6 = FUN_80016534(a6, 256, 0, 0, 335, 256, 22);
+		a6 = __5CMenuiiUciii(a6, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d143c = a6;
 	AddEntry__5CMenuPCc(a6, DAT_800a5d5c.fc4);
@@ -190,7 +190,7 @@ void FUN_800171f0(void) {
 	a7 = __nw__5CItemUi(384);
 
 	if (a7)
-		a7 = FUN_80016534(a7, 256, 0, 0, 335, 256, 22);
+		a7 = __5CMenuiiUciii(a7, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1440 = a7;
 	q = (DAT_800a6844.f830 + 1) * 10 / 12;

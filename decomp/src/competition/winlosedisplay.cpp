@@ -104,8 +104,8 @@ CBody *Medal_Create(EMedalType, int, int, int, int, int);
 void Front_PrintCentredPrompt(const char *);
 
 extern "C" {
-	int FUN_8001e114(int, int, char *, int, int, int, int);
-	void FUN_8001081c(int, int);
+	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
+	void Career_GiveMedal__Fi10EMedalType(int, int);
 	int FUN_8004b250(int, short, int);
 	int FUN_8008b900(char *, const char *, ...);
 }
@@ -211,10 +211,10 @@ void Competition_WinLoseDisplay() {
 
 	switch (our_placing) {
 		case 0:
-			FUN_8001e114(256, 40, DAT_800a3328, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a3328, 0, 0, 256, 0);
 
 			if (!c->pMedal) {
-				FUN_8001081c(DAT_800d1e28, 5);
+				Career_GiveMedal__Fi10EMedalType(DAT_800d1e28, 5);
 
 				c->pMedal = Medal_Create((EMedalType)5, 0, -5, 140, 2048, 10);
 			}
@@ -228,10 +228,10 @@ void Competition_WinLoseDisplay() {
 
 			break;
 		case 1:
-			FUN_8001e114(256, 40, DAT_800a333c, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a333c, 0, 0, 256, 0);
 
 			if (!c->pMedal) {
-				FUN_8001081c(DAT_800d1e28, 6);
+				Career_GiveMedal__Fi10EMedalType(DAT_800d1e28, 6);
 
 				c->pMedal = Medal_Create((EMedalType)6, 0, -5, 140, 2048, 10);
 			}
@@ -244,10 +244,10 @@ void Competition_WinLoseDisplay() {
 
 			break;
 		case 2:
-			FUN_8001e114(256, 40, DAT_800a3350, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a3350, 0, 0, 256, 0);
 
 			if (!c->pMedal) {
-				FUN_8001081c(DAT_800d1e28, 7);
+				Career_GiveMedal__Fi10EMedalType(DAT_800d1e28, 7);
 
 				c->pMedal = Medal_Create((EMedalType)7, 0, -5, 140, 2048, 10);
 			}
@@ -270,7 +270,7 @@ void Competition_WinLoseDisplay() {
 				c->SoundDone = 1;
 			}
 
-			FUN_8001e114(256, 40, DAT_800a3364, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a3364, 0, 0, 256, 0);
 
 			{
 				int i;
@@ -290,16 +290,16 @@ void Competition_WinLoseDisplay() {
 			Mess_SetRGB(182, 132, 36, 0);
 			Mess_SetScale(160);
 			FUN_8008b900(buf, DAT_800a3370, DAT_800a44fc[c->SkaterId[first]].pName);
-			FUN_8001e114(256, 60, buf, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 60, buf, 0, 0, 256, 0);
 			FUN_8008b900(buf, DAT_800a3380, DAT_800a44fc[c->SkaterId[second]].pName);
-			FUN_8001e114(256, 70, buf, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 70, buf, 0, 0, 256, 0);
 			FUN_8008b900(buf, DAT_800a3390, DAT_800a44fc[c->SkaterId[third]].pName);
-			FUN_8001e114(256, 80, buf, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 80, buf, 0, 0, 256, 0);
 			Mess_SetRGB(122, 122, 122, 0);
 			FUN_8008b900(buf, DAT_800d1fcc, our_placing + 1);
 			Mess_SetScale(384);
-			FUN_8001e114(256, 120, DAT_800a44fc[c->SkaterId[c->Player]].pName, 0, 0, 256, 0);
-			FUN_8001e114(256, 150, buf, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 120, DAT_800a44fc[c->SkaterId[c->Player]].pName, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 150, buf, 0, 0, 256, 0);
 			break;
 		}
 	}
@@ -320,35 +320,35 @@ void Competition_WinLoseDisplay() {
 			c->pMedal->mY = c->pMedal->m14C - 0x5000;
 
 			if (DAT_800c0fb8[6])
-				FUN_8001e114(256, 155, DAT_800c0fb8[6], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(256, 155, DAT_800c0fb8[6], 0, 0, 256, 0);
 
 			if (DAT_800c0fb8[7])
-				FUN_8001e114(256, 175, DAT_800c0fb8[7], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(256, 175, DAT_800c0fb8[7], 0, 0, 256, 0);
 
 			if (DAT_800c0fb8[8])
-				FUN_8001e114(256, 195, DAT_800c0fb8[8], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(256, 195, DAT_800c0fb8[8], 0, 0, 256, 0);
 		} else {
 			switch ((DAT_800a6844.Total[DAT_800d17c8->Player] & c->MedalMask) ^ c->MedalMask) {
 				case 8:
 					if (DAT_800c0fb8[0])
-						FUN_8001e114(256, 155, DAT_800c0fb8[0], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 155, DAT_800c0fb8[0], 0, 0, 256, 0);
 
 					if (DAT_800c0fb8[1])
-						FUN_8001e114(256, 175, DAT_800c0fb8[1], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 175, DAT_800c0fb8[1], 0, 0, 256, 0);
 
 					if (DAT_800c0fb8[2])
-						FUN_8001e114(256, 195, DAT_800c0fb8[2], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 195, DAT_800c0fb8[2], 0, 0, 256, 0);
 
 					break;
 				case 64:
 					if (DAT_800c0fb8[3])
-						FUN_8001e114(256, 155, DAT_800c0fb8[3], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 155, DAT_800c0fb8[3], 0, 0, 256, 0);
 
 					if (DAT_800c0fb8[4])
-						FUN_8001e114(256, 175, DAT_800c0fb8[4], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 175, DAT_800c0fb8[4], 0, 0, 256, 0);
 
 					if (DAT_800c0fb8[5])
-						FUN_8001e114(256, 195, DAT_800c0fb8[5], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 195, DAT_800c0fb8[5], 0, 0, 256, 0);
 
 					break;
 				case 256:
@@ -356,13 +356,13 @@ void Competition_WinLoseDisplay() {
 					c->pMedal->mY = c->pMedal->m14C - 0x5000;
 
 					if (DAT_800c0fb8[6])
-						FUN_8001e114(256, 155, DAT_800c0fb8[6], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 155, DAT_800c0fb8[6], 0, 0, 256, 0);
 
 					if (DAT_800c0fb8[7])
-						FUN_8001e114(256, 175, DAT_800c0fb8[7], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 175, DAT_800c0fb8[7], 0, 0, 256, 0);
 
 					if (DAT_800c0fb8[8])
-						FUN_8001e114(256, 195, DAT_800c0fb8[8], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 195, DAT_800c0fb8[8], 0, 0, 256, 0);
 
 					break;
 			}

@@ -60,7 +60,7 @@ extern "C" {
 	void FUN_8006e2fc(int);
 	void FUN_8002f1a0(CBruce *);
 	void FUN_8002f340(CBruce *, int, char *, int, int);
-	void FUN_8002f478(CBruce *);
+	void Trick_Land__6CBruce(CBruce *);
 }
 
 void CPowerUp::TakeEffect(CBruce *pMech) {
@@ -170,7 +170,7 @@ void CPowerUp::TakeEffect(CBruce *pMech) {
 			}
 
 			if (!pMech->m734)
-				FUN_8002f478(pMech);
+				Trick_Land__6CBruce(pMech);
 
 			break;
 	}

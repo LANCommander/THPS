@@ -40,10 +40,10 @@ int Spool_GetEnvIndex(int);
 uint *Spool_SkipPackets(uint *);
 
 extern "C" {
-	int FUN_8004c8a4(char *);
-	uint *FUN_8004d068(int, int, int);
+	int FileIO_Open__FPCc(char *);
+	uint *Mem_NewX__FUiii(int, int, int);
 	void FUN_8004cb10(uint *);
-	void FUN_8006f290(int);
+	void ProcessNewPSX__Fi(int);
 }
 
 void Spool_Continue() {
@@ -54,7 +54,7 @@ void Spool_Continue() {
 
 	switch (DAT_800d1f08) {
 		case 0: {
-			int FileSize = FUN_8004c8a4(Q->Name);
+			int FileSize = FileIO_Open__FPCc(Q->Name);
 
 			switch (Q->FileType) {
 				case 1: {
@@ -80,13 +80,13 @@ void Spool_Continue() {
 						*pDest++ = *pNew++;
 
 					*pDest = 0;
-					DAT_800bf7a8[Q->Region].pPSX = FUN_8004d068(FileSize, 1, 1);
+					DAT_800bf7a8[Q->Region].pPSX = Mem_NewX__FUiii(FileSize, 1, 1);
 					FUN_8004cb10(DAT_800bf7a8[Q->Region].pPSX);
 					break;
 				}
 				case 0:
 				case 2:
-					DAT_800bf7a8[Q->Region].pPSX = FUN_8004d068(FileSize, 1, 1);
+					DAT_800bf7a8[Q->Region].pPSX = Mem_NewX__FUiii(FileSize, 1, 1);
 					FUN_8004cb10(DAT_800bf7a8[Q->Region].pPSX);
 					break;
 			}
@@ -103,7 +103,7 @@ void Spool_Continue() {
 		case 2:
 			switch (Q->FileType) {
 				case 1:
-					FUN_8006f290(Q->Region);
+					ProcessNewPSX__Fi(Q->Region);
 					AttachNewEnviro(Q->Region);
 
 					{
@@ -114,7 +114,7 @@ void Spool_Continue() {
 
 					break;
 				case 0:
-					FUN_8006f290(Q->Region);
+					ProcessNewPSX__Fi(Q->Region);
 					break;
 				case 2:
 					break;

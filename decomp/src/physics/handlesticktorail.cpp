@@ -204,7 +204,7 @@ extern "C" {
 	void FUN_8002fd80(CBruce *, int, int, int, int);
 	void FUN_8002fe9c(CBruce *, int);
 	void FUN_8003159c(CBruce *);
-	void FUN_80030434(CBruce *);
+	void TrickObRail__6CBruce(CBruce *);
 	void FUN_800429d0(CBruce *);
 	int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 }
@@ -242,7 +242,7 @@ inline void CBruce::StartHandPlant(int RailTrick, int Flags) {
 
 	mPos = m6F4;
 	mPos.vy -= 30;
-	FUN_80030434(this);
+	TrickObRail__6CBruce(this);
 
 	mVel.vx = 0;
 	mVel.vz = 0;
@@ -306,7 +306,7 @@ inline void CBruce::StartGrind(int RailTrick) {
 	m35C = 1;
 	m424++;
 	m238++;
-	FUN_80030434(this);
+	TrickObRail__6CBruce(this);
 	Mips_CVecDotProd__FP7CVectorT0(&mRailDir, &mFront);
 
 	RightDot = Mips_CVecDotProd__FP7CVectorT0(&mRailDir, &mRight);

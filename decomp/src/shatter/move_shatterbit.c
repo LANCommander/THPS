@@ -3,7 +3,7 @@ char *__apl__7CVectorRC7CVector(char *, char *);
 char *__apl__8CSVectorRC8CSVector(char *, char *);
 void SetPos__7CRibbonR7CVector(void *, char *);
 void CalculateWorldCoords__9CChunkBit(char *);
-void FUN_80027e18(char *);
+void Die__4CBit(char *);
 
 void Move__11CShatterBit(char *t) {
 	__apl__7CVectorRC7CVector(t + 0x18, t + 0x24);
@@ -19,5 +19,5 @@ void Move__11CShatterBit(char *t) {
 	if (*(unsigned short *)(t + 10))
 		*(unsigned short *)(t + 10) -= 1;
 	else
-		FUN_80027e18(t);
+		Die__4CBit(t);
 }

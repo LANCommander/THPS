@@ -53,7 +53,7 @@ void FUN_8002f774(void);
 void FUN_8002f980(B *, int, int);
 void FUN_8002fd80(B *, int, int, int, int);
 void FUN_8002fe50(B *);
-void FUN_80041c30(B *);
+void BoardOff__6CBruce(B *);
 void FUN_800429d0(B *);
 void FUN_8004b250(int, int, int);
 int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
@@ -75,7 +75,7 @@ void FUN_8002fe9c(B *p, int a) {
 	p->f35c = 0;
 	p->f6e0 = 0;
 	FUN_8002f980(p, 1, 0x412);
-	FUN_80041c30(p);
+	BoardOff__6CBruce(p);
 
 	p->f150 = 0x10000;
 	FUN_8002fd80(p, 0x36, 0, 0x1d, 0x416);

@@ -58,11 +58,11 @@ extern "C" {
 	void FUN_800171e8(const SPreferences *);
 	void FUN_8005cba0(void);
 	void FUN_8001ccf8(SSaveGame *);
-	void FUN_80025e00(void);
+	void PlayAway__Fv(void);
 	int FUN_8008c190(const char *, ...);
 	void FUN_80071c24(int);
 	void FUN_80025a88(void);
-	void FUN_80044c84(void);
+	void Trig_ExecuteRestart__Fv(void);
 	void FUN_800491e8(void);
 	void FUN_8006b01c(int);
 }
@@ -115,7 +115,7 @@ DUN:
 	if (DAT_800d1780 == 2 && DAT_800d16a4 != 7)
 		DAT_800d173c = 1;
 
-	FUN_80025e00();
+	PlayAway__Fv();
 
 	DAT_800d17e8 = 0;
 	DAT_800d17ec = 0;
@@ -126,7 +126,7 @@ DUN:
 		FUN_80071c24(1);
 		Trig_ParseTRGFile();
 		FUN_80025a88();
-		FUN_80044c84();
+		Trig_ExecuteRestart__Fv();
 		goto DUN;
 	}
 

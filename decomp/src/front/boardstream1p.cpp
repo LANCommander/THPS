@@ -37,8 +37,8 @@ int DAT_800d22ec; /* all pictures loaded */
 
 extern "C" {
 	void FUN_8004cc18(void);
-	int FUN_8004c8a4(char *);
-	char *FUN_8004d068(int, int, int);
+	int FileIO_Open__FPCc(char *);
+	char *Mem_NewX__FUiii(int, int, int);
 	void FUN_8004cb10(char *);
 }
 
@@ -101,10 +101,10 @@ extern "C" void FUN_80054134(void) {
 			if (DAT_800d22d8 >= DAT_800d33c4[c])
 				DAT_800d22d8 -= DAT_800d33c4[c];
 
-			int size = FUN_8004c8a4(DAT_800d33d4[c][DAT_800d22d8]);
+			int size = FileIO_Open__FPCc(DAT_800d33d4[c][DAT_800d22d8]);
 
 			if (size > 0)
-				FUN_8004cb10(DAT_800d22e4 = FUN_8004d068(size, 1, 1));
+				FUN_8004cb10(DAT_800d22e4 = Mem_NewX__FUiii(size, 1, 1));
 		}
 	}
 }

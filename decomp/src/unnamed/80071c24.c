@@ -26,7 +26,7 @@ void Spool_ClearEnvironmentRegions__Fv(void);
 void Redbook_InitialRand__Fi(int);
 void Trig_ClearTrigMenu__Fv(void);
 void FUN_800827ac(void);
-void FUN_8001f310(void);
+void Flash_Reset__Fv(void);
 void FUN_8004ee24(void);
 void FUN_8004f5d0(void);
 void FUN_8002ef24(V *);
@@ -68,7 +68,7 @@ void FUN_80071c24(int a) {
 	Redbook_InitialRand__Fi(0x12a6cc58);
 	Trig_ClearTrigMenu__Fv();
 	FUN_800827ac();
-	FUN_8001f310();
+	Flash_Reset__Fv();
 	FUN_8004ee24();
 	FUN_8004f5d0();
 	VI(&v, 0, 0x8000, 0);

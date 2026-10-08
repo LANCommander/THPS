@@ -1,16 +1,16 @@
-/* FUN_80027d08 (0x80027d08) */
+/* __nw__4CBitUi (0x80027d08) */
 int DAT_800d186c;
 
-void *FUN_8004d068(unsigned int, int, int);
+void *Mem_NewX__FUiii(unsigned int, int, int);
 
-void *FUN_80027d08(unsigned int size) {
+void *__nw__4CBitUi(unsigned int size) {
 	int *p;
 	unsigned int i, n;
 
 	if (DAT_800d186c)
-		p = FUN_8004d068(size, 0, 1);
+		p = Mem_NewX__FUiii(size, 0, 1);
 	else
-		p = FUN_8004d068(size, 0, 1);
+		p = Mem_NewX__FUiii(size, 0, 1);
 
 	n = (size + 3) >> 2;
 

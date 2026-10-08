@@ -9,7 +9,7 @@ extern char DAT_800a58bc[];
 int DAT_800d1398;
 
 int SyncToGoodState__Fv(void);
-int FUN_8004d068(int, int, int);
+int Mem_NewX__FUiii(int, int, int);
 void Card_SetSelectedFile__FPc(char *);
 int Card_Load__F9EFileTypePUlT1(int, int, int);
 void FUN_8004d5d0(int);
@@ -29,7 +29,7 @@ void FUN_8001571c(void) {
 
 		do {
 			if (*flag == 0) {
-				p = FUN_8004d068(3200, 1, 1);
+				p = Mem_NewX__FUiii(3200, 1, 1);
 				Card_SetSelectedFile__FPc(name);
 
 				if (Card_Load__F9EFileTypePUlT1(0, p, 0) == 0) {

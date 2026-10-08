@@ -74,7 +74,7 @@ extern CVector DAT_800d2564;
 extern SCamera DAT_800c119c[];
 
 void M3dColij_InitLineInfo(SLineInfo *);
-extern "C" int FUN_800827d4(SLineInfo *, int);
+extern "C" int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
 int Redbook_Rnd(int);
 void Utils_CalcUnit(CVector &, const CVector &);
 uint Utils_CrapDist(const CVector &, const CVector &);
@@ -98,7 +98,7 @@ void Shatter_Glass(int n, const CVector &p0, const CVector &p1, const CVector &p
 	ColInfo.EndCoords.vy = ColInfo.StartCoords.vy + 0xbb8000;
 	ColInfo.EndCoords.vz = ColInfo.StartCoords.vz;
 	M3dColij_InitLineInfo(&ColInfo);
-	FUN_800827d4(&ColInfo, 1);
+	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&ColInfo, 1);
 
 	GroundY = 0x7fffffff;
 

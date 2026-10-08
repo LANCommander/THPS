@@ -55,8 +55,8 @@ extern char DAT_800c9670[];
 void DoPhysics__8CPowerUp(P *);
 void FUN_8001fec4(P *);
 void FUN_800201c8(void);
-G *FUN_80027d08(int);
-G *FUN_80028c48(G *, int, int);
+G *__nw__4CBitUi(int);
+G *__5CGlowUiUi(G *, int, int);
 void SetCentreRGB__5CGlowUcUcUc(G *, unsigned char, unsigned char, unsigned char);
 void SetFringeRGB__5CGlowUiUcUcUc(G *, unsigned, unsigned char, unsigned char, unsigned char);
 void SetFringeWidth__5CGlowUiUi(G *, unsigned, unsigned);
@@ -103,10 +103,10 @@ void FUN_800206ac(P *p) {
 		FUN_8001fec4(p);
 
 	if (p->g == 0) {
-		g = FUN_80027d08(104);
+		g = __nw__4CBitUi(104);
 
 		if (g)
-			g = FUN_80028c48(g, 4, 2);
+			g = __5CGlowUiUi(g, 4, 2);
 
 		p->g = g;
 		g->b5e = 1;

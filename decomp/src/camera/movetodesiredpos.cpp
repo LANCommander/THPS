@@ -254,7 +254,7 @@ void MToQ(const MATRIX &, CQuat &);
 extern "C" VECTOR *FUN_80092f60(MATRIX *, VECTOR *, VECTOR *);
 extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 extern "C" int FUN_8008b5dc(int);
-extern "C" int FUN_800827d4(SLineInfo *, int);
+extern "C" int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
 void M3dColij_InitLineInfo(SLineInfo *);
 void Utils_CalcUnit(CVector &, const CVector &);
 CVector operator-(const CVector &, const CVector &);
@@ -386,7 +386,7 @@ void CCamera::MoveToDesiredPos(uint normal_slerp) {
 
 		line_info.m88 = 0;
 		DAT_800d20cc = 1;
-		FUN_800827d4(&line_info, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
 		DAT_800d20cc = 0;
 

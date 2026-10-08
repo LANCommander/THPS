@@ -70,7 +70,7 @@ void Pad_ClearTriggers(SControl *);
 
 extern "C" {
 	void FUN_80023168(int); /* GameFMV_SetStartTrack */
-	void *FUN_8004d068(int, int, int);
+	void *Mem_NewX__FUiii(int, int, int);
 	void FUN_8004d5d0(void *);
 	void DecDCTvlcBuild3(void);
 	DISPENV *FUN_800914fc(DISPENV *, int, int, int, int);
@@ -119,11 +119,11 @@ void GameFMV_PlayMovie(int track) {
 		int i;
 
 		for (i = 0; i < 2; i++)
-			if (!(DAT_800d168c[i] = (u_long *)FUN_8004d068(DAT_800d1664, 1, 0)))
+			if (!(DAT_800d168c[i] = (u_long *)Mem_NewX__FUiii(DAT_800d1664, 1, 0)))
 				goto InsufficientMemory;
 	}
 
-	DAT_800d222c = (u_long *)FUN_8004d068(DAT_800d1668 << 11, 1, 0);
+	DAT_800d222c = (u_long *)Mem_NewX__FUiii(DAT_800d1668 << 11, 1, 0);
 
 	if (!DAT_800d222c)
 		goto InsufficientMemory;
@@ -136,7 +136,7 @@ void GameFMV_PlayMovie(int track) {
 		for (i = 0; i < DAT_800d166c; i++) {
 			int h = DAT_800d1674;
 
-			if (!(DAT_800a6748[i] = (u_long *)FUN_8004d068(DAT_800d167c ? h * 48 : h * 32, 1, 0)))
+			if (!(DAT_800a6748[i] = (u_long *)Mem_NewX__FUiii(DAT_800d167c ? h * 48 : h * 32, 1, 0)))
 				goto InsufficientMemory;
 		}
 	}

@@ -3,7 +3,7 @@
    display. Rebuilds the up-to-three trick-name lines: an optional spin prefix ("%d "), the
    stance name and the first trick, then each further trick appended to the current line,
    wrapping when the line gets wider than the viewport allows. FUN_8008b900 = sprintf,
-   FUN_8001da44 = text width, FUN_8006e534 = "SWITCH " or "" prefix. */
+   Mess_TextWidth__FPCc = text width, FUN_8006e534 = "SWITCH " or "" prefix. */
 struct Message;
 
 class CBruce {
@@ -46,7 +46,7 @@ extern char DAT_800a23ac[8]; /* "%s + ^...^" */
 
 extern "C" {
 	int FUN_8008b900(char *, const char *, ...);
-	int FUN_8001da44(char *);
+	int Mess_TextWidth__FPCc(char *);
 	char *FUN_8006e534(CBruce *);
 }
 
@@ -91,7 +91,7 @@ void CPanelData::TrickMessageRefresh() {
 	for (int i = 1; i < mTQStack; i++) {
 		FUN_8008b900(tbuf, DAT_800d1eb4, p, mTQ[i].name);
 
-		if (FUN_8001da44(tbuf) > lineWidth) {
+		if (Mess_TextWidth__FPCc(tbuf) > lineWidth) {
 			currLine++;
 
 			if (currLine == 1)

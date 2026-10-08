@@ -64,12 +64,12 @@ int Redbook_Rnd(int);
 void Bit_SetSparkTrajectory(const CSVector &);
 
 extern "C" {
-	void FUN_80043408(CBruce *);
+	void SFX_Grunt__FP6CBruce(CBruce *);
 	int FUN_8004b250(int, short, int);
 	void FUN_8002f340(CBruce *, int, int, int, int);
-	void FUN_8002952c(CSVector *);
-	void *FUN_80027d08(int);
-	void FUN_80027650(void *, CBruce *, char *, int, int, int);
+	void Bit_SetSparkTrajectoryCone__FRC8CSVector(CSVector *);
+	void *__nw__4CBitUi(int);
+	void __11CGrindSparkP5CBodyR7CVectoriii(void *, CBruce *, char *, int, int, int);
 	void FUN_8002fe9c(CBruce *, int);
 }
 
@@ -171,7 +171,7 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 				pSkater->mVel.vz >>= 1;
 				pSkater->mVel.vy -= 0x1e000;
 				pSkater->Vibrate(8, 1, 150);
-				FUN_80043408(pSkater);
+				SFX_Grunt__FP6CBruce(pSkater);
 				FUN_8004b250(40, 0x2000, 0);
 				FUN_8002f340(pSkater, 78, DAT_800a5e1c[0], -1000, 0);
 
@@ -194,15 +194,15 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 					cone.vx = 450;
 					cone.vy = 900;
 					cone.vz = 0;
-					FUN_8002952c(&cone);
+					Bit_SetSparkTrajectoryCone__FRC8CSVector(&cone);
 
 					DAT_800d186c = 0;
 
 					for (i = 0; i < 20; i++) {
-						void *p = FUN_80027d08(120);
+						void *p = __nw__4CBitUi(120);
 
 						if (p)
-							FUN_80027650(p, pSkater, DAT_800a824c, -40, 4096, 5);
+							__11CGrindSparkP5CBodyR7CVectoriii(p, pSkater, DAT_800a824c, -40, 4096, 5);
 					}
 
 					DAT_800d186c = 1;
@@ -255,7 +255,7 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 		FUN_8002fe9c(pSkater, 1);
 		pSkater->BloodSplat(1, 100);
 		pSkater->Vibrate(12, 1, 255);
-		FUN_80043408(pSkater);
+		SFX_Grunt__FP6CBruce(pSkater);
 		FUN_8004b250(114, 0x2000, 0);
 
 		{

@@ -1,4 +1,4 @@
-/* FUN_800301b0 (0x800301b0) */
+/* UberFrig__FP6CBruceG7CVectorPc (0x800301b0) */
 typedef struct {
 	int x, y, z;
 } V;
@@ -26,11 +26,11 @@ typedef struct {
 	int f6dc;
 } B;
 
-void FUN_800425c0(B *, int, int);
-int FUN_800827d4(L *, int);
+void CalculateDynamicLighting__6CBrucePUiP4Item(B *, int, int);
+int M3dZone_LineToItemNotSCached__FP9SLineInfoi(L *, int);
 void M3dColij_InitLineInfo__FP9SLineInfo(L *);
 
-void FUN_800301b0(B *p, V a) {
+void UberFrig__FP6CBruceG7CVectorPc(B *p, V a) {
 	L li;
 
 	if (p->f6dc == 0) {
@@ -40,10 +40,10 @@ void FUN_800301b0(B *p, V a) {
 		li.e = li.s;
 		li.e.y = li.e.y + 0x1f40000;
 		M3dColij_InitLineInfo__FP9SLineInfo(&li);
-		FUN_800827d4(&li, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
 
 		if (li.hit) {
-			FUN_800425c0(p, li.face, li.hit);
+			CalculateDynamicLighting__6CBrucePUiP4Item(p, li.face, li.hit);
 			return;
 		}
 
@@ -54,7 +54,7 @@ void FUN_800301b0(B *p, V a) {
 		li.e = li.s;
 		li.e.y = li.e.y + 0x190000;
 		M3dColij_InitLineInfo__FP9SLineInfo(&li);
-		FUN_800827d4(&li, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
 
 		if (li.hit) {
 			p->pos.x = li.h.x;

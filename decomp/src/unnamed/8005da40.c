@@ -24,7 +24,7 @@ void FUN_8006b2f4(void);
 void FUN_8006b240(void);
 void FUN_80061ea0(void);
 void FUN_800242cc(void);
-void FUN_80061e00(int, int, int, int);
+void SetClippingBox__Fiiii(int, int, int, int);
 void draw__6Spriteiiiiii(O *, int, int, int, int, int, int);
 void FUN_80070ff4(void);
 int FUN_800718d0(void);
@@ -32,10 +32,10 @@ void FUN_8004b250(int, int, int);
 void Pause__Fi(int);
 void Pad_ClearTriggers__FP8SControl(unsigned char *);
 void Mess_LoadFont__FPciii(char *, int, int, int);
-void FUN_8001d250(int);
+void Mess_SetTextJustify__FUc(int);
 void Mess_SetScale__Fi(int);
 void Mess_SetRGB__FUcUcUci(int, int, int, int);
-void FUN_8001e114(int, int, char *, int, int, int, int);
+void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 void FUN_8006b26c(void);
 void Mess_UnloadFont__Fv(void);
 
@@ -45,7 +45,7 @@ void FUN_8005da40(void) {
 	FUN_8006b240();
 	FUN_80061ea0();
 	FUN_800242cc();
-	FUN_80061e00(0, 0, 512, 240);
+	SetClippingBox__Fiiii(0, 0, 512, 240);
 
 	if (DAT_800d1d14) {
 		DAT_800d1d14 = 0;
@@ -79,11 +79,11 @@ void FUN_8005da40(void) {
 		Mess_LoadFont__FPciii(DAT_800a1b84, -1, -1, -1);
 		FUN_8006b240();
 		FUN_80061ea0();
-		FUN_8001d250(0);
+		Mess_SetTextJustify__FUc(0);
 		Mess_SetScale__Fi(255);
 		Mess_SetRGB__FUcUcUci(150, 100, 25, 0);
-		FUN_8001e114(256, 110, DAT_800bf220, 1, 0, 256, 0);
-		FUN_8001e114(256, 130, DAT_800bf220 + 32, 1, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 110, DAT_800bf220, 1, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 130, DAT_800bf220 + 32, 1, 0, 256, 0);
 		FUN_8006b26c();
 		Mess_UnloadFont__Fv();
 	}

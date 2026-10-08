@@ -25,7 +25,7 @@ extern char *DAT_800d217c;
 extern char DAT_800a824c[];
 
 Medal *FUN_800434d4(int);
-Medal *FUN_8001f934(Medal *, int, int *, char *, int, int);
+Medal *__8CPowerUpUsRC7CVectorT2Uii(Medal *, int, int *, char *, int, int);
 
 Medal *Medal_Create__F10EMedalTypeiiiii(int type, int x, int y, int z, int a, int b) {
 	SVECTOR v;
@@ -58,21 +58,21 @@ Medal *Medal_Create__F10EMedalTypeiiiii(int type, int x, int y, int z, int a, in
 			p = FUN_800434d4(356);
 
 			if (p)
-				p = FUN_8001f934(p, 1636, pos, DAT_800a824c, 0, 0xffff);
+				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1636, pos, DAT_800a824c, 0, 0xffff);
 
 			break;
 		case 6:
 			p = FUN_800434d4(356);
 
 			if (p)
-				p = FUN_8001f934(p, 1637, pos, DAT_800a824c, 0, 0xffff);
+				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1637, pos, DAT_800a824c, 0, 0xffff);
 
 			break;
 		case 7:
 			p = FUN_800434d4(356);
 
 			if (p)
-				p = FUN_8001f934(p, 1638, pos, DAT_800a824c, 0, 0xffff);
+				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1638, pos, DAT_800a824c, 0, 0xffff);
 
 			break;
 	}

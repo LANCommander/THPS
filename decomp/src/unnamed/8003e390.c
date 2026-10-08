@@ -67,8 +67,8 @@ extern char DAT_800a7f28[];
 extern int DAT_800d16e4;
 
 void DoPhysics__9CPlatform(S *);
-void FUN_8003db00(S *);
-void FUN_8003fc1c(S *, int);
+void BouncyAI__9CPlatform(S *);
+void ParseScript__6CBaddyPUs(S *, int);
 void FUN_8004b65c(int, void *, int);
 int Length__C7CVector(V *);
 void Utils_CalcAim__FR8CSVectorRC7CVectorT1(SV *, void *, void *);
@@ -128,7 +128,7 @@ void FUN_8003e390(S *p) {
 	}
 
 	if (p->i1ac & 0x10) {
-		FUN_8003db00(p);
+		BouncyAI__9CPlatform(p);
 		return;
 	}
 
@@ -138,7 +138,7 @@ void FUN_8003e390(S *p) {
 		if (t2)
 			p->uh1fc = t2 - 1;
 		else
-			FUN_8003fc1c(p, p->i1b0);
+			ParseScript__6CBaddyPUs(p, p->i1b0);
 	} else
 		FUN_8003ec40(p);
 

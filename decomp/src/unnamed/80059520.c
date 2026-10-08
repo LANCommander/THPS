@@ -14,8 +14,8 @@ int DAT_800d1c90;
 char DAT_800d1c94[8];
 char DAT_800d1c98[8];
 
-S *FUN_8004982c(int a, int b, int c, char *d, char *e, int f, int g, int h);
-S *FUN_8004d068(int a, int b, int c);
+S *Pack_Pack__FiiiPiT3iiUi(int a, int b, int c, char *d, char *e, int f, int g, int h);
+S *Mem_NewX__FUiii(int a, int b, int c);
 
 void FUN_80059520(int m) {
 	S *s;
@@ -25,10 +25,10 @@ void FUN_80059520(int m) {
 	if (m == 1)
 		w = 128;
 
-	s = FUN_8004982c(-1, w, 256, DAT_800d1c94, DAT_800d1c98, 16, 0, 0);
-	DAT_800d1c84 = FUN_8004d068(20, 1, 1);
+	s = Pack_Pack__FiiiPiT3iiUi(-1, w, 256, DAT_800d1c94, DAT_800d1c98, 16, 0, 0);
+	DAT_800d1c84 = Mem_NewX__FUiii(20, 1, 1);
 	*DAT_800d1c84 = *s;
-	DAT_800d1c80 = FUN_8004d068(20, 1, 1);
+	DAT_800d1c80 = Mem_NewX__FUiii(20, 1, 1);
 	*DAT_800d1c80 = *s;
 	DAT_800d1c88 = 0;
 	DAT_800d1c84->c = 0;

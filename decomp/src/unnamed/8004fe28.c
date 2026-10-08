@@ -6,23 +6,23 @@ extern char DAT_800c0a48[];
 
 int DAT_800d1b98[1];
 
-void FUN_8001d250(int);
+void Mess_SetTextJustify__FUc(int);
 int FUN_8001dc9c(char *);
-void FUN_8001e114(int, int, char *, int, int, int, int);
+void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 void FUN_800242cc(void);
 void FUN_800491e8(void);
 void FUN_80049474(void);
 void FUN_800494dc(void);
 void FUN_8004b250(int, int, int);
-int FUN_8004c8a4(char *);
+int FileIO_Open__FPCc(char *);
 void FUN_8004cb10(char *);
 void FUN_8004cdd0(void);
-char *FUN_8004d068(int, int, int);
+char *Mem_NewX__FUiii(int, int, int);
 void FUN_8004d5d0(char *);
 void FUN_8005027c(int, int, int);
 void FUN_8005c780(void);
-void FUN_80061d44(int, int, int, int, int, int, int);
-void FUN_80061e00(int, int, int, int);
+void DrawColoredBox__FiiiiUcUcUc(int, int, int, int, int, int, int);
+void SetClippingBox__Fiiii(int, int, int, int);
 void FUN_80061ea0(void);
 void FUN_8006af64(void);
 void FUN_80070ff4(void);
@@ -53,18 +53,18 @@ void FUN_8004fe28(int a0, int a1) {
 	Pack_DefragmentFully__Fv();
 
 	if (a0 == 0)
-		s0i = FUN_8004c8a4(DAT_800a1360);
+		s0i = FileIO_Open__FPCc(DAT_800a1360);
 
 	if (a0 == 1)
-		s0i = FUN_8004c8a4(DAT_800a136c);
+		s0i = FileIO_Open__FPCc(DAT_800a136c);
 
-	s0 = FUN_8004d068(s0i, 1, 1);
+	s0 = Mem_NewX__FUiii(s0i, 1, 1);
 	FUN_8004cb10(s0);
 
 	s7 = 0;
 	FUN_8004cdd0();
 
-	out = (char (*)[30])FUN_8004d068(12000, 1, 1);
+	out = (char (*)[30])Mem_NewX__FUiii(12000, 1, 1);
 	p = (unsigned char *)s0;
 
 	while (1) {
@@ -110,7 +110,7 @@ void FUN_8004fe28(int a0, int a1) {
 
 	FUN_8004d5d0(s0);
 	Mess_LoadFont__FPciii(DAT_800a1378, -1, -1, -1);
-	FUN_8001d250(0);
+	Mess_SetTextJustify__FUc(0);
 	Mess_SetScale__Fi(255);
 	Mess_SetRGB__FUcUcUci(150, 100, 25, 0);
 
@@ -133,8 +133,8 @@ void FUN_8004fe28(int a0, int a1) {
 		FUN_8005c780();
 		FUN_80049474();
 		FUN_80061ea0();
-		FUN_80061e00(0, tog << 8, 512, 240);
-		FUN_80061d44(0, 0, 512, 240, 0, 0, 0);
+		SetClippingBox__Fiiii(0, tog << 8, 512, 240);
+		DrawColoredBox__FiiiiUcUcUc(0, 0, 512, 240, 0, 0, 0);
 
 		tog = 1 - tog;
 
@@ -144,7 +144,7 @@ void FUN_8004fe28(int a0, int a1) {
 		y = s3;
 
 		while (y < top) {
-			FUN_8001e114(256, y, out[s2], 1, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, y, out[s2], 1, 0, 256, 0);
 
 			s2++;
 			y += th;

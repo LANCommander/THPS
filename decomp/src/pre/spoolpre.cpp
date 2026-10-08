@@ -19,7 +19,7 @@ extern char DAT_800a2104[];
 int FileIO_Open(const char *);
 
 extern "C" {
-	char *FUN_8004d3a4(int);
+	char *Mem_NewTop__FUi(int);
 	void FUN_8004cb10(char *);
 	void FUN_8008c190(char *, ...);
 }
@@ -36,7 +36,7 @@ void PREManager::spoolPRE(char *pre_name) {
 		return;
 	}
 
-	if ((mPre[slot] = FUN_8004d3a4(FileIO_Open(pre_name))))
+	if ((mPre[slot] = Mem_NewTop__FUi(FileIO_Open(pre_name))))
 		FUN_8004cb10(mPre[slot]);
 	else
 		FUN_8008c190(DAT_800a2104, pre_name);

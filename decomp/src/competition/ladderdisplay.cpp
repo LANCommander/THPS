@@ -53,9 +53,9 @@ extern char *DAT_800a5edc[];
 void Mess_DeleteAll();
 void Mess_SetScale(int);
 void Mess_SetRGB(uchar, uchar, uchar, int);
-extern "C" void FUN_8001d250(int);
+extern "C" void Mess_SetTextJustify__FUc(int);
 extern "C" int FUN_8008b900(char *, char *, ...);
-extern "C" int FUN_8001e114(int, int, char *, int, int, int, int);
+extern "C" int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 int SFX_PlayX(unsigned int, short, int);
 void Front_PrintCentredPrompt(const char *);
 
@@ -68,16 +68,16 @@ void Competition_LadderDisplay() {
 
 	Mess_DeleteAll();
 	Mess_SetScale(256);
-	FUN_8001d250(0);
+	Mess_SetTextJustify__FUc(0);
 	Mess_SetRGB(182, 132, 36, 0);
 	FUN_8008b900(text_buf, DAT_800a33a0);
-	FUN_8001e114(256, 40, text_buf, 0, 0, 256, 0);
-	FUN_8001d250(1);
+	Mess_DrawText__FiiPCciUiib(256, 40, text_buf, 0, 0, 256, 0);
+	Mess_SetTextJustify__FUc(1);
 	Mess_SetScale(120);
 	FUN_8008b900(text_buf, DAT_800a33b8);
-	FUN_8001e114(260, 50, text_buf, 0, 0, 256, 0);
+	Mess_DrawText__FiiPCciUiib(260, 50, text_buf, 0, 0, 256, 0);
 	FUN_8008b900(text_buf, DAT_800a33c8);
-	FUN_8001e114(260, 60, text_buf, 0, 0, 256, 0);
+	Mess_DrawText__FiiPCciUiib(260, 60, text_buf, 0, 0, 256, 0);
 	Mess_SetScale(160);
 
 	for (i = 0; i < 10; i++) {
@@ -89,7 +89,7 @@ void Competition_LadderDisplay() {
 		else
 			Mess_SetRGB(122, 122, 122, 0);
 
-		FUN_8001e114(90, i * 14 + 70, text_buf, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(90, i * 14 + 70, text_buf, 0, 0, 256, 0);
 	}
 
 	for (a = 0; a < 3; a++) {
@@ -174,7 +174,7 @@ void Competition_LadderDisplay() {
 				ushort s = pComp->mScore[pComp->mOrdering[b]][a];
 
 				FUN_8008b900(text_buf, DAT_800d1fd8, s / 10, s % 10);
-				FUN_8001e114(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
 			}
 
 			if (a == pComp->mCurrentHeat) {
@@ -191,7 +191,7 @@ void Competition_LadderDisplay() {
 					FUN_8008b900(text_buf, DAT_800d1fe0);
 				}
 
-				FUN_8001e114(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
 
 				if (pComp->mOrdering[b] == pComp->our_skater_num)
 					Mess_SetRGB(182, 132, 36, 0);
@@ -205,12 +205,12 @@ void Competition_LadderDisplay() {
 				} else
 					FUN_8008b900(text_buf, DAT_800d1fe0);
 
-				FUN_8001e114(450, b * 14 + 70, text_buf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(450, b * 14 + 70, text_buf, 0, 0, 256, 0);
 			}
 
 			if (a > pComp->mCurrentHeat) {
 				FUN_8008b900(text_buf, DAT_800d1fe0);
-				FUN_8001e114(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(a * 60 + 250, b * 14 + 70, text_buf, 0, 0, 256, 0);
 			}
 		}
 	}

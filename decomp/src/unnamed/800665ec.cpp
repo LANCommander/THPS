@@ -6,13 +6,13 @@ struct RECT {
 	short x, y, w, h;
 };
 
-extern "C" void *FUN_8004d068(unsigned int, int, int);
+extern "C" void *Mem_NewX__FUiii(unsigned int, int, int);
 extern "C" void FUN_8004d5d0(void *);
 extern "C" int FUN_8008c774(RECT *, void *);
 extern "C" int FUN_8008c714(RECT *, void *);
 
 extern "C" void FUN_800665ec(int x, int y) {
-	unsigned short *buf = (unsigned short *)FUN_8004d068(512, 1, 1);
+	unsigned short *buf = (unsigned short *)Mem_NewX__FUiii(512, 1, 1);
 	RECT temp;
 	unsigned short *buf2;
 	temp.x = x;

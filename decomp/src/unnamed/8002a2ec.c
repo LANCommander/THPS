@@ -1,4 +1,4 @@
-/* FUN_8002a2ec (0x8002a2ec) */
+/* __11CSmokeTrailR7CVectoriiii (0x8002a2ec) */
 typedef struct {
 	char p0[0x44];
 	char *vt;
@@ -10,14 +10,14 @@ typedef struct {
 extern char DAT_8009f6a0[];
 extern char DAT_800d18c4[];
 
-void FUN_80029e28(B *, int, int, int, char *, char *, int, int);
+void __7CRibbonRC7CVectoriiPcT4ii(B *, int, int, int, char *, char *, int, int);
 void SetTint__7CFT4BitUcUcUc(int, int, int, int);
 void FUN_800280f8(int, int);
 
-B *FUN_8002a2ec(B *p, int a1, int a2, int r, int g, int b) {
+B *__11CSmokeTrailR7CVectoriiii(B *p, int a1, int a2, int r, int g, int b) {
 	int i, j, t, n, dr, dg, db;
 
-	FUN_80029e28(p, a1, a2, 2, DAT_800d18c4, DAT_800d18c4, 400, 1);
+	__7CRibbonRC7CVectoriiPcT4ii(p, a1, a2, 2, DAT_800d18c4, DAT_800d18c4, 400, 1);
 
 	n = p->n;
 	dr = r / n;

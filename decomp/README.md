@@ -57,6 +57,12 @@ Validated on `CVector::operator+=` (`0x8004da3c`): the `move v0,a0` prologue and
   agree with the demo SYM sizes for 472 of 474 named functions. `dis.mjs` and `salvage.py` take
   sizes from it, so unnamed functions work like named ones. `check_all.mjs` reports **coverage in
   game-code bytes** (481,452 total).
+- **Names for `FUN_` rows:** callers often resolve a `FUN_` through a real name in their
+  `.syms.json`. **`python ../tools/review_caller_names.py`** compares those names with the demo
+  SYM and writes `caller_names_review.tsv`. Promote a name only after checking it, and rename the
+  defining source, its header, `matched.tsv` and every caller in one step. Leave callers on the
+  `FUN_` alias when the name isn't a C identifier (destructors such as `_._5CItem`). `BASEF` is a
+  generic placeholder, not a name.
 - `src/unnamed/<addr>.c` holds unnamed functions. The trivial ones (empty bodies, `return K`,
   one-store setters) were generated mechanically from their bytes.
 - All matchers use per-process temp files under `build/`, so they can run concurrently.

@@ -105,7 +105,7 @@ void M3dElips_RenderShadow(SModel *, MATRIX *, CSVector *, CVector *, SVECTOR *,
 
 extern "C" {
 	void FUN_8008b254(MATRIX *, MATRIX *);
-	SMatrix *FUN_80013cd4(Item *);
+	SMatrix *Decomp_GetAnimTransform__FP6CSuper(Item *);
 	MATRIX *FUN_8009738c(MATRIX *, MATRIX *, MATRIX *);
 	void FUN_80089fc8(MATRIX *, MATRIX *, SMatrix *);
 	void FUN_8008a1c8(MATRIX *, MATRIX *, SMatrix *);
@@ -178,7 +178,7 @@ void RenderSuperItem(Item *pItem) {
 	if (ItemFlags & 4)
 		pAnimTransform = pItem->pAnimTransform;
 	else
-		pAnimTransform = FUN_80013cd4(pItem);
+		pAnimTransform = Decomp_GetAnimTransform__FP6CSuper(pItem);
 
 	FUN_8009738c((MATRIX *)pItem->pLight, &pItem->Matrix, &SuperLightTransform);
 

@@ -47,7 +47,7 @@ int Utils_CompareStrings(const char *, const char *, unsigned int);
 
 extern "C" {
 	void FUN_8008c190(void *, int, int, int);
-	void FUN_80046374(ushort *, int, int);
+	void ExecuteCommandList__FPUsii(ushort *, int, int);
 
 	extern char DAT_800a0f3c[];
 }
@@ -77,7 +77,7 @@ void Trig_ExecuteRestart() {
 
 	pName++;
 	pName += (int)pName & 1;
-	FUN_80046374((ushort *)pName, DAT_800d19e4, 1);
+	ExecuteCommandList__FPUsii((ushort *)pName, DAT_800d19e4, 1);
 
 	if (DAT_800d1780 == 2 && DAT_800d16a4 != 7) {
 		int i;

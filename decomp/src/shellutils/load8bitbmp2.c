@@ -23,7 +23,7 @@ int FUN_8008c190(char *, ...);
 int GetFree256Slot__Fv(void);
 int FUN_8008c714(RECT *, unsigned short *);
 int FUN_8008c468(int);
-char *FUN_8004d068(int, int, int);
+char *Mem_NewX__FUiii(int, int, int);
 void FUN_8004d5d0(void *);
 unsigned short FUN_8008f70c(int, int);
 
@@ -93,7 +93,7 @@ int Load8BitBMP2__FPcPPcPiT2PUs(char *file, char **out, int *pw, int *ph, unsign
 		pad = 4 - pad;
 
 	w += pad;
-	*out = FUN_8004d068(w * h, 1, 1);
+	*out = Mem_NewX__FUiii(w * h, 1, 1);
 	src = b->pal + n * 4;
 	dst = (unsigned char *)*out + (h - 1) * w;
 

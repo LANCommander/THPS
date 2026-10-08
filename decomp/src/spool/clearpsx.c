@@ -10,11 +10,11 @@ typedef struct {
 extern SRegion DAT_800bf7a8[];
 
 int Spool_FindRegion__FPc(char *);
-void FUN_8006fde4(int, int, int);
+void ClearRegion__Fiii(int, int, int);
 
 void Spool_ClearPSX__FPc(char *name) {
 	int r = Spool_FindRegion__FPc(name);
 
 	if (DAT_800bf7a8[r].f0a)
-		FUN_8006fde4(Spool_FindRegion__FPc(name), 1, 0);
+		ClearRegion__Fiii(Spool_FindRegion__FPc(name), 1, 0);
 }

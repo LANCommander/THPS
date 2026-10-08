@@ -57,10 +57,10 @@ void Horse_DisplayWords(int *);
 
 extern "C" {
 	void FUN_8001f138(int);
-	int FUN_800106e0(int);
+	int Career_Got__Fi(int);
 	void FUN_8006e2fc(int);
 	void FUN_8008b900(char *, char *, unsigned);
-	void FUN_8001d250(int);
+	void Mess_SetTextJustify__FUc(int);
 }
 
 struct POLY_G4;
@@ -155,10 +155,10 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
 	}
 
 	if (DoDisplay && DAT_800d16a4 == 1 && !DAT_800a5398[DAT_800d1e28].NoTapes) {
-		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore1 && !FUN_800106e0(0))
+		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore1 && !Career_Got__Fi(0))
 			FUN_8006e2fc(0);
 
-		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore2 && !FUN_800106e0(4))
+		if (pBruce->Score >= DAT_800a5398[DAT_800d1e28].TapeScore2 && !Career_Got__Fi(4))
 			FUN_8006e2fc(4);
 	}
 
@@ -183,7 +183,7 @@ void DisplayScore(CBruce *pBruce, ushort xpos, ushort ypos) {
 			}
 		}
 
-		FUN_8001d250(2);
+		Mess_SetTextJustify__FUc(2);
 		Mess_SetScale(256);
 		Mess_DrawPanelText(xpos + 125, ypos - 4, score, 0, 0, 256);
 	}

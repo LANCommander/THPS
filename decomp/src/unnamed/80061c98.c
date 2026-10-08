@@ -1,12 +1,12 @@
 /* FUN_80061c98 (0x80061c98) */
-int FUN_8004d068(int a, int b, int c);
+int Mem_NewX__FUiii(int a, int b, int c);
 void FUN_8008c774(short *r, int b);
 void FUN_8008c714(short *r, int b);
 void FUN_8004d5d0(int a);
 
 void FUN_80061c98(int a, int b) {
 	short r[4];
-	int buf = FUN_8004d068(512, 1, 1);
+	int buf = Mem_NewX__FUiii(512, 1, 1);
 	unsigned short *q;
 	int i;
 

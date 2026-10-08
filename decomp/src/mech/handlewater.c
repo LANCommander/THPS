@@ -20,8 +20,8 @@ int DAT_800d19a4;
 
 int Redbook_Rnd__Fi(int);
 void FUN_8004b250(int, int, int);
-char *FUN_80027d08(int);
-void FUN_8004ea54(char *, V *, int, int, int, int, int, int);
+char *__nw__4CBitUi(int);
+void __11CFlatRippleRC7CVectoriUcUcUcii(char *, V *, int, int, int, int, int, int);
 
 void HandleWater__6CBruce(B *t) {
 	int s1, r, idx;
@@ -51,11 +51,11 @@ void HandleWater__6CBruce(B *t) {
 				e = &DAT_800c9670[idx];
 				v.x += r * e->a;
 				v.z += r * e->b;
-				o = FUN_80027d08(116);
+				o = __nw__4CBitUi(116);
 
 				if (o) {
 					r = Redbook_Rnd__Fi(24) + 40;
-					FUN_8004ea54(o, &v, r, 221, 238, 255, 12, Redbook_Rnd__Fi(3) + 4);
+					__11CFlatRippleRC7CVectoriUcUcUcii(o, &v, r, 221, 238, 255, 12, Redbook_Rnd__Fi(3) + 4);
 				}
 			}
 		} else {

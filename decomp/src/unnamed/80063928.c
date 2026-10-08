@@ -1,4 +1,4 @@
-/* FUN_80063928 (0x80063928) */
+/* __6Spriteiiiiiii (0x80063928) */
 typedef struct {
 	void *vt;
 	int w, h, f0c, f10, f14;
@@ -6,15 +6,15 @@ typedef struct {
 
 extern char DAT_800a2190[];
 
-int FUN_8004d068(int, int, int);
-int FUN_80061ef4(int, int, int, int, int, int, int, int);
+int Mem_NewX__FUiii(int, int, int);
+int __11SlicedImagePciiiiiUs(int, int, int, int, int, int, int, int);
 void FUN_8008c468(int);
 void FUN_8008c774(short *, int);
 int __nw__5CItemUi(int);
 void pack__11SlicedImage(int);
 void removeBlack__11SlicedImage(int);
 
-S *FUN_80063928(S *p, short a1, short a2, int w, int h, int f, int x, int y) {
+S *__6Spriteiiiiiii(S *p, short a1, short a2, int w, int h, int f, int x, int y) {
 	short r[4];
 	int buf, v;
 
@@ -33,14 +33,14 @@ S *FUN_80063928(S *p, short a1, short a2, int w, int h, int f, int x, int y) {
 	if (y >= h)
 		y = 0;
 
-	buf = FUN_8004d068(w * h * 2, 1, 1);
+	buf = Mem_NewX__FUiii(w * h * 2, 1, 1);
 	FUN_8008c774(r, buf);
 	FUN_8008c468(0);
 
 	v = __nw__5CItemUi(52);
 
 	if (v)
-		v = FUN_80061ef4(v, buf, w, h, x, y, 16, 0);
+		v = __11SlicedImagePciiiiiUs(v, buf, w, h, x, y, 16, 0);
 
 	p->f14 = v;
 	removeBlack__11SlicedImage(v);

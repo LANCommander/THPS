@@ -20,12 +20,12 @@ int DAT_800d1e5c, DAT_800d1e64;
 void DisplayTapesSkate__Fv(void);
 void FUN_8001e07c(char *);
 void FUN_8001e100(char *, int);
-void FUN_8006c610(int, int, int, int, int, int, int, int);
-void FUN_8006ca78(P *, int, int);
+void Panel_DrawFlatShadedPoly__FiiiiUcUcUci(int, int, int, int, int, int, int, int);
+void DisplayScore__FP6CBruceUsUs(P *, int, int);
 void FUN_8006d0c8(P *, int, int);
-void FUN_8006d39c(P *, int, int);
-void FUN_8006d704(P *, int, int);
-void FUN_8006d938(char *, P *, int, int);
+void DisplayTime__FP6CBruceUsUs(P *, int, int);
+void DisplayOutOfBounds__FP6CBruceUsUs(P *, int, int);
+void DisplayTrick__10CPanelDataP6CBruceUsUs(char *, P *, int, int);
 void Panel_ReplayInstructions__Fv(void);
 void TrickTips_Display__Fv(void);
 
@@ -42,7 +42,7 @@ void FUN_8006dc78(void) {
 
 			do {
 				FUN_8001e07c(s3);
-				FUN_8006d704(s2, 256, 90);
+				DisplayOutOfBounds__FP6CBruceUsUs(s2, 256, 90);
 				DisplayTapesSkate__Fv();
 
 				if (DAT_800d140c) {
@@ -56,76 +56,76 @@ void FUN_8006dc78(void) {
 					case 1:
 						TrickTips_Display__Fv();
 						FUN_8006d0c8(s2, 256, 224);
-						FUN_8006d938(s2->sub, s2, 256, 205);
-						FUN_8006ca78(s2, 25, 45);
-						FUN_8006d39c(s2, 256, 48);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 256, 205);
+						DisplayScore__FP6CBruceUsUs(s2, 25, 45);
+						DisplayTime__FP6CBruceUsUs(s2, 256, 48);
 						FUN_8001e100(s3, 240);
 						FUN_8001e100((char *)s2 + 0xad4, 240);
 						break;
 					case 2:
 						FUN_8006d0c8(s2, 384, 224);
-						FUN_8006d938(s2->sub, s2, 384, 205);
-						FUN_8006ca78(s2, 358, 45);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 384, 205);
+						DisplayScore__FP6CBruceUsUs(s2, 358, 45);
 						FUN_8001e100(s3, 240);
 						FUN_8001e100((char *)s2 + 0xad4, 240);
 						break;
 					case 4:
-						FUN_8006d938(s2->sub, s2, 256, 205);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 256, 205);
 						FUN_8006d0c8(s2, 256, 224);
-						FUN_8006ca78(s2, 25, 145);
-						FUN_8006d39c(s2, 452, 150);
+						DisplayScore__FP6CBruceUsUs(s2, 25, 145);
+						DisplayTime__FP6CBruceUsUs(s2, 452, 150);
 						FUN_8001e100(s3, 240);
 						FUN_8001e100((char *)s2 + 0xad4, 240);
 						break;
 					case 6:
 						FUN_8006d0c8(s2, 128, 224);
-						FUN_8006d938(s2->sub, s2, 128, 205);
-						FUN_8006ca78(s2, 112, 150);
-						FUN_8006d39c(s2, 55, 155);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 128, 205);
+						DisplayScore__FP6CBruceUsUs(s2, 112, 150);
+						DisplayTime__FP6CBruceUsUs(s2, 55, 155);
 						FUN_8001e100(s3, 240);
 						FUN_8001e100((char *)s2 + 0xad4, 240);
-						FUN_8006c610(256, 0, 256, 120, 30, 30, 30, 1);
+						Panel_DrawFlatShadedPoly__FiiiiUcUcUci(256, 0, 256, 120, 30, 30, 30, 1);
 						break;
 					case 8:
 						FUN_8006d0c8(s2, 256, 224);
-						FUN_8006d938(s2->sub, s2, 256, 205);
-						FUN_8006ca78(s2, 70, 175);
-						FUN_8006d39c(s2, 133, 217);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 256, 205);
+						DisplayScore__FP6CBruceUsUs(s2, 70, 175);
+						DisplayTime__FP6CBruceUsUs(s2, 133, 217);
 						FUN_8001e100(s3, 240);
 						FUN_8001e100((char *)s2 + 0xad4, 240);
 						break;
 					case 3:
 						FUN_8006d0c8(s2, 128, 224);
-						FUN_8006d938(s2->sub, s2, 128, 205);
-						FUN_8006ca78(s2, 25, 45);
-						FUN_8006d39c(s2, 256, 48);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 128, 205);
+						DisplayScore__FP6CBruceUsUs(s2, 25, 45);
+						DisplayTime__FP6CBruceUsUs(s2, 256, 48);
 						FUN_8001e100(s3, 240);
 						FUN_8001e100((char *)s2 + 0xad4, 240);
 						break;
 					case 5:
-						FUN_8006d938(s2->sub, s2, 256, 85);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 256, 85);
 						FUN_8006d0c8(s2, 256, 104);
-						FUN_8006ca78(s2, 25, 45);
-						FUN_8006d39c(s2, 452, 50);
+						DisplayScore__FP6CBruceUsUs(s2, 25, 45);
+						DisplayTime__FP6CBruceUsUs(s2, 452, 50);
 						FUN_8001e100(s3, 118);
 						FUN_8001e100((char *)s2 + 0xad4, 118);
 						break;
 					case 7:
 						FUN_8006d0c8(s2, 384, 104);
-						FUN_8006d938(s2->sub, s2, 384, 85);
-						FUN_8006ca78(s2, 276, 45);
-						FUN_8006d39c(s2, 457, 50);
-						FUN_8006c610(0, 120, 257, 2, 30, 30, 30, 1);
-						FUN_8006c610(0, 120, 257, 120, 20, 20, 20, 1);
-						FUN_8006c610(256, 119, 512, 2, 30, 30, 30, 1);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 384, 85);
+						DisplayScore__FP6CBruceUsUs(s2, 276, 45);
+						DisplayTime__FP6CBruceUsUs(s2, 457, 50);
+						Panel_DrawFlatShadedPoly__FiiiiUcUcUci(0, 120, 257, 2, 30, 30, 30, 1);
+						Panel_DrawFlatShadedPoly__FiiiiUcUcUci(0, 120, 257, 120, 20, 20, 20, 1);
+						Panel_DrawFlatShadedPoly__FiiiiUcUcUci(256, 119, 512, 2, 30, 30, 30, 1);
 						FUN_8001e100(s3, 122);
 						FUN_8001e100((char *)s2 + 0xad4, 122);
 						break;
 					case 9:
 						FUN_8006d0c8(s2, 256, 154);
-						FUN_8006d938(s2->sub, s2, 256, 130);
-						FUN_8006ca78(s2, 315, 43);
-						FUN_8006d39c(s2, 371, 85);
+						DisplayTrick__10CPanelDataP6CBruceUsUs(s2->sub, s2, 256, 130);
+						DisplayScore__FP6CBruceUsUs(s2, 315, 43);
+						DisplayTime__FP6CBruceUsUs(s2, 371, 85);
 						FUN_8001e100(s3, 152);
 						FUN_8001e100((char *)s2 + 0xad4, 152);
 						break;

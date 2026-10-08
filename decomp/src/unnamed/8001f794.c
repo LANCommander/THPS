@@ -23,7 +23,7 @@ typedef struct {
 extern C *DAT_800d19a4;
 extern int DAT_800d186c;
 
-char *FUN_80027d08(int, C *);
+char *__nw__4CBitUi(int, C *);
 char *FUN_80029188(char *, char *, int, int, int, int, int, int, int, int, int);
 
 void FUN_8001f794(char *t) {
@@ -52,7 +52,7 @@ void FUN_8001f794(char *t) {
 		if (d < *(int *)(t + 0x5c)) {
 			if (*(char **)(t + 0x60) == 0) {
 				DAT_800d186c = 0;
-				o = FUN_80027d08(176, cam);
+				o = __nw__4CBitUi(176, cam);
 
 				if (o)
 					o = FUN_80029188(o, t + 0x18, *(int *)(t + 0x48), *(int *)(t + 0x4c),

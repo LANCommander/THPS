@@ -67,7 +67,7 @@ int DAT_800d1108, DAT_800d110c, DAT_800d1110, DAT_800d111c, DAT_800d1120, DAT_80
 extern "C" {
 	void FUN_80011214(void);
 	void FUN_80011570(void);
-	void FUN_8001d250(int);
+	void Mess_SetTextJustify__FUc(int);
 	void FUN_80061ea0(void);
 	void FUN_8006b240(void);
 	void FUN_8006b26c(void);
@@ -154,7 +154,7 @@ void Front_MemCardHiResDisplay() {
 	}
 
 	Mess_SetScale(200);
-	FUN_8001d250(0);
+	Mess_SetTextJustify__FUc(0);
 
 	switch (DAT_800d111c) {
 		case 15:

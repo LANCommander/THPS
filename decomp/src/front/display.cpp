@@ -175,11 +175,11 @@ void Competition_WinLoseDisplay();
 void Competition_EndGameDisplay();
 
 extern "C" {
-	void FUN_8006c610(int, int, int, int, uchar, uchar, uchar, int);
+	void Panel_DrawFlatShadedPoly__FiiiiUcUcUci(int, int, int, int, uchar, uchar, uchar, int);
 	void FUN_800785c4(void);
 	void FUN_80017898(void);
-	void FUN_8001d250(int);
-	int FUN_8001e114(int, int, char *, int, int, int, int);
+	void Mess_SetTextJustify__FUc(int);
+	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 	int FUN_8008b900(char *, const char *, ...);
 	void FUN_8001e07c(char *);
 	void FUN_8001e0a4(char *, int);
@@ -198,12 +198,12 @@ void Front_Display() {
 	int Line;
 
 	if (DAT_800d1714)
-		FUN_8006c610(19, 190, 194, 42, 0, 0, 0, 0);
+		Panel_DrawFlatShadedPoly__FiiiiUcUcUci(19, 190, 194, 42, 0, 0, 0, 0);
 
 	if (DAT_800d140c)
 		FUN_800785c4();
 
-	FUN_8001d250(0);
+	Mess_SetTextJustify__FUc(0);
 	Mess_SetScale(256);
 
 	switch (DAT_800d13e8) {
@@ -241,7 +241,7 @@ void Front_Display() {
 			FUN_80017898();
 			Front_PrintGoBackSelect();
 			Mess_SetRGB(150, 100, 25, 0);
-			FUN_8001e114(256, 95, DAT_800a5d5c[111], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 95, DAT_800a5d5c[111], 0, 0, 256, 0);
 
 			DAT_800d1428->mY = 135;
 			DAT_800d1428->Display();
@@ -251,7 +251,7 @@ void Front_Display() {
 			Mess_SetRGB(180, 10, 10, 0);
 
 			if ((DAT_800d16e4 / 10) & 1)
-				FUN_8001e114(256, 184, DAT_800a5d5c[99], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(256, 184, DAT_800a5d5c[99], 0, 0, 256, 0);
 
 			break;
 		case 11: {
@@ -318,10 +318,10 @@ void Front_Display() {
 				static char GotATape[25];
 
 				if (NumTapes == 1) {
-					FUN_8001e114(256, 40, DAT_800a5d5c[35], 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a5d5c[35], 0, 0, 256, 0);
 				} else {
 					FUN_8008b900(GotATape, DAT_800a5d5c[36], NumTapes);
-					FUN_8001e114(256, 40, GotATape, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 40, GotATape, 0, 0, 256, 0);
 				}
 			}
 
@@ -332,7 +332,7 @@ void Front_Display() {
 		case 7:
 		case 12:
 			Mess_SetRGB(150, 100, 25, 0);
-			FUN_8001e114(256, 80, DAT_800a5d5c[5], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 80, DAT_800a5d5c[5], 0, 0, 256, 0);
 
 			DAT_800d1428->mY = 130;
 			DAT_800d1428->Display();
@@ -340,7 +340,7 @@ void Front_Display() {
 			break;
 		case 17:
 			Mess_SetRGB(150, 100, 25, 0);
-			FUN_8001e114(256, 80, DAT_800a5d5c[47], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 80, DAT_800a5d5c[47], 0, 0, 256, 0);
 
 			DAT_800d1428->mY = 130;
 			DAT_800d1428->Display();
@@ -384,9 +384,9 @@ void Front_Display() {
 			int termFound = 0;
 			int i;
 
-			FUN_8001d250(0);
+			Mess_SetTextJustify__FUc(0);
 			Mess_SetRGB(122, 122, 122, 0);
-			FUN_8001e114(256, 80, DAT_800a5d5c[81], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 80, DAT_800a5d5c[81], 0, 0, 256, 0);
 
 			horseBuf[1] = 0;
 
@@ -410,11 +410,11 @@ void Front_Display() {
 				}
 
 				if (!termFound)
-					FUN_8001e114(i * 20 + 156, 120, horseBuf, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(i * 20 + 156, 120, horseBuf, 0, 0, 256, 0);
 
 				horseBuf[0] = '_';
 				Mess_SetScale(256);
-				FUN_8001e114(i * 20 + 156, 130, horseBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(i * 20 + 156, 130, horseBuf, 0, 0, 256, 0);
 			}
 
 			Front_PrintCentredPrompt(DAT_800a5d5c[103]);
@@ -431,17 +431,17 @@ void Front_Display() {
 
 			if (DAT_800d17a0 == 0) {
 				if (DAT_800d179c == 0)
-					FUN_8001e114(256, 120, DAT_8009e3d4, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 120, DAT_8009e3d4, 0, 0, 256, 0);
 				else
-					FUN_8001e114(256, 120, DAT_8009e3e8, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 120, DAT_8009e3e8, 0, 0, 256, 0);
 			} else {
 				if (DAT_800d179c == 0)
-					FUN_8001e114(256, 120, DAT_8009e3fc, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 120, DAT_8009e3fc, 0, 0, 256, 0);
 				else
-					FUN_8001e114(256, 120, DAT_8009e40c, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 120, DAT_8009e40c, 0, 0, 256, 0);
 
 				FUN_8008b900(Score, DAT_800d14ac, DAT_800d17a4);
-				FUN_8001e114(256, 140, Score, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(256, 140, Score, 0, 0, 256, 0);
 			}
 
 			Horse_DisplayWords(DAT_800d17b0);
@@ -454,7 +454,7 @@ void Front_Display() {
 			Mess_SetScale(256);
 			FUN_8008b900(highScoreBuf, DAT_800a5d5c[80], DAT_800a5398[DAT_800d1e28].pName);
 			Mess_SetRGB(182, 132, 36, 0);
-			FUN_8001e114(256, 40, highScoreBuf, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 40, highScoreBuf, 0, 0, 256, 0);
 			Mess_SetRGB(122, 122, 122, 0);
 
 			for (i = 0; i < 8; i++) {
@@ -478,46 +478,46 @@ void Front_Display() {
 
 				highScoreBuf[1] = 0;
 				highScoreBuf[0] = DAT_800a6844.HighScores[DAT_800d1e28][i].Name[0];
-				FUN_8001d250(0);
+				Mess_SetTextJustify__FUc(0);
 
 				if (i == DAT_800d13dc && DAT_800d13e0 == 0)
 					Mess_SetScale(DAT_800d1100 * 6 + 256);
 				else
 					Mess_SetScale(256);
 
-				FUN_8001e114(DAT_800a5cec[i] - 80, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i] - 80, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 				Mess_SetScale(256);
 
 				highScoreBuf[0] = DAT_800a6844.HighScores[DAT_800d1e28][i].Name[1];
-				FUN_8001d250(0);
+				Mess_SetTextJustify__FUc(0);
 
 				if (i == DAT_800d13dc && DAT_800d13e0 == 1)
 					Mess_SetScale(DAT_800d1100 * 6 + 256);
 				else
 					Mess_SetScale(256);
 
-				FUN_8001e114(DAT_800a5cec[i] - 60, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i] - 60, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 				Mess_SetScale(256);
 
 				highScoreBuf[0] = DAT_800a6844.HighScores[DAT_800d1e28][i].Name[2];
-				FUN_8001d250(0);
+				Mess_SetTextJustify__FUc(0);
 
 				if (i == DAT_800d13dc && DAT_800d13e0 == 2)
 					Mess_SetScale(DAT_800d1100 * 6 + 256);
 				else
 					Mess_SetScale(256);
 
-				FUN_8001e114(DAT_800a5cec[i] - 40, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i] - 40, (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 				Mess_SetScale(256);
 
 				if (i == DAT_800d13dc && (DAT_800d16e4 / 10) & 1) {
 					int x;
 
 					FUN_8008b900(highScoreBuf, DAT_800d14b0);
-					FUN_8001d250(0);
+					Mess_SetTextJustify__FUc(0);
 
 					x = DAT_800d13e0 * 20 - 80;
-					FUN_8001e114(DAT_800a5cec[i] + x, (i + 1) * 19 + 48, highScoreBuf, 0, 0, 256,
+					Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i] + x, (i + 1) * 19 + 48, highScoreBuf, 0, 0, 256,
 					             0);
 				}
 
@@ -537,12 +537,12 @@ void Front_Display() {
 					}
 				}
 
-				FUN_8001d250(1);
-				FUN_8001e114(DAT_800a5cec[i], (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(1);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[i], (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 				FUN_8008b900(highScoreBuf, DAT_800d14ac,
 				             DAT_800a6844.HighScores[DAT_800d1e28][i].Score);
-				FUN_8001d250(2);
-				FUN_8001e114(DAT_800a5d0c[i], (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(2);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[i], (i + 1) * 19 + 40, highScoreBuf, 0, 0, 256, 0);
 			}
 
 			Front_PrintCentredPrompt(DAT_800a5d5c[103]);
@@ -552,14 +552,14 @@ void Front_Display() {
 
 			if (DAT_800d1780 == 1) {
 				Mess_SetRGB(182, 132, 36, 0);
-				FUN_8001e114(256, 40, DAT_800a5d5c[37], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a5d5c[37], 0, 0, 256, 0);
 			} else {
 				Mess_SetRGB(182, 132, 36, 0);
 
 				if (DAT_800d16a4 == 7)
-					FUN_8001e114(256, 40, DAT_8009e41c, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 40, DAT_8009e41c, 0, 0, 256, 0);
 				else
-					FUN_8001e114(256, 40, DAT_8009e428, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(256, 40, DAT_8009e428, 0, 0, 256, 0);
 			}
 
 			Mess_SetRGB(122, 122, 122, 0);
@@ -569,7 +569,7 @@ void Front_Display() {
 				int Line;
 				int i;
 
-				FUN_8001d250(1);
+				Mess_SetTextJustify__FUc(1);
 
 				for (i = 0; i < 5; i++) {
 					DAT_800a5cec[i] += 30;
@@ -579,19 +579,19 @@ void Front_Display() {
 				}
 
 				Line = 0;
-				FUN_8001e114(DAT_800a5cec[0], Line++ * 18 + 60, DAT_800a5d5c[38], 0, 0, 256, 0);
-				FUN_8001e114(DAT_800a5cec[1], Line++ * 18 + 60, DAT_800a5d5c[39], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[0], Line++ * 18 + 60, DAT_800a5d5c[38], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[1], Line++ * 18 + 60, DAT_800a5d5c[39], 0, 0, 256, 0);
 
 				if (DAT_800d16a4 == 1) {
-					FUN_8001e114(DAT_800a5cec[2], Line++ * 18 + 60, DAT_800a5d5c[40], 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(DAT_800a5cec[2], Line++ * 18 + 60, DAT_800a5d5c[40], 0, 0, 256, 0);
 				}
 
-				FUN_8001e114(DAT_800a5cec[3], Line++ * 18 + 60, DAT_800a5d5c[41], 0, 0, 256, 0);
-				FUN_8001e114(DAT_800a5cec[4], Line * 18 + 60, DAT_800a5d5c[42], 0, 0, 256, 0);
-				FUN_8001d250(0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[3], Line++ * 18 + 60, DAT_800a5d5c[41], 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5cec[4], Line * 18 + 60, DAT_800a5d5c[42], 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(0);
 
 				pMan = DAT_800d19a4;
-				FUN_8001d250(2);
+				Mess_SetTextJustify__FUc(2);
 
 				for (i = 0; i < 5; i++) {
 					DAT_800a5d0c[i] -= 30;
@@ -602,28 +602,28 @@ void Front_Display() {
 
 				Line = 0;
 				FUN_8008b900(Score1, DAT_800d14ac, pMan->mScore);
-				FUN_8001e114(DAT_800a5d0c[0], Line++ * 18 + 60, Score1, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[0], Line++ * 18 + 60, Score1, 0, 0, 256, 0);
 				FUN_8008b900(Score2, DAT_800d14ac, DAT_800a6844.HighScores[DAT_800d1e28][0].Score);
-				FUN_8001e114(DAT_800a5d0c[1], Line++ * 18 + 60, Score2, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[1], Line++ * 18 + 60, Score2, 0, 0, 256, 0);
 
 				if (DAT_800d16a4 == 1) {
 					FUN_8008b900(Tapes, DAT_8009e434, Career_LevelTapes(DAT_800d1e28), 5);
-					FUN_8001e114(DAT_800a5d0c[2], Line++ * 18 + 60, Tapes, 0, 0, 256, 0);
+					Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[2], Line++ * 18 + 60, Tapes, 0, 0, 256, 0);
 				}
 
 				FUN_8008b900(Tricks, DAT_800d14b8, pMan->mTricksLanded);
-				FUN_8001e114(DAT_800a5d0c[3], Line++ * 18 + 60, Tricks, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[3], Line++ * 18 + 60, Tricks, 0, 0, 256, 0);
 				FUN_8008b900(Bails, DAT_800d14b8, pMan->mBails);
-				FUN_8001e114(DAT_800a5d0c[4], Line * 18 + 60, Bails, 0, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(DAT_800a5d0c[4], Line * 18 + 60, Bails, 0, 0, 256, 0);
 
 				if (DAT_800a5cec[0] == 90) {
-					FUN_8001d250(0);
+					Mess_SetTextJustify__FUc(0);
 
 					if (!pMan->mBestComboScore) {
 						Mess_SetScale(220);
-						FUN_8001e114(256, 151, DAT_800a5d5c[43], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 151, DAT_800a5d5c[43], 0, 0, 256, 0);
 						Mess_SetScale(256);
-						FUN_8001e114(256, 168, DAT_800a5d5c[44], 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 168, DAT_800a5d5c[44], 0, 0, 256, 0);
 					} else {
 						if (pMan->mBestComboTricks == 1)
 							FUN_8008b900(BestCombo, DAT_800a5d5c[46], pMan->mBestComboTricks,
@@ -633,11 +633,11 @@ void Front_Display() {
 							             pMan->mBestComboScore);
 
 						Mess_SetScale(220);
-						FUN_8001e114(256, 151, BestCombo, 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 151, BestCombo, 0, 0, 256, 0);
 						Mess_SetScale(188);
-						FUN_8001e114(256, 166, pMan->mBestCombo1, 0, 0, 256, 0);
-						FUN_8001e114(256, 180, pMan->mBestCombo2, 0, 0, 256, 0);
-						FUN_8001e114(256, 194, pMan->mBestCombo3, 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 166, pMan->mBestCombo1, 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 180, pMan->mBestCombo2, 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 194, pMan->mBestCombo3, 0, 0, 256, 0);
 					}
 				}
 			} else {
@@ -654,11 +654,11 @@ void Front_Display() {
 				switch (DAT_800d16a4) {
 					case 8:
 						if (DAT_800d17cc->mGraffitiCount == DAT_800d17c8->mGraffitiCount)
-							FUN_8001e114(256, 64, DAT_800d14bc, 0, 0, 256, 0);
+							Mess_DrawText__FiiPCciUiib(256, 64, DAT_800d14bc, 0, 0, 256, 0);
 						else if (DAT_800d17c8->mGraffitiCount < DAT_800d17cc->mGraffitiCount)
-							FUN_8001e114(256, 64, DAT_8009e440, 0, 0, 256, 0);
+							Mess_DrawText__FiiPCciUiib(256, 64, DAT_8009e440, 0, 0, 256, 0);
 						else
-							FUN_8001e114(256, 64, DAT_8009e450, 0, 0, 256, 0);
+							Mess_DrawText__FiiPCciUiib(256, 64, DAT_8009e450, 0, 0, 256, 0);
 
 						Mess_SetScale(224);
 						Graffiti_Stats(DAT_800d17c8, 30, 86, 32, 32, 128, DAT_800d1954,
@@ -687,23 +687,23 @@ void Front_Display() {
 
 							if (DAT_800d17a4) {
 								FUN_8008b900(Score, DAT_8009e460, DAT_800d17a4);
-								FUN_8001e114(256, Line * 24 + 80, Score, 0, 0, 256, 0);
+								Mess_DrawText__FiiPCciUiib(256, Line * 24 + 80, Score, 0, 0, 256, 0);
 
 								DAT_800d14fc ^= 1;
 								DAT_800d1500 ^= 1;
 							} else {
-								FUN_8001e114(256, Line * 24 + 80, DAT_8009e470, 0, 0, 256, 0);
+								Mess_DrawText__FiiPCciUiib(256, Line * 24 + 80, DAT_8009e470, 0, 0, 256, 0);
 
 								DAT_800d1500 ^= 1;
 							}
 						} else {
 							FUN_8008b900(Score, DAT_8009e484, DAT_800d17a4);
-							FUN_8001e114(256, Line++ * 24 + 80, Score, 0, 0, 256, 0);
+							Mess_DrawText__FiiPCciUiib(256, Line++ * 24 + 80, Score, 0, 0, 256, 0);
 							FUN_8008b900(Score, DAT_8009e494, DAT_800d17c8->mHorseScore);
-							FUN_8001e114(256, Line++ * 24 + 80, Score, 0, 0, 256, 0);
+							Mess_DrawText__FiiPCciUiib(256, Line++ * 24 + 80, Score, 0, 0, 256, 0);
 
 							if (DAT_800d17c8->mHorseScore == (uint)DAT_800d17a4) {
-								FUN_8001e114(256, Line * 24 + 80, DAT_800d14c0, 0, 0, 256, 0);
+								Mess_DrawText__FiiPCciUiib(256, Line * 24 + 80, DAT_800d14c0, 0, 0, 256, 0);
 
 								DAT_800d1500 ^= 1;
 							} else if (DAT_800d17c8->mHorseScore < (uint)DAT_800d17a4) {
@@ -728,9 +728,9 @@ void Front_Display() {
 										}
 
 										Mess_SetScale(DAT_800d14f8);
-										FUN_8001e114(256, 152, YouAre, 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 152, YouAre, 0, 0, 256, 0);
 										Mess_SetScale(DAT_800d14f8 <= 512 ? DAT_800d14f8 : 512);
-										FUN_8001e114(256, 188, DAT_800a7204, 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 188, DAT_800a7204, 0, 0, 256, 0);
 
 										DAT_800d17bc = 45;
 										Front_PrintCentredPrompt(DAT_800a5d5c[96]);
@@ -744,14 +744,14 @@ void Front_Display() {
 										FUN_8001e07c(DAT_800a5b28);
 										FUN_8001e0f8(DAT_800a5b28, 512);
 										FUN_8001e0a4(DAT_800a5b28, 1);
-										FUN_8001e114(256, 152, YouAre, 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 152, YouAre, 0, 0, 256, 0);
 
 										if (FUN_8001e108(DAT_800a5b28))
 											DAT_800d17bc = 45;
 
 										FUN_8001e0a4(DAT_800a5b28, 0);
 										FUN_8001e0a4(DAT_800a5b28, 1);
-										FUN_8001e114(256, 188, DAT_800a7204, 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 188, DAT_800a7204, 0, 0, 256, 0);
 										FUN_8001e0a4(DAT_800a5b28, 0);
 									}
 
@@ -767,9 +767,9 @@ void Front_Display() {
 											DAT_800d14f8 = 512;
 
 										Mess_SetScale(DAT_800d14f8 <= 384 ? DAT_800d14f8 : 384);
-										FUN_8001e114(256, 152, DAT_800a5d5c[88], 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 152, DAT_800a5d5c[88], 0, 0, 256, 0);
 										Mess_SetScale(DAT_800d14f8 <= 512 ? DAT_800d14f8 : 512);
-										FUN_8001e114(256, 188, YouAre, 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 188, YouAre, 0, 0, 256, 0);
 
 										DAT_800d17bc = 45;
 									} else {
@@ -782,7 +782,7 @@ void Front_Display() {
 										FUN_8001e07c(DAT_800a5b28);
 										FUN_8001e0f8(DAT_800a5b28, 384);
 										FUN_8001e0a4(DAT_800a5b28, 1);
-										FUN_8001e114(256, 152, DAT_800a5d5c[88], 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 152, DAT_800a5d5c[88], 0, 0, 256, 0);
 
 										if (FUN_8001e108(DAT_800a5b28))
 											DAT_800d17bc = 45;
@@ -790,7 +790,7 @@ void Front_Display() {
 										FUN_8001e0a4(DAT_800a5b28, 0);
 										FUN_8001e0f8(DAT_800a5b28, 512);
 										FUN_8001e0a4(DAT_800a5b28, 1);
-										FUN_8001e114(256, 188, YouAre, 0, 0, 256, 0);
+										Mess_DrawText__FiiPCciUiib(256, 188, YouAre, 0, 0, 256, 0);
 										FUN_8001e0a4(DAT_800a5b28, 0);
 									}
 
@@ -801,7 +801,7 @@ void Front_Display() {
 									DAT_800d14fc ^= 1;
 								}
 							} else {
-								FUN_8001e114(256, Line * 24 + 80, DAT_800d14c8, 0, 0, 256, 0);
+								Mess_DrawText__FiiPCciUiib(256, Line * 24 + 80, DAT_800d14c8, 0, 0, 256, 0);
 
 								DAT_800d1500 ^= 1;
 								DAT_800d1504 = DAT_800d17c8->mHorseScore;
@@ -814,15 +814,15 @@ void Front_Display() {
 					default:
 						FUN_8008b900(Score1, DAT_8009e4bc, s1);
 						FUN_8008b900(Score2, DAT_8009e4cc, s2);
-						FUN_8001e114(256, 75, Score1, 0, 0, 256, 0);
-						FUN_8001e114(256, 99, Score2, 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 75, Score1, 0, 0, 256, 0);
+						Mess_DrawText__FiiPCciUiib(256, 99, Score2, 0, 0, 256, 0);
 
 						if (s2 < s1)
-							FUN_8001e114(256, 123, DAT_8009e450, 0, 0, 256, 0);
+							Mess_DrawText__FiiPCciUiib(256, 123, DAT_8009e450, 0, 0, 256, 0);
 						else if (s1 < s2)
-							FUN_8001e114(256, 123, DAT_8009e440, 0, 0, 256, 0);
+							Mess_DrawText__FiiPCciUiib(256, 123, DAT_8009e440, 0, 0, 256, 0);
 						else
-							FUN_8001e114(256, 123, DAT_800d14d0, 0, 0, 256, 0);
+							Mess_DrawText__FiiPCciUiib(256, 123, DAT_800d14d0, 0, 0, 256, 0);
 
 						break;
 				}
@@ -834,7 +834,7 @@ void Front_Display() {
 			break;
 		case 5:
 			Mess_SetRGB(150, 100, 25, 0);
-			FUN_8001e114(256, 103, DAT_800a5d5c[97], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(256, 103, DAT_800a5d5c[97], 0, 0, 256, 0);
 
 			DAT_800d1428->mY = 143;
 			DAT_800d1428->Display();

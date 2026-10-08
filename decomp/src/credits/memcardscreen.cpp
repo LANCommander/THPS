@@ -80,7 +80,7 @@ int Front_MemCardUpdate();
 void Front_RestoreBackground();
 
 extern "C" {
-	void *FUN_8004d068(uint, int, int);
+	void *Mem_NewX__FUiii(uint, int, int);
 	void FUN_8004d5d0(void *);
 	void FUN_80011628(int);
 	void FUN_8005c780(void);
@@ -108,7 +108,7 @@ int FUN_80060ba0() {
 	Front_InitMemCardMenus(640, MEMCARD_STATE_15, PAUSED_STATUS_39);
 	FUN_80011628(2);
 
-	DAT_800bf318.pBlockStart = (ulong *)FUN_8004d068(640, 0, 1);
+	DAT_800bf318.pBlockStart = (ulong *)Mem_NewX__FUiii(640, 0, 1);
 	DAT_800a42f4.NumSkaters = 0;
 
 	for (;;) {

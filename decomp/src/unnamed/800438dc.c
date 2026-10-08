@@ -1,4 +1,4 @@
-/* FUN_800438dc (0x800438dc) */
+/* AttachTo__5CBodyPP5CBody (0x800438dc) */
 struct N {
 	int a[7];
 	struct N *next;
@@ -6,7 +6,7 @@ struct N {
 	struct N *prev;
 };
 
-void FUN_800438dc(struct N *n, struct N **head) {
+void AttachTo__5CBodyPP5CBody(struct N *n, struct N **head) {
 	struct N *h = *head;
 
 	n->prev = 0;

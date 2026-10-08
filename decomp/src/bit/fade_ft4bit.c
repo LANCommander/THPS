@@ -6,7 +6,7 @@ typedef struct {
 	unsigned char r, g, b, f;
 } Bit;
 
-void FUN_80027e18(Bit *);
+void Die__4CBit(Bit *);
 
 int Fade__7CFT4Biti(Bit *t, int kill) {
 	unsigned c = *(unsigned *)&t->r;
@@ -14,7 +14,7 @@ int Fade__7CFT4Biti(Bit *t, int kill) {
 
 	if ((c & 0xffffff) == 0) {
 		if (kill)
-			FUN_80027e18(t);
+			Die__4CBit(t);
 
 		return 1;
 	}

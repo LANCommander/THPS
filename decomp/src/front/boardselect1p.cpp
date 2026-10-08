@@ -143,12 +143,12 @@ extern "C" {
 	void FUN_8005ca64(void);
 	int FUN_8005ca3c(char *);
 	void FUN_80061714(int);
-	void FUN_8001d250(int);
+	void Mess_SetTextJustify__FUc(int);
 	int FUN_8008b900(char *, const char *, ...);
 	void FUN_8008e904(char *, char *);
-	int FUN_8001da44(char *);
+	int Mess_TextWidth__FPCc(char *);
 	int FUN_8001db80(const char *);
-	void FUN_8001e114(int, int, char *, int, int, int, int);
+	void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 	void FUN_8004b250(int, int, int);
 	void FUN_8005c8dc(int);
 	void FUN_80053dbc(void);
@@ -160,7 +160,7 @@ extern "C" {
 	void FUN_80054134(void);
 	void FUN_8006b240(void);
 	void FUN_80061ea0(void);
-	void FUN_80061e00(int, int, int, int);
+	void SetClippingBox__Fiiii(int, int, int, int);
 	void FUN_8006b26c(void);
 	void FUN_8006af64(void);
 	void FUN_800543d4(void);
@@ -197,7 +197,7 @@ extern "C" int FUN_80054510(int player) {
 	Pack_DefragmentFully();
 	Mess_SetRGB(128, 128, 128, 0);
 	Mess_SetFontScale(256);
-	FUN_8001d250(1);
+	Mess_SetTextJustify__FUc(1);
 
 	x[0][1] = x[0][0] = 144;
 	y[0][0] = 117;
@@ -314,7 +314,7 @@ extern "C" int FUN_80054510(int player) {
 
 	Mess_SetCurrentFont(DAT_800a172c);
 
-	int textX = -FUN_8001da44(text);
+	int textX = -Mess_TextWidth__FPCc(text);
 	int textY;
 
 	{
@@ -399,7 +399,7 @@ extern "C" int FUN_80054510(int player) {
 					int j;
 
 					title[c]->draw(boxX[c], boxY[c], 0, -1, -1, -1);
-					FUN_80061e00(boxX[c] + 6, boxY[c] + 9, boxW[c] - 12, boxH[c] - 18);
+					SetClippingBox__Fiiii(boxX[c] + 6, boxY[c] + 9, boxW[c] - 12, boxH[c] - 18);
 
 					for (j = 0; j < 2; j++) {
 						if (img[c][j] == 0) {
@@ -419,7 +419,7 @@ extern "C" int FUN_80054510(int player) {
 							                   0, 0);
 					}
 
-					FUN_80061e00(0, 0, 640, 480);
+					SetClippingBox__Fiiii(0, 0, 640, 480);
 				}
 			}
 		}
@@ -427,7 +427,7 @@ extern "C" int FUN_80054510(int player) {
 		if (textState != 3 && textState != 1) {
 			textBar->draw(0, 49, 0, -1, -1, -1);
 			Mess_SetCurrentFont(DAT_800a172c);
-			FUN_8001e114(textX, textY, text, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(textX, textY, text, 0, 0, 256, 0);
 		}
 
 		int ry = 116;
@@ -667,7 +667,7 @@ extern "C" int FUN_80054510(int player) {
 
 					Mess_SetCurrentFont(DAT_800a172c);
 
-					textX = -FUN_8001da44(text);
+					textX = -Mess_TextWidth__FPCc(text);
 
 					{
 						int h = Mess_TextHeight(text);

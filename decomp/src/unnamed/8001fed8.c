@@ -11,12 +11,12 @@ struct O {
 	struct VT *vt;
 };
 
-void FUN_80043af4(char *p);
+void KillShadow__5CBody(char *p);
 
 void FUN_8001fed8(char *p) {
 	struct O *o;
 
-	FUN_80043af4(p);
+	KillShadow__5CBody(p);
 
 	o = *(struct O **)(p + 308);
 

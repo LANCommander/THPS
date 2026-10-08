@@ -1,4 +1,4 @@
-/* FUN_80041c30 (0x80041c30) */
+/* BoardOff__6CBruce (0x80041c30) */
 typedef struct {
 	char pad[16];
 	unsigned char a, b, c;
@@ -14,7 +14,7 @@ typedef struct {
 
 extern T DAT_800a44fc[];
 
-void FUN_80041c30(P *p) {
+void BoardOff__6CBruce(P *p) {
 	T *base = DAT_800a44fc;
 	T *t = &base[p->idx];
 

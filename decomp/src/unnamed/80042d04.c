@@ -27,14 +27,14 @@ char *DAT_800d19a4;
 
 int FUN_8007cd64(int);
 void Video_Record__FP6CBruce(char *);
-void FUN_8006a930(char *);
+void Video_Playback__FP6CBruce(char *);
 void FUN_80042708(char *);
-int FUN_8003b424(char *);
+int DoPhysics__6CBruce(char *);
 void HandleWater__6CBruce(char *);
 void FUN_80042728(char *);
-int FUN_80080cf8(char *, char *, int *, int, int);
+int M3dColij_LineToSphere__FRC7CVectorT0R7CVectorP5CBodyT3i(char *, char *, int *, int, int);
 void FUN_800427cc(char *, int);
-void FUN_80020328(int, char *);
+void TakeEffect__8CPowerUpP6CBruce(int, char *);
 void DoShadowCheck__6CBruce(char *);
 void GlowUpdate__6CBruce(char *);
 void FUN_8008b900(char *, char *, int, int, int, int);
@@ -82,7 +82,7 @@ void FUN_80042d04(char *a) {
 					Video_Record__FP6CBruce(a);
 					break;
 				case 2:
-					FUN_8006a930(a);
+					Video_Playback__FP6CBruce(a);
 					return;
 			}
 
@@ -90,7 +90,7 @@ void FUN_80042d04(char *a) {
 				I(0x6f0) = 100;
 				I(0x20) = 0x404040;
 				FUN_80042708(a);
-				FUN_8003b424(a);
+				DoPhysics__6CBruce(a);
 				HandleWater__6CBruce(a);
 
 				if (((U16(0xe4) >> 1) ^ 1) & 1)
@@ -119,15 +119,15 @@ void FUN_80042d04(char *a) {
 
 				s2 = a + 0xf0;
 				s1 = a + 4;
-				x6 = FUN_80080cf8(s2, s1, sp20, DAT_800d1998, 0);
+				x6 = M3dColij_LineToSphere__FRC7CVectorT0R7CVectorP5CBodyT3i(s2, s1, sp20, DAT_800d1998, 0);
 
 				if (x6)
 					FUN_800427cc(a, x6);
 
-				x7 = FUN_80080cf8(s2, s1, sp20, DAT_800d1618, 0);
+				x7 = M3dColij_LineToSphere__FRC7CVectorT0R7CVectorP5CBodyT3i(s2, s1, sp20, DAT_800d1618, 0);
 
 				if (x7)
-					FUN_80020328(x7, a);
+					TakeEffect__8CPowerUpP6CBruce(x7, a);
 
 				if (I(0x734) || (d = I(8) - I(0x2e4), ((d ^ (d >> 31)) - (d >> 31)) >= 65)) {
 					I(0x2e4) = I(8);

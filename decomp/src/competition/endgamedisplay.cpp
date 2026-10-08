@@ -51,8 +51,8 @@ void Front_PrintCentredPrompt(const char *);
 CMedal *Medal_Create(EMedalType, int, int, int, int, int);
 
 extern "C" {
-	void FUN_8001d250(int);
-	int FUN_8001e114(int, int, char *, int, int, int, int);
+	void Mess_SetTextJustify__FUc(int);
+	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 	int FUN_8007401c(void);
 }
 
@@ -62,14 +62,14 @@ void Competition_EndGameDisplay() {
 	Mess_DeleteAll();
 	Mess_SetScale(256);
 	Mess_SetRGB(122, 122, 122, 0);
-	FUN_8001d250(0);
+	Mess_SetTextJustify__FUc(0);
 
 	if (FUN_8007401c()) {
-		FUN_8001e114(256, 40, DAT_800a3250, 0, 0, 256, 0);
-		FUN_8001e114(256, 60, DAT_800a3268, 0, 0, 256, 0);
-		FUN_8001e114(256, 80, DAT_800a318c, 0, 0, 256, 0);
-		FUN_8001e114(256, 180, DAT_800a3288, 0, 0, 256, 0);
-		FUN_8001e114(256, 200, DAT_800a32a8, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a3250, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 60, DAT_800a3268, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 80, DAT_800a318c, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 180, DAT_800a3288, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 200, DAT_800a32a8, 0, 0, 256, 0);
 
 		if (!pComp->pMedal[0])
 			pComp->pMedal[0] = Medal_Create((EMedalType)5, -30, 5, 140, 1536, 3);
@@ -80,10 +80,10 @@ void Competition_EndGameDisplay() {
 		if (!pComp->pMedal[2])
 			pComp->pMedal[2] = Medal_Create((EMedalType)5, 30, 5, 140, 1536, 3);
 	} else {
-		FUN_8001e114(256, 40, DAT_800a32bc, 0, 0, 256, 0);
-		FUN_8001e114(256, 60, DAT_800a32dc, 0, 0, 256, 0);
-		FUN_8001e114(256, 80, DAT_800a32f4, 0, 0, 256, 0);
-		FUN_8001e114(256, 180, DAT_800a3308, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 40, DAT_800a32bc, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 60, DAT_800a32dc, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 80, DAT_800a32f4, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(256, 180, DAT_800a3308, 0, 0, 256, 0);
 
 		{
 			EMedalType m[3];

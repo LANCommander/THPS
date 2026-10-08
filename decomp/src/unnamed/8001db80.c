@@ -19,7 +19,7 @@ unsigned char DAT_800d1602;
 int DAT_800d15e4;
 
 int FUN_8001d548(unsigned char *s);
-int FUN_8001ddfc(int c);
+int GetCharIndex__Fc(int c);
 
 int FUN_8001db80(unsigned char *s) {
 	int m;
@@ -34,7 +34,7 @@ int FUN_8001db80(unsigned char *s) {
 	p = s;
 
 	while (*p) {
-		c = FUN_8001ddfc(*p);
+		c = GetCharIndex__Fc(*p);
 
 		if ((unsigned)(c - 250) < 5)
 			v = 0;

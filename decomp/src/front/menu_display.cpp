@@ -61,15 +61,15 @@ void Mess_SetScale(int);
 void Mess_SetRGB(uchar, uchar, uchar, int);
 
 extern "C" {
-	void FUN_8001d250(int);
+	void Mess_SetTextJustify__FUc(int);
 	void FUN_8001d2c4(int);
-	int FUN_8001e114(int, int, char *, int, int, int, int);
+	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 }
 
 void CMenu::Display() {
 	int y;
 
-	FUN_8001d250(mJustification);
+	Mess_SetTextJustify__FUc(mJustification);
 
 	y = mY;
 
@@ -109,7 +109,7 @@ void CMenu::Display() {
 						FUN_8001d2c4(1);
 
 					{
-						int length = FUN_8001e114(mX, y, mEntry[i].pString, 0, 0, 0, 0);
+						int length = Mess_DrawText__FiiPCciUiib(mX, y, mEntry[i].pString, 0, 0, 0, 0);
 
 						if (mHasCursor && i == mCursorLine && !mJustification) {
 							int off = length * mEntry[i].CurrentScale / 512 +

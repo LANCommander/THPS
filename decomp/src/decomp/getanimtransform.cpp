@@ -57,7 +57,7 @@ void M3dUtils_InBetween(CSuper *);
 uchar *DecompressStream(uchar *, short *, int, int);
 
 extern "C" {
-	void *FUN_8004d068(int, int, int);
+	void *Mem_NewX__FUiii(int, int, int);
 	void FUN_8008b3d4(SEulerPivot *, SMatrix *);
 }
 
@@ -102,12 +102,12 @@ SMatrix *Decomp_GetAnimTransform(CSuper *pSuper) {
 						pHeader++;
 					}
 
-					pSuper->pMats = (SMatrix *)FUN_8004d068(
+					pSuper->pMats = (SMatrix *)Mem_NewX__FUiii(
 					    NumModels * sizeof(SMatrix) + MaxFrames * NumModels * sizeof(SEulerPivot),
 					    1, 1);
 				}
 
-				pSuper->pOrder = (ushort *)FUN_8004d068(NumModels * 2, 0, 1);
+				pSuper->pOrder = (ushort *)Mem_NewX__FUiii(NumModels * 2, 0, 1);
 				pSuper->mRoot = 0xffff;
 
 				{

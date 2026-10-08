@@ -15,8 +15,8 @@ extern int DAT_800d3758[], DAT_800d3788[];
 
 void FUN_80059618(int);
 void FUN_8006edb8(int);
-void FUN_8006f290(int);
-void FUN_8006fde4(int, int, int);
+void ProcessNewPSX__Fi(int);
+void ClearRegion__Fiii(int, int, int);
 void Spool_ClearPSX__FPc(char *);
 void Spool_Sync__Fv(void);
 
@@ -27,7 +27,7 @@ void FUN_8005609c(void) {
 
 	for (i = 0; i < 2; i++) {
 		if (DAT_800d231c[i]) {
-			FUN_8006fde4(DAT_800d3758[DAT_800d2304[i]], 1, 1);
+			ClearRegion__Fiii(DAT_800d3758[DAT_800d2304[i]], 1, 1);
 			FUN_8006edb8(DAT_800d3758[DAT_800d2304[i]]);
 
 			DAT_800d231c[i] = 0;
@@ -51,7 +51,7 @@ void FUN_8005609c(void) {
 
 	for (j = 0; j < 11; j++) {
 		if (DAT_800d3788[j]) {
-			FUN_8006f290(DAT_800d3758[j]);
+			ProcessNewPSX__Fi(DAT_800d3758[j]);
 			Spool_ClearPSX__FPc(DAT_800a44fc[j].n8);
 		}
 	}

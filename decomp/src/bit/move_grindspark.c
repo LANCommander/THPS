@@ -24,7 +24,7 @@ typedef struct {
 	Src *src;
 } GS;
 
-void FUN_80027e18(GS *);
+void Die__4CBit(GS *);
 
 void Move__11CGrindSpark(GS *t) {
 	int px = t->p.x, py = t->p.y, pz = t->p.z;
@@ -57,5 +57,5 @@ void Move__11CGrindSpark(GS *t) {
 	t->v.z = vz;
 
 	if ((short)t->life >= t->maxlife)
-		FUN_80027e18(t);
+		Die__4CBit(t);
 }

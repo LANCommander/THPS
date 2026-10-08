@@ -7,7 +7,7 @@ extern char DAT_800d1e88[], DAT_800d1e8c[], DAT_800d1e94[];
 
 unsigned DAT_800d1ec8;
 
-extern void FUN_8001d250(int);
+extern void Mess_SetTextJustify__FUc(int);
 extern void FUN_8001e0a4(void *, int);
 extern void FUN_8006ca1c(void *);
 extern void FUN_8006e7c0(void *);
@@ -61,9 +61,9 @@ void FUN_8006d0c8(char *o, int x0, int y0) {
 			s4 = s3 < 3;
 
 			if (!s4)
-				FUN_8001d250(2);
+				Mess_SetTextJustify__FUc(2);
 			else
-				FUN_8001d250(0);
+				Mess_SetTextJustify__FUc(0);
 
 			Mess_SetScale__Fi(256);
 
@@ -84,7 +84,7 @@ void FUN_8006d0c8(char *o, int x0, int y0) {
 
 				Mess_SetRGB__FUcUcUci(128, 128, 128, 0);
 				FUN_8006ca1c(o);
-				FUN_8001d250(1);
+				Mess_SetTextJustify__FUc(1);
 				Mess_SetScale__Fi(256);
 
 				if (s5)

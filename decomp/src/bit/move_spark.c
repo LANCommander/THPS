@@ -15,7 +15,7 @@ typedef struct {
 	int lim;
 } Spark;
 
-void FUN_80027e18(Spark *);
+void Die__4CBit(Spark *);
 
 void Move__6CSpark(Spark *t) {
 	int x = t->px + t->vx;
@@ -43,7 +43,7 @@ void Move__6CSpark(Spark *t) {
 	t->life++;
 
 	if ((short)t->life >= t->maxlife)
-		FUN_80027e18(t);
+		Die__4CBit(t);
 
 	t->c0 -= t->d0;
 	t->c1 -= t->d1;

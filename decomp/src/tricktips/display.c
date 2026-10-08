@@ -10,7 +10,7 @@ typedef struct {
 
 extern TT DAT_800d38c8;
 
-void FUN_8001d250(int);
+void Mess_SetTextJustify__FUc(int);
 void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
 void Mess_SetScale__Fi(int);
 int Mess_GetScale__Fv(void);
@@ -29,7 +29,7 @@ void TrickTips_Display__Fv(void) {
 		if (DAT_800d38c8.cnt < 10)
 			y = y - (10 - DAT_800d38c8.cnt) * 40;
 
-		FUN_8001d250(1);
+		Mess_SetTextJustify__FUc(1);
 		Mess_SetRGB__FUcUcUci(128, 128, 0, 0);
 		Mess_SetScale__Fi(220);
 		Mess_DrawPanelText__FiiPCciUii(y, 100, DAT_800d38c8.s0, 0, 0, 256);

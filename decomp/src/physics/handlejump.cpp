@@ -173,7 +173,7 @@ extern "C" {
 	void FUN_8002fde4(CBruce *, int, int, int, int, int);
 	void FUN_80031108(CBruce *, int);
 	void FUN_8002f458(CBruce *, int);
-	void FUN_8002f478(CBruce *);
+	void Trick_Land__6CBruce(CBruce *);
 }
 
 void CBruce::HandleJump() {
@@ -304,7 +304,7 @@ void CBruce::HandleJump() {
 				m344 = 30;
 				m33C += Bonus;
 				FUN_8002f458(this, Bonus);
-				FUN_8002f478(this);
+				Trick_Land__6CBruce(this);
 			}
 		}
 

@@ -15,9 +15,9 @@ extern int DAT_800d3758[];
 extern int DAT_800d1724, DAT_800d2120, DAT_800d2130;
 
 void FUN_80059618(int);
-void FUN_8004982c(int, int, int, short *, short *, int, int, int);
+void Pack_Pack__FiiiPiT3iiUi(int, int, int, short *, short *, int, int, int);
 void FUN_8006ed2c(int);
-void FUN_8006f290(int);
+void ProcessNewPSX__Fi(int);
 void Pack_Unpack__Fss(short, short);
 
 void FUN_800565ac(void) {
@@ -35,7 +35,7 @@ void FUN_800565ac(void) {
 	for (i = 0; i < n; i++) {
 		if (n == 2) {
 			if (i == 0)
-				FUN_8004982c(0, 128, 256, &ab[0], &ab[2], 16, 0, 0);
+				Pack_Pack__FiiiPiT3iiUi(0, 128, 256, &ab[0], &ab[2], 16, 0, 0);
 			else
 				Pack_Unpack__Fss(ab[0], ab[2]);
 		}
@@ -49,7 +49,7 @@ void FUN_800565ac(void) {
 				DAT_800d2120 = e->b13;
 			}
 
-			FUN_8006f290(DAT_800d3758[DAT_800d2304[i]]);
+			ProcessNewPSX__Fi(DAT_800d3758[DAT_800d2304[i]]);
 
 			DAT_800d2120 = -1;
 		}

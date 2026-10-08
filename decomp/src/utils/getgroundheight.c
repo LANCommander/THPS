@@ -17,7 +17,7 @@ typedef struct {
 } SLineInfo;
 
 void M3dColij_InitLineInfo__FP9SLineInfo(SLineInfo *li);
-int FUN_800827d4(SLineInfo *li, int n);
+int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *li, int n);
 
 int Utils_GetGroundHeight(V *p, int up, int down) {
 	SLineInfo li;
@@ -31,7 +31,7 @@ int Utils_GetGroundHeight(V *p, int up, int down) {
 	M3dColij_InitLineInfo__FP9SLineInfo(&li);
 
 	li.flag = 0;
-	FUN_800827d4(&li, 1);
+	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
 
 	if (li.hit && li.ny < -3071)
 		return li.y;

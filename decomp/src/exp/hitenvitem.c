@@ -23,7 +23,7 @@ extern Item *DAT_800d1eec __attribute__((section(".data")));
 extern Slot DAT_800bf7a8[];
 
 void Shatter_Item__FP4Itemii(Item *, int, int);
-void FUN_800218a4(Item *, unsigned *, int, int, int, int, int);
+void Shatter_Face__FP4ItemPUiiiiii(Item *, unsigned *, int, int, int, int, int);
 
 void Exp_HitEnvItem(Item *pItem, unsigned *pFace, int Damage) {
 	Item *pScan;
@@ -54,6 +54,6 @@ void Exp_HitEnvItem(Item *pItem, unsigned *pFace, int Damage) {
 			if (Damage >= Life)
 				Shatter_Item__FP4Itemii(pItem, 1, 1);
 	} else if (pFace) {
-		FUN_800218a4(pItem, pFace, 1, 1, 1, 1, 1);
+		Shatter_Face__FP4ItemPUiiiiii(pItem, pFace, 1, 1, 1, 1, 1);
 	}
 }

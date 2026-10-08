@@ -50,7 +50,7 @@ uint *Spool_SkipPackets(uint *);
 tag_S_Pal *Pal_FindPaletteEntry(uint);
 
 extern "C" {
-	int FUN_8004982c(int, int, int, int *, int *, int, int, uint);
+	int Pack_Pack__FiiiPiT3iiUi(int, int, int, int *, int *, int, int, uint);
 	void FUN_8008c714(RECT *, uint *);
 	ushort FUN_8008f72c(int, int, int, int);
 }
@@ -111,7 +111,7 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag) {
 				int AlignedWidth = (Width + 1) & ~1;
 				RECT rec;
 
-				FUN_8004982c(0, AlignedWidth, Height, &x, &y, 8, (Flags & 1) ? 2 : 0,
+				Pack_Pack__FiiiPiT3iiUi(0, AlignedWidth, Height, &x, &y, 8, (Flags & 1) ? 2 : 0,
 				             pTextureEntry->Checksum);
 				ushort sx = x;
 				ushort sy = y;
@@ -129,7 +129,7 @@ void Spool_LoadTexturesToVRAM(int Region, int defrag) {
 				int AlignedWidth = (Width + 3) & ~3;
 				RECT rec;
 
-				FUN_8004982c(0, AlignedWidth, Height, &x, &y, 4, (Flags & 1) ? 2 : 0,
+				Pack_Pack__FiiiPiT3iiUi(0, AlignedWidth, Height, &x, &y, 4, (Flags & 1) ? 2 : 0,
 				             pTextureEntry->Checksum);
 				ushort sx = x;
 				ushort sy = y;

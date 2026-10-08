@@ -34,10 +34,10 @@ struct CMotionBlur : CFlatBit {};
 int Rnd(int n);
 
 extern "C" {
-	CMotionBlur *FUN_80027d08(int n); /* CBit::operator new */
+	CMotionBlur *__nw__4CBitUi(int n); /* CBit::operator new */
 	CMotionBlur *FUN_80029a0c(CMotionBlur *, char *, CVector *, char *, int, int, int);
 	void SetTint__7CFT4BitUcUcUc(CMotionBlur *, int, int, int);
-	void FUN_80027e18(void *);
+	void Die__4CBit(void *);
 
 	extern char DAT_800d1860[];
 }
@@ -65,7 +65,7 @@ void CSmokeGenerator::Move() {
 		CMotionBlur *foo;
 
 		upvel.y = -(mSpeed + Rnd(mSpeedRnd)) << 12;
-		foo = FUN_80027d08(0x70);
+		foo = __nw__4CBitUi(0x70);
 
 		if (foo)
 			foo =
@@ -83,6 +83,6 @@ void CSmokeGenerator::Move() {
 		l = mLife;
 
 		if (l == mMaxLife && (unsigned short)l != 0xffff)
-			FUN_80027e18(this);
+			Die__4CBit(this);
 	}
 }

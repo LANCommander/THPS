@@ -14,14 +14,14 @@ extern int DAT_800d1e28;
 
 int DAT_800d1e5c;
 
-void FUN_80010724(int, int);
+void Career_GiveTape__Fii(int, int);
 int FUN_8004b250(int, int, int);
 void FUN_8008b900(char *, int, int);
 void Mess_Message__FPCcP12SMessageProgbss(char *, char *, int, int, int);
 
 void FUN_8006e2fc(int a) {
 	DAT_800d1e5c = 40;
-	FUN_80010724(DAT_800d1e28, a);
+	Career_GiveTape__Fii(DAT_800d1e28, a);
 
 	switch (a) {
 		case 2:

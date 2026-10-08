@@ -1,6 +1,6 @@
-/* FUN_80029648 (0x80029648) */
+/* Bit_SetSparkSize__FUi (0x80029648) */
 int DAT_800d18b4;
 
-void FUN_80029648(int a) {
+void Bit_SetSparkSize__FUi(int a) {
 	DAT_800d18b4 = (a << 16) | a;
 }

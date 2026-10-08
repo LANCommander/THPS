@@ -18,10 +18,10 @@ extern char *DAT_800a5edc[];
 
 void Mess_DeleteAll__Fv(void);
 void Mess_SetScale__Fi(int);
-void FUN_8001d250(int);
+void Mess_SetTextJustify__FUc(int);
 void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
 int FUN_8008b900(char *, char *, ...);
-int FUN_8001e114(int, int, char *, int, int, int, int);
+int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 void FUN_8004b250(int, int, int);
 void Front_PrintCentredPrompt__FPCc(char *);
 
@@ -33,13 +33,13 @@ void Competition_JudgeDisplay__Fv(void) {
 
 	Mess_DeleteAll__Fv();
 	Mess_SetScale__Fi(256);
-	FUN_8001d250(0);
+	Mess_SetTextJustify__FUc(0);
 	Mess_SetRGB__FUcUcUci(182, 132, 36, 0);
 	FUN_8008b900(buf, DAT_800a33f0, p->b192 + 1);
-	FUN_8001e114(256, 40, buf, 0, 0, 256, 0);
-	FUN_8001e114(256, 70, DAT_800a3400, 0, 0, 256, 0);
+	Mess_DrawText__FiiPCciUiib(256, 40, buf, 0, 0, 256, 0);
+	Mess_DrawText__FiiPCciUiib(256, 70, DAT_800a3400, 0, 0, 256, 0);
 	Mess_SetRGB__FUcUcUci(122, 122, 122, 0);
-	FUN_8001d250(1);
+	Mess_SetTextJustify__FUc(1);
 
 	t = 0;
 
@@ -68,14 +68,14 @@ void Competition_JudgeDisplay__Fv(void) {
 		else
 			Mess_SetRGB__FUcUcUci(122, 122, 122, 0);
 
-		FUN_8001e114(150, i * 20 + 90, buf, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(150, i * 20 + 90, buf, 0, 0, 256, 0);
 	}
 
 	if (t >= 100) {
 		if (p->i32 == 0)
 			FUN_8004b250(51, 8192, 0);
 
-		FUN_8001d250(0);
+		Mess_SetTextJustify__FUc(0);
 		Mess_SetRGB__FUcUcUci(182, 132, 36, 0);
 
 		sum = 0;
@@ -85,12 +85,12 @@ void Competition_JudgeDisplay__Fv(void) {
 				sum += p->x[k];
 
 		sum = sum / 3;
-		FUN_8001d250(0);
+		Mess_SetTextJustify__FUc(0);
 		FUN_8008b900(buf, DAT_800a3430, p->b192 + 1);
-		FUN_8001e114(200, 195, buf, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(200, 195, buf, 0, 0, 256, 0);
 		FUN_8008b900(buf, DAT_800d1fd8, sum / 10, sum % 10);
 		Mess_SetScale__Fi(384);
-		FUN_8001e114(335, 195, buf, 0, 0, 256, 0);
+		Mess_DrawText__FiiPCciUiib(335, 195, buf, 0, 0, 256, 0);
 
 		p->i32 = 1;
 	} else {

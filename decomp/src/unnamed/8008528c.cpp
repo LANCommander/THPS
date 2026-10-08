@@ -1,7 +1,7 @@
 /* FUN_8008528c (0x8008528c) */
 /* C++ (M3D.CPP). THPS1's M3d_PreprocessWibblyTextures(Region): the demo twin minus its
    ZeroU/ZeroVAmplitudes skips and the 16-pass cap on the tile-wrap loops, with u/v wibble calls
-   interleaved per vertex. FUN_8008523c is vWibble. Locals and line order from the demo SYM.
+   interleaved per vertex. vWibble__FP15STexWibVertInfo is vWibble. Locals and line order from the demo SYM.
    Matching notes:
    - The uv3 half of the last word goes through masked block locals (u3Hi/v3Hi) so local-alloc puts
      them in a0/a1 and the or-chain in v0, which lets sched2 hoist them as retail does.

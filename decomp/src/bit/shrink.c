@@ -1,10 +1,10 @@
 /* Shrink__7CFT4Biti (0x80028234) */
-void FUN_80027e18(char *);
+void Die__4CBit(char *);
 
 int Shrink__7CFT4Biti(char *t, int kill) {
 	if (*(short *)(t + 0x5e) == 0) {
 		if (kill)
-			FUN_80027e18(t);
+			Die__4CBit(t);
 
 		return 1;
 	}

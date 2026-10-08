@@ -5,7 +5,7 @@ void FUN_80071c24(int);
 void FUN_80071e40(int);
 void FUN_800491c4(void);
 void FUN_8006ec14(void);
-void FUN_8001f310(void);
+void Flash_Reset__Fv(void);
 void Pack_Init640x480__Fv(void);
 void Pack_Init__Fv(void);
 void FUN_8004b038(void);
@@ -22,7 +22,7 @@ void Init_Restart(int type, int b) {
 	FUN_8006ec14();
 
 	DAT_800d13d4 = 20;
-	FUN_8001f310();
+	Flash_Reset__Fv();
 
 	if (type == 1)
 		Pack_Init640x480__Fv();

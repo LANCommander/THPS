@@ -1,6 +1,6 @@
 /* DoOnGroundPhysics__6CBruce (0x800347a8) size=5664 flags=-fstructure-noalias */
 /* C++ (PHYSICS.CPP). Demo twin, locals from its MAIN.SYM. One function: functions.tsv splits it into
-   FUN_800347a8 (3092) + FUN_800353bc (4) + FUN_800353c0 (2568) at the OrientToNormal call, but
+   DoOnGroundPhysics__6CBruce (3092) + FUN_800353bc (4) + FUN_800353c0 (2568) at the OrientToNormal call, but
    the only prologue/epilogue pair spans all 5664 bytes and nothing calls 0x800353c0.
    On the ground: terrain sparks and pad rumble (rails/metal/etc. by m72C), moves the skater by the
    frame-scaled velocity and kick, turns along the fall line, sweeps the movement against the world
@@ -254,20 +254,20 @@ extern "C" {
 	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
 	int Mips_FixMul__Fii(int, int);
-	int FUN_800827d4(SLineInfo *, int);
+	int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
 	SHandle FUN_8004d7ac(void *);
-	void FUN_8002952c(CSVector *);
-	void FUN_80029648(int);
-	void FUN_8002965c(int, int, int);
-	void FUN_80029670(int, int, int);
-	int FUN_8004d878(int);
+	void Bit_SetSparkTrajectoryCone__FRC8CSVector(CSVector *);
+	void Bit_SetSparkSize__FUi(int);
+	void Bit_SetSparkRGB__FUcUcUc(int, int, int);
+	void Bit_SetSparkFadeRGB__FUcUcUc(int, int, int);
+	int Mem_GetFree__Fc(int);
 	void FUN_800429d0(CBruce *);
 	int FUN_800343f0(CBruce *, int);
 	void FUN_8003434c(CBruce *);
 	void FUN_8002f1a0(CBruce *);
 	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_80039f2c(CBruce *, SVECTOR, int);
-	void FUN_80043408(CBruce *);
+	void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(CBruce *, SVECTOR, int);
+	void SFX_Grunt__FP6CBruce(CBruce *);
 }
 
 void CBruce::DoOnGroundPhysics() {
@@ -305,30 +305,30 @@ void CBruce::DoOnGroundPhysics() {
 		CSVector Cone;
 
 		Cone.Set(512, 4096, 0);
-		FUN_8002952c(&Cone);
-		FUN_80029648(1);
+		Bit_SetSparkTrajectoryCone__FRC8CSVector(&Cone);
+		Bit_SetSparkSize__FUi(1);
 
 		if (Speed > 0x10000) {
 			int i;
 
 			switch (m72C) {
 				case 5:
-					FUN_8002965c(2, 160, 32);
+					Bit_SetSparkRGB__FUcUcUc(2, 160, 32);
 					break;
 				case 6:
-					FUN_8002965c(160, 160, 160);
+					Bit_SetSparkRGB__FUcUcUc(160, 160, 160);
 					break;
 				case 3:
-					FUN_8002965c(128, 64, 32);
+					Bit_SetSparkRGB__FUcUcUc(128, 64, 32);
 					break;
 			}
 
-			FUN_80029670(0, 0, 0);
+			Bit_SetSparkFadeRGB__FUcUcUc(0, 0, 0);
 
 			DAT_800d186c = 0;
 
 			for (i = 0; i < 6; i++) {
-				if (FUN_8004d878(1) > 10000) {
+				if (Mem_GetFree__Fc(1) > 10000) {
 					CSpark *p = new CSpark(mPos, 20, Speed >> 16, 20);
 
 					p->mVel += mVel;
@@ -432,7 +432,7 @@ void CBruce::DoOnGroundPhysics() {
 		}
 
 		M3dColij_InitLineInfo(&line_info);
-		FUN_800827d4(&line_info, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 		GetFaceFlags(&line_info);
 
 		if (line_info.pItem) {
@@ -452,11 +452,11 @@ void CBruce::DoOnGroundPhysics() {
 						FUN_8002fcdc(this, 12, 4120);
 
 						TurnAway = 200;
-						FUN_80043408(this);
+						SFX_Grunt__FP6CBruce(this);
 					}
 				}
 
-				FUN_80039f2c(this, line_info.Normal, TurnAway);
+				ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(this, line_info.Normal, TurnAway);
 			} else if (line_info.pItem) {
 				if (!DAT_800d1974 || DAT_800d1980) {
 					CVector WallFloorNormal;
@@ -508,13 +508,13 @@ void CBruce::DoOnGroundPhysics() {
 								                                                &mFront) > 2896) {
 									m150 = 0x10000;
 									FUN_8002fcdc(this, 12, 4219);
-									FUN_80043408(this);
+									SFX_Grunt__FP6CBruce(this);
 
 									TurnAway = 200;
 								}
 							}
 
-							FUN_80039f2c(this, line_info.Normal, TurnAway);
+							ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(this, line_info.Normal, TurnAway);
 							m814.Set(0, 0, 0);
 						}
 					} else if (line_info.Distance <= Speed >> 12) {
@@ -564,7 +564,7 @@ void CBruce::DoOnGroundPhysics() {
 	line_info.EndCoords.vy = line_info.StartCoords.vy - mUp.vy * 256;
 	line_info.EndCoords.vz = line_info.StartCoords.vz - mUp.vz * 256;
 	M3dColij_InitLineInfo(&line_info);
-	FUN_800827d4(&line_info, 1);
+	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 	GetFaceFlags(&line_info);
 
 	if (line_info.pItem) {

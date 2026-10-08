@@ -9,8 +9,8 @@ extern int DAT_800d1a90;
 extern int DAT_800d1a8c;
 
 STexEntry *Spool_FindTextureEntry__FUi(unsigned);
-void *FUN_8004c8a4(char *);
-char *FUN_8004d068(void *, int, int);
+void *FileIO_Open__FPCc(char *);
+char *Mem_NewX__FUiii(void *, int, int);
 void FUN_8004cb10(char *);
 void FUN_8004cdd0(void);
 void DownloadBMP__FPciiii(char *, int, int, int, int);
@@ -29,7 +29,7 @@ void ReplaceTexture(unsigned id, char *name) {
 
 		pal += info[2];
 		k = DAT_800d1a8c;
-		bmp = FUN_8004d068(FUN_8004c8a4(name), 1, 1);
+		bmp = Mem_NewX__FUiii(FileIO_Open__FPCc(name), 1, 1);
 		FUN_8004cb10(bmp);
 		FUN_8004cdd0();
 		DownloadBMP__FPciiii(bmp, w, h, k, pal);

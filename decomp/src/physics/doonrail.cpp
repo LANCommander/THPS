@@ -156,9 +156,9 @@ void Trig_GetPosition(CVector &, int);
 void M3dUtils_NormaliseVector(CVector *);
 
 extern "C" {
-	void FUN_8002952c(CSVector *);
-	void *FUN_80027d08(int);
-	void FUN_80027650(void *, CBruce *, CVector *, int, int, int);
+	void Bit_SetSparkTrajectoryCone__FRC8CSVector(CSVector *);
+	void *__nw__4CBitUi(int);
+	void __11CGrindSparkP5CBodyR7CVectoriii(void *, CBruce *, CVector *, int, int, int);
 	int FUN_8002f290(CBruce *, int, int);
 	void FUN_8002f438(CBruce *, int);
 	void FUN_8002fcdc(CBruce *, int, int);
@@ -277,17 +277,17 @@ void CBruce::DoOnRailPhysics() {
 				int i;
 
 				Cone.Set(450, 900, 0);
-				FUN_8002952c(&Cone);
+				Bit_SetSparkTrajectoryCone__FRC8CSVector(&Cone);
 
 				DAT_800d186c = 0;
 				Pos.vx = Pos.vz = 0;
 				Pos.vy = 0x19000;
 
 				for (i = 0; i < 9; i++) {
-					void *p = FUN_80027d08(120);
+					void *p = __nw__4CBitUi(120);
 
 					if (p)
-						FUN_80027650(p, this, &Pos, -40, 4096, 5);
+						__11CGrindSparkP5CBodyR7CVectoriii(p, this, &Pos, -40, 4096, 5);
 				}
 
 				DAT_800d186c = 1;

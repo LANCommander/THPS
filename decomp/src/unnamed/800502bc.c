@@ -26,7 +26,7 @@ extern int DAT_800be3d0[];
 
 void FUN_80023168(int);
 void FUN_8002357c(int);
-P *FUN_8004d068(int, int, int);
+P *Mem_NewX__FUiii(int, int, int);
 void FUN_8004d5d0(P *);
 int FUN_8008eebc(int);
 void GameFMV_StartFMV__Fi(int);
@@ -38,7 +38,7 @@ void FUN_800502bc(int a) {
 			DAT_800d2274 = 0;
 			DAT_800d2278 = 0;
 			DAT_800d227c = 0;
-			DAT_800d2280 = FUN_8004d068(40, 1, 1);
+			DAT_800d2280 = Mem_NewX__FUiii(40, 1, 1);
 			((unsigned char *)DAT_800d2280)[3] = 9;
 			DAT_800d2280->code = 44;
 			DAT_800d2280->r = 128;

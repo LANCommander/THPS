@@ -6,7 +6,7 @@ extern int DAT_800d13cc;
 
 int DAT_800d1acc;
 
-extern "C" int FUN_8004bb74(int, unsigned char, short, short, int);
+extern "C" int playSFX__FUiUcssiUs(int, unsigned char, short, short, int);
 
 extern "C" int FUN_8004b364(int id, short l, short r, int pan) {
 	int p, note;
@@ -27,5 +27,5 @@ extern "C" int FUN_8004b364(int id, short l, short r, int pan) {
 	DAT_800d1acc = p;
 	p = DAT_800d13cc * p / 100;
 
-	return FUN_8004bb74(DAT_800b8a9c[id * 2], note, (l * p * 4) >> 16, (r * p * 4) >> 16, pan);
+	return playSFX__FUiUcssiUs(DAT_800b8a9c[id * 2], note, (l * p * 4) >> 16, (r * p * 4) >> 16, pan);
 }

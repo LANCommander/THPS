@@ -11,7 +11,7 @@ extern E DAT_800a6110[];
 
 int DAT_800d15e4;
 
-int FUN_8001ddfc(int ch) {
+int GetCharIndex__Fc(int ch) {
 	unsigned c;
 	int v, r;
 

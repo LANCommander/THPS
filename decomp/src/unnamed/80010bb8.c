@@ -18,7 +18,7 @@ int DAT_800d10ec;
 
 int Crowd_MoveTowards__FRiii(int *, int, int);
 void FUN_80011060(int);
-void FUN_8004b7cc(int, int, int);
+void SFX_ModifyVol__FUiii(int, int, int);
 int Redbook_Rnd__Fi(int);
 
 void FUN_80010bb8(void) {
@@ -30,7 +30,7 @@ void FUN_80010bb8(void) {
 				if (DAT_800a42b8[i].a0) {
 					if (Crowd_MoveTowards__FRiii(&DAT_800a42b8[i].a1, DAT_800a42b8[i].a3, 100) ||
 					    Crowd_MoveTowards__FRiii(&DAT_800a42b8[i].a2, DAT_800a42b8[i].a4, 100)) {
-						FUN_8004b7cc(DAT_800a42b8[i].a0, (DAT_800a42b8[i].a1 * 2) / 3,
+						SFX_ModifyVol__FUiii(DAT_800a42b8[i].a0, (DAT_800a42b8[i].a1 * 2) / 3,
 						             (DAT_800a42b8[i].a2 * 2) / 3);
 					} else {
 						if (Redbook_Rnd__Fi(30) == 0) {

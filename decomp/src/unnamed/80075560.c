@@ -1,4 +1,4 @@
-/* FUN_80075560 (0x80075560) flags=-fstructure-noalias */
+/* Competition_WinLoseLogic__FR13EPausedStatusRi (0x80075560) flags=-fstructure-noalias */
 /* Competition win/lose logic (COMPETITION.CPP, demo Competition_WinLoseLogic), as C; sibling of
    FUN_80076880 and written the same way. */
 struct VT {
@@ -63,10 +63,10 @@ struct W {
 extern struct W *DAT_800d17c8;
 
 void FUN_80010ac0(void);
-void FUN_8001f310(void);
-int FUN_8001f328(void);
-void FUN_80022c1c(int);
-int FUN_8004d068(int, int, int);
+void Flash_Reset__Fv(void);
+int Flash_FadeFinished__Fv(void);
+void GameFMV_PlayMovie__Fi(int);
+int Mem_NewX__FUiii(int, int, int);
 void FUN_8004d5d0(int);
 int FUN_80073f9c(void);
 int FUN_80077124(void *);
@@ -86,7 +86,7 @@ void SetLine__5CMenuUc(int, int);
 	if (o)                                                                                         \
 	(o)->vt->fn((char *)(o) + (o)->vt->off, 3)
 
-void FUN_80075560(int *a0, int *a1) {
+void Competition_WinLoseLogic__FR13EPausedStatusRi(int *a0, int *a1) {
 	int v, e;
 	struct W *gg;
 	struct G *g = &DAT_800c0fdc;
@@ -94,7 +94,7 @@ void FUN_80075560(int *a0, int *a1) {
 	if (g->f12c) {
 		Flash_Update__Fv();
 
-		if (FUN_8001f328()) {
+		if (Flash_FadeFinished__Fv()) {
 			g->f12c = 0;
 			SetLine__5CMenuUc(DAT_800d1428,
 			                  FindEntry__5CMenuPCc(DAT_800d1428, DAT_800a5f10[0]) & 0xff);
@@ -118,11 +118,11 @@ void FUN_80075560(int *a0, int *a1) {
 			FUN_8008f4d4(8, 0, 0);
 			Pause__Fi(10);
 			FUN_8004d5d0(DAT_800a891c.a);
-			FUN_80022c1c(-11);
-			FUN_8001f310();
+			GameFMV_PlayMovie__Fi(-11);
+			Flash_Reset__Fv();
 
 			DAT_800a891c.a =
-			    FUN_8004d068((DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
+			    Mem_NewX__FUiii((DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
 			DAT_800a891c.b =
 			    DAT_800a891c.a + 0x17c00 + DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1];
 			*a0 = 27;

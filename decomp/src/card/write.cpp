@@ -46,7 +46,7 @@ void Pause(int);
 
 extern "C" {
 	void FUN_8001571c(void);
-	void FUN_800116b4(char *);
+	void Front_SetSJISName__FPc(char *);
 	int erase(char *);
 	int open(char *, int);
 	int write(int, void *, int);
@@ -113,9 +113,9 @@ int Card_Write(EFileType FileType, int NumBlocks) {
 	Card_SetHeader((SCardHead *)pHeaderBuf, NumBlocks, pClut, pIcon);
 
 	if (DAT_800d1148 == 1)
-		FUN_800116b4((char *)pHeaderBuf + 32);
+		Front_SetSJISName__FPc((char *)pHeaderBuf + 32);
 	else
-		FUN_800116b4((char *)pHeaderBuf + 30);
+		Front_SetSJISName__FPc((char *)pHeaderBuf + 30);
 
 	SetSJISChecksum((char *)pHeaderBuf + 4, FName + 22);
 

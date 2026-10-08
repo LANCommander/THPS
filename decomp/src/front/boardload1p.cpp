@@ -70,8 +70,8 @@ int DAT_800d22f0; /* skater */
 extern "C" {
 	char *strcpy(char *, const char *);
 	void FUN_8004cdd0(void);
-	int FUN_8004c8a4(char *);
-	char *FUN_8004d068(int, int, int);
+	int FileIO_Open__FPCc(char *);
+	char *Mem_NewX__FUiii(int, int, int);
 	void FUN_8004cb10(char *);
 }
 
@@ -124,7 +124,7 @@ extern "C" void FUN_80053dbc(void) {
 	DAT_800d22ec = 0;
 	DAT_800d22e4 = 0;
 	DAT_800d22e0 = 0;
-	DAT_800d22e4 = FUN_8004d068(FUN_8004c8a4("b1lock01.bmp"), 1, 1);
+	DAT_800d22e4 = Mem_NewX__FUiii(FileIO_Open__FPCc("b1lock01.bmp"), 1, 1);
 
 	FUN_8004cb10(DAT_800d22e4);
 	FUN_8004cdd0();

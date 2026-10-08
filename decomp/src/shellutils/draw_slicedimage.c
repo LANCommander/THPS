@@ -35,7 +35,7 @@ typedef struct {
 	 (((y) & 0x200) << 2))
 #define EN(o) ((char *)((int)(o) + (int)p->tab))
 
-void FUN_80062e20(SP *p, int x0, int y, int fb, int c4, int c5, int c6, int c7, int c8) {
+void draw__11SlicedImageiiiiiiii(SP *p, int x0, int y, int fb, int c4, int c5, int c6, int c7, int c8) {
 	int i, j, k, off, s2, x;
 	char *pk;
 	unsigned *ot;

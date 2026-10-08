@@ -16,10 +16,10 @@ struct Texture {
 
 extern Texture *DAT_800c01a8[];
 
-extern "C" Texture *FUN_8004d068(int, int, int);
+extern "C" Texture *Mem_NewX__FUiii(int, int, int);
 
 Texture *NewTextureEntry(uint checksum) {
-	Texture *pNew = FUN_8004d068(40, 0, 1);
+	Texture *pNew = Mem_NewX__FUiii(40, 0, 1);
 	uint Lower = checksum & 511;
 
 	pNew->pNext = DAT_800c01a8[Lower];

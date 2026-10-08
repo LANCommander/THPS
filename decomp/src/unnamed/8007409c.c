@@ -1,6 +1,6 @@
-/* FUN_8007409c (0x8007409c) */
+/* Competition_IsOver__Fv (0x8007409c) */
 extern unsigned char DAT_800c109c[];
 
-int FUN_8007409c(void) {
+int Competition_IsOver__Fv(void) {
 	return DAT_800c109c[0] >= 3;
 }

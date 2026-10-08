@@ -1,8 +1,8 @@
-/* FUN_80069670 (0x80069670) */
+/* Video_Cleanup__Fv (0x80069670) */
 extern int DAT_800bf318[];
 extern int DAT_800bf3d8[];
 
-void FUN_80069670(void) {
+void Video_Cleanup__Fv(void) {
 	DAT_800bf318[0] = 0;
 	DAT_800bf3d8[0] = 0;
 }

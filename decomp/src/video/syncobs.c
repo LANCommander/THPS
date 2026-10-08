@@ -12,9 +12,9 @@ extern CBody *DAT_800d1998, *DAT_800d19b0;
 int DAT_800d1de4;
 
 void Ob_ClearInputFlags__FP5CBody(CBody *);
-void FUN_8006a158(CBruce *, int);
-void FUN_80044620(CBody **);
-void FUN_800444bc(CBody **);
+void GetDataChunk__FP6CBrucei(CBruce *, int);
+void Ob_QuickAI__FPP5CBody(CBody **);
+void Ob_AI__FPP5CBody(CBody **);
 
 void Video_SyncObs__Fi(int count) {
 	CBruce *b = DAT_800d19a4;
@@ -27,13 +27,13 @@ void Video_SyncObs__Fi(int count) {
 	for (i = 0; i < count; i++) {
 		Ob_ClearInputFlags__FP5CBody(DAT_800d1998);
 		Ob_ClearInputFlags__FP5CBody(DAT_800d19b0);
-		FUN_8006a158(b, -1);
+		GetDataChunk__FP6CBrucei(b, -1);
 
 		if (o)
-			FUN_8006a158(o, -1);
+			GetDataChunk__FP6CBrucei(o, -1);
 
-		FUN_80044620(&DAT_800d19b0);
-		FUN_800444bc(&DAT_800d1998);
+		Ob_QuickAI__FPP5CBody(&DAT_800d19b0);
+		Ob_AI__FPP5CBody(&DAT_800d1998);
 	}
 
 	DAT_800d1de4 = 0;

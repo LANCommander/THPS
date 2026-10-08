@@ -1,4 +1,4 @@
-/* FUN_80048c8c (0x80048c8c) */
+/* Db_UpdateSky__Fv (0x80048c8c) */
 typedef struct {
 	char pad[24];
 	unsigned char on, r, g, b;
@@ -10,7 +10,7 @@ extern T DAT_800b09c8;
 
 int DAT_800d1a3c;
 
-void FUN_80048c8c(void) {
+void Db_UpdateSky__Fv(void) {
 	unsigned int c = DAT_800d1a3c;
 
 	if (c == -1) {

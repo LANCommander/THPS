@@ -142,7 +142,7 @@ int DAT_800d203c;
 
 void QToM(const CQuat &, MATRIX &);
 void M3dColij_InitLineInfo(SLineInfo *);
-extern "C" int FUN_800827d4(SLineInfo *, int);
+extern "C" int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
 extern "C" VECTOR *FUN_80092f60(MATRIX *, VECTOR *, VECTOR *);
 extern "C" int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 void Utils_CalcUnit(CVector &, const CVector &);
@@ -199,7 +199,7 @@ void CCamera::ReactToCollision() {
 		M3dColij_InitLineInfo(&line_info);
 
 		line_info.RecordTriggerZoneHits = 0;
-		FUN_800827d4(&line_info, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
 		if (line_info.pItem) {
 			mDownDist = line_info.Distance;
@@ -239,7 +239,7 @@ void CCamera::ReactToCollision() {
 
 			line_info.RecordTriggerZoneHits = 0;
 			DAT_800d20cc = 1;
-			FUN_800827d4(&line_info, 1);
+			M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
 			DAT_800d20cc = 0;
 			mColAngBuffer[2] = 0;
@@ -300,7 +300,7 @@ void CCamera::ReactToCollision() {
 
 			line_info.RecordTriggerZoneHits = 0;
 			DAT_800d20cc = 1;
-			FUN_800827d4(&line_info, 1);
+			M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
 			DAT_800d20cc = 0;
 			mColAngBuffer[0] = 0;
@@ -342,7 +342,7 @@ void CCamera::ReactToCollision() {
 
 			line_info.RecordTriggerZoneHits = 0;
 			DAT_800d20cc = 1;
-			FUN_800827d4(&line_info, 1);
+			M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
 			DAT_800d20cc = 0;
 			mColAngBuffer[1] = 0;
@@ -388,7 +388,7 @@ void CCamera::ReactToCollision() {
 
 		line_info.RecordTriggerZoneHits = 0;
 		DAT_800d20cc = 1;
-		FUN_800827d4(&line_info, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
 		DAT_800d20cc = 0;
 		ratioL = 0;
@@ -412,7 +412,7 @@ void CCamera::ReactToCollision() {
 
 		line_info.RecordTriggerZoneHits = 0;
 		DAT_800d20cc = 1;
-		FUN_800827d4(&line_info, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
 		DAT_800d20cc = 0;
 
@@ -469,7 +469,7 @@ void CCamera::ReactToCollision() {
 
 		line_info.RecordTriggerZoneHits = 0;
 		DAT_800d20cc = 1;
-		FUN_800827d4(&line_info, 1);
+		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&line_info, 1);
 
 		DAT_800d20cc = 0;
 		Utils_CalcUnit(vVel, mVel);

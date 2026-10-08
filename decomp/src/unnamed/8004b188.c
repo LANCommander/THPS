@@ -9,8 +9,8 @@ typedef struct {
 	unsigned short NumProgs; /* 0x12 */
 } SVabHead;
 
-int FUN_8004c8a4(char *);
-void *FUN_8004d068(int, int, int);
+int FileIO_Open__FPCc(char *);
+void *Mem_NewX__FUiii(int, int, int);
 void FUN_8004cb10(void *);
 void FUN_8004cdd0(void);
 int FUN_800949a4(int);
@@ -20,7 +20,7 @@ void FUN_80094d94(int);
 void FUN_8004d6a0(void *, int);
 
 int FUN_8004b188(char *name, SVabHead **out) {
-	SVabHead *vab = FUN_8004d068(FUN_8004c8a4(name) + 64, 1, 1);
+	SVabHead *vab = Mem_NewX__FUiii(FileIO_Open__FPCc(name) + 64, 1, 1);
 	int head, body, addr;
 
 	FUN_8004cb10(vab);

@@ -64,7 +64,7 @@ void Exp_HitEnvItem(Item *, uint *, int);
 
 extern "C" {
 	void FUN_80045774(int, CBody *, int);
-	void FUN_80027e18(CBit *);
+	void Die__4CBit(CBit *);
 }
 
 void SendKillFromNode(int Node, int How) {
@@ -146,7 +146,7 @@ void SendKillFromNode(int Node, int How) {
 
 				for (pBit = DAT_800d18cc; pBit; pBit = pBit->pNext) {
 					if (pBit->Type == 2 && pBit->Node == KillNode) {
-						FUN_80027e18(pBit);
+						Die__4CBit(pBit);
 						break;
 					}
 				}

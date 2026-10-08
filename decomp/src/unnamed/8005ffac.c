@@ -19,7 +19,7 @@ extern Z DAT_800a5d5c;
 extern char DAT_800d1d40[];
 
 void FUN_800648c0(int, int, int);
-int FUN_8006516c(int);
+int getSelected__12VerticalMenu(int);
 void FUN_8004b250(int, int, int);
 void FUN_8008b900(char *, char *, int, int);
 void setString__12VerticalMenuiPc(int, int, char *);
@@ -43,7 +43,7 @@ int FUN_8005ffac(int a) {
 		Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
 		Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
 
-		if (FUN_8006516c(a) == 3) {
+		if (getSelected__12VerticalMenu(a) == 3) {
 			if (s3 != DAT_800a4118.f184)
 				FUN_8004b250(144, 0x2000, 0);
 
@@ -54,7 +54,7 @@ int FUN_8005ffac(int a) {
 			setString__12VerticalMenuiPc(a, 3, buf);
 		}
 
-		if (FUN_8006516c(a) == 4) {
+		if (getSelected__12VerticalMenu(a) == 4) {
 			s1 = s3 != 0;
 
 			if (s3 != DAT_800a4118.f188)
@@ -68,7 +68,7 @@ int FUN_8005ffac(int a) {
 	}
 
 	if (DAT_800c0a48[0xe1] || DAT_800c0a48[0x24d] || DAT_800c0a48[0x31] || DAT_800c0a48[0x19d]) {
-		t = FUN_8006516c(a);
+		t = getSelected__12VerticalMenu(a);
 
 		if (t < 5) {
 			if (t >= 3) {

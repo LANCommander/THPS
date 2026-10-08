@@ -1,4 +1,4 @@
-/* FUN_8004ea54 (0x8004ea54) */
+/* __11CFlatRippleRC7CVectoriUcUcUcii (0x8004ea54) */
 typedef struct {
 	int x, y, z;
 } V;
@@ -31,7 +31,7 @@ int FUN_800270e0(B *, int);
 int Redbook_Rnd__Fi(int);
 void SetSemiTransparent__9CPolyLine(B *);
 
-B *FUN_8004ea54(B *p, V *pos, int a2, int a3, unsigned char r, unsigned char g, int a6, int a7) {
+B *__11CFlatRippleRC7CVectoriUcUcUcii(B *p, V *pos, int a2, int a3, unsigned char r, unsigned char g, int a6, int a7) {
 	int i;
 	unsigned char c = a3;
 

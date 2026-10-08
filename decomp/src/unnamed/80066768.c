@@ -15,8 +15,8 @@ extern char DAT_800a21cc[];
 
 void FUN_8004cc18(void);
 int FUN_8004cb10(int);
-int FUN_8004c8a4(char *);
-int FUN_8004d068(int, int, int);
+int FileIO_Open__FPCc(char *);
+int Mem_NewX__FUiii(int, int, int);
 void FUN_8008c190(char *, char *);
 void FUN_8008e904(char *, int);
 
@@ -55,7 +55,7 @@ void FUN_80066768(void) {
 
 		FUN_8008e904(buf, DAT_800a5398[DAT_800d2360].f24);
 
-		n = FUN_8004c8a4(buf);
+		n = FileIO_Open__FPCc(buf);
 
 		if (n <= 0) {
 			FUN_8008c190(DAT_800a21cc, buf);
@@ -63,7 +63,7 @@ void FUN_80066768(void) {
 		}
 
 		{
-			int r = FUN_8004d068(n, 1, 1);
+			int r = Mem_NewX__FUiii(n, 1, 1);
 
 			DAT_800d3810[DAT_800d2360] = r;
 			FUN_8004cb10(r);

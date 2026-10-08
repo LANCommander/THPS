@@ -1,4 +1,4 @@
-/* FUN_800827d4 (0x800827d4) */
+/* M3dZone_LineToItemNotSCached__FP9SLineInfoi (0x800827d4) */
 typedef struct {
 	int x0, y0, z0, x1, y1, z1;
 } SLine;
@@ -18,11 +18,11 @@ extern int DAT_800d2100, DAT_800d20fc, DAT_800d20dc, DAT_800d20d4, DAT_800d20d0,
 extern int DAT_800d19b0;
 
 int FUN_8008b62c(int, int, int);
-void FUN_80080328(int, SLine *);
+void M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(int, SLine *);
 void M3dColij_LineToItem__FP4ItemP9SLineInfo(int, SLine *);
 void M3dColij_GetLineInfo__FP9SLineInfo(SLine *);
 
-void FUN_800827d4(SLine *line, int items) {
+void M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLine *line, int items) {
 	int z0, x1, x0, z1;
 	int minx, minz, maxx, maxz, cell;
 	int cx, cz, ex, ez, rx, rz, dx, dz, sx, sz, err, a, b;
@@ -86,7 +86,7 @@ void FUN_800827d4(SLine *line, int items) {
 			if (cz == DAT_800c4e0c[i].nz)
 				cz--;
 
-			FUN_80080328(DAT_800c4e0c[i].cells[cx][cz], line);
+			M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(DAT_800c4e0c[i].cells[cx][cz], line);
 			continue;
 		}
 
@@ -193,7 +193,7 @@ void FUN_800827d4(SLine *line, int items) {
 
 		while ((x != ex || z != ez) && x >= 0 && x < DAT_800c4e0c[i].nx && z >= 0 &&
 		       z < DAT_800c4e0c[i].nz) {
-			FUN_80080328(DAT_800c4e0c[i].cells[x][z], line);
+			M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(DAT_800c4e0c[i].cells[x][z], line);
 
 			if (err >= 0) {
 				err -= dz;
@@ -205,7 +205,7 @@ void FUN_800827d4(SLine *line, int items) {
 		}
 
 		if (x >= 0 && x < DAT_800c4e0c[i].nx && z >= 0 && z < DAT_800c4e0c[i].nz)
-			FUN_80080328(DAT_800c4e0c[i].cells[x][z], line);
+			M3dColij_LineToItemZoned__FPP4ItemP9SLineInfo(DAT_800c4e0c[i].cells[x][z], line);
 	}
 
 	M3dColij_GetLineInfo__FP9SLineInfo(line);

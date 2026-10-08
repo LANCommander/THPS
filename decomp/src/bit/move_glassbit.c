@@ -16,7 +16,7 @@ typedef struct {
 } G;
 
 int Redbook_Rnd__Fi(int);
-void FUN_80027e18(G *);
+void Die__4CBit(G *);
 
 void Move__9CGlassBit(G *t) {
 	int vx = t->vel.x;
@@ -75,5 +75,5 @@ void Move__9CGlassBit(G *t) {
 	}
 
 	if ((t->b70 | t->b71 | t->b72) == 0)
-		FUN_80027e18(t);
+		Die__4CBit(t);
 }

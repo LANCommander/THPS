@@ -1,4 +1,4 @@
-/* FUN_800106e0 (0x800106e0) */
+/* Career_Got__Fi (0x800106e0) */
 /* C++ (CAREER.CPP), next to Career_GiveTape. Whether the current skater has goal (tape) `Goal` of
    the current level. */
 typedef unsigned char uchar;
@@ -19,6 +19,6 @@ extern CBruce *DAT_800d17c8;
 extern SSkaterCareer DAT_800a6844[];
 extern int DAT_800d1e28;
 
-extern "C" int FUN_800106e0(int Goal) {
+extern "C" int Career_Got__Fi(int Goal) {
 	return (DAT_800a6844[DAT_800d17c8->mSkaterIndex].Tapes[DAT_800d1e28] >> Goal) & 1;
 }

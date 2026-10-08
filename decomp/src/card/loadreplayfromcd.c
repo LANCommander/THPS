@@ -2,8 +2,8 @@
 extern char DAT_8009e0b0[];
 extern char DAT_8009e0e4[];
 
-char *FUN_8004c8a4(char *);
-char *FUN_8004d068(char *, int, int);
+char *FileIO_Open__FPCc(char *);
+char *Mem_NewX__FUiii(char *, int, int);
 void FUN_8004cb10(char *);
 void FUN_8004cdd0(void);
 void FUN_8004d5d0(char *);
@@ -13,7 +13,7 @@ int CalcChecksum__FPUlUl(void *, int);
 
 int Card_LoadReplayFromCD__FPUlT0Pc(char *a, char *b, char *name) {
 	int c;
-	char *p = FUN_8004d068(FUN_8004c8a4(name), 1, 1);
+	char *p = Mem_NewX__FUiii(FileIO_Open__FPCc(name), 1, 1);
 
 	if (p) {
 		FUN_8004cb10(p);

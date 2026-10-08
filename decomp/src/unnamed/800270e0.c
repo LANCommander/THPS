@@ -21,19 +21,19 @@ struct D {
 	struct E *e;
 };
 
-int FUN_80027e44(struct D *p);
+int __4CBit(struct D *p);
 
-struct E *FUN_8004d068(int a, int b, int c);
+struct E *Mem_NewX__FUiii(int a, int b, int c);
 
 void AttachTo__4CBitPv(struct D *p, int *q);
 
 struct D *FUN_800270e0(struct D *p, int n) {
 	int i;
 
-	FUN_80027e44(p);
+	__4CBit(p);
 
 	p->vt = DAT_8009f670;
-	p->e = FUN_8004d068(n << 4, 0, 1);
+	p->e = Mem_NewX__FUiii(n << 4, 0, 1);
 
 	for (i = 0; i < n; i++) {
 		p->e[i].w = 0x40ffffff;

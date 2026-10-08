@@ -8,18 +8,18 @@ int DAT_800d2358, DAT_800d235c;
 
 int Mess_GetFontScale__Fv(void);
 void Pack_DefragmentFully__Fv(void);
-void FUN_8001160c(int, int, int);
+void Front_InitMemCardMenus__Fi13EMemCardState13EPausedStatus(int, int, int);
 void FUN_80011628(int);
-int FUN_8004d068(int, int, int);
+int Mem_NewX__FUiii(int, int, int);
 void FUN_8005c780(void);
 void FUN_8005c934(void);
 void FUN_80070ff4(void);
 void FUN_8006b240(void);
 void FUN_80061ea0(void);
 void FUN_80064890(int, int, int);
-void FUN_8001206c(void);
+void Front_MemCardHiResDisplay__Fv(void);
 void FUN_8006b26c(void);
-int FUN_800127c4(void);
+int Front_MemCardUpdate__Fv(void);
 void Pad_ClearTriggers__FP8SControl(char *);
 void FUN_8004b250(int, int, int);
 void Mess_SetFontScale__FUi(int);
@@ -35,10 +35,10 @@ int FUN_800609c8(void) {
 
 	fs = Mess_GetFontScale__Fv();
 	Pack_DefragmentFully__Fv();
-	FUN_8001160c(640, 15, 39);
+	Front_InitMemCardMenus__Fi13EMemCardState13EPausedStatus(640, 15, 39);
 	FUN_80011628(1);
 
-	DAT_800bf318[1] = FUN_8004d068(640, 0, 1);
+	DAT_800bf318[1] = Mem_NewX__FUiii(640, 0, 1);
 	DAT_800a42f4[0] = 0;
 	i = (int)DAT_800c0a48;
 
@@ -52,9 +52,9 @@ int FUN_800609c8(void) {
 		if (DAT_800d1104 != 0)
 			FUN_80064890(DAT_800d1104, DAT_800d2358, DAT_800d235c);
 
-		FUN_8001206c();
+		Front_MemCardHiResDisplay__Fv();
 		FUN_8006b26c();
-	} while (FUN_800127c4() == 18);
+	} while (Front_MemCardUpdate__Fv() == 18);
 
 	Pad_ClearTriggers__FP8SControl((char *)i);
 	Pad_ClearTriggers__FP8SControl((char *)i + 364);

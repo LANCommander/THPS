@@ -158,10 +158,10 @@ extern "C" {
 	void FUN_800668e8(void);
 	void FUN_80066bb4(int);
 	void FUN_80066c70(void);
-	int FUN_8001da44(char *);
+	int Mess_TextWidth__FPCc(char *);
 	int FUN_8001db80(const char *);
-	void FUN_8001d250(int);
-	int FUN_8001e114(int, int, char *, int, int, int, int);
+	void Mess_SetTextJustify__FUc(int);
+	int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
 	int FUN_8004b250(int, int, int);
 	void FUN_8005c780(void);
 	void FUN_80070ff4(void);
@@ -169,8 +169,8 @@ extern "C" {
 	void FUN_8006b240(void);
 	void FUN_80061ea0(void);
 	void FUN_8006b26c(void);
-	void FUN_80061e00(int, int, int, int);
-	void FUN_80061d44(int, int, int, int, int, int, int);
+	void SetClippingBox__Fiiii(int, int, int, int);
+	void DrawColoredBox__FiiiiUcUcUc(int, int, int, int, int, int, int);
 	void FUN_8008c468(int);
 	void FUN_8006af64(void);
 	void FUN_8004cdd0(void);
@@ -296,7 +296,7 @@ extern "C" void FUN_80066d7c() {
 		strcpy(line2, "to unlock");
 	}
 
-	lineX[1] = 357 - (FUN_8001da44(line2) >> 1);
+	lineX[1] = 357 - (Mess_TextWidth__FPCc(line2) >> 1);
 	lineY[1] = Mess_TextHeight(line2) + 198 - FUN_8001db80(line2);
 	Sprite *medalSpr[3];
 	Sprite *goalSpr[3];
@@ -329,7 +329,7 @@ extern "C" void FUN_80066d7c() {
 			FUN_8006b240();
 			FUN_80061ea0();
 			itemBox->draw(375, 287, 0, -1, -1, -1);
-			FUN_8001e114(472, tapesY, tapes, 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(472, tapesY, tapes, 0, 0, 256, 0);
 
 			for (int k = 0; k < 3; k++) {
 				if (medal[k] != -1)
@@ -374,8 +374,8 @@ extern "C" void FUN_80066d7c() {
 	strcpy(text[1], DAT_800a5398[cur].Name2);
 	Mess_SetCurrentFont(DAT_800a21c0);
 
-	tw[0] = FUN_8001da44(text[0]);
-	tw[1] = FUN_8001da44(text[1]);
+	tw[0] = Mess_TextWidth__FPCc(text[0]);
+	tw[1] = Mess_TextWidth__FPCc(text[1]);
 	int mid = (tw[0] + tw[1]) / 2 + 320 - tw[1];
 	th[0] = Mess_TextHeight(text[0]);
 	int w20 = tw[0] + 20;
@@ -430,16 +430,16 @@ extern "C" void FUN_80066d7c() {
 		FUN_8006b240();
 		FUN_80061ea0();
 		frame->draw(266, 93, 0, -1, -1, -1);
-		FUN_80061e00(137, 115, 442, 154);
+		SetClippingBox__Fiiii(137, 115, 442, 154);
 
 		for (int i = 0; i < 2; i++) {
 			if (pic[i])
 				pic[i]->draw(picX[i], 112, 0, -1, -1, -1, 0, 0);
 			else
-				FUN_80061d44(picX[i], 112, 448, 161, 0, 0, 0);
+				DrawColoredBox__FiiiiUcUcUc(picX[i], 112, 448, 161, 0, 0, 0);
 		}
 
-		FUN_80061e00(0, 0, 640, 480);
+		SetClippingBox__Fiiii(0, 0, 640, 480);
 		arrow->draw(ax, ay, 0, -1, -1, -1);
 		topBar->draw(0, 55, 0, -1, -1, -1);
 
@@ -476,16 +476,16 @@ extern "C" void FUN_80066d7c() {
 			int y = (Mess_TextHeight("0") >> 1) + 333 - FUN_8001db80("0");
 
 			for (int k = 0; k < 3; k++) {
-				FUN_8001d250(1);
-				FUN_8001e114(409, y, DAT_800a68e8[sel][k].Name, 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(1);
+				Mess_DrawText__FiiPCciUiib(409, y, DAT_800a68e8[sel][k].Name, 0, 0, 256, 0);
 				sprintf(score, "%d", DAT_800a68e8[sel][k].Score);
-				FUN_8001d250(2);
-				FUN_8001e114(578, y, score, 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(2);
+				Mess_DrawText__FiiPCciUiib(578, y, score, 0, 0, 256, 0);
 
 				y += 20;
 			}
 
-			FUN_8001d250(1);
+			Mess_SetTextJustify__FUc(1);
 		}
 
 		if (state == 0) {
@@ -523,17 +523,17 @@ extern "C" void FUN_80066d7c() {
 			}
 
 			if (!DAT_800bf2a0[sel]) {
-				lineX[0] = 357 - (FUN_8001da44(line1) >> 1);
+				lineX[0] = 357 - (Mess_TextWidth__FPCc(line1) >> 1);
 				lineY[0] = 190 - FUN_8001db80(line1);
-				FUN_8001e114(lineX[0], lineY[0], line1, 1, 0, 256, 0);
-				FUN_8001e114(lineX[1], lineY[1], line2, 1, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(lineX[0], lineY[0], line1, 1, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(lineX[1], lineY[1], line2, 1, 0, 256, 0);
 			}
 		}
 
 		Mess_SetCurrentFont(DAT_800a21c0);
 
 		for (int i = 0; i < 2; i++)
-			FUN_8001e114(tx[i], ty[i], text[i], 0, 0, 256, 0);
+			Mess_DrawText__FiiPCciUiib(tx[i], ty[i], text[i], 0, 0, 256, 0);
 
 		for (int i = 0; i < 2; i++) {
 			int f = 0;
@@ -618,8 +618,8 @@ extern "C" void FUN_80066d7c() {
 
 				Mess_SetCurrentFont(DAT_800a21c0);
 
-				tw[0] = FUN_8001da44(text[0]);
-				tw[1] = FUN_8001da44(text[1]);
+				tw[0] = Mess_TextWidth__FPCc(text[0]);
+				tw[1] = Mess_TextWidth__FPCc(text[1]);
 				mid = (tw[0] + tw[1]) / 2 + 320 - tw[1];
 				th[0] = Mess_TextHeight(text[0]);
 				tx[0] = -tw[0];
@@ -628,7 +628,7 @@ extern "C" void FUN_80066d7c() {
 
 				ttarget[0] = mid - w20b;
 				tstep[0] = (ttarget[0] - tx[0]) / 7;
-				tw[1] = FUN_8001da44(text[1]);
+				tw[1] = Mess_TextWidth__FPCc(text[1]);
 				th[1] = Mess_TextHeight(text[1]);
 				tx[1] = 640;
 				ty[1] = th[1] / 2 + 71 - FUN_8001db80(text[1]);

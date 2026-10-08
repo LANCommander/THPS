@@ -212,11 +212,11 @@ extern "C" {
 	void FUN_80059050(void);
 	short *FUN_8006b1c8(void);
 	int FUN_8001db80(const char *);
-	int FUN_8001da44(char *);
+	int Mess_TextWidth__FPCc(char *);
 	int FUN_8001dc9c(char *);
-	void FUN_8001d250(int);
-	void FUN_8001e114(int, int, char *, int, int, int, int);
-	uchar *FUN_8004d068(int, int, int);
+	void Mess_SetTextJustify__FUc(int);
+	void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
+	uchar *Mem_NewX__FUiii(int, int, int);
 	void FUN_8005c8dc(int);
 	void FUN_80059618(int);
 	void FUN_8005c780(void);
@@ -229,19 +229,19 @@ extern "C" {
 	void FUN_8005c934(void);
 	void FUN_8004b250(int, int, int);
 	void FUN_8006ed2c(int);
-	void FUN_8006f290(int);
+	void ProcessNewPSX__Fi(int);
 	CBruce *FUN_8005933c(void);
-	void FUN_8006fde4(int, int, int);
+	void ClearRegion__Fiii(int, int, int);
 	void FUN_8006edb8(int);
 	void FUN_800596a0(void);
 	MATRIX *FUN_80093240(SVECTOR *, MATRIX *);
 	void FUN_80043f70(CBruce *);
-	void FUN_800831f8(char *, short *, char *);
-	void FUN_80083838(char *);
+	void M3d_RenderSetup__FP7SCameraP9SViewportPUi(char *, short *, char *);
+	void M3d_Render__FPv(char *);
 	void FUN_80083774(void);
 	void FUN_80059018(void);
 	int FUN_8008f6fc(char *, char *);
-	void FUN_80061e00(int, int, int, int);
+	void SetClippingBox__Fiiii(int, int, int, int);
 	void FUN_8005948c(void);
 	void FUN_8006b2f4(void);
 	void FUN_8006af64(void);
@@ -406,7 +406,7 @@ extern "C" int FUN_80059794() {
 	int textTimer = 0;
 	int statTimer = 0;
 	int medalTimer = 0;
-	uchar *flags = FUN_8004d068(10, 1, 1);
+	uchar *flags = Mem_NewX__FUiii(10, 1, 1);
 
 	FUN_8005c8dc(9);
 	FUN_80059618(0);
@@ -469,7 +469,7 @@ extern "C" int FUN_80059794() {
 							DAT_800d2130 = DAT_800a44fc[DAT_800d1c40].m14;
 						}
 
-						FUN_8006f290(DAT_800d37b4[DAT_800d1c40]);
+						ProcessNewPSX__Fi(DAT_800d37b4[DAT_800d1c40]);
 
 						DAT_800d2120 = -1;
 					}
@@ -591,7 +591,7 @@ extern "C" int FUN_80059794() {
 					delete pBruce;
 
 					if (*DAT_800a44fc[DAT_800d1c40].pModel) {
-						FUN_8006fde4(DAT_800d37b4[DAT_800d1c40], 1, 1);
+						ClearRegion__Fiii(DAT_800d37b4[DAT_800d1c40], 1, 1);
 						FUN_8006edb8(DAT_800d37b4[DAT_800d1c40]);
 					}
 				}
@@ -631,7 +631,7 @@ extern "C" int FUN_80059794() {
 							DAT_800d2120 = DAT_800a44fc[DAT_800d1c40].m13;
 						}
 
-						FUN_8006f290(DAT_800d37b4[DAT_800d1c40]);
+						ProcessNewPSX__Fi(DAT_800d37b4[DAT_800d1c40]);
 
 						DAT_800d2120 = -1;
 					}
@@ -674,8 +674,8 @@ extern "C" int FUN_80059794() {
 			if (pBruce->mX >= DAT_800d2334 && pBruce->mX <= DAT_800d2330) {
 				M3d_BuildTransform(pBruce);
 				FUN_80043f70(pBruce);
-				FUN_800831f8(DAT_800c119c, viewport, DAT_800d1a48 + 140);
-				FUN_80083838(DAT_800d19a4);
+				M3d_RenderSetup__FP7SCameraP9SViewportPUi(DAT_800c119c, viewport, DAT_800d1a48 + 140);
+				M3d_Render__FPv(DAT_800d19a4);
 				FUN_80083774();
 			}
 
@@ -686,7 +686,7 @@ extern "C" int FUN_80059794() {
 			    DAT_800d16a4 == 1) {
 				Mess_SetCurrentFont("stats1.fnt");
 				Mess_SetRGB(250, 190, 60, 0);
-				FUN_8001d250(0);
+				Mess_SetTextJustify__FUc(0);
 				int n;
 
 				for (n = 0; n < 15; n++) {
@@ -697,14 +697,14 @@ extern "C" int FUN_80059794() {
 				}
 
 				first[n] = 0;
-				FUN_8001e114(491, hintY[0], sStart, 1, 0, 256, 0);
-				FUN_8001e114(491, hintY[1], first, 1, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(491, hintY[0], sStart, 1, 0, 256, 0);
+				Mess_DrawText__FiiPCciUiib(491, hintY[1], first, 1, 0, 256, 0);
 			}
 		} else if (!state) {
 			Mess_SetCurrentFont("stats1.fnt");
 			Mess_SetRGB(128, 128, 128, 0);
-			FUN_8001d250(0);
-			FUN_8001e114(loadX, 203, "LOADING", 0, 0, 256, 0);
+			Mess_SetTextJustify__FUc(0);
+			Mess_DrawText__FiiPCciUiib(loadX, 203, "LOADING", 0, 0, 256, 0);
 		}
 
 		if (leftTimer) {
@@ -724,8 +724,8 @@ extern "C" int FUN_80059794() {
 		if (medalTimer && DAT_800d16a4 == 1 && DAT_800a6844.Skater[DAT_800d1c40].NumTapes) {
 			itemBox->draw(395, 313, 0, -1, -1, -1);
 			Mess_SetCurrentFont("tapes1.fnt");
-			FUN_8001d250(1);
-			FUN_8001e114(476, tapesY, tapes, 0, 0, 256, 0);
+			Mess_SetTextJustify__FUc(1);
+			Mess_DrawText__FiiPCciUiib(476, tapesY, tapes, 0, 0, 256, 0);
 			int my = 333;
 
 			for (int m = 0; m < 3; m++) {
@@ -790,28 +790,28 @@ extern "C" int FUN_80059794() {
 
 			Mess_SetCurrentFont("stats1.fnt");
 			Mess_SetRGB(128, 128, 128, 0);
-			FUN_8001d250(1);
-			FUN_8001e114(203,
+			Mess_SetTextJustify__FUc(1);
+			Mess_DrawText__FiiPCciUiib(203,
 			             299 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[0]) >> 1) +
 			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[0]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[0], 0, 0, 256, 0);
-			FUN_8001e114(203,
+			Mess_DrawText__FiiPCciUiib(203,
 			             320 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[1]) >> 1) +
 			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[1]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[1], 0, 0, 256, 0);
-			FUN_8001e114(203,
+			Mess_DrawText__FiiPCciUiib(203,
 			             341 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[2]) >> 1) +
 			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[2]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[2], 0, 0, 256, 0);
-			FUN_8001e114(203,
+			Mess_DrawText__FiiPCciUiib(203,
 			             362 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[3]) >> 1) +
 			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[3]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[3], 0, 0, 256, 0);
-			FUN_8001e114(203,
+			Mess_DrawText__FiiPCciUiib(203,
 			             383 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[4]) >> 1) +
 			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[4]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[4], 0, 0, 256, 0);
-			FUN_8001e114(203,
+			Mess_DrawText__FiiPCciUiib(203,
 			             404 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pBio[5]) >> 1) +
 			                 FUN_8001dc9c(DAT_800a44fc[DAT_800d1c40].pBio[5]),
 			             DAT_800a44fc[DAT_800d1c40].pBio[5], 0, 0, 256, 0);
@@ -856,10 +856,10 @@ extern "C" int FUN_80059794() {
 				Mess_SetCurrentFont("mainf.fnt");
 				Mess_SetFontScale(255);
 				Mess_SetRGB(128, 128, 128, 0);
-				FUN_8001d250(0);
+				Mess_SetTextJustify__FUc(0);
 
 				nameR = 320;
-				nameX = -FUN_8001da44(DAT_800a44fc[DAT_800d1c40].pName) >> 1;
+				nameX = -Mess_TextWidth__FPCc(DAT_800a44fc[DAT_800d1c40].pName) >> 1;
 				nameStep = (nameR - nameX) / 6;
 				nameState = 3;
 				nameY = 70 - (Mess_TextHeight(DAT_800a44fc[DAT_800d1c40].pName) >> 1) +
@@ -879,8 +879,8 @@ extern "C" int FUN_80059794() {
 				Mess_SetCurrentFont("mainf.fnt");
 				Mess_SetFontScale(255);
 				Mess_SetRGB(128, 128, 128, 0);
-				FUN_8001d250(0);
-				FUN_8001e114(nameX, nameY, DAT_800a44fc[DAT_800d1c40].pName, 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(0);
+				Mess_DrawText__FiiPCciUiib(nameX, nameY, DAT_800a44fc[DAT_800d1c40].pName, 0, 0, 256, 0);
 				break;
 			case 4:
 				nameX -= nameStep;
@@ -892,16 +892,16 @@ extern "C" int FUN_80059794() {
 				Mess_SetCurrentFont("mainf.fnt");
 				Mess_SetFontScale(255);
 				Mess_SetRGB(128, 128, 128, 0);
-				FUN_8001d250(0);
-				FUN_8001e114(nameX, nameY, DAT_800a44fc[DAT_800d1c40].pName, 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(0);
+				Mess_DrawText__FiiPCciUiib(nameX, nameY, DAT_800a44fc[DAT_800d1c40].pName, 0, 0, 256, 0);
 				break;
 			case 5:
 				nameBar->draw(0, 54, 0, -1, -1, -1);
 				Mess_SetCurrentFont("mainf.fnt");
 				Mess_SetFontScale(255);
 				Mess_SetRGB(128, 128, 128, 0);
-				FUN_8001d250(0);
-				FUN_8001e114(nameX, nameY, DAT_800a44fc[DAT_800d1c40].pName, 0, 0, 256, 0);
+				Mess_SetTextJustify__FUc(0);
+				Mess_DrawText__FiiPCciUiib(nameX, nameY, DAT_800a44fc[DAT_800d1c40].pName, 0, 0, 256, 0);
 
 				nameState = 2;
 				break;
@@ -910,7 +910,7 @@ extern "C" int FUN_80059794() {
 				break;
 		}
 
-		FUN_80061e00(400, 92, 183, 222);
+		SetClippingBox__Fiiii(400, 92, 183, 222);
 		FUN_8005948c();
 		FUN_8006b2f4();
 

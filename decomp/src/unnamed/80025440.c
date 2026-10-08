@@ -10,7 +10,7 @@ int DAT_800d1750, DAT_800d1844, DAT_800d1720, DAT_800d1774, DAT_800d1838, DAT_80
 int FUN_8008b900(char *, char *, int);
 void Font_String__FUsUsPcUcUcUcUc(unsigned short, unsigned short, char *, unsigned char,
                                   unsigned char, unsigned char, unsigned char);
-void FUN_8004c290(void);
+void Font_Display__Fv(void);
 
 int FUN_80025440(void) {
 	int a1, i, s1, t;
@@ -62,7 +62,7 @@ int FUN_80025440(void) {
 				Font_String__FUsUsPcUcUcUcUc(450, 210, DAT_800d2580, (DAT_800d2230 + 50) & 255, 50,
 				                             50, 1);
 
-			FUN_8004c290();
+			Font_Display__Fv();
 		}
 	}
 }

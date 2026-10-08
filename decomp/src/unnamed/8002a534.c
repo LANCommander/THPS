@@ -1,4 +1,4 @@
-/* FUN_8002a534 (0x8002a534) */
+/* __9CGlassBitRC7CVectorT1iUcUcUciii (0x8002a534) */
 typedef struct {
 	int x, y, z;
 } V;
@@ -22,15 +22,15 @@ extern char DAT_8009f688[];
 
 char DAT_800d18ec[8];
 
-void FUN_80027e44(B *);
+void __4CBit(B *);
 void AttachTo__4CBitPv(B *, char *);
 int Redbook_Rnd__Fi(int);
 
-B *FUN_8002a534(B *p, V *pos, V *vel, int a3, unsigned char r, unsigned char g, unsigned char b,
+B *__9CGlassBitRC7CVectorT1iUcUcUciii(B *p, V *pos, V *vel, int a3, unsigned char r, unsigned char g, unsigned char b,
                 int rx, int ry, int rz) {
 	int sx, sy, sz;
 
-	FUN_80027e44(p);
+	__4CBit(p);
 
 	p->vt = DAT_8009f688;
 	AttachTo__4CBitPv(p, DAT_800d18ec);

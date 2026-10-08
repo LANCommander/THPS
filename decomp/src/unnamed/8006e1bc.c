@@ -12,9 +12,9 @@ typedef struct {
 	int n;
 } P;
 
-void FUN_8006e5ac(char *);
+void TrickMessageRefresh__10CPanelData(char *);
 
 void FUN_8006e1bc(P *p, int s) {
 	p->tq[p->n - 1].Score += s;
-	FUN_8006e5ac(p->sub);
+	TrickMessageRefresh__10CPanelData(p->sub);
 }

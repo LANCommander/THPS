@@ -1,5 +1,5 @@
-/* FUN_80073294 (0x80073294) */
-void FUN_80073294(char *p) {
+/* DontDisplay__5CTape (0x80073294) */
+void DontDisplay__5CTape(char *p) {
 	char *vt;
 
 	void (*fn)(char *);
