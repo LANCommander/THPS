@@ -1,4 +1,4 @@
-/* FUN_8002f980 (0x8002f980) */
+/* StateTransition__6CBruce13EPhysicsStatei (0x8002f980) */
 typedef struct {
 	int x, y, z;
 } V;
@@ -25,14 +25,14 @@ typedef struct {
 	V w3;
 } B;
 
-extern void FUN_8002f340(B *, int, void *, int, int);
+extern void Trick_Trick__6CBruceiPcii(B *, int, void *, int, int);
 extern int Mips_FixMul__Fii(int, int);
 extern void RotMatrixFromFRUVectors__6CBruce(B *);
 extern V __mi__C7CVector(const V *);
 
 extern char DAT_8009fcb0[];
 
-void FUN_8002f980(B *o, int n) {
+void StateTransition__6CBruce13EPhysicsStatei(B *o, int n) {
 	V a, r, r2;
 
 	if (o->f734 == 4 && n == 1) {
@@ -63,7 +63,7 @@ void FUN_8002f980(B *o, int n) {
 	}
 
 	if (o->f734 == 5 && n == 1) {
-		FUN_8002f340(o, 64, DAT_8009fcb0, 500, 0);
+		Trick_Trick__6CBruceiPcii(o, 64, DAT_8009fcb0, 500, 0);
 
 		if (o->f146 == 35) {
 			if (!(o->f134 & 2)) {

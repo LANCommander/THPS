@@ -1,5 +1,5 @@
-/* FUN_8002fc0c (0x8002fc0c) */
-void FUN_8002fc0c(char *p) {
+/* MaybeFlipAnimationTransition__6CBruce (0x8002fc0c) */
+void MaybeFlipAnimationTransition__6CBruce(char *p) {
 	int a, b, c, d, e, f;
 
 	if (*(int *)(p + 752)) {

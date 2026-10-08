@@ -1,4 +1,4 @@
-/* FUN_8004ab2c (0x8004ab2c) */
+/* NewPaletteEntry__FUi (0x8004ab2c) */
 struct N {
 	int a[1];
 	short s;
@@ -13,7 +13,7 @@ struct N {
 struct N *DAT_800d1a80;
 struct N *Mem_NewX__FUiii(int a, int b, int c);
 
-struct N *FUN_8004ab2c(int p) {
+struct N *NewPaletteEntry__FUi(int p) {
 	struct N *n = Mem_NewX__FUiii(24, 0, 1);
 	struct N *h = DAT_800d1a80;
 

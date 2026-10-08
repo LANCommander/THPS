@@ -38,7 +38,7 @@ typedef struct {
 
 } B;
 
-void FUN_8002fcdc(B *, int, int);
+void Debug_RunAnim__6CBruceii(B *, int, int);
 void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(B *, SV, int);
 void SFX_Grunt__FP6CBruce(B *);
 int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
@@ -93,7 +93,7 @@ int FUN_800343f0(B *p, int a) {
 
 							if (Mips_CVecDotProd__FP7CVectorT0(&e, &p->w1) >= 2897) {
 								p->f150 = 0x10000;
-								FUN_8002fcdc(p, 12, 3787);
+								Debug_RunAnim__6CBruceii(p, 12, 3787);
 
 								s1 = 200;
 								SFX_Grunt__FP6CBruce(p);

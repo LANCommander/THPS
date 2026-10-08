@@ -1,7 +1,7 @@
-/* FUN_8002fe50 (0x8002fe50) */
+/* ResetTrickBuffers__6CBruce (0x8002fe50) */
 extern int DAT_800d1770;
 
-void FUN_8002fe50(int *p) {
+void ResetTrickBuffers__6CBruce(int *p) {
 	int t = DAT_800d1770 - p[157];
 
 	p[201] = 0;

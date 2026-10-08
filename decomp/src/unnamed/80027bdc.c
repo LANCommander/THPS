@@ -1,4 +1,4 @@
-/* FUN_80027bdc (0x80027bdc) */
+/* RemoveDeadBits__FP4CBit (0x80027bdc) */
 struct VT {
 	char pad[8];
 	short off;
@@ -15,7 +15,7 @@ struct O {
 	struct VT *vt;
 };
 
-void FUN_80027bdc(struct O *p) {
+void RemoveDeadBits__FP4CBit(struct O *p) {
 	struct O *n;
 
 	if (!p)

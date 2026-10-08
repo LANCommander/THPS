@@ -1,7 +1,7 @@
-/* FUN_80031108 (0x80031108) */
-void FUN_8002fe9c(char *p, int a);
+/* HandleBailOnLanding__6CBrucei (0x80031108) */
+void Bail__6CBrucei13ELimitBailVel(char *p, int a);
 
-void FUN_80031108(char *p) {
+void HandleBailOnLanding__6CBrucei(char *p) {
 	int a0, v1, a1, a2;
 
 	if (*(int *)(p + 856))
@@ -41,7 +41,7 @@ void FUN_80031108(char *p) {
 	}
 
 	if (a0) {
-		FUN_8002fe9c(p, 0);
+		Bail__6CBrucei13ELimitBailVel(p, 0);
 
 		*(int *)(p + 544) += 1;
 	}

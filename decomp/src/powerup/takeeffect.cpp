@@ -59,7 +59,7 @@ extern "C" {
 	int FUN_80042744(CBruce *, short);
 	void Panel_Tape__Fi(int);
 	void FUN_8002f1a0(CBruce *);
-	void FUN_8002f340(CBruce *, int, char *, int, int);
+	void Trick_Trick__6CBruceiPcii(CBruce *, int, char *, int, int);
 	void Trick_Land__6CBruce(CBruce *);
 }
 
@@ -155,15 +155,15 @@ void CPowerUp::TakeEffect(CBruce *pMech) {
 
 				switch (mType) {
 					case 21:
-						FUN_8002f340(pMech, 76, DAT_8009f0d4, -100, 0);
+						Trick_Trick__6CBruceiPcii(pMech, 76, DAT_8009f0d4, -100, 0);
 						SFX_SetVoicePitch(Pong, 900);
 						break;
 					case 22:
-						FUN_8002f340(pMech, 76, DAT_8009f0e0, -200, 0);
+						Trick_Trick__6CBruceiPcii(pMech, 76, DAT_8009f0e0, -200, 0);
 						SFX_SetVoicePitch(Pong, 1114);
 						break;
 					case 23:
-						FUN_8002f340(pMech, 76, DAT_8009f0ec, -500, 0);
+						Trick_Trick__6CBruceiPcii(pMech, 76, DAT_8009f0ec, -500, 0);
 						SFX_SetVoicePitch(Pong, 1500);
 						break;
 				}

@@ -199,13 +199,13 @@ int Redbook_Rnd(int);
 
 extern "C" {
 	void FUN_8002f1a0(CBruce *);
-	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_8002fd28(CBruce *, int, int, int);
-	void FUN_8002fd80(CBruce *, int, int, int, int);
-	void FUN_8002fe9c(CBruce *, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
+	void Debug_RunAnim1__6CBruceiii(CBruce *, int, int, int);
+	void Debug_RunAnim2__6CBruceiiii(CBruce *, int, int, int, int);
+	void Bail__6CBrucei13ELimitBailVel(CBruce *, int);
 	void FUN_8003159c(CBruce *);
 	void TrickObRail__6CBruce(CBruce *);
-	void FUN_800429d0(CBruce *);
+	void FlipToVelocity__6CBruce(CBruce *);
 	int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 }
 
@@ -226,13 +226,13 @@ inline void CBruce::StartHandPlant(int RailTrick, int Flags) {
 		char *pName = DAT_800a7358[RailTrick].pName;
 
 		Trick_Trick(RailTrick, pName, DAT_800a7358[RailTrick].Score, 0);
-		FUN_8002fcdc(this, DAT_800a7358[RailTrick].Anim, 1536);
+		Debug_RunAnim__6CBruceii(this, DAT_800a7358[RailTrick].Anim, 1536);
 
 		m368 |= 0x4800;
 		SFX_PlayX(162, 0x2000, 0);
 	} else {
 		Trick_Trick(79, DAT_8009fcbc, 1000, 0);
-		FUN_8002fd28(this, 34, 8, 1544);
+		Debug_RunAnim1__6CBruceiii(this, 34, 8, 1544);
 
 		m368 |= 0x4800;
 	}
@@ -258,7 +258,7 @@ inline void CBruce::StartGrind(int RailTrick) {
 	if (!RailTrick || (DAT_800a7358[RailTrick].Flags & 0x2000000))
 		RailTrick = 0;
 
-	FUN_800429d0(this);
+	FlipToVelocity__6CBruce(this);
 
 	m204 = 0;
 	mPos = m6F4;
@@ -324,9 +324,9 @@ inline void CBruce::StartGrind(int RailTrick) {
 		mGrindTrick = 0;
 
 		if (!DAT_800a7358[RailTrick].Frames)
-			FUN_8002fcdc(this, DAT_800a7358[RailTrick].Anim, 1701);
+			Debug_RunAnim__6CBruceii(this, DAT_800a7358[RailTrick].Anim, 1701);
 		else
-			FUN_8002fd80(this, DAT_800a7358[RailTrick].Anim, 0, DAT_800a7358[RailTrick].Frames,
+			Debug_RunAnim2__6CBruceiiii(this, DAT_800a7358[RailTrick].Anim, 0, DAT_800a7358[RailTrick].Frames,
 			             1705);
 
 		return;
@@ -377,37 +377,37 @@ inline void CBruce::StartGrind(int RailTrick) {
 
 	switch (Direction) {
 		case 2:
-			FUN_8002fd80(this, 17, 1, 8, 1808);
+			Debug_RunAnim2__6CBruceiiii(this, 17, 1, 8, 1808);
 
 			m2EC = 2;
 			break;
 		case 3:
-			FUN_8002fcdc(this, 17, 1813);
+			Debug_RunAnim__6CBruceii(this, 17, 1813);
 
 			m2EC = 1;
 			break;
 		case 4:
-			FUN_8002fcdc(this, 67, 1817);
+			Debug_RunAnim__6CBruceii(this, 67, 1817);
 
 			m2EC = 0;
 			break;
 		case 5:
-			FUN_8002fcdc(this, 68, 1823);
+			Debug_RunAnim__6CBruceii(this, 68, 1823);
 
 			m2EC = 0;
 			break;
 		case 6:
-			FUN_8002fcdc(this, 70, 1827);
+			Debug_RunAnim__6CBruceii(this, 70, 1827);
 
 			m2EC = 0;
 			break;
 		case 8:
-			FUN_8002fcdc(this, 57, 1831);
+			Debug_RunAnim__6CBruceii(this, 57, 1831);
 
 			m2EC = 0;
 			break;
 		case 7:
-			FUN_8002fcdc(this, 58, 1835);
+			Debug_RunAnim__6CBruceii(this, 58, 1835);
 
 			m2EC = 0;
 			break;
@@ -464,7 +464,7 @@ void CBruce::HandleStickToRail() {
 	}
 
 	if ((m35C && !m360 && mFrame < Limit) || Bailing) {
-		FUN_8002fe9c(this, 0);
+		Bail__6CBrucei13ELimitBailVel(this, 0);
 
 		m220++;
 		return;

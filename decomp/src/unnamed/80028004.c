@@ -1,9 +1,9 @@
-/* FUN_80028004 (0x80028004) */
+/* __7CFT4Bit (0x80028004) */
 extern char DAT_8009f860[];
 
 char *__4CBit(char *p);
 
-char *FUN_80028004(char *p) {
+char *__7CFT4Bit(char *p) {
 	__4CBit(p);
 
 	*(char **)(p + 68) = DAT_8009f860;

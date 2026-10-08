@@ -71,7 +71,7 @@ char DAT_800d1618[8];
 
 extern "C" void DontDisplay__8CPowerUp(CPowerUp *);
 extern "C" void AttachTo__5CBodyPP5CBody(CPowerUp *, char *);
-extern "C" void FUN_80043ae0(CPowerUp *);
+extern "C" void ShadowOn__5CBody(CPowerUp *);
 extern "C" void InitItem__5CItemPc(CPowerUp *, char *);
 extern "C" int Redbook_Rnd__Fi(int);
 extern "C" short Spool_GetModel__FUii(unsigned, int);
@@ -114,7 +114,7 @@ CPowerUp::CPowerUp(unsigned short a1, const V &a2_, const V &a3_, unsigned int a
 	}
 
 	this->fe0 = 300;
-	FUN_80043ae0(this);
+	ShadowOn__5CBody(this);
 
 	this->fd8 = 300;
 	InitItem__5CItemPc(this, DAT_800d161c);

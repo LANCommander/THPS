@@ -6,7 +6,7 @@ void unpack__11SlicedImage(char *p);
 void Pack_Unpack__Fss(short a, short b);
 void Mem_Delete__FPv(char *p);
 void Free256Slot__FUs(unsigned short s);
-void FUN_80024238(char *p);
+void __dl__6CClassPv(char *p);
 
 void FUN_800620f0(char *p, int f) {
 	*(char **)p = DAT_800a21a0;
@@ -27,5 +27,5 @@ void FUN_800620f0(char *p, int f) {
 	*(char **)p = DAT_800a21b0;
 
 	if (f & 1)
-		FUN_80024238(p);
+		__dl__6CClassPv(p);
 }

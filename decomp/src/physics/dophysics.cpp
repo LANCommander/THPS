@@ -244,9 +244,9 @@ int SFX_PlayX(unsigned int, short, int);
 extern "C" {
 	void FUN_80042700(CBruce *, int, int, int, int);
 	void Game_Over__Fv(void);
-	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_8002fd28(CBruce *, int, int, int);
-	void FUN_8002fde4(CBruce *, int, int, int, int, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
+	void Debug_RunAnim1__6CBruceiii(CBruce *, int, int, int);
+	void Debug_RunAnim3__6CBruceiiiii(CBruce *, int, int, int, int, int);
 	void BoardOn__6CBruce(CBruce *);
 	void DoOnGroundPhysics__6CBruce(CBruce *);
 	void FUN_8003b2f0(CBruce *);
@@ -390,9 +390,9 @@ void CBruce::DoPhysics() {
 				m150 = 0x10000;
 
 				if (!mPhysicsState)
-					FUN_8002fcdc(this, 0, 7869);
+					Debug_RunAnim__6CBruceii(this, 0, 7869);
 				else
-					FUN_8002fcdc(this, 14, 7871);
+					Debug_RunAnim__6CBruceii(this, 14, 7871);
 
 				break;
 		}
@@ -428,7 +428,7 @@ void CBruce::DoPhysics() {
 				if (mAnim != 49) {
 					m150 = 0x20000;
 					SFX_PlayX(2, 0x2000, 0);
-					FUN_8002fcdc(this, 49, 7923);
+					Debug_RunAnim__6CBruceii(this, 49, 7923);
 				}
 
 				if (mAY > 0) {
@@ -447,13 +447,13 @@ void CBruce::DoPhysics() {
 				mVel.Set(0, 0, 0);
 
 				if (mAnim == 49)
-					FUN_8002fcdc(this, 0, 7984);
+					Debug_RunAnim__6CBruceii(this, 0, 7984);
 			}
 
 			m840 = 2;
 		} else if (mAnim == 49) {
 			m150 = 0x10000;
-			FUN_8002fcdc(this, 0, 7996);
+			Debug_RunAnim__6CBruceii(this, 0, 7996);
 		}
 	}
 
@@ -463,10 +463,10 @@ void CBruce::DoPhysics() {
 			case 12:
 				if (mManIsCrouched) {
 					m150 = 0x10000;
-					FUN_8002fde4(this, 8, 19, 26, 19, 8012);
+					Debug_RunAnim3__6CBruceiiiii(this, 8, 19, 26, 19, 8012);
 				} else {
 					m150 = 0x10000;
-					FUN_8002fcdc(this, 0, 8017);
+					Debug_RunAnim__6CBruceii(this, 0, 8017);
 				}
 
 				break;
@@ -640,7 +640,7 @@ void CBruce::DoPhysics() {
 
 				if (m14F && !mPhysicsState) {
 					if (mAnim != 46) {
-						FUN_8002fcdc(this, 55, 8366);
+						Debug_RunAnim__6CBruceii(this, 55, 8366);
 
 						m24C = 7;
 					} else
@@ -656,7 +656,7 @@ void CBruce::DoPhysics() {
 				}
 
 				if (m14F && !mPhysicsState) {
-					FUN_8002fd28(this, 54, 99, 8381);
+					Debug_RunAnim1__6CBruceiii(this, 54, 99, 8381);
 
 					m24C = 4;
 				}
@@ -670,7 +670,7 @@ void CBruce::DoPhysics() {
 				}
 
 				m150 = 0x10000;
-				FUN_8002fd28(this, 54, 30, 8399);
+				Debug_RunAnim1__6CBruceiii(this, 54, 30, 8399);
 
 				m24C = 3;
 				break;
@@ -709,7 +709,7 @@ void CBruce::DoPhysics() {
 				}
 
 				if (m14F && !mPhysicsState) {
-					FUN_8002fd28(this, 54, 76, 8451);
+					Debug_RunAnim1__6CBruceiii(this, 54, 76, 8451);
 
 					m24C = 4;
 				}
@@ -723,7 +723,7 @@ void CBruce::DoPhysics() {
 				}
 
 				if (m14F && !mPhysicsState) {
-					FUN_8002fd28(this, 46, 36, 8467);
+					Debug_RunAnim1__6CBruceiii(this, 46, 36, 8467);
 
 					m24C = 4;
 				}
@@ -744,10 +744,10 @@ void CBruce::DoPhysics() {
 					m150 = 0x10000;
 
 					if (mManIsCrouched && mPad->Square.Pressed)
-						FUN_8002fde4(this, 8, 0, 26, 19, 8490);
+						Debug_RunAnim3__6CBruceiiiii(this, 8, 0, 26, 19, 8490);
 					else {
 						mManIsCrouched = 0;
-						FUN_8002fcdc(this, 0, 8495);
+						Debug_RunAnim__6CBruceii(this, 0, 8495);
 					}
 
 					m358 = 0;

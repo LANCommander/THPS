@@ -11,7 +11,7 @@ struct L *DAT_800d1b94;
 extern char DAT_800a1340[];
 extern char DAT_800a1350[];
 
-void FUN_80024238(void *p);
+void __dl__6CClassPv(void *p);
 
 void FUN_8004f814(struct L *p, int f) {
 	struct L *h = DAT_800d1b94;
@@ -30,5 +30,5 @@ void FUN_8004f814(struct L *p, int f) {
 	p->vt = DAT_800a1350;
 
 	if (f & 1)
-		FUN_80024238(p);
+		__dl__6CClassPv(p);
 }

@@ -261,11 +261,11 @@ extern "C" {
 	void Bit_SetSparkRGB__FUcUcUc(int, int, int);
 	void Bit_SetSparkFadeRGB__FUcUcUc(int, int, int);
 	int Mem_GetFree__Fc(int);
-	void FUN_800429d0(CBruce *);
+	void FlipToVelocity__6CBruce(CBruce *);
 	int FUN_800343f0(CBruce *, int);
 	void FUN_8003434c(CBruce *);
 	void FUN_8002f1a0(CBruce *);
-	void FUN_8002fcdc(CBruce *, int, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
 	void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(CBruce *, SVECTOR, int);
 	void SFX_Grunt__FP6CBruce(CBruce *);
 }
@@ -370,7 +370,7 @@ void CBruce::DoOnGroundPhysics() {
 	Platform_HandleBounce();
 
 	if (!OnInvisible && !mInAir)
-		FUN_800429d0(this);
+		FlipToVelocity__6CBruce(this);
 
 	vMovement = mPos - mOldPos;
 	((void (*)(int))FUN_8008b5dc)(Mips_CVecDotProd__FP7CVectorT0(&vMovement, &vMovement));
@@ -449,7 +449,7 @@ void CBruce::DoOnGroundPhysics() {
 					          line_info.Normal.vz) if (Mips_CVecDotProd__FP7CVectorT0(&WallFloorNormal, &mFront) >
 					                                   2896) {
 						m150 = 0x10000;
-						FUN_8002fcdc(this, 12, 4120);
+						Debug_RunAnim__6CBruceii(this, 12, 4120);
 
 						TurnAway = 200;
 						SFX_Grunt__FP6CBruce(this);
@@ -507,7 +507,7 @@ void CBruce::DoOnGroundPhysics() {
 								          line_info.Normal.vz) if (Mips_CVecDotProd__FP7CVectorT0(&WallFloorNormal,
 								                                                &mFront) > 2896) {
 									m150 = 0x10000;
-									FUN_8002fcdc(this, 12, 4219);
+									Debug_RunAnim__6CBruceii(this, 12, 4219);
 									SFX_Grunt__FP6CBruce(this);
 
 									TurnAway = 200;
@@ -614,13 +614,13 @@ void CBruce::DoOnGroundPhysics() {
 
 						m768 = 0;
 						m150 = 0x10000;
-						FUN_8002fcdc(this, 14, 4470);
+						Debug_RunAnim__6CBruceii(this, 14, 4470);
 
 						m740 = 1;
 					} else {
 						if (m734 != 2 && !m740 && !mInAir) {
 							m150 = 0x10000;
-							FUN_8002fcdc(this, 14, 4478);
+							Debug_RunAnim__6CBruceii(this, 14, 4478);
 
 							m740 = 1;
 						}

@@ -13,20 +13,20 @@ void *DAT_800d18ec;
 void *DAT_800d18fc;
 void *DAT_800d18f0;
 
-void FUN_80027ab0(void *);
+void DeleteBitList__FP4CBit(void *);
 
 void Bit_DeleteAll(void) {
-	FUN_80027ab0(DAT_800d18cc);
-	FUN_80027ab0(DAT_800d18d0);
-	FUN_80027ab0(DAT_800d18d4);
-	FUN_80027ab0(DAT_800d18d8);
-	FUN_80027ab0(DAT_800d18f4);
-	FUN_80027ab0(DAT_800d18f8);
-	FUN_80027ab0(DAT_800d18dc);
-	FUN_80027ab0(DAT_800d18e0);
-	FUN_80027ab0(DAT_800d18e4);
-	FUN_80027ab0(DAT_800d18e8);
-	FUN_80027ab0(DAT_800d18ec);
-	FUN_80027ab0(DAT_800d18fc);
-	FUN_80027ab0(DAT_800d18f0);
+	DeleteBitList__FP4CBit(DAT_800d18cc);
+	DeleteBitList__FP4CBit(DAT_800d18d0);
+	DeleteBitList__FP4CBit(DAT_800d18d4);
+	DeleteBitList__FP4CBit(DAT_800d18d8);
+	DeleteBitList__FP4CBit(DAT_800d18f4);
+	DeleteBitList__FP4CBit(DAT_800d18f8);
+	DeleteBitList__FP4CBit(DAT_800d18dc);
+	DeleteBitList__FP4CBit(DAT_800d18e0);
+	DeleteBitList__FP4CBit(DAT_800d18e4);
+	DeleteBitList__FP4CBit(DAT_800d18e8);
+	DeleteBitList__FP4CBit(DAT_800d18ec);
+	DeleteBitList__FP4CBit(DAT_800d18fc);
+	DeleteBitList__FP4CBit(DAT_800d18f0);
 }

@@ -1,4 +1,4 @@
-/* FUN_80063b64 (0x80063b64) */
+/* _._6Sprite (0x80063b64) */
 struct VT {
 	char pad[8];
 	short off;
@@ -13,7 +13,7 @@ struct O {
 extern char DAT_800a2190[];
 extern char DAT_800a21b0[];
 
-void FUN_80024238(void *p);
+void __dl__6CClassPv(void *p);
 
 void FUN_80063b64(char **p, int f) {
 	struct O *o = (struct O *)p[5];
@@ -26,5 +26,5 @@ void FUN_80063b64(char **p, int f) {
 	*p = DAT_800a21b0;
 
 	if (f & 1)
-		FUN_80024238(p);
+		__dl__6CClassPv(p);
 }

@@ -1,8 +1,8 @@
-/* FUN_8002fd80 (0x8002fd80) */
-void FUN_8002fc0c(int a);
+/* Debug_RunAnim2__6CBruceiiii (0x8002fd80) */
+void MaybeFlipAnimationTransition__6CBruce(int a);
 void RunAnim__6CSuperiiii(int a, int b, int c, int d, int e);
 
-void FUN_8002fd80(int a, int b, int c, int d) {
-	FUN_8002fc0c(a);
+void Debug_RunAnim2__6CBruceiiii(int a, int b, int c, int d) {
+	MaybeFlipAnimationTransition__6CBruce(a);
 	RunAnim__6CSuperiiii(a, b, c, d, -1);
 }

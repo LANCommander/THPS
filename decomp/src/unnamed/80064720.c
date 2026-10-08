@@ -1,4 +1,4 @@
-/* FUN_80064720 (0x80064720) */
+/* _._12VerticalMenu (0x80064720) */
 struct VT {
 	char pad[8];
 	short off;
@@ -36,7 +36,7 @@ typedef struct {
 extern char DAT_800a2158[];
 extern char DAT_800a21b0[];
 
-void FUN_80024238(V *);
+void __dl__6CClassPv(V *);
 
 void FUN_80064720(V *p, int f) {
 	int i;
@@ -67,5 +67,5 @@ void FUN_80064720(V *p, int f) {
 	p->vt = DAT_800a21b0;
 
 	if (f & 1)
-		FUN_80024238(p);
+		__dl__6CClassPv(p);
 }

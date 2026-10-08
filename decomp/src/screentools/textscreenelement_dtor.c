@@ -3,7 +3,7 @@ extern char DAT_8009f708[];
 
 void Mem_Delete__FPv(void *);
 void CSpecialDisplay_dtor(void *, int);
-void FUN_80027d70(void *);
+void __dl__4CBitPv(void *);
 
 void TextScreenElement_dtor(char *this, int flags) {
 	*(char **)(this + 0x44) = DAT_8009f708;
@@ -11,5 +11,5 @@ void TextScreenElement_dtor(char *this, int flags) {
 	CSpecialDisplay_dtor(this, 0);
 
 	if (flags & 1)
-		FUN_80027d70(this);
+		__dl__4CBitPv(this);
 }

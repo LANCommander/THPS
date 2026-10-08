@@ -1,4 +1,4 @@
-/* FUN_80043860 (0x80043860) */
+/* _._5CBody (0x80043860) */
 struct VT {
 	char pad[8];
 	short off;

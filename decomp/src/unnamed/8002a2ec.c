@@ -12,7 +12,7 @@ extern char DAT_800d18c4[];
 
 void __7CRibbonRC7CVectoriiPcT4ii(B *, int, int, int, char *, char *, int, int);
 void SetTint__7CFT4BitUcUcUc(int, int, int, int);
-void FUN_800280f8(int, int);
+void SetTransDecay__7CFT4Biti(int, int);
 
 B *__11CSmokeTrailR7CVectoriiii(B *p, int a1, int a2, int r, int g, int b) {
 	int i, j, t, n, dr, dg, db;
@@ -32,7 +32,7 @@ B *__11CSmokeTrailR7CVectoriiii(B *p, int a1, int a2, int r, int g, int b) {
 			t = n - j;
 			SetTint__7CFT4BitUcUcUc(p->arr[i], (r - t * dr) & 255, (g - t * dg) & 255,
 			                        (b - t * db) & 255);
-			FUN_800280f8(p->arr[i], 8);
+			SetTransDecay__7CFT4Biti(p->arr[i], 8);
 
 			n = p->n;
 			i = j;

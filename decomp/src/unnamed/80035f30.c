@@ -24,8 +24,8 @@ typedef struct {
 	V w2;
 } B;
 
-void FUN_8002fcdc(B *, int, int);
-void FUN_8002fe9c(B *, int);
+void Debug_RunAnim__6CBruceii(B *, int, int);
+void Bail__6CBrucei13ELimitBailVel(B *, int);
 int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
 void RotMatrixFromFRUVectors__6CBruce(B *);
 V __mi__C7CVector(const V *);
@@ -45,10 +45,10 @@ void FUN_80035f30(B *p, S6 s) {
 			v.z = s.z;
 
 			if (Mips_CVecDotProd__FP7CVectorT0(&p->w2, &v) < 2000 && p->w2.y >= -1999) {
-				FUN_8002fe9c(p, 0);
+				Bail__6CBrucei13ELimitBailVel(p, 0);
 
 				p->f150 = 0x10000;
-				FUN_8002fcdc(p, 56, 4860);
+				Debug_RunAnim__6CBruceii(p, 56, 4860);
 
 				p->f24c = 9;
 				t = p->w1;

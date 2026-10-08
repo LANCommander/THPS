@@ -167,11 +167,11 @@ extern "C" {
 	void SFX_PlayX__FUisi(int, int, int);
 	int FUN_8006ebdc(CPanelData *);
 	void FUN_8002f1a0(CBruce *);
-	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_8002fd28(CBruce *, int, int, int);
-	void FUN_8002fd80(CBruce *, int, int, int, int);
-	void FUN_8002fde4(CBruce *, int, int, int, int, int);
-	void FUN_80031108(CBruce *, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
+	void Debug_RunAnim1__6CBruceiii(CBruce *, int, int, int);
+	void Debug_RunAnim2__6CBruceiiii(CBruce *, int, int, int, int);
+	void Debug_RunAnim3__6CBruceiiiii(CBruce *, int, int, int, int, int);
+	void HandleBailOnLanding__6CBrucei(CBruce *, int);
 	void FUN_8002f458(CBruce *, int);
 	void Trick_Land__6CBruce(CBruce *);
 }
@@ -185,16 +185,16 @@ void CBruce::HandleJump() {
 	if (m73C) {
 		if (!mAnim) {
 			m150 = 0x10000;
-			FUN_8002fde4(this, 8, 0, 26, 19, 6105);
+			Debug_RunAnim3__6CBruceiiiii(this, 8, 0, 26, 19, 6105);
 		}
 	} else if (mAnim == 8) {
 		m150 = 0x10000;
 
 		if (m14B == -1) {
 			if (!mFrame)
-				FUN_8002fcdc(this, 0, 6114);
+				Debug_RunAnim__6CBruceii(this, 0, 6114);
 		} else
-			FUN_8002fd80(this, 8, 19, 0, 6117);
+			Debug_RunAnim2__6CBruceiiii(this, 8, 19, 0, 6117);
 	}
 
 	if (m14F) {
@@ -202,7 +202,7 @@ void CBruce::HandleJump() {
 			case 8:
 				if (!mFrame) {
 					m150 = 0x10000;
-					FUN_8002fcdc(this, 0, 6130);
+					Debug_RunAnim__6CBruceii(this, 0, 6130);
 				}
 
 				break;
@@ -210,10 +210,10 @@ void CBruce::HandleJump() {
 			case 25:
 				if (m73C) {
 					m150 = 0x10000;
-					FUN_8002fde4(this, 8, 19, 26, 19, 6145);
+					Debug_RunAnim3__6CBruceiiiii(this, 8, 19, 26, 19, 6145);
 				} else {
 					m150 = 0x10000;
-					FUN_8002fcdc(this, 0, 6150);
+					Debug_RunAnim__6CBruceii(this, 0, 6150);
 				}
 
 				break;
@@ -221,30 +221,30 @@ void CBruce::HandleJump() {
 			case 13:
 				if (!m73C) {
 					m150 = 0x10000;
-					FUN_8002fcdc(this, 14, 6160);
+					Debug_RunAnim__6CBruceii(this, 14, 6160);
 				}
 
 				break;
 			case 14:
 				m150 = 0x10000;
-				FUN_8002fcdc(this, 14, 6166);
+				Debug_RunAnim__6CBruceii(this, 14, 6166);
 				break;
 			case 34:
 				m150 = 0x10000;
 
 				if (m73C)
-					FUN_8002fde4(this, 8, 19, 26, 19, 6175);
+					Debug_RunAnim3__6CBruceiiiii(this, 8, 19, 26, 19, 6175);
 				else
-					FUN_8002fd80(this, 8, 19, 0, 6178);
+					Debug_RunAnim2__6CBruceiiii(this, 8, 19, 0, 6178);
 
 				break;
 			case 0:
 				m150 = 0x10000;
 
 				if (m73C)
-					FUN_8002fde4(this, 8, 19, 26, 19, 6191);
+					Debug_RunAnim3__6CBruceiiiii(this, 8, 19, 26, 19, 6191);
 				else
-					FUN_8002fcdc(this, 0, 6194);
+					Debug_RunAnim__6CBruceii(this, 0, 6194);
 
 				break;
 		}
@@ -276,13 +276,13 @@ void CBruce::HandleJump() {
 
 			if (m73C) {
 				m150 = 0x10000;
-				FUN_8002fd28(this, 25, 3, 6253);
+				Debug_RunAnim1__6CBruceiii(this, 25, 3, 6253);
 			} else {
 				m150 = 0x10000;
-				FUN_8002fd28(this, 5, 0, 6258);
+				Debug_RunAnim1__6CBruceiii(this, 5, 0, 6258);
 			}
 
-			FUN_80031108(this, 6261);
+			HandleBailOnLanding__6CBrucei(this, 6261);
 
 			if (!mInAir) {
 				/* PARKED FOR GOOD, inline asm (end-game policy). Retail evaluates TotalScore()/10
@@ -325,7 +325,7 @@ void CBruce::HandleJump() {
 
 				if (ABS(m838) <= 0x9fff) {
 					m838 = 0;
-					FUN_8002fde4(this, 8, 0, 26, 19, 6331);
+					Debug_RunAnim3__6CBruceiiiii(this, 8, 0, 26, 19, 6331);
 				}
 			}
 		} else if (m734 == 4 && !m310) {
@@ -351,7 +351,7 @@ void CBruce::HandleJump() {
 				m744 = 0;
 
 				do {
-					FUN_8002fcdc(this, 0, 6362);
+					Debug_RunAnim__6CBruceii(this, 0, 6362);
 				} while (0);
 
 				m748 = 0;
@@ -458,17 +458,17 @@ void CBruce::HandleJump() {
 						Trick_Trick(65, DAT_8009fe44, 250, 0);
 
 						mVel.vy -= 0x5000;
-						FUN_8002fd28(this, 45, 16, 6508);
+						Debug_RunAnim1__6CBruceiii(this, 45, 16, 6508);
 					} else {
 						FUN_8002f1a0(this);
 						Trick_Trick(75, DAT_800d1948, 200, 0);
-						FUN_8002fcdc(this, 13, 6515);
+						Debug_RunAnim__6CBruceii(this, 13, 6515);
 					}
 
 					m364 = 1;
 				} else {
 					FUN_8002f1a0(this);
-					FUN_8002fcdc(this, 4, 6523);
+					Debug_RunAnim__6CBruceii(this, 4, 6523);
 				}
 			}
 

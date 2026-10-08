@@ -161,9 +161,9 @@ extern "C" {
 	void __11CGrindSparkP5CBodyR7CVectoriii(void *, CBruce *, CVector *, int, int, int);
 	int FUN_8002f290(CBruce *, int, int);
 	void FUN_8002f438(CBruce *, int);
-	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_8002fd28(CBruce *, int, int, int);
-	void FUN_8002fe9c(CBruce *, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
+	void Debug_RunAnim1__6CBruceiii(CBruce *, int, int, int);
+	void Bail__6CBrucei13ELimitBailVel(CBruce *, int);
 	int FUN_8004f578(ushort *);
 	int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 	int Mips_FixMul__Fii(int, int);
@@ -191,32 +191,32 @@ void CBruce::DoOnRailPhysics() {
 			case 68:
 				if (DAT_800a44fc[mSkaterIndex].Style == 0 ||
 				    DAT_800a44fc[mSkaterIndex].Style == 0x6000)
-					FUN_8002fcdc(this, 41, 3104);
+					Debug_RunAnim__6CBruceii(this, 41, 3104);
 				else
-					FUN_8002fd28(this, 41, 5, 3106);
+					Debug_RunAnim1__6CBruceiii(this, 41, 5, 3106);
 
 				break;
 			case 40:
 			case 67:
 				if (DAT_800a44fc[mSkaterIndex].Style == 0 ||
 				    DAT_800a44fc[mSkaterIndex].Style == 0x6000)
-					FUN_8002fcdc(this, 40, 3112);
+					Debug_RunAnim__6CBruceii(this, 40, 3112);
 				else
-					FUN_8002fd28(this, 40, 3, 3114);
+					Debug_RunAnim1__6CBruceiii(this, 40, 3, 3114);
 
 				break;
 			case 70:
-				FUN_8002fcdc(this, 42, 3120);
+				Debug_RunAnim__6CBruceii(this, 42, 3120);
 				break;
 			case 17:
 				if (mFrame >= 16)
-					FUN_8002fcdc(this, 39, 3125);
+					Debug_RunAnim__6CBruceii(this, 39, 3125);
 				else
-					FUN_8002fcdc(this, 37, 3129);
+					Debug_RunAnim__6CBruceii(this, 37, 3129);
 
 				break;
 			case 37:
-				FUN_8002fcdc(this, 38, 3133);
+				Debug_RunAnim__6CBruceii(this, 38, 3133);
 				break;
 			case 57:
 				mFrame = PingPong(8, 10, 15);
@@ -247,7 +247,7 @@ void CBruce::DoOnRailPhysics() {
 
 				break;
 			default:
-				FUN_8002fcdc(this, mAnim, 3179);
+				Debug_RunAnim__6CBruceii(this, mAnim, 3179);
 				break;
 		}
 	}
@@ -387,7 +387,7 @@ NoSparks:
 
 				m70C = 5;
 				m150 = 0x10000;
-				FUN_8002fcdc(this, 14, 3405);
+				Debug_RunAnim__6CBruceii(this, 14, 3405);
 
 				RemainingSpeed = 0;
 				m6DC = 0;
@@ -414,7 +414,7 @@ NoSparks:
 
 					m70C = 5;
 					m150 = 0x10000;
-					FUN_8002fcdc(this, 14, 3443);
+					Debug_RunAnim__6CBruceii(this, 14, 3443);
 
 					RemainingSpeed = 0;
 					m6DC = 0;
@@ -439,7 +439,7 @@ NoSparks:
 
 				m70C = 5;
 				m150 = 0x10000;
-				FUN_8002fcdc(this, 14, 3480);
+				Debug_RunAnim__6CBruceii(this, 14, 3480);
 
 				RemainingSpeed = 0;
 				m6DC = 0;
@@ -466,7 +466,7 @@ NoSparks:
 
 					m70C = 5;
 					m150 = 0x10000;
-					FUN_8002fcdc(this, 14, 3520);
+					Debug_RunAnim__6CBruceii(this, 14, 3520);
 
 					RemainingSpeed = 0;
 					m6DC = 0;
@@ -545,7 +545,7 @@ NoSparks:
 		mBalanceVel = Redbook_Rnd(80 - GetStat(3) * 3) - (80 - GetStat(3) * 3) / 2;
 
 	if (ABS(mBalance) > 4000) {
-		FUN_8002fe9c(this, 0);
+		Bail__6CBrucei13ELimitBailVel(this, 0);
 
 		m224++;
 	}

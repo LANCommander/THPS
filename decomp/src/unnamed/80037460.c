@@ -28,10 +28,10 @@ typedef struct {
 	unsigned char *f86c;
 } O;
 
-extern void FUN_8002fe9c(O *, int);
+extern void Bail__6CBrucei13ELimitBailVel(O *, int);
 extern void FUN_8002f438(O *, int);
-extern void FUN_8002fcdc(O *, int, int);
-extern void FUN_8002f980(O *, int, int, int);
+extern void Debug_RunAnim__6CBruceii(O *, int, int);
+extern void StateTransition__6CBruce13EPhysicsStatei(O *, int, int, int);
 extern void Trick_Land__6CBruce(O *);
 extern short PingPong__Fiii(int, int, int);
 
@@ -43,7 +43,7 @@ void DoHandPlantPhysics__6CBruce(O *o) {
 	o->f70c = 5;
 
 	if (o->f146 != 0x22 && o->f146 != 0x3f) {
-		FUN_8002fe9c(o, 0);
+		Bail__6CBrucei13ELimitBailVel(o, 0);
 		return;
 	}
 
@@ -62,8 +62,8 @@ void DoHandPlantPhysics__6CBruce(O *o) {
 						o->f248 = o->f248 + 1;
 
 						if (o->f248 >= 21) {
-							FUN_8002fe9c(o, 0);
-							FUN_8002fcdc(o, 0x38, 0x1602);
+							Bail__6CBrucei13ELimitBailVel(o, 0);
+							Debug_RunAnim__6CBruceii(o, 0x38, 0x1602);
 
 							o->f24c = 9;
 							return;
@@ -78,7 +78,7 @@ void DoHandPlantPhysics__6CBruce(O *o) {
 		b = o->f248;
 		o->f740 = 0;
 		o->f70 = (40 - b * 3) << 12;
-		FUN_8002f980(o, 0, 0x1614, b);
+		StateTransition__6CBruce13EPhysicsStatei(o, 0, 0x1614, b);
 
 		o->f364 = 1;
 		Trick_Land__6CBruce(o);
@@ -103,7 +103,7 @@ void DoHandPlantPhysics__6CBruce(O *o) {
 			o->f7e8 = o->f792;
 			o->f798 = -o->f7ec;
 			o->f7ec = o->f798;
-			FUN_8002fcdc(o, 0, 0x162b);
+			Debug_RunAnim__6CBruceii(o, 0, 0x162b);
 		}
 	}
 }

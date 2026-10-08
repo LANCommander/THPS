@@ -154,7 +154,7 @@ extern "C" {
 	int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *, int);
 	SHandle FUN_8004d7ac(void *);
 	void FUN_8002f1a0(CBruce *);
-	void FUN_8002fcdc(CBruce *, int, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
 	void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(CBruce *, SVECTOR, int);
 	void SFX_Grunt__FP6CBruce(CBruce *);
 }
@@ -358,9 +358,9 @@ void CBruce::DoWallRidePhysics() {
 			m150 = 0x10000;
 
 			if (m73C)
-				FUN_8002fcdc(this, 26, 6071);
+				Debug_RunAnim__6CBruceii(this, 26, 6071);
 			else
-				FUN_8002fcdc(this, 27, 6073);
+				Debug_RunAnim__6CBruceii(this, 27, 6073);
 		}
 
 		mKick += Gravity;

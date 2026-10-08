@@ -1,11 +1,11 @@
-/* FUN_80029188 (0x80029188) */
+/* __11CWobblyGlowRC7CVectoriiiUcUcUcUcUcUc (0x80029188) */
 extern char DAT_8009f7e8[];
 
 void __5CGlowRC7CVectoriiUcUcUcUcUcUc(char *p, int a, int b, int c, unsigned char b1, unsigned char b2,
                   unsigned char b3, unsigned char b4, unsigned char b5, unsigned char b6);
 int Redbook_Rnd__Fi(int a);
 
-char *FUN_80029188(char *p, int a, int s, int c, int e, unsigned char b1, unsigned char b2,
+char *__11CWobblyGlowRC7CVectoriiiUcUcUcUcUcUc(char *p, int a, int s, int c, int e, unsigned char b1, unsigned char b2,
                    unsigned char b3, unsigned char b4, unsigned char b5, unsigned char b6) {
 	unsigned i;
 

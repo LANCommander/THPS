@@ -15,7 +15,7 @@ extern char DAT_800a2460[];
 struct L *DAT_800d1f78;
 
 void Mem_Delete__FPv(int *p);
-void FUN_80024238(void *p);
+void __dl__6CClassPv(void *p);
 
 void FUN_80071a14(struct L *p, int f) {
 	p->vt = DAT_800a2450;
@@ -35,5 +35,5 @@ void FUN_80071a14(struct L *p, int f) {
 	p->vt = DAT_800a2460;
 
 	if (f & 1)
-		FUN_80024238(p);
+		__dl__6CClassPv(p);
 }

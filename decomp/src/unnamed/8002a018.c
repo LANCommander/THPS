@@ -1,4 +1,4 @@
-/* FUN_8002a018 (0x8002a018) */
+/* _._7CRibbon (0x8002a018) */
 typedef struct {
 	char pad[8];
 	short adj;
@@ -10,7 +10,7 @@ extern char DAT_8009f6b8[];
 
 void Mem_Delete__FPv(char *p);
 void FUN_80027fa4(char *p, int a);
-void FUN_80027d70(char *p);
+void __dl__4CBitPv(char *p);
 
 void FUN_8002a018(char *p, int f) {
 	int i;
@@ -32,5 +32,5 @@ void FUN_8002a018(char *p, int f) {
 	FUN_80027fa4(p, 0);
 
 	if (f & 1)
-		FUN_80027d70(p);
+		__dl__4CBitPv(p);
 }

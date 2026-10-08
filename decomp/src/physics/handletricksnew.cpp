@@ -132,8 +132,8 @@ class CBruce {
 };
 
 extern "C" {
-	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_8002fd80(CBruce *, int, int, int, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
+	void Debug_RunAnim2__6CBruceiiii(CBruce *, int, int, int, int);
 	void FUN_8003159c(CBruce *);
 	void FUN_80031500(CBruce *);
 }
@@ -266,11 +266,11 @@ void CBruce::HandleTricksNew() {
 						m368 = i | 0x4000;
 
 					if (p->Frames) {
-						FUN_8002fd80(this, p->Anim, 0, p->Frames, 2335);
+						Debug_RunAnim2__6CBruceiiii(this, p->Anim, 0, p->Frames, 2335);
 
 						m368 |= 0x40000000;
 					} else {
-						FUN_8002fcdc(this, p->Anim, 2341);
+						Debug_RunAnim__6CBruceii(this, p->Anim, 2341);
 
 						if (Button == 2)
 							m368 |= 0x80000000;
@@ -316,11 +316,11 @@ void CBruce::HandleTricksNew() {
 			m368 = Dir | 0x4000;
 
 			if (DAT_800a7358[Dir].Frames) {
-				FUN_8002fd80(this, DAT_800a7358[Dir].Anim, 0, DAT_800a7358[Dir].Frames, 2396);
+				Debug_RunAnim2__6CBruceiiii(this, DAT_800a7358[Dir].Anim, 0, DAT_800a7358[Dir].Frames, 2396);
 
 				m368 |= 0x40000000;
 			} else {
-				FUN_8002fcdc(this, DAT_800a7358[Dir].Anim, 2401);
+				Debug_RunAnim__6CBruceii(this, DAT_800a7358[Dir].Anim, 2401);
 
 				m368 |= 0x20000000;
 			}
@@ -340,11 +340,11 @@ void CBruce::HandleTricksNew() {
 			m368 = Dir | 0x2000;
 
 			if (DAT_800a7358[Dir].Frames) {
-				FUN_8002fd80(this, DAT_800a7358[Dir].Anim, 0, DAT_800a7358[Dir].Frames, 2423);
+				Debug_RunAnim2__6CBruceiiii(this, DAT_800a7358[Dir].Anim, 0, DAT_800a7358[Dir].Frames, 2423);
 
 				m368 |= 0x40000000;
 			} else {
-				FUN_8002fcdc(this, DAT_800a7358[Dir].Anim, 2428);
+				Debug_RunAnim__6CBruceii(this, DAT_800a7358[Dir].Anim, 2428);
 
 				m368 |= 0x80000000;
 			}
@@ -411,10 +411,10 @@ void CBruce::HandleTricksNew() {
 
 				if (!(m368 & 0x800)) {
 					if (DAT_800a7358[Trick].Frames >= mFrame)
-						FUN_8002fd80(this, mAnim, DAT_800a7358[Trick].Frames, -1, 2529);
+						Debug_RunAnim2__6CBruceiiii(this, mAnim, DAT_800a7358[Trick].Frames, -1, 2529);
 					else if (!m6DC) {
 						m150 = 0x10000;
-						FUN_8002fcdc(this, 14, 2535);
+						Debug_RunAnim__6CBruceii(this, 14, 2535);
 
 						m35C = 0;
 					}
@@ -428,10 +428,10 @@ void CBruce::HandleTricksNew() {
 
 				if (!(m368 & 0x800)) {
 					if (DAT_800a7358[Trick].Frames >= mFrame)
-						FUN_8002fd80(this, mAnim, DAT_800a7358[Trick].Frames, -1, 2553);
+						Debug_RunAnim2__6CBruceiiii(this, mAnim, DAT_800a7358[Trick].Frames, -1, 2553);
 					else if (!m6DC) {
 						m150 = 0x10000;
-						FUN_8002fcdc(this, 14, 2559);
+						Debug_RunAnim__6CBruceii(this, 14, 2559);
 
 						m35C = 0;
 					}
@@ -450,12 +450,12 @@ void CBruce::HandleTricksNew() {
 				if (m368 & 0x400) {
 					if (!m6DC) {
 						m150 = 0x10000;
-						FUN_8002fcdc(this, 14, 2580);
+						Debug_RunAnim__6CBruceii(this, 14, 2580);
 
 						m35C = 0;
 					}
 				} else {
-					FUN_8002fd80(this, mAnim, mFrame, 0, 2586);
+					Debug_RunAnim2__6CBruceiiii(this, mAnim, mFrame, 0, 2586);
 
 					m368 |= 0x400;
 				}
@@ -465,7 +465,7 @@ void CBruce::HandleTricksNew() {
 		case (int)0x80000000:
 			if (!m6DC) {
 				m150 = 0x10000;
-				FUN_8002fcdc(this, 14, 2596);
+				Debug_RunAnim__6CBruceii(this, 14, 2596);
 
 				m35C = 0;
 			}

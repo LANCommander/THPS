@@ -20,7 +20,7 @@ int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
 int Length__C7CVector(V *);
 void Normalize__7CVector(V *);
 V __mi__FRC7CVectorT0(const V *, const V *);
-void FUN_8002fe9c(B *, int);
+void Bail__6CBrucei13ELimitBailVel(B *, int);
 
 void FUN_8003b2f0(B *p) {
 	V d;
@@ -46,17 +46,17 @@ void FUN_8003b2f0(B *p) {
 
 				if (s1 > 0) {
 					if (v > 0) {
-						FUN_8002fe9c(p->other, 0);
+						Bail__6CBrucei13ELimitBailVel(p->other, 0);
 					} else {
 						s0 = Length__C7CVector(&p->other->vel);
 
 						if (Length__C7CVector(s3) >= s0)
-							FUN_8002fe9c(p->other, 0);
+							Bail__6CBrucei13ELimitBailVel(p->other, 0);
 						else
-							FUN_8002fe9c(p, 0);
+							Bail__6CBrucei13ELimitBailVel(p, 0);
 					}
 				} else if (v <= 0)
-					FUN_8002fe9c(p, 0);
+					Bail__6CBrucei13ELimitBailVel(p, 0);
 			}
 		}
 	}

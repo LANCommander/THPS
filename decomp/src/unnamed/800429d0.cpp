@@ -1,4 +1,4 @@
-/* FUN_800429d0 (0x800429d0) size=224 */
+/* FlipToVelocity__6CBruce (0x800429d0) size=224 */
 /* C++ (PHYSICS.CPP-style CBruce method): flips the skater about the up axis by negating the
    front and right columns of the rotation matrix. The function finder split it in three
    (0x800429d0, 0x80042a54, 0x80042aa0). */

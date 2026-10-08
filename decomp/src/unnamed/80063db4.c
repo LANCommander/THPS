@@ -3,7 +3,7 @@ extern char DAT_800a2180[];
 extern char DAT_800a21b0[];
 
 void Mem_Delete__FPv(int a);
-void FUN_80024238(void *p);
+void __dl__6CClassPv(void *p);
 
 void FUN_80063db4(char **p, int f) {
 	*p = DAT_800a2180;
@@ -12,5 +12,5 @@ void FUN_80063db4(char **p, int f) {
 	*p = DAT_800a21b0;
 
 	if (f & 1)
-		FUN_80024238(p);
+		__dl__6CClassPv(p);
 }

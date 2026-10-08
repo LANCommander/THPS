@@ -184,15 +184,15 @@ extern "C" {
 	MATRIX *FUN_80093130(MATRIX *, MATRIX *);
 	VECTOR *FUN_80092f60(MATRIX *, VECTOR *, VECTOR *);
 	void UprightSideways__6CBruce(CBruce *);
-	void FUN_8002fe9c(CBruce *, int);
+	void Bail__6CBrucei13ELimitBailVel(CBruce *, int);
 	void FUN_8003036c(CBruce *);
-	void FUN_800429d0(CBruce *);
+	void FlipToVelocity__6CBruce(CBruce *);
 	void FUN_8002f1a0(CBruce *);
-	void FUN_8002fcdc(CBruce *, int, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
 	void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(CBruce *, SVECTOR, int);
 	void HandleBailPerpendicular__6CBruceG7SVECTOR(CBruce *, SVECTOR);
 	void FUN_80035f30(CBruce *, SVECTOR);
-	void FUN_80031108(CBruce *, int);
+	void HandleBailOnLanding__6CBrucei(CBruce *, int);
 	int printf(const char *, ...);
 }
 
@@ -325,7 +325,7 @@ void CBruce::DoInAirPhysics() {
 					Limit = m14E - DAT_800a7358[Trick].f18;
 
 				if (m35C && !m360 && mFrame < Limit) {
-					FUN_8002fe9c(this, 0);
+					Bail__6CBrucei13ELimitBailVel(this, 0);
 
 					m220++;
 				} else
@@ -347,7 +347,7 @@ void CBruce::DoInAirPhysics() {
 					gte_op12();
 					gte_stlvnl(&mRight);
 					RotMatrixFromFRUVectors();
-					FUN_800429d0(this);
+					FlipToVelocity__6CBruce(this);
 
 					SetVector(&mLastNormal, line_info.Normal.vx, line_info.Normal.vy,
 					          line_info.Normal.vz)
@@ -366,14 +366,14 @@ void CBruce::DoInAirPhysics() {
 
 					if (m134 & 2) {
 						if (Mips_CVecDotProd__FP7CVectorT0(&WallRight, &mVel) >= 0)
-							FUN_8002fcdc(this, 35, 5238);
+							Debug_RunAnim__6CBruceii(this, 35, 5238);
 						else
-							FUN_8002fcdc(this, 36, 5242);
+							Debug_RunAnim__6CBruceii(this, 36, 5242);
 					} else {
 						if (Mips_CVecDotProd__FP7CVectorT0(&WallRight, &mVel) >= 0)
-							FUN_8002fcdc(this, 36, 5249);
+							Debug_RunAnim__6CBruceii(this, 36, 5249);
 						else
-							FUN_8002fcdc(this, 35, 5253);
+							Debug_RunAnim__6CBruceii(this, 35, 5253);
 					}
 				} else {
 					mPos = mOldPos;
@@ -381,7 +381,7 @@ void CBruce::DoInAirPhysics() {
 			} else {
 				mPos = mOldPos;
 				printf(DAT_8009fe10);
-				FUN_8002fe9c(this, 0);
+				Bail__6CBrucei13ELimitBailVel(this, 0);
 			}
 		} else if (!DAT_800d1978 && (!DAT_800d1974 || m734 != 3)) {
 			switch (DAT_800d1984) {
@@ -447,7 +447,7 @@ void CBruce::DoInAirPhysics() {
 						FUN_8002f1a0(this);
 
 						m150 = 0x10000;
-						FUN_8002fcdc(this, 14, 5457);
+						Debug_RunAnim__6CBruceii(this, 14, 5457);
 
 						m740 = 1;
 					}
@@ -460,7 +460,7 @@ void CBruce::DoInAirPhysics() {
 				if (!mInAir) {
 					HandleBailPerpendicular__6CBruceG7SVECTOR(this, line_info.Normal);
 					FUN_80035f30(this, line_info.Normal);
-					FUN_80031108(this, 5496);
+					HandleBailOnLanding__6CBrucei(this, 5496);
 				}
 			}
 

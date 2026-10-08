@@ -1,4 +1,4 @@
-/* FUN_8002f774 (0x8002f774) */
+/* Trick_Bail__6CBruce (0x8002f774) */
 typedef struct {
 	int w;
 	int p[4];
@@ -30,7 +30,7 @@ extern void FUN_80010eb8(int);
 extern void FUN_8006e22c(void *);
 extern void Vibrate__6CBruceiii(void *, int, int, int);
 
-void FUN_8002f774(O *oo) {
+void Trick_Bail__6CBruce(O *oo) {
 	char *o = (char *)oo;
 	int i, sum, n, k, t, r, n2;
 	volatile int pad[2];

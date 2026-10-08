@@ -1,4 +1,4 @@
-/* FUN_80027c54 (0x80027c54) */
+/* Bit_RemoveDeadBits__Fv (0x80027c54) */
 void *DAT_800d18cc;
 void *DAT_800d18d0;
 void *DAT_800d18d4;
@@ -13,20 +13,20 @@ void *DAT_800d18ec;
 void *DAT_800d18fc;
 void *DAT_800d18f0;
 
-void FUN_80027bdc(void *p);
+void RemoveDeadBits__FP4CBit(void *p);
 
-void FUN_80027c54(void) {
-	FUN_80027bdc(DAT_800d18cc);
-	FUN_80027bdc(DAT_800d18d0);
-	FUN_80027bdc(DAT_800d18d4);
-	FUN_80027bdc(DAT_800d18d8);
-	FUN_80027bdc(DAT_800d18f4);
-	FUN_80027bdc(DAT_800d18f8);
-	FUN_80027bdc(DAT_800d18dc);
-	FUN_80027bdc(DAT_800d18e0);
-	FUN_80027bdc(DAT_800d18e4);
-	FUN_80027bdc(DAT_800d18e8);
-	FUN_80027bdc(DAT_800d18ec);
-	FUN_80027bdc(DAT_800d18fc);
-	FUN_80027bdc(DAT_800d18f0);
+void Bit_RemoveDeadBits__Fv(void) {
+	RemoveDeadBits__FP4CBit(DAT_800d18cc);
+	RemoveDeadBits__FP4CBit(DAT_800d18d0);
+	RemoveDeadBits__FP4CBit(DAT_800d18d4);
+	RemoveDeadBits__FP4CBit(DAT_800d18d8);
+	RemoveDeadBits__FP4CBit(DAT_800d18f4);
+	RemoveDeadBits__FP4CBit(DAT_800d18f8);
+	RemoveDeadBits__FP4CBit(DAT_800d18dc);
+	RemoveDeadBits__FP4CBit(DAT_800d18e0);
+	RemoveDeadBits__FP4CBit(DAT_800d18e4);
+	RemoveDeadBits__FP4CBit(DAT_800d18e8);
+	RemoveDeadBits__FP4CBit(DAT_800d18ec);
+	RemoveDeadBits__FP4CBit(DAT_800d18fc);
+	RemoveDeadBits__FP4CBit(DAT_800d18f0);
 }

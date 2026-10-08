@@ -1,5 +1,5 @@
-/* FUN_8006e514 (0x8006e514) */
-void FUN_8006e514(int *p, int a, int b, int c, int d) {
+/* Set__6CTrickP7MessagePcii (0x8006e514) */
+void Set__6CTrickP7MessagePcii(int *p, int a, int b, int c, int d) {
 	p[4] = a;
 	p[0] = b;
 	p[1] = c;

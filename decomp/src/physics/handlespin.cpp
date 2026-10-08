@@ -92,9 +92,9 @@ int InterpolateFrame(int, int);
 extern "C" {
 	int Mips_CVecDotProd__FP7CVectorT0(CVector *, CVector *);
 	int FUN_8008b5dc(int);
-	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_8002fd80(CBruce *, int, int, int, int);
-	void FUN_8002fde4(CBruce *, int, int, int, int, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
+	void Debug_RunAnim2__6CBruceiiii(CBruce *, int, int, int, int);
+	void Debug_RunAnim3__6CBruceiiiii(CBruce *, int, int, int, int, int);
 }
 
 void CBruce::HandleSpin() {
@@ -320,7 +320,7 @@ void CBruce::HandleSpin() {
 								mFrame = 0;
 
 							mFrame = InterpolateFrame(mFrame, Frame);
-							FUN_8002fd80(this, 7, mFrame, mFrame, 2881);
+							Debug_RunAnim2__6CBruceiiii(this, 7, mFrame, mFrame, 2881);
 						} else {
 							int Frame = mAnimLeanAngle * 22 / MaxLeanAngle;
 
@@ -336,7 +336,7 @@ void CBruce::HandleSpin() {
 								mFrame++;
 
 							mFrame = InterpolateFrame(mFrame, Frame);
-							FUN_8002fd80(this, 6, mFrame, mFrame, 2892);
+							Debug_RunAnim2__6CBruceiiii(this, 6, mFrame, mFrame, 2892);
 						}
 					} else {
 						if (mAnimLeanAngle < 0) {
@@ -351,7 +351,7 @@ void CBruce::HandleSpin() {
 								mFrame = 0;
 
 							mFrame = InterpolateFrame(mFrame, Frame);
-							FUN_8002fd80(this, 6, mFrame, mFrame, 2906);
+							Debug_RunAnim2__6CBruceiiii(this, 6, mFrame, mFrame, 2906);
 						} else {
 							int Frame = mAnimLeanAngle * 22 / MaxLeanAngle;
 
@@ -364,7 +364,7 @@ void CBruce::HandleSpin() {
 								mFrame = 0;
 
 							mFrame = InterpolateFrame(mFrame, Frame);
-							FUN_8002fd80(this, 7, mFrame, mFrame, 2916);
+							Debug_RunAnim2__6CBruceiiii(this, 7, mFrame, mFrame, 2916);
 						}
 					}
 			}
@@ -398,7 +398,7 @@ void CBruce::HandleSpin() {
 								mFrame = 0;
 
 							mFrame = InterpolateFrame(mFrame, Frame);
-							FUN_8002fd80(this, 10, mFrame, mFrame, 2953);
+							Debug_RunAnim2__6CBruceiiii(this, 10, mFrame, mFrame, 2953);
 						} else {
 							int Frame = mAnimLeanAngle * 15 / MaxLeanAngle;
 
@@ -416,7 +416,7 @@ void CBruce::HandleSpin() {
 								mFrame = 0;
 
 							mFrame = InterpolateFrame(mFrame, Frame);
-							FUN_8002fd80(this, 9, mFrame, mFrame, 2968);
+							Debug_RunAnim2__6CBruceiiii(this, 9, mFrame, mFrame, 2968);
 						}
 					} else {
 						if (mAnimLeanAngle < 0) {
@@ -436,7 +436,7 @@ void CBruce::HandleSpin() {
 								mFrame = 0;
 
 							mFrame = InterpolateFrame(mFrame, Frame);
-							FUN_8002fd80(this, 9, mFrame, mFrame, 2988);
+							Debug_RunAnim2__6CBruceiiii(this, 9, mFrame, mFrame, 2988);
 						} else {
 							int Frame = mAnimLeanAngle * 12 / MaxLeanAngle;
 
@@ -454,7 +454,7 @@ void CBruce::HandleSpin() {
 								mFrame = 0;
 
 							mFrame = InterpolateFrame(mFrame, Frame);
-							FUN_8002fd80(this, 10, mFrame, mFrame, 3003);
+							Debug_RunAnim2__6CBruceiiii(this, 10, mFrame, mFrame, 3003);
 						}
 					}
 			}
@@ -466,12 +466,12 @@ void CBruce::HandleSpin() {
 			case 6:
 			case 7:
 				m150 = 0x10000;
-				FUN_8002fcdc(this, 0, 3017);
+				Debug_RunAnim__6CBruceii(this, 0, 3017);
 				break;
 			case 9:
 			case 10:
 				m150 = 0x10000;
-				FUN_8002fde4(this, 8, 19, 26, 19, 3024);
+				Debug_RunAnim3__6CBruceiiiii(this, 8, 19, 26, 19, 3024);
 				break;
 		}
 	}

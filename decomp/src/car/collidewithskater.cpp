@@ -66,11 +66,11 @@ void Bit_SetSparkTrajectory(const CSVector &);
 extern "C" {
 	void SFX_Grunt__FP6CBruce(CBruce *);
 	int SFX_PlayX__FUisi(int, short, int);
-	void FUN_8002f340(CBruce *, int, int, int, int);
+	void Trick_Trick__6CBruceiPcii(CBruce *, int, int, int, int);
 	void Bit_SetSparkTrajectoryCone__FRC8CSVector(CSVector *);
 	void *__nw__4CBitUi(int);
 	void __11CGrindSparkP5CBodyR7CVectoriii(void *, CBruce *, char *, int, int, int);
-	void FUN_8002fe9c(CBruce *, int);
+	void Bail__6CBrucei13ELimitBailVel(CBruce *, int);
 }
 
 void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBox) {
@@ -173,7 +173,7 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 				pSkater->Vibrate(8, 1, 150);
 				SFX_Grunt__FP6CBruce(pSkater);
 				SFX_PlayX__FUisi(40, 0x2000, 0);
-				FUN_8002f340(pSkater, 78, DAT_800a5e1c[0], -1000, 0);
+				Trick_Trick__6CBruceiPcii(pSkater, 78, DAT_800a5e1c[0], -1000, 0);
 
 				{
 					int n = DAT_800d1868;
@@ -252,7 +252,7 @@ void CollideWithSkater(CCar *pCar, CBruce *pSkater, const MATRIX &tm, short *pBo
 		}
 
 		pSkater->mLastCar = pCar;
-		FUN_8002fe9c(pSkater, 1);
+		Bail__6CBrucei13ELimitBailVel(pSkater, 1);
 		pSkater->BloodSplat(1, 100);
 		pSkater->Vibrate(12, 1, 255);
 		SFX_Grunt__FP6CBruce(pSkater);

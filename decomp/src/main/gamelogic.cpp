@@ -48,7 +48,7 @@ extern "C" {
 	extern CBody *DAT_800d2044;
 
 	void Front_Update__Fv(void);
-	void FUN_80027c54(void);
+	void Bit_RemoveDeadBits__Fv(void);
 	void FUN_8002aa6c(void);
 	void Ob_AI__FPP5CBody(CBody **);
 	void Ob_QuickAI__FPP5CBody(CBody **);
@@ -101,7 +101,7 @@ void Game_Logic(void) {
 			Ob_QuickAI__FPP5CBody(&DAT_800d1fe4);
 			Ob_MaybeUnSuspendOrCull__Fv();
 			Ob_AI__FPP5CBody(&DAT_800d1998);
-			FUN_80027c54();
+			Bit_RemoveDeadBits__Fv();
 
 			if (DAT_800d16a4 != 7)
 				if (DAT_800d1784 == 1 && DAT_800d1788 < 40 && !DAT_800d17c8->Dead &&

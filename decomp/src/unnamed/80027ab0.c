@@ -1,4 +1,4 @@
-/* FUN_80027ab0 (0x80027ab0) */
+/* DeleteBitList__FP4CBit (0x80027ab0) */
 struct VT {
 	char pad[8];
 	short off;
@@ -15,7 +15,7 @@ struct O {
 	struct VT *vt;
 };
 
-void FUN_80027ab0(struct O *p) {
+void DeleteBitList__FP4CBit(struct O *p) {
 	struct O *n;
 
 	if (!p)

@@ -90,8 +90,8 @@ class CBruce {
 void ProjectCVectorToPlane(CVector *, SVECTOR);
 
 extern "C" {
-	void FUN_8002fcdc(CBruce *, int, int);
-	void FUN_8002fd28(CBruce *, int, int, int);
+	void Debug_RunAnim__6CBruceii(CBruce *, int, int);
+	void Debug_RunAnim1__6CBruceiii(CBruce *, int, int, int);
 	int SFX_PlayX__FUisi(int, int, int);
 	int Mips_CVecDotProd__FP7CVectorT0(void *, void *);
 	int FUN_8008b5dc(int);
@@ -115,11 +115,11 @@ void CBruce::HandleKick() {
 		switch (mAnim) {
 			case 1:
 				m150 = 0x14000;
-				FUN_8002fcdc(this, 3, 6554);
+				Debug_RunAnim__6CBruceii(this, 3, 6554);
 				break;
 			case 3:
 				m150 = 0x10000;
-				FUN_8002fcdc(this, 0, 6559);
+				Debug_RunAnim__6CBruceii(this, 0, 6559);
 				break;
 		}
 	}
@@ -148,7 +148,7 @@ void CBruce::HandleKick() {
 							m840 = 20;
 							m150 = 0x14000;
 							m714 = 1;
-							FUN_8002fd28(this, 1, 0, 6607);
+							Debug_RunAnim1__6CBruceiii(this, 1, 0, 6607);
 							break;
 					}
 				}
@@ -197,7 +197,7 @@ void CBruce::HandleKick() {
 					mKickSpeed = ((GetStat(1) + 22) << 12) * 3 * 15 / 28;
 					m840 = 20;
 					m150 = 0x14000;
-					FUN_8002fd28(this, 1, 0, 6690);
+					Debug_RunAnim1__6CBruceiii(this, 1, 0, 6690);
 
 					m714 = 1;
 					break;

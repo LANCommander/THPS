@@ -1,7 +1,7 @@
 /* FUN_8002f1a0 (0x8002f1a0) */
 extern int DAT_800d16a4;
 
-void FUN_8002fe50(char *p);
+void ResetTrickBuffers__6CBruce(char *p);
 int FUN_8004d83c(char *p);
 int FUN_8004f318(int a);
 void FUN_8006e168(char *p, int a);
@@ -20,7 +20,7 @@ void FUN_8002f1a0(char *p) {
 	*(int *)(p + 508) = 15;
 
 	if (*(int *)(p + 1844) != 2)
-		FUN_8002fe50(p);
+		ResetTrickBuffers__6CBruce(p);
 
 	*(int *)(p + 844) = 0;
 
