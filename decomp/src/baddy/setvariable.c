@@ -1,4 +1,5 @@
 /* SetVariable__6CBaddyUs (0x80040ccc) */
+#include "names.h"
 typedef struct {
 	unsigned short us0;
 	char _2[2];
@@ -21,10 +22,10 @@ typedef struct {
 	unsigned short *pc;
 } Bad;
 
-int GetScriptValue__6CBaddy(Bad *);
-int Spool_GetModel__FUii(unsigned, int);
+int CBaddy_GetScriptValue(Bad *);
+int Spool_GetModel(unsigned, int);
 
-void SetVariable__6CBaddyUs(Bad *t, unsigned short cmd) {
+void CBaddy_SetVariable(Bad *t, unsigned short cmd) {
 	unsigned *wp;
 	unsigned *w2;
 	char *d;
@@ -41,17 +42,17 @@ void SetVariable__6CBaddyUs(Bad *t, unsigned short cmd) {
 			break;
 		case 8495:
 			wp = (unsigned *)(((int)t->pc + 3) & -4);
-			t->us22 = Spool_GetModel__FUii(*wp, t->b27);
+			t->us22 = Spool_GetModel(*wp, t->b27);
 			t->pc = (unsigned short *)(wp + 1);
 			break;
 		case 8512:
-			t->f4 = (short)GetScriptValue__6CBaddy(t) << 12;
+			t->f4 = (short)CBaddy_GetScriptValue(t) << 12;
 			break;
 		case 8513:
-			t->f8 = (short)GetScriptValue__6CBaddy(t) << 12;
+			t->f8 = (short)CBaddy_GetScriptValue(t) << 12;
 			break;
 		case 8514:
-			t->f12 = (short)GetScriptValue__6CBaddy(t) << 12;
+			t->f12 = (short)CBaddy_GetScriptValue(t) << 12;
 			break;
 		case 8497:
 			x = *t->pc++;
@@ -97,7 +98,7 @@ void SetVariable__6CBaddyUs(Bad *t, unsigned short cmd) {
 			break;
 		case 8480:
 			dv = *t->pc++;
-			r = GetScriptValue__6CBaddy(t);
+			r = CBaddy_GetScriptValue(t);
 			dv &= 255;
 			dv <<= 1;
 			dw = (unsigned)t + dv;

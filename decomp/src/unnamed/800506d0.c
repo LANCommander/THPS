@@ -1,4 +1,5 @@
 /* FUN_800506d0 (0x800506d0) flags=-fstructure-noalias */
+#include "names.h"
 struct E {
 	char pad[8];
 	char *n8;
@@ -31,9 +32,9 @@ int DAT_800d1ba8;
 int DAT_800d22a4;
 
 char *__nw__5CItemUi(int n);
-char *__6CBruce(char *p);
-void InitItem__6CBrucePc(char *t, char *n);
-void CycleAnim__6CSuperiSc(char *t, int a, signed char c);
+char *CBruce_ctor(char *p);
+void CBruce_InitItem(char *t, char *n);
+void CSuper_CycleAnim(char *t, int a, signed char c);
 void FUN_8008b238(char *m); /* identity-matrix init, one arg */
 
 char *FUN_800506d0(int idx) {
@@ -42,13 +43,13 @@ char *FUN_800506d0(int idx) {
 	p = __nw__5CItemUi(3612);
 
 	if (p)
-		p = __6CBruce(p);
+		p = CBruce_ctor(p);
 
 	*(int *)(p + 744) = idx;
-	InitItem__6CBrucePc(p, DAT_800a44fc[idx].n8);
+	CBruce_InitItem(p, DAT_800a44fc[idx].n8);
 
 	*(int *)(p + 336) = 0x10000;
-	CycleAnim__6CSuperiSc(p, 0, 1);
+	CSuper_CycleAnim(p, 0, 1);
 
 	{
 		struct B *b = (struct B *)p;

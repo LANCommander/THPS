@@ -1,4 +1,5 @@
 /* Video_SyncObs__Fi (0x80069534) */
+#include "names.h"
 typedef struct CBody CBody;
 
 typedef struct {
@@ -11,12 +12,12 @@ extern CBody *DAT_800d1998, *DAT_800d19b0;
 
 int DAT_800d1de4;
 
-void Ob_ClearInputFlags__FP5CBody(CBody *);
-void GetDataChunk__FP6CBrucei(CBruce *, int);
-void Ob_QuickAI__FPP5CBody(CBody **);
-void Ob_AI__FPP5CBody(CBody **);
+void Ob_ClearInputFlags(CBody *);
+void GetDataChunk(CBruce *, int);
+void Ob_QuickAI(CBody **);
+void Ob_AI(CBody **);
 
-void Video_SyncObs__Fi(int count) {
+void Video_SyncObs(int count) {
 	CBruce *b = DAT_800d19a4;
 	CBruce *o;
 	int i;
@@ -25,15 +26,15 @@ void Video_SyncObs__Fi(int count) {
 	o = b->other;
 
 	for (i = 0; i < count; i++) {
-		Ob_ClearInputFlags__FP5CBody(DAT_800d1998);
-		Ob_ClearInputFlags__FP5CBody(DAT_800d19b0);
-		GetDataChunk__FP6CBrucei(b, -1);
+		Ob_ClearInputFlags(DAT_800d1998);
+		Ob_ClearInputFlags(DAT_800d19b0);
+		GetDataChunk(b, -1);
 
 		if (o)
-			GetDataChunk__FP6CBrucei(o, -1);
+			GetDataChunk(o, -1);
 
-		Ob_QuickAI__FPP5CBody(&DAT_800d19b0);
-		Ob_AI__FPP5CBody(&DAT_800d1998);
+		Ob_QuickAI(&DAT_800d19b0);
+		Ob_AI(&DAT_800d1998);
 	}
 
 	DAT_800d1de4 = 0;

@@ -1,4 +1,5 @@
 /* FUN_800270e0 (0x800270e0) */
+#include "names.h"
 extern char DAT_8009f670[];
 extern int DAT_800d18f4;
 
@@ -21,19 +22,19 @@ struct D {
 	struct E *e;
 };
 
-int __4CBit(struct D *p);
+int CBit_ctor(struct D *p);
 
-struct E *Mem_NewX__FUiii(int a, int b, int c);
+struct E *Mem_NewX(int a, int b, int c);
 
-void AttachTo__4CBitPv(struct D *p, int *q);
+void CBit_AttachTo(struct D *p, int *q);
 
 struct D *FUN_800270e0(struct D *p, int n) {
 	int i;
 
-	__4CBit(p);
+	CBit_ctor(p);
 
 	p->vt = DAT_8009f670;
-	p->e = Mem_NewX__FUiii(n << 4, 0, 1);
+	p->e = Mem_NewX(n << 4, 0, 1);
 
 	for (i = 0; i < n; i++) {
 		p->e[i].w = 0x40ffffff;
@@ -41,6 +42,6 @@ struct D *FUN_800270e0(struct D *p, int n) {
 	}
 
 	p->n = n;
-	AttachTo__4CBitPv(p, &DAT_800d18f4);
+	CBit_AttachTo(p, &DAT_800d18f4);
 	return p;
 }

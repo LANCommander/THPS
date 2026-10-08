@@ -1,4 +1,5 @@
 /* IncFrameWithWrap__7CFT4Bit (0x800281c0) */
+#include "names.h"
 extern int DAT_800d1774 __attribute__((section(".data")));
 
 typedef struct {
@@ -12,7 +13,7 @@ typedef struct {
 	short speed;
 } B;
 
-void IncFrameWithWrap__7CFT4Bit(B *t) {
+void CFT4Bit_IncFrameWithWrap(B *t) {
 	short v = (t->f << 8) | t->sf;
 
 	v += (t->speed * DAT_800d1774) >> 8;

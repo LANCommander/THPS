@@ -1,5 +1,6 @@
 /* getPress__9PadBuffer (0x80064274) */
-int getPress__9PadBuffer(int *p) {
+#include "names.h"
+int PadBuffer_getPress(int *p) {
 	int r = 0;
 
 	if (p[1] > 0) {

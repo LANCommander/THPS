@@ -1,4 +1,5 @@
 /* draw__6Spriteiiiiii (0x80063be4) */
+#include "names.h"
 typedef struct {
 	int pad[3];
 	int stretch;
@@ -6,12 +7,12 @@ typedef struct {
 	void *img;
 } Sprite;
 
-void draw__11SlicedImageiiiiiiii(void *, int, int, int, int, int, int, int, int);
-void rotateDraw__11SlicedImageii(void *, int, int);
+void SlicedImage_draw(void *, int, int, int, int, int, int, int, int);
+void SlicedImage_rotateDraw(void *, int, int);
 
 void Sprite_draw(Sprite *s, int a, int b, int c, int d, int e, int f) {
 	if (s->stretch)
-		draw__11SlicedImageiiiiiiii(s->img, a, b, c, d, e, f, 0, 0);
+		SlicedImage_draw(s->img, a, b, c, d, e, f, 0, 0);
 	else
-		rotateDraw__11SlicedImageii(s->img, a, b);
+		SlicedImage_rotateDraw(s->img, a, b);
 }

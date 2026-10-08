@@ -1,4 +1,5 @@
 /* FUN_8004f8a0 (0x8004f8a0) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -49,12 +50,12 @@ extern Obj *DAT_800d19a4;
 
 Box *DAT_800d1b94;
 
-unsigned short *Trig_GetLinksPointer__Fi(int);
-void Trig_GetPosition__FR7CVectori(V *, int);
+unsigned short *Trig_GetLinksPointer(int);
+void Trig_GetPosition(V *, int);
 int FUN_8004f578(unsigned short *);
-int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
-int M3dUtils_LineLineClosestPoints__FP7CVectorN40PiT0T5(V *, V *, V *, V *, V *, int *, V *, int *);
-void M3dUtils_NormaliseVector__FP7CVector(V *);
+int Mips_CVecDotProd(V *, V *);
+int M3dUtils_LineLineClosestPoints(V *, V *, V *, V *, V *, int *, V *, int *);
+void M3dUtils_NormaliseVector(V *);
 int __eq__7CVectorRC7CVector(V *, V *);
 void __mi__C7CVector(V *, V *);
 void __mi__FRC7CVectorT0(V *, V *, V *);
@@ -120,11 +121,11 @@ void FUN_8004f8a0(void) {
 						    bz >= b->mn.z && b->mx.z >= az && (o->f70c <= 0 || o->f710 != b->id)) {
 							s7 = b->id;
 
-							while (*(lp = Trig_GetLinksPointer__Fi(s7))) {
-								Trig_GetPosition__FR7CVectori(&pa, s7);
+							while (*(lp = Trig_GetLinksPointer(s7))) {
+								Trig_GetPosition(&pa, s7);
 
 								nxt = FUN_8004f578(lp);
-								Trig_GetPosition__FR7CVectori(&pb, nxt);
+								Trig_GetPosition(&pb, nxt);
 
 								cmin = pa;
 								cmax = pb;
@@ -149,17 +150,17 @@ void FUN_8004f8a0(void) {
 
 								if (bx >= cmin.x && cmax.x >= ax && by >= cmin.y && cmax.y >= ay &&
 								    bz >= cmin.z && cmax.z >= az) {
-									s6 = M3dUtils_LineLineClosestPoints__FP7CVectorN40PiT0T5(
+									s6 = M3dUtils_LineLineClosestPoints(
 									    &o->ff0, &o->bb, &pa, &pb, &v60, &d, &v70, &t);
 
 									if (s6 < o->f6f0 &&
 									    ((o->f734 != 0 && o->f734 != 2) || v70.y >= o->bb.y)) {
 										__mi__FRC7CVectorT0(&v80, &pb, &pa);
-										M3dUtils_NormaliseVector__FP7CVector(&v80);
+										M3dUtils_NormaliseVector(&v80);
 
 										flag = 0;
 
-										if (Mips_CVecDotProd__FP7CVectorT0(&v80, &o->f6c) >= 0) {
+										if (Mips_CVecDotProd(&v80, &o->f6c) >= 0) {
 											o2->f700 = v80;
 											flag = __eq__7CVectorRC7CVector(&v70, &pb) != 0;
 										} else {

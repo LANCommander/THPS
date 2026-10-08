@@ -1,4 +1,5 @@
 /* CreateCommandPoint__FUiUsPUs (0x80044820) */
+#include "names.h"
 /* Allocates a trigger node (see FUN_80044a20): linked into the id's hash chain (on the id's low
    byte) and onto the list of all triggers. */
 typedef struct STrig {
@@ -17,10 +18,10 @@ extern STrig *DAT_800d2610[];
 
 STrig *DAT_800d19f8;
 
-void *Mem_NewX__FUiii(int, int, int);
+void *Mem_NewX(int, int, int);
 
-void CreateCommandPoint__FUiUsPUs(int id, unsigned short line, char *script) {
-	STrig *t = Mem_NewX__FUiii(sizeof(STrig), 0, 1);
+void CreateCommandPoint(int id, unsigned short line, char *script) {
+	STrig *t = Mem_NewX(sizeof(STrig), 0, 1);
 
 	t->pNextAll = DAT_800d19f8;
 	t->pNext = DAT_800d2610[id & 0xff];

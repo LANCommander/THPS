@@ -1,4 +1,5 @@
 /* Flash__5CItemiUcUcUc (0x800435e8) */
+#include "names.h"
 typedef struct {
 	unsigned short flags;
 	char _2[0x1e];
@@ -10,7 +11,7 @@ typedef struct {
 	short s0, s1, s2;
 } Item;
 
-void Flash__5CItemiUcUcUc(Item *t, int n, unsigned char r0, unsigned char g0, unsigned char b0) {
+void CItem_Flash(Item *t, int n, unsigned char r0, unsigned char g0, unsigned char b0) {
 	int r = r0, g = g0, b = b0;
 
 	if (n == 0) {

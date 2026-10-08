@@ -1,4 +1,5 @@
 /* __6CamPos (0x8007d1a4) */
+#include "names.h"
 extern char DAT_800a35a4[];
 extern char DAT_800a35b4[];
 
@@ -7,7 +8,7 @@ struct X {
 	int a, b, c, d;
 };
 
-char *__6CamPos(char *p) {
+char *CamPos_ctor(char *p) {
 	struct X *x = (struct X *)(p + 28);
 	struct X *y = (struct X *)(p + 68);
 	struct X *z = (struct X *)(p + 120);

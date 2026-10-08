@@ -1,9 +1,10 @@
 /* __4CBit (0x80027e44) */
+#include "names.h"
 extern char DAT_8009f8b0[];
 
 int DAT_800d1868;
 
-char *__4CBit(char *p) {
+char *CBit_ctor(char *p) {
 	char *q = p + 60;
 
 	*(char **)(p + 68) = DAT_8009f8b0;

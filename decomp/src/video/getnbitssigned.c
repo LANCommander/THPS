@@ -1,10 +1,11 @@
 /* GetNBitsSigned__FP10SVideoInfoi (0x80068cec) */
+#include "names.h"
 typedef struct SVideoInfo SVideoInfo;
 
-unsigned GetNBitsUnsigned__FP10SVideoInfoi(SVideoInfo *, int);
+unsigned GetNBitsUnsigned(SVideoInfo *, int);
 
-int GetNBitsSigned__FP10SVideoInfoi(SVideoInfo *v, int n) {
-	unsigned x = GetNBitsUnsigned__FP10SVideoInfoi(v, n);
+int GetNBitsSigned(SVideoInfo *v, int n) {
+	unsigned x = GetNBitsUnsigned(v, n);
 	unsigned m = 1 << (n - 1);
 
 	if (x & m)

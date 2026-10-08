@@ -1,10 +1,11 @@
 /* SendSuspendOrActivate__FPUsi (0x80045ef4) */
+#include "names.h"
 extern void *DAT_800d1998, *DAT_800d19b0;
 
 short **DAT_800d19e8;
 
-void SendSuspend__FPP5CBodyi(void **pp, int node);
-void SendUnSuspend__Fi(int node);
+void SendSuspend(void **pp, int node);
+void SendUnSuspend(int node);
 
 void SendSuspendOrActivate(unsigned short *p, int mode) {
 	int i, n = p[0];
@@ -16,10 +17,10 @@ void SendSuspendOrActivate(unsigned short *p, int mode) {
 
 		if (t == 1 || t == 7) {
 			if (mode == 5) {
-				SendSuspend__FPP5CBodyi(&DAT_800d1998, node);
-				SendSuspend__FPP5CBodyi(&DAT_800d19b0, node);
+				SendSuspend(&DAT_800d1998, node);
+				SendSuspend(&DAT_800d19b0, node);
 			} else {
-				SendUnSuspend__Fi(node);
+				SendUnSuspend(node);
 			}
 		}
 	}

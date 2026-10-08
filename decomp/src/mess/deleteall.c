@@ -1,4 +1,5 @@
 /* Mess_DeleteAll__Fv (0x8001d5fc) */
+#include "names.h"
 typedef struct Message {
 	char pad[0x14];
 	struct Message *next;
@@ -7,7 +8,7 @@ typedef struct Message {
 
 Message *DAT_800d15ec;
 
-extern void Mem_Delete__FPv(void *);
+extern void Mem_Delete(void *);
 
 void Mess_DeleteAll(void) {
 	Message *m = DAT_800d15ec;
@@ -16,7 +17,7 @@ void Mess_DeleteAll(void) {
 	if (m) {
 		n = m->next;
 	loop:
-		Mem_Delete__FPv(m);
+		Mem_Delete(m);
 
 		if (n) {
 			m = n;

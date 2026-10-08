@@ -1,4 +1,5 @@
 /* FUN_8004f684 (0x8004f684) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -22,8 +23,8 @@ extern char DAT_800a1340[];
 
 P *DAT_800d1b94;
 
-unsigned short *Trig_GetLinksPointer__Fi(int);
-Q *Trig_GetPosition__FR7CVectori(V *, int);
+unsigned short *Trig_GetLinksPointer(int);
+Q *Trig_GetPosition(V *, int);
 int FUN_8004f578(unsigned short *);
 
 P *FUN_8004f684(P *p, int idx) {
@@ -40,10 +41,10 @@ P *FUN_8004f684(P *p, int idx) {
 	p->next = DAT_800d1b94;
 	p->prev = 0;
 	DAT_800d1b94 = p;
-	Trig_GetLinksPointer__Fi(idx);
+	Trig_GetLinksPointer(idx);
 
 	p->f4 = idx;
-	s = Trig_GetPosition__FR7CVectori(&a, idx)->s6;
+	s = Trig_GetPosition(&a, idx)->s6;
 
 	if (s == -1)
 		p->f28 = 0;
@@ -59,7 +60,7 @@ P *FUN_8004f684(P *p, int idx) {
 	p->mx.x = 0x80000000;
 
 	while (1) {
-		Trig_GetPosition__FR7CVectori(&b, idx);
+		Trig_GetPosition(&b, idx);
 
 		if (b.x < p->mn.x)
 			p->mn.x = b.x;
@@ -79,7 +80,7 @@ P *FUN_8004f684(P *p, int idx) {
 		if (b.z > p->mx.z)
 			p->mx.z = b.z;
 
-		l = Trig_GetLinksPointer__Fi(idx);
+		l = Trig_GetLinksPointer(idx);
 
 		if (*l == 0)
 			break;

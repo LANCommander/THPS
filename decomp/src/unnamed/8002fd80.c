@@ -1,8 +1,9 @@
 /* Debug_RunAnim2__6CBruceiiii (0x8002fd80) */
-void MaybeFlipAnimationTransition__6CBruce(int a);
-void RunAnim__6CSuperiiii(int a, int b, int c, int d, int e);
+#include "names.h"
+void CBruce_MaybeFlipAnimationTransition(int a);
+void CSuper_RunAnim(int a, int b, int c, int d, int e);
 
-void Debug_RunAnim2__6CBruceiiii(int a, int b, int c, int d) {
-	MaybeFlipAnimationTransition__6CBruce(a);
-	RunAnim__6CSuperiiii(a, b, c, d, -1);
+void CBruce_Debug_RunAnim2(int a, int b, int c, int d) {
+	CBruce_MaybeFlipAnimationTransition(a);
+	CSuper_RunAnim(a, b, c, d, -1);
 }

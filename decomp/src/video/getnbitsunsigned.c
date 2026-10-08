@@ -1,4 +1,5 @@
 /* GetNBitsUnsigned__FP10SVideoInfoi (0x80068c30) */
+#include "names.h"
 typedef struct {
 	int state, f4, f8, fc;
 	unsigned *p;
@@ -6,7 +7,7 @@ typedef struct {
 	int n;
 } SVideoInfo;
 
-unsigned GetNBitsUnsigned__FP10SVideoInfoi(SVideoInfo *v, int n) {
+unsigned GetNBitsUnsigned(SVideoInfo *v, int n) {
 	unsigned r;
 	int a;
 

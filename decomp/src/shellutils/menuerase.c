@@ -1,4 +1,5 @@
 /* erase__12VerticalMenu (0x80064f9c) */
+#include "names.h"
 typedef struct {
 	int spr;
 	char str[0x20];
@@ -19,20 +20,20 @@ typedef struct {
 	int s2;
 } VM;
 
-void draw__6Spriteiiiiii(int, int, int, int, int, int, int);
+void Sprite_draw(int, int, int, int, int, int, int);
 
-void erase__12VerticalMenu(VM *t) {
+void VerticalMenu_erase(VM *t) {
 	int i, w;
 
 	w = ((t->e[t->cur].h >> 1) * t->fc) / t->f8 + 30;
 
 	if (t->timer < 61) {
 		if (t->s1) {
-			draw__6Spriteiiiiii(t->s1, t->e[t->cur].a - w - 22, t->e[t->cur].b - 34, 0, -1, -1, -1);
+			Sprite_draw(t->s1, t->e[t->cur].a - w - 22, t->e[t->cur].b - 34, 0, -1, -1, -1);
 		}
 
 		if (t->s2) {
-			draw__6Spriteiiiiii(t->s2, t->e[t->cur].a + w - 22, t->e[t->cur].b - 34, 0, -1, -1, -1);
+			Sprite_draw(t->s2, t->e[t->cur].a + w - 22, t->e[t->cur].b - 34, 0, -1, -1, -1);
 		}
 	}
 
@@ -40,7 +41,7 @@ void erase__12VerticalMenu(VM *t) {
 		int o = i << 6;
 		int q = (*(int *)((char *)t + o + 0x4c) >> 1) * t->fc / t->f8;
 
-		draw__6Spriteiiiiii(*(int *)((char *)t + o + 0x1c), *(int *)((char *)t + o + 0x58),
+		Sprite_draw(*(int *)((char *)t + o + 0x1c), *(int *)((char *)t + o + 0x58),
 		                    *(int *)((char *)t + o + 0x44) - q - 1, 0, -1, -1, -1);
 	}
 }

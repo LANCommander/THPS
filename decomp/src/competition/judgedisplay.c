@@ -1,4 +1,5 @@
 /* Competition_JudgeDisplay__Fv (0x800747b0) */
+#include "names.h"
 typedef struct {
 	char _0[16];
 	unsigned i16;
@@ -16,30 +17,30 @@ extern char DAT_800a33f0[], DAT_800a3400[], DAT_800a3410[], DAT_800a3424[], DAT_
     DAT_800d1fd8[];
 extern char *DAT_800a5edc[];
 
-void Mess_DeleteAll__Fv(void);
-void Mess_SetScale__Fi(int);
-void Mess_SetTextJustify__FUc(int);
-void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
+void Mess_DeleteAll(void);
+void Mess_SetScale(int);
+void Mess_SetTextJustify(int);
+void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
 int FUN_8008b900(char *, char *, ...);
-int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
-void SFX_PlayX__FUisi(int, int, int);
-void Front_PrintCentredPrompt__FPCc(char *);
+int Mess_DrawText(int, int, char *, int, int, int, int);
+void SFX_PlayX(int, int, int);
+void Front_PrintCentredPrompt(char *);
 
-void Competition_JudgeDisplay__Fv(void) {
+void Competition_JudgeDisplay(void) {
 	char buf[16];
 	J *p = &DAT_800c0fdc;
 	int i, t, c, sum, k;
 	unsigned s;
 
-	Mess_DeleteAll__Fv();
-	Mess_SetScale__Fi(256);
-	Mess_SetTextJustify__FUc(0);
-	Mess_SetRGB__FUcUcUci(182, 132, 36, 0);
+	Mess_DeleteAll();
+	Mess_SetScale(256);
+	Mess_SetTextJustify(0);
+	Mess_SetRGB(182, 132, 36, 0);
 	FUN_8008b900(buf, DAT_800a33f0, p->b192 + 1);
-	Mess_DrawText__FiiPCciUiib(256, 40, buf, 0, 0, 256, 0);
-	Mess_DrawText__FiiPCciUiib(256, 70, DAT_800a3400, 0, 0, 256, 0);
-	Mess_SetRGB__FUcUcUci(122, 122, 122, 0);
-	Mess_SetTextJustify__FUc(1);
+	Mess_DrawText(256, 40, buf, 0, 0, 256, 0);
+	Mess_DrawText(256, 70, DAT_800a3400, 0, 0, 256, 0);
+	Mess_SetRGB(122, 122, 122, 0);
+	Mess_SetTextJustify(1);
 
 	t = 0;
 
@@ -55,7 +56,7 @@ void Competition_JudgeDisplay__Fv(void) {
 		s = i * 15;
 
 		if (p->i16 == s + 1)
-			SFX_PlayX__FUisi(52, 8192, 0);
+			SFX_PlayX(52, 8192, 0);
 
 		if (s < p->i16) {
 			FUN_8008b900(buf, DAT_800a3410, i + 1, p->x[i] / 10, p->x[i] % 10);
@@ -64,19 +65,19 @@ void Competition_JudgeDisplay__Fv(void) {
 		}
 
 		if (i == p->b91 || i == p->b90)
-			Mess_SetRGB__FUcUcUci(c, c, c, 0);
+			Mess_SetRGB(c, c, c, 0);
 		else
-			Mess_SetRGB__FUcUcUci(122, 122, 122, 0);
+			Mess_SetRGB(122, 122, 122, 0);
 
-		Mess_DrawText__FiiPCciUiib(150, i * 20 + 90, buf, 0, 0, 256, 0);
+		Mess_DrawText(150, i * 20 + 90, buf, 0, 0, 256, 0);
 	}
 
 	if (t >= 100) {
 		if (p->i32 == 0)
-			SFX_PlayX__FUisi(51, 8192, 0);
+			SFX_PlayX(51, 8192, 0);
 
-		Mess_SetTextJustify__FUc(0);
-		Mess_SetRGB__FUcUcUci(182, 132, 36, 0);
+		Mess_SetTextJustify(0);
+		Mess_SetRGB(182, 132, 36, 0);
 
 		sum = 0;
 
@@ -85,18 +86,18 @@ void Competition_JudgeDisplay__Fv(void) {
 				sum += p->x[k];
 
 		sum = sum / 3;
-		Mess_SetTextJustify__FUc(0);
+		Mess_SetTextJustify(0);
 		FUN_8008b900(buf, DAT_800a3430, p->b192 + 1);
-		Mess_DrawText__FiiPCciUiib(200, 195, buf, 0, 0, 256, 0);
+		Mess_DrawText(200, 195, buf, 0, 0, 256, 0);
 		FUN_8008b900(buf, DAT_800d1fd8, sum / 10, sum % 10);
-		Mess_SetScale__Fi(384);
-		Mess_DrawText__FiiPCciUiib(335, 195, buf, 0, 0, 256, 0);
+		Mess_SetScale(384);
+		Mess_DrawText(335, 195, buf, 0, 0, 256, 0);
 
 		p->i32 = 1;
 	} else {
 		p->i32 = 0;
 	}
 
-	Mess_SetScale__Fi(256);
-	Front_PrintCentredPrompt__FPCc(DAT_800a5edc[0]);
+	Mess_SetScale(256);
+	Front_PrintCentredPrompt(DAT_800a5edc[0]);
 }

@@ -1,4 +1,5 @@
 /* Competition_LadderLogic__Fv (0x80074b94) */
+#include "names.h"
 typedef struct {
 	unsigned char a, av, b, bv;
 	int pad;
@@ -27,9 +28,9 @@ extern SComp DAT_800c0fdc;
 
 unsigned short DAT_800d1fc2, DAT_800d1fc4, DAT_800d1fc6, DAT_800d1fc8;
 
-int Redbook_Rnd__Fi(int n);
+int Redbook_Rnd(int n);
 
-void Competition_LadderLogic__Fv(void) {
+void Competition_LadderLogic(void) {
 	unsigned char i, j;
 	SComp *c = &DAT_800c0fdc;
 	unsigned short s;
@@ -48,9 +49,9 @@ void Competition_LadderLogic__Fv(void) {
 			else if (c->type[i] == 2)
 				s = DAT_800d1fc6;
 			else
-				s = DAT_800d1fc8 + Redbook_Rnd__Fi(DAT_800d1fc6 - DAT_800d1fc8);
+				s = DAT_800d1fc8 + Redbook_Rnd(DAT_800d1fc6 - DAT_800d1fc8);
 
-			s -= Redbook_Rnd__Fi(18);
+			s -= Redbook_Rnd(18);
 
 			for (j = 0; j < 5; j++) {
 				if (i == c->ent[j].a)

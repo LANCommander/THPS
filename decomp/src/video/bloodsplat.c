@@ -1,4 +1,5 @@
 /* Video_BloodSplat__FP6CBruceii (0x80068ee8) */
+#include "names.h"
 typedef struct CBruce CBruce;
 
 typedef struct {
@@ -15,7 +16,7 @@ extern CBruce *DAT_800d19a4;
 
 int DAT_800d1dfc, DAT_800d1e00;
 
-void Video_BloodSplat__FP6CBruceii(CBruce *b, int a, int c) {
+void Video_BloodSplat(CBruce *b, int a, int c) {
 	if (DAT_800bf318[0].state == 1) {
 		if (b == DAT_800d19a4)
 			DAT_800d1dfc = a;

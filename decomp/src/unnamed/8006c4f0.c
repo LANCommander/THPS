@@ -1,4 +1,5 @@
 /* Panel_DrawTexturedPoly__FP10SAnimFrame (0x8006c4f0) */
+#include "names.h"
 /* Allocates a grey-modulated POLY_FT4, copies its UVs/CLUT/TPAGE from the texture record and
    adds it at OT slot 33 (coordinates are left to the caller). Returns 0 when the primitive buffer
    is full. */
@@ -20,7 +21,7 @@ extern u_long *DAT_800d1a48;
 extern u_char *DAT_800d1a54;
 extern u_char *DAT_800d177c;
 
-POLY_FT4 *Panel_DrawTexturedPoly__FP10SAnimFrame(STexture *t) {
+POLY_FT4 *Panel_DrawTexturedPoly(STexture *t) {
 	POLY_FT4 *p = (POLY_FT4 *)DAT_800d1a54;
 	u_char *next = (u_char *)(p + 1);
 	STexUV *uv;

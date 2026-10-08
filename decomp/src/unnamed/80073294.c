@@ -1,5 +1,6 @@
 /* DontDisplay__5CTape (0x80073294) */
-void DontDisplay__5CTape(char *p) {
+#include "names.h"
+void CTape_DontDisplay(char *p) {
 	char *vt;
 
 	void (*fn)(char *);

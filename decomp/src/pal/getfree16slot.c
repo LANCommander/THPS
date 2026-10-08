@@ -1,7 +1,8 @@
 /* GetFree16Slot__Fv (0x8004ace8) */
+#include "names.h"
 extern unsigned char DAT_800d2a10[];
 
-int GetFree16Slot__Fv(void) {
+int GetFree16Slot(void) {
 	int i = 0;
 
 	while (!DAT_800d2a10[i]) {

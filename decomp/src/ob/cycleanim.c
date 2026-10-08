@@ -1,4 +1,5 @@
 /* CycleAnim__6CSuperiSc (0x80043f24) */
+#include "names.h"
 typedef struct {
 	char p[0x18];
 	char *anims;
@@ -7,7 +8,7 @@ typedef struct {
 
 extern R DAT_800bf7a8[] __attribute__((section(".data")));
 
-void CycleAnim__6CSuperiSc(char *t, int a, signed char c) {
+void CSuper_CycleAnim(char *t, int a, signed char c) {
 	unsigned char k;
 
 	*(unsigned short *)(t + 0x146) = a;

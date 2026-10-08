@@ -1,4 +1,5 @@
 /* FUN_8002efa4 (0x8002efa4) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -32,7 +33,7 @@ int FUN_80093100(MATRIX *, VA *);
 int FUN_80092f60(MATRIX *, VA *, VA *);
 int FUN_80093130(MATRIX *, MATRIX *);
 int FUN_80093240(SV *, MATRIX *);
-void M3d_BuildTransform__FP6CSuper(B *);
+void M3d_BuildTransform(B *);
 
 void FUN_8002efa4(B *p) {
 	MATRIX m;
@@ -69,5 +70,5 @@ void FUN_8002efa4(B *p) {
 		p->pos.z = p->pos.z + c1.z - c2.z;
 	}
 
-	M3d_BuildTransform__FP6CSuper(p);
+	M3d_BuildTransform(p);
 }

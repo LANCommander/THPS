@@ -23,6 +23,8 @@ ASPSX = r"D:\Tools\psyq4.5\ASPSX.EXE"
 CPP = r"D:\Tools\psyq4.5\CPPPSX.EXE"
 DMPSX = r"D:\Tools\psyq4.5\DMPSX.EXE"
 INC = os.environ.get("PSYQ_INC", r"D:\Tools\psyq4.5\include")
+# the repo's own headers (include/names.h: readable aliases for g++-mangled names)
+LOCAL_INC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "include")
 # what CCPSX hands cpp for C on the PSX target (mirrors tools/psyq.mjs)
 CPP_DEFS = ["-undef", "-D__GNUC__=2", "-D__OPTIMIZE__", "-Dmips", "-D__mips__", "-D__psx__", "-D_LANGUAGE_C"]
 RETAIL = "../extern/thps1_retail/SLUS_008.60"
@@ -42,7 +44,7 @@ sfile, rfile, ofile = base + ".s", base + "_rw.s", base + ".obj"
 
 # cc1 has no preprocessor (not even comment stripping), so always run CPPPSX first, as CCPSX does
 csrc = base + ".i"
-subprocess.run([CPP, *CPP_DEFS, "-I", INC, src, csrc], check=True, capture_output=True)
+subprocess.run([CPP, *CPP_DEFS, "-I", LOCAL_INC, "-I", INC, src, csrc], check=True, capture_output=True)
 subprocess.run([CC1PL if src.endswith(".cpp") and ("CC1PL" in os.environ or "CC1" not in os.environ) else CC1, csrc, "-quiet", *opt.split(), *(["-fno-exceptions"] if src.endswith(".cpp") and "NOEXC" not in os.environ else []), *os.environ.get("CC1_OPTS", "").split(), f"-G{g}", "-o", sfile], check=True)
 s = open(sfile).read()
 # STRIPDBG=1 (with CC1_OPTS=-g): drop the SDB debug directives, whose LNK records the parser can't read

@@ -1,4 +1,5 @@
 /* FudgeAngles__FP6CBruce (0x80044b90) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -16,7 +17,7 @@ typedef struct {
 	int u[3];
 } CBruce;
 
-void Utils_RotateY__FR7CVectorRC7CVectori(V *, V *, int);
+void Utils_RotateY(V *, V *, int);
 
 void FudgeAngles(CBruce *t) {
 	V a, r;
@@ -29,7 +30,7 @@ void FudgeAngles(CBruce *t) {
 	a.z = 0;
 	ang = (t->a12 + 0x800) & 0xfff;
 	t->a12 = ang;
-	Utils_RotateY__FR7CVectorRC7CVectori(&r, &a, ang);
+	Utils_RotateY(&r, &a, ang);
 
 	a.x = 0;
 	a.y = 0;
@@ -37,7 +38,7 @@ void FudgeAngles(CBruce *t) {
 	t->m[0] = r.x;
 	t->m[3] = r.y;
 	t->m[6] = r.z;
-	Utils_RotateY__FR7CVectorRC7CVectori(&r, &a, (short)t->a12);
+	Utils_RotateY(&r, &a, (short)t->a12);
 
 	t->m[4] = -4096;
 	t->u[1] = -4096;

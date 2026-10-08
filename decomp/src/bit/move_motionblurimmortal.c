@@ -1,12 +1,13 @@
 /* Move__19CMotionBlurImmortal (0x80029bdc) */
+#include "names.h"
 void __apl__7CVectorRC7CVector(char *, char *);
-int Shrink__7CFT4Biti(char *, int);
-int Fade__7CFT4Biti(char *, int);
-void IncFrameWithWrap__7CFT4Bit(char *);
+int CFT4Bit_Shrink(char *, int);
+int CFT4Bit_Fade(char *, int);
+void CFT4Bit_IncFrameWithWrap(char *);
 
-void Move__19CMotionBlurImmortal(char *t) {
+void CMotionBlurImmortal_Move(char *t) {
 	__apl__7CVectorRC7CVector(t + 0x18, t + 0x24);
 
-	if (!Shrink__7CFT4Biti(t, 0) && !Fade__7CFT4Biti(t, 0))
-		IncFrameWithWrap__7CFT4Bit(t);
+	if (!CFT4Bit_Shrink(t, 0) && !CFT4Bit_Fade(t, 0))
+		CFT4Bit_IncFrameWithWrap(t);
 }

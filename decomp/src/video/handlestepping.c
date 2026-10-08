@@ -1,4 +1,5 @@
 /* Video_HandleStepping__Fv (0x8006ac84) */
+#include "names.h"
 typedef struct {
 	unsigned char b[0x16c];
 } Pad;
@@ -16,7 +17,7 @@ extern int DAT_800d1cb0, DAT_800d13e8, DAT_800d1780, DAT_800d16fc, DAT_800d1734;
 
 int DAT_800d1df0;
 
-void Video_HandleStepping__Fv(void) {
+void Video_HandleStepping(void) {
 	int i, v;
 
 	if (DAT_800bf318.mode != 2 || DAT_800d1cb0 == 0) {

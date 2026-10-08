@@ -1,12 +1,13 @@
 /* FUN_80061c98 (0x80061c98) */
-int Mem_NewX__FUiii(int a, int b, int c);
+#include "names.h"
+int Mem_NewX(int a, int b, int c);
 void FUN_8008c774(short *r, int b);
 void FUN_8008c714(short *r, int b);
-void Mem_Delete__FPv(int a);
+void Mem_Delete(int a);
 
 void FUN_80061c98(int a, int b) {
 	short r[4];
-	int buf = Mem_NewX__FUiii(512, 1, 1);
+	int buf = Mem_NewX(512, 1, 1);
 	unsigned short *q;
 	int i;
 
@@ -26,5 +27,5 @@ void FUN_80061c98(int a, int b) {
 	}
 
 	FUN_8008c714(r, buf);
-	Mem_Delete__FPv(buf);
+	Mem_Delete(buf);
 }

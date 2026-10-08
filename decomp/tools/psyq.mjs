@@ -2,12 +2,15 @@
 // #include the Psy-Q SDK headers, e.g. libgte.h / inline_c.h) and the DMPSX GTE-command fixup.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 export const CC1 = process.env.CC1 || 'D:/Tools/psyq4.5/CC1PSX.EXE';
 // .cpp sources (Neversoft's code is C++) go through the C++ front end
 const CC1PL = process.env.CC1PL || 'D:/Tools/psyq4.5/CC1PLPSX.EXE';
 const CPP = process.env.CPP || 'D:/Tools/psyq4.5/CPPPSX.EXE';
 const INC = process.env.PSYQ_INC || 'D:/Tools/psyq4.5/include';
+// the repo's own headers (include/names.h: readable aliases for g++-mangled names)
+const LOCAL_INC = fileURLToPath(new URL('../include', import.meta.url));
 // what CCPSX hands cpp for C on the PSX target
 const CPP_DEFS = ['-undef', '-D__GNUC__=2', '-D__OPTIMIZE__', '-Dmips', '-D__mips__', '-D__psx__', '-D_LANGUAGE_C'];
 
@@ -17,7 +20,7 @@ export function cc1(cfile, sfile, opt = '-O2', g = 0) {
   if (cfile.endsWith('.s')) { mkdirSync('build', { recursive: true }); writeFileSync(sfile, readFileSync(cfile)); return; }
   const input = sfile + '.i';
   mkdirSync('build', { recursive: true });
-  execFileSync(CPP, [...CPP_DEFS, '-I', INC, cfile, input], { stdio: 'ignore' });
+  execFileSync(CPP, [...CPP_DEFS, '-I', LOCAL_INC, '-I', INC, cfile, input], { stdio: 'ignore' });
   // C++: no exception tables (psyq-asm can't assemble their label-difference words; .text is unaffected)
   const cpp = cfile.endsWith('.cpp');
   execFileSync(cpp && (process.env.CC1PL || !process.env.CC1) ? CC1PL : CC1, [input, '-quiet', ...opt.split(' '), ...(cpp && !process.env.NOEXC ? ['-fno-exceptions'] : []), `-G${g}`, '-o', sfile], { stdio: 'ignore' });

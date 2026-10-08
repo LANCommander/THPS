@@ -1,22 +1,23 @@
 /* FUN_8006658c (0x8006658c) */
+#include "names.h"
 extern char DAT_800a21c0[];
 
 int DAT_800d2368;
 int DAT_800d1dc4;
 
-void Mess_SetCurrentFont__FPc(char *p);
-void Mess_SetRGB__FUcUcUci(unsigned char r, unsigned char g, unsigned char b, int a);
-void Mess_SetFontScale__FUi(unsigned a);
-void Mess_SetTextJustify__FUc(int a);
+void Mess_SetCurrentFont(char *p);
+void Mess_SetRGB(unsigned char r, unsigned char g, unsigned char b, int a);
+void Mess_SetFontScale(unsigned a);
+void Mess_SetTextJustify(int a);
 void FUN_8001f1b4(int a);
 void FUN_80066d7c(void);
 
 int FUN_8006658c(int a) {
 	DAT_800d2368 = a;
-	Mess_SetCurrentFont__FPc(DAT_800a21c0);
-	Mess_SetRGB__FUcUcUci(128, 128, 128, 0);
-	Mess_SetFontScale__FUi(256);
-	Mess_SetTextJustify__FUc(1);
+	Mess_SetCurrentFont(DAT_800a21c0);
+	Mess_SetRGB(128, 128, 128, 0);
+	Mess_SetFontScale(256);
+	Mess_SetTextJustify(1);
 	FUN_8001f1b4(4);
 	FUN_80066d7c();
 	return DAT_800d1dc4;

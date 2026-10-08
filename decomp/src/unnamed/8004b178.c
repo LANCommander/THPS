@@ -1,2 +1,3 @@
 /* SFX_SpoolInMIDI__FPCc (0x8004b178) */
-void SFX_SpoolInMIDI__FPCc(void) {}
+#include "names.h"
+void SFX_SpoolInMIDI(void) {}

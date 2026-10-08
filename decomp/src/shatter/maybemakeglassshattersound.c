@@ -1,9 +1,10 @@
 /* Shatter_MaybeMakeGlassShatterSound__Fv (0x80022440) */
+#include "names.h"
 int DAT_800d1628;
 
 extern int DAT_800d1e28;
 
-void SFX_PlayX__FUisi(int, int, int);
+void SFX_PlayX(int, int, int);
 
 void Shatter_MaybeMakeGlassShatterSound(void) {
 	int s;
@@ -18,7 +19,7 @@ void Shatter_MaybeMakeGlassShatterSound(void) {
 				s = 0x2a;
 		}
 
-		SFX_PlayX__FUisi(s, 0x2000, 0);
+		SFX_PlayX(s, 0x2000, 0);
 	}
 
 	DAT_800d1628 = 0;

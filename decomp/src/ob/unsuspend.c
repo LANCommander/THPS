@@ -1,18 +1,19 @@
 /* UnSuspend__5CBody (0x80043a80) */
+#include "names.h"
 void *DAT_800d19b4;
 
-void DeleteFrom__5CBodyPP5CBody(char *, void *);
-void AttachTo__5CBodyPP5CBody(char *, int);
+void CBody_DeleteFrom(char *, void *);
+void CBody_AttachTo(char *, int);
 
-void UnSuspend__5CBody(char *t) {
+void CBody_UnSuspend(char *t) {
 	int notSuspended =
 	    !(*(unsigned short *)(t + 0x52) & 1); /* materialised bool (inline IsSuspended) */
 
 	if (notSuspended)
 		return;
 
-	DeleteFrom__5CBodyPP5CBody(t, &DAT_800d19b4);
-	AttachTo__5CBodyPP5CBody(t, *(int *)(t + 0x4c));
+	CBody_DeleteFrom(t, &DAT_800d19b4);
+	CBody_AttachTo(t, *(int *)(t + 0x4c));
 
 	*(unsigned short *)(t + 0x52) &= ~1;
 }

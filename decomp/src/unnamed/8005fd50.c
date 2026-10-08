@@ -1,4 +1,5 @@
 /* FUN_8005fd50 (0x8005fd50) */
+#include "names.h"
 typedef struct {
 	int x, y, z, pad;
 } V;
@@ -42,8 +43,8 @@ O *__nw__6CClassUi(int);
 O *__6SpritePciii(O *, char *, int, int, int);
 void FUN_80023168(int);
 void FUN_80022aec(V *);
-void GameFMV_StartFMV__Fi(int);
-void GameFMV_StopFMV__Fv(void);
+void GameFMV_StartFMV(int);
+void GameFMV_StopFMV(void);
 int FUN_8005f9ec(void);
 int FUN_8005e0e0(V *, V *, int, int, int *, int (*)(void), V *, V *, int);
 
@@ -76,7 +77,7 @@ int FUN_8005fd50(int a) {
 	FUN_80022aec(&z);
 
 	DAT_800d1658 = -1;
-	GameFMV_StartFMV__Fi(0);
+	GameFMV_StartFMV(0);
 
 	*(V12 *)&t = *(V12 *)&DAT_800a1d7c;
 	k.x = 0;
@@ -92,7 +93,7 @@ int FUN_8005fd50(int a) {
 
 	if (v == -1 || v == 1315) {
 		v = -1;
-		GameFMV_StopFMV__Fv();
+		GameFMV_StopFMV();
 		FUN_8005c97c(11);
 		FUN_8005ca64();
 		FUN_80061714(FUN_8005ca3c(DAT_800a1d2c));

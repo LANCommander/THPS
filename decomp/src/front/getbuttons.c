@@ -1,4 +1,5 @@
 /* Front_GetButtons__FRiN30 (0x80019e94) */
+#include "names.h"
 typedef struct {
 	unsigned char b[0x16c];
 } Pad;
@@ -8,7 +9,7 @@ extern int DAT_800d1728, DAT_800d16fc;
 
 int DAT_800d151c, DAT_800d1520;
 
-void Front_GetButtons__FRiN30(int *a, int *b, int *c, int *d) {
+void Front_GetButtons(int *a, int *b, int *c, int *d) {
 	int v, w, e;
 
 	if (DAT_800d1728 == 0 || DAT_800d16fc == 0) {

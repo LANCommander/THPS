@@ -1,4 +1,5 @@
 /* Utils_SetVisibilityInBox__FRC7CVectorT0bT2 (0x80048484) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -50,7 +51,7 @@ extern int DAT_800d199c, DAT_800d1780, DAT_800d16a4, DAT_800d19a4;
 #define OUTSIDE(v, w, u) ((v < t8 || t5 < v) && (w < t6 || t3 < w) && (u < t7 || t4 < u))
 #define SET(o)           o->f0 = (o->f0 & t2) | t1
 
-void Utils_SetVisibilityInBox__FRC7CVectorT0bT2(V *a, V *b, int arg2, int arg3) {
+void Utils_SetVisibilityInBox(V *a, V *b, int arg2, int arg3) {
 	int t8 = a->x, t7 = a->y, t6 = a->z, t5 = b->x, t4 = b->y, t3 = b->z;
 	int t1, t2;
 	A *o;

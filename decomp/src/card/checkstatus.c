@@ -1,17 +1,18 @@
 /* Card_CheckStatus__Fii (0x80015278) */
+#include "names.h"
 int DAT_800d1394, DAT_800d1384, DAT_800d1390, DAT_800d1380, DAT_800d13bc;
 
 extern int DAT_800d10f4;
 
 int FUN_8008e914(int);
-int _card_event__Fv(void);
-void _clear_event__Fv(void);
+int _card_event(void);
+void _clear_event(void);
 int FUN_8008f0cc(int);
-void _clear_event_x__Fv(void);
+void _clear_event_x(void);
 void FUN_8008ea68(int);
-void _card_event_x__Fv(void);
+void _card_event_x(void);
 
-int Card_CheckStatus__Fii(int a, int b) {
+int Card_CheckStatus(int a, int b) {
 	int s0 = a * 16 + b;
 	int ev;
 
@@ -24,7 +25,7 @@ int Card_CheckStatus__Fii(int a, int b) {
 			DAT_800d1380 = 0;
 			break;
 		case 1:
-			ev = _card_event__Fv();
+			ev = _card_event();
 
 			if (ev == 0)
 				break;
@@ -52,9 +53,9 @@ int Card_CheckStatus__Fii(int a, int b) {
 				case 4:
 					DAT_800d10f4 = 0;
 					DAT_800d1390 = 2;
-					_clear_event_x__Fv();
+					_clear_event_x();
 					FUN_8008ea68(s0);
-					_card_event_x__Fv();
+					_card_event_x();
 
 					DAT_800d1394 = 2;
 					DAT_800d1384 = 0;
@@ -68,14 +69,14 @@ int Card_CheckStatus__Fii(int a, int b) {
 
 			break;
 		case 2:
-			_clear_event__Fv();
+			_clear_event();
 			FUN_8008f0cc(s0);
 
 			DAT_800d1394 = 3;
 			DAT_800d13bc = 0;
 			break;
 		case 3:
-			ev = _card_event__Fv();
+			ev = _card_event();
 
 			if (ev == 0)
 				break;

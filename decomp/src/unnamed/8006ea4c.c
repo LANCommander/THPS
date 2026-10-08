@@ -1,6 +1,7 @@
 /* FUN_8006ea4c (0x8006ea4c) */
-void Video_HighlightEnd__FP6CBrucei(char *b, int n);
-void init__17FallingTextEffect(char *p);
+#include "names.h"
+void Video_HighlightEnd(char *b, int n);
+void FallingTextEffect_init(char *p);
 
 void FUN_8006ea4c(char *p) {
 	int sum = 0;
@@ -35,12 +36,12 @@ void FUN_8006ea4c(char *p) {
 		sum = sum * v / 2;
 	}
 
-	Video_HighlightEnd__FP6CBrucei(*(char **)p, -sum);
+	Video_HighlightEnd(*(char **)p, -sum);
 
 	if (*(int *)(p + 340)) {
 		*(int *)(p + 340) = 0;
 		*(int *)(p + 344) = 1;
-		init__17FallingTextEffect(p + 356);
+		FallingTextEffect_init(p + 356);
 	}
 
 	*(int *)(p + 904) = 0;

@@ -1,7 +1,8 @@
 /* __17FallingTextEffect (0x8001dfc4) */
-void init__17FallingTextEffect(int a);
+#include "names.h"
+void FallingTextEffect_init(int a);
 
-int __17FallingTextEffect(int a) {
-	init__17FallingTextEffect(a);
+int FallingTextEffect_ctor(int a) {
+	FallingTextEffect_init(a);
 	return a;
 }

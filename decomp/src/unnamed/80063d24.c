@@ -1,6 +1,7 @@
 /* removeFromMemory__6Sprite (0x80063d24) */
-void removeFromMemory__11SlicedImage(int a);
+#include "names.h"
+void SlicedImage_removeFromMemory(int a);
 
-void removeFromMemory__6Sprite(int *p) {
-	removeFromMemory__11SlicedImage(p[5]);
+void Sprite_removeFromMemory(int *p) {
+	SlicedImage_removeFromMemory(p[5]);
 }

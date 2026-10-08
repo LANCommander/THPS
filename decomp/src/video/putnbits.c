@@ -1,4 +1,5 @@
 /* PutNBits__FP10SVideoInfoli (0x80068b34) */
+#include "names.h"
 typedef struct {
 	int state, f4, f8, fc;
 	unsigned *p;
@@ -6,7 +7,7 @@ typedef struct {
 	int n;
 } SVideoInfo;
 
-void PutNBits__FP10SVideoInfoli(SVideoInfo *v, long val, int n) {
+void PutNBits(SVideoInfo *v, long val, int n) {
 	if (n == 0)
 		return;
 

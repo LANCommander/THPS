@@ -10,7 +10,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
 const rows = f => existsSync(f) ? readFileSync(f, 'utf8').split('\n').filter(l => l.trim() && !l.startsWith('#')).map(l => l.trim().split('\t')) : [];
-const fns = rows('functions.tsv').map(([a, s, n, m]) => ({ addr: a.toLowerCase(), size: +s, name: n, module: (m || '?').replace(/^~/, ''), inferred: (m || '').startsWith('~') }));
+const fns = rows('functions.tsv').map(([a, s, n, m, w]) => ({ addr: a.toLowerCase(), size: +s, name: n, written: w || n, module: (m || '?').replace(/^~/, ''), inferred: (m || '').startsWith('~') }));
 const byAddr = new Map(fns.map(f => [f.addr, f]));
 const TOTAL_BYTES = fns.reduce((n, f) => n + f.size, 0);
 // A matched row covers every function wholly inside [addr, addr+size): one source can span a genuine
@@ -100,13 +100,13 @@ md.push('');
 
 md.push('## Closest near-misses', '', 'From `nearmiss.tsv` (the score is the better of positional and alignment-aware).', '', '| function | size | score | source |', '|---|---:|---:|---|');
 for (const n of near.sort((a, b) => b.frac - a.frac || b.size - a.size).slice(0, 15))
-  md.push(`| ${byAddr.get(n.addr)?.name ?? n.addr} | ${n.size} | ${n.score} (${(100 * n.frac).toFixed(1)}%) | \`${n.src}\` |`);
+  md.push(`| ${byAddr.get(n.addr)?.written ?? n.addr} | ${n.size} | ${n.score} (${(100 * n.frac).toFixed(1)}%) | \`${n.src}\` |`);
 md.push('');
 
 md.push('## Biggest unmatched functions', '', '| function | module | size | attempt |', '|---|---|---:|---|');
 const nearBy = new Map(near.map(n => [n.addr, n]));
 for (const f of fns.filter(f => !exact.has(f.addr)).sort((a, b) => b.size - a.size).slice(0, 15))
-  md.push(`| ${f.name} (${f.addr}) | ${f.module}${f.inferred ? ' (inferred)' : ''} | ${kb(f.size)} | ${nearBy.has(f.addr) ? nearBy.get(f.addr).score : '—'} |`);
+  md.push(`| ${f.written} (${f.addr}) | ${f.module}${f.inferred ? ' (inferred)' : ''} | ${kb(f.size)} | ${nearBy.has(f.addr) ? nearBy.get(f.addr).score : '—'} |`);
 md.push('');
 
 writeFileSync('PROGRESS.md', md.join('\n'));

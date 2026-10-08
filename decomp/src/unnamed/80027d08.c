@@ -1,16 +1,17 @@
 /* __nw__4CBitUi (0x80027d08) */
+#include "names.h"
 int DAT_800d186c;
 
-void *Mem_NewX__FUiii(unsigned int, int, int);
+void *Mem_NewX(unsigned int, int, int);
 
 void *__nw__4CBitUi(unsigned int size) {
 	int *p;
 	unsigned int i, n;
 
 	if (DAT_800d186c)
-		p = Mem_NewX__FUiii(size, 0, 1);
+		p = Mem_NewX(size, 0, 1);
 	else
-		p = Mem_NewX__FUiii(size, 0, 1);
+		p = Mem_NewX(size, 0, 1);
 
 	n = (size + 3) >> 2;
 

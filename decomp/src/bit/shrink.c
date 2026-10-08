@@ -1,10 +1,11 @@
 /* Shrink__7CFT4Biti (0x80028234) */
-void Die__4CBit(char *);
+#include "names.h"
+void CBit_Die(char *);
 
-int Shrink__7CFT4Biti(char *t, int kill) {
+int CFT4Bit_Shrink(char *t, int kill) {
 	if (*(short *)(t + 0x5e) == 0) {
 		if (kill)
-			Die__4CBit(t);
+			CBit_Die(t);
 
 		return 1;
 	}

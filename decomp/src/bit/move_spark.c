@@ -1,4 +1,5 @@
 /* Move__6CSpark (0x80029810) */
+#include "names.h"
 typedef struct {
 	char _0[8];
 	unsigned short life;
@@ -15,9 +16,9 @@ typedef struct {
 	int lim;
 } Spark;
 
-void Die__4CBit(Spark *);
+void CBit_Die(Spark *);
 
-void Move__6CSpark(Spark *t) {
+void CSpark_Move(Spark *t) {
 	int x = t->px + t->vx;
 	int y = t->py + t->vy;
 	int z = t->pz + t->vz;
@@ -43,7 +44,7 @@ void Move__6CSpark(Spark *t) {
 	t->life++;
 
 	if ((short)t->life >= t->maxlife)
-		Die__4CBit(t);
+		CBit_Die(t);
 
 	t->c0 -= t->d0;
 	t->c1 -= t->d1;

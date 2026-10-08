@@ -1,4 +1,5 @@
 /* FUN_80044a20 (0x80044a20) */
+#include "names.h"
 /* Fires the trigger with the given id: marks it hit for this side (1 or 2) and, the first time
    for that side, runs its script. Nodes are hashed on the id's low byte (see FUN_80044820). */
 typedef struct STrig {
@@ -17,7 +18,7 @@ extern STrig *DAT_800d2610[];
 extern int DAT_800d199c;
 extern int DAT_800d17c8;
 
-void ExecuteCommandList__FPUsii(char *, int, int);
+void ExecuteCommandList(char *, int, int);
 
 STrig *FUN_80044a20(int id) {
 	STrig *t;
@@ -32,7 +33,7 @@ STrig *FUN_80044a20(int id) {
 			t->Hit |= bit;
 
 			if (!(t->Done & bit)) {
-				ExecuteCommandList__FPUsii(t->pScript, t->Line, 0);
+				ExecuteCommandList(t->pScript, t->Line, 0);
 
 				t->Done |= bit;
 				return t;

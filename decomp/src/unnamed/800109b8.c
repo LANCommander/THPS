@@ -1,4 +1,5 @@
 /* FUN_800109b8 (0x800109b8) */
+#include "names.h"
 typedef struct {
 	int a0, a1, a2, a3, a4, a5;
 } S;
@@ -17,8 +18,8 @@ extern int DAT_800d16a4;
 
 int DAT_800d10ec;
 
-int SFX_PlayX__FUisi(int, int, int);
-int SFX_GetVoicePitch__FUi(int);
+int SFX_PlayX(int, int, int);
+int SFX_GetVoicePitch(int);
 void FUN_8008c190(char *, int);
 
 void FUN_800109b8(void) {
@@ -29,8 +30,8 @@ void FUN_800109b8(void) {
 			DAT_800d10ec = 0;
 
 			for (i = 0; i < 1; i++) {
-				DAT_800a42b8[i].a0 = SFX_PlayX__FUisi(44, 0, 0);
-				FUN_8008c190(DAT_8009d0e0, SFX_GetVoicePitch__FUi(DAT_800a42b8[i].a0));
+				DAT_800a42b8[i].a0 = SFX_PlayX(44, 0, 0);
+				FUN_8008c190(DAT_8009d0e0, SFX_GetVoicePitch(DAT_800a42b8[i].a0));
 
 				DAT_800a42b8[i].a1 = DAT_800a42b8[i].a3 = DAT_800a42b8[i].a4 = DAT_800a42b8[i].a2 =
 				    0;

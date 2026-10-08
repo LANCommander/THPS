@@ -1,4 +1,5 @@
 /* Pack_NewFree__Fiiii (0x80049650) */
+#include "names.h"
 typedef struct TSPack {
 	unsigned short x, y, w, h;
 	struct TSPack *next;
@@ -6,10 +7,10 @@ typedef struct TSPack {
 
 TSPack *DAT_800d1a60;
 
-TSPack *Pack_New__FPP6TSPack(TSPack **);
+TSPack *Pack_New(TSPack **);
 
-TSPack *Pack_NewFree__Fiiii(int x, int y, int w, int h) {
-	TSPack *p = Pack_New__FPP6TSPack(&DAT_800d1a60);
+TSPack *Pack_NewFree(int x, int y, int w, int h) {
+	TSPack *p = Pack_New(&DAT_800d1a60);
 
 	p->x = x;
 	p->y = y;

@@ -1,4 +1,5 @@
 /* DetachOldEnviro__FUc (0x8006fbe4) */
+#include "names.h"
 typedef struct {
 	char name[10];
 	unsigned char f0a, f0b;
@@ -19,7 +20,7 @@ SEnviro *DAT_800d1eec;
 int DAT_800d1ed0[2];
 int DAT_800d1ee4[2];
 
-void DetachOldEnviro__FUc(unsigned char idx) {
+void DetachOldEnviro(unsigned char idx) {
 	SEnviro *other = 0;
 	SEnviro *cur;
 	int o;

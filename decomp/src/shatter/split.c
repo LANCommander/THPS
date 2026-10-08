@@ -1,4 +1,5 @@
 /* Split__FRC7CVectorN20iiiiiiUii (0x80020f1c) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -15,11 +16,11 @@ unsigned short DAT_800d2220, DAT_800d2224;
 unsigned char DAT_800d2228, DAT_800d2229, DAT_800d222a;
 
 extern void *__nw__4CBitUi(int);
-extern void *__11CShatterBitRC8CSVectorN21RC7CVectori(void *, CS *, CS *, CS *, V *, int);
-extern int Length__C7CVector(V *);
-extern int Redbook_Rnd__Fi(int);
-extern void SetRGB__9CChunkBitUcUcUc(void *, int, int, int);
-extern void SetUVs__9CChunkBitUsUsUcUcUcUcUcUc(void *, int, int, int, int, int, int, int, int);
+extern void *CShatterBit_ctor(void *, CS *, CS *, CS *, V *, int);
+extern int CVector_Length(V *);
+extern int Redbook_Rnd(int);
+extern void CChunkBit_SetRGB(void *, int, int, int);
+extern void CChunkBit_SetUVs(void *, int, int, int, int, int, int, int, int);
 extern void __als__7CVectorRCi(V *, int *);
 extern void __apl__8CSVectorRC8CSVector(CS *, CS *);
 extern void __mi__FRC7CVectorT0(V *, V *, V *);
@@ -29,7 +30,7 @@ extern void __pl__FRC7CVectorT0(V *, V *, V *);
 extern void __rs__FRC7CVectorRCi(V *, V *, int *);
 extern void __rs__FRC8CSVectorRCi(CS *, CS *, int *);
 
-void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5, int a6, int a7,
+void Split(V *a0, V *a1, V *a2, int a3, int a4, int a5, int a6, int a7,
                                     int a8, int a9, int a10) {
 	V t30;
 	int p30;
@@ -53,12 +54,12 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 			__mi__FRC7CVectorT0(&t40, a1, a2);
 
 			t30 = t40;
-			s1 = Length__C7CVector(&t30);
+			s1 = CVector_Length(&t30);
 			s0 = 0;
 			__mi__FRC7CVectorT0(&t40, a0, a2);
 
 			t30 = t40;
-			l2 = Length__C7CVector(&t30);
+			l2 = CVector_Length(&t30);
 
 			if (s1 < l2) {
 				s1 = l2;
@@ -69,10 +70,10 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 
 			t30 = t40;
 
-			if (s1 < Length__C7CVector(&t30))
+			if (s1 < CVector_Length(&t30))
 				s0 = 2;
 
-			iB8 = Redbook_Rnd__Fi(9);
+			iB8 = Redbook_Rnd(9);
 
 			switch (s0) {
 				case 0: {
@@ -95,8 +96,8 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 					n = a10 - 1;
 					x7 = a5 + (((a7 - a5) * iB8) >> 3);
 					x8 = a6 + (((a8 - a6) * iB8) >> 3);
-					Split__FRC7CVectorN20iiiiiiUii(a0, a1, &t30, a3, a4, a5, a6, x7, x8, a9, n);
-					Split__FRC7CVectorN20iiiiiiUii(a0, a2, &t30, a3, a4, a7, a8, x7, x8, a9, n);
+					Split(a0, a1, &t30, a3, a4, a5, a6, x7, x8, a9, n);
+					Split(a0, a2, &t30, a3, a4, a7, a8, x7, x8, a9, n);
 					return;
 				}
 				case 1: {
@@ -119,8 +120,8 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 					n = a10 - 1;
 					x7 = a3 + (((a7 - a3) * iB8) >> 3);
 					x8 = a4 + (((a8 - a4) * iB8) >> 3);
-					Split__FRC7CVectorN20iiiiiiUii(a1, a0, &t30, a5, a6, a3, a4, x7, x8, a9, n);
-					Split__FRC7CVectorN20iiiiiiUii(a1, a2, &t30, a5, a6, a7, a8, x7, x8, a9, n);
+					Split(a1, a0, &t30, a5, a6, a3, a4, x7, x8, a9, n);
+					Split(a1, a2, &t30, a5, a6, a7, a8, x7, x8, a9, n);
 					return;
 				}
 				case 2: {
@@ -143,8 +144,8 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 					n = a10 - 1;
 					x7 = a3 + (((a5 - a3) * iB8) >> 3);
 					x8 = a4 + (((a6 - a4) * iB8) >> 3);
-					Split__FRC7CVectorN20iiiiiiUii(a2, a0, &t30, a7, a8, a3, a4, x7, x8, a9, n);
-					Split__FRC7CVectorN20iiiiiiUii(a2, a1, &t30, a7, a8, a5, a6, x7, x8, a9, n);
+					Split(a2, a0, &t30, a7, a8, a3, a4, x7, x8, a9, n);
+					Split(a2, a1, &t30, a7, a8, a5, a6, x7, x8, a9, n);
 					return;
 				}
 			}
@@ -176,7 +177,7 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 			c98.z = (unsigned short)t50.z - (unsigned short)t60.z;
 			pA0 = &cA0;
 			pA8 = &cA8;
-			iD4 = Redbook_Rnd__Fi(100);
+			iD4 = Redbook_Rnd(100);
 			__ml__FRCiRC8CSVector(pA8, &iD4, (CS *)DAT_800d1624);
 
 			iD8 = 12;
@@ -184,14 +185,14 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 			__apl__8CSVectorRC8CSVector((CS *)&s70, pA0);
 
 			pB0 = &cB0;
-			iDC = Redbook_Rnd__Fi(100);
+			iDC = Redbook_Rnd(100);
 			__ml__FRCiRC8CSVector(pB0, &iDC, (CS *)DAT_800d1624);
 
 			iE0 = 12;
 			__rs__FRC8CSVectorRCi(pA0, pB0, &iE0);
 			__apl__8CSVectorRC8CSVector(&c90, pA0);
 
-			iE4 = Redbook_Rnd__Fi(100);
+			iE4 = Redbook_Rnd(100);
 			__ml__FRCiRC8CSVector(pA8, &iE4, (CS *)DAT_800d1624);
 
 			iE8 = 12;
@@ -205,11 +206,11 @@ void Split__FRC7CVectorN20iiiiiiUii(V *a0, V *a1, V *a2, int a3, int a4, int a5,
 			o = __nw__4CBitUi(204);
 
 			if (o)
-				o = __11CShatterBitRC8CSVectorN21RC7CVectori(o, (CS *)&s70, &c90, &c98, &t60, 0);
+				o = CShatterBit_ctor(o, (CS *)&s70, &c90, &c98, &t60, 0);
 
 			DAT_800d186c = 1;
-			SetRGB__9CChunkBitUcUcUc(o, DAT_800d2228, DAT_800d2229, DAT_800d222a);
-			SetUVs__9CChunkBitUsUsUcUcUcUcUcUc(o, DAT_800d2220, DAT_800d2224, a3 & 255, a4 & 255,
+			CChunkBit_SetRGB(o, DAT_800d2228, DAT_800d2229, DAT_800d222a);
+			CChunkBit_SetUVs(o, DAT_800d2220, DAT_800d2224, a3 & 255, a4 & 255,
 			                                   a5 & 255, a6 & 255, a7 & 255, a8 & 255);
 
 			*(int *)((char *)o + 0xbc) = a9;

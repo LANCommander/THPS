@@ -1,4 +1,5 @@
 /* FUN_8005cba0 (0x8005cba0) */
+#include "names.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
@@ -15,7 +16,7 @@ extern char DAT_800c0a48[];
 int DAT_800d1cf0, DAT_800d1cf4;
 unsigned DAT_800d1cf8;
 
-void Pad_ClearTriggers__FP8SControl(char *);
+void Pad_ClearTriggers(char *);
 DRAWENV *FUN_80092e70(DRAWENV *, int, int, int, int);
 DISPENV *FUN_800914fc(DISPENV *, int, int, int, int);
 int FUN_8008c5ec(RECT *, int, int, int);
@@ -32,8 +33,8 @@ void FUN_8005cba0(void) {
 	RECT r;
 
 	DAT_800d1cf0 = 0;
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(DAT_800c0a48);
+	Pad_ClearTriggers(DAT_800c0a48 + 364);
 	FUN_80092e70(&dr, 0, 0, 512, 240);
 	FUN_800914fc(&de, 0, 0, 512, 240);
 

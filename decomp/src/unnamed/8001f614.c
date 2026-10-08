@@ -1,4 +1,5 @@
 /* __6CLightRC7CVectoriiiiiUcUcUcUcUcUc (0x8001f614) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -20,12 +21,12 @@ typedef struct {
 
 extern char DAT_8009f0b0[];
 
-int __15CNonRenderedBit(B *);
+int CNonRenderedBit_ctor(B *);
 
-B *__6CLightRC7CVectoriiiiiUcUcUcUcUcUc(B *p, V *pos, int a2, int a3, int a4, int a5, int a6, unsigned char c0,
+B *CLight_ctor(B *p, V *pos, int a2, int a3, int a4, int a5, int a6, unsigned char c0,
                 unsigned char c1, unsigned char c2, unsigned char c3, unsigned char c4,
                 unsigned char c5) {
-	__15CNonRenderedBit(p);
+	CNonRenderedBit_ctor(p);
 
 	p->vt = DAT_8009f0b0;
 	p->v18 = *pos;

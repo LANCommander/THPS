@@ -1,9 +1,10 @@
 /* RemovePaletteEntry__FP9tag_S_Pal (0x8004ab88) */
+#include "names.h"
 int *DAT_800d1a80;
 
-void Mem_Delete__FPv(int *p);
+void Mem_Delete(int *p);
 
-void RemovePaletteEntry__FP9tag_S_Pal(int *n) {
+void RemovePaletteEntry(int *n) {
 	int *p = (int *)n[4];
 	int *q;
 
@@ -18,5 +19,5 @@ void RemovePaletteEntry__FP9tag_S_Pal(int *n) {
 	if (n == DAT_800d1a80)
 		DAT_800d1a80 = (int *)n[4];
 
-	Mem_Delete__FPv(n);
+	Mem_Delete(n);
 }

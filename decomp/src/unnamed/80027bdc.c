@@ -1,4 +1,5 @@
 /* RemoveDeadBits__FP4CBit (0x80027bdc) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -15,7 +16,7 @@ struct O {
 	struct VT *vt;
 };
 
-void RemoveDeadBits__FP4CBit(struct O *p) {
+void RemoveDeadBits(struct O *p) {
 	struct O *n;
 
 	if (!p)

@@ -1,4 +1,5 @@
 /* AlignHeadingOnRail__6CBruce (0x80033108) */
+#include "names.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <inline_c.h>
@@ -7,10 +8,10 @@ typedef struct {
 	int x, y, z;
 } V;
 
-void M3dUtils_NormaliseVector__FP7CVector(V *);
-void RotMatrixFromFRUVectors__6CBruce(char *);
+void M3dUtils_NormaliseVector(V *);
+void CBruce_RotMatrixFromFRUVectors(char *);
 
-void AlignHeadingOnRail__6CBruce(char *t) {
+void CBruce_AlignHeadingOnRail(char *t) {
 	V *a = (V *)(t + 0x7f0);
 	V *b = (V *)(t + 0x7d8);
 
@@ -21,10 +22,10 @@ void AlignHeadingOnRail__6CBruce(char *t) {
 	gte_ldopv2(a);
 	gte_op12();
 	gte_stlvnl((V *)(t + 0x7e4));
-	M3dUtils_NormaliseVector__FP7CVector((V *)(t + 0x7e4));
+	M3dUtils_NormaliseVector((V *)(t + 0x7e4));
 	gte_ldopv1((V *)(t + 0x7e4));
 	gte_ldopv2(b);
 	gte_op12();
 	gte_stlvnl(a);
-	RotMatrixFromFRUVectors__6CBruce(t);
+	CBruce_RotMatrixFromFRUVectors(t);
 }

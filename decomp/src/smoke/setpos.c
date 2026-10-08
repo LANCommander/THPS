@@ -1,4 +1,5 @@
 /* SetPos__9CSmokeJetRC7CVector (0x80015bd8) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -8,16 +9,16 @@ typedef struct {
 	char pad[24];
 } P;
 
-V *Utils_GetVecFromMagDir__FR7CVectoriRC8CSVector(V *, int, void *);
+V *Utils_GetVecFromMagDir(V *, int, void *);
 V *__adv__7CVectorRCi(V *, int *);
 V *__apl__7CVectorRC7CVector(V *, V *);
 
-void SetPos__9CSmokeJetRC7CVector(char *t, V *p) {
+void CSmokeJet_SetPos(char *t, V *p) {
 	V d, pos;
 	int n;
 	int i;
 
-	Utils_GetVecFromMagDir__FR7CVectoriRC8CSVector(&d, *(int *)(t + 0x168), t + 0x162);
+	Utils_GetVecFromMagDir(&d, *(int *)(t + 0x168), t + 0x162);
 
 	n = 9;
 	__adv__7CVectorRCi(&d, &n);

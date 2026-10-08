@@ -1,13 +1,14 @@
 /* SaveReturnState__Fv (0x80012774) */
+#include "names.h"
 int DAT_800d1148;
 int DAT_800d21e0;
 
-int InCompetition__Fv(void);
-int Competition_IsOver__Fv(void);
+int InCompetition(void);
+int Competition_IsOver(void);
 
 int SaveReturnState(void) {
 	if (DAT_800d1148 == 0) {
-		if (InCompetition__Fv() && !Competition_IsOver__Fv())
+		if (InCompetition() && !Competition_IsOver())
 			return 25;
 
 		return 15;

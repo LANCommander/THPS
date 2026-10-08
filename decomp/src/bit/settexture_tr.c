@@ -1,6 +1,7 @@
 /* SetTexture__15CTexturedRibbonUi (0x8002e2f0) */
-int Spool_FindTextureEntry__FUi(unsigned);
+#include "names.h"
+int Spool_FindTextureEntry(unsigned);
 
-void SetTexture__15CTexturedRibbonUi(char *t, unsigned a) {
-	*(int *)(t + 0x4c) = Spool_FindTextureEntry__FUi(a);
+void CTexturedRibbon_SetTexture(char *t, unsigned a) {
+	*(int *)(t + 0x4c) = Spool_FindTextureEntry(a);
 }

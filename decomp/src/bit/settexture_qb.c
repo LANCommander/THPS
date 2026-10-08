@@ -1,8 +1,9 @@
 /* SetTexture__8CQuadBitPci (0x80028440) */
-char *Spool_FindAnim__FPc(char *);
+#include "names.h"
+char *Spool_FindAnim(char *);
 
-void SetTexture__8CQuadBitPci(char *t, char *name, int i) {
-	char *p = Spool_FindAnim__FPc(name);
+void CQuadBit_SetTexture(char *t, char *name, int i) {
+	char *p = Spool_FindAnim(name);
 
 	*(int *)(t + 0x94) = *(int *)(p + i * 8 + 4);
 }

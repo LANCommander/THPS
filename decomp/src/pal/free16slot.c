@@ -1,11 +1,12 @@
 /* Free16Slot__FUs (0x8004ad38) */
+#include "names.h"
 extern unsigned char DAT_800d2a10[];
 
 int DAT_800d1a84, DAT_800d1a88;
 
 unsigned short FUN_8008f70c(int, int);
 
-void Free16Slot__FUs(unsigned short clut) {
+void Free16Slot(unsigned short clut) {
 	int i;
 
 	for (i = 0; i < 256; i++)

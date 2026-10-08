@@ -1,5 +1,6 @@
 /* DeleteFrom__4CBitPv (0x80027dbc) */
-void DeleteFrom__4CBitPv(void **t, void **head) {
+#include "names.h"
+void CBit_DeleteFrom(void **t, void **head) {
 	if (t[1])
 		((void **)t[1])[0] = t[0];
 

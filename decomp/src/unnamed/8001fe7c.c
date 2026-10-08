@@ -1,5 +1,6 @@
 /* DontDisplay__8CPowerUp (0x8001fe7c) */
-void DontDisplay__8CPowerUp(char *p) {
+#include "names.h"
+void CPowerUp_DontDisplay(char *p) {
 	char *vt;
 
 	void (*fn)(char *);

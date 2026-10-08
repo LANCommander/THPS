@@ -1,4 +1,5 @@
 /* FUN_80070ff4 (0x80070ff4) */
+#include "names.h"
 typedef struct {
 	char b[16];
 } SB;
@@ -26,9 +27,9 @@ int DAT_800d1f54, DAT_800d1f58, DAT_800d1f5c, DAT_800d1f60, DAT_800d1f68;
 int DAT_800d23e4, DAT_800d23e8, DAT_800d23ec, DAT_800d23f0, DAT_800d23f4, DAT_800d23f8,
     DAT_800d23fc, DAT_800d2400;
 
-void Pad_ActuatorOff__FUcUc(int, int);
-void Pad_Button__FP7SButtoni(SB *, int);
-void ReadControllers__Fv(void);
+void Pad_ActuatorOff(int, int);
+void Pad_Button(SB *, int);
+void ReadControllers(void);
 int FUN_80070f18(int, int, int, int);
 
 #define B DAT_800c0a48
@@ -46,23 +47,23 @@ int FUN_80070ff4(void) {
 		for (i = 0; i < 2; i++) {
 			if (B[i].t158 != 0) {
 				if (--B[i].t158 == 0)
-					Pad_ActuatorOff__FUcUc(i & 255, 0);
+					Pad_ActuatorOff(i & 255, 0);
 			}
 
 			if (B[i].t15a != 0) {
 				if (--B[i].t15a == 0)
-					Pad_ActuatorOff__FUcUc(i & 255, 1);
+					Pad_ActuatorOff(i & 255, 1);
 			}
 		}
 	}
 
-	ReadControllers__Fv();
+	ReadControllers();
 
 	if (R[0].b[1] == 0x41 || R[0].b[1] == 0x73) {
 		a = ~(R[0].b[3] | (R[0].b[2] << 8)) & 0xffff;
 	} else {
-		Pad_ActuatorOff__FUcUc(0, 0);
-		Pad_ActuatorOff__FUcUc(0, 1);
+		Pad_ActuatorOff(0, 0);
+		Pad_ActuatorOff(0, 1);
 
 		a = 0;
 	}
@@ -70,8 +71,8 @@ int FUN_80070ff4(void) {
 	if (R[1].b[1] == 0x41 || R[1].b[1] == 0x73) {
 		b = ~(R[1].b[3] | (R[1].b[2] << 8)) & 0xffff;
 	} else {
-		Pad_ActuatorOff__FUcUc(1, 0);
-		Pad_ActuatorOff__FUcUc(1, 1);
+		Pad_ActuatorOff(1, 0);
+		Pad_ActuatorOff(1, 1);
 
 		b = 0;
 	}
@@ -137,22 +138,22 @@ int FUN_80070ff4(void) {
 		for (j = 0; j < 2; j++) {
 			SB *q = B[j].btn;
 
-			Pad_Button__FP7SButtoni(q++, s2 & 0x10);
-			Pad_Button__FP7SButtoni(q++, s2 & 0x80);
-			Pad_Button__FP7SButtoni(q++, s2 & 0x20);
-			Pad_Button__FP7SButtoni(q++, s2 & 0x40);
-			Pad_Button__FP7SButtoni(q++, s2 & 4);
-			Pad_Button__FP7SButtoni(q++, s2 & 1);
-			Pad_Button__FP7SButtoni(q++, s2 & 8);
-			Pad_Button__FP7SButtoni(q++, s2 & 2);
-			Pad_Button__FP7SButtoni(q++, (s2 & 0x8000) | (B[j].a149 < -40));
-			Pad_Button__FP7SButtoni(q++, (s2 & 0x2000) | (B[j].a149 >= 41));
-			Pad_Button__FP7SButtoni(q++, (s2 & 0x1000) | (B[j].a148 < -40));
-			Pad_Button__FP7SButtoni(q++, (s2 & 0x4000) | (B[j].a148 >= 41));
-			Pad_Button__FP7SButtoni(q++, s2 & 0x200);
-			Pad_Button__FP7SButtoni(q++, s2 & 0x400);
-			Pad_Button__FP7SButtoni(q++, s2 & 0x800);
-			Pad_Button__FP7SButtoni(q++, s2 & 0x100);
+			Pad_Button(q++, s2 & 0x10);
+			Pad_Button(q++, s2 & 0x80);
+			Pad_Button(q++, s2 & 0x20);
+			Pad_Button(q++, s2 & 0x40);
+			Pad_Button(q++, s2 & 4);
+			Pad_Button(q++, s2 & 1);
+			Pad_Button(q++, s2 & 8);
+			Pad_Button(q++, s2 & 2);
+			Pad_Button(q++, (s2 & 0x8000) | (B[j].a149 < -40));
+			Pad_Button(q++, (s2 & 0x2000) | (B[j].a149 >= 41));
+			Pad_Button(q++, (s2 & 0x1000) | (B[j].a148 < -40));
+			Pad_Button(q++, (s2 & 0x4000) | (B[j].a148 >= 41));
+			Pad_Button(q++, s2 & 0x200);
+			Pad_Button(q++, s2 & 0x400);
+			Pad_Button(q++, s2 & 0x800);
+			Pad_Button(q++, s2 & 0x100);
 
 			s2 = s2 >> 16;
 		}

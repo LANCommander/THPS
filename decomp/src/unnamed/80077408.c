@@ -1,4 +1,5 @@
 /* QFromV__FRC7CVector (0x80077408) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -14,7 +15,7 @@ extern ST DAT_800c9670[];
 int FUN_8008b5dc(int a);
 void FUN_800934e4(V *a, V *b);
 
-char *QFromV__FRC7CVector(char *out, V *v) {
+char *QFromV(char *out, V *v) {
 	int s;
 	V t;
 	int a, b, x, y, z;

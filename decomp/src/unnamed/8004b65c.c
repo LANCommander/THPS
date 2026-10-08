@@ -1,4 +1,5 @@
 /* SFX_ModifyPos__FUiRC7CVectori (0x8004b65c) */
+#include "names.h"
 typedef struct {
 	int id;
 	int cmd;
@@ -13,9 +14,9 @@ extern int DAT_800d13cc;
 unsigned short DAT_800d2b5c[48];
 
 void FUN_80093e54(int, S *);
-unsigned Utils_CalculateSpatialAttenuation__FRC7CVectorii(void *, int, int);
+unsigned Utils_CalculateSpatialAttenuation(void *, int, int);
 
-void SFX_ModifyPos__FUiRC7CVectori(unsigned a, void *pos, int b) {
+void SFX_ModifyPos(unsigned a, void *pos, int b) {
 	S s;
 	unsigned t, l, r;
 	int i, y, v, d;
@@ -23,7 +24,7 @@ void SFX_ModifyPos__FUiRC7CVectori(unsigned a, void *pos, int b) {
 	unsigned short *tab;
 
 	if (a) {
-		t = Utils_CalculateSpatialAttenuation__FRC7CVectorii(pos, 256, 12000);
+		t = Utils_CalculateSpatialAttenuation(pos, 256, 12000);
 		l = ((t & 0xfff) * DAT_800d13cc) >> 14;
 		r = (((t >> 16) & 0xfff) * DAT_800d13cc) >> 14;
 

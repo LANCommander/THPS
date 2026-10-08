@@ -1,4 +1,5 @@
 /* FUN_8003e934 (0x8003e934) */
+#include "names.h"
 struct VT {
 	char pad[16];
 	short off;
@@ -6,8 +7,8 @@ struct VT {
 	void (*fn)(char *);
 };
 
-void Shatter_Item__FP4Itemii(char *p, int a, int b);
-void Flash__5CItemiUcUcUc(char *p, int a, int b, int c, int d);
+void Shatter_Item(char *p, int a, int b);
+void CItem_Flash(char *p, int a, int b, int c, int d);
 
 int FUN_8003e934(char *p, int a) {
 	p[415] = p[415] + 1;
@@ -20,9 +21,9 @@ int FUN_8003e934(char *p, int a) {
 				struct VT *vt = *(struct VT **)(p + 72);
 
 				vt->fn(p + vt->off);
-				Shatter_Item__FP4Itemii(p, 0, 1);
+				Shatter_Item(p, 0, 1);
 			} else
-				Flash__5CItemiUcUcUc(p, 3, 255, 255, 255);
+				CItem_Flash(p, 3, 255, 255, 255);
 		}
 	}
 

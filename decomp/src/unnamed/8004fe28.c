@@ -1,4 +1,5 @@
 /* FUN_8004fe28 (0x8004fe28) */
+#include "names.h"
 extern char DAT_800a1360[];
 extern char DAT_800a136c[];
 extern char DAT_800a1378[];
@@ -6,35 +7,35 @@ extern char DAT_800c0a48[];
 
 int DAT_800d1b98[1];
 
-void Mess_SetTextJustify__FUc(int);
-int Mess_TextHeightAboveBaseline__FPCc(char *);
-void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
+void Mess_SetTextJustify(int);
+int Mess_TextHeightAboveBaseline(char *);
+void Mess_DrawText(int, int, char *, int, int, int, int);
 void FUN_800242cc(void);
 void FUN_800491e8(void);
 void FUN_80049474(void);
 void FUN_800494dc(void);
-void SFX_PlayX__FUisi(int, int, int);
-int FileIO_Open__FPCc(char *);
-void FileIO_Load__FPv(char *);
-void FileIO_Sync__Fv(void);
-char *Mem_NewX__FUiii(int, int, int);
-void Mem_Delete__FPv(char *);
+void SFX_PlayX(int, int, int);
+int FileIO_Open(char *);
+void FileIO_Load(char *);
+void FileIO_Sync(void);
+char *Mem_NewX(int, int, int);
+void Mem_Delete(char *);
 void FUN_8005027c(int, int, int);
 void FUN_8005c780(void);
-void DrawColoredBox__FiiiiUcUcUc(int, int, int, int, int, int, int);
-void SetClippingBox__Fiiii(int, int, int, int);
+void DrawColoredBox(int, int, int, int, int, int, int);
+void SetClippingBox(int, int, int, int);
 void FUN_80061ea0(void);
 void FUN_8006af64(void);
 void FUN_80070ff4(void);
 void FUN_8008eebc(int);
-void Front_ClearScreen__Fv(void);
+void Front_ClearScreen(void);
 void Mess_LoadFont__FPciii(char *, int, int, int);
-void Mess_SetRGB__FUcUcUci(int, int, int, int);
-void Mess_SetScale__Fi(int);
-int Mess_TextHeight__FPCc(char *);
-void Mess_UnloadFont__Fv(void);
-void Pack_DefragmentFully__Fv(void);
-void Pad_ClearTriggers__FP8SControl(char *);
+void Mess_SetRGB(int, int, int, int);
+void Mess_SetScale(int);
+int Mess_TextHeight(char *);
+void Mess_UnloadFont(void);
+void Pack_DefragmentFully(void);
+void Pad_ClearTriggers(char *);
 
 void FUN_8004fe28(int a0, int a1) {
 	char *s0;
@@ -48,23 +49,23 @@ void FUN_8004fe28(int a0, int a1) {
 	if (a1)
 		FUN_8006af64();
 	else
-		Front_ClearScreen__Fv();
+		Front_ClearScreen();
 
-	Pack_DefragmentFully__Fv();
+	Pack_DefragmentFully();
 
 	if (a0 == 0)
-		s0i = FileIO_Open__FPCc(DAT_800a1360);
+		s0i = FileIO_Open(DAT_800a1360);
 
 	if (a0 == 1)
-		s0i = FileIO_Open__FPCc(DAT_800a136c);
+		s0i = FileIO_Open(DAT_800a136c);
 
-	s0 = Mem_NewX__FUiii(s0i, 1, 1);
-	FileIO_Load__FPv(s0);
+	s0 = Mem_NewX(s0i, 1, 1);
+	FileIO_Load(s0);
 
 	s7 = 0;
-	FileIO_Sync__Fv();
+	FileIO_Sync();
 
-	out = (char (*)[30])Mem_NewX__FUiii(12000, 1, 1);
+	out = (char (*)[30])Mem_NewX(12000, 1, 1);
 	p = (unsigned char *)s0;
 
 	while (1) {
@@ -108,21 +109,21 @@ void FUN_8004fe28(int a0, int a1) {
 		break;
 	}
 
-	Mem_Delete__FPv(s0);
+	Mem_Delete(s0);
 	Mess_LoadFont__FPciii(DAT_800a1378, -1, -1, -1);
-	Mess_SetTextJustify__FUc(0);
-	Mess_SetScale__Fi(255);
-	Mess_SetRGB__FUcUcUci(150, 100, 25, 0);
+	Mess_SetTextJustify(0);
+	Mess_SetScale(255);
+	Mess_SetRGB(150, 100, 25, 0);
 
 	s6 = 0;
-	s3 = Mess_TextHeightAboveBaseline__FPCc((char *)out) + 256;
-	th = Mess_TextHeight__FPCc((char *)out) + 8;
+	s3 = Mess_TextHeightAboveBaseline((char *)out) + 256;
+	th = Mess_TextHeight((char *)out) + 8;
 	bot = -th;
 	top = s3;
 	off = a0 * 4;
 	s4 = *(int *)((char *)DAT_800d1b98 + off);
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(DAT_800c0a48);
+	Pad_ClearTriggers(DAT_800c0a48 + 364);
 	FUN_800491e8();
 
 	tog = 0;
@@ -133,8 +134,8 @@ void FUN_8004fe28(int a0, int a1) {
 		FUN_8005c780();
 		FUN_80049474();
 		FUN_80061ea0();
-		SetClippingBox__Fiiii(0, tog << 8, 512, 240);
-		DrawColoredBox__FiiiiUcUcUc(0, 0, 512, 240, 0, 0, 0);
+		SetClippingBox(0, tog << 8, 512, 240);
+		DrawColoredBox(0, 0, 512, 240, 0, 0, 0);
 
 		tog = 1 - tog;
 
@@ -144,7 +145,7 @@ void FUN_8004fe28(int a0, int a1) {
 		y = s3;
 
 		while (y < top) {
-			Mess_DrawText__FiiPCciUiib(256, y, out[s2], 1, 0, 256, 0);
+			Mess_DrawText(256, y, out[s2], 1, 0, 256, 0);
 
 			s2++;
 			y += th;
@@ -174,14 +175,14 @@ void FUN_8004fe28(int a0, int a1) {
 
 		if (DAT_800c0a48[49] || DAT_800c0a48[413] || DAT_800c0a48[225] || DAT_800c0a48[589] ||
 		    DAT_800c0a48[241] || DAT_800c0a48[605]) {
-			Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-			Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
-			SFX_PlayX__FUisi(145, 8192, 0);
+			Pad_ClearTriggers(DAT_800c0a48);
+			Pad_ClearTriggers(DAT_800c0a48 + 364);
+			SFX_PlayX(145, 8192, 0);
 			break;
 		}
 	}
 
 	FUN_8005027c(a0, 2, a1);
-	Mem_Delete__FPv((char *)out);
-	Mess_UnloadFont__Fv();
+	Mem_Delete((char *)out);
+	Mess_UnloadFont();
 }

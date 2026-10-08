@@ -1,10 +1,11 @@
 /* Die__8CPowerUp (0x8001ff44) */
-int IsDead__C5CBody(char *);
-void DontDisplay__8CPowerUp(char *);
+#include "names.h"
+int CBody_IsDead(char *);
+void CPowerUp_DontDisplay(char *);
 
-void Die__8CPowerUp(char *t) {
-	if (!IsDead__C5CBody(t)) {
+void CPowerUp_Die(char *t) {
+	if (!CBody_IsDead(t)) {
 		*(unsigned short *)(t + 0x52) |= 0x40;
-		DontDisplay__8CPowerUp(t);
+		CPowerUp_DontDisplay(t);
 	}
 }

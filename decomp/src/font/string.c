@@ -1,4 +1,5 @@
 /* Font_String__FUsUsPcUcUcUcUc (0x8004c1a8) */
+#include "names.h"
 typedef struct {
 	int a;
 	short x, y;
@@ -11,7 +12,7 @@ typedef struct {
 SFont *DAT_800d1aec;
 int DAT_800d1ae0;
 
-void Font_String__FUsUsPcUcUcUcUc(unsigned short x, unsigned short y, char *s, unsigned char c0,
+void Font_String(unsigned short x, unsigned short y, char *s, unsigned char c0,
                                   unsigned char c1, unsigned char c2, unsigned char c3) {
 	SFont *p = DAT_800d1aec;
 

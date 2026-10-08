@@ -1,6 +1,7 @@
 /* __dl__6CClassPv (0x80024238) */
-void Mem_Delete__FPv(void);
+#include "names.h"
+void Mem_Delete(void);
 
 void __dl__6CClassPv(void) {
-	Mem_Delete__FPv();
+	Mem_Delete();
 }

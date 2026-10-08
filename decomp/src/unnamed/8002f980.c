@@ -1,4 +1,5 @@
 /* StateTransition__6CBruce13EPhysicsStatei (0x8002f980) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -25,14 +26,14 @@ typedef struct {
 	V w3;
 } B;
 
-extern void Trick_Trick__6CBruceiPcii(B *, int, void *, int, int);
-extern int Mips_FixMul__Fii(int, int);
-extern void RotMatrixFromFRUVectors__6CBruce(B *);
+extern void CBruce_Trick_Trick(B *, int, void *, int, int);
+extern int Mips_FixMul(int, int);
+extern void CBruce_RotMatrixFromFRUVectors(B *);
 extern V __mi__C7CVector(const V *);
 
 extern char DAT_8009fcb0[];
 
-void StateTransition__6CBruce13EPhysicsStatei(B *o, int n) {
+void CBruce_StateTransition(B *o, int n) {
 	V a, r, r2;
 
 	if (o->f734 == 4 && n == 1) {
@@ -56,14 +57,14 @@ void StateTransition__6CBruce13EPhysicsStatei(B *o, int n) {
 	if (o->f734 != 2) {
 		if (n == 2) {
 			o->w3 = o->w0;
-			o->w3.x = -Mips_FixMul__Fii(o->w3.x, 13000);
-			o->w3.y = Mips_FixMul__Fii(o->w3.y, 13000);
-			o->w3.z = -Mips_FixMul__Fii(o->w3.z, 13000);
+			o->w3.x = -Mips_FixMul(o->w3.x, 13000);
+			o->w3.y = Mips_FixMul(o->w3.y, 13000);
+			o->w3.z = -Mips_FixMul(o->w3.z, 13000);
 		}
 	}
 
 	if (o->f734 == 5 && n == 1) {
-		Trick_Trick__6CBruceiPcii(o, 64, DAT_8009fcb0, 500, 0);
+		CBruce_Trick_Trick(o, 64, DAT_8009fcb0, 500, 0);
 
 		if (o->f146 == 35) {
 			if (!(o->f134 & 2)) {
@@ -87,7 +88,7 @@ void StateTransition__6CBruce13EPhysicsStatei(B *o, int n) {
 		}
 	}
 
-	RotMatrixFromFRUVectors__6CBruce(o);
+	CBruce_RotMatrixFromFRUVectors(o);
 
 	o->f734 = n;
 }

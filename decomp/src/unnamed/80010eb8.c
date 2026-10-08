@@ -1,4 +1,5 @@
 /* FUN_80010eb8 (0x80010eb8) */
+#include "names.h"
 typedef struct {
 	char p[0x4c];
 	int f4c;
@@ -11,7 +12,7 @@ extern int DAT_800d16a4;
 
 int DAT_800d10ec;
 
-int SFX_PlayX__FUisi(int, short, int);
+int SFX_PlayX(int, short, int);
 
 void FUN_80010eb8(int Speed) {
 	int Volume;
@@ -27,7 +28,7 @@ void FUN_80010eb8(int Speed) {
 			if (Volume < 2048)
 				Volume = 2048;
 
-			SFX_PlayX__FUisi(49, Volume, 0);
+			SFX_PlayX(49, Volume, 0);
 		}
 	}
 }

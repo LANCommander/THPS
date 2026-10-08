@@ -1,12 +1,13 @@
 /* Pack_Remove__FPP6TSPackP6TSPack (0x80049710) */
+#include "names.h"
 typedef struct TSPack {
 	unsigned short x, y, w, h;
 	struct TSPack *next;
 } TSPack;
 
-void Pack_KillSlot__FP6TSPack(TSPack *);
+void Pack_KillSlot(TSPack *);
 
-void Pack_Remove__FPP6TSPackP6TSPack(TSPack **list, TSPack *p) {
+void Pack_Remove(TSPack **list, TSPack *p) {
 	TSPack *q;
 
 	if (*list == p) {
@@ -20,5 +21,5 @@ void Pack_Remove__FPP6TSPackP6TSPack(TSPack **list, TSPack *p) {
 		q->next = p->next;
 	}
 
-	Pack_KillSlot__FP6TSPack(p);
+	Pack_KillSlot(p);
 }

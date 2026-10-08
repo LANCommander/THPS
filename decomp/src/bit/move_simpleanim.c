@@ -1,4 +1,5 @@
 /* Move__11CSimpleAnim (0x80029974) */
+#include "names.h"
 typedef struct {
 	char p[0x59];
 	unsigned char n;
@@ -8,20 +9,20 @@ typedef struct {
 	int end;
 } B;
 
-void IncFrame__7CFT4Bit(B *);
-void Die__4CBit(B *);
-void SetFrame__7CFT4Biti(B *, int);
+void CFT4Bit_IncFrame(B *);
+void CBit_Die(B *);
+void CFT4Bit_SetFrame(B *, int);
 
-void Move__11CSimpleAnim(B *t) {
-	IncFrame__7CFT4Bit(t);
+void CSimpleAnim_Move(B *t) {
+	CFT4Bit_IncFrame(t);
 
 	if (t->once) {
 		if (t->f >= t->end)
-			Die__4CBit(t);
+			CBit_Die(t);
 	} else if (t->f >= t->n) {
 		if (t->end == -2)
-			SetFrame__7CFT4Biti(t, t->n - 1);
+			CFT4Bit_SetFrame(t, t->n - 1);
 		else
-			SetFrame__7CFT4Biti(t, 0);
+			CFT4Bit_SetFrame(t, 0);
 	}
 }

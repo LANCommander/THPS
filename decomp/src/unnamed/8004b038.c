@@ -1,4 +1,5 @@
 /* SFX_InitAtStart__Fv (0x8004b038) */
+#include "names.h"
 struct S {
 	int a;
 	short b, c;
@@ -16,7 +17,7 @@ int DAT_800d1a98;
 void FUN_80094d74(void);
 void FUN_80094444(struct S *s);
 
-void SFX_InitAtStart__Fv(void) {
+void SFX_InitAtStart(void) {
 	struct S s;
 
 	FUN_80094d74();

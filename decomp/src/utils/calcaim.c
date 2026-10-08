@@ -1,4 +1,5 @@
 /* Utils_CalcAim__FR8CSVectorRC7CVectorT1 (0x80047ddc) */
+#include "names.h"
 typedef struct {
 	short x, y, z;
 } SV;
@@ -10,7 +11,7 @@ typedef struct {
 int FUN_80093604(int);
 int FUN_8008b5dc(int);
 
-int Utils_CalcAim__FR8CSVectorRC7CVectorT1(SV *o, const V *a, const V *b) {
+int Utils_CalcAim(SV *o, const V *a, const V *b) {
 	int dx = (b->x - a->x) >> 12;
 	int dy = (b->y - a->y) >> 12;
 	int dz = (b->z - a->z) >> 12;

@@ -1,4 +1,5 @@
 /* FUN_8005da40 (0x8005da40) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -24,20 +25,20 @@ void FUN_8006b2f4(void);
 void FUN_8006b240(void);
 void FUN_80061ea0(void);
 void FUN_800242cc(void);
-void SetClippingBox__Fiiii(int, int, int, int);
-void draw__6Spriteiiiiii(O *, int, int, int, int, int, int);
+void SetClippingBox(int, int, int, int);
+void Sprite_draw(O *, int, int, int, int, int, int);
 void FUN_80070ff4(void);
 int FUN_800718d0(void);
-void SFX_PlayX__FUisi(int, int, int);
+void SFX_PlayX(int, int, int);
 void Pause__Fi(int);
-void Pad_ClearTriggers__FP8SControl(unsigned char *);
+void Pad_ClearTriggers(unsigned char *);
 void Mess_LoadFont__FPciii(char *, int, int, int);
-void Mess_SetTextJustify__FUc(int);
-void Mess_SetScale__Fi(int);
-void Mess_SetRGB__FUcUcUci(int, int, int, int);
-void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
+void Mess_SetTextJustify(int);
+void Mess_SetScale(int);
+void Mess_SetRGB(int, int, int, int);
+void Mess_DrawText(int, int, char *, int, int, int, int);
 void FUN_8006b26c(void);
-void Mess_UnloadFont__Fv(void);
+void Mess_UnloadFont(void);
 
 void FUN_8005da40(void) {
 	FUN_8008c468(0);
@@ -45,11 +46,11 @@ void FUN_8005da40(void) {
 	FUN_8006b240();
 	FUN_80061ea0();
 	FUN_800242cc();
-	SetClippingBox__Fiiii(0, 0, 512, 240);
+	SetClippingBox(0, 0, 512, 240);
 
 	if (DAT_800d1d14) {
 		DAT_800d1d14 = 0;
-		draw__6Spriteiiiiii(DAT_800d1d0c, DAT_800bf0dc[0], DAT_800bf0e8[0], 0, -1, -1, -1);
+		Sprite_draw(DAT_800d1d0c, DAT_800bf0dc[0], DAT_800bf0e8[0], 0, -1, -1, -1);
 	}
 
 	FUN_80070ff4();
@@ -58,10 +59,10 @@ void FUN_8005da40(void) {
 		DAT_800c0a79[0] = 1;
 
 	if (DAT_800c0a48[0x31] && DAT_800d1cb0 == 0) {
-		SFX_PlayX__FUisi(2, 0x2000, 0);
+		SFX_PlayX(2, 0x2000, 0);
 		Pause__Fi(20);
-		Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-		Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
+		Pad_ClearTriggers(DAT_800c0a48);
+		Pad_ClearTriggers(DAT_800c0a48 + 364);
 
 		DAT_800d1ce8 = 0;
 		DAT_800d1cf0 = 1;
@@ -79,12 +80,12 @@ void FUN_8005da40(void) {
 		Mess_LoadFont__FPciii(DAT_800a1b84, -1, -1, -1);
 		FUN_8006b240();
 		FUN_80061ea0();
-		Mess_SetTextJustify__FUc(0);
-		Mess_SetScale__Fi(255);
-		Mess_SetRGB__FUcUcUci(150, 100, 25, 0);
-		Mess_DrawText__FiiPCciUiib(256, 110, DAT_800bf220, 1, 0, 256, 0);
-		Mess_DrawText__FiiPCciUiib(256, 130, DAT_800bf220 + 32, 1, 0, 256, 0);
+		Mess_SetTextJustify(0);
+		Mess_SetScale(255);
+		Mess_SetRGB(150, 100, 25, 0);
+		Mess_DrawText(256, 110, DAT_800bf220, 1, 0, 256, 0);
+		Mess_DrawText(256, 130, DAT_800bf220 + 32, 1, 0, 256, 0);
 		FUN_8006b26c();
-		Mess_UnloadFont__Fv();
+		Mess_UnloadFont();
 	}
 }

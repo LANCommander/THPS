@@ -1,7 +1,8 @@
 /* WriteNumber__Fi (0x8004c070) */
+#include "names.h"
 char *DAT_800d1af0;
 
-void WriteNumber__Fi(int n) {
+void WriteNumber(int n) {
 	int started = 0;
 	int d, q;
 

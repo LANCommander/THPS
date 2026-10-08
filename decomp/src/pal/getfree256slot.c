@@ -1,7 +1,8 @@
 /* GetFree256Slot__Fv (0x8004ad9c) */
+#include "names.h"
 extern unsigned char DAT_800d2b10[];
 
-int GetFree256Slot__Fv(void) {
+int GetFree256Slot(void) {
 	int i = 0;
 
 	while (!DAT_800d2b10[i]) {

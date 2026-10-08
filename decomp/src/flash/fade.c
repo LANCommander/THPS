@@ -1,9 +1,10 @@
 /* Flash_Fade__Fii (0x8001f3b8) */
+#include "names.h"
 int DAT_800d1610, DAT_800d1614, DAT_800d1608, DAT_800d2210, DAT_800d220c, DAT_800d2208,
     DAT_800d2214;
 unsigned char DAT_800d1604;
 
-void Flash_Fade__Fii(int a, int b) {
+void Flash_Fade(int a, int b) {
 	DAT_800d1610 = 1;
 	DAT_800d1614 = a;
 	DAT_800d1604 = 255;

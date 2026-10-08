@@ -1,4 +1,5 @@
 /* FUN_800507e4 (0x800507e4) flags=-fstructure-noalias */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -37,23 +38,23 @@ P *DAT_800d229c;
 short *DAT_800d22a0;
 
 void FUN_80043f70(P *);
-void FileIO_Continue__Fv(void);
+void FileIO_Continue(void);
 P *FUN_800506d0(int);
 P *FUN_8006b1c8(void);
 void FUN_8006ed2c(int);
 void FUN_8006edb8(int);
-void ProcessNewPSX__Fi(int);
-void ClearRegion__Fiii(int, int, int);
-int Spool_PSX__FPciii(int, int, int);
-void Spool_Continue__Fv(void);
+void ProcessNewPSX(int);
+void ClearRegion(int, int, int);
+int Spool_PSX(int, int, int);
+void Spool_Continue(void);
 int FUN_80070830(void);
-void M3d_RenderSetup__FP7SCameraP9SViewportPUi(char *, short *, char *);
+void M3d_RenderSetup(char *, short *, char *);
 void FUN_80083774(void);
-void M3d_Render__FPv(char *);
+void M3d_Render(char *);
 void FUN_80093240(short *, P *);
-void M3d_BuildTransform__FP6CSuper(P *);
-void Spool_ClearPSX__FPc(int);
-void Spool_Sync__Fv(void);
+void M3d_BuildTransform(P *);
+void Spool_ClearPSX(int);
+void Spool_Sync(void);
 
 void FUN_800507e4(int a, int b) {
 	short *q;
@@ -63,8 +64,8 @@ void FUN_800507e4(int a, int b) {
 			DAT_800d2284 = -1;
 			DAT_800d2288 = 0;
 			DAT_800d228c = 500;
-			DAT_800d2bf0[0] = Spool_PSX__FPciii(DAT_800a44fc[0].f8, 2, 1);
-			Spool_Sync__Fv();
+			DAT_800d2bf0[0] = Spool_PSX(DAT_800a44fc[0].f8, 2, 1);
+			Spool_Sync();
 
 			DAT_800d2294[2] = 0;
 			DAT_800d2294[1] = 0;
@@ -76,22 +77,22 @@ void FUN_800507e4(int a, int b) {
 			DAT_800d229c = 0;
 			break;
 		case 1:
-			FileIO_Continue__Fv();
-			Spool_Continue__Fv();
+			FileIO_Continue();
+			Spool_Continue();
 
 			if (DAT_800d228c == 500 && FUN_80070830() == 0) {
 				if (DAT_800d2284 >= 0) {
 					if (DAT_800d229c)
 						DAT_800d229c->vt->fn((char *)DAT_800d229c + DAT_800d229c->vt->off, 3);
 
-					ClearRegion__Fiii(DAT_800d2bf0[DAT_800d2284], 1, 1);
+					ClearRegion(DAT_800d2bf0[DAT_800d2284], 1, 1);
 					FUN_8006edb8(DAT_800d2bf0[DAT_800d2284]);
-					ProcessNewPSX__Fi(DAT_800d2bf0[DAT_800d2284]);
-					Spool_ClearPSX__FPc(DAT_800a44fc[DAT_800d2284].f8);
+					ProcessNewPSX(DAT_800d2bf0[DAT_800d2284]);
+					Spool_ClearPSX(DAT_800a44fc[DAT_800d2284].f8);
 				}
 
 				FUN_8006ed2c(DAT_800d2bf0[DAT_800d2288]);
-				ProcessNewPSX__Fi(DAT_800d2bf0[DAT_800d2288]);
+				ProcessNewPSX(DAT_800d2bf0[DAT_800d2288]);
 
 				DAT_800d229c = FUN_800506d0(DAT_800d2288);
 				DAT_800d229c->f4 = DAT_800d1ba8;
@@ -101,7 +102,7 @@ void FUN_800507e4(int a, int b) {
 				if (++DAT_800d2288 >= 10)
 					DAT_800d2288 = 0;
 
-				DAT_800d2bf0[DAT_800d2288] = Spool_PSX__FPciii(DAT_800a44fc[DAT_800d2288].f8, 2, 1);
+				DAT_800d2bf0[DAT_800d2288] = Spool_PSX(DAT_800a44fc[DAT_800d2288].f8, 2, 1);
 			}
 
 			DAT_800d228c--;
@@ -118,7 +119,7 @@ void FUN_800507e4(int a, int b) {
 				q2->s78e = -sa;
 				q2->s794 = -sb;
 				q2->s79a = -sc;
-				M3d_BuildTransform__FP6CSuper(q2);
+				M3d_BuildTransform(q2);
 			}
 
 			FUN_80043f70(DAT_800d229c);
@@ -126,8 +127,8 @@ void FUN_800507e4(int a, int b) {
 			if (b)
 				FUN_80043f70(DAT_800d229c);
 
-			M3d_RenderSetup__FP7SCameraP9SViewportPUi(DAT_800c119c, DAT_800d22a0, (char *)DAT_800d1a48 + 0x8c);
-			M3d_Render__FPv(DAT_800d19a4);
+			M3d_RenderSetup(DAT_800c119c, DAT_800d22a0, (char *)DAT_800d1a48 + 0x8c);
+			M3d_Render(DAT_800d19a4);
 			FUN_80083774();
 
 			DAT_800d2294[1] += 10;
@@ -136,13 +137,13 @@ void FUN_800507e4(int a, int b) {
 			if (DAT_800d229c)
 				DAT_800d229c->vt->fn((char *)DAT_800d229c + DAT_800d229c->vt->off, 3);
 
-			ClearRegion__Fiii(DAT_800d2bf0[DAT_800d2284], 1, 1);
+			ClearRegion(DAT_800d2bf0[DAT_800d2284], 1, 1);
 			FUN_8006edb8(DAT_800d2bf0[DAT_800d2284]);
-			ProcessNewPSX__Fi(DAT_800d2bf0[DAT_800d2284]);
-			Spool_ClearPSX__FPc(DAT_800a44fc[DAT_800d2284].f8);
-			Spool_Sync__Fv();
-			ProcessNewPSX__Fi(DAT_800d2bf0[DAT_800d2288]);
-			Spool_ClearPSX__FPc(DAT_800a44fc[DAT_800d2288].f8);
+			ProcessNewPSX(DAT_800d2bf0[DAT_800d2284]);
+			Spool_ClearPSX(DAT_800a44fc[DAT_800d2284].f8);
+			Spool_Sync();
+			ProcessNewPSX(DAT_800d2bf0[DAT_800d2288]);
+			Spool_ClearPSX(DAT_800a44fc[DAT_800d2288].f8);
 			break;
 	}
 }

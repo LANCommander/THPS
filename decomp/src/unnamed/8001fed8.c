@@ -1,4 +1,5 @@
 /* DeleteStuff__8CPowerUp (0x8001fed8) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -11,12 +12,12 @@ struct O {
 	struct VT *vt;
 };
 
-void KillShadow__5CBody(char *p);
+void CBody_KillShadow(char *p);
 
-void DeleteStuff__8CPowerUp(char *p) {
+void CPowerUp_DeleteStuff(char *p) {
 	struct O *o;
 
-	KillShadow__5CBody(p);
+	CBody_KillShadow(p);
 
 	o = *(struct O **)(p + 308);
 

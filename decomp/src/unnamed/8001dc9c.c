@@ -1,4 +1,5 @@
 /* Mess_TextHeightAboveBaseline__FPCc (0x8001dc9c) */
+#include "names.h"
 typedef struct {
 	int **p;
 	char pad[32];
@@ -18,23 +19,23 @@ extern B DAT_800a6110[];
 unsigned char DAT_800d1602;
 int DAT_800d15e4;
 
-int Trick_HoldTrick__6CBrucei(unsigned char *s, int a);
-int GetCharIndex__Fc(int c);
+int CBruce_Trick_HoldTrick(unsigned char *s, int a);
+int GetCharIndex(int c);
 
-int Mess_TextHeightAboveBaseline__FPCc(unsigned char *s, int a1) {
+int Mess_TextHeightAboveBaseline(unsigned char *s, int a1) {
 	int m;
 	int v;
 	int c;
 	unsigned char *p;
 
 	if (!DAT_800d1602)
-		return Trick_HoldTrick__6CBrucei(s, a1);
+		return CBruce_Trick_HoldTrick(s, a1);
 
 	m = 0;
 	p = s;
 
 	while (*p) {
-		c = GetCharIndex__Fc(*p);
+		c = GetCharIndex(*p);
 
 		if ((unsigned)(c - 250) < 5)
 			v = 0;

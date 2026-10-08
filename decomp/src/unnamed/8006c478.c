@@ -1,4 +1,5 @@
 /* Panel_addPrim__FPv (0x8006c478) */
+#include "names.h"
 typedef struct {
 	char pad[0x84];
 	unsigned long ot;
@@ -8,7 +9,7 @@ extern O *DAT_800d1a48;
 
 int DAT_800d1ecc;
 
-void Panel_addPrim__FPv(unsigned long *p) {
+void Panel_addPrim(unsigned long *p) {
 	O *o = DAT_800d1a48;
 
 	*p = (*p & 0xff000000) | (o->ot & 0x00ffffff);

@@ -1,4 +1,5 @@
 /* Land__10CPanelData (0x8006e8ec) */
+#include "names.h"
 /* PANEL.CPP, as C (demo twin). Banks a landed combo: sums the trick scores, applies the multiplier
    (combo length plus a level bonus), keeps the best combo's names, and ends the replay highlight. */
 struct Q {
@@ -40,9 +41,9 @@ extern int DAT_800a71fc[];
 extern int DAT_800d16a4;
 
 int FUN_8008e904(char *, char *);
-void Video_HighlightEnd__FP6CBrucei(struct Q *, int);
+void Video_HighlightEnd(struct Q *, int);
 
-void Land__10CPanelData(B *p) {
+void CPanelData_Land(B *p) {
 	int i, a, t, m;
 	unsigned u;
 
@@ -86,5 +87,5 @@ void Land__10CPanelData(B *p) {
 			p->i4 = 0;
 	}
 
-	Video_HighlightEnd__FP6CBrucei(p->q, p->i140);
+	Video_HighlightEnd(p->q, p->i140);
 }

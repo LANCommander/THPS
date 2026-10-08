@@ -1,5 +1,6 @@
 /* Trig_SendPulse__FPUs (0x80045718) */
-void Trig_SendPulseToNode__Fi(int n);
+#include "names.h"
+void Trig_SendPulseToNode(int n);
 
 void Trig_SendPulse(unsigned short *p) {
 	int i, n = p[0];
@@ -9,6 +10,6 @@ void Trig_SendPulse(unsigned short *p) {
 
 	while (i < n) {
 		i++;
-		Trig_SendPulseToNode__Fi(*q++);
+		Trig_SendPulseToNode(*q++);
 	}
 }

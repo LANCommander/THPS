@@ -1,4 +1,5 @@
 /* Pack_Merge__FP6TSPack (0x8004a590) */
+#include "names.h"
 typedef struct TSPack {
 	unsigned short x, y, w, h;
 	struct TSPack *next;
@@ -6,9 +7,9 @@ typedef struct TSPack {
 
 TSPack *DAT_800d1a60;
 
-TSPack *Pack_MergeAdjacent__FP6TSPackT0(TSPack *, TSPack *);
+TSPack *Pack_MergeAdjacent(TSPack *, TSPack *);
 
-int Pack_Merge__FP6TSPack(TSPack *p) {
+int Pack_Merge(TSPack *p) {
 	int merged = 0;
 	int again;
 	TSPack *q;
@@ -30,7 +31,7 @@ int Pack_Merge__FP6TSPack(TSPack *p) {
 			continue;
 		merge:
 			again = 1;
-			p = Pack_MergeAdjacent__FP6TSPackT0(q, p);
+			p = Pack_MergeAdjacent(q, p);
 			merged = 1;
 			break;
 		}

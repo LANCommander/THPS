@@ -1,4 +1,5 @@
 /* FUN_8001f794 (0x8001f794) */
+#include "names.h"
 struct VT {
 	char p[8];
 	short off;
@@ -24,7 +25,7 @@ extern C *DAT_800d19a4;
 extern int DAT_800d186c;
 
 char *__nw__4CBitUi(int, C *);
-char *__11CWobblyGlowRC7CVectoriiiUcUcUcUcUcUc(char *, char *, int, int, int, int, int, int, int, int, int);
+char *CWobblyGlow_ctor(char *, char *, int, int, int, int, int, int, int, int, int);
 
 void FUN_8001f794(char *t) {
 	int dx, dz, d;
@@ -55,7 +56,7 @@ void FUN_8001f794(char *t) {
 				o = __nw__4CBitUi(176, cam);
 
 				if (o)
-					o = __11CWobblyGlowRC7CVectoriiiUcUcUcUcUcUc(o, t + 0x18, *(int *)(t + 0x48), *(int *)(t + 0x4c),
+					o = CWobblyGlow_ctor(o, t + 0x18, *(int *)(t + 0x48), *(int *)(t + 0x4c),
 					                 *(int *)(t + 0x58), *(unsigned char *)(t + 0x50),
 					                 *(unsigned char *)(t + 0x51), *(unsigned char *)(t + 0x52),
 					                 *(unsigned char *)(t + 0x53), *(unsigned char *)(t + 0x54),

@@ -1,11 +1,12 @@
 /* Move__11CWobblyGlow (0x80029270) */
+#include "names.h"
 typedef struct {
 	int a, b;
 } E;
 
 extern short DAT_800c9670[4];
 
-void Move__11CWobblyGlow(char *t) {
+void CWobblyGlow_Move(char *t) {
 	unsigned i;
 
 	for (i = 0; i < *(unsigned *)(t + 0x50); i++) {

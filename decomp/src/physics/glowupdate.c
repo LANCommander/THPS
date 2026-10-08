@@ -1,4 +1,5 @@
 /* GlowUpdate__6CBruce (0x800424b4) */
+#include "names.h"
 typedef struct {
 	char _0[0xb4];
 	unsigned c;
@@ -11,12 +12,12 @@ typedef struct {
 	unsigned char spd2;
 } CBruce;
 
-int GlowTowards__Fiii(int, int, int);
+int GlowTowards(int, int, int);
 
-void GlowUpdate__6CBruce(CBruce *t) {
-	t->cur[0] = GlowTowards__Fiii(t->cur[0], t->tgt[0], t->spd);
-	t->cur[1] = GlowTowards__Fiii(t->cur[1], t->tgt[1], t->spd);
-	t->cur[2] = GlowTowards__Fiii(t->cur[2], t->tgt[2], t->spd);
+void CBruce_GlowUpdate(CBruce *t) {
+	t->cur[0] = GlowTowards(t->cur[0], t->tgt[0], t->spd);
+	t->cur[1] = GlowTowards(t->cur[1], t->tgt[1], t->spd);
+	t->cur[2] = GlowTowards(t->cur[2], t->tgt[2], t->spd);
 
 	if (t->cur[0] == t->tgt[0] &&
 	    ((*(unsigned *)t->cur >> 8) & 0xffff) == *(unsigned short *)&t->tgt[1]) {

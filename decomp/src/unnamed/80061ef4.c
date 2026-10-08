@@ -1,4 +1,5 @@
 /* __11SlicedImagePciiiiiUs (0x80061ef4) */
+#include "names.h"
 typedef struct {
 	void *f0;
 	int f4, f8, fc, f10;
@@ -11,10 +12,10 @@ typedef struct {
 
 extern char DAT_800a21a0[];
 
-extern unsigned short *Mem_NewX__FUiii(int, int, int);
-extern void Mem_Delete__FPv(void *);
+extern unsigned short *Mem_NewX(int, int, int);
+extern void Mem_Delete(void *);
 
-S *__11SlicedImagePciiiiiUs(S *s, unsigned short *src, int w, int h, int cw, int ch, int bpp,
+S *SlicedImage_ctor(S *s, unsigned short *src, int w, int h, int cw, int ch, int bpp,
                 unsigned short fl) {
 	unsigned short *d, *p, *u;
 	int i, j, k, r, k2, j2;
@@ -40,7 +41,7 @@ S *__11SlicedImagePciiiiiUs(S *s, unsigned short *src, int w, int h, int cw, int
 	s->f18 = 0;
 	s->f1c = w / cw;
 	s->f20 = (h + ch - 1) / ch;
-	s->f14 = Mem_NewX__FUiii(w * h * 2, 1, 1);
+	s->f14 = Mem_NewX(w * h * 2, 1, 1);
 	d = s->f14;
 	p = src;
 
@@ -70,7 +71,7 @@ S *__11SlicedImagePciiiiiUs(S *s, unsigned short *src, int w, int h, int cw, int
 		s->f1c = s->f1c + 1;
 	}
 
-	Mem_Delete__FPv(src);
+	Mem_Delete(src);
 
 	s->f30 = 0;
 	return s;

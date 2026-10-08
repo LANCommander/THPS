@@ -1,4 +1,5 @@
 /* Tape_Create__Fiiiiiiii (0x80073a64) */
+#include "names.h"
 typedef struct {
 	short vx, vy, vz, pad;
 } SVECTOR;
@@ -22,9 +23,9 @@ extern char *DAT_800d217c;
 extern char DAT_800a824c[];
 
 Tape *__nw__5CItemUi(int);
-Tape *__5CTapeUsRC7CVectorT2iiT2Uii(Tape *, int, V *, V *, int, int, char *, int, int);
+Tape *CTape_ctor(Tape *, int, V *, V *, int, int, char *, int, int);
 
-Tape *Tape_Create__Fiiiiiiii(int x, int y, int z, int p, int e, int f, int g, int h) {
+Tape *Tape_Create(int x, int y, int z, int p, int e, int f, int g, int h) {
 	SVECTOR v;
 	V o, pos1, pos2;
 	Tape *t;
@@ -75,7 +76,7 @@ Tape *Tape_Create__Fiiiiiiii(int x, int y, int z, int p, int e, int f, int g, in
 	t = __nw__5CItemUi(412);
 
 	if (t)
-		t = __5CTapeUsRC7CVectorT2iiT2Uii(t, 18, &pos1, &pos2, p, h, DAT_800a824c, 0, 0xffff);
+		t = CTape_ctor(t, 18, &pos1, &pos2, p, h, DAT_800a824c, 0, 0xffff);
 
 	t->s400 = 10;
 	t->s398 = 10;

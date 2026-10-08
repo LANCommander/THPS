@@ -1,4 +1,5 @@
 /* DeleteFrom__5CBodyPP5CBody (0x80043908) */
+#include "names.h"
 typedef struct CBody {
 	char pad[0x1c];
 	struct CBody *next;
@@ -10,11 +11,11 @@ typedef struct CBody {
 
 CBody *DAT_800d19b4;
 
-void UnSuspend__5CBody(CBody *);
+void CBody_UnSuspend(CBody *);
 
-void DeleteFrom__5CBodyPP5CBody(CBody *t, CBody **head) {
+void CBody_DeleteFrom(CBody *t, CBody **head) {
 	if ((t->flags & 1) && head != &DAT_800d19b4)
-		UnSuspend__5CBody(t);
+		CBody_UnSuspend(t);
 
 	if (t->next)
 		t->next->prev = t->prev;

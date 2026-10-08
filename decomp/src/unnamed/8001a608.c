@@ -1,4 +1,5 @@
 /* Front_SwitchOnVideoScreen__Fv (0x8001a608) */
+#include "names.h"
 struct T {
 	char pad[12];
 	int f;
@@ -12,14 +13,14 @@ extern int DAT_800d16a4;
 
 int DAT_800d13e8;
 
-int Competition_IsOver__Fv(void);
-void CommonSwitchOnMenuCode__Fv(void);
+int Competition_IsOver(void);
+void CommonSwitchOnMenuCode(void);
 
-void Front_SwitchOnVideoScreen__Fv(void) {
+void Front_SwitchOnVideoScreen(void) {
 	int v;
 
 	if (DAT_800a42f4[0] == 0 && DAT_800a5398[DAT_800d1e28].f != 0 && DAT_800d16a4 == 1 &&
-	    Competition_IsOver__Fv() == 0)
+	    Competition_IsOver() == 0)
 		v = 25;
 	else {
 		v = 16;
@@ -29,5 +30,5 @@ void Front_SwitchOnVideoScreen__Fv(void) {
 	}
 
 	DAT_800d13e8 = v;
-	CommonSwitchOnMenuCode__Fv();
+	CommonSwitchOnMenuCode();
 }

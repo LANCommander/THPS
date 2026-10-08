@@ -1,9 +1,10 @@
 /* _card_event__Fv (0x80014ee8) */
+#include "names.h"
 int DAT_800d139c, DAT_800d13a0, DAT_800d13a4, DAT_800d13a8, DAT_800d13bc;
 
 int FUN_8008eb08(int);
 
-int _card_event__Fv(void) {
+int _card_event(void) {
 	int r = FUN_8008eb08(DAT_800d139c) == 1;
 
 	if (FUN_8008eb08(DAT_800d13a0) == 1)

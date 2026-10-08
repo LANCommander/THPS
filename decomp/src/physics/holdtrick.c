@@ -1,6 +1,7 @@
 /* Trick_HoldTrick__6CBrucei (0x8001d528) */
-extern void Mess_TextHeight2__FPCc(void *);
+#include "names.h"
+extern void Mess_TextHeight2(void *);
 
 void Trick_HoldTrick(void *p) {
-	Mess_TextHeight2__FPCc(p);
+	Mess_TextHeight2(p);
 }

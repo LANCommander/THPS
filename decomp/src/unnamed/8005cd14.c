@@ -1,4 +1,5 @@
 /* FUN_8005cd14 (0x8005cd14) */
+#include "names.h"
 typedef struct {
 	char p[0xc];
 	int fc;
@@ -19,13 +20,13 @@ void FUN_8005ca64(void);
 int FUN_8005ca3c(char *);
 void FUN_80061a10(int);
 void FUN_8005dc58(int);
-int FileIO_Open__FPCc(int);
-int Mem_NewX__FUiii(int, int, int);
-void FileIO_Load__FPv(int);
-void FileIO_Sync__Fv(void);
+int FileIO_Open(int);
+int Mem_NewX(int, int, int);
+void FileIO_Load(int);
+void FileIO_Sync(void);
 int __nw__6CClassUi(int);
 int FUN_80063a5c(int, int, int, int, int, int, int);
-void Pack_DefragmentFully__Fv(void);
+void Pack_DefragmentFully(void);
 void FUN_8006b240(void);
 void FUN_80061ea0(void);
 
@@ -64,11 +65,11 @@ void FUN_8005cd14(void) {
 		FUN_8005c97c(6);
 		FUN_8005ca64();
 
-		s0 = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a5398[DAT_800d1cf4].f34), 1, 1);
+		s0 = Mem_NewX(FileIO_Open(DAT_800a5398[DAT_800d1cf4].f34), 1, 1);
 
 		if (s0) {
-			FileIO_Load__FPv(s0);
-			FileIO_Sync__Fv();
+			FileIO_Load(s0);
+			FileIO_Sync();
 		}
 
 		o2 = __nw__6CClassUi(24);
@@ -77,11 +78,11 @@ void FUN_8005cd14(void) {
 			o2 = FUN_80063a5c(o2, 8, s0, 0, 458, 64, 128);
 
 		DAT_800d1d0c = o2;
-		s0 = Mem_NewX__FUiii(FileIO_Open__FPCc(DAT_800a5398[DAT_800d1cf4].f30), 1, 1);
+		s0 = Mem_NewX(FileIO_Open(DAT_800a5398[DAT_800d1cf4].f30), 1, 1);
 
 		if (s0) {
-			FileIO_Load__FPv(s0);
-			FileIO_Sync__Fv();
+			FileIO_Load(s0);
+			FileIO_Sync();
 		}
 
 		FUN_80061a10(s0);
@@ -100,7 +101,7 @@ void FUN_8005cd14(void) {
 	DAT_800c0a48[0x24d] = 0;
 	DAT_800d1cec = 0;
 	DAT_800d1d14 = 0;
-	Pack_DefragmentFully__Fv();
+	Pack_DefragmentFully();
 	FUN_8006b240();
 	FUN_80061ea0();
 }

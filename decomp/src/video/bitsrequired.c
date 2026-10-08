@@ -1,5 +1,6 @@
 /* BitsRequired__Fl (0x80068ae0) */
-int BitsRequired__Fl(long x) {
+#include "names.h"
+int BitsRequired(long x) {
 	int n = 2;
 	int m;
 

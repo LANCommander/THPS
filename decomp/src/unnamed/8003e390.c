@@ -1,4 +1,5 @@
 /* FUN_8003e390 (0x8003e390) */
+#include "names.h"
 typedef struct {
 	char pad0[16];
 	unsigned short uh10;
@@ -66,14 +67,14 @@ typedef struct {
 extern char DAT_800a7f28[];
 extern int DAT_800d16e4;
 
-void DoPhysics__9CPlatform(S *);
-void BouncyAI__9CPlatform(S *);
-void ParseScript__6CBaddyPUs(S *, int);
-void SFX_ModifyPos__FUiRC7CVectori(int, void *, int);
-int Length__C7CVector(V *);
-void Utils_CalcAim__FR8CSVectorRC7CVectorT1(SV *, void *, void *);
-void Utils_GetVecFromMagDir__FR7CVectoriRC8CSVector(void *, int, SV *);
-void Utils_TurnTowards__FG8CSVectorR8CSVectorT1T0i(SV, SV *, SV *, SV, int);
+void CPlatform_DoPhysics(S *);
+void CPlatform_BouncyAI(S *);
+void CBaddy_ParseScript(S *, int);
+void SFX_ModifyPos(int, void *, int);
+int CVector_Length(V *);
+void Utils_CalcAim(SV *, void *, void *);
+void Utils_GetVecFromMagDir(void *, int, SV *);
+void Utils_TurnTowards(SV, SV *, SV *, SV, int);
 void __apl__7CVectorRC7CVector(void *, void *);
 void __mi__FRC7CVectorT0(V *, void *, void *);
 void FUN_8003ec40(S *);
@@ -128,7 +129,7 @@ void FUN_8003e390(S *p) {
 	}
 
 	if (p->i1ac & 0x10) {
-		BouncyAI__9CPlatform(p);
+		CPlatform_BouncyAI(p);
 		return;
 	}
 
@@ -138,7 +139,7 @@ void FUN_8003e390(S *p) {
 		if (t2)
 			p->uh1fc = t2 - 1;
 		else
-			ParseScript__6CBaddyPUs(p, p->i1b0);
+			CBaddy_ParseScript(p, p->i1b0);
 	} else
 		FUN_8003ec40(p);
 
@@ -147,7 +148,7 @@ void FUN_8003e390(S *p) {
 		s2 = PB(0x204);
 		__mi__FRC7CVectorT0(&v20, s3, s2);
 
-		m = (p->uh1d4 >= Length__C7CVector(&v20));
+		m = (p->uh1d4 >= CVector_Length(&v20));
 
 		if (m) {
 			*(V12 *)PB(4) = *(V12 *)PB(0x204);
@@ -164,13 +165,13 @@ void FUN_8003e390(S *p) {
 			t = p->uh1d8;
 
 			if (t == 0) {
-				Utils_CalcAim__FR8CSVectorRC7CVectorT1(&aim, s3, s2);
-				Utils_GetVecFromMagDir__FR7CVectoriRC8CSVector(PB(0x6c), p->uh1d4, &aim);
+				Utils_CalcAim(&aim, s3, s2);
+				Utils_GetVecFromMagDir(PB(0x6c), p->uh1d4, &aim);
 			} else if (t == 1) {
-				Utils_CalcAim__FR8CSVectorRC7CVectorT1(&aim, s3, s2);
+				Utils_CalcAim(&aim, s3, s2);
 				__mi__FRC7CVectorT0(&v38, s2, s3);
 
-				v = 8160 / Length__C7CVector(&v38);
+				v = 8160 / CVector_Length(&v38);
 
 				if (v < -256)
 					v = -256;
@@ -184,11 +185,11 @@ void FUN_8003e390(S *p) {
 				}
 
 				*(SV *)&v38 = *(SV *)PB(0x10);
-				Utils_TurnTowards__FG8CSVectorR8CSVectorT1T0i(*(SV *)&v38, (SV *)PB(0x88),
+				Utils_TurnTowards(*(SV *)&v38, (SV *)PB(0x88),
 				                                              (SV *)PB(0x8e), aim, v);
 
 				p->uh10 = 0;
-				Utils_GetVecFromMagDir__FR7CVectoriRC8CSVector(PB(0x78), p->uh1d4, &aim);
+				Utils_GetVecFromMagDir(PB(0x78), p->uh1d4, &aim);
 
 				a = 0;
 
@@ -218,10 +219,10 @@ void FUN_8003e390(S *p) {
 				else
 					p->h8c = 0;
 			} else if (t == 2) {
-				Utils_CalcAim__FR8CSVectorRC7CVectorT1(&aim, s3, s2);
+				Utils_CalcAim(&aim, s3, s2);
 				__mi__FRC7CVectorT0(&v48, s2, s3);
 
-				v = 8160 / Length__C7CVector(&v48);
+				v = 8160 / CVector_Length(&v48);
 
 				if (v < -256)
 					v = -256;
@@ -235,11 +236,11 @@ void FUN_8003e390(S *p) {
 				}
 
 				*(SV *)&v38 = *(SV *)PB(0x10);
-				Utils_TurnTowards__FG8CSVectorR8CSVectorT1T0i(*(SV *)&v38, (SV *)PB(0x88),
+				Utils_TurnTowards(*(SV *)&v38, (SV *)PB(0x88),
 				                                              (SV *)PB(0x8e), aim, v);
 
 				p->uh10 = 0;
-				Utils_GetVecFromMagDir__FR7CVectoriRC8CSVector(PB(0x78), p->uh1d4, &aim);
+				Utils_GetVecFromMagDir(PB(0x78), p->uh1d4, &aim);
 			}
 		}
 	} else if (p->uh1d8 == 1) {
@@ -260,10 +261,10 @@ void FUN_8003e390(S *p) {
 	if (p->ub19e)
 		__apl__7CVectorRC7CVector(PB(0x78), DAT_800a7f28);
 
-	DoPhysics__9CPlatform(p);
+	CPlatform_DoPhysics(p);
 
 	if (p->i248 != -1 && DAT_800d16e4 % p->i248 == 0)
-		SFX_ModifyPos__FUiRC7CVectori(p->i244, PB(4), 0);
+		SFX_ModifyPos(p->i244, PB(4), 0);
 
 	p->i23c = 0;
 }

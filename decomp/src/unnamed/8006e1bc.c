@@ -1,4 +1,5 @@
 /* FUN_8006e1bc (0x8006e1bc) */
+#include "names.h"
 typedef struct {
 	int Score;
 	char pad[16];
@@ -12,9 +13,9 @@ typedef struct {
 	int n;
 } P;
 
-void TrickMessageRefresh__10CPanelData(char *);
+void CPanelData_TrickMessageRefresh(char *);
 
 void FUN_8006e1bc(P *p, int s) {
 	p->tq[p->n - 1].Score += s;
-	TrickMessageRefresh__10CPanelData(p->sub);
+	CPanelData_TrickMessageRefresh(p->sub);
 }

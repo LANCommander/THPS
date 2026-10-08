@@ -1,4 +1,5 @@
 /* AttachTo__5CBodyPP5CBody (0x800438dc) */
+#include "names.h"
 struct N {
 	int a[7];
 	struct N *next;
@@ -6,7 +7,7 @@ struct N {
 	struct N *prev;
 };
 
-void AttachTo__5CBodyPP5CBody(struct N *n, struct N **head) {
+void CBody_AttachTo(struct N *n, struct N **head) {
 	struct N *h = *head;
 
 	n->prev = 0;

@@ -1,4 +1,5 @@
 /* FUN_80010f70 (0x80010f70) */
+#include "names.h"
 struct S {
 	char pad[76];
 	int f;
@@ -11,7 +12,7 @@ extern int DAT_800d16a4;
 
 int DAT_800d10ec;
 
-void SFX_PlayX__FUisi(int a, int b, int c);
+void SFX_PlayX(int a, int b, int c);
 
 void FUN_80010f70(int a) {
 	int s;
@@ -30,8 +31,8 @@ void FUN_80010f70(int a) {
 		if (s < 4096)
 			s = 4096;
 		else
-			SFX_PlayX__FUisi(46, (short)(s / 2), 0);
+			SFX_PlayX(46, (short)(s / 2), 0);
 
-		SFX_PlayX__FUisi(47, (short)s, 0);
+		SFX_PlayX(47, (short)s, 0);
 	}
 }

@@ -1,4 +1,5 @@
 /* FUN_800648c0 (0x800648c0) */
+#include "names.h"
 typedef struct {
 	int pad0;
 	char str[0x34];
@@ -15,7 +16,7 @@ typedef struct {
 	int timer;
 } M;
 
-void select__12VerticalMenui(M *, int);
+void VerticalMenu_select(M *, int);
 
 void FUN_800648c0(M *m, int i, int on) {
 	int j;
@@ -30,13 +31,13 @@ void FUN_800648c0(M *m, int i, int on) {
 	if (m->cur == i) {
 		for (j = i + 1; j < m->count; j++)
 			if (!m->items[j].disabled) {
-				select__12VerticalMenui(m, j);
+				VerticalMenu_select(m, j);
 				return;
 			}
 
 		for (j = 0; j < i; j++)
 			if (!m->items[j].disabled) {
-				select__12VerticalMenui(m, j);
+				VerticalMenu_select(m, j);
 				return;
 			}
 	}

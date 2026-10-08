@@ -1,4 +1,5 @@
 /* CreateMessage__Fv (0x8001d550) */
+#include "names.h"
 typedef struct Message {
 	char pad[0x14];
 	struct Message *next;
@@ -7,10 +8,10 @@ typedef struct Message {
 
 Message *DAT_800d15ec;
 
-extern Message *Mem_NewX__FUiii(int, int, int);
+extern Message *Mem_NewX(int, int, int);
 
 void CreateMessage(void) {
-	Message *m = Mem_NewX__FUiii(0x1c, 0, 1);
+	Message *m = Mem_NewX(0x1c, 0, 1);
 	Message *h = DAT_800d15ec;
 
 	m->prev = 0;

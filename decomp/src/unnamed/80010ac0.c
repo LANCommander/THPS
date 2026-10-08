@@ -1,4 +1,5 @@
 /* FUN_80010ac0 (0x80010ac0) */
+#include "names.h"
 struct S {
 	char pad[76];
 	int f;
@@ -15,7 +16,7 @@ extern int DAT_800d1e28;
 extern int DAT_800d16a4;
 extern struct A DAT_800a42b8[];
 
-void SFX_Stop__FUi(unsigned a);
+void SFX_Stop(unsigned a);
 
 void FUN_80010ac0(void) {
 	int i;
@@ -24,7 +25,7 @@ void FUN_80010ac0(void) {
 		if (DAT_800d16a4 == 1) {
 			for (i = 0; i < 1; i++) {
 				if (DAT_800a42b8[i].v)
-					SFX_Stop__FUi(DAT_800a42b8[i].v);
+					SFX_Stop(DAT_800a42b8[i].v);
 
 				DAT_800a42b8[i].v = 0;
 			}

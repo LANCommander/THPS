@@ -1,4 +1,5 @@
 /* unloadPRE__10PREManagerPc (0x80066338) */
+#include "names.h"
 /* PREManager::unloadPRE (PRE.CPP), as C: frees the archive loaded under pre_name and clears its slot. */
 typedef struct {
 	int pad;
@@ -9,9 +10,9 @@ typedef struct {
 extern char DAT_800d1dbc[];
 
 int FUN_8008f6fc(char *, char *);
-void Mem_Delete__FPv(void *);
+void Mem_Delete(void *);
 
-void unloadPRE__10PREManagerPc(PREManager *m, char *name) {
+void PREManager_unloadPRE(PREManager *m, char *name) {
 	int i;
 
 	for (i = 0; i < 16; i++) {
@@ -21,7 +22,7 @@ void unloadPRE__10PREManagerPc(PREManager *m, char *name) {
 			n[0] = DAT_800d1dbc[0];
 
 			if (m->pre[i])
-				Mem_Delete__FPv(m->pre[i]);
+				Mem_Delete(m->pre[i]);
 
 			m->pre[i] = 0;
 			return;

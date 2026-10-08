@@ -1,4 +1,5 @@
 /* FUN_800343f0 (0x800343f0) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -38,14 +39,14 @@ typedef struct {
 
 } B;
 
-void Debug_RunAnim__6CBruceii(B *, int, int);
-void ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(B *, SV, int);
-void SFX_Grunt__FP6CBruce(B *);
-int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
-void M3dZone_LineToItemNotSCached__FP9SLineInfoi(L *, int);
-int GetFaceFlags__FP9SLineInfo(L *);
-int Length__C7CVector(V *);
-void M3dColij_InitLineInfo__FP9SLineInfo(L *);
+void CBruce_Debug_RunAnim(B *, int, int);
+void CBruce_ReflectHeadingVelocityInPlane(B *, SV, int);
+void SFX_Grunt(B *);
+int Mips_CVecDotProd(V *, V *);
+void M3dZone_LineToItemNotSCached(L *, int);
+int GetFaceFlags(L *);
+int CVector_Length(V *);
+void M3dColij_InitLineInfo(L *);
 
 #define MUL(t) (p->f358 ? (t) * 35 : (t) * 5)
 #define ST(d, b, q, t)                                                                             \
@@ -66,22 +67,22 @@ int FUN_800343f0(B *p, int a) {
 	ST(li.e.x, li.s.x, q0, a * p->m0)
 	ST(li.e.y, li.s.y, q1, a * p->m1)
 	ST(li.e.z, li.s.z, q2, a * p->m2)
-	M3dColij_InitLineInfo__FP9SLineInfo(&li);
-	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
-	GetFaceFlags__FP9SLineInfo(&li);
+	M3dColij_InitLineInfo(&li);
+	M3dZone_LineToItemNotSCached(&li, 1);
+	GetFaceFlags(&li);
 
 	if (li.hit) {
 		d.x = li.n.x;
 		d.y = li.n.y;
 		d.z = li.n.z;
 
-		if ((unsigned)(Mips_CVecDotProd__FP7CVectorT0(&d, &p->w2) + 1023) < 2047) {
+		if ((unsigned)(Mips_CVecDotProd(&d, &p->w2) + 1023) < 2047) {
 			s1 = 0;
 			*(V *)&p->x = p->old;
 			c = p->vel;
 
 			if (p->st != 12) {
-				if (Length__C7CVector(&c) >= 7) {
+				if (CVector_Length(&c) >= 7) {
 					if (!p->f358 && !p->f368) {
 						{
 							V e;
@@ -91,12 +92,12 @@ int FUN_800343f0(B *p, int a) {
 							e.y = li.n.y;
 							e.z = li.n.z;
 
-							if (Mips_CVecDotProd__FP7CVectorT0(&e, &p->w1) >= 2897) {
+							if (Mips_CVecDotProd(&e, &p->w1) >= 2897) {
 								p->f150 = 0x10000;
-								Debug_RunAnim__6CBruceii(p, 12, 3787);
+								CBruce_Debug_RunAnim(p, 12, 3787);
 
 								s1 = 200;
-								SFX_Grunt__FP6CBruce(p);
+								SFX_Grunt(p);
 							}
 						}
 					}
@@ -107,7 +108,7 @@ int FUN_800343f0(B *p, int a) {
 				SV t;
 
 				t = li.n;
-				ReflectHeadingVelocityInPlane__6CBruceG7SVECTORi(p, t, s1);
+				CBruce_ReflectHeadingVelocityInPlane(p, t, s1);
 			}
 
 			li.s.x = p->x;
@@ -116,9 +117,9 @@ int FUN_800343f0(B *p, int a) {
 			ST(li.e.x, li.s.x, q3, li.n.x)
 			ST(li.e.y, li.s.y, q4, li.n.y)
 			ST(li.e.z, li.s.z, q5, li.n.z)
-			M3dColij_InitLineInfo__FP9SLineInfo(&li);
-			M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
-			GetFaceFlags__FP9SLineInfo(&li);
+			M3dColij_InitLineInfo(&li);
+			M3dZone_LineToItemNotSCached(&li, 1);
+			GetFaceFlags(&li);
 
 			if (li.hit)
 				return 0;

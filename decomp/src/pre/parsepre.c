@@ -1,8 +1,9 @@
 /* parsePRE__10PREManagerPcT1Pi (0x80066460) */
+#include "names.h"
 int FUN_8008f6ec(char *);
 int FUN_8008f6fc(char *, char *);
 
-char *parsePRE__10PREManagerPcT1Pi(void *m, char *buf, char *name, int *size) {
+char *PREManager_parsePRE(void *m, char *buf, char *name, int *size) {
 	int n = *(int *)buf;
 	int i;
 

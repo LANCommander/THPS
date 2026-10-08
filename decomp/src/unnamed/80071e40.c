@@ -1,10 +1,11 @@
 /* Init_ResetMemory__Fi (0x80071e40) */
+#include "names.h"
 extern int DAT_800be09c[];
 extern int DAT_800dc94c;
 
 void FUN_8004cf7c(void);
 
-void Init_ResetMemory__Fi(int a) {
+void Init_ResetMemory(int a) {
 	int v = DAT_800dc94c;
 
 	DAT_800be09c[3] = 0x801fe000;

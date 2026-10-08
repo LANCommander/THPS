@@ -1,6 +1,7 @@
 /* Move__10CRibbonBit (0x80029e08) */
-void IncFrameWithWrap__7CFT4Bit(void *p);
+#include "names.h"
+void CFT4Bit_IncFrameWithWrap(void *p);
 
-void Move__10CRibbonBit(void *p) {
-	IncFrameWithWrap__7CFT4Bit(p);
+void CRibbonBit_Move(void *p) {
+	CFT4Bit_IncFrameWithWrap(p);
 }

@@ -1,4 +1,5 @@
 /* FUN_800440ec (0x800440ec) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -54,7 +55,7 @@ V __mi__FRC8CSVectorT0(const S6 *, const S6 *);
 int __adv__8CSVectorRCi(S6 *, const int *);
 void __apl__7CVectorRC7CVector(V *, const V *);
 void __apl__8CSVectorRC8CSVector(S6 *, const S6 *);
-void Mask__8CSVector(S6 *);
+void CSVector_Mask(S6 *);
 
 void FUN_800440ec(B *p) {
 	V t;
@@ -142,5 +143,5 @@ void FUN_800440ec(B *p) {
 
 	s0 = &p->ang;
 	__apl__8CSVectorRC8CSVector(s0, &p->a12c);
-	Mask__8CSVector(s0);
+	CSVector_Mask(s0);
 }

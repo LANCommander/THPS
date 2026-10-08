@@ -1,4 +1,5 @@
 /* DeleteStuff__5CTape (0x800732e4) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -11,7 +12,7 @@ struct O {
 	struct VT *vt;
 };
 
-void DeleteStuff__5CTape(char *p) {
+void CTape_DeleteStuff(char *p) {
 	struct O *o = *(struct O **)(p + 308);
 
 	if (o)

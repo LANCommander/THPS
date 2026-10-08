@@ -1,5 +1,6 @@
 /* Spool_SkipPackets__FPUi (0x8006f130) */
-unsigned *Spool_SkipPackets__FPUi(unsigned *p) {
+#include "names.h"
+unsigned *Spool_SkipPackets(unsigned *p) {
 	unsigned *q = (unsigned *)((char *)p + p[1]);
 
 	while (*q != -1) {

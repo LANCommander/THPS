@@ -1,4 +1,5 @@
 /* AttachNewEnviro__Fi (0x8006f7a4) */
+#include "names.h"
 typedef struct {
 	char name[10];
 	unsigned char f0a, f0b;
@@ -19,9 +20,9 @@ SEnviro *DAT_800d1eec;
 int DAT_800d1ee0;
 int DAT_800d1ee4[2];
 
-int Spool_GetEnvIndex__Fi(int);
+int Spool_GetEnvIndex(int);
 
-void AttachNewEnviro__Fi(int region) {
+void AttachNewEnviro(int region) {
 	if (!DAT_800d1eec) {
 		DAT_800d1eec = (SEnviro *)(DAT_800bf7a8[region].f14 + 12);
 	} else {
@@ -35,5 +36,5 @@ void AttachNewEnviro__Fi(int region) {
 		DAT_800d1eec = head;
 	}
 
-	DAT_800d1ee4[Spool_GetEnvIndex__Fi(region)] = DAT_800d1ee0;
+	DAT_800d1ee4[Spool_GetEnvIndex(region)] = DAT_800d1ee0;
 }

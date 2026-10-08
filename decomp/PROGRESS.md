@@ -50,16 +50,16 @@ Module = source file from the demo's debug symbols. Unnamed functions (no demo s
 |---|---:|---:|---:|---:|---|
 | CREDITS | 90 / 90 | 89 | 65.9 KB / 65.9 KB | 100.0% | `████████████` |
 | PHYSICS | 61 / 63 | 49 | 49.7 KB / 58.1 KB | 85.5% | `██████████░░` |
+| BIT | 102 / 103 | 61 | 16.7 KB / 28.5 KB | 58.5% | `███████░░░░░` |
 | FRONT | 46 / 46 | 19 | 28.4 KB / 28.4 KB | 100.0% | `████████████` |
-| BIT | 100 / 101 | 59 | 16.5 KB / 28.4 KB | 58.3% | `███████░░░░░` |
 | CAMERA | 30 / 31 | 24 | 14.7 KB / 20.0 KB | 73.3% | `█████████░░░` |
-| SHELLUTILS | 53 / 53 | 39 | 17.3 KB / 17.3 KB | 100.0% | `████████████` |
+| SHELLUTILS | 67 / 67 | 53 | 19.9 KB / 19.9 KB | 100.0% | `████████████` |
 | COMPETITION | 27 / 27 | 22 | 13.3 KB / 13.3 KB | 100.0% | `████████████` |
 | TRIG | 34 / 34 | 12 | 11.9 KB / 11.9 KB | 100.0% | `████████████` |
-| MAIN | 18 / 18 | 14 | 11.4 KB / 11.4 KB | 100.0% | `████████████` |
+| MAIN | 19 / 19 | 15 | 11.5 KB / 11.5 KB | 100.0% | `████████████` |
 | VIDEO | 44 / 44 | 23 | 10.9 KB / 10.9 KB | 100.0% | `████████████` |
 | BADDY | 20 / 20 | 12 | 10.6 KB / 10.6 KB | 100.0% | `████████████` |
-| PANEL | 32 / 32 | 26 | 10.0 KB / 10.0 KB | 100.0% | `████████████` |
+| PANEL | 33 / 33 | 27 | 10.0 KB / 10.0 KB | 100.0% | `████████████` |
 | PRE | 15 / 15 | 12 | 9.9 KB / 9.9 KB | 100.0% | `████████████` |
 | M3DCOLIJ | 10 / 10 | 6 | 9.9 KB / 9.9 KB | 100.0% | `████████████` |
 | RFRONT | 19 / 19 | 12 | 9.8 KB / 9.8 KB | 100.0% | `████████████` |
@@ -71,25 +71,24 @@ Module = source file from the demo's debug symbols. Unnamed functions (no demo s
 | TRICKOB | 16 / 16 | 14 | 6.5 KB / 6.5 KB | 100.0% | `████████████` |
 | CARD | 21 / 22 | 8 | 5.2 KB / 5.5 KB | 95.1% | `███████████░` |
 | PACK | 15 / 15 | 5 | 5.5 KB / 5.5 KB | 100.0% | `████████████` |
-| OB | 38 / 38 | 24 | 5.4 KB / 5.4 KB | 100.0% | `████████████` |
+| OB | 37 / 37 | 23 | 5.4 KB / 5.4 KB | 100.0% | `████████████` |
 | M3DZONE | 4 / 4 | 3 | 5.1 KB / 5.1 KB | 100.0% | `████████████` |
 | M3D | 14 / 14 | 9 | 5.0 KB / 5.0 KB | 100.0% | `████████████` |
 | PAD | 19 / 19 | 8 | 4.8 KB / 4.8 KB | 100.0% | `████████████` |
 | MECH | 24 / 24 | 16 | 4.3 KB / 4.3 KB | 100.0% | `████████████` |
-| CAR | 13 / 13 | 10 | 4.3 KB / 4.3 KB | 100.0% | `████████████` |
 | M3DELIPS | 2 / 2 | 0 | 4.2 KB / 4.2 KB | 100.0% | `████████████` |
+| CAR | 12 / 12 | 10 | 4.2 KB / 4.2 KB | 100.0% | `████████████` |
 | POWERUP | 15 / 15 | 11 | 4.1 KB / 4.1 KB | 100.0% | `████████████` |
 | M3DINIT | 6 / 6 | 3 | 3.8 KB / 3.8 KB | 100.0% | `████████████` |
 | M3DUTILS | 8 / 8 | 1 | 3.7 KB / 3.7 KB | 100.0% | `████████████` |
 | GAMEFMV | 15 / 15 | 8 | 3.6 KB / 3.6 KB | 100.0% | `████████████` |
 | TAPES | 8 / 8 | 3 | 3.4 KB / 3.4 KB | 100.0% | `████████████` |
 | TRICKTIPS | 9 / 9 | 7 | 3.4 KB / 3.4 KB | 100.0% | `████████████` |
-| MEM | 16 / 16 | 12 | 2.9 KB / 2.9 KB | 100.0% | `████████████` |
+| MEM | 15 / 15 | 12 | 2.9 KB / 2.9 KB | 100.0% | `████████████` |
 | CAREER | 12 / 12 | 10 | 2.8 KB / 2.8 KB | 100.0% | `████████████` |
 | QUAT | 5 / 5 | 4 | 2.8 KB / 2.8 KB | 100.0% | `████████████` |
 | FLASH | 8 / 8 | 5 | 2.7 KB / 2.7 KB | 100.0% | `████████████` |
 | SFX | 20 / 20 | 12 | 2.7 KB / 2.7 KB | 100.0% | `████████████` |
-| MULTISELECT | 14 / 14 | 13 | 2.6 KB / 2.6 KB | 100.0% | `████████████` |
 | PAL | 17 / 17 | 10 | 2.4 KB / 2.4 KB | 100.0% | `████████████` |
 | VECTOR | 30 / 30 | 2 | 2.3 KB / 2.3 KB | 100.0% | `████████████` |
 | EXP | 9 / 10 | 8 | 1.6 KB / 2.2 KB | 74.2% | `█████████░░░` |
@@ -103,7 +102,7 @@ Module = source file from the demo's debug symbols. Unnamed functions (no demo s
 | INIT | 12 / 12 | 10 | 1.5 KB / 1.5 KB | 100.0% | `████████████` |
 | BIT2 | 8 / 8 | 4 | 1.2 KB / 1.2 KB | 100.0% | `████████████` |
 | MEDALS | 8 / 8 | 6 | 1.0 KB / 1.0 KB | 100.0% | `████████████` |
-| MENU | 5 / 5 | 4 | 872 B / 872 B | 100.0% | `████████████` |
+| MENU | 4 / 4 | 4 | 820 B / 820 B | 100.0% | `████████████` |
 | BACKGRND | 5 / 5 | 0 | 452 B / 452 B | 100.0% | `████████████` |
 | REDBOOK | 2 / 2 | 0 | 128 B / 128 B | 100.0% | `████████████` |
 | SCREENTOOLS | 1 / 1 | 0 | 96 B / 96 B | 100.0% | `████████████` |
@@ -114,22 +113,22 @@ From `nearmiss.tsv` (the score is the better of positional and alignment-aware).
 
 | function | size | score | source |
 |---|---:|---:|---|
-| FUN_800347a8 | 5664 | 1413/1416 (99.8%) | `src/physics/doonground.cpp` |
+| CBruce::DoOnGroundPhysics(void) | 5664 | 1413/1416 (99.8%) | `src/physics/doonground.cpp` |
 | FUN_8004f000 | 588 | 146/147 (99.3%) | `src/unnamed/8004f000.c` |
-| FUN_80078f3c | 5464 | 1355/1366 (99.2%) | `src/camera/reacttocollision.cpp` |
+| CCamera::ReactToCollision(void) | 5464 | 1355/1366 (99.2%) | `src/camera/reacttocollision.cpp` |
 | FUN_8002ab20 | 12120 | 2995/3030 (98.8%) | `src/bit/display.cpp` |
-| FUN_8004c8a4 | 620 | 153/155 (98.7%) | `src/fileio/open.cpp` |
-| Card_GetDirAndFreeBlocks__Fii | 276 | 68/69 (98.6%) | `src/card/getdirandfreeblocks.cpp` |
-| FUN_8003058c | 2940 | 705/735 (95.9%) | `src/physics/handlesticktorail.cpp` |
+| FileIO_Open(char const *) | 620 | 153/155 (98.7%) | `src/fileio/open.cpp` |
+| Card_GetDirAndFreeBlocks(int, int) | 276 | 68/69 (98.6%) | `src/card/getdirandfreeblocks.cpp` |
+| CBruce::HandleStickToRail(void) | 2940 | 705/735 (95.9%) | `src/physics/handlesticktorail.cpp` |
 
 ## Biggest unmatched functions
 
 | function | module | size | attempt |
 |---|---|---:|---|
 | FUN_8002ab20 (0x8002ab20) | BIT (inferred) | 11.8 KB | 2995/3030 |
-| FUN_800347a8 (0x800347a8) | PHYSICS (inferred) | 5.5 KB | 1413/1416 |
-| FUN_80078f3c (0x80078f3c) | CAMERA (inferred) | 5.3 KB | 1355/1366 |
-| FUN_8003058c (0x8003058c) | PHYSICS (inferred) | 2.9 KB | 705/735 |
-| FUN_8004c8a4 (0x8004c8a4) | FILEIO (inferred) | 620 B | 153/155 |
+| CBruce::DoOnGroundPhysics(void) (0x800347a8) | PHYSICS (inferred) | 5.5 KB | 1413/1416 |
+| CCamera::ReactToCollision(void) (0x80078f3c) | CAMERA (inferred) | 5.3 KB | 1355/1366 |
+| CBruce::HandleStickToRail(void) (0x8003058c) | PHYSICS (inferred) | 2.9 KB | 705/735 |
+| FileIO_Open(char const *) (0x8004c8a4) | FILEIO (inferred) | 620 B | 153/155 |
 | FUN_8004f000 (0x8004f000) | EXP (inferred) | 588 B | 146/147 |
-| Card_GetDirAndFreeBlocks__Fii (0x80015164) | CARD | 276 B | 68/69 |
+| Card_GetDirAndFreeBlocks(int, int) (0x80015164) | CARD | 276 B | 68/69 |

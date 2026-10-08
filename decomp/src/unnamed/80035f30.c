@@ -1,4 +1,5 @@
 /* FUN_80035f30 (0x80035f30) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -24,10 +25,10 @@ typedef struct {
 	V w2;
 } B;
 
-void Debug_RunAnim__6CBruceii(B *, int, int);
-void Bail__6CBrucei13ELimitBailVel(B *, int);
-int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
-void RotMatrixFromFRUVectors__6CBruce(B *);
+void CBruce_Debug_RunAnim(B *, int, int);
+void CBruce_Bail(B *, int);
+int Mips_CVecDotProd(V *, V *);
+void CBruce_RotMatrixFromFRUVectors(B *);
 V __mi__C7CVector(const V *);
 V __ml__FRC7CVectorRCi(const V *, const int *);
 
@@ -44,18 +45,18 @@ void FUN_80035f30(B *p, S6 s) {
 			v.y = s.y;
 			v.z = s.z;
 
-			if (Mips_CVecDotProd__FP7CVectorT0(&p->w2, &v) < 2000 && p->w2.y >= -1999) {
-				Bail__6CBrucei13ELimitBailVel(p, 0);
+			if (Mips_CVecDotProd(&p->w2, &v) < 2000 && p->w2.y >= -1999) {
+				CBruce_Bail(p, 0);
 
 				p->f150 = 0x10000;
-				Debug_RunAnim__6CBruceii(p, 56, 4860);
+				CBruce_Debug_RunAnim(p, 56, 4860);
 
 				p->f24c = 9;
 				t = p->w1;
 				r = __mi__C7CVector(&p->w2);
 				p->w1 = r;
 				p->w2 = t;
-				RotMatrixFromFRUVectors__6CBruce(p);
+				CBruce_RotMatrixFromFRUVectors(p);
 
 				r2 = __mi__C7CVector(&p->w1);
 				n = 10;

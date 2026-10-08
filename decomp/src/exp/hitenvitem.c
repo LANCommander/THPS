@@ -1,4 +1,5 @@
 /* Exp_HitEnvItem__FP4ItemPUii (0x8004e968) */
+#include "names.h"
 typedef struct Item {
 	unsigned short flags;
 	char _2[0x14];
@@ -22,8 +23,8 @@ extern Item *DAT_800d1eec __attribute__((section(".data")));
 
 extern Slot DAT_800bf7a8[];
 
-void Shatter_Item__FP4Itemii(Item *, int, int);
-void Shatter_Face__FP4ItemPUiiiiii(Item *, unsigned *, int, int, int, int, int);
+void Shatter_Item(Item *, int, int);
+void Shatter_Face(Item *, unsigned *, int, int, int, int, int);
 
 void Exp_HitEnvItem(Item *pItem, unsigned *pFace, int Damage) {
 	Item *pScan;
@@ -52,8 +53,8 @@ void Exp_HitEnvItem(Item *pItem, unsigned *pFace, int Damage) {
 
 		if (Life || Damage == 0xffff)
 			if (Damage >= Life)
-				Shatter_Item__FP4Itemii(pItem, 1, 1);
+				Shatter_Item(pItem, 1, 1);
 	} else if (pFace) {
-		Shatter_Face__FP4ItemPUiiiiii(pItem, pFace, 1, 1, 1, 1, 1);
+		Shatter_Face(pItem, pFace, 1, 1, 1, 1, 1);
 	}
 }

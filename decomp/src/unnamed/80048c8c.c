@@ -1,4 +1,5 @@
 /* Db_UpdateSky__Fv (0x80048c8c) */
+#include "names.h"
 typedef struct {
 	char pad[24];
 	unsigned char on, r, g, b;
@@ -10,7 +11,7 @@ extern T DAT_800b09c8;
 
 int DAT_800d1a3c;
 
-void Db_UpdateSky__Fv(void) {
+void Db_UpdateSky(void) {
 	unsigned int c = DAT_800d1a3c;
 
 	if (c == -1) {

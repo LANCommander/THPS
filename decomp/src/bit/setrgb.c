@@ -1,9 +1,10 @@
 /* SetRGB__5CGlowUcUcUc (0x80029048) */
+#include "names.h"
 typedef struct {
 	int a, b;
 } E;
 
-void SetRGB__5CGlowUcUcUc(char *t, unsigned char r, unsigned char g, unsigned char b) {
+void CGlow_SetRGB(char *t, unsigned char r, unsigned char g, unsigned char b) {
 	unsigned i;
 	unsigned c = (b << 16) | (g << 8) | r;
 

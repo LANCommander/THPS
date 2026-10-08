@@ -1,4 +1,5 @@
 /* Mess_Update__Fv (0x8001d6bc) */
+#include "names.h"
 typedef struct Prog {
 	unsigned short dur;
 	char pad[0x1c];
@@ -17,7 +18,7 @@ typedef struct Message {
 
 Message *DAT_800d15ec;
 
-extern void Mess_DeleteMessage__FP7Message(Message *);
+extern void Mess_DeleteMessage(Message *);
 
 void Mess_Update(void) {
 	Message *m = DAT_800d15ec;
@@ -35,7 +36,7 @@ void Mess_Update(void) {
 			signed char c = p->cmd;
 
 			if (c == 0) {
-				Mess_DeleteMessage__FP7Message(m);
+				Mess_DeleteMessage(m);
 			} else if (c != 127) {
 				m->prog = p + c;
 				m->cnt = 0;

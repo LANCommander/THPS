@@ -1,4 +1,5 @@
 /* Mess_UnloadFont__Fv (0x8001ef60) */
+#include "names.h"
 typedef struct {
 	char pad[16];
 	int count;
@@ -10,21 +11,21 @@ extern Font DAT_800a6110[];
 
 int DAT_800d15e4, DAT_800d15e0;
 
-void Pack_Unpack__Fss(short, short);
-void Free16Slot__FUs(unsigned short);
-void Mem_Delete__FPv(char *);
+void Pack_Unpack(short, short);
+void Free16Slot(unsigned short);
+void Mem_Delete(char *);
 
-void Mess_UnloadFont__Fv(void) {
+void Mess_UnloadFont(void) {
 	int i;
 
 	for (i = 0; i < DAT_800a6110[DAT_800d15e4].count; i++) {
 		char *p = (char *)(i * 36 + (int)DAT_800a6110[DAT_800d15e4].ptr);
 
-		Pack_Unpack__Fss(*(short *)(p + 8), *(short *)(p + 12));
+		Pack_Unpack(*(short *)(p + 8), *(short *)(p + 12));
 	}
 
-	Free16Slot__FUs(*(unsigned short *)(DAT_800a6110[DAT_800d15e4].ptr + 22));
-	Mem_Delete__FPv(DAT_800a6110[DAT_800d15e4].ptr);
+	Free16Slot(*(unsigned short *)(DAT_800a6110[DAT_800d15e4].ptr + 22));
+	Mem_Delete(DAT_800a6110[DAT_800d15e4].ptr);
 
 	DAT_800a6110[DAT_800d15e4].ptr = 0;
 

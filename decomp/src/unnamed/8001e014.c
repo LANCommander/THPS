@@ -1,12 +1,13 @@
 /* init__17FallingTextEffect (0x8001e014) */
-int Redbook_Rnd__Fi(int a);
+#include "names.h"
+int Redbook_Rnd(int a);
 
-void init__17FallingTextEffect(short *p) {
+void FallingTextEffect_init(short *p) {
 	int i = 0;
 	short *q = p;
 
 	for (; i < 32; i++) {
-		*q = Redbook_Rnd__Fi(30) + 15;
+		*q = Redbook_Rnd(30) + 15;
 		q++;
 	}
 

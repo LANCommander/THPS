@@ -1,4 +1,5 @@
 /* RemoveTextureEntry__FP7Texture (0x8006efb8) */
+#include "names.h"
 struct N {
 	char pad[16];
 	unsigned f;
@@ -10,9 +11,9 @@ struct N {
 
 extern struct N *DAT_800c01a8[];
 
-void Mem_Delete__FPv(struct N *p);
+void Mem_Delete(struct N *p);
 
-void RemoveTextureEntry__FP7Texture(struct N *p) {
+void RemoveTextureEntry(struct N *p) {
 	struct N **s;
 
 	if (p->a)
@@ -26,5 +27,5 @@ void RemoveTextureEntry__FP7Texture(struct N *p) {
 	if (p == *s)
 		*s = p->a;
 
-	Mem_Delete__FPv(p);
+	Mem_Delete(p);
 }

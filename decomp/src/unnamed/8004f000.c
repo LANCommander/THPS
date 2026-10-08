@@ -1,4 +1,5 @@
 /* FUN_8004f000 (0x8004f000) */
+#include "names.h"
 /* EXP module. 146/147: the only residue is the zero return after FUN_8004eed8: cse follows the
    single-use `goto out` and folds `return ret` to `v0 = 0`, which reorg copies into the `beq`
    slot (retail: nop). Giving `out` a second user (`if(!s0){ret=1;goto out;}`, retail's
@@ -9,7 +10,7 @@
    the `j; out:` block is gone, reorg's find_basic_block can't place the beq target, treats
    all regs as live, and can't take `move a0,s5` from the fall-through. No per-TU flag helps
    (match_sym ignores CC1_OPTS; sweep with match_div). FUN_8006eb18 takes one argument;
-   SFX_PlayX__FUisi returns int. */
+   SFX_PlayX returns int. */
 typedef struct N {
 	char p0[4];
 	int f4;
@@ -43,11 +44,11 @@ int DAT_800d1b8c, DAT_800d1b90;
 
 int FUN_8006ef00(B *);
 int FUN_8004eed8(unsigned short);
-int SFX_PlayX__FUisi(int, short, int);
+int SFX_PlayX(int, short, int);
 void FUN_8006eb18(int *);
 void FUN_80068f40(int, int);
-unsigned short *Trig_GetLinksPointer__Fi(unsigned short);
-void Trig_SendPulse__FPUs(unsigned short *);
+unsigned short *Trig_GetLinksPointer(unsigned short);
+void Trig_SendPulse(unsigned short *);
 
 int FUN_8004f000(B *a, B *b, int c) {
 	unsigned char s5;
@@ -90,7 +91,7 @@ int FUN_8004f000(B *a, B *b, int c) {
 
 	if (FUN_8004eed8(s0->s8)) {
 		if (DAT_800d16a4 == 1) {
-			SFX_PlayX__FUisi(20, 0x2000, 0);
+			SFX_PlayX(20, 0x2000, 0);
 
 			a->f20 = 0x202020;
 			s1 = 1;
@@ -104,13 +105,13 @@ int FUN_8004f000(B *a, B *b, int c) {
 		a->f20 = 0x202020;
 		a->f0 |= 0x400;
 		b->f1f0++;
-		SFX_PlayX__FUisi(24, 0x2000, 0);
+		SFX_PlayX(24, 0x2000, 0);
 
 		if (s0->cA) {
 			b->f1d4->f1f0--;
 			b->f1f4++;
 			FUN_8006eb18(&b->f924);
-			SFX_PlayX__FUisi(25, 0x2000, 0);
+			SFX_PlayX(25, 0x2000, 0);
 		}
 
 		s0->cB = s5;
@@ -121,7 +122,7 @@ L122:
 		DAT_800d1b8c = s5;
 		DAT_800d1b90 = c;
 		FUN_80068f40(s5, s3);
-		Trig_SendPulse__FPUs(Trig_GetLinksPointer__Fi(s0->s8));
+		Trig_SendPulse(Trig_GetLinksPointer(s0->s8));
 
 		s0->cA = 1;
 		s0->f14 = a;

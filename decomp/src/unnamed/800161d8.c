@@ -1,4 +1,5 @@
 /* FUN_800161d8 (0x800161d8) */
+#include "names.h"
 extern char DAT_8009e2ec[];
 extern char DAT_8009e2f8[];
 extern volatile int DAT_800d1a1c;
@@ -8,13 +9,13 @@ void Mess_LoadFont__FPciii(char *, int, int, int);
 void FUN_8008c3d0(int);
 void FUN_8006b240(void);
 void FUN_80061ea0(void);
-void SetClippingBox__Fiiii(int, int, int, int);
-void Mess_SetTextJustify__FUc(int);
-void Mess_SetScale__Fi(int);
-void Mess_SetRGB__FUcUcUci(int, int, int, int);
-void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
+void SetClippingBox(int, int, int, int);
+void Mess_SetTextJustify(int);
+void Mess_SetScale(int);
+void Mess_SetRGB(int, int, int, int);
+void Mess_DrawText(int, int, char *, int, int, int, int);
 void FUN_8006b26c(void);
-void Mess_UnloadFont__Fv(void);
+void Mess_UnloadFont(void);
 
 void FUN_800161d8(void) {
 	int i;
@@ -31,13 +32,13 @@ void FUN_800161d8(void) {
 		FUN_80061ea0();
 
 		DAT_800d1a1c = 0;
-		SetClippingBox__Fiiii(0, 0, 640, 480);
-		Mess_SetTextJustify__FUc(0);
-		Mess_SetScale__Fi(384);
-		Mess_SetRGB__FUcUcUci(150, 100, 25, 0);
-		Mess_DrawText__FiiPCciUiib(320, 240, DAT_8009e2f8, 1, 0, 256, 0);
+		SetClippingBox(0, 0, 640, 480);
+		Mess_SetTextJustify(0);
+		Mess_SetScale(384);
+		Mess_SetRGB(150, 100, 25, 0);
+		Mess_DrawText(320, 240, DAT_8009e2f8, 1, 0, 256, 0);
 		FUN_8006b26c();
 	} while (i < 2);
 
-	Mess_UnloadFont__Fv();
+	Mess_UnloadFont();
 }

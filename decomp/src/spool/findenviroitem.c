@@ -1,4 +1,5 @@
 /* Spool_FindEnviroItem__FUi (0x8006ee88) */
+#include "names.h"
 typedef struct {
 	char name[10];
 	unsigned char f0a, f0b;
@@ -20,7 +21,7 @@ typedef struct SEnviro {
 
 SEnviro *DAT_800d1eec;
 
-SEnviro *Spool_FindEnviroItem__FUi(unsigned id) {
+SEnviro *Spool_FindEnviroItem(unsigned id) {
 	SEnviro *e = DAT_800d1eec;
 	int cur = -1;
 	unsigned *tbl;

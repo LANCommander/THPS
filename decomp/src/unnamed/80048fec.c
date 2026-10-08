@@ -1,4 +1,5 @@
 /* FUN_80048fec (0x80048fec) flags=-fstrict-aliasing */
+#include "names.h"
 typedef struct {
 	char pad0[0x74];
 	int Busy;   /* 0x74 */
@@ -14,7 +15,7 @@ unsigned long DAT_800d1a54;
 
 void Pause__Fi(int);
 void FUN_8008c468(int);
-void Db_CallBack__Fv(void);
+void Db_CallBack(void);
 int FUN_80048c74(void);
 void FUN_8008c7d4(unsigned long *, int);
 
@@ -26,7 +27,7 @@ void FUN_80048fec(void) {
 
 	if (DAT_800d1a48->Flag78) {
 		FUN_8008c468(0);
-		Db_CallBack__Fv();
+		Db_CallBack();
 	}
 
 	FUN_8008c7d4(DAT_800d1a48->OT, FUN_80048c74());

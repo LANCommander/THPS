@@ -1,8 +1,9 @@
 /* OutOfBounds__10CPanelData (0x8006eba4) */
-int Redbook_Rnd__Fi(int a);
-void init__17FallingTextEffect(char *p);
+#include "names.h"
+int Redbook_Rnd(int a);
+void FallingTextEffect_init(char *p);
 
-void OutOfBounds__10CPanelData(char *p) {
-	*(int *)(p + 428) = Redbook_Rnd__Fi(4) + 1;
-	init__17FallingTextEffect(p + 432);
+void CPanelData_OutOfBounds(char *p) {
+	*(int *)(p + 428) = Redbook_Rnd(4) + 1;
+	FallingTextEffect_init(p + 432);
 }

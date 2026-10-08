@@ -1,5 +1,6 @@
 /* SetSJISChecksum__FPcT0 (0x8001424c) */
-void SetSJISChecksum__FPcT0(unsigned short *src, char *dst) {
+#include "names.h"
+void SetSJISChecksum(unsigned short *src, char *dst) {
 	unsigned short h = 0;
 	unsigned a, b;
 

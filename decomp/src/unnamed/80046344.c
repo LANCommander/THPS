@@ -1,2 +1,3 @@
 /* Trig_AllocateDualBuffer__FUi (0x80046344) */
-void Trig_AllocateDualBuffer__FUi(void) {}
+#include "names.h"
+void Trig_AllocateDualBuffer(void) {}

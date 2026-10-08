@@ -1,4 +1,5 @@
 /* Utils_LineOfSight__FRC7CVectorT0 (0x80048170) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -12,8 +13,8 @@ typedef struct {
 
 extern int DAT_800d20dc;
 
-void M3dColij_InitLineInfo__FP9SLineInfo(SLineInfo *li);
-void M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *li, int n);
+void M3dColij_InitLineInfo(SLineInfo *li);
+void M3dZone_LineToItemNotSCached(SLineInfo *li, int n);
 
 int Utils_LineOfSight(V *a, V *b) {
 	SLineInfo li;
@@ -25,8 +26,8 @@ int Utils_LineOfSight(V *a, V *b) {
 	li.end.y = b->y;
 	li.end.z = b->z;
 	DAT_800d20dc = 1;
-	M3dColij_InitLineInfo__FP9SLineInfo(&li);
-	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
+	M3dColij_InitLineInfo(&li);
+	M3dZone_LineToItemNotSCached(&li, 1);
 
 	DAT_800d20dc = 0;
 	return li.hit == 0;

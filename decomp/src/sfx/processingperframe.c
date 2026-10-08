@@ -1,4 +1,5 @@
 /* SFX_ProcessingPerFrame__Fv (0x8004bf30) */
+#include "names.h"
 int DAT_800d1aa8, DAT_800d1aac, DAT_800d1ac8;
 unsigned char DAT_800d1ac0;
 unsigned DAT_800d1abc, DAT_800d1aa4, DAT_800d1ab8, DAT_800d1ab0, DAT_800d1ab4;
@@ -7,7 +8,7 @@ void FUN_800947e4(int, int);
 void FUN_80094c74(int, int);
 void FUN_800947c4(int, short *);
 
-void SFX_ProcessingPerFrame__Fv(void) {
+void SFX_ProcessingPerFrame(void) {
 	short st[4];
 	int i;
 	unsigned m;

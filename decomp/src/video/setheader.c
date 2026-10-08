@@ -1,4 +1,5 @@
 /* Video_SetHeader__FP10SVideoHeadi (0x80069394) */
+#include "names.h"
 typedef struct {
 	int a, b;
 } SVideoMark;
@@ -30,7 +31,7 @@ extern SVideoInfo DAT_800bf318[];
 extern CBruce *DAT_800d19a4;
 extern unsigned short DAT_800d1780, DAT_800d1e28, DAT_800d16a4;
 
-void Video_SetHeader__FP10SVideoHeadi(SVideoHead *h, int which) {
+void Video_SetHeader(SVideoHead *h, int which) {
 	SVideoInfo v;
 	int i;
 	CBruce *b, *o;

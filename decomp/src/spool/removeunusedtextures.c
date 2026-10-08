@@ -1,4 +1,5 @@
 /* Spool_RemoveUnusedTextures__Fv (0x8006f1f8) */
+#include "names.h"
 typedef struct {
 	char pad[4];
 	unsigned short refs;
@@ -15,21 +16,21 @@ typedef struct STexture {
 	short px, py;
 } STexture;
 
-void GotoStartOfTextureList__Fv(void);
-STexture *NextTexture__Fv(void);
-void Pack_Unpack__Fss(short, short);
-void RemoveTextureEntry__FP7Texture(STexture *);
+void GotoStartOfTextureList(void);
+STexture *NextTexture(void);
+void Pack_Unpack(short, short);
+void RemoveTextureEntry(STexture *);
 
-void Spool_RemoveUnusedTextures__Fv(void) {
+void Spool_RemoveUnusedTextures(void) {
 	STexture *t;
 
-	GotoStartOfTextureList__Fv();
+	GotoStartOfTextureList();
 
-	while ((t = NextTexture__Fv())) {
+	while ((t = NextTexture())) {
 		if ((t->u.flags & 0xf0000) && !t->u.usage) {
 			t->pal->refs--;
-			Pack_Unpack__Fss(t->px, t->py);
-			RemoveTextureEntry__FP7Texture(t);
+			Pack_Unpack(t->px, t->py);
+			RemoveTextureEntry(t);
 		}
 	}
 }

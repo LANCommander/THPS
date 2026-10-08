@@ -1,4 +1,5 @@
 /* SFX_Grunt__FP6CBruce (0x80043408) */
+#include "names.h"
 struct E {
 	char pad[12];
 	int f;
@@ -9,10 +10,10 @@ extern struct E DAT_800a44fc[];
 extern int DAT_800d1984;
 extern int DAT_800d1e28;
 
-int Redbook_Rnd__Fi(int);
-void SFX_PlayX__FUisi(int, int, int);
+int Redbook_Rnd(int);
+void SFX_PlayX(int, int, int);
 
-void SFX_Grunt__FP6CBruce(char *p) {
+void SFX_Grunt(char *p) {
 	int a;
 
 	switch (DAT_800d1984) {
@@ -30,14 +31,14 @@ void SFX_Grunt__FP6CBruce(char *p) {
 			goto out;
 	}
 
-	SFX_PlayX__FUisi(a, 8192, 0);
+	SFX_PlayX(a, 8192, 0);
 out:
 	a = DAT_800a44fc[*(int *)(p + 744)].f;
 
 	if (a == 0x9000 || a == 0xb000)
 		a = 31;
 	else
-		a = Redbook_Rnd__Fi(3) + 28;
+		a = Redbook_Rnd(3) + 28;
 
-	SFX_PlayX__FUisi(a, 8192, 0);
+	SFX_PlayX(a, 8192, 0);
 }

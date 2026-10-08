@@ -1,4 +1,5 @@
 /* draw__11SlicedImageiiiiiiii (0x80062e20) */
+#include "names.h"
 /* SlicedImage::draw (SHELLUTILS.CPP), as C. Emits one POLY_FT4 per slice of the image at (x, y),
    flat or tinted, optionally semi-transparent, into the panel OT or a per-call layer. The tpage is
    libgpu's getTPage on the slice RECT. */
@@ -35,7 +36,7 @@ typedef struct {
 	 (((y) & 0x200) << 2))
 #define EN(o) ((char *)((int)(o) + (int)p->tab))
 
-void draw__11SlicedImageiiiiiiii(SP *p, int x0, int y, int fb, int c4, int c5, int c6, int c7, int c8) {
+void SlicedImage_draw(SP *p, int x0, int y, int fb, int c4, int c5, int c6, int c7, int c8) {
 	int i, j, k, off, s2, x;
 	char *pk;
 	unsigned *ot;

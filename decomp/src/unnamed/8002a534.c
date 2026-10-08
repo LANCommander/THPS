@@ -1,4 +1,5 @@
 /* __9CGlassBitRC7CVectorT1iUcUcUciii (0x8002a534) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -22,32 +23,32 @@ extern char DAT_8009f688[];
 
 char DAT_800d18ec[8];
 
-void __4CBit(B *);
-void AttachTo__4CBitPv(B *, char *);
-int Redbook_Rnd__Fi(int);
+void CBit_ctor(B *);
+void CBit_AttachTo(B *, char *);
+int Redbook_Rnd(int);
 
-B *__9CGlassBitRC7CVectorT1iUcUcUciii(B *p, V *pos, V *vel, int a3, unsigned char r, unsigned char g, unsigned char b,
+B *CGlassBit_ctor(B *p, V *pos, V *vel, int a3, unsigned char r, unsigned char g, unsigned char b,
                 int rx, int ry, int rz) {
 	int sx, sy, sz;
 
-	__4CBit(p);
+	CBit_ctor(p);
 
 	p->vt = DAT_8009f688;
-	AttachTo__4CBitPv(p, DAT_800d18ec);
+	CBit_AttachTo(p, DAT_800d18ec);
 
 	sx = rx * 2 + 1;
 	sy = ry * 2 + 1;
 	sz = rz * 2 + 1;
 	p->v18 = *pos;
-	p->a48.x = pos->x + ((Redbook_Rnd__Fi(sx) - rx) << 12);
-	p->a48.y = pos->y + ((Redbook_Rnd__Fi(sy) - ry) << 12);
-	p->a48.z = pos->z + ((Redbook_Rnd__Fi(sz) - rz) << 12);
-	p->a54.x = pos->x + ((Redbook_Rnd__Fi(sx) - rx) << 12);
-	p->a54.y = pos->y + ((Redbook_Rnd__Fi(sy) - ry) << 12);
-	p->a54.z = pos->z + ((Redbook_Rnd__Fi(sz) - rz) << 12);
-	p->a60.x = pos->x + ((Redbook_Rnd__Fi(sx) - rx) << 12);
-	p->a60.y = pos->y + ((Redbook_Rnd__Fi(sy) - ry) << 12);
-	p->a60.z = pos->z + ((Redbook_Rnd__Fi(sz) - rz) << 12);
+	p->a48.x = pos->x + ((Redbook_Rnd(sx) - rx) << 12);
+	p->a48.y = pos->y + ((Redbook_Rnd(sy) - ry) << 12);
+	p->a48.z = pos->z + ((Redbook_Rnd(sz) - rz) << 12);
+	p->a54.x = pos->x + ((Redbook_Rnd(sx) - rx) << 12);
+	p->a54.y = pos->y + ((Redbook_Rnd(sy) - ry) << 12);
+	p->a54.z = pos->z + ((Redbook_Rnd(sz) - rz) << 12);
+	p->a60.x = pos->x + ((Redbook_Rnd(sx) - rx) << 12);
+	p->a60.y = pos->y + ((Redbook_Rnd(sy) - ry) << 12);
+	p->a60.z = pos->z + ((Redbook_Rnd(sz) - rz) << 12);
 	p->v24 = *vel;
 	p->i6c = a3;
 	p->b70 = r >> 2;
@@ -56,7 +57,7 @@ B *__9CGlassBitRC7CVectorT1iUcUcUciii(B *p, V *pos, V *vel, int a3, unsigned cha
 	p->b73 = r >> 2;
 	p->b74 = g >> 2;
 	p->b75 = b >> 2;
-	p->s0a = Redbook_Rnd__Fi(30) + 30;
+	p->s0a = Redbook_Rnd(30) + 30;
 	p->b76 = 4;
 	return p;
 }

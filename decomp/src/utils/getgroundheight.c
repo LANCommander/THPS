@@ -1,4 +1,5 @@
 /* Utils_GetGroundHeight__FRC7CVectorii (0x800481e8) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -16,8 +17,8 @@ typedef struct {
 	char pad2[0xa8 - 0x89];
 } SLineInfo;
 
-void M3dColij_InitLineInfo__FP9SLineInfo(SLineInfo *li);
-int M3dZone_LineToItemNotSCached__FP9SLineInfoi(SLineInfo *li, int n);
+void M3dColij_InitLineInfo(SLineInfo *li);
+int M3dZone_LineToItemNotSCached(SLineInfo *li, int n);
 
 int Utils_GetGroundHeight(V *p, int up, int down) {
 	SLineInfo li;
@@ -28,10 +29,10 @@ int Utils_GetGroundHeight(V *p, int up, int down) {
 	li.end.x = p->x;
 	li.end.y = p->y + (down << 12);
 	li.end.z = p->z;
-	M3dColij_InitLineInfo__FP9SLineInfo(&li);
+	M3dColij_InitLineInfo(&li);
 
 	li.flag = 0;
-	M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
+	M3dZone_LineToItemNotSCached(&li, 1);
 
 	if (li.hit && li.ny < -3071)
 		return li.y;

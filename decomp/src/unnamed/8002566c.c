@@ -1,5 +1,6 @@
 /* FUN_8002566c (0x8002566c) */
-/* PlayAway_Init (demo twin PlayAway_Init__Fv). b826/b827 pick each player's skater, b828[] the W1*.bmp
+#include "names.h"
+/* PlayAway_Init (demo twin PlayAway_Init). b826/b827 pick each player's skater, b828[] the W1*.bmp
    colour; reading b828 through DAT_800a6844 (not as a separate global) fixes the loop's
    preheader order (sp+16 hoisted before sp+48). */
 struct E {
@@ -31,9 +32,9 @@ extern volatile int DAT_800d1a20, DAT_800d1a24;
 void FUN_8007ef30(void);
 char *strcpy(char *, const char *);
 int Mess_LoadFont__FPciii(char *, int, int, int);
-void Pad_ClearAll__Fv(void);
-void Redbook_InitialRand__Fi(int);
-void ReplaceTexture__FUiPc(int, char *);
+void Pad_ClearAll(void);
+void Redbook_InitialRand(int);
+void ReplaceTexture(int, char *);
 
 void FUN_8002566c(void) {
 	char nm[2][16];
@@ -47,10 +48,10 @@ void FUN_8002566c(void) {
 	for (i = 0; i < 2; i++)
 		nm[i][1] = 95;
 
-	ReplaceTexture__FUiPc(DAT_800a44fc[DAT_800d1114].f48, nm[0]);
+	ReplaceTexture(DAT_800a44fc[DAT_800d1114].f48, nm[0]);
 
 	if (DAT_800d1780 == 2)
-		ReplaceTexture__FUiPc(DAT_800a44fc[DAT_800d16d8].f48, nm[1]);
+		ReplaceTexture(DAT_800a44fc[DAT_800d16d8].f48, nm[1]);
 
 	{
 		char *tab[15] = { "W1blue01.bmp", "W1blue02.bmp", "W1blue03.bmp", "W1blue04.bmp",
@@ -65,18 +66,18 @@ void FUN_8002566c(void) {
 		}
 	}
 
-	ReplaceTexture__FUiPc(DAT_800a44fc[DAT_800d1114].f4c, nm[0]);
+	ReplaceTexture(DAT_800a44fc[DAT_800d1114].f4c, nm[0]);
 
 	if (DAT_800d1780 == 2)
-		ReplaceTexture__FUiPc(DAT_800a44fc[DAT_800d16d8].f4c, nm[1]);
+		ReplaceTexture(DAT_800a44fc[DAT_800d16d8].f4c, nm[1]);
 
 	for (k = 0; k < 2; k++)
 		nm[k][1] = 84;
 
-	ReplaceTexture__FUiPc(DAT_800a44fc[DAT_800d1114].f50, nm[0]);
+	ReplaceTexture(DAT_800a44fc[DAT_800d1114].f50, nm[0]);
 
 	if (DAT_800d1780 == 2)
-		ReplaceTexture__FUiPc(DAT_800a44fc[DAT_800d16d8].f50, nm[1]);
+		ReplaceTexture(DAT_800a44fc[DAT_800d16d8].f50, nm[1]);
 
 	DAT_800a679c[0] = 3413;
 	DAT_800a67b0[0] = 2275;
@@ -96,14 +97,14 @@ void FUN_8002566c(void) {
 	DAT_800d16e8 = 0;
 	DAT_800d1ff0 = 0;
 	DAT_800d1844 = DAT_800d1a24;
-	Pad_ClearAll__Fv();
+	Pad_ClearAll();
 
 	DAT_800d1f14 = 0;
 	DAT_800d1f18 = 0;
 	DAT_800d183c = 0;
 	DAT_800d1840 = 0;
 	DAT_800d16e0 = 0;
-	Redbook_InitialRand__Fi(0x12a6cc58);
+	Redbook_InitialRand(0x12a6cc58);
 	FUN_8007ef30();
 
 	DAT_800d1794 = Mess_LoadFont__FPciii("time.fnt", -1, -1, 0);

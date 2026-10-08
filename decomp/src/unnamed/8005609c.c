@@ -1,4 +1,5 @@
 /* FUN_8005609c (0x8005609c) */
+#include "names.h"
 struct E {
 	char pad[8];
 	char *n8;
@@ -15,10 +16,10 @@ extern int DAT_800d3758[], DAT_800d3788[];
 
 void FUN_80059618(int);
 void FUN_8006edb8(int);
-void ProcessNewPSX__Fi(int);
-void ClearRegion__Fiii(int, int, int);
-void Spool_ClearPSX__FPc(char *);
-void Spool_Sync__Fv(void);
+void ProcessNewPSX(int);
+void ClearRegion(int, int, int);
+void Spool_ClearPSX(char *);
+void Spool_Sync(void);
 
 void FUN_8005609c(void) {
 	int i, v, j;
@@ -27,7 +28,7 @@ void FUN_8005609c(void) {
 
 	for (i = 0; i < 2; i++) {
 		if (DAT_800d231c[i]) {
-			ClearRegion__Fiii(DAT_800d3758[DAT_800d2304[i]], 1, 1);
+			ClearRegion(DAT_800d3758[DAT_800d2304[i]], 1, 1);
 			FUN_8006edb8(DAT_800d3758[DAT_800d2304[i]]);
 
 			DAT_800d231c[i] = 0;
@@ -37,7 +38,7 @@ void FUN_8005609c(void) {
 		}
 	}
 
-	Spool_Sync__Fv();
+	Spool_Sync();
 
 	v = DAT_800d230c + DAT_800d2310;
 
@@ -51,10 +52,10 @@ void FUN_8005609c(void) {
 
 	for (j = 0; j < 11; j++) {
 		if (DAT_800d3788[j]) {
-			ProcessNewPSX__Fi(DAT_800d3758[j]);
-			Spool_ClearPSX__FPc(DAT_800a44fc[j].n8);
+			ProcessNewPSX(DAT_800d3758[j]);
+			Spool_ClearPSX(DAT_800a44fc[j].n8);
 		}
 	}
 
-	Spool_Sync__Fv();
+	Spool_Sync();
 }

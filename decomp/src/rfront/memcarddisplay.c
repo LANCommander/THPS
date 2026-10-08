@@ -1,4 +1,5 @@
 /* Front_MemCardDisplay__Fv (0x80011820) */
+#include "names.h"
 /* Memory-card front-end screen (RFRONT.CPP), as C. The save-slot list loop follows the demo twin:
    x is XMid - 150 + i * 30 (no separate column variable), and the slot letter goes into a copy of a
    3-byte template in buf. */
@@ -73,17 +74,17 @@ int DAT_800d1128;
 int DAT_800d10fc, DAT_800d1100, DAT_800d1144, DAT_800d21d8, DAT_800d21dc;
 
 void FUN_80011214(void);
-void Display__5CMenu(O *);
-void Mess_SetTextJustify__FUc(int);
-int Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
+void CMenu_Display(O *);
+void Mess_SetTextJustify(int);
+int Mess_DrawText(int, int, char *, int, int, int, int);
 void FUN_8008b900(char *, char *, int, char *);
-void Front_PrintCentredPrompt__FPCc(char *);
-void Front_PrintGoBackSelect__Fv(void);
-void Mess_SetRGB__FUcUcUci(int, int, int, int);
-void Mess_SetScale__Fi(int);
-void RGBRed__Fv(void);
+void Front_PrintCentredPrompt(char *);
+void Front_PrintGoBackSelect(void);
+void Mess_SetRGB(int, int, int, int);
+void Mess_SetScale(int);
+void RGBRed(void);
 
-void Front_MemCardDisplay__Fv(void) {
+void Front_MemCardDisplay(void) {
 	int s2, s0, s1, t;
 	char buf[24];
 	unsigned char c;
@@ -91,8 +92,8 @@ void Front_MemCardDisplay__Fv(void) {
 	char *a;
 
 	s2 = DAT_800d1128 >> 1;
-	Mess_SetScale__Fi(256);
-	Mess_SetTextJustify__FUc(0);
+	Mess_SetScale(256);
+	Mess_SetTextJustify(0);
 
 	switch (DAT_800d111c) {
 		case 0:
@@ -100,159 +101,159 @@ void Front_MemCardDisplay__Fv(void) {
 		case 15:
 		case 16:
 			FUN_80011214();
-			Mess_DrawText__FiiPCciUiib(s2, 90, DAT_800a5d5c.f200, 0, 0, 256, 0);
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 90, DAT_800a5d5c.f200, 0, 0, 256, 0);
+			RGBRed();
+			Mess_DrawText(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
 			break;
 		case 9:
 		case 17:
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 90, DAT_800a5d5c.f1c8, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 116, DAT_800a5d5c.f1cc, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 142, DAT_800a5d5c.f1d0, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 168, DAT_800a5d5c.f1d4, 0, 0, 256, 0);
+			RGBRed();
+			Mess_DrawText(s2, 90, DAT_800a5d5c.f1c8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 116, DAT_800a5d5c.f1cc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 142, DAT_800a5d5c.f1d0, 0, 0, 256, 0);
+			Mess_DrawText(s2, 168, DAT_800a5d5c.f1d4, 0, 0, 256, 0);
 			break;
 		case 10:
-			Front_PrintGoBackSelect__Fv();
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 35, DAT_800a5d5c.f1d8, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 61, DAT_800a5d5c.f1dc, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 87, DAT_800a5d5c.f1e0, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 113, DAT_800a5d5c.f1e4, 0, 0, 256, 0);
+			Front_PrintGoBackSelect();
+			RGBRed();
+			Mess_DrawText(s2, 35, DAT_800a5d5c.f1d8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 61, DAT_800a5d5c.f1dc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 87, DAT_800a5d5c.f1e0, 0, 0, 256, 0);
+			Mess_DrawText(s2, 113, DAT_800a5d5c.f1e4, 0, 0, 256, 0);
 
 			o = DAT_800d1428;
 			o->f10 = 148;
-			Display__5CMenu(o);
+			CMenu_Display(o);
 			break;
 		case 11:
 			FUN_80011214();
 
 			if ((DAT_800d16e4 / 10) & 1)
-				Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5f50[0], 0, 0, 256, 0);
+				Mess_DrawText(s2, 110, DAT_800a5f50[0], 0, 0, 256, 0);
 
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
+			RGBRed();
+			Mess_DrawText(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
 			break;
 		case 13:
 			FUN_80011214();
-			Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5f9c[0], 0, 0, 256, 0);
+			Mess_DrawText(s2, 110, DAT_800a5f9c[0], 0, 0, 256, 0);
 			break;
 		case 12:
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5f98[0], 0, 0, 256, 0);
+			RGBRed();
+			Mess_DrawText(s2, 110, DAT_800a5f98[0], 0, 0, 256, 0);
 			break;
 		case 8:
-			RGBRed__Fv();
-			Mess_SetScale__Fi(192);
-			Mess_DrawText__FiiPCciUiib(s2, 67, DAT_800a5d5c.f208, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 85, DAT_800a5d5c.f20c, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 103, DAT_800a5d5c.f210, 0, 0, 256, 0);
+			RGBRed();
+			Mess_SetScale(192);
+			Mess_DrawText(s2, 67, DAT_800a5d5c.f208, 0, 0, 256, 0);
+			Mess_DrawText(s2, 85, DAT_800a5d5c.f20c, 0, 0, 256, 0);
+			Mess_DrawText(s2, 103, DAT_800a5d5c.f210, 0, 0, 256, 0);
 			FUN_8008b900(buf, DAT_800a5d5c.f214, DAT_800d21d8,
 			             DAT_800d21d8 == 1 ? DAT_800d112c : DAT_800d1130);
-			Mess_DrawText__FiiPCciUiib(s2, 121, buf, 0, 0, 256, 0);
+			Mess_DrawText(s2, 121, buf, 0, 0, 256, 0);
 			FUN_8008b900(buf, DAT_800a5d5c.f218, DAT_800d21d8 - DAT_800d21dc,
 			             DAT_800d21d8 - DAT_800d21dc == 1 ? DAT_800d112c : DAT_800d1130);
-			Mess_DrawText__FiiPCciUiib(s2, 139, buf, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 157, DAT_800a5d5c.f21c, 0, 0, 256, 0);
-			Front_PrintCentredPrompt__FPCc(DAT_800a5d5c.f180);
+			Mess_DrawText(s2, 139, buf, 0, 0, 256, 0);
+			Mess_DrawText(s2, 157, DAT_800a5d5c.f21c, 0, 0, 256, 0);
+			Front_PrintCentredPrompt(DAT_800a5d5c.f180);
 			break;
 		case 3:
 			FUN_80011214();
-			Mess_DrawText__FiiPCciUiib(s2, 50, DAT_800a5d5c.f18, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 76, DAT_800a5d5c.f1c, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 102, DAT_800a5d5c.f228, 0, 0, 256, 0);
-			Front_PrintGoBackSelect__Fv();
+			Mess_DrawText(s2, 50, DAT_800a5d5c.f18, 0, 0, 256, 0);
+			Mess_DrawText(s2, 76, DAT_800a5d5c.f1c, 0, 0, 256, 0);
+			Mess_DrawText(s2, 102, DAT_800a5d5c.f228, 0, 0, 256, 0);
+			Front_PrintGoBackSelect();
 
 			o = DAT_800d1428;
 			o->f10 = 145;
-			Display__5CMenu(o);
+			CMenu_Display(o);
 			break;
 		case 4:
 			FUN_80011214();
-			Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5d5c.f234, 0, 0, 256, 0);
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 110, DAT_800a5d5c.f234, 0, 0, 256, 0);
+			RGBRed();
+			Mess_DrawText(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
 			break;
 		case 7:
 			FUN_80011214();
-			Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5d5c.fd0, 0, 0, 256, 0);
-			Front_PrintCentredPrompt__FPCc(DAT_800a5d5c.f180);
+			Mess_DrawText(s2, 110, DAT_800a5d5c.fd0, 0, 0, 256, 0);
+			Front_PrintCentredPrompt(DAT_800a5d5c.f180);
 			break;
 		case 6:
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5d5c.fd8, 0, 0, 256, 0);
-			Front_PrintCentredPrompt__FPCc(DAT_800a5d5c.f180);
+			RGBRed();
+			Mess_DrawText(s2, 110, DAT_800a5d5c.fd8, 0, 0, 256, 0);
+			Front_PrintCentredPrompt(DAT_800a5d5c.f180);
 			break;
 		case 2:
 			s0 = 0;
-			RGBRed__Fv();
-			Mess_SetTextJustify__FUc(0);
-			Mess_SetScale__Fi(256);
-			Mess_DrawText__FiiPCciUiib(s2, 40, DAT_800a5d90[0], 0, 0, 256, 0);
+			RGBRed();
+			Mess_SetTextJustify(0);
+			Mess_SetScale(256);
+			Mess_DrawText(s2, 40, DAT_800a5d90[0], 0, 0, 256, 0);
 
 			do {
 				if (DAT_800d1100 > 0)
 					DAT_800d1100--;
 
-				Mess_SetScale__Fi(256);
+				Mess_SetScale(256);
 
 				if (s0 == DAT_800d10fc)
-					Mess_SetRGB__FUcUcUci(182, 132, 36, 0);
+					Mess_SetRGB(182, 132, 36, 0);
 				else
-					Mess_SetRGB__FUcUcUci(122, 122, 122, 0);
+					Mess_SetRGB(122, 122, 122, 0);
 
-				Mess_DrawText__FiiPCciUiib(s2 - 150 + s0 * 30, 100, DAT_800d1134, 0, 0, 256, 0);
+				Mess_DrawText(s2 - 150 + s0 * 30, 100, DAT_800d1134, 0, 0, 256, 0);
 
 				if (s0 == DAT_800d10fc)
-					Mess_SetScale__Fi(DAT_800d1100 * 6 + 256);
+					Mess_SetScale(DAT_800d1100 * 6 + 256);
 
 				if (DAT_800a42d0[s0]) {
 					*(T3 *)buf = *(T3 *)DAT_800d1138;
 					buf[0] = DAT_800a42d0[s0];
-					Mess_DrawText__FiiPCciUiib(s2 - 150 + s0 * 30, 92, buf, 0, 0, 256, 0);
+					Mess_DrawText(s2 - 150 + s0 * 30, 92, buf, 0, 0, 256, 0);
 				}
 
 				s0++;
 			} while (s0 < 10);
 
-			Front_PrintGoBackSelect__Fv();
+			Front_PrintGoBackSelect();
 			break;
 		case 14:
-			Mess_DrawText__FiiPCciUiib(s2, 100, DAT_8009d0f0, 0, 0, 256, 0);
+			Mess_DrawText(s2, 100, DAT_8009d0f0, 0, 0, 256, 0);
 			break;
 		case 19:
-			RGBRed__Fv();
+			RGBRed();
 
 			if (DAT_800d1144 == 2)
-				Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5d5c.f10, 0, 0, 256, 0);
+				Mess_DrawText(s2, 110, DAT_800a5d5c.f10, 0, 0, 256, 0);
 			else
-				Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5d5c.f0c, 0, 0, 256, 0);
+				Mess_DrawText(s2, 110, DAT_800a5d5c.f0c, 0, 0, 256, 0);
 
 			if (DAT_800d1128 == 512)
-				Front_PrintCentredPrompt__FPCc(DAT_800a5d5c.f180);
+				Front_PrintCentredPrompt(DAT_800a5d5c.f180);
 
 			break;
 		case 20:
 			if (DAT_800d1128 == 512)
-				Front_PrintGoBackSelect__Fv();
+				Front_PrintGoBackSelect();
 
 			break;
 		case 21:
 			FUN_80011214();
-			Mess_DrawText__FiiPCciUiib(s2, 110, DAT_8009d11c, 0, 0, 256, 0);
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
-			Mess_DrawText__FiiPCciUiib(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
+			Mess_DrawText(s2, 110, DAT_8009d11c, 0, 0, 256, 0);
+			RGBRed();
+			Mess_DrawText(s2, 140, DAT_800a5d5c.f1f8, 0, 0, 256, 0);
+			Mess_DrawText(s2, 166, DAT_800a5d5c.f1fc, 0, 0, 256, 0);
 			break;
 		case 22:
-			RGBRed__Fv();
-			Mess_DrawText__FiiPCciUiib(s2, 110, DAT_800a5d5c.f244, 0, 0, 256, 0);
+			RGBRed();
+			Mess_DrawText(s2, 110, DAT_800a5d5c.f244, 0, 0, 256, 0);
 
 			if (DAT_800d1128 == 512)
-				Front_PrintCentredPrompt__FPCc(DAT_800a5d5c.f180);
+				Front_PrintCentredPrompt(DAT_800a5d5c.f180);
 
 			break;
 		case 23:

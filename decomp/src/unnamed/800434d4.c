@@ -1,8 +1,9 @@
 /* __nw__5CItemUi (0x800434d4) */
-int *Mem_NewX__FUiii(unsigned n, int a, int b);
+#include "names.h"
+int *Mem_NewX(unsigned n, int a, int b);
 
 int *__nw__5CItemUi(unsigned n) {
-	int *r = Mem_NewX__FUiii(n, 0, 1);
+	int *r = Mem_NewX(n, 0, 1);
 	int *q = r;
 	unsigned c = (n + 3) >> 2;
 	unsigned i;

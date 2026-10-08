@@ -1,7 +1,8 @@
 /* TrickTips_Init__Fv (0x8007236c) */
+#include "names.h"
 extern int DAT_800d38c8[];
 
-void TrickTips_Init__Fv(void) {
+void TrickTips_Init(void) {
 	DAT_800d38c8[22] = 0;
 	DAT_800d38c8[23] = 0;
 	DAT_800d38c8[24] = 0;

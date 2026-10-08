@@ -1,5 +1,6 @@
 /* SetSemiTransparent__10CGPolyLine (0x800273a4) */
-void SetSemiTransparent__10CGPolyLine(char *t) {
+#include "names.h"
+void CGPolyLine_SetSemiTransparent(char *t) {
 	int i;
 
 	for (i = 0; i < *(int *)(t + 0x48); i++)

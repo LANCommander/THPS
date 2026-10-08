@@ -1,4 +1,5 @@
 /* DrawColoredBox__FiiiiUcUcUc (0x80061d44) flags=-fstructure-noalias */
+#include "names.h"
 /* SHELLUTILS.CPP, as C (demo twin; locals from its MAIN.SYM). A flat-shaded rectangle added to the
    current frame's per-call layer OT (which counts down), like SetClippingBox. */
 #include <sys/types.h>
@@ -15,7 +16,7 @@ extern u_char *DAT_800d1a54;
 
 int DAT_800d1d94;
 
-void DrawColoredBox__FiiiiUcUcUc(int x, int y, int w, int h, u_char r, u_char g, u_char b) {
+void DrawColoredBox(int x, int y, int w, int h, u_char r, u_char g, u_char b) {
 	POLY_F4 *Poly = (POLY_F4 *)DAT_800d1a54;
 
 	DAT_800d1a54 = (u_char *)(Poly + 1);

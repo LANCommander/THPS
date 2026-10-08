@@ -1,4 +1,5 @@
 /* FUN_800565ac (0x800565ac) */
+#include "names.h"
 typedef struct {
 	char p[0x13];
 	unsigned char b13;
@@ -15,10 +16,10 @@ extern int DAT_800d3758[];
 extern int DAT_800d1724, DAT_800d2120, DAT_800d2130;
 
 void FUN_80059618(int);
-void Pack_Pack__FiiiPiT3iiUi(int, int, int, short *, short *, int, int, int);
+void Pack_Pack(int, int, int, short *, short *, int, int, int);
 void FUN_8006ed2c(int);
-void ProcessNewPSX__Fi(int);
-void Pack_Unpack__Fss(short, short);
+void ProcessNewPSX(int);
+void Pack_Unpack(short, short);
 
 void FUN_800565ac(void) {
 	short ab[4];
@@ -35,9 +36,9 @@ void FUN_800565ac(void) {
 	for (i = 0; i < n; i++) {
 		if (n == 2) {
 			if (i == 0)
-				Pack_Pack__FiiiPiT3iiUi(0, 128, 256, &ab[0], &ab[2], 16, 0, 0);
+				Pack_Pack(0, 128, 256, &ab[0], &ab[2], 16, 0, 0);
 			else
-				Pack_Unpack__Fss(ab[0], ab[2]);
+				Pack_Unpack(ab[0], ab[2]);
 		}
 
 		if (DAT_800d231c[i]) {
@@ -49,7 +50,7 @@ void FUN_800565ac(void) {
 				DAT_800d2120 = e->b13;
 			}
 
-			ProcessNewPSX__Fi(DAT_800d3758[DAT_800d2304[i]]);
+			ProcessNewPSX(DAT_800d3758[DAT_800d2304[i]]);
 
 			DAT_800d2120 = -1;
 		}

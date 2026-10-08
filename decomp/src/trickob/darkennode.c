@@ -1,4 +1,5 @@
 /* TrickOb_DarkenNode__Fi (0x8004f24c) */
+#include "names.h"
 typedef struct Node {
 	int _0;
 	unsigned key;
@@ -23,7 +24,7 @@ Node *DAT_800d1b70;
 unsigned char DAT_800d1b8c;
 unsigned short DAT_800d1b90;
 
-Item *Spool_FindEnviroItem__FUi(unsigned);
+Item *Spool_FindEnviroItem(unsigned);
 
 void TrickOb_DarkenNode(int id) {
 	Node *n;
@@ -36,7 +37,7 @@ void TrickOb_DarkenNode(int id) {
 				if (n->used && DAT_800d16a4 != 8)
 					return;
 
-				it = Spool_FindEnviroItem__FUi(n->key);
+				it = Spool_FindEnviroItem(n->key);
 				n->w = DAT_800d1b90;
 				n->it = it;
 				n->b = DAT_800d1b8c;

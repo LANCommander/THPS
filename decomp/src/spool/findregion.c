@@ -1,4 +1,5 @@
 /* Spool_FindRegion__FPc (0x8006fcb0) */
+#include "names.h"
 typedef struct {
 	char name[10];
 	unsigned char f0a, f0b;
@@ -11,7 +12,7 @@ extern SRegion DAT_800bf7a8[];
 
 int Utils_CompareStrings__FPCcT0Ui(const char *, const char *, unsigned);
 
-int Spool_FindRegion__FPc(char *name) {
+int Spool_FindRegion(char *name) {
 	int i;
 
 	for (i = 0; i < 40; i++)

@@ -1,5 +1,6 @@
 /* SkipToEndif__6CBaddy (0x8003fbc4) */
-void SkipToEndif__6CBaddy(char *t) {
+#include "names.h"
+void CBaddy_SkipToEndif(char *t) {
 	int depth = 0;
 	unsigned short op;
 

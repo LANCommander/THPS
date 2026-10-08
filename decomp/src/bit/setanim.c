@@ -1,8 +1,9 @@
 /* SetAnim__7CFT4BitPc (0x80028100) */
-char *Spool_FindAnim__FPc(char *);
+#include "names.h"
+char *Spool_FindAnim(char *);
 
-void SetAnim__7CFT4BitPc(char *t, char *name) {
-	char *p = Spool_FindAnim__FPc(name);
+void CFT4Bit_SetAnim(char *t, char *name) {
+	char *p = Spool_FindAnim(name);
 	char n;
 
 	*(char **)(t + 0x50) = p;

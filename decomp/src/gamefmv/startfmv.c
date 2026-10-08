@@ -1,4 +1,5 @@
 /* GameFMV_StartFMV__Fi (0x80023270) */
+#include "names.h"
 typedef struct {
 	char pad[0x18];
 	int p;
@@ -17,12 +18,12 @@ unsigned short DAT_800d1658, DAT_800d166e, DAT_800d1672, DAT_800d1674, DAT_800d1
     DAT_800d1688, DAT_800d168a;
 unsigned char DAT_800d167d;
 
-int Mem_NewX__FUiii(int, int, int);
+int Mem_NewX(int, int, int);
 void DecDCTvlcBuild3(void);
-void strInit__Fv(void);
-int strNextVlc__Fi(int);
+void strInit(void);
+int strNextVlc(int);
 
-void GameFMV_StartFMV__Fi(int a) {
+void GameFMV_StartFMV(int a) {
 	int i, j;
 	unsigned t, u;
 
@@ -39,10 +40,10 @@ void GameFMV_StartFMV__Fi(int a) {
 
 		if (a) {
 			for (i = 0; i < 2; i++)
-				DAT_800d168c[i] = Mem_NewX__FUiii(DAT_800d1664, 1, 1);
+				DAT_800d168c[i] = Mem_NewX(DAT_800d1664, 1, 1);
 		}
 
-		DAT_800d222c = Mem_NewX__FUiii(DAT_800d1668 << 11, 1, 1);
+		DAT_800d222c = Mem_NewX(DAT_800d1668 << 11, 1, 1);
 		t = DAT_800d1672;
 		t >>= 4;
 		DAT_800d166c = t;
@@ -54,7 +55,7 @@ void GameFMV_StartFMV__Fi(int a) {
 				j = 0;
 
 				do {
-					DAT_800a6748[j] = Mem_NewX__FUiii(DAT_800d1674 << 5, 1, 1);
+					DAT_800a6748[j] = Mem_NewX(DAT_800d1674 << 5, 1, 1);
 					j++;
 				} while (j < DAT_800d166c);
 			}
@@ -64,7 +65,7 @@ void GameFMV_StartFMV__Fi(int a) {
 
 		DAT_800d1634 = 1;
 		DAT_800d1630 = 0;
-		strInit__Fv();
-		strNextVlc__Fi(1);
+		strInit();
+		strNextVlc(1);
 	}
 }

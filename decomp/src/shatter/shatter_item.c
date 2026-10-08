@@ -1,4 +1,5 @@
 /* Shatter_Item__FP4Itemii (0x80021ecc) */
+#include "names.h"
 typedef struct {
 	unsigned char b[64];
 } Ent;
@@ -11,10 +12,10 @@ typedef struct {
 
 extern Mdl DAT_800bf7a8[];
 
-int Redbook_Rnd__Fi(int);
-int Shatter_Face__FP4ItemPUiiiiii(char *, char *, int, int, int, int, int);
+int Redbook_Rnd(int);
+int Shatter_Face(char *, char *, int, int, int, int, int);
 
-int Shatter_Item__FP4Itemii(char *it, int a, int b) {
+int Shatter_Item(char *it, int a, int b) {
 	int cnt = 0, i = 0, res = 0;
 	char *m;
 	char *s;
@@ -28,7 +29,7 @@ int Shatter_Item__FP4Itemii(char *it, int a, int b) {
 	s = m + (n0 * 8 + 0x1c) + n1 * 8;
 
 	for (; i < n; i++) {
-		r = Shatter_Face__FP4ItemPUiiiiii(it, s, Redbook_Rnd__Fi(5) == 0, 0, a, b, cnt < 6);
+		r = Shatter_Face(it, s, Redbook_Rnd(5) == 0, 0, a, b, cnt < 6);
 
 		if (r) {
 			res = 1;

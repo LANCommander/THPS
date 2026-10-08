@@ -1,4 +1,5 @@
 /* UberFrig__FP6CBruceG7CVectorPc (0x800301b0) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -26,11 +27,11 @@ typedef struct {
 	int f6dc;
 } B;
 
-void CalculateDynamicLighting__6CBrucePUiP4Item(B *, int, int);
-int M3dZone_LineToItemNotSCached__FP9SLineInfoi(L *, int);
-void M3dColij_InitLineInfo__FP9SLineInfo(L *);
+void CBruce_CalculateDynamicLighting(B *, int, int);
+int M3dZone_LineToItemNotSCached(L *, int);
+void M3dColij_InitLineInfo(L *);
 
-void UberFrig__FP6CBruceG7CVectorPc(B *p, V a) {
+void UberFrig(B *p, V a) {
 	L li;
 
 	if (p->f6dc == 0) {
@@ -39,11 +40,11 @@ void UberFrig__FP6CBruceG7CVectorPc(B *p, V a) {
 		li.s.z = a.z;
 		li.e = li.s;
 		li.e.y = li.e.y + 0x1f40000;
-		M3dColij_InitLineInfo__FP9SLineInfo(&li);
-		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
+		M3dColij_InitLineInfo(&li);
+		M3dZone_LineToItemNotSCached(&li, 1);
 
 		if (li.hit) {
-			CalculateDynamicLighting__6CBrucePUiP4Item(p, li.face, li.hit);
+			CBruce_CalculateDynamicLighting(p, li.face, li.hit);
 			return;
 		}
 
@@ -53,8 +54,8 @@ void UberFrig__FP6CBruceG7CVectorPc(B *p, V a) {
 		li.s.y = a.y + -0x12c000;
 		li.e = li.s;
 		li.e.y = li.e.y + 0x190000;
-		M3dColij_InitLineInfo__FP9SLineInfo(&li);
-		M3dZone_LineToItemNotSCached__FP9SLineInfoi(&li, 1);
+		M3dColij_InitLineInfo(&li);
+		M3dZone_LineToItemNotSCached(&li, 1);
 
 		if (li.hit) {
 			p->pos.x = li.h.x;

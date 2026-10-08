@@ -1,4 +1,5 @@
 /* Video_HighlightStart__FP6CBruce (0x80068f84) */
+#include "names.h"
 typedef struct {
 	int f0, f4, f8;
 } CBruce;
@@ -17,7 +18,7 @@ extern CBruce *DAT_800d19a4;
 
 int DAT_800d1dec, DAT_800d1e0c, DAT_800d1e14;
 
-void Video_HighlightStart__FP6CBruce(CBruce *b) {
+void Video_HighlightStart(CBruce *b) {
 	SVideoInfo *v;
 
 	if (b == DAT_800d19a4)

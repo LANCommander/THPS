@@ -1,4 +1,5 @@
 /* GetBit__FP10SVideoInfo (0x80068d38) */
+#include "names.h"
 typedef struct {
 	int state, f4, f8, fc;
 	unsigned *p;
@@ -6,7 +7,7 @@ typedef struct {
 	int n;
 } SVideoInfo;
 
-int GetBit__FP10SVideoInfo(SVideoInfo *v) {
+int GetBit(SVideoInfo *v) {
 	int b;
 
 	if (v->n == 0) {

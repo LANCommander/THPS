@@ -1,4 +1,5 @@
 /* AddToFreeList__FP12SBlockHeaderi (0x8004ce54) */
+#include "names.h"
 typedef struct SBlockHeader {
 	struct SBlockHeader *next;
 	unsigned flags : 4;
@@ -7,7 +8,7 @@ typedef struct SBlockHeader {
 
 SBlockHeader *DAT_800d1b64[2];
 
-void AddToFreeList__FP12SBlockHeaderi(SBlockHeader *b, int idx) {
+void AddToFreeList(SBlockHeader *b, int idx) {
 	SBlockHeader *cur = DAT_800d1b64[idx];
 	SBlockHeader *prev = 0;
 

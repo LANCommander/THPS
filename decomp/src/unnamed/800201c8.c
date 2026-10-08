@@ -1,4 +1,5 @@
 /* FUN_800201c8 (0x800201c8) */
+#include "names.h"
 struct VT {
 	char pad[0x10];
 	short off;
@@ -21,7 +22,7 @@ typedef struct {
 
 extern int DAT_800d16e4;
 
-void DontDisplay__8CPowerUp(B *);
+void CPowerUp_DontDisplay(B *);
 
 void FUN_800201c8(B *p) {
 	p->f160++;
@@ -38,14 +39,14 @@ void FUN_800201c8(B *p) {
 			if (DAT_800d16e4 & 2)
 				p->f0 &= 0xfffe;
 			else
-				DontDisplay__8CPowerUp(p);
+				CPowerUp_DontDisplay(p);
 		}
 
 		if (p->f15c < 31) {
 			if (DAT_800d16e4 & 1)
 				p->f0 &= 0xfffe;
 			else
-				DontDisplay__8CPowerUp(p);
+				CPowerUp_DontDisplay(p);
 		}
 
 		if (p->f15c == 0)

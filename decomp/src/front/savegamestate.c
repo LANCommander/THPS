@@ -1,4 +1,5 @@
 /* Front_SaveGameState__Fv (0x8001cbf0) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } CVector;
@@ -19,9 +20,9 @@ extern int DAT_800d19e4;
 extern char *DAT_800d19a4;
 extern SSaveGame DAT_800a5bdc;
 
-char *Trig_GetPosition__FR7CVectori(CVector *, int);
-void Front_SavePreferences__FR12SPreferences(char *);
-unsigned Front_CalculateGameChecksum__FR9SSaveGame(SSaveGame *);
+char *Trig_GetPosition(CVector *, int);
+void Front_SavePreferences(char *);
+unsigned Front_CalculateGameChecksum(SSaveGame *);
 
 void Front_SaveGameState(void) {
 	CVector v;
@@ -31,7 +32,7 @@ void Front_SaveGameState(void) {
 		*d++ = *s++;
 
 	*d = 0;
-	s = Trig_GetPosition__FR7CVectori(&v, DAT_800d19e4) + 6;
+	s = Trig_GetPosition(&v, DAT_800d19e4) + 6;
 	d = DAT_800a5bdc.level;
 
 	while (*s)
@@ -44,7 +45,7 @@ void Front_SaveGameState(void) {
 		DAT_800a5bdc.x42 = 0;
 	}
 
-	Front_SavePreferences__FR12SPreferences(DAT_800a5bdc.x70);
+	Front_SavePreferences(DAT_800a5bdc.x70);
 
-	DAT_800a5bdc.checksum = Front_CalculateGameChecksum__FR9SSaveGame(&DAT_800a5bdc);
+	DAT_800a5bdc.checksum = Front_CalculateGameChecksum(&DAT_800a5bdc);
 }

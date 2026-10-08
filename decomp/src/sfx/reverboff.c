@@ -1,6 +1,7 @@
 /* SFX_ReverbOff__Fv (0x8004bafc) */
-extern void SFX_SetReverbType__FUc(unsigned char);
+#include "names.h"
+extern void SFX_SetReverbType(unsigned char);
 
 void SFX_ReverbOff(void) {
-	SFX_SetReverbType__FUc(0);
+	SFX_SetReverbType(0);
 }

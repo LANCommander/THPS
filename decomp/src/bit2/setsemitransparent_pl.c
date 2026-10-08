@@ -1,5 +1,6 @@
 /* SetSemiTransparent__9CPolyLine (0x80027210) */
-void SetSemiTransparent__9CPolyLine(char *t) {
+#include "names.h"
+void CPolyLine_SetSemiTransparent(char *t) {
 	int i;
 
 	for (i = 0; i < *(int *)(t + 0x4c); i++)

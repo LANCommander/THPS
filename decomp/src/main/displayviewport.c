@@ -1,4 +1,5 @@
 /* Display_Viewport__FP9SViewporti (0x80024ce4) */
+#include "names.h"
 /* MAIN.CPP, as C (demo twin). Renders one viewport: points the OT at its layer block, sets up the
    camera, then renders the item lists, skaters (with their shadow tint), bits and background. */
 typedef struct {
@@ -32,24 +33,24 @@ B *DAT_800d17c8;
 
 void FUN_8002ab20(void);
 void FUN_8002efa4(B *);
-void M3d_RenderSetup__FP7SCameraP9SViewportPUi(char *, int, char *);
+void M3d_RenderSetup(char *, int, char *);
 void FUN_80083774(void);
-void M3d_Render__FPv(int);
-void M3d_RenderBackground__FPv(int);
-void TempRestore__6CBruce(B *);
+void M3d_Render(int);
+void M3d_RenderBackground(int);
+void CBruce_TempRestore(B *);
 
-void Display_Viewport__FP9SViewporti(int a, int b) {
+void Display_Viewport(int a, int b) {
 	short s1, s0;
 
 	DAT_800d2048 = b;
-	M3d_RenderSetup__FP7SCameraP9SViewportPUi(DAT_800c119c + b * 164, a,
+	M3d_RenderSetup(DAT_800c119c + b * 164, a,
 	             (char *)(DAT_800d1a48->pCurrent = &DAT_800d1a48->Layer[b * 4096]));
 
 	DAT_800d16d4 = DAT_800d16d0;
-	M3d_Render__FPv(DAT_800d1eec);
+	M3d_Render(DAT_800d1eec);
 
 	DAT_800d16d4 = 0;
-	M3d_Render__FPv(DAT_800d19b0);
+	M3d_Render(DAT_800d19b0);
 	FUN_8002efa4(DAT_800d17c8);
 
 	if (DAT_800d17cc)
@@ -66,20 +67,20 @@ void Display_Viewport__FP9SViewporti(int a, int b) {
 		DAT_800d214e = 0;
 	}
 
-	M3d_Render__FPv(DAT_800d19a4);
-	TempRestore__6CBruce(DAT_800d17c8);
+	M3d_Render(DAT_800d19a4);
+	CBruce_TempRestore(DAT_800d17c8);
 
 	if (DAT_800d17cc)
-		TempRestore__6CBruce(DAT_800d17cc);
+		CBruce_TempRestore(DAT_800d17cc);
 
 	DAT_800d214c = s1;
 	DAT_800d214e = s0;
 	FUN_8002ab20();
-	M3d_Render__FPv(DAT_800d1998);
-	M3d_Render__FPv(DAT_800d1618);
+	M3d_Render(DAT_800d1998);
+	M3d_Render(DAT_800d1618);
 
 	if (DAT_800d173c == 0)
-		M3d_RenderBackground__FPv(DAT_800d1fe4);
+		M3d_RenderBackground(DAT_800d1fe4);
 
 	FUN_80083774();
 }

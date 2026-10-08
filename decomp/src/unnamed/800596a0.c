@@ -1,4 +1,5 @@
 /* FUN_800596a0 (0x800596a0) */
+#include "names.h"
 struct Q {
 	int a, b, c, d, e;
 };
@@ -8,9 +9,9 @@ extern struct Q *DAT_800d1a60;
 struct Q *DAT_800d1c80;
 
 void FUN_80059618(int a);
-void Mem_Delete__FPv(struct Q *p);
+void Mem_Delete(struct Q *p);
 
-struct Q *Mem_NewX__FUiii(int a, int b, int c);
+struct Q *Mem_NewX(int a, int b, int c);
 
 void FUN_800596a0(void) {
 	struct Q *n;
@@ -20,13 +21,13 @@ void FUN_800596a0(void) {
 	if (DAT_800d1a60) {
 		do {
 			n = (struct Q *)DAT_800d1a60->c;
-			Mem_Delete__FPv(DAT_800d1a60);
+			Mem_Delete(DAT_800d1a60);
 
 			DAT_800d1a60 = n;
 		} while (n);
 	}
 
-	DAT_800d1a60 = Mem_NewX__FUiii(20, 1, 1);
+	DAT_800d1a60 = Mem_NewX(20, 1, 1);
 	*DAT_800d1a60 = *DAT_800d1c80;
 	DAT_800d1a60->c = 0;
 	FUN_80059618(0);

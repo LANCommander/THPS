@@ -1,4 +1,5 @@
 /* DeleteBitList__FP4CBit (0x80027ab0) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -15,7 +16,7 @@ struct O {
 	struct VT *vt;
 };
 
-void DeleteBitList__FP4CBit(struct O *p) {
+void DeleteBitList(struct O *p) {
 	struct O *n;
 
 	if (!p)

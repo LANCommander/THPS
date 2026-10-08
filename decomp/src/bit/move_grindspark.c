@@ -1,4 +1,5 @@
 /* Move__11CGrindSpark (0x8002780c) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -24,9 +25,9 @@ typedef struct {
 	Src *src;
 } GS;
 
-void Die__4CBit(GS *);
+void CBit_Die(GS *);
 
-void Move__11CGrindSpark(GS *t) {
+void CGrindSpark_Move(GS *t) {
 	int px = t->p.x, py = t->p.y, pz = t->p.z;
 	int vx = t->v.x, vy = t->v.y, vz = t->v.z;
 	int nx = px + vx, ny = py + vy, nz = pz + vz;
@@ -57,5 +58,5 @@ void Move__11CGrindSpark(GS *t) {
 	t->v.z = vz;
 
 	if ((short)t->life >= t->maxlife)
-		Die__4CBit(t);
+		CBit_Die(t);
 }

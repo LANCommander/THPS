@@ -1,9 +1,10 @@
 /* Flash_Screen__FUcUcUciUci (0x8001f334) */
+#include "names.h"
 int DAT_800d160c, DAT_800d1608, DAT_800d2208, DAT_800d220c, DAT_800d2210, DAT_800d2214,
     DAT_800d2218, DAT_800d221c;
 unsigned char DAT_800d1604;
 
-void Flash_Screen__FUcUcUciUci(unsigned char r, unsigned char g, unsigned char b, int n,
+void Flash_Screen(unsigned char r, unsigned char g, unsigned char b, int n,
                                unsigned char c, int d) {
 	if (c >= DAT_800d1604 && n != 0) {
 		unsigned R = r << 16, G = g << 16, B = b << 16;

@@ -1,4 +1,5 @@
 /* Trick_Trick__6CBruceiPcii (0x8002f340) */
+#include "names.h"
 typedef struct {
 	char p0[0x330];
 	int f330;
@@ -16,7 +17,7 @@ extern int DAT_800d16a4;
 int FUN_8002f290(B *, int, int);
 void FUN_8006e19c(void *, int, int, int);
 
-void Trick_Trick__6CBruceiPcii(B *p, int a1, int a2, int a3) {
+void CBruce_Trick_Trick(B *p, int a1, int a2, int a3) {
 	if (p->f760) {
 		if (DAT_800d16a4 == 7)
 			p->f330 = 0;

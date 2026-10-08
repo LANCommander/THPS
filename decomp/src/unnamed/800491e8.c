@@ -1,4 +1,5 @@
 /* FUN_800491e8 (0x800491e8) flags=-fstructure-noalias */
+#include "names.h"
 typedef struct {
 	short x, y, w, h;
 } R;
@@ -41,17 +42,17 @@ char *DAT_800d1a48, *DAT_800d1a4c;
 
 extern void FUN_8008c3d0(int);
 extern int FUN_8008c468(int);
-extern char *Mem_NewX__FUiii(int, int, int);
+extern char *Mem_NewX(int, int, int);
 extern void FUN_80092e70(void *, int, int, int, int);
 extern void FUN_800914fc(void *, int, int, int, int);
 extern void FUN_80048d00(void);
-extern void Db_UpdateSky__Fv(void);
+extern void Db_UpdateSky(void);
 extern void FUN_8008c94c(void *);
 extern void FUN_8008ca0c(void *);
 extern int FUN_80048c74(void);
 extern void FUN_8008c7d4(void *, int);
 extern int FUN_8008c67c(void *, int, int, int);
-extern void M3dInit_SetResolution__FUiUi(int, int);
+extern void M3dInit_SetResolution(int, int);
 
 void FUN_800491e8(void) {
 	R r;
@@ -63,7 +64,7 @@ void FUN_800491e8(void) {
 
 	if (DAT_800a891c.f80a8 == 0) {
 		DAT_800a891c.f80a8 =
-		    Mem_NewX__FUiii((DAT_800a5398[DAT_800d1e28].arr[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
+		    Mem_NewX((DAT_800a5398[DAT_800d1e28].arr[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
 		DAT_800a891c.f10154 =
 		    DAT_800a891c.f80a8 + (DAT_800a5398[DAT_800d1e28].arr[DAT_800d1780 - 1] + 0x17c00);
 	}
@@ -75,7 +76,7 @@ void FUN_800491e8(void) {
 	FUN_800914fc((char *)&DAT_800a891c + 92, 0, 256, 512, 240);
 	FUN_800914fc(DAT_800b0a24, 0, 0, 512, 240);
 	FUN_80048d00();
-	Db_UpdateSky__Fv();
+	Db_UpdateSky();
 	FUN_8008c94c(&DAT_800a891c);
 	FUN_8008ca0c((char *)&DAT_800a891c + 92);
 
@@ -101,5 +102,5 @@ void FUN_800491e8(void) {
 	FUN_8008c67c(&r, 0, 0, 0);
 	FUN_8008c468(0);
 	FUN_8008c3d0(1);
-	M3dInit_SetResolution__FUiUi(512, 240);
+	M3dInit_SetResolution(512, 240);
 }

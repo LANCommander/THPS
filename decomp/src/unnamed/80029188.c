@@ -1,11 +1,12 @@
 /* __11CWobblyGlowRC7CVectoriiiUcUcUcUcUcUc (0x80029188) */
+#include "names.h"
 extern char DAT_8009f7e8[];
 
 void __5CGlowRC7CVectoriiUcUcUcUcUcUc(char *p, int a, int b, int c, unsigned char b1, unsigned char b2,
                   unsigned char b3, unsigned char b4, unsigned char b5, unsigned char b6);
-int Redbook_Rnd__Fi(int a);
+int Redbook_Rnd(int a);
 
-char *__11CWobblyGlowRC7CVectoriiiUcUcUcUcUcUc(char *p, int a, int s, int c, int e, unsigned char b1, unsigned char b2,
+char *CWobblyGlow_ctor(char *p, int a, int s, int c, int e, unsigned char b1, unsigned char b2,
                    unsigned char b3, unsigned char b4, unsigned char b5, unsigned char b6) {
 	unsigned i;
 
@@ -16,8 +17,8 @@ char *__11CWobblyGlowRC7CVectoriiiUcUcUcUcUcUc(char *p, int a, int s, int c, int
 	*(int *)(p + 168) = (s * e) / 256;
 
 	for (i = 0; i < *(unsigned *)(p + 80); i++) {
-		*(int *)(p + 136 + i * 4) = Redbook_Rnd__Fi(4096);
-		*(int *)(p + 104 + i * 4) = Redbook_Rnd__Fi(50) + 50;
+		*(int *)(p + 136 + i * 4) = Redbook_Rnd(4096);
+		*(int *)(p + 104 + i * 4) = Redbook_Rnd(50) + 50;
 	}
 
 	return p;

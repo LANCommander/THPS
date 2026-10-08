@@ -1,4 +1,5 @@
 /* setString__12VerticalMenuiPc (0x800646b0) */
+#include "names.h"
 typedef struct {
 	int pad0;
 	char str[0x34];
@@ -16,11 +17,11 @@ typedef struct {
 } VerticalMenu;
 
 char *FUN_8008e904(char *, char *);
-void select__12VerticalMenui(VerticalMenu *, int);
+void VerticalMenu_select(VerticalMenu *, int);
 
 void VerticalMenu_setString(VerticalMenu *m, int i, char *s) {
 	FUN_8008e904(m->items[i].str, s);
 
 	if (m->timer < 61 && i == m->cur)
-		select__12VerticalMenui(m, i);
+		VerticalMenu_select(m, i);
 }

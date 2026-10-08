@@ -1,4 +1,5 @@
 /* _._9CSmokeJet (0x80015b84) */
+#include "names.h"
 extern char DAT_8009e2c0[];
 
 void FUN_8002e290(char *, int);

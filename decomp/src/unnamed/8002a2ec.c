@@ -1,4 +1,5 @@
 /* __11CSmokeTrailR7CVectoriiii (0x8002a2ec) */
+#include "names.h"
 typedef struct {
 	char p0[0x44];
 	char *vt;
@@ -10,14 +11,14 @@ typedef struct {
 extern char DAT_8009f6a0[];
 extern char DAT_800d18c4[];
 
-void __7CRibbonRC7CVectoriiPcT4ii(B *, int, int, int, char *, char *, int, int);
-void SetTint__7CFT4BitUcUcUc(int, int, int, int);
-void SetTransDecay__7CFT4Biti(int, int);
+void CRibbon_ctor(B *, int, int, int, char *, char *, int, int);
+void CFT4Bit_SetTint(int, int, int, int);
+void CFT4Bit_SetTransDecay(int, int);
 
-B *__11CSmokeTrailR7CVectoriiii(B *p, int a1, int a2, int r, int g, int b) {
+B *CSmokeTrail_ctor(B *p, int a1, int a2, int r, int g, int b) {
 	int i, j, t, n, dr, dg, db;
 
-	__7CRibbonRC7CVectoriiPcT4ii(p, a1, a2, 2, DAT_800d18c4, DAT_800d18c4, 400, 1);
+	CRibbon_ctor(p, a1, a2, 2, DAT_800d18c4, DAT_800d18c4, 400, 1);
 
 	n = p->n;
 	dr = r / n;
@@ -30,9 +31,9 @@ B *__11CSmokeTrailR7CVectoriiii(B *p, int a1, int a2, int r, int g, int b) {
 		do {
 			j = i + 1;
 			t = n - j;
-			SetTint__7CFT4BitUcUcUc(p->arr[i], (r - t * dr) & 255, (g - t * dg) & 255,
+			CFT4Bit_SetTint(p->arr[i], (r - t * dr) & 255, (g - t * dg) & 255,
 			                        (b - t * db) & 255);
-			SetTransDecay__7CFT4Biti(p->arr[i], 8);
+			CFT4Bit_SetTransDecay(p->arr[i], 8);
 
 			n = p->n;
 			i = j;

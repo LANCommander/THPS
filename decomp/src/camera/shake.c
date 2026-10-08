@@ -1,4 +1,5 @@
 /* Shake__7CCameraRC7CVector10EShakeType (0x800789d8) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -24,9 +25,9 @@ BV DAT_800d2424;
 
 extern void *DAT_800d1998 __attribute__((section(".data")));
 extern void *DAT_800d19b0 __attribute__((section(".data")));
-void SendShake__FRC7CVectorP5CBody10EShakeType(const V *, void *, int);
+void SendShake(const V *, void *, int);
 
-void Shake__7CCameraRC7CVector10EShakeType(CCamera *t, const V *v, int type) {
+void CCamera_Shake(CCamera *t, const V *v, int type) {
 	switch (type) {
 		case 0:
 			t->a = DAT_800d243c;
@@ -42,6 +43,6 @@ void Shake__7CCameraRC7CVector10EShakeType(CCamera *t, const V *v, int type) {
 			break;
 	}
 
-	SendShake__FRC7CVectorP5CBody10EShakeType(v, DAT_800d1998, type);
-	SendShake__FRC7CVectorP5CBody10EShakeType(v, DAT_800d19b0, type);
+	SendShake(v, DAT_800d1998, type);
+	SendShake(v, DAT_800d19b0, type);
 }

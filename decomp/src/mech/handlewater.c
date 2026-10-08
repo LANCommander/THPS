@@ -1,4 +1,5 @@
 /* HandleWater__6CBruce (0x80043258) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -18,12 +19,12 @@ extern T DAT_800c9670[] __attribute__((section(".data")));
 
 int DAT_800d19a4;
 
-int Redbook_Rnd__Fi(int);
-void SFX_PlayX__FUisi(int, int, int);
+int Redbook_Rnd(int);
+void SFX_PlayX(int, int, int);
 char *__nw__4CBitUi(int);
-void __11CFlatRippleRC7CVectoriUcUcUcii(char *, V *, int, int, int, int, int, int);
+void CFlatRipple_ctor(char *, V *, int, int, int, int, int, int);
 
-void HandleWater__6CBruce(B *t) {
+void CBruce_HandleWater(B *t) {
 	int s1, r, idx;
 	V v;
 	char *o;
@@ -37,25 +38,25 @@ void HandleWater__6CBruce(B *t) {
 
 		if (s1 < t->pos.y + 0x19000) {
 			if (!(*(unsigned short *)t & 8))
-				SFX_PlayX__FUisi(43, 8192, 0);
+				SFX_PlayX(43, 8192, 0);
 
 			*(unsigned short *)t |= 8;
 
 			if (!(DAT_800d16e4 & 3)) {
 				v = t->pos;
 				v.y = s1;
-				Redbook_Rnd__Fi(24);
+				Redbook_Rnd(24);
 
-				r = Redbook_Rnd__Fi(24) + 16;
-				idx = Redbook_Rnd__Fi(4096) & 0xfff;
+				r = Redbook_Rnd(24) + 16;
+				idx = Redbook_Rnd(4096) & 0xfff;
 				e = &DAT_800c9670[idx];
 				v.x += r * e->a;
 				v.z += r * e->b;
 				o = __nw__4CBitUi(116);
 
 				if (o) {
-					r = Redbook_Rnd__Fi(24) + 40;
-					__11CFlatRippleRC7CVectoriUcUcUcii(o, &v, r, 221, 238, 255, 12, Redbook_Rnd__Fi(3) + 4);
+					r = Redbook_Rnd(24) + 40;
+					CFlatRipple_ctor(o, &v, r, 221, 238, 255, 12, Redbook_Rnd(3) + 4);
 				}
 			}
 		} else {

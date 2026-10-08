@@ -1,4 +1,5 @@
 /* FUN_8004b188 (0x8004b188) */
+#include "names.h"
 /* Loads a VAB sound bank: reads the file, sends the sample body (after the header and the
    512-byte-per-program tables) to SPU memory, then shrinks the buffer to the header. The SPU
    address goes into the header's size word. Called by FUN_8004b0e4 with "name.VAB". */
@@ -9,10 +10,10 @@ typedef struct {
 	unsigned short NumProgs; /* 0x12 */
 } SVabHead;
 
-int FileIO_Open__FPCc(char *);
-void *Mem_NewX__FUiii(int, int, int);
-void FileIO_Load__FPv(void *);
-void FileIO_Sync__Fv(void);
+int FileIO_Open(char *);
+void *Mem_NewX(int, int, int);
+void FileIO_Load(void *);
+void FileIO_Sync(void);
 int FUN_800949a4(int);
 void FUN_800938b4(int);
 void FUN_80093df4(void *, int);
@@ -20,11 +21,11 @@ void FUN_80094d94(int);
 void FUN_8004d6a0(void *, int);
 
 int FUN_8004b188(char *name, SVabHead **out) {
-	SVabHead *vab = Mem_NewX__FUiii(FileIO_Open__FPCc(name) + 64, 1, 1);
+	SVabHead *vab = Mem_NewX(FileIO_Open(name) + 64, 1, 1);
 	int head, body, addr;
 
-	FileIO_Load__FPv(vab);
-	FileIO_Sync__Fv();
+	FileIO_Load(vab);
+	FileIO_Sync();
 
 	head = (vab->NumProgs << 9) + 2592;
 	body = (vab->Size - head + 63) & ~63;

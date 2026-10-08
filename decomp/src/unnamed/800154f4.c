@@ -1,4 +1,5 @@
 /* FUN_800154f4 (0x800154f4) */
+#include "names.h"
 struct B {
 	int w[628];
 };
@@ -14,18 +15,18 @@ extern struct B DAT_800a6844;
 extern char DAT_800a4308[];
 extern int DAT_800d10f4, DAT_800d10f8;
 
-void Career_Init__Fv(void);
-int SyncToGoodState__Fv(void);
+void Career_Init(void);
+int SyncToGoodState(void);
 void FUN_80061270(int);
-void Card_GetDirAndFreeBlocks__Fii(int, int);
-int Mem_NewX__FUiii(int, int, int);
-void Card_SetSelectedFile__FPc(E *);
-int Card_Load__F9EFileTypePUlT1(int, int, int);
+void Card_GetDirAndFreeBlocks(int, int);
+int Mem_NewX(int, int, int);
+void Card_SetSelectedFile(E *);
+int Card_Load(int, int, int);
 int FUN_8008eebc(int);
-void Front_ExtractASCIINameFromSJIS__FPcT0(char *, char *);
-void Mem_Delete__FPv(int);
+void Front_ExtractASCIINameFromSJIS(char *, char *);
+void Mem_Delete(int);
 void FUN_800103a4(void);
-void Options_SetPreferences__Fv(void);
+void Options_SetPreferences(void);
 
 int FUN_800154f4(void) {
 	struct B buf;
@@ -34,11 +35,11 @@ int FUN_800154f4(void) {
 	struct B *d;
 
 	r = 0;
-	Career_Init__Fv();
+	Career_Init();
 
-	if (SyncToGoodState__Fv() == 0) {
+	if (SyncToGoodState() == 0) {
 		FUN_80061270(0);
-		Card_GetDirAndFreeBlocks__Fii(0, 0);
+		Card_GetDirAndFreeBlocks(0, 0);
 
 		s4 = -1;
 		s2 = 0;
@@ -46,10 +47,10 @@ int FUN_800154f4(void) {
 
 		do {
 			if (DAT_800a5880[i] == 0) {
-				p = Mem_NewX__FUiii(3200, 1, 1);
-				Card_SetSelectedFile__FPc(&DAT_800a58bc[i]);
+				p = Mem_NewX(3200, 1, 1);
+				Card_SetSelectedFile(&DAT_800a58bc[i]);
 
-				if (Card_Load__F9EFileTypePUlT1(0, p, 0) == 0) {
+				if (Card_Load(0, p, 0) == 0) {
 					if (s2 == 0)
 						s2 = FUN_8008eebc(-1);
 
@@ -64,20 +65,20 @@ int FUN_800154f4(void) {
 					if (((unsigned short *)&buf)[1047] >= ((unsigned short *)d)[1047]) {
 						*d = buf;
 						s4 = i;
-						Front_ExtractASCIINameFromSJIS__FPcT0((char *)(p + 32), DAT_800a4308);
+						Front_ExtractASCIINameFromSJIS((char *)(p + 32), DAT_800a4308);
 					}
 				}
 
-				Mem_Delete__FPv(p);
+				Mem_Delete(p);
 			}
 
 			i++;
 		} while (i < 15);
 
 		if (s4 >= 0) {
-			Card_SetSelectedFile__FPc(&DAT_800a58bc[s4]);
+			Card_SetSelectedFile(&DAT_800a58bc[s4]);
 			FUN_800103a4();
-			Options_SetPreferences__Fv();
+			Options_SetPreferences();
 		}
 
 		while (s2 != 0 && FUN_8008eebc(-1) < s2 + 60)

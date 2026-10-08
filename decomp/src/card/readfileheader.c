@@ -1,15 +1,16 @@
 /* Card_ReadFileHeader__FPcP9SCardHead (0x8001508c) */
+#include "names.h"
 extern char DAT_800d1388[];
 
 void FUN_8008b900(char *, char *, char *);
 int FUN_8008eb4c(char *, int);
-void _clear_event__Fv(void);
+void _clear_event(void);
 int FUN_8008ead8(int, void *, int);
 int FUN_8008e934(int);
 void Pause__Fi(int);
-int Card_CheckStatus__Fii(int, int);
+int Card_CheckStatus(int, int);
 
-int Card_ReadFileHeader__FPcP9SCardHead(char *name, short *out) {
+int Card_ReadFileHeader(char *name, short *out) {
 	char buf[32];
 	int i, fd, n;
 
@@ -21,9 +22,9 @@ int Card_ReadFileHeader__FPcP9SCardHead(char *name, short *out) {
 		if (fd == -1) {
 			*out = 26214;
 			Pause__Fi(1);
-			Card_CheckStatus__Fii(0, 0);
+			Card_CheckStatus(0, 0);
 		} else {
-			_clear_event__Fv();
+			_clear_event();
 
 			n = FUN_8008ead8(fd, out, 512);
 			FUN_8008e934(fd);

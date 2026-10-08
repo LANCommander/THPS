@@ -1,4 +1,5 @@
 /* Move__5CFrag (0x80029c8c) */
+#include "names.h"
 typedef struct {
 	char _0[8];
 	unsigned short life;
@@ -15,9 +16,9 @@ typedef struct {
 	signed char cnt;
 } Frag;
 
-void Die__4CBit(Frag *);
+void CBit_Die(Frag *);
 
-void Move__5CFrag(Frag *t) {
+void CFrag_Move(Frag *t) {
 	t->px += t->vx;
 	t->py += t->vy;
 	t->pz += t->vz;
@@ -35,5 +36,5 @@ void Move__5CFrag(Frag *t) {
 	t->life++;
 
 	if ((short)t->life >= t->maxlife)
-		Die__4CBit(t);
+		CBit_Die(t);
 }

@@ -1,4 +1,5 @@
 /* TrickOb_DeleteAll__Fv (0x8004ee78) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -16,7 +17,7 @@ struct O {
 
 struct O *DAT_800d1b70;
 
-void TrickOb_DeleteAll__Fv(void) {
+void TrickOb_DeleteAll(void) {
 	struct O *p = DAT_800d1b70;
 	struct O *n;
 

@@ -1,4 +1,5 @@
 /* FUN_8005e4ec (0x8005e4ec) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -15,18 +16,18 @@ typedef struct {
 
 extern unsigned char DAT_800c0a48[];
 
-void Pad_ClearTriggers__FP8SControl(unsigned char *);
+void Pad_ClearTriggers(unsigned char *);
 O *__nw__6CClassUi(int);
 O *FUN_800652e4(O *, int, int, int, int, int, int, int, int);
-O *__9PadBufferi(O *, int);
+O *PadBuffer_ctor(O *, int);
 void FUN_8005c934(void);
 void FUN_80070ff4(void);
 void FUN_800242cc(void);
 void FUN_8006b240(void);
 void FUN_80061ea0(void);
 void FUN_8006b26c(void);
-void SFX_PlayX__FUisi(int, int, int);
-void erase__12VerticalMenu(O *);
+void SFX_PlayX(int, int, int);
+void VerticalMenu_erase(O *);
 
 int FUN_8005e4ec(int a, int b, int c) {
 	int r, i;
@@ -34,8 +35,8 @@ int FUN_8005e4ec(int a, int b, int c) {
 	O *n;
 
 	r = 0;
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(DAT_800c0a48);
+	Pad_ClearTriggers(DAT_800c0a48 + 364);
 
 	m = __nw__6CClassUi(820);
 
@@ -45,7 +46,7 @@ int FUN_8005e4ec(int a, int b, int c) {
 	n = __nw__6CClassUi(284);
 
 	if (n)
-		n = __9PadBufferi(n, -1);
+		n = PadBuffer_ctor(n, -1);
 
 	do {
 		FUN_8005c934();
@@ -58,9 +59,9 @@ int FUN_8005e4ec(int a, int b, int c) {
 
 		if (DAT_800c0a48[0xe1] || DAT_800c0a48[0x24d] || DAT_800c0a48[0x31] ||
 		    DAT_800c0a48[0x19d] || DAT_800c0a48[1] || DAT_800c0a48[0x16d]) {
-			Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-			Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
-			SFX_PlayX__FUisi(145, 0x2000, 0);
+			Pad_ClearTriggers(DAT_800c0a48);
+			Pad_ClearTriggers(DAT_800c0a48 + 364);
+			SFX_PlayX(145, 0x2000, 0);
 
 			r = -1;
 		}
@@ -79,7 +80,7 @@ int FUN_8005e4ec(int a, int b, int c) {
 		i++;
 		FUN_8006b240();
 		FUN_80061ea0();
-		erase__12VerticalMenu(m);
+		VerticalMenu_erase(m);
 		FUN_8006b26c();
 	} while (i < 2);
 

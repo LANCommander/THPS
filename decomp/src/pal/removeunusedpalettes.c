@@ -1,4 +1,5 @@
 /* Pal_RemoveUnusedPalettes__Fv (0x8004ac2c) */
+#include "names.h"
 typedef struct SPalette {
 	char pad[2];
 	unsigned char slot, flags;
@@ -11,9 +12,9 @@ SPalette *DAT_800d1a80;
 
 extern unsigned char DAT_800d2a10[], DAT_800d2b10[];
 
-void RemovePaletteEntry__FP9tag_S_Pal(SPalette *);
+void RemovePaletteEntry(SPalette *);
 
-void Pal_RemoveUnusedPalettes__Fv(void) {
+void Pal_RemoveUnusedPalettes(void) {
 	SPalette *p = DAT_800d1a80;
 
 	while (p) {
@@ -26,7 +27,7 @@ void Pal_RemoveUnusedPalettes__Fv(void) {
 			if (p->flags & 2)
 				DAT_800d2b10[p->slot] = 1;
 
-			RemovePaletteEntry__FP9tag_S_Pal(p);
+			RemovePaletteEntry(p);
 		}
 
 		p = next;

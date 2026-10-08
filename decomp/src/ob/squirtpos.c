@@ -1,9 +1,10 @@
 /* SquirtPos__5CBodyPs (0x800439ac) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
 
-short *SquirtPos__5CBodyPs(char *t, short *p) {
+short *CBody_SquirtPos(char *t, short *p) {
 	V *v = (V *)p;
 
 	*(int *)(t + 0x4) = *(int *)(t + 0xfc) = v->x << 12;

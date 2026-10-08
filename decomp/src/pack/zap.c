@@ -1,4 +1,5 @@
 /* Pack_Zap__Fiiii (0x8004a69c) */
+#include "names.h"
 typedef struct TSPack {
 	unsigned short x, y, w, h;
 	struct TSPack *next;
@@ -6,10 +7,10 @@ typedef struct TSPack {
 
 TSPack *DAT_800d1a64;
 
-TSPack *Pack_NewFree__Fiiii(int, int, int, int);
-int Pack_Merge__FP6TSPack(TSPack *);
+TSPack *Pack_NewFree(int, int, int, int);
+int Pack_Merge(TSPack *);
 
-void Pack_Zap__Fiiii(int x, int y, int w, int h) {
+void Pack_Zap(int x, int y, int w, int h) {
 	TSPack *p;
 	int d;
 restart:
@@ -28,7 +29,7 @@ restart:
 	}
 
 	if (!p) {
-		Pack_Merge__FP6TSPack(Pack_NewFree__Fiiii(x, y, w, h));
+		Pack_Merge(Pack_NewFree(x, y, w, h));
 		return;
 	}
 
@@ -40,7 +41,7 @@ restart:
 	if (w < 32 && h < 32) {
 		if (x < d) {
 			d = d - x;
-			Pack_Zap__Fiiii(x, y, d, h);
+			Pack_Zap(x, y, d, h);
 
 			x += d;
 			w -= d;
@@ -51,7 +52,7 @@ restart:
 
 		if (d < x + w) {
 			d = d - x;
-			Pack_Zap__Fiiii(x, y, d, h);
+			Pack_Zap(x, y, d, h);
 
 			x += d;
 			w -= d;
@@ -62,7 +63,7 @@ restart:
 
 		if (y < d) {
 			d = d - y;
-			Pack_Zap__Fiiii(x, y, w, d);
+			Pack_Zap(x, y, w, d);
 
 			y += d;
 			h -= d;
@@ -73,7 +74,7 @@ restart:
 
 		if (d < y + h) {
 			d = d - y;
-			Pack_Zap__Fiiii(x, y, w, d);
+			Pack_Zap(x, y, w, d);
 
 			y += d;
 			h -= d;
@@ -83,13 +84,13 @@ restart:
 
 	if (w < h) {
 		d = h / 2;
-		Pack_Zap__Fiiii(x, y, w, d);
+		Pack_Zap(x, y, w, d);
 
 		y += d;
 		h -= d;
 	} else {
 		d = w / 2;
-		Pack_Zap__Fiiii(x, y, d, h);
+		Pack_Zap(x, y, d, h);
 
 		x += d;
 		w -= d;

@@ -1,4 +1,5 @@
 /* M3dColij_LineToItem__FP4ItemP9SLineInfo (0x8007ee84) */
+#include "names.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <inline_c.h>
@@ -19,7 +20,7 @@ typedef struct {
 } SLineInfo;
 
 extern void FUN_8008a658(Item *, int, SLineInfo *, unsigned short);
-extern void M3dColij_LineToThisItem__FP4ItemP9SLineInfo(Item *, SLineInfo *);
+extern void M3dColij_LineToThisItem(Item *, SLineInfo *);
 
 void M3dColij_LineToItem(Item *it, SLineInfo *li) {
 	if (it && li->flag) {
@@ -29,7 +30,7 @@ void M3dColij_LineToItem(Item *it, SLineInfo *li) {
 		do {
 			if (it->inq != li->inq) {
 				it->inq = li->inq;
-				M3dColij_LineToThisItem__FP4ItemP9SLineInfo(it, li);
+				M3dColij_LineToThisItem(it, li);
 			}
 
 			it = it->next;

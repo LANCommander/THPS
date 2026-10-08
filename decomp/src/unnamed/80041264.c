@@ -1,4 +1,5 @@
 /* FUN_80041264 (0x80041264) */
+#include "names.h"
 typedef struct {
 	char pad[8];
 	short adj;
@@ -10,9 +11,9 @@ extern char DAT_800a0218[];
 
 char DAT_800d1998[8];
 
-void DeleteFrom__5CBodyPP5CBody(char *p, char *l);
-void SFX_Stop__FUi(int a);
-void Mem_Delete__FPv(int a);
+void CBody_DeleteFrom(char *p, char *l);
+void SFX_Stop(int a);
+void Mem_Delete(int a);
 void dt_6CBaddy(char *p, int a);
 void __dl__5CItemPv(char *p);
 
@@ -20,10 +21,10 @@ void FUN_80041264(char *p, int f) {
 	int i;
 
 	*(char **)(p + 72) = DAT_800a0218;
-	DeleteFrom__5CBodyPP5CBody(p, DAT_800d1998);
+	CBody_DeleteFrom(p, DAT_800d1998);
 
 	if (*(int *)(p + 556))
-		SFX_Stop__FUi(*(int *)(p + 556));
+		SFX_Stop(*(int *)(p + 556));
 
 	if (*(char **)(p + 552)) {
 		char *o = *(char **)(p + 552);
@@ -43,7 +44,7 @@ void FUN_80041264(char *p, int f) {
 			}
 		}
 
-		Mem_Delete__FPv(*(int *)(p + 548));
+		Mem_Delete(*(int *)(p + 548));
 	}
 
 	dt_6CBaddy(p, 0);

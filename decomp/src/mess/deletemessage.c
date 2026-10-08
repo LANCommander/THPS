@@ -1,4 +1,5 @@
 /* Mess_DeleteMessage__FP7Message (0x8001d590) */
+#include "names.h"
 typedef struct Message {
 	char pad[0x14];
 	struct Message *next;
@@ -7,7 +8,7 @@ typedef struct Message {
 
 Message *DAT_800d15ec;
 
-extern void Mem_Delete__FPv(void *);
+extern void Mem_Delete(void *);
 
 void Mess_DeleteMessage(Message *m) {
 	if (m->next)
@@ -19,5 +20,5 @@ void Mess_DeleteMessage(Message *m) {
 	if (m == DAT_800d15ec)
 		DAT_800d15ec = m->next;
 
-	Mem_Delete__FPv(m);
+	Mem_Delete(m);
 }

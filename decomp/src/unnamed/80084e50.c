@@ -1,4 +1,5 @@
 /* RenderBackgroundModel__FP6SModel (0x80084e50) */
+#include "names.h"
 typedef struct {
 	int a, b;
 } E;
@@ -15,7 +16,7 @@ typedef struct {
 int FUN_80086590(E *, int);
 void FUN_80086f40(E *, E *, int);
 
-void RenderBackgroundModel__FP6SModel(P *p) {
+void RenderBackgroundModel(P *p) {
 	E *v = p->v;
 	int n = p->n;
 	int r = FUN_80086590(v, n);

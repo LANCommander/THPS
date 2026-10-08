@@ -1,4 +1,5 @@
 /* BoardOn__6CBruce (0x80041c88) */
+#include "names.h"
 typedef struct {
 	char pad[16];
 	unsigned char a, b, c;
@@ -14,7 +15,7 @@ typedef struct {
 
 extern T DAT_800a44fc[];
 
-void BoardOn__6CBruce(P *p) {
+void CBruce_BoardOn(P *p) {
 	T *base = DAT_800a44fc;
 	T *t = &base[p->idx];
 

@@ -1,4 +1,5 @@
 /* FUN_80010d84 (0x80010d84) */
+#include "names.h"
 typedef struct {
 	char p[0x4c];
 	int f4c;
@@ -12,7 +13,7 @@ extern int DAT_800d16a4;
 int DAT_800d10ec;
 int DAT_800d10e8;
 
-int SFX_PlayX__FUisi(int, short, int);
+int SFX_PlayX(int, short, int);
 
 void FUN_80010d84(int a) {
 	int v;
@@ -35,14 +36,14 @@ void FUN_80010d84(int a) {
 				DAT_800d10e8 ^= 1;
 
 				if (v > 2048) {
-					SFX_PlayX__FUisi(48, v, 0);
-					SFX_PlayX__FUisi(46, v, 0);
+					SFX_PlayX(48, v, 0);
+					SFX_PlayX(46, v, 0);
 
 					if (a >= 8000)
-						SFX_PlayX__FUisi(49, v, 0);
+						SFX_PlayX(49, v, 0);
 				} else {
 					if (a >= 400)
-						SFX_PlayX__FUisi(46, v * 4, 0);
+						SFX_PlayX(46, v * 4, 0);
 				}
 			}
 		}

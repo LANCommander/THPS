@@ -1,9 +1,10 @@
 /* unpack__6Sprite (0x80063cec) */
-void unpack__11SlicedImage(int a);
+#include "names.h"
+void SlicedImage_unpack(int a);
 
-void unpack__6Sprite(int *p) {
+void Sprite_unpack(int *p) {
 	if (p[3] != 0) {
 		p[3] = 0;
-		unpack__11SlicedImage(p[5]);
+		SlicedImage_unpack(p[5]);
 	}
 }

@@ -1,4 +1,5 @@
 /* Fade__7CFT4Biti (0x80028290) */
+#include "names.h"
 typedef struct {
 	char _0[0x48];
 	short spd;
@@ -6,15 +7,15 @@ typedef struct {
 	unsigned char r, g, b, f;
 } Bit;
 
-void Die__4CBit(Bit *);
+void CBit_Die(Bit *);
 
-int Fade__7CFT4Biti(Bit *t, int kill) {
+int CFT4Bit_Fade(Bit *t, int kill) {
 	unsigned c = *(unsigned *)&t->r;
 	int r, g, b;
 
 	if ((c & 0xffffff) == 0) {
 		if (kill)
-			Die__4CBit(t);
+			CBit_Die(t);
 
 		return 1;
 	}

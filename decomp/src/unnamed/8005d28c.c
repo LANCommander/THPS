@@ -1,4 +1,5 @@
 /* FUN_8005d28c (0x8005d28c) */
+#include "names.h"
 extern char DAT_800a1b64[];
 extern char DAT_800a1b74[];
 extern char DAT_800c0a48[];
@@ -15,7 +16,7 @@ void FUN_80061a10(int a);
 void FUN_8005dc58(int a);
 char *__nw__6CClassUi(unsigned);
 char *FUN_80063a5c(char *p, int a, int b, int c, int d, int e, int f);
-void Pack_DefragmentFully__Fv(void);
+void Pack_DefragmentFully(void);
 void FUN_8006b240(void);
 void FUN_80061ea0(void);
 
@@ -39,7 +40,7 @@ void FUN_8005d28c(void) {
 	DAT_800c0a48[589] = 0;
 	DAT_800d1cec = 0;
 	DAT_800d1d14 = 0;
-	Pack_DefragmentFully__Fv();
+	Pack_DefragmentFully();
 	FUN_8006b240();
 	FUN_80061ea0();
 }

@@ -1,8 +1,9 @@
 /* FUN_80066180 (0x80066180) */
+#include "names.h"
 extern char DAT_800a2120[];
 extern char DAT_800a21b0[];
 
-void Mem_Delete__FPv(int a);
+void Mem_Delete(int a);
 void __dl__6CClassPv(void *p);
 
 void FUN_80066180(int *p, int f) {
@@ -12,7 +13,7 @@ void FUN_80066180(int *p, int f) {
 
 	for (i = 0; i < 16; i++) {
 		if (p[1 + i])
-			Mem_Delete__FPv(p[1 + i]);
+			Mem_Delete(p[1 + i]);
 	}
 
 	p[0] = (int)DAT_800a21b0;

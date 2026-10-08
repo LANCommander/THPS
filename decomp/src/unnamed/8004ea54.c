@@ -1,4 +1,5 @@
 /* __11CFlatRippleRC7CVectoriUcUcUcii (0x8004ea54) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -28,10 +29,10 @@ typedef struct {
 extern char DAT_800a1308[];
 
 int FUN_800270e0(B *, int);
-int Redbook_Rnd__Fi(int);
-void SetSemiTransparent__9CPolyLine(B *);
+int Redbook_Rnd(int);
+void CPolyLine_SetSemiTransparent(B *);
 
-B *__11CFlatRippleRC7CVectoriUcUcUcii(B *p, V *pos, int a2, int a3, unsigned char r, unsigned char g, int a6, int a7) {
+B *CFlatRipple_ctor(B *p, V *pos, int a2, int a3, unsigned char r, unsigned char g, int a6, int a7) {
 	int i;
 	unsigned char c = a3;
 
@@ -53,7 +54,7 @@ B *__11CFlatRippleRC7CVectoriUcUcUcii(B *p, V *pos, int a2, int a3, unsigned cha
 		p->e[i].v = *pos;
 	}
 
-	p->i70 = Redbook_Rnd__Fi(4096);
-	SetSemiTransparent__9CPolyLine(p);
+	p->i70 = Redbook_Rnd(4096);
+	CPolyLine_SetSemiTransparent(p);
 	return p;
 }

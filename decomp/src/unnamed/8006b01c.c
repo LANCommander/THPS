@@ -1,4 +1,5 @@
 /* FUN_8006b01c (0x8006b01c) flags=-fstrict-aliasing */
+#include "names.h"
 typedef struct {
 	char p0[0x17];
 	char b17, b18, b19, b1a, b1b;
@@ -23,14 +24,14 @@ extern int DAT_800d1774, DAT_800d177c, DAT_800d1a54;
 extern short DAT_800d214c, DAT_800d214e;
 
 void FUN_8008c3d0(int);
-int Mem_NewX__FUiii(int, int, int);
+int Mem_NewX(int, int, int);
 void FUN_80092e70(void *, int, int, int, int);
 void FUN_800914fc(void *, int, int, int, int);
 void FUN_80048d00(void);
 int FUN_8008c94c(void *);
 void FUN_8008ca0c(void *);
 void FUN_8006af64(void);
-void M3dInit_SetResolution__FUiUi(int, int);
+void M3dInit_SetResolution(int, int);
 
 void FUN_8006b01c(int a) {
 	int v;
@@ -38,7 +39,7 @@ void FUN_8006b01c(int a) {
 
 	FUN_8008c3d0(0);
 
-	v = Mem_NewX__FUiii(0x14000, 1, 1);
+	v = Mem_NewX(0x14000, 1, 1);
 	DAT_800a891c.f80a8 = v;
 	DAT_800a891c.f10154 = v + 0xa000;
 	FUN_80092e70(&DAT_800a891c, 0, 0, 640, 480);
@@ -72,7 +73,7 @@ void FUN_8006b01c(int a) {
 	DAT_800d1a48 = &DAT_800a891c;
 	DAT_800d177c = -1;
 	DAT_800d1a54 = DAT_800a891c.f80a8;
-	M3dInit_SetResolution__FUiUi(640, 480);
+	M3dInit_SetResolution(640, 480);
 
 	DAT_800d1774 = 128;
 	DAT_800d214c = 0;

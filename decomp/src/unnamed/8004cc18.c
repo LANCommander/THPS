@@ -1,4 +1,5 @@
 /* FileIO_Continue__Fv (0x8004cc18) */
+#include "names.h"
 typedef struct {
 	short x, y, w, h;
 } R;
@@ -16,7 +17,7 @@ void FUN_80070ff4(void);
 int FUN_8008c5ec(R *, int, int, int);
 void FUN_8005dcc4(void);
 
-void FileIO_Continue__Fv(void) {
+void FileIO_Continue(void) {
 	char buf[104];
 	R r;
 	int s0, v;

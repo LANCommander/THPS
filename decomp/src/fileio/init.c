@@ -1,4 +1,5 @@
 /* FileIO_Init__Fv (0x8004c74c) */
+#include "names.h"
 extern char DAT_800a1294[], DAT_800a12a4[], DAT_800a12b0[], DAT_800ba09c[];
 
 int DAT_800d1afc, DAT_800d2258, DAT_800d1b0c;
@@ -13,7 +14,7 @@ void FUN_800958c0(int, char *, int);
 int FUN_80095a5c(int, int);
 int FUN_800913c0(unsigned *);
 
-void FileIO_Init__Fv(void) {
+void FileIO_Init(void) {
 	unsigned buf[6];
 	int s0;
 	unsigned u;

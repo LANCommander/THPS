@@ -1,4 +1,5 @@
 /* FUN_80055f80 (0x80055f80) */
+#include "names.h"
 struct E {
 	char pad[8];
 	char *n8;
@@ -14,23 +15,23 @@ int DAT_800d22f4;
 int DAT_800d2310;
 int DAT_800d2314;
 
-void FileIO_Continue__Fv(void);
-void Spool_Continue__Fv(void);
+void FileIO_Continue(void);
+void Spool_Continue(void);
 int FUN_80070830(void);
-void Spool_Sync__Fv(void);
-int Spool_PSX__FPciii(char *a, int b, int c);
+void Spool_Sync(void);
+int Spool_PSX(char *a, int b, int c);
 
 void FUN_80055f80(void) {
 	int a;
 	int n;
 
-	FileIO_Continue__Fv();
-	Spool_Continue__Fv();
+	FileIO_Continue();
+	Spool_Continue();
 
 	if (FUN_80070830())
 		return;
 
-	Spool_Sync__Fv();
+	Spool_Sync();
 
 	a = DAT_800d230c;
 
@@ -56,5 +57,5 @@ void FUN_80055f80(void) {
 	if (!(DAT_800d22f4 < 11))
 		DAT_800d22f4 = DAT_800d22f4 - 11;
 
-	DAT_800d3758[DAT_800d22f4] = Spool_PSX__FPciii(DAT_800a44fc[DAT_800d22f4].n8, 2, 1);
+	DAT_800d3758[DAT_800d22f4] = Spool_PSX(DAT_800a44fc[DAT_800d22f4].n8, 2, 1);
 }

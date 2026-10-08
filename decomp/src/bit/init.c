@@ -1,4 +1,5 @@
 /* Bit_Init__Fv (0x800279cc) */
+#include "names.h"
 int DAT_800d1868;
 int DAT_800d18cc;
 int DAT_800d18d0;
@@ -24,8 +25,8 @@ extern int DAT_800a7238[];
 
 int FUN_8008f72c(int, int, int, int);
 void FUN_80092f30(int *, int, int, int);
-int Spool_FindAnim__FPc(char *);
-int Spool_FindTextureEntry__FUi(unsigned);
+int Spool_FindAnim(char *);
+int Spool_FindTextureEntry(unsigned);
 
 void Bit_Init(void) {
 	int i;
@@ -47,8 +48,8 @@ void Bit_Init(void) {
 	FUN_80092f30(&DAT_800d1900, 1, 1, FUN_8008f72c(0, 1, 0, 0));
 
 	for (i = 0; i < 6; i++)
-		DAT_800a7238[i] = Spool_FindAnim__FPc(DAT_800a7220[i]);
+		DAT_800a7238[i] = Spool_FindAnim(DAT_800a7220[i]);
 
-	DAT_800d1420 = Spool_FindAnim__FPc(DAT_800d1898);
-	DAT_800d18a0 = Spool_FindTextureEntry__FUi(0x2a3b2550);
+	DAT_800d1420 = Spool_FindAnim(DAT_800d1898);
+	DAT_800d18a0 = Spool_FindTextureEntry(0x2a3b2550);
 }

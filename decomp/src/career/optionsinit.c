@@ -1,4 +1,5 @@
 /* Options_Init__Fv (0x800105f4) */
+#include "names.h"
 extern int DAT_800a4118[];
 extern char DAT_800d10dc[];
 extern char DAT_800d10e4[];
@@ -6,7 +7,7 @@ extern int DAT_800d13cc, DAT_800d13d0;
 
 int FUN_8008b900(char *, char *);
 
-void Options_Init__Fv(void) {
+void Options_Init(void) {
 	int i;
 
 	DAT_800a4118[0] = 12;

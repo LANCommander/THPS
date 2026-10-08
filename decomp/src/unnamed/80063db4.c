@@ -1,13 +1,14 @@
 /* _._11EraseSprite (0x80063db4) */
+#include "names.h"
 extern char DAT_800a2180[];
 extern char DAT_800a21b0[];
 
-void Mem_Delete__FPv(int a);
+void Mem_Delete(int a);
 void __dl__6CClassPv(void *p);
 
 void FUN_80063db4(char **p, int f) {
 	*p = DAT_800a2180;
-	Mem_Delete__FPv(((int *)p)[3]);
+	Mem_Delete(((int *)p)[3]);
 
 	*p = DAT_800a21b0;
 

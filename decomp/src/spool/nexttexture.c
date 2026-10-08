@@ -1,4 +1,5 @@
 /* NextTexture__Fv (0x8006f0ac) */
+#include "names.h"
 typedef struct STexture {
 	char pad[0x20];
 	struct STexture *next;
@@ -9,7 +10,7 @@ extern STexture *DAT_800c01a8[];
 int DAT_800d23c4;
 STexture *DAT_800d23c8;
 
-STexture *NextTexture__Fv(void) {
+STexture *NextTexture(void) {
 	STexture *t;
 
 	if (DAT_800d23c4 >= 512)

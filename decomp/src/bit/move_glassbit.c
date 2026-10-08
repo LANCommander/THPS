@@ -1,4 +1,5 @@
 /* Move__9CGlassBit (0x8002a7dc) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -15,10 +16,10 @@ typedef struct {
 	unsigned char b70, b71, b72, b73, b74, b75, b76;
 } G;
 
-int Redbook_Rnd__Fi(int);
-void Die__4CBit(G *);
+int Redbook_Rnd(int);
+void CBit_Die(G *);
 
-void Move__9CGlassBit(G *t) {
+void CGlassBit_Move(G *t) {
 	int vx = t->vel.x;
 	int vy = t->vel.y;
 	int vz = t->vel.z;
@@ -39,12 +40,12 @@ void Move__9CGlassBit(G *t) {
 		unsigned _t8947 = t->s8 < 2;
 
 		if (_t8947) {
-			r = Redbook_Rnd__Fi(50);
+			r = Redbook_Rnd(50);
 			t->p[0].y = t->floor - (r << 12);
-			t->p[1].y = t->floor - (Redbook_Rnd__Fi(50) << 12);
+			t->p[1].y = t->floor - (Redbook_Rnd(50) << 12);
 			vy = -vy;
 			vy >>= 2;
-			t->p[2].y = t->floor - (Redbook_Rnd__Fi(50) << 12);
+			t->p[2].y = t->floor - (Redbook_Rnd(50) << 12);
 			t->s8++;
 		} else {
 			vy = 0;
@@ -58,7 +59,7 @@ void Move__9CGlassBit(G *t) {
 	t->vel.y = vy;
 	t->vel.z = vz;
 
-	if (t->s8 < 2 && Redbook_Rnd__Fi(5) == 0) {
+	if (t->s8 < 2 && Redbook_Rnd(5) == 0) {
 		t->b73 = 48;
 		t->b74 = 48;
 		t->b75 = 64;
@@ -75,5 +76,5 @@ void Move__9CGlassBit(G *t) {
 	}
 
 	if ((t->b70 | t->b71 | t->b72) == 0)
-		Die__4CBit(t);
+		CBit_Die(t);
 }

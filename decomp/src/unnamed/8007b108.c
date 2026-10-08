@@ -1,4 +1,5 @@
 /* FUN_8007b108 (0x8007b108) */
+#include "names.h"
 typedef struct Q {
 	int *vp;
 	int x, y, z, w;
@@ -12,12 +13,12 @@ extern char DAT_800d206c[];
 extern char DAT_800d2074[];
 extern int DAT_800a35c4[];
 
-void DisplayLabels__6CamPosUsUsUcUcUc(int, int, int, int, int);
-void Display__6CamPosUsUsUcUcUc(char *, int, int, int, int, int);
-void Font_String__FUsUsPcUcUcUcUc(int, int, char *, int, int, int, int);
-void QFromXRot__Fs(Q *, int);
-void QFromYRot__Fs(Q *, int);
-void QFromZRot__Fs(Q *, int);
+void CamPos_DisplayLabels(int, int, int, int, int);
+void CamPos_Display(char *, int, int, int, int, int);
+void Font_String(int, int, char *, int, int, int, int);
+void QFromXRot(Q *, int);
+void QFromYRot(Q *, int);
+void QFromZRot(Q *, int);
 void __ml__FRC5CQuatT0(Q *, Q *, Q *);
 
 #define P DAT_800c0a48
@@ -34,15 +35,15 @@ void FUN_8007b108(char *a) {
 	char *s2;
 	char *s4;
 
-	DisplayLabels__6CamPosUsUsUcUcUc(100, 50, 200, 200, 200);
-	Font_String__FUsUsPcUcUcUcUc(200, 40, DAT_800d206c, 200, 200, 200, 0);
+	CamPos_DisplayLabels(100, 50, 200, 200, 200);
+	Font_String(200, 40, DAT_800d206c, 200, 200, 200, 0);
 
 	s4 = a + 0x138;
-	Display__6CamPosUsUsUcUcUc(s4, 200, 50, 80, 0, 0);
-	Font_String__FUsUsPcUcUcUcUc(300, 40, DAT_800d2074, 200, 200, 200, 0);
+	CamPos_Display(s4, 200, 50, 80, 0, 0);
+	Font_String(300, 40, DAT_800d2074, 200, 200, 200, 0);
 
 	s1 = a + 0x360;
-	Display__6CamPosUsUsUcUcUc(s1, 300, 50, 80, 0, 0);
+	CamPos_Display(s1, 300, 50, 80, 0, 0);
 
 	if (P[0x1fd]) {
 		switch (DAT_800d206a) {
@@ -156,7 +157,7 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				QFromXRot__Fs(pq, 10);
+				QFromXRot(pq, 10);
 				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
@@ -179,7 +180,7 @@ void FUN_8007b108(char *a) {
 				pq = &q2;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				QFromXRot__Fs(pq, -10);
+				QFromXRot(pq, -10);
 				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
@@ -202,7 +203,7 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				QFromYRot__Fs(pq, -10);
+				QFromYRot(pq, -10);
 				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
@@ -222,7 +223,7 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				QFromYRot__Fs(pq, 10);
+				QFromYRot(pq, 10);
 				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
@@ -242,7 +243,7 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				QFromZRot__Fs(pq, 10);
+				QFromZRot(pq, 10);
 				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;
@@ -262,7 +263,7 @@ void FUN_8007b108(char *a) {
 				pq = &q1;
 				z.sv = (int)((Q *)(s2 + 0x1c))->vp;
 				pr = &z.r;
-				QFromZRot__Fs(pq, -10);
+				QFromZRot(pq, -10);
 				__ml__FRC5CQuatT0(pr, (Q *)(s2 + 0x1c), pq);
 
 				*(Q *)(s2 + 0x1c) = z.r;

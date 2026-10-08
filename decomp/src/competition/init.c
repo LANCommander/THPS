@@ -1,4 +1,5 @@
 /* Competition_Init__Fv (0x800740b4) */
+#include "names.h"
 typedef struct {
 	unsigned char b0, b1, b2, b3, b4, b5, b6, b7;
 } CE;
@@ -26,10 +27,10 @@ extern int DAT_800d1a20, DAT_800d1114, DAT_800d1e28;
 
 short DAT_800d1fc0, DAT_800d1fc2, DAT_800d1fc4, DAT_800d1fc6, DAT_800d1fc8;
 
-void Redbook_InitialRand__Fi(int);
-int Redbook_Rnd__Fi(int);
+void Redbook_InitialRand(int);
+int Redbook_Rnd(int);
 
-void Competition_Init__Fv(void) {
+void Competition_Init(void) {
 	Comp *c = &DAT_800c0fdc;
 	unsigned char *p;
 	unsigned char *q;
@@ -40,7 +41,7 @@ void Competition_Init__Fv(void) {
 	c->i20 = 0;
 	c->i24 = 0;
 	c->i300 = 0;
-	Redbook_InitialRand__Fi(DAT_800d1a20);
+	Redbook_InitialRand(DAT_800d1a20);
 
 	for (i = 0; i < 10; i++)
 		c->order[i] = i;
@@ -49,7 +50,7 @@ void Competition_Init__Fv(void) {
 	c->cur = t;
 
 	if (t == 10) {
-		c->cur = Redbook_Rnd__Fi(10);
+		c->cur = Redbook_Rnd(10);
 		c->order[c->cur] = t;
 	}
 
@@ -68,10 +69,10 @@ void Competition_Init__Fv(void) {
 	}
 
 	for (u = 0; u < 5; u++) {
-		((unsigned char *)c + (u << 3))[44] = Redbook_Rnd__Fi(10);
-		((unsigned char *)c + (u << 3))[46] = Redbook_Rnd__Fi(10);
-		((unsigned char *)c + (u << 3))[45] = Redbook_Rnd__Fi(30);
-		((unsigned char *)c + (u << 3))[47] = Redbook_Rnd__Fi(30);
+		((unsigned char *)c + (u << 3))[44] = Redbook_Rnd(10);
+		((unsigned char *)c + (u << 3))[46] = Redbook_Rnd(10);
+		((unsigned char *)c + (u << 3))[45] = Redbook_Rnd(30);
+		((unsigned char *)c + (u << 3))[47] = Redbook_Rnd(30);
 	}
 
 	for (k = 0; k < 10; k++) {
@@ -88,7 +89,7 @@ void Competition_Init__Fv(void) {
 		c->w[i] = 255;
 
 	for (j = 0; j < 10; j++) {
-		r = Redbook_Rnd__Fi(10 - j);
+		r = Redbook_Rnd(10 - j);
 		cnt = 0;
 		idx = -1;
 

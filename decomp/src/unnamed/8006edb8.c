@@ -1,4 +1,5 @@
 /* FUN_8006edb8 (0x8006edb8) */
+#include "names.h"
 typedef struct {
 	char pad[20];
 	int *p14;
@@ -8,7 +9,7 @@ typedef struct {
 extern S DAT_800bf7a8[];
 extern int *DAT_800c09a8[];
 
-void Mem_Delete__FPv(int *);
+void Mem_Delete(int *);
 
 void FUN_8006edb8(int i) {
 	int *d = DAT_800bf7a8[i].p14;
@@ -27,7 +28,7 @@ void FUN_8006edb8(int i) {
 		}
 	} while (0);
 
-	Mem_Delete__FPv(DAT_800c09a8[i]);
+	Mem_Delete(DAT_800c09a8[i]);
 
 	DAT_800c09a8[i] = 0;
 }

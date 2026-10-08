@@ -1,10 +1,11 @@
 /* SyncToGoodState__Fv (0x80014424) */
+#include "names.h"
 int DAT_800d1394, DAT_800d1384, DAT_800d1390, DAT_800d1380;
 
 void FUN_8008eebc(int);
-int Card_CheckStatus__Fii(int, int);
+int Card_CheckStatus(int, int);
 
-int SyncToGoodState__Fv(void) {
+int SyncToGoodState(void) {
 	int n = 200;
 
 	DAT_800d1394 = 0;
@@ -12,7 +13,7 @@ int SyncToGoodState__Fv(void) {
 
 	for (;;) {
 		FUN_8008eebc(0);
-		Card_CheckStatus__Fii(0, 0);
+		Card_CheckStatus(0, 0);
 
 		if (DAT_800d1384 == 1)
 			break;

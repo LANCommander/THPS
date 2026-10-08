@@ -1,7 +1,8 @@
 /* CalcRGB__FiUiiPUi (0x8002172c) */
+#include "names.h"
 unsigned char DAT_800d2228, DAT_800d2229, DAT_800d222a;
 
-void CalcRGB__FiUiiPUi(int f, unsigned c, int mode, unsigned *t) {
+void CalcRGB(int f, unsigned c, int mode, unsigned *t) {
 	unsigned a, b, d;
 	int r, g, bl;
 

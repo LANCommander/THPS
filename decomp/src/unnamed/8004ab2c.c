@@ -1,4 +1,5 @@
 /* NewPaletteEntry__FUi (0x8004ab2c) */
+#include "names.h"
 struct N {
 	int a[1];
 	short s;
@@ -11,10 +12,10 @@ struct N {
 };
 
 struct N *DAT_800d1a80;
-struct N *Mem_NewX__FUiii(int a, int b, int c);
+struct N *Mem_NewX(int a, int b, int c);
 
-struct N *NewPaletteEntry__FUi(int p) {
-	struct N *n = Mem_NewX__FUiii(24, 0, 1);
+struct N *NewPaletteEntry(int p) {
+	struct N *n = Mem_NewX(24, 0, 1);
 	struct N *h = DAT_800d1a80;
 
 	n->next = 0;

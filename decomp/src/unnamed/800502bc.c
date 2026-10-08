@@ -1,4 +1,5 @@
 /* FUN_800502bc (0x800502bc) flags=-fstructure-noalias */
+#include "names.h"
 typedef struct P {
 	unsigned tag;
 	unsigned char r, g, b, code;
@@ -26,11 +27,11 @@ extern int DAT_800be3d0[];
 
 void FUN_80023168(int);
 void FUN_8002357c(int);
-P *Mem_NewX__FUiii(int, int, int);
-void Mem_Delete__FPv(P *);
+P *Mem_NewX(int, int, int);
+void Mem_Delete(P *);
 int FUN_8008eebc(int);
-void GameFMV_StartFMV__Fi(int);
-void GameFMV_StopFMV__Fv(void);
+void GameFMV_StartFMV(int);
+void GameFMV_StopFMV(void);
 
 void FUN_800502bc(int a) {
 	switch (a) {
@@ -38,7 +39,7 @@ void FUN_800502bc(int a) {
 			DAT_800d2274 = 0;
 			DAT_800d2278 = 0;
 			DAT_800d227c = 0;
-			DAT_800d2280 = Mem_NewX__FUiii(40, 1, 1);
+			DAT_800d2280 = Mem_NewX(40, 1, 1);
 			((unsigned char *)DAT_800d2280)[3] = 9;
 			DAT_800d2280->code = 44;
 			DAT_800d2280->r = 128;
@@ -64,7 +65,7 @@ void FUN_800502bc(int a) {
 					DAT_800d1658 = 512;
 					DAT_800d1670 = 608;
 					DAT_800d166e = 0;
-					GameFMV_StartFMV__Fi(1);
+					GameFMV_StartFMV(1);
 
 					DAT_800d226c = (FUN_8008eebc(1) + FUN_8008eebc(-1)) % 320;
 					DAT_800d2270 = (FUN_8008eebc(1) + FUN_8008eebc(-1)) % 112;
@@ -100,7 +101,7 @@ void FUN_800502bc(int a) {
 					if (DAT_800d227c >= 10)
 						DAT_800d227c = 0;
 
-					GameFMV_StopFMV__Fv();
+					GameFMV_StopFMV();
 				}
 			}
 
@@ -131,8 +132,8 @@ void FUN_800502bc(int a) {
 
 			break;
 		case 2:
-			GameFMV_StopFMV__Fv();
-			Mem_Delete__FPv(DAT_800d2280);
+			GameFMV_StopFMV();
+			Mem_Delete(DAT_800d2280);
 			break;
 	}
 }

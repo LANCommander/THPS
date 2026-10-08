@@ -1,4 +1,5 @@
 /* FUN_80042d04 (0x80042d04) */
+#include "names.h"
 extern int DAT_800d140c;
 extern int DAT_800d2044;
 extern int DAT_800d1770;
@@ -26,19 +27,19 @@ extern E DAT_800a44fc[];
 char *DAT_800d19a4;
 
 int FUN_8007cd64(int);
-void Video_Record__FP6CBruce(char *);
-void Video_Playback__FP6CBruce(char *);
+void Video_Record(char *);
+void Video_Playback(char *);
 void FUN_80042708(char *);
-int DoPhysics__6CBruce(char *);
-void HandleWater__6CBruce(char *);
+int CBruce_DoPhysics(char *);
+void CBruce_HandleWater(char *);
 void FUN_80042728(char *);
-int M3dColij_LineToSphere__FRC7CVectorT0R7CVectorP5CBodyT3i(char *, char *, int *, int, int);
+int M3dColij_LineToSphere(char *, char *, int *, int, int);
 void FUN_800427cc(char *, int);
-void TakeEffect__8CPowerUpP6CBruce(int, char *);
-void DoShadowCheck__6CBruce(char *);
-void GlowUpdate__6CBruce(char *);
+void CPowerUp_TakeEffect(int, char *);
+void CBruce_DoShadowCheck(char *);
+void CBruce_GlowUpdate(char *);
 void FUN_8008b900(char *, char *, int, int, int, int);
-void Font_String__FUsUsPcUcUcUcUc(int, int, char *, int, int, int, int);
+void Font_String(int, int, char *, int, int, int, int);
 
 #define CC     (I(0x254) || DAT_800d172c)
 #define I(o)   (*(int *)(a + (o)))
@@ -79,10 +80,10 @@ void FUN_80042d04(char *a) {
 
 			switch (x3) {
 				case 1:
-					Video_Record__FP6CBruce(a);
+					Video_Record(a);
 					break;
 				case 2:
-					Video_Playback__FP6CBruce(a);
+					Video_Playback(a);
 					return;
 			}
 
@@ -90,8 +91,8 @@ void FUN_80042d04(char *a) {
 				I(0x6f0) = 100;
 				I(0x20) = 0x404040;
 				FUN_80042708(a);
-				DoPhysics__6CBruce(a);
-				HandleWater__6CBruce(a);
+				CBruce_DoPhysics(a);
+				CBruce_HandleWater(a);
 
 				if (((U16(0xe4) >> 1) ^ 1) & 1)
 					U16(0x8fe) = U16(0x8fe) + 1;
@@ -119,25 +120,25 @@ void FUN_80042d04(char *a) {
 
 				s2 = a + 0xf0;
 				s1 = a + 4;
-				x6 = M3dColij_LineToSphere__FRC7CVectorT0R7CVectorP5CBodyT3i(s2, s1, sp20, DAT_800d1998, 0);
+				x6 = M3dColij_LineToSphere(s2, s1, sp20, DAT_800d1998, 0);
 
 				if (x6)
 					FUN_800427cc(a, x6);
 
-				x7 = M3dColij_LineToSphere__FRC7CVectorT0R7CVectorP5CBodyT3i(s2, s1, sp20, DAT_800d1618, 0);
+				x7 = M3dColij_LineToSphere(s2, s1, sp20, DAT_800d1618, 0);
 
 				if (x7)
-					TakeEffect__8CPowerUpP6CBruce(x7, a);
+					CPowerUp_TakeEffect(x7, a);
 
 				if (I(0x734) || (d = I(8) - I(0x2e4), ((d ^ (d >> 31)) - (d >> 31)) >= 65)) {
 					I(0x2e4) = I(8);
-					DoShadowCheck__6CBruce(a);
+					CBruce_DoShadowCheck(a);
 				} else {
 					I(0xbc) = I(4);
 					I(0xc4) = I(0xc);
 				}
 
-				GlowUpdate__6CBruce(a);
+				CBruce_GlowUpdate(a);
 
 				if (*(short *)(a + 0xe6) < 0)
 					*(short *)(a + 0xe6) = 0;
@@ -211,7 +212,7 @@ void FUN_80042d04(char *a) {
 
 						             r3;
 					             }));
-					Font_String__FUsUsPcUcUcUcUc(420, 200, DAT_800d25f0, 90, 90, 100, 0);
+					Font_String(420, 200, DAT_800d25f0, 90, 90, 100, 0);
 				}
 			}
 		}

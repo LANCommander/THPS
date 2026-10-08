@@ -1,4 +1,5 @@
 /* Front_DirtyRectText__FiiPCc (0x80011324) */
+#include "names.h"
 typedef struct {
 	char *ptr;
 	const char *str;
@@ -11,27 +12,27 @@ extern T DAT_800a4434[];
 
 int DAT_800d1118;
 
-void Mess_DrawText__FiiPCciUiib(int, int, const char *, int, int, int, int);
-int Mess_TextWidth__FPCc(const char *);
-int Mess_TextHeight__FPCc(const char *);
+void Mess_DrawText(int, int, const char *, int, int, int, int);
+int Mess_TextWidth(const char *);
+int Mess_TextHeight(const char *);
 char *__nw__6CClassUi(unsigned);
 char *__6Spriteiiiiiii(char *, int, int, int, int, int, int, int);
 
-void Front_DirtyRectText__FiiPCc(int x, int y, const char *s) {
+void Front_DirtyRectText(int x, int y, const char *s) {
 	int i, w, h, nx;
 	T *e;
 	char *p;
 
 	for (i = 0; i < DAT_800d1118; i++) {
 		if (DAT_800a4434[i].str == s) {
-			Mess_DrawText__FiiPCciUiib(x, y, s, 0, 0, 256, 0);
+			Mess_DrawText(x, y, s, 0, 0, 256, 0);
 			return;
 		}
 	}
 
 	DAT_800a4434[DAT_800d1118].str = s;
-	w = Mess_TextWidth__FPCc(s);
-	h = Mess_TextHeight__FPCc(s);
+	w = Mess_TextWidth(s);
+	h = Mess_TextHeight(s);
 	nx = x - (w >> 1);
 	w += 4;
 	e = &DAT_800a4434[DAT_800d1118];

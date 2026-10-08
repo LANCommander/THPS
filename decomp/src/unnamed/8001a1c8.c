@@ -1,4 +1,5 @@
 /* FUN_8001a1c8 (0x8001a1c8) */
+#include "names.h"
 extern int DAT_800bf318[];
 extern int DAT_800bf3d8[];
 extern char *DAT_800a5f14[];
@@ -13,14 +14,14 @@ int DAT_800d13e8;
 int DAT_800d140c;
 char *DAT_800d1428;
 
-void Video_Stop__FP6CBruce(char *b);
-void Pad_ClearTriggers__FP8SControl(char *p);
-int FindEntry__5CMenuPCc(char *m, char *s);
-void SetLine__5CMenuUc(char *m, unsigned char l);
-void Mess_DeleteAll__Fv(void);
-void Pad_ActuatorOff__FUcUc(unsigned char a, unsigned char b);
-void SFX_Pause__Fv(void);
-void SFX_PlayX__FUisi(int a, int b, int c);
+void Video_Stop(char *b);
+void Pad_ClearTriggers(char *p);
+int CMenu_FindEntry(char *m, char *s);
+void CMenu_SetLine(char *m, unsigned char l);
+void Mess_DeleteAll(void);
+void Pad_ActuatorOff(unsigned char a, unsigned char b);
+void SFX_Pause(void);
+void SFX_PlayX(int a, int b, int c);
 
 void FUN_8001a1c8(void) {
 	char *s;
@@ -31,22 +32,22 @@ void FUN_8001a1c8(void) {
 	s = *(char **)(DAT_800d19a4 + 28);
 
 	if (DAT_800bf318[0])
-		Video_Stop__FP6CBruce(DAT_800d19a4);
+		Video_Stop(DAT_800d19a4);
 
 	if (s && DAT_800bf3d8[0])
-		Video_Stop__FP6CBruce(s);
+		Video_Stop(s);
 
 	DAT_800d13e8 = 19;
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(DAT_800c0a48);
+	Pad_ClearTriggers(DAT_800c0a48 + 364);
 
 	DAT_800d140c = 1;
-	SetLine__5CMenuUc(DAT_800d1428, FindEntry__5CMenuPCc(DAT_800d1428, DAT_800a5f14[0]));
-	Mess_DeleteAll__Fv();
-	Pad_ActuatorOff__FUcUc(0, 0);
-	Pad_ActuatorOff__FUcUc(0, 1);
-	SFX_Pause__Fv();
-	SFX_PlayX__FUisi(2, 4096, 0);
+	CMenu_SetLine(DAT_800d1428, CMenu_FindEntry(DAT_800d1428, DAT_800a5f14[0]));
+	Mess_DeleteAll();
+	Pad_ActuatorOff(0, 0);
+	Pad_ActuatorOff(0, 1);
+	SFX_Pause();
+	SFX_PlayX(2, 4096, 0);
 
 	DAT_800d1e48 = 0;
 }

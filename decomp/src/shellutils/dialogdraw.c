@@ -1,4 +1,5 @@
 /* draw__14VerticalDialog (0x80065394) */
+#include "names.h"
 typedef struct {
 	int spr;
 	char str[0x20];
@@ -14,29 +15,29 @@ typedef struct {
 	E e[12];
 } VD;
 
-void Mess_SetTextJustify__FUc(int);
-void Mess_SetFontScale__FUi(unsigned);
-void draw__6Spriteiiiiii(int, int, int, int, int, int, int);
-void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
-void Mess_DrawText__FiiPCciUiib(int, int, char *, int, int, int, int);
+void Mess_SetTextJustify(int);
+void Mess_SetFontScale(unsigned);
+void Sprite_draw(int, int, int, int, int, int, int);
+void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
+void Mess_DrawText(int, int, char *, int, int, int, int);
 
-void draw__14VerticalDialog(VD *t) {
+void VerticalDialog_draw(VD *t) {
 	int i;
 
-	Mess_SetTextJustify__FUc(0);
-	Mess_SetFontScale__FUi(t->f8);
+	Mess_SetTextJustify(0);
+	Mess_SetFontScale(t->f8);
 
 	for (i = 0; i < t->cnt; i++) {
-		draw__6Spriteiiiiii(t->e[i].spr, t->e[i].x,
+		Sprite_draw(t->e[i].spr, t->e[i].x,
 		                    t->e[i].b - ((t->e[i].c >> 1) * t->fc) / t->f8 - 1, 0, -1, -1, -1);
 
 		if (t->e[i].e)
-			Mess_SetRGB__FUcUcUci(64, 64, 64, 0);
+			Mess_SetRGB(64, 64, 64, 0);
 		else
-			Mess_SetRGB__FUcUcUci(122, 122, 122, 0);
+			Mess_SetRGB(122, 122, 122, 0);
 
-		Mess_DrawText__FiiPCciUiib(t->e[i].a, t->e[i].b - (t->e[i].c >> 1) + t->e[i].d, t->e[i].str, 0, 0, 256,
+		Mess_DrawText(t->e[i].a, t->e[i].b - (t->e[i].c >> 1) + t->e[i].d, t->e[i].str, 0, 0, 256,
 		             0);
-		Mess_SetFontScale__FUi(t->f8);
+		Mess_SetFontScale(t->f8);
 	}
 }

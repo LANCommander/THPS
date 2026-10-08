@@ -1,4 +1,5 @@
 /* strCallback__Fv (0x80023d3c) */
+#include "names.h"
 typedef struct {
 	short x, y, w, h;
 } RECT;
@@ -16,7 +17,7 @@ void FUN_8008f79c(void);
 void FUN_8009033c(int, int);
 void FUN_8008c714(RECT *, int);
 
-void strCallback__Fv(void) {
+void strCallback(void) {
 	RECT r;
 	int p;
 

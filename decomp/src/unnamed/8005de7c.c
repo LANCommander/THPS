@@ -1,4 +1,5 @@
 /* FUN_8005de7c (0x8005de7c) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -23,13 +24,13 @@ extern char DAT_800a1bd4[], DAT_800a1be0[], DAT_800a1bec[], DAT_800a1bf8[];
 struct O *DAT_800d2358;
 struct O *DAT_800d235c;
 
-extern void Pack_DefragmentFully__Fv(void);
+extern void Pack_DefragmentFully(void);
 extern void FUN_8005c97c(int);
 extern void FUN_8005ca64(void);
 extern int FUN_8005ca3c(char *);
 extern void FUN_80061714(int);
 extern void Mess_LoadFont__FPcT0iii(char *, int, int, int, int);
-extern void Mess_SetFontScale__FUi(unsigned);
+extern void Mess_SetFontScale(unsigned);
 extern struct O *__nw__6CClassUi(unsigned);
 extern struct O *__6SpritePciii(struct O *, char *, int, int, int);
 extern void FUN_8005c8dc(int);
@@ -39,7 +40,7 @@ int FUN_8005de7c(int a) {
 	int i, j, r;
 	struct O *o, *p, *q;
 
-	Pack_DefragmentFully__Fv();
+	Pack_DefragmentFully();
 	FUN_8005c97c(0);
 	FUN_8005ca64();
 
@@ -62,7 +63,7 @@ int FUN_8005de7c(int a) {
 
 	FUN_80061714(FUN_8005ca3c(DAT_800a1bd4));
 	Mess_LoadFont__FPcT0iii(DAT_800a1be0, FUN_8005ca3c(DAT_800a1be0), -1, -1, -1);
-	Mess_SetFontScale__FUi(200);
+	Mess_SetFontScale(200);
 
 	o = __nw__6CClassUi(24);
 

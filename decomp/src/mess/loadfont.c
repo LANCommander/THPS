@@ -1,14 +1,15 @@
 /* Mess_LoadFont__FPciii (0x8001eed4) */
-extern int FileIO_Open__FPCc(char *);
-extern void *Mem_NewX__FUiii(int, int, int);
-extern void FileIO_Load__FPv(void *);
-extern void FileIO_Sync__Fv(void);
+#include "names.h"
+extern int FileIO_Open(char *);
+extern void *Mem_NewX(int, int, int);
+extern void FileIO_Load(void *);
+extern void FileIO_Sync(void);
 extern void Mess_LoadFont__FPcT0iii(char *, void *, int, int, int);
 
 void Mess_LoadFont(char *name, int a, int b, int c) {
-	void *buf = Mem_NewX__FUiii(FileIO_Open__FPCc(name), 1, 1);
+	void *buf = Mem_NewX(FileIO_Open(name), 1, 1);
 
-	FileIO_Load__FPv(buf);
-	FileIO_Sync__Fv();
+	FileIO_Load(buf);
+	FileIO_Sync();
 	Mess_LoadFont__FPcT0iii(name, buf, a, b, c);
 }

@@ -1,4 +1,5 @@
 /* Pad_ActuatorOn__FUcUsUcUc (0x80070a80) */
+#include "names.h"
 typedef struct {
 	char pad[0x154];
 	unsigned char act[4];
@@ -15,7 +16,7 @@ int FUN_80096090(int);
 void FUN_800962b0(int, void *, int);
 int FUN_80096230(int, void *);
 
-void Pad_ActuatorOn__FUcUsUcUc(unsigned char a, unsigned short b, unsigned char c,
+void Pad_ActuatorOn(unsigned char a, unsigned short b, unsigned char c,
                                unsigned char d) {
 	int s0 = 0;
 	int s3;

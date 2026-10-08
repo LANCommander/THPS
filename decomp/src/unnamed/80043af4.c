@@ -1,4 +1,5 @@
 /* KillShadow__5CBody (0x80043af4) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -11,7 +12,7 @@ struct O {
 	struct VT *vt;
 };
 
-void KillShadow__5CBody(char *p) {
+void CBody_KillShadow(char *p) {
 	struct O *o;
 
 	*(unsigned short *)(p + 82) &= 0xfff7;

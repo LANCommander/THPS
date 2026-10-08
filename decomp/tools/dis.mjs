@@ -22,12 +22,15 @@ if (DEMO) {
   const [a, s, k, n] = l.trim().split('\t');
   if (k === 'F' && !names.has(parseInt(a, 16))) { names.set(parseInt(a, 16), n); sizes.set(parseInt(a, 16), +s); }
 }
-// every game function, named or FUN_ (functions.tsv): sizes for the unnamed ones
+// every game function, named or FUN_ (functions.tsv): sizes for the unnamed ones. Its names are the
+// curated ones, so they win over the raw demo port; column 5 is the demangled form.
+const written = new Map();
 if (!DEMO) for (const l of readFileSync(new URL('../functions.tsv', import.meta.url), 'utf8').split('\n')) {
   if (!l.trim() || l.startsWith('#')) continue;
-  const [a, s, n] = l.trim().split('\t'), k = parseInt(a, 16);
+  const [a, s, n, , wr] = l.trim().split('\t'), k = parseInt(a, 16);
   if (!sizes.has(k)) sizes.set(k, +s);
-  if (!names.has(k)) names.set(k, n);
+  if (!names.has(k) || !n.startsWith('FUN_')) names.set(k, n);
+  if (wr && wr !== n) written.set(k, wr);
 }
 let addr = parseInt(process.argv[2], 16);
 if (DEMO && !/^(0x)?[0-9a-f]+$/i.test(process.argv[2])) addr = [...names].find(([, n]) => n === process.argv[2])?.[0];
@@ -45,6 +48,7 @@ const labels = new Set();
 ins.forEach((x, i) => { for (const o of x.operands || []) if (o.kind === 'branch') labels.add(i + 1 + o.displacement); });
 const lui = {};   // reg -> hi value (tracked linearly; good enough for annotation)
 console.log(`# ${names.get(addr) ?? fname(addr)}  @${hex(addr)}  ${size} bytes`);
+if (written.has(addr)) console.log(`# as written: ${written.get(addr)}`);
 ins.forEach((x, i) => {
   const pc = addr + 4 * i, ops = x.operands || [];
   let note = '';

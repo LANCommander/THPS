@@ -1,4 +1,5 @@
 /* M3dUtils_InBetween__FP6CSuper (0x80081448) */
+#include "names.h"
 typedef struct {
 	short _0[4];
 } Frame;
@@ -25,7 +26,7 @@ typedef struct {
 	unsigned short count;
 } FrameX;
 
-extern void M3dUtils_InterpolateVectors__FiiPUiP4Itemii(int, int, unsigned *, CSuper *, int, int);
+extern void M3dUtils_InterpolateVectors(int, int, unsigned *, CSuper *, int, int);
 
 void M3dUtils_InBetween(CSuper *s) {
 	int i = s->idx;
@@ -36,6 +37,6 @@ void M3dUtils_InBetween(CSuper *s) {
 	if (c) {
 		int n = DAT_800bf7a8[i].n;
 
-		M3dUtils_InterpolateVectors__FiiPUiP4Itemii(4 * n, _t5683, (unsigned *)f, s, 0, n);
+		M3dUtils_InterpolateVectors(4 * n, _t5683, (unsigned *)f, s, 0, n);
 	}
 }

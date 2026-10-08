@@ -1,4 +1,5 @@
 /* FUN_800206ac (0x800206ac) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -52,19 +53,19 @@ extern Q *DAT_800d19a4;
 extern int DAT_800d16e4;
 extern char DAT_800c9670[];
 
-void DoPhysics__8CPowerUp(P *);
-void CreateBit__8CPowerUp(P *);
+void CPowerUp_DoPhysics(P *);
+void CPowerUp_CreateBit(P *);
 void FUN_800201c8(void);
 G *__nw__4CBitUi(int);
 G *__5CGlowUiUi(G *, int, int);
-void SetCentreRGB__5CGlowUcUcUc(G *, unsigned char, unsigned char, unsigned char);
-void SetFringeRGB__5CGlowUiUcUcUc(G *, unsigned, unsigned char, unsigned char, unsigned char);
-void SetFringeWidth__5CGlowUiUi(G *, unsigned, unsigned);
-void SetPos__4CBitRC7CVector(G *, V *);
-void SetRGB__5CGlowUcUcUc(G *, unsigned char, unsigned char, unsigned char);
-void SetRadialRGB__5CGlowiUcUcUc(G *, int, unsigned char, unsigned char, unsigned char);
-void SetRadius__5CGlowi(G *, int);
-unsigned Utils_CrapDist__FRC7CVectorT0(V *, V *);
+void CGlow_SetCentreRGB(G *, unsigned char, unsigned char, unsigned char);
+void CGlow_SetFringeRGB(G *, unsigned, unsigned char, unsigned char, unsigned char);
+void CGlow_SetFringeWidth(G *, unsigned, unsigned);
+void CBit_SetPos(G *, V *);
+void CGlow_SetRGB(G *, unsigned char, unsigned char, unsigned char);
+void CGlow_SetRadialRGB(G *, int, unsigned char, unsigned char, unsigned char);
+void CGlow_SetRadius(G *, int);
+unsigned Utils_CrapDist(V *, V *);
 
 void FUN_800206ac(P *p) {
 	unsigned v;
@@ -87,7 +88,7 @@ void FUN_800206ac(P *p) {
 	} else if ((p->fl & 0x41) == 0x41) {
 		return;
 	} else if (p->e8 >= 8001) {
-		v = Utils_CrapDist__FRC7CVectorT0((V *)((char *)DAT_800d19a4->f1c + 4), &p->v) < 8001;
+		v = Utils_CrapDist((V *)((char *)DAT_800d19a4->f1c + 4), &p->v) < 8001;
 	test:
 		if (!v) {
 			p->vt->fn((char *)p + p->vt->off);
@@ -95,12 +96,12 @@ void FUN_800206ac(P *p) {
 		}
 	}
 
-	DoPhysics__8CPowerUp(p);
+	CPowerUp_DoPhysics(p);
 
 	s3 = &p->v;
 
 	if (p->b13d == 0)
-		CreateBit__8CPowerUp(p);
+		CPowerUp_CreateBit(p);
 
 	if (p->g == 0) {
 		g = __nw__4CBitUi(104);
@@ -110,10 +111,10 @@ void FUN_800206ac(P *p) {
 
 		p->g = g;
 		g->b5e = 1;
-		SetCentreRGB__5CGlowUcUcUc(p->g, 0, 0, 0);
-		SetRGB__5CGlowUcUcUc(p->g, 0, 0, 0);
-		SetFringeRGB__5CGlowUiUcUcUc(p->g, 1, 0, 0, 0);
-		SetRadius__5CGlowi(p->g, 0);
+		CGlow_SetCentreRGB(p->g, 0, 0, 0);
+		CGlow_SetRGB(p->g, 0, 0, 0);
+		CGlow_SetFringeRGB(p->g, 1, 0, 0, 0);
+		CGlow_SetRadius(p->g, 0);
 
 		p->g->b42 = 1;
 
@@ -125,17 +126,17 @@ void FUN_800206ac(P *p) {
 				if (lg->cnt != 0) {
 					do {
 						if (i & 1)
-							SetRadialRGB__5CGlowiUcUcUc(lg, i, 96, 96, 0);
+							CGlow_SetRadialRGB(lg, i, 96, 96, 0);
 						else
-							SetRadialRGB__5CGlowiUcUcUc(p->g, i, 64, 64, 64);
+							CGlow_SetRadialRGB(p->g, i, 64, 64, 64);
 
 						i++;
 						lg = p->g;
 					} while (i < lg->cnt);
 				}
 
-				SetRGB__5CGlowUcUcUc(p->g, 32, 0, 0);
-				SetFringeRGB__5CGlowUiUcUcUc(p->g, 1, 0, 0, 0);
+				CGlow_SetRGB(p->g, 32, 0, 0);
+				CGlow_SetFringeRGB(p->g, 1, 0, 0, 0);
 
 				p->w138 = 10;
 				p->w13a = 3;
@@ -151,17 +152,17 @@ void FUN_800206ac(P *p) {
 				if (lg->cnt != 0) {
 					do {
 						if (i & 1)
-							SetRadialRGB__5CGlowiUcUcUc(lg, i, 0, 0, 96);
+							CGlow_SetRadialRGB(lg, i, 0, 0, 96);
 						else
-							SetRadialRGB__5CGlowiUcUcUc(p->g, i, 0, 0, 0);
+							CGlow_SetRadialRGB(p->g, i, 0, 0, 0);
 
 						i++;
 						lg = p->g;
 					} while (i < lg->cnt);
 				}
 
-				SetRGB__5CGlowUcUcUc(p->g, 0, 0, 0);
-				SetFringeRGB__5CGlowUiUcUcUc(p->g, 1, 0, 0, 0);
+				CGlow_SetRGB(p->g, 0, 0, 0);
+				CGlow_SetFringeRGB(p->g, 1, 0, 0, 0);
 
 				p->w138 = 60;
 				p->w13a = 10;
@@ -173,35 +174,35 @@ void FUN_800206ac(P *p) {
 				if (lg->cnt != 0) {
 					do {
 						if (i & 1)
-							SetRadialRGB__5CGlowiUcUcUc(lg, i, 96, 96, 0);
+							CGlow_SetRadialRGB(lg, i, 96, 96, 0);
 						else
-							SetRadialRGB__5CGlowiUcUcUc(p->g, i, 64, 64, 64);
+							CGlow_SetRadialRGB(p->g, i, 64, 64, 64);
 
 						i++;
 						lg = p->g;
 					} while (i < lg->cnt);
 				}
 
-				SetRGB__5CGlowUcUcUc(p->g, 0, 0, 0);
-				SetFringeRGB__5CGlowUiUcUcUc(p->g, 1, 0, 0, 0);
+				CGlow_SetRGB(p->g, 0, 0, 0);
+				CGlow_SetFringeRGB(p->g, 1, 0, 0, 0);
 
 				p->w138 = 60;
 				p->w13a = 10;
 				break;
 			case 21:
-				SetFringeRGB__5CGlowUiUcUcUc(p->g, 0, 48, 48, 0);
+				CGlow_SetFringeRGB(p->g, 0, 48, 48, 0);
 
 				p->w138 = 60;
 				p->w13a = 10;
 				break;
 			case 22:
-				SetFringeRGB__5CGlowUiUcUcUc(p->g, 0, 64, 32, 8);
+				CGlow_SetFringeRGB(p->g, 0, 64, 32, 8);
 
 				p->w138 = 60;
 				p->w13a = 10;
 				break;
 			case 23:
-				SetFringeRGB__5CGlowUiUcUcUc(p->g, 0, 48, 0, 0);
+				CGlow_SetFringeRGB(p->g, 0, 48, 0, 0);
 
 				p->w138 = 60;
 				p->w13a = 10;
@@ -209,9 +210,9 @@ void FUN_800206ac(P *p) {
 		}
 	}
 
-	SetPos__4CBitRC7CVector(p->g, s3);
+	CBit_SetPos(p->g, s3);
 
 	s0 = p->w138 + (p->w13a * ((short *)DAT_800c9670)[((DAT_800d16e4 * 600) & 0x3ff8) >> 1]) / 4096;
-	SetFringeWidth__5CGlowUiUi(p->g, 0, s0);
-	SetFringeWidth__5CGlowUiUi(p->g, 1, s0);
+	CGlow_SetFringeWidth(p->g, 0, s0);
+	CGlow_SetFringeWidth(p->g, 1, s0);
 }

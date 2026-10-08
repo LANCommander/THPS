@@ -1,4 +1,5 @@
 /* Ob_MaybeUnSuspendOrCull__Fv (0x800446d4) */
+#include "names.h"
 typedef struct CBody {
 	char _0[4];
 	int pos[3];
@@ -13,8 +14,8 @@ unsigned DAT_800d19c0;
 
 extern CBody *DAT_800d19a4 __attribute__((section(".data")));
 extern int DAT_800d1780 __attribute__((section(".data")));
-unsigned Utils_CrapDist__FRC7CVectorT0(int *, int *);
-void UnSuspend__5CBody(CBody *);
+unsigned Utils_CrapDist(int *, int *);
+void CBody_UnSuspend(CBody *);
 
 void Ob_MaybeUnSuspendOrCull(void) {
 	CBody *b = DAT_800d19b4;
@@ -27,17 +28,17 @@ void Ob_MaybeUnSuspendOrCull(void) {
 
 	for (;;) {
 		if (b->flags & 2) {
-			unsigned d = Utils_CrapDist__FRC7CVectorT0(DAT_800d19a4->pos, b->pos);
+			unsigned d = Utils_CrapDist(DAT_800d19a4->pos, b->pos);
 
 			if (DAT_800d1780 == 2) {
-				unsigned d2 = Utils_CrapDist__FRC7CVectorT0(DAT_800d19a4->next->pos, b->pos);
+				unsigned d2 = Utils_CrapDist(DAT_800d19a4->next->pos, b->pos);
 
 				if (d2 < d)
 					d = d2;
 			}
 
 			if (!(DAT_800d19c0 < d))
-				UnSuspend__5CBody(b);
+				CBody_UnSuspend(b);
 		}
 
 		b = n;

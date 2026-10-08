@@ -1,4 +1,5 @@
 /* SetAnglesFromHeading__6CBruce (0x8003a648) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -20,7 +21,7 @@ typedef struct {
 	MATRIX m;
 } CBruce;
 
-extern void M3dUtils_AnglesFromMatrix__FP7SVECTORP6MATRIX(SVECTOR *, MATRIX *);
+extern void M3dUtils_AnglesFromMatrix(SVECTOR *, MATRIX *);
 
 void SetAnglesFromHeading(CBruce *b) {
 	SVECTOR a;
@@ -29,7 +30,7 @@ void SetAnglesFromHeading(CBruce *b) {
 	b->m.m[0][1] = -b->m.m[0][1];
 	b->m.m[1][1] = -b->m.m[1][1];
 	b->m.m[2][1] = -b->m.m[2][1];
-	M3dUtils_AnglesFromMatrix__FP7SVECTORP6MATRIX(&a, &b->m);
+	M3dUtils_AnglesFromMatrix(&a, &b->m);
 
 	b->m.m[0][1] = -b->m.m[0][1];
 	b->m.m[1][1] = -b->m.m[1][1];

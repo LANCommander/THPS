@@ -1,8 +1,9 @@
 /* __5CItem (0x80043550) */
+#include "names.h"
 extern char DAT_800a05f4[];
 extern char DAT_800c5acc[];
 
-char *__5CItem(char *p) {
+char *CItem_ctor(char *p) {
 	short *q = (short *)(p + 36);
 
 	*(char **)(p + 72) = DAT_800a05f4;

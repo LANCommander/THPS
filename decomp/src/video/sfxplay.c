@@ -1,4 +1,5 @@
 /* Video_SFXPlay__Fisi (0x80068e8c) */
+#include "names.h"
 typedef struct {
 	int state, f4, f8, fc;
 	unsigned *p;
@@ -11,9 +12,9 @@ typedef struct {
 extern SVideoInfo DAT_800bf318[];
 extern int DAT_800d140c;
 
-void QueueSoundCmd__F13ESoundCmdTypei(int, int);
+void QueueSoundCmd(int, int);
 
-void Video_SFXPlay__Fisi(int a, short b, int c) {
+void Video_SFXPlay(int a, short b, int c) {
 	if (DAT_800bf318[0].state == 1 && DAT_800d140c == 0)
-		QueueSoundCmd__F13ESoundCmdTypei(1, a);
+		QueueSoundCmd(1, a);
 }

@@ -1,4 +1,5 @@
 /* FUN_8004d6a0 (0x8004d6a0) */
+#include "names.h"
 typedef struct B {
 	struct B *next;
 	int flags : 4;
@@ -12,7 +13,7 @@ unsigned DAT_800d1b54;
 int DAT_800d1b5c[2];
 unsigned DAT_800d1b60;
 
-void AddToFreeList__FP12SBlockHeaderi(B *b, int i);
+void AddToFreeList(B *b, int i);
 
 void FUN_8004d6a0(char *p, unsigned n) {
 	B *b = (B *)(p - 8);
@@ -38,7 +39,7 @@ void FUN_8004d6a0(char *p, unsigned n) {
 		r->len = l - n8;
 		DAT_800d1b5c[f] -= b->len - n;
 		b->len = n;
-		AddToFreeList__FP12SBlockHeaderi(r, f);
+		AddToFreeList(r, f);
 
 		if (f == 1) {
 			if (DAT_800d1b60 >= DAT_800d1b54)

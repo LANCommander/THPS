@@ -1,4 +1,5 @@
 /* TrickTips_Display__Fv (0x80072164) */
+#include "names.h"
 typedef struct {
 	char pad[0x90];
 	const char *s0;
@@ -10,13 +11,13 @@ typedef struct {
 
 extern TT DAT_800d38c8;
 
-void Mess_SetTextJustify__FUc(int);
-void Mess_SetRGB__FUcUcUci(unsigned char, unsigned char, unsigned char, int);
-void Mess_SetScale__Fi(int);
-int Mess_GetScale__Fv(void);
-int Mess_DrawPanelText__FiiPCciUii(int, int, const char *, int, unsigned, int);
+void Mess_SetTextJustify(int);
+void Mess_SetRGB(unsigned char, unsigned char, unsigned char, int);
+void Mess_SetScale(int);
+int Mess_GetScale(void);
+int Mess_DrawPanelText(int, int, const char *, int, unsigned, int);
 
-void TrickTips_Display__Fv(void) {
+void TrickTips_Display(void) {
 	unsigned short y = 20;
 	unsigned short t;
 
@@ -29,21 +30,21 @@ void TrickTips_Display__Fv(void) {
 		if (DAT_800d38c8.cnt < 10)
 			y = y - (10 - DAT_800d38c8.cnt) * 40;
 
-		Mess_SetTextJustify__FUc(1);
-		Mess_SetRGB__FUcUcUci(128, 128, 0, 0);
-		Mess_SetScale__Fi(220);
-		Mess_DrawPanelText__FiiPCciUii(y, 100, DAT_800d38c8.s0, 0, 0, 256);
+		Mess_SetTextJustify(1);
+		Mess_SetRGB(128, 128, 0, 0);
+		Mess_SetScale(220);
+		Mess_DrawPanelText(y, 100, DAT_800d38c8.s0, 0, 0, 256);
 
 		if (DAT_800d38c8.s1)
-			Mess_DrawPanelText__FiiPCciUii(y, Mess_GetScale__Fv() / 11 + 100, DAT_800d38c8.s1, 0, 0,
+			Mess_DrawPanelText(y, Mess_GetScale() / 11 + 100, DAT_800d38c8.s1, 0, 0,
 			                               256);
 
 		if (DAT_800d38c8.s2)
-			Mess_DrawPanelText__FiiPCciUii(y, Mess_GetScale__Fv() / 11 * 2 + 100, DAT_800d38c8.s2,
+			Mess_DrawPanelText(y, Mess_GetScale() / 11 * 2 + 100, DAT_800d38c8.s2,
 			                               0, 0, 256);
 
 		if (DAT_800d38c8.s3)
-			Mess_DrawPanelText__FiiPCciUii(y, Mess_GetScale__Fv() / 11 * 3 + 100, DAT_800d38c8.s3,
+			Mess_DrawPanelText(y, Mess_GetScale() / 11 * 3 + 100, DAT_800d38c8.s3,
 			                               0, 0, 256);
 
 		if (--DAT_800d38c8.cnt == 0) {

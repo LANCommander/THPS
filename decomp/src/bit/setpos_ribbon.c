@@ -1,4 +1,5 @@
 /* SetPos__7CRibbonR7CVector (0x8002a1e8) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -19,7 +20,7 @@ typedef struct {
 	Item **items;
 } Ribbon;
 
-void SetPos__7CRibbonR7CVector(Ribbon *t, V *p) {
+void CRibbon_SetPos(Ribbon *t, V *p) {
 	int i, j;
 
 	t->idx++;

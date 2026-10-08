@@ -1,4 +1,5 @@
 /* FUN_8003b2f0 (0x8003b2f0) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -16,11 +17,11 @@ typedef struct B {
 	int f358;
 } B;
 
-int Mips_CVecDotProd__FP7CVectorT0(V *, V *);
-int Length__C7CVector(V *);
-void Normalize__7CVector(V *);
+int Mips_CVecDotProd(V *, V *);
+int CVector_Length(V *);
+void CVector_Normalize(V *);
 V __mi__FRC7CVectorT0(const V *, const V *);
-void Bail__6CBrucei13ELimitBailVel(B *, int);
+void CBruce_Bail(B *, int);
 
 void FUN_8003b2f0(B *p) {
 	V d;
@@ -35,28 +36,28 @@ void FUN_8003b2f0(B *p) {
 		if (p->other->f358 == 0) {
 			d = __mi__FRC7CVectorT0(&p->other->pos, &p->pos);
 
-			if (Length__C7CVector(&d) < 60) {
+			if (CVector_Length(&d) < 60) {
 				c = __mi__FRC7CVectorT0(&p->other->pos, &p->old);
 				d = c;
-				Normalize__7CVector(&d);
+				CVector_Normalize(&d);
 
 				s3 = &p->vel;
-				s1 = Mips_CVecDotProd__FP7CVectorT0(s3, &d);
-				v = Mips_CVecDotProd__FP7CVectorT0(&p->other->vel, &d);
+				s1 = Mips_CVecDotProd(s3, &d);
+				v = Mips_CVecDotProd(&p->other->vel, &d);
 
 				if (s1 > 0) {
 					if (v > 0) {
-						Bail__6CBrucei13ELimitBailVel(p->other, 0);
+						CBruce_Bail(p->other, 0);
 					} else {
-						s0 = Length__C7CVector(&p->other->vel);
+						s0 = CVector_Length(&p->other->vel);
 
-						if (Length__C7CVector(s3) >= s0)
-							Bail__6CBrucei13ELimitBailVel(p->other, 0);
+						if (CVector_Length(s3) >= s0)
+							CBruce_Bail(p->other, 0);
 						else
-							Bail__6CBrucei13ELimitBailVel(p, 0);
+							CBruce_Bail(p, 0);
 					}
 				} else if (v <= 0)
-					Bail__6CBrucei13ELimitBailVel(p, 0);
+					CBruce_Bail(p, 0);
 			}
 		}
 	}

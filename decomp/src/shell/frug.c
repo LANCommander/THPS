@@ -1,11 +1,12 @@
 /* frug__FUi (0x800782b4) */
+#include "names.h"
 unsigned DAT_800d1fec;
 
-int arccos__Fi(void);
+int arccos(void);
 
 void frug(unsigned n) {
 	unsigned v = DAT_800d1fec ^ n;
 
 	DAT_800d1fec = ((v << 1) ^ (v >> 31)) * 521;
-	DAT_800d1fec += arccos__Fi();
+	DAT_800d1fec += arccos();
 }

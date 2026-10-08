@@ -1,4 +1,5 @@
 /* Load8BitBMP2__FPcPPcPiT2PUs (0x800613cc) */
+#include "names.h"
 typedef struct {
 	short x, y, w, h;
 } RECT;
@@ -20,14 +21,14 @@ extern char DAT_800a2060[];
 extern int DAT_800d1a8c, DAT_800d1a90;
 
 int FUN_8008c190(char *, ...);
-int GetFree256Slot__Fv(void);
+int GetFree256Slot(void);
 int FUN_8008c714(RECT *, unsigned short *);
 int FUN_8008c468(int);
-char *Mem_NewX__FUiii(int, int, int);
-void Mem_Delete__FPv(void *);
+char *Mem_NewX(int, int, int);
+void Mem_Delete(void *);
 unsigned short FUN_8008f70c(int, int);
 
-int Load8BitBMP2__FPcPPcPiT2PUs(char *file, char **out, int *pw, int *ph, unsigned short *pclut) {
+int Load8BitBMP2(char *file, char **out, int *pw, int *ph, unsigned short *pclut) {
 	BMP *b = (BMP *)file;
 	unsigned short pal[256];
 	RECT rc;
@@ -78,7 +79,7 @@ int Load8BitBMP2__FPcPPcPiT2PUs(char *file, char **out, int *pw, int *ph, unsign
 	}
 
 	x = DAT_800d1a8c;
-	slot = GetFree256Slot__Fv();
+	slot = GetFree256Slot();
 	y = DAT_800d1a90 + slot;
 	rc.x = x;
 	rc.y = y;
@@ -93,7 +94,7 @@ int Load8BitBMP2__FPcPPcPiT2PUs(char *file, char **out, int *pw, int *ph, unsign
 		pad = 4 - pad;
 
 	w += pad;
-	*out = Mem_NewX__FUiii(w * h, 1, 1);
+	*out = Mem_NewX(w * h, 1, 1);
 	src = b->pal + n * 4;
 	dst = (unsigned char *)*out + (h - 1) * w;
 
@@ -109,7 +110,7 @@ int Load8BitBMP2__FPcPPcPiT2PUs(char *file, char **out, int *pw, int *ph, unsign
 		dst -= w * 2;
 	}
 
-	Mem_Delete__FPv(file);
+	Mem_Delete(file);
 
 	*pw = w;
 	*ph = h;

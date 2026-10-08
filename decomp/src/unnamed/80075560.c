@@ -1,4 +1,5 @@
 /* Competition_WinLoseLogic__FR13EPausedStatusRi (0x80075560) flags=-fstructure-noalias */
+#include "names.h"
 /* Competition win/lose logic (COMPETITION.CPP, demo Competition_WinLoseLogic), as C; sibling of
    FUN_80076880 and written the same way. */
 struct VT {
@@ -63,41 +64,41 @@ struct W {
 extern struct W *DAT_800d17c8;
 
 void FUN_80010ac0(void);
-void Flash_Reset__Fv(void);
-int Flash_FadeFinished__Fv(void);
-void GameFMV_PlayMovie__Fi(int);
-int Mem_NewX__FUiii(int, int, int);
-void Mem_Delete__FPv(int);
+void Flash_Reset(void);
+int Flash_FadeFinished(void);
+void GameFMV_PlayMovie(int);
+int Mem_NewX(int, int, int);
+void Mem_Delete(int);
 int FUN_80073f9c(void);
 int FUN_80077124(void *);
 void FUN_8008f4d4(int, int, int);
-int FindEntry__5CMenuPCc(int, int);
-void Flash_Fade__Fii(int, int);
-void Flash_Update__Fv(void);
-void GameFMV_StopFMV__Fv(void);
-void Mess_DeleteAll__Fv(void);
-void Pad_ActuatorOff__FUcUc(int, int);
-void Pad_ClearAll__Fv(void);
-void Pad_ClearTriggers__FP8SControl(void *);
+int CMenu_FindEntry(int, int);
+void Flash_Fade(int, int);
+void Flash_Update(void);
+void GameFMV_StopFMV(void);
+void Mess_DeleteAll(void);
+void Pad_ActuatorOff(int, int);
+void Pad_ClearAll(void);
+void Pad_ClearTriggers(void *);
 void Pause__Fi(int);
-void SetLine__5CMenuUc(int, int);
+void CMenu_SetLine(int, int);
 
 #define DEL(o)                                                                                     \
 	if (o)                                                                                         \
 	(o)->vt->fn((char *)(o) + (o)->vt->off, 3)
 
-void Competition_WinLoseLogic__FR13EPausedStatusRi(int *a0, int *a1) {
+void Competition_WinLoseLogic(int *a0, int *a1) {
 	int v, e;
 	struct W *gg;
 	struct G *g = &DAT_800c0fdc;
 
 	if (g->f12c) {
-		Flash_Update__Fv();
+		Flash_Update();
 
-		if (Flash_FadeFinished__Fv()) {
+		if (Flash_FadeFinished()) {
 			g->f12c = 0;
-			SetLine__5CMenuUc(DAT_800d1428,
-			                  FindEntry__5CMenuPCc(DAT_800d1428, DAT_800a5f10[0]) & 0xff);
+			CMenu_SetLine(DAT_800d1428,
+			                  CMenu_FindEntry(DAT_800d1428, DAT_800a5f10[0]) & 0xff);
 			DEL(g->a);
 			DEL(g->b);
 			DEL(g->c);
@@ -108,21 +109,21 @@ void Competition_WinLoseLogic__FR13EPausedStatusRi(int *a0, int *a1) {
 			g->b = 0;
 			g->c = 0;
 			DAT_800a6844.arr[gg->i] |= 1 << e;
-			GameFMV_StopFMV__Fv();
-			Pad_ClearAll__Fv();
-			Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-			Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
-			Pad_ActuatorOff__FUcUc(0, 0);
-			Pad_ActuatorOff__FUcUc(0, 1);
-			Mess_DeleteAll__Fv();
+			GameFMV_StopFMV();
+			Pad_ClearAll();
+			Pad_ClearTriggers(DAT_800c0a48);
+			Pad_ClearTriggers(DAT_800c0a48 + 364);
+			Pad_ActuatorOff(0, 0);
+			Pad_ActuatorOff(0, 1);
+			Mess_DeleteAll();
 			FUN_8008f4d4(8, 0, 0);
 			Pause__Fi(10);
-			Mem_Delete__FPv(DAT_800a891c.a);
-			GameFMV_PlayMovie__Fi(-11);
-			Flash_Reset__Fv();
+			Mem_Delete(DAT_800a891c.a);
+			GameFMV_PlayMovie(-11);
+			Flash_Reset();
 
 			DAT_800a891c.a =
-			    Mem_NewX__FUiii((DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
+			    Mem_NewX((DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1] + 0x17c00) * 2, 1, 1);
 			DAT_800a891c.b =
 			    DAT_800a891c.a + 0x17c00 + DAT_800a5398[DAT_800d1e28].x[DAT_800d1780 - 1];
 			*a0 = 27;
@@ -143,13 +144,13 @@ void Competition_WinLoseLogic__FR13EPausedStatusRi(int *a0, int *a1) {
 				if (v) {
 					if (FUN_80073f9c()) {
 						g->f12c = 1;
-						Flash_Fade__Fii(32, 0);
+						Flash_Fade(32, 0);
 						return;
 					}
 
 					*a0 = 7;
-					SetLine__5CMenuUc(DAT_800d1428,
-					                  FindEntry__5CMenuPCc(DAT_800d1428, DAT_800a5f10[0]) & 0xff);
+					CMenu_SetLine(DAT_800d1428,
+					                  CMenu_FindEntry(DAT_800d1428, DAT_800a5f10[0]) & 0xff);
 				} else
 					return;
 			} else {

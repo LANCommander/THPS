@@ -1,11 +1,12 @@
 /* FUN_80065e04 (0x80065e04) */
+#include "names.h"
 extern int DAT_800d1b10;
 
-void Mem_Delete__FPv(int);
-void ProcessNewPSX__Fi(int);
-void Spool_ClearPSX__FPc(char *);
-void Spool_Sync__Fv(void);
-void unloadPRE__10PREManagerPc(int, char *);
+void Mem_Delete(int);
+void ProcessNewPSX(int);
+void Spool_ClearPSX(char *);
+void Spool_Sync(void);
+void PREManager_unloadPRE(int, char *);
 
 void FUN_80065e04(char *a, int b) {
 	int o = b * 36;
@@ -20,19 +21,19 @@ void FUN_80065e04(char *a, int b) {
 		if (*s == 0) {
 			q = (int *)(a + 0x10);
 			q = (int *)((char *)q + o);
-			Mem_Delete__FPv(*q);
+			Mem_Delete(*q);
 
 			*q = 0;
 		}
 
 		if (*s == 2) {
-			unloadPRE__10PREManagerPc(DAT_800d1b10, (char *)(o + (int)a + 20));
+			PREManager_unloadPRE(DAT_800d1b10, (char *)(o + (int)a + 20));
 		} else if (*s == 1) {
 			q = (int *)(a + 0x24);
 			q = (int *)((char *)q + o);
-			ProcessNewPSX__Fi(*q);
-			Spool_ClearPSX__FPc((char *)(o + (int)a) + 20);
-			Spool_Sync__Fv();
+			ProcessNewPSX(*q);
+			Spool_ClearPSX((char *)(o + (int)a) + 20);
+			Spool_Sync();
 
 			*q = -1;
 		}

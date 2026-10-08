@@ -1,4 +1,5 @@
 /* SFX_Unpause__Fv (0x8004b974) */
+#include "names.h"
 struct S {
 	int a, b, c, d, e;
 	short f;
@@ -12,7 +13,7 @@ extern unsigned short DAT_800d2b8c[];
 void FUN_80093e54(int a, struct S *s);
 void FUN_8008f3a0(int a, int b);
 
-void SFX_Unpause__Fv(void) {
+void SFX_Unpause(void) {
 	struct S s;
 	int i;
 	unsigned short *q;

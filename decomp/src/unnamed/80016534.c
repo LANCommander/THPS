@@ -1,4 +1,5 @@
 /* __5CMenuiiUciii (0x80016534) */
+#include "names.h"
 typedef struct {
 	short a, b;
 	char pad[3];
@@ -19,9 +20,9 @@ typedef struct {
 
 extern char DAT_8009e538[];
 
-void SetLine__5CMenuUc(char *p, int l);
+void CMenu_SetLine(char *p, int l);
 
-char *__5CMenuiiUciii(P *p, int a, int b, int c, int s2, int s1, int g) {
+char *CMenu_ctor(P *p, int a, int b, int c, int s2, int s1, int g) {
 	int i;
 
 	*(char **)p = DAT_8009e538;
@@ -42,6 +43,6 @@ char *__5CMenuiiUciii(P *p, int a, int b, int c, int s2, int s1, int g) {
 		p->e[i].b = s1;
 	}
 
-	SetLine__5CMenuUc((char *)p, 0);
+	CMenu_SetLine((char *)p, 0);
 	return (char *)p;
 }

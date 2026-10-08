@@ -1,4 +1,5 @@
 /* Spool_Init__Fv (0x8006ec14) */
+#include "names.h"
 typedef struct {
 	char a0;
 	char pad0[9];
@@ -24,7 +25,7 @@ int DAT_800d1edc;
 int DAT_800d1eec;
 int DAT_800d1ef0;
 
-void Spool_Init__Fv(void) {
+void Spool_Init(void) {
 	int i;
 
 	for (i = 0; i < 20; i++)

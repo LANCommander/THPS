@@ -1,10 +1,11 @@
 /* __7CFT4Bit (0x80028004) */
+#include "names.h"
 extern char DAT_8009f860[];
 
-char *__4CBit(char *p);
+char *CBit_ctor(char *p);
 
-char *__7CFT4Bit(char *p) {
-	__4CBit(p);
+char *CFT4Bit_ctor(char *p) {
+	CBit_ctor(p);
 
 	*(char **)(p + 68) = DAT_8009f860;
 	*(short *)(p + 92) = 128;

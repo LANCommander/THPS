@@ -1,7 +1,8 @@
 /* FUN_8002f1a0 (0x8002f1a0) */
+#include "names.h"
 extern int DAT_800d16a4;
 
-void ResetTrickBuffers__6CBruce(char *p);
+void CBruce_ResetTrickBuffers(char *p);
 int FUN_8004d83c(char *p);
 int FUN_8004f318(int a);
 void FUN_8006e168(char *p, int a);
@@ -20,7 +21,7 @@ void FUN_8002f1a0(char *p) {
 	*(int *)(p + 508) = 15;
 
 	if (*(int *)(p + 1844) != 2)
-		ResetTrickBuffers__6CBruce(p);
+		CBruce_ResetTrickBuffers(p);
 
 	*(int *)(p + 844) = 0;
 

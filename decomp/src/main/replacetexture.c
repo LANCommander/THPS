@@ -1,4 +1,5 @@
 /* ReplaceTexture__FUiPc (0x800247a8) */
+#include "names.h"
 typedef struct {
 	char pad[24];
 	unsigned char *info;
@@ -8,16 +9,16 @@ typedef struct {
 extern int DAT_800d1a90;
 extern int DAT_800d1a8c;
 
-STexEntry *Spool_FindTextureEntry__FUi(unsigned);
-void *FileIO_Open__FPCc(char *);
-char *Mem_NewX__FUiii(void *, int, int);
-void FileIO_Load__FPv(char *);
-void FileIO_Sync__Fv(void);
-void DownloadBMP__FPciiii(char *, int, int, int, int);
-void Mem_Delete__FPv(char *);
+STexEntry *Spool_FindTextureEntry(unsigned);
+void *FileIO_Open(char *);
+char *Mem_NewX(void *, int, int);
+void FileIO_Load(char *);
+void FileIO_Sync(void);
+void DownloadBMP(char *, int, int, int, int);
+void Mem_Delete(char *);
 
 void ReplaceTexture(unsigned id, char *name) {
-	STexEntry *e = Spool_FindTextureEntry__FUi(id);
+	STexEntry *e = Spool_FindTextureEntry(id);
 
 	if (e) {
 		unsigned char *info = e->info;
@@ -29,10 +30,10 @@ void ReplaceTexture(unsigned id, char *name) {
 
 		pal += info[2];
 		k = DAT_800d1a8c;
-		bmp = Mem_NewX__FUiii(FileIO_Open__FPCc(name), 1, 1);
-		FileIO_Load__FPv(bmp);
-		FileIO_Sync__Fv();
-		DownloadBMP__FPciiii(bmp, w, h, k, pal);
-		Mem_Delete__FPv(bmp);
+		bmp = Mem_NewX(FileIO_Open(name), 1, 1);
+		FileIO_Load(bmp);
+		FileIO_Sync();
+		DownloadBMP(bmp, w, h, k, pal);
+		Mem_Delete(bmp);
 	}
 }

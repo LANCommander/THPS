@@ -1,4 +1,5 @@
 /* DoHandPlantPhysics__6CBruce (0x80037460) */
+#include "names.h"
 typedef struct {
 	int f0, f4, f8, fc;
 	char p10[0x70 - 0x10];
@@ -28,14 +29,14 @@ typedef struct {
 	unsigned char *f86c;
 } O;
 
-extern void Bail__6CBrucei13ELimitBailVel(O *, int);
+extern void CBruce_Bail(O *, int);
 extern void FUN_8002f438(O *, int);
-extern void Debug_RunAnim__6CBruceii(O *, int, int);
-extern void StateTransition__6CBruce13EPhysicsStatei(O *, int, int, int);
-extern void Trick_Land__6CBruce(O *);
-extern short PingPong__Fiii(int, int, int);
+extern void CBruce_Debug_RunAnim(O *, int, int);
+extern void CBruce_StateTransition(O *, int, int, int);
+extern void CBruce_Trick_Land(O *);
+extern short PingPong(int, int, int);
 
-void DoHandPlantPhysics__6CBruce(O *o) {
+void CBruce_DoHandPlantPhysics(O *o) {
 	int a, b;
 	unsigned short t1, t2, t3, t4, t5, t6;
 	int s;
@@ -43,7 +44,7 @@ void DoHandPlantPhysics__6CBruce(O *o) {
 	o->f70c = 5;
 
 	if (o->f146 != 0x22 && o->f146 != 0x3f) {
-		Bail__6CBrucei13ELimitBailVel(o, 0);
+		CBruce_Bail(o, 0);
 		return;
 	}
 
@@ -56,14 +57,14 @@ void DoHandPlantPhysics__6CBruce(O *o) {
 
 				if (a >= 0) {
 					if (*o->f86c != 0) {
-						o->f144 = PingPong__Fiii(20, 22, 15);
+						o->f144 = PingPong(20, 22, 15);
 						FUN_8002f438(o, 20);
 
 						o->f248 = o->f248 + 1;
 
 						if (o->f248 >= 21) {
-							Bail__6CBrucei13ELimitBailVel(o, 0);
-							Debug_RunAnim__6CBruceii(o, 0x38, 0x1602);
+							CBruce_Bail(o, 0);
+							CBruce_Debug_RunAnim(o, 0x38, 0x1602);
 
 							o->f24c = 9;
 							return;
@@ -78,10 +79,10 @@ void DoHandPlantPhysics__6CBruce(O *o) {
 		b = o->f248;
 		o->f740 = 0;
 		o->f70 = (40 - b * 3) << 12;
-		StateTransition__6CBruce13EPhysicsStatei(o, 0, 0x1614, b);
+		CBruce_StateTransition(o, 0, 0x1614, b);
 
 		o->f364 = 1;
-		Trick_Land__6CBruce(o);
+		CBruce_Trick_Land(o);
 
 		o->f4 = o->f4 + o->f7f0 * 30;
 		o->f8 = o->f8 + o->f7f4 * 30;
@@ -103,7 +104,7 @@ void DoHandPlantPhysics__6CBruce(O *o) {
 			o->f7e8 = o->f792;
 			o->f798 = -o->f7ec;
 			o->f7ec = o->f798;
-			Debug_RunAnim__6CBruceii(o, 0, 0x162b);
+			CBruce_Debug_RunAnim(o, 0, 0x162b);
 		}
 	}
 }

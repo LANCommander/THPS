@@ -1,9 +1,10 @@
 /* SetRadialRGB__5CGlowiUcUcUc (0x80029110) */
+#include "names.h"
 typedef struct {
 	int a, b;
 } E;
 
-void SetRadialRGB__5CGlowiUcUcUc(char *t, int k, unsigned char r, unsigned char g,
+void CGlow_SetRadialRGB(char *t, int k, unsigned char r, unsigned char g,
                                  unsigned char b) {
 	unsigned i;
 	unsigned c = (0x3a << 24) | (b << 16) | (g << 8) | r;

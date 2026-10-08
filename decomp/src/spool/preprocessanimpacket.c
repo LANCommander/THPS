@@ -1,4 +1,5 @@
 /* PreProcessAnimPacket__FPUiT0 (0x8006ff48) */
+#include "names.h"
 typedef struct {
 	char pad[4];
 	unsigned char f4;
@@ -20,12 +21,12 @@ typedef struct SAnimNode {
 
 SAnimNode *DAT_800d1efc;
 
-unsigned *Spool_SkipPackets__FPUi(unsigned *);
-void *Mem_NewX__FUiii(int, int, int);
+unsigned *Spool_SkipPackets(unsigned *);
+void *Mem_NewX(int, int, int);
 
-void PreProcessAnimPacket__FPUiT0(unsigned *packet, unsigned *data) {
-	STex **tbl = (STex **)(Spool_SkipPackets__FPUi(packet) + 1);
-	SAnimNode *node = Mem_NewX__FUiii(8, 0, 1);
+void PreProcessAnimPacket(unsigned *packet, unsigned *data) {
+	STex **tbl = (STex **)(Spool_SkipPackets(packet) + 1);
+	SAnimNode *node = Mem_NewX(8, 0, 1);
 	unsigned n, i;
 
 	node->next = DAT_800d1efc;

@@ -1,4 +1,5 @@
 /* FUN_80014ba4 (0x80014ba4) */
+#include "names.h"
 typedef struct {
 	int a, b;
 } T;
@@ -19,22 +20,22 @@ typedef struct {
 
 extern S DAT_800bf318;
 
-char *FileIO_Open__FPCc(void);
-char *Mem_NewX__FUiii(char *a, int b, int c);
-void FileIO_Load__FPv(char *a);
-void FileIO_Sync__Fv(void);
-void Mem_Delete__FPv(char *a);
+char *FileIO_Open(void);
+char *Mem_NewX(char *a, int b, int c);
+void FileIO_Load(char *a);
+void FileIO_Sync(void);
+void Mem_Delete(char *a);
 
 short FUN_80014ba4(void) {
 	H *h;
 	char *b;
 	int i;
 
-	b = Mem_NewX__FUiii(FileIO_Open__FPCc(), 1, 1);
+	b = Mem_NewX(FileIO_Open(), 1, 1);
 
 	if (b) {
-		FileIO_Load__FPv(b);
-		FileIO_Sync__Fv();
+		FileIO_Load(b);
+		FileIO_Sync();
 	}
 
 	h = (H *)(b + 512);
@@ -48,6 +49,6 @@ short FUN_80014ba4(void) {
 	for (i = 0; i < 5; i++)
 		DAT_800bf318.t[i] = ((T *)(b + 516))[i];
 
-	Mem_Delete__FPv(b);
+	Mem_Delete(b);
 	return h->s[0];
 }

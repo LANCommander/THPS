@@ -1,4 +1,5 @@
 /* unpack__11SlicedImage (0x80062d00) */
+#include "names.h"
 typedef struct {
 	short a, b, c, d;
 } SEnt;
@@ -12,10 +13,10 @@ typedef struct {
 	int flag;
 } SSliced;
 
-void Pack_Unpack__Fss(short, short);
-void Mem_Delete__FPv(SEnt *);
+void Pack_Unpack(short, short);
+void Mem_Delete(SEnt *);
 
-void unpack__11SlicedImage(SSliced *t) {
+void SlicedImage_unpack(SSliced *t) {
 	int i, j;
 
 	i = 0;
@@ -24,18 +25,18 @@ void unpack__11SlicedImage(SSliced *t) {
 		if (t->data == 0)
 			return;
 
-		Pack_Unpack__Fss(t->data->a, t->data->b);
+		Pack_Unpack(t->data->a, t->data->b);
 	} else {
 		t->flag = 0;
 
 		for (i = 0; i < t->h; i++) {
 			for (j = 0; j < t->w; j++) {
-				Pack_Unpack__Fss(t->data[i * t->w + j].a, t->data[i * t->w + j].b);
+				Pack_Unpack(t->data[i * t->w + j].a, t->data[i * t->w + j].b);
 			}
 		}
 	}
 
-	Mem_Delete__FPv(t->data);
+	Mem_Delete(t->data);
 
 	t->data = 0;
 }

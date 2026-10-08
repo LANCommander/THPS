@@ -1,4 +1,5 @@
 /* Mem_Delete__FPv (0x8004d5d0) */
+#include "names.h"
 typedef struct B {
 	struct B *next;
 	int flags : 4;
@@ -12,9 +13,9 @@ unsigned DAT_800d1b54;
 int DAT_800d1b5c[2];
 unsigned DAT_800d1b60;
 
-void AddToFreeList__FP12SBlockHeaderi(B *b, int i);
+void AddToFreeList(B *b, int i);
 
-void Mem_Delete__FPv(char *p) {
+void Mem_Delete(char *p) {
 	B *b = (B *)(p - 8);
 	int f = b->flags;
 
@@ -32,7 +33,7 @@ void Mem_Delete__FPv(char *p) {
 
 	if ((unsigned)f < 2) {
 		DAT_800d1b5c[f] -= 8 + b->len;
-		AddToFreeList__FP12SBlockHeaderi(b, f);
+		AddToFreeList(b, f);
 
 		if (f == 1) {
 			if (DAT_800d1b60 >= DAT_800d1b54)

@@ -1,4 +1,5 @@
 /* up__12VerticalMenu (0x80065178) */
+#include "names.h"
 typedef struct {
 	int pad0;
 	char str[0x34];
@@ -17,15 +18,15 @@ typedef struct {
 
 extern char DAT_800c0a48[];
 
-void Pad_ClearTriggers__FP8SControl(void *);
-void select__12VerticalMenui(VerticalMenu *, int);
+void Pad_ClearTriggers(void *);
+void VerticalMenu_select(VerticalMenu *, int);
 
 void VerticalMenu_up(VerticalMenu *m) {
 	int n;
 
 	if (m->timer > 60) {
-		Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-		Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
+		Pad_ClearTriggers(DAT_800c0a48);
+		Pad_ClearTriggers(DAT_800c0a48 + 364);
 	} else {
 		n = m->cur - 1;
 
@@ -39,6 +40,6 @@ void VerticalMenu_up(VerticalMenu *m) {
 				n = m->count - 1;
 		}
 
-		select__12VerticalMenui(m, n);
+		VerticalMenu_select(m, n);
 	}
 }

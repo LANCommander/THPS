@@ -1,4 +1,5 @@
 /* CalculateWorldCoords__9CChunkBit (0x80028b6c) */
+#include "names.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <inline_c.h>
@@ -7,7 +8,7 @@ void FUN_8008b3d4(char *, char *);
 void FUN_8008f76c(char *);
 void FUN_80089f54(char *);
 
-void CalculateWorldCoords__9CChunkBit(char *t) {
+void CChunkBit_CalculateWorldCoords(char *t) {
 	char m[0x20];
 
 	FUN_8008b3d4(t + 0x98, m);

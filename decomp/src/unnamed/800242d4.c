@@ -1,4 +1,5 @@
 /* Game_Over__Fv (0x800242d4) */
+#include "names.h"
 typedef struct {
 	char p[0x1f0];
 	int f1f0;
@@ -13,7 +14,7 @@ B *DAT_800d17cc;
 extern int DAT_800d1954, DAT_800d1958, DAT_800d195c, DAT_800d1960, DAT_800d1964, DAT_800d1968,
     DAT_800d196c, DAT_800d1970;
 
-void Game_Over__Fv(void) {
+void Game_Over(void) {
 	int a, b, c;
 
 	if (DAT_800d16a4 == 8) {

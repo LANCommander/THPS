@@ -1,4 +1,5 @@
 /* Pad_InitAtStart__Fv (0x80070878) */
+#include "names.h"
 typedef struct {
 	char c[0x10];
 } SControl;
@@ -14,10 +15,10 @@ extern char DAT_800c0d20[];
 
 int DAT_800d1f68, DAT_800d1f74;
 
-extern void Pad_ClearAll__Fv(void);
+extern void Pad_ClearAll(void);
 extern void FUN_80096304(char *, char *);
 extern void FUN_80096050(void);
-extern void ResetMainDemoTimer__Fv(void);
+extern void ResetMainDemoTimer(void);
 
 void Pad_InitAtStart(void) {
 	int i;
@@ -29,12 +30,12 @@ void Pad_InitAtStart(void) {
 		DAT_800c0a48[i].pd = &DAT_800c0a48[i].d;
 	}
 
-	Pad_ClearAll__Fv();
+	Pad_ClearAll();
 	FUN_80096304(DAT_800c0d20, DAT_800c0d20 + 34);
 	FUN_80096050();
 
 	DAT_800d1f68 = 0;
-	ResetMainDemoTimer__Fv();
+	ResetMainDemoTimer();
 
 	DAT_800d1f74 = 1;
 }

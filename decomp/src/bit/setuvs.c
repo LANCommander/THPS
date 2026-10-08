@@ -1,5 +1,6 @@
 /* SetUVs__9CChunkBitUsUsUcUcUcUcUcUc (0x80028b1c) */
-void SetUVs__9CChunkBitUsUsUcUcUcUcUcUc(char *t, unsigned short a, unsigned short b,
+#include "names.h"
+void CChunkBit_SetUVs(char *t, unsigned short a, unsigned short b,
                                         unsigned char c, unsigned char d, unsigned char e,
                                         unsigned char f, unsigned char g, unsigned char h) {
 	*(unsigned *)(t + 0xa0) = (a << 16) | (d << 8) | c;

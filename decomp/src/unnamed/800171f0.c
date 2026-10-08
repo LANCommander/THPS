@@ -1,4 +1,5 @@
 /* FUN_800171f0 (0x800171f0) */
+#include "names.h"
 typedef struct {
 	int c[34];
 } B136;
@@ -73,13 +74,13 @@ int DAT_800d1428, DAT_800d142c, DAT_800d1430, DAT_800d1434, DAT_800d1438, DAT_80
 
 void (*DAT_800d1408)(void);
 void FUN_80071fa4(void);
-void AddEntry__5CMenuPCc(int, char *);
-void CentreY__5CMenu(int);
-void EntryOff__5CMenuPCc(int, char *);
-int __5CMenuiiUciii(int, int, int, int, int, int, int);
+void CMenu_AddEntry(int, char *);
+void CMenu_CentreY(int);
+void CMenu_EntryOff(int, char *);
+int CMenu_ctor(int, int, int, int, int, int, int);
 void FUN_8008b900();
-int FindEntry__5CMenuPCc(int, char *);
-void SetLine__5CMenuUc(int, int);
+int CMenu_FindEntry(int, char *);
+void CMenu_SetLine(int, int);
 int __nw__6CClassUi(int);
 
 void FUN_800171f0(void) {
@@ -91,31 +92,31 @@ void FUN_800171f0(void) {
 	a1 = __nw__6CClassUi(384);
 
 	if (a1)
-		a1 = __5CMenuiiUciii(a1, 256, 0, 0, 335, 256, 22);
+		a1 = CMenu_ctor(a1, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1428 = a1;
-	AddEntry__5CMenuPCc(a1, DAT_800a5d5c.f1b4);
-	AddEntry__5CMenuPCc(DAT_800d1428, DAT_800a5d5c.f1b8);
+	CMenu_AddEntry(a1, DAT_800a5d5c.f1b4);
+	CMenu_AddEntry(DAT_800d1428, DAT_800a5d5c.f1b8);
 
 	a2 = __nw__6CClassUi(384);
 
 	if (a2)
-		a2 = __5CMenuiiUciii(a2, 256, 0, 0, 335, 256, 22);
+		a2 = CMenu_ctor(a2, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d142c = a2;
-	AddEntry__5CMenuPCc(a2, DAT_800a5d5c.f164);
-	AddEntry__5CMenuPCc(DAT_800d142c, (DAT_800a5398[DAT_800d1e28].fc && DAT_800d16a4 == 1)
+	CMenu_AddEntry(a2, DAT_800a5d5c.f164);
+	CMenu_AddEntry(DAT_800d142c, (DAT_800a5398[DAT_800d1e28].fc && DAT_800d16a4 == 1)
 	                                      ? DAT_800a5d5c.f78
 										  : DAT_800a5d5c.f74);
-	AddEntry__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f00);
-	AddEntry__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f7c);
-	AddEntry__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f80);
-	AddEntry__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f84);
-	AddEntry__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f70);
-	AddEntry__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f188);
+	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f00);
+	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f7c);
+	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f80);
+	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f84);
+	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f70);
+	CMenu_AddEntry(DAT_800d142c, DAT_800a5d5c.f188);
 
 	if (DAT_800d16a4 != 1) {
-		EntryOff__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f70);
+		CMenu_EntryOff(DAT_800d142c, DAT_800a5d5c.f70);
 
 		if (DAT_800d16a4 != 1)
 			goto off0;
@@ -123,19 +124,19 @@ void FUN_800171f0(void) {
 
 	if (DAT_800a5398[DAT_800d1e28].fc) {
 	off0:
-		EntryOff__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f00);
+		CMenu_EntryOff(DAT_800d142c, DAT_800a5d5c.f00);
 	}
 
 	if (DAT_800d16a4 != 3)
-		EntryOff__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f164);
+		CMenu_EntryOff(DAT_800d142c, DAT_800a5d5c.f164);
 
 	if (DAT_800d16a4 == 2 || DAT_800d16a4 == 7)
-		EntryOff__5CMenuPCc(DAT_800d142c, DAT_800a5d5c.f84);
+		CMenu_EntryOff(DAT_800d142c, DAT_800a5d5c.f84);
 
-	CentreY__5CMenu(DAT_800d142c);
-	SetLine__5CMenuUc(
+	CMenu_CentreY(DAT_800d142c);
+	CMenu_SetLine(
 	    DAT_800d142c,
-	    FindEntry__5CMenuPCc(DAT_800d142c, (DAT_800a5398[DAT_800d1e28].fc && DAT_800d16a4 == 1)
+	    CMenu_FindEntry(DAT_800d142c, (DAT_800a5398[DAT_800d1e28].fc && DAT_800d16a4 == 1)
 	                                           ? DAT_800a5d5c.f78
 											   : DAT_800a5d5c.f74) &
 	        255);
@@ -143,66 +144,66 @@ void FUN_800171f0(void) {
 	a3 = __nw__6CClassUi(384);
 
 	if (a3)
-		a3 = __5CMenuiiUciii(a3, 256, 0, 0, 335, 256, 22);
+		a3 = CMenu_ctor(a3, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1430 = a3;
-	AddEntry__5CMenuPCc(a3, DAT_800a5d5c.f5c);
-	AddEntry__5CMenuPCc(DAT_800d1430, DAT_800a5d5c.f60);
-	AddEntry__5CMenuPCc(DAT_800d1430, DAT_800a5d5c.f64);
-	AddEntry__5CMenuPCc(DAT_800d1430, DAT_800a5d5c.f6c);
-	CentreY__5CMenu(DAT_800d1430);
+	CMenu_AddEntry(a3, DAT_800a5d5c.f5c);
+	CMenu_AddEntry(DAT_800d1430, DAT_800a5d5c.f60);
+	CMenu_AddEntry(DAT_800d1430, DAT_800a5d5c.f64);
+	CMenu_AddEntry(DAT_800d1430, DAT_800a5d5c.f6c);
+	CMenu_CentreY(DAT_800d1430);
 
 	a4 = __nw__6CClassUi(384);
 
 	if (a4)
-		a4 = __5CMenuiiUciii(a4, 256, 0, 0, 335, 256, 22);
+		a4 = CMenu_ctor(a4, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1434 = a4;
-	AddEntry__5CMenuPCc(a4, DAT_800a5d5c.f5c);
-	AddEntry__5CMenuPCc(DAT_800d1434, DAT_800a5d5c.f60);
-	AddEntry__5CMenuPCc(DAT_800d1434, DAT_800a5d5c.f6c);
-	CentreY__5CMenu(DAT_800d1434);
+	CMenu_AddEntry(a4, DAT_800a5d5c.f5c);
+	CMenu_AddEntry(DAT_800d1434, DAT_800a5d5c.f60);
+	CMenu_AddEntry(DAT_800d1434, DAT_800a5d5c.f6c);
+	CMenu_CentreY(DAT_800d1434);
 
 	a5 = __nw__6CClassUi(384);
 
 	if (a5)
-		a5 = __5CMenuiiUciii(a5, 256, 0, 0, 335, 256, 22);
+		a5 = CMenu_ctor(a5, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1438 = a5;
-	AddEntry__5CMenuPCc(a5, DAT_800a5d5c.f5c);
-	AddEntry__5CMenuPCc(DAT_800d1438, DAT_800a5d5c.f60);
-	AddEntry__5CMenuPCc(DAT_800d1438, DAT_800a5d5c.f64);
-	AddEntry__5CMenuPCc(DAT_800d1438, DAT_800a5d5c.f124);
-	CentreY__5CMenu(DAT_800d1438);
+	CMenu_AddEntry(a5, DAT_800a5d5c.f5c);
+	CMenu_AddEntry(DAT_800d1438, DAT_800a5d5c.f60);
+	CMenu_AddEntry(DAT_800d1438, DAT_800a5d5c.f64);
+	CMenu_AddEntry(DAT_800d1438, DAT_800a5d5c.f124);
+	CMenu_CentreY(DAT_800d1438);
 
 	a6 = __nw__6CClassUi(384);
 
 	if (a6)
-		a6 = __5CMenuiiUciii(a6, 256, 0, 0, 335, 256, 22);
+		a6 = CMenu_ctor(a6, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d143c = a6;
-	AddEntry__5CMenuPCc(a6, DAT_800a5d5c.fc4);
-	AddEntry__5CMenuPCc(DAT_800d143c, DAT_800a5d5c.f84);
-	AddEntry__5CMenuPCc(DAT_800d143c, DAT_800a5d5c.fc8);
-	AddEntry__5CMenuPCc(DAT_800d143c, DAT_800a5d5c.f188);
-	CentreY__5CMenu(DAT_800d143c);
+	CMenu_AddEntry(a6, DAT_800a5d5c.fc4);
+	CMenu_AddEntry(DAT_800d143c, DAT_800a5d5c.f84);
+	CMenu_AddEntry(DAT_800d143c, DAT_800a5d5c.fc8);
+	CMenu_AddEntry(DAT_800d143c, DAT_800a5d5c.f188);
+	CMenu_CentreY(DAT_800d143c);
 
 	a7 = __nw__6CClassUi(384);
 
 	if (a7)
-		a7 = __5CMenuiiUciii(a7, 256, 0, 0, 335, 256, 22);
+		a7 = CMenu_ctor(a7, 256, 0, 0, 335, 256, 22);
 
 	DAT_800d1440 = a7;
 	q = (DAT_800a6844.f830 + 1) * 10 / 12;
 	DAT_800d21fc = q;
 	FUN_8008b900(DAT_800a5d2c, DAT_800a5d5c.f150, q);
-	AddEntry__5CMenuPCc(DAT_800d1440, DAT_800a5d2c);
+	CMenu_AddEntry(DAT_800d1440, DAT_800a5d2c);
 
 	q2 = (DAT_800a6844.f834 + 1) * 10 / 12;
 	DAT_800d2200 = q2;
 	FUN_8008b900(DAT_800a5d44, DAT_800a5d5c.f154, q2);
-	AddEntry__5CMenuPCc(DAT_800d1440, DAT_800a5d44);
-	AddEntry__5CMenuPCc(DAT_800d1440, DAT_800a5d5c.f158);
-	AddEntry__5CMenuPCc(DAT_800d1440, DAT_800a5d5c.f15c);
-	CentreY__5CMenu(DAT_800d1440);
+	CMenu_AddEntry(DAT_800d1440, DAT_800a5d44);
+	CMenu_AddEntry(DAT_800d1440, DAT_800a5d5c.f158);
+	CMenu_AddEntry(DAT_800d1440, DAT_800a5d5c.f15c);
+	CMenu_CentreY(DAT_800d1440);
 }

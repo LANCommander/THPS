@@ -1,4 +1,5 @@
 /* FUN_8005e0e0 (0x8005e0e0) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -23,28 +24,28 @@ extern char DAT_800a1c04[];
 
 extern int FUN_8005eb78();
 void FUN_800242cc(void);
-void SFX_PlayX__FUisi(int, int, int);
+void SFX_PlayX(int, int, int);
 void FUN_8005c68c(void);
 void FUN_8005c780(void);
 void FUN_8005c934(void);
 int FUN_8005e09c(int);
 void FUN_80061ea0(void);
-O *__9PadBufferi(O *, int);
-void update__9PadBuffer(O *);
-int getPress__9PadBuffer(O *);
-O *__12VerticalMenuiiiPPciPiT6i(O *, int, int, int, int *, int, int, int, int);
+O *PadBuffer_ctor(O *, int);
+void PadBuffer_update(O *);
+int PadBuffer_getPress(O *);
+O *VerticalMenu_ctor(O *, int, int, int, int *, int, int, int, int);
 void FUN_80064890(O *, int, int);
 void FUN_800648c0(O *, int, int);
-int getSelected__12VerticalMenu(O *);
+int VerticalMenu_getSelected(O *);
 void FUN_8006b240(void);
 void FUN_8006b26c(void);
 void FUN_80070ff4(void);
 int FUN_8008f6fc(int, char *);
-void Pad_ClearTriggers__FP8SControl(char *);
+void Pad_ClearTriggers(char *);
 O *__nw__6CClassUi(int);
-void down__12VerticalMenu(O *);
-void erase__12VerticalMenu(O *);
-void up__12VerticalMenu(O *);
+void VerticalMenu_down(O *);
+void VerticalMenu_erase(O *);
+void VerticalMenu_up(O *);
 
 int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int a6, int a7,
                  int a8) {
@@ -53,8 +54,8 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	int s3, s0, i, r, t;
 	char *P;
 
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-	Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
+	Pad_ClearTriggers(DAT_800c0a48);
+	Pad_ClearTriggers(DAT_800c0a48 + 364);
 
 	s3 = FUN_8005e09c(a4);
 
@@ -64,7 +65,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	s2 = __nw__6CClassUi(820);
 
 	if (s2)
-		s2 = __12VerticalMenuiiiPPciPiT6i(s2, 100, 398, 15, a0, a2, a6, a7, a8);
+		s2 = VerticalMenu_ctor(s2, 100, 398, 15, a0, a2, a6, a7, a8);
 
 	FUN_80064890(s2, DAT_800d2358, DAT_800d235c);
 
@@ -81,7 +82,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 	s1 = __nw__6CClassUi(284);
 
 	if (s1)
-		s1 = __9PadBufferi(s1, s0);
+		s1 = PadBuffer_ctor(s1, s0);
 
 	DAT_800d1cb0 = 1600;
 
@@ -108,22 +109,22 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		FUN_8006b240();
 		FUN_80061ea0();
 
-		r = getPress__9PadBuffer(s1);
+		r = PadBuffer_getPress(s1);
 
 		if (r == 3) {
-			SFX_PlayX__FUisi(144, 8192, 0);
-			up__12VerticalMenu(s2);
+			SFX_PlayX(144, 8192, 0);
+			VerticalMenu_up(s2);
 		}
 
 		if (r == 4) {
-			SFX_PlayX__FUisi(144, 8192, 0);
-			down__12VerticalMenu(s2);
+			SFX_PlayX(144, 8192, 0);
+			VerticalMenu_down(s2);
 		}
 
 		if (r)
 			DAT_800d1cb0 = 1600;
 
-		update__9PadBuffer(s1);
+		PadBuffer_update(s1);
 
 		if (a5)
 			a5(s2);
@@ -132,20 +133,20 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		FUN_8006b26c();
 
 		if (DAT_800c0a48[225] || DAT_800c0a48[589] || DAT_800c0a48[49] || DAT_800c0a48[413]) {
-			Pad_ClearTriggers__FP8SControl(DAT_800c0a48);
-			Pad_ClearTriggers__FP8SControl(DAT_800c0a48 + 364);
-			SFX_PlayX__FUisi(145, 8192, 0);
+			Pad_ClearTriggers(DAT_800c0a48);
+			Pad_ClearTriggers(DAT_800c0a48 + 364);
+			SFX_PlayX(145, 8192, 0);
 
-			t = getSelected__12VerticalMenu(s2) + 1;
+			t = VerticalMenu_getSelected(s2) + 1;
 			s3 = a3 + t;
 		}
 
 		P = DAT_800c0a48;
 
 		if (P[1] || P[365]) {
-			Pad_ClearTriggers__FP8SControl(P);
-			Pad_ClearTriggers__FP8SControl(P + 364);
-			SFX_PlayX__FUisi(147, 8192, 0);
+			Pad_ClearTriggers(P);
+			Pad_ClearTriggers(P + 364);
+			SFX_PlayX(147, 8192, 0);
 
 			s3 = -1;
 		}
@@ -157,7 +158,7 @@ int FUN_8005e0e0(int *a0, int *a1, int a2, int a3, int a4, void (*a5)(O *), int 
 		i++;
 		FUN_8006b240();
 		FUN_80061ea0();
-		erase__12VerticalMenu(s2);
+		VerticalMenu_erase(s2);
 		FUN_8006b26c();
 	} while (i < 2);
 

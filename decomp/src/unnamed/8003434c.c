@@ -1,15 +1,16 @@
 /* FUN_8003434c (0x8003434c) */
-void StateTransition__6CBruce13EPhysicsStatei(char *p, int a, int b);
+#include "names.h"
+void CBruce_StateTransition(char *p, int a, int b);
 void FUN_8002f1a0(char *p);
-void Debug_RunAnim__6CBruceii(char *p, int a, int b);
+void CBruce_Debug_RunAnim(char *p, int a, int b);
 
 void FUN_8003434c(char *p) {
 	int v;
 
 	if (*(int *)(p + 1844) == 2) {
-		StateTransition__6CBruce13EPhysicsStatei(p, 1, 3707);
+		CBruce_StateTransition(p, 1, 3707);
 	} else {
-		StateTransition__6CBruce13EPhysicsStatei(p, 1, 3713);
+		CBruce_StateTransition(p, 1, 3713);
 		FUN_8002f1a0(p);
 
 		v = *(int *)(p + 856);
@@ -22,9 +23,9 @@ void FUN_8003434c(char *p) {
 			*(int *)(p + 336) = 0x10000;
 
 			if (*(int *)(p + 1852))
-				Debug_RunAnim__6CBruceii(p, 26, 3730);
+				CBruce_Debug_RunAnim(p, 26, 3730);
 			else
-				Debug_RunAnim__6CBruceii(p, 27, 3732);
+				CBruce_Debug_RunAnim(p, 27, 3732);
 		}
 	}
 }

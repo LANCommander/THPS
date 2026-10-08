@@ -1,4 +1,5 @@
 /* Card_SetHeader__FP9SCardHeadiPcT2 (0x80014300) */
+#include "names.h"
 extern int DAT_800d1148;
 extern char DAT_8009e130[];
 extern char DAT_8009e150[];
@@ -15,7 +16,7 @@ typedef struct {
 	char d3[128];
 } SCardHead;
 
-void Card_SetHeader__FP9SCardHeadiPcT2(SCardHead *h, int icon, char *name, char *data) {
+void Card_SetHeader(SCardHead *h, int icon, char *name, char *data) {
 	int i;
 
 	h->sig[0] = 83;

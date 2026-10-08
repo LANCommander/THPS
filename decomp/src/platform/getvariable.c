@@ -1,9 +1,10 @@
 /* GetVariable__9CPlatformUs (0x8003f624) */
-int GetVariable__6CBaddyUs(char *, unsigned short);
+#include "names.h"
+int CBaddy_GetVariable(char *, unsigned short);
 
-int GetVariable__9CPlatformUs(char *t, unsigned short v) {
+int CPlatform_GetVariable(char *t, unsigned short v) {
 	if (v == 0x2200)
 		return *(short *)(t + 0x240);
 
-	return GetVariable__6CBaddyUs(t, v);
+	return CBaddy_GetVariable(t, v);
 }

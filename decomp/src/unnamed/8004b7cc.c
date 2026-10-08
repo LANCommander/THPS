@@ -1,4 +1,5 @@
 /* SFX_ModifyVol__FUiii (0x8004b7cc) */
+#include "names.h"
 typedef struct {
 	int a, b;
 	short c, d;
@@ -9,7 +10,7 @@ extern int DAT_800d13cc;
 
 void FUN_80093e54(int a, S *s);
 
-void SFX_ModifyVol__FUiii(unsigned mask, int a, int b) {
+void SFX_ModifyVol(unsigned mask, int a, int b) {
 	int i;
 	S s;
 

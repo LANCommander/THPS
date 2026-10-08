@@ -1,10 +1,11 @@
 /* Die__6CBaddy (0x8003fb1c) */
-int IsDead__C5CBody(char *);
-void SendDeathPulse__6CBaddy(char *);
+#include "names.h"
+int CBody_IsDead(char *);
+void CBaddy_SendDeathPulse(char *);
 
-void Die__6CBaddy(char *t) {
-	if (!IsDead__C5CBody(t)) {
-		SendDeathPulse__6CBaddy(t);
+void CBaddy_Die(char *t) {
+	if (!CBody_IsDead(t)) {
+		CBaddy_SendDeathPulse(t);
 
 		*(unsigned short *)(t + 0x52) |= 0x40;
 		*(unsigned short *)t |= 0x41;

@@ -1,4 +1,5 @@
 /* Utils_VblankProcessing__Fv (0x8004777c) */
+#include "names.h"
 typedef struct {
 	unsigned tag;
 	unsigned char r0, g0, b0, code;
@@ -16,7 +17,7 @@ extern int DAT_800d1ac4;
 
 int FUN_8008c468(int);
 void FUN_8008c880(void *);
-void SFX_SetReverbDepth__FUcUc(int, int);
+void SFX_SetReverbDepth(int, int);
 
 void Utils_VblankProcessing(void) {
 	if (DAT_800d1a1c) {
@@ -55,6 +56,6 @@ void Utils_VblankProcessing(void) {
 
 	if (DAT_800d1ac4) {
 		if (--DAT_800d1ac4 == 0)
-			SFX_SetReverbDepth__FUcUc(32, 32);
+			SFX_SetReverbDepth(32, 32);
 	}
 }

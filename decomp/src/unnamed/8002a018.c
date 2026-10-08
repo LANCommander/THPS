@@ -1,4 +1,5 @@
 /* _._7CRibbon (0x8002a018) */
+#include "names.h"
 typedef struct {
 	char pad[8];
 	short adj;
@@ -8,7 +9,7 @@ typedef struct {
 
 extern char DAT_8009f6b8[];
 
-void Mem_Delete__FPv(char *p);
+void Mem_Delete(char *p);
 void FUN_80027fa4(char *p, int a);
 void __dl__4CBitPv(char *p);
 
@@ -27,8 +28,8 @@ void FUN_8002a018(char *p, int f) {
 		}
 	}
 
-	Mem_Delete__FPv(*(char **)(p + 92));
-	Mem_Delete__FPv(*(char **)(p + 88));
+	Mem_Delete(*(char **)(p + 92));
+	Mem_Delete(*(char **)(p + 88));
 	FUN_80027fa4(p, 0);
 
 	if (f & 1)

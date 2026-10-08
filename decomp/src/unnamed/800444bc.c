@@ -1,4 +1,5 @@
 /* Ob_AI__FPP5CBody (0x800444bc) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -35,13 +36,13 @@ extern int DAT_800d1780;
 
 unsigned DAT_800d19c0;
 
-void FlashUpdate__5CItem(O *);
-void Suspend__5CBodyPP5CBody(O *, O **);
+void CItem_FlashUpdate(O *);
+void CBody_Suspend(O *, O **);
 void FUN_800440ec(O *);
-void UpdateShadow__5CBody(O *);
-unsigned Utils_CrapDist__FRC7CVectorT0(V *, V *);
+void CBody_UpdateShadow(O *);
+unsigned Utils_CrapDist(V *, V *);
 
-void Ob_AI__FPP5CBody(O **a) {
+void Ob_AI(O **a) {
 	O *m;
 	O *n;
 	V *v;
@@ -55,7 +56,7 @@ void Ob_AI__FPP5CBody(O **a) {
 	n = m->next;
 
 	for (;;) {
-		FlashUpdate__5CItem(m);
+		CItem_FlashUpdate(m);
 
 		if (m->f52 & 0x40) {
 			if (m->f52 & 0x80) {
@@ -65,10 +66,10 @@ void Ob_AI__FPP5CBody(O **a) {
 				m->f52 = m->f52 | 0x80;
 		} else {
 			v = &m->pos;
-			d = Utils_CrapDist__FRC7CVectorT0(&DAT_800d19a4->pos, v);
+			d = Utils_CrapDist(&DAT_800d19a4->pos, v);
 
 			if (DAT_800d1780 == 2) {
-				t = Utils_CrapDist__FRC7CVectorT0(&DAT_800d19a4->f1c->pos, v);
+				t = Utils_CrapDist(&DAT_800d19a4->f1c->pos, v);
 
 				if (t < d)
 					d = t;
@@ -77,10 +78,10 @@ void Ob_AI__FPP5CBody(O **a) {
 			m->fe8 = d;
 
 			if ((m->f52 & 2) && DAT_800d19c0 < d) {
-				Suspend__5CBodyPP5CBody(m, a);
+				CBody_Suspend(m, a);
 			} else {
 				FUN_800440ec(m);
-				UpdateShadow__5CBody(m);
+				CBody_UpdateShadow(m);
 			}
 		}
 

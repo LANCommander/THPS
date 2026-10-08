@@ -1,4 +1,5 @@
 /* Medal_Create__F10EMedalTypeiiiii (0x80073dc8) */
+#include "names.h"
 typedef struct {
 	short vx, vy, vz, pad;
 } SVECTOR;
@@ -25,9 +26,9 @@ extern char *DAT_800d217c;
 extern char DAT_800a824c[];
 
 Medal *__nw__5CItemUi(int);
-Medal *__8CPowerUpUsRC7CVectorT2Uii(Medal *, int, int *, char *, int, int);
+Medal *CPowerUp_ctor(Medal *, int, int *, char *, int, int);
 
-Medal *Medal_Create__F10EMedalTypeiiiii(int type, int x, int y, int z, int a, int b) {
+Medal *Medal_Create(int type, int x, int y, int z, int a, int b) {
 	SVECTOR v;
 	VECTOR o;
 	int pos[3];
@@ -58,21 +59,21 @@ Medal *Medal_Create__F10EMedalTypeiiiii(int type, int x, int y, int z, int a, in
 			p = __nw__5CItemUi(356);
 
 			if (p)
-				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1636, pos, DAT_800a824c, 0, 0xffff);
+				p = CPowerUp_ctor(p, 1636, pos, DAT_800a824c, 0, 0xffff);
 
 			break;
 		case 6:
 			p = __nw__5CItemUi(356);
 
 			if (p)
-				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1637, pos, DAT_800a824c, 0, 0xffff);
+				p = CPowerUp_ctor(p, 1637, pos, DAT_800a824c, 0, 0xffff);
 
 			break;
 		case 7:
 			p = __nw__5CItemUi(356);
 
 			if (p)
-				p = __8CPowerUpUsRC7CVectorT2Uii(p, 1638, pos, DAT_800a824c, 0, 0xffff);
+				p = CPowerUp_ctor(p, 1638, pos, DAT_800a824c, 0, 0xffff);
 
 			break;
 	}

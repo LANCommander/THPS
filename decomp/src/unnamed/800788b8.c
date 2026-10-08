@@ -1,4 +1,5 @@
 /* _._7CCamera (0x800788b8) flags=-fstructure-noalias */
+#include "names.h"
 extern char DAT_800a3554[];
 extern char DAT_800a35c4[];
 extern char DAT_800a3594[];
@@ -6,7 +7,7 @@ extern char DAT_800a3594[];
 char DAT_800d2044[8];
 int DAT_800d2040;
 
-void DeleteFrom__5CBodyPP5CBody(char *p, char *l);
+void CBody_DeleteFrom(char *p, char *l);
 void FUN_8007d20c(char *p, int a);
 void FUN_80043860(char *p, int a);
 void __dl__5CItemPv(char *p);
@@ -20,7 +21,7 @@ void FUN_800788b8(char *q, int f) {
 	int n;
 
 	p->v[18] = DAT_800a3554;
-	DeleteFrom__5CBodyPP5CBody(q, DAT_800d2044);
+	CBody_DeleteFrom(q, DAT_800d2044);
 
 	p->v[418] = DAT_800a35c4;
 	n = DAT_800d2040 - 1;

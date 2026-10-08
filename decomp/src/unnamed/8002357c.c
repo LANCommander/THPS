@@ -1,4 +1,5 @@
 /* FUN_8002357c (0x8002357c) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -13,7 +14,7 @@ extern int DAT_800d140c, DAT_800d16fc, DAT_800d1734;
 extern V DAT_800a6388[];
 extern int DAT_800a6748[];
 
-extern int Utils_CrapDist__FRC7CVectorT0(void *, void *);
+extern int Utils_CrapDist(void *, void *);
 extern void FUN_80024010(void *);
 extern void DecDCTvlcBuild3(void);
 extern void FUN_800902c0(int, int);
@@ -21,8 +22,8 @@ extern void FUN_8009033c(int, int);
 extern void FUN_8008f19c(int, int, int);
 extern void FUN_8008f4d4(int, int, int);
 extern void FUN_8008f0ec(int);
-extern void strKickCD__Fv(void);
-extern int strNextVlc__Fi(int);
+extern void strKickCD(void);
+extern int strNextVlc(int);
 
 void FUN_8002357c(int a) {
 	int i, best, bi, d;
@@ -36,7 +37,7 @@ void FUN_8002357c(int a) {
 			best = 0xffffff;
 
 			for (i = 0; i < DAT_800d1678; i++) {
-				d = Utils_CrapDist__FRC7CVectorT0(DAT_800d2044 + 4, &DAT_800a6388[i]);
+				d = Utils_CrapDist(DAT_800d2044 + 4, &DAT_800a6388[i]);
 
 				if (d < best) {
 					best = d;
@@ -58,7 +59,7 @@ void FUN_8002357c(int a) {
 		if (DAT_800d164c == 0) {
 			if (DAT_800d1630) {
 				DAT_800d1630 = 0;
-				strKickCD__Fv();
+				strKickCD();
 			}
 
 			if (DAT_800d1644) {
@@ -69,7 +70,7 @@ void FUN_8002357c(int a) {
 				FUN_8009033c(DAT_800a6748[DAT_800d163c], w / 2);
 			}
 
-			DAT_800d1644 = strNextVlc__Fi(a);
+			DAT_800d1644 = strNextVlc(a);
 		}
 
 		if (DAT_800d140c || DAT_800d16fc || DAT_800d1734) {

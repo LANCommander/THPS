@@ -1,4 +1,5 @@
 /* FlashUpdate__5CItem (0x80043728) */
+#include "names.h"
 typedef struct {
 	unsigned short flags;
 	char p0[0x1e];
@@ -20,7 +21,7 @@ typedef struct {
 	short dr, dg, db;
 } Item2;
 
-void FlashUpdate__5CItem(Item2 *t) {
+void CItem_FlashUpdate(Item2 *t) {
 	unsigned short tm = t->timer;
 
 	if (tm) {

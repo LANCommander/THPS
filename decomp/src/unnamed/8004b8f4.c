@@ -1,4 +1,5 @@
 /* SFX_Pause__Fv (0x8004b8f4) */
+#include "names.h"
 struct S {
 	int a, b, c, d, e;
 	short f;
@@ -13,7 +14,7 @@ void FUN_80094424(int a, unsigned short *b);
 void FUN_80093e54(int a, struct S *s);
 void FUN_8008f3a0(int a, int b);
 
-void SFX_Pause__Fv(void) {
+void SFX_Pause(void) {
 	struct S s;
 	int i;
 	unsigned short *q;

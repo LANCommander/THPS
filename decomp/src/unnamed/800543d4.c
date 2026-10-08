@@ -1,4 +1,5 @@
 /* FUN_800543d4 (0x800543d4) */
+#include "names.h"
 struct VT {
 	char pad[8];
 	short off;
@@ -17,15 +18,15 @@ extern O *DAT_800d36a4[][15];
 O *DAT_800d22dc;
 int DAT_800d22e4;
 
-void FileIO_Sync__Fv(void);
-void Mem_Delete__FPv(int);
+void FileIO_Sync(void);
+void Mem_Delete(int);
 
 void FUN_800543d4(void) {
 	int i, j;
 	O *o;
 
 	if (DAT_800d1afc)
-		FileIO_Sync__Fv();
+		FileIO_Sync();
 
 	for (i = 0; i < 3; i++) {
 		for (j = 0; j < DAT_800d33c4[i]; j++) {
@@ -40,7 +41,7 @@ void FUN_800543d4(void) {
 	}
 
 	if (DAT_800d22e4)
-		Mem_Delete__FPv(DAT_800d22e4);
+		Mem_Delete(DAT_800d22e4);
 
 	o = DAT_800d22dc;
 

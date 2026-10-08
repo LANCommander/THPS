@@ -1,4 +1,5 @@
 /* Trig_SetRestart__FPc (0x80044ae4) */
+#include "names.h"
 typedef struct {
 	int x, y, z;
 } V;
@@ -6,7 +7,7 @@ typedef struct {
 int DAT_800d19e4, DAT_800d19ec;
 short **DAT_800d19e8;
 
-char *Trig_GetPosition__FR7CVectori(V *v, int n);
+char *Trig_GetPosition(V *v, int n);
 int Utils_CompareStrings__FPCcT0Ui(const char *a, const char *b, unsigned n);
 
 void Trig_SetRestart(char *name) {
@@ -18,7 +19,7 @@ void Trig_SetRestart(char *name) {
 		if (*DAT_800d19e8[i] == 8) {
 			V v;
 
-			if (Utils_CompareStrings__FPCcT0Ui(Trig_GetPosition__FR7CVectori(&v, i) + 6, name,
+			if (Utils_CompareStrings__FPCcT0Ui(Trig_GetPosition(&v, i) + 6, name,
 			                                   -1)) {
 				DAT_800d19e4 = i;
 				return;
